@@ -1,0 +1,95 @@
+{% extends 'admin/base.html' %}
+{% block titulo %} Crear Marcadores {% endblock %}
+{% block contenido %}
+<!-- Creación la visibilidad del post creado -->
+    <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        {% for partidos in resultados_publicados %}
+          <div class="d-flex">
+            <div class="card-2">
+              <h5 class="text-center text-secondary fw-bold deporte">{{ partidos.seccion }}</h5>
+            </div>
+          </div>	
+          <div class="carousel-item">
+            <div class="card">
+              <div class="card-body">
+                <h6 class="text-center text-secondary"></h6>
+                <h6 class="text-center fw-bold text-primary">{{ partidos.liga }}</h6>
+                <h6>{{ partidos.equipoA }}<strong> {{ partidos.resultado1 }}</strong></h6>
+                <h6>{{ partidos.equipoB }}<strong> {{ partidos.resultado2 }}</strong></h6>
+                <h6 class="text-center text-secondary">{{ partidos.fecha_partido }}</h6>
+              </div>
+            </div>
+            <div class="d-flex ms-1 mt-1">
+                <button type="submit" id="btn-modificar{{ partidos.id }}" class="bg-info text-white border-0 px-2" data-bs-toggle="modal" data-bs-target="#modal{{ partidos.id }}">Modificar</button>
+              <form action="{{ url_for('resultados.eliminar_resultado', id=partidos.id) }}" method="POST">
+                <button type="submit" class="bg-danger text-white border-0 px-2">Eliminar</button>
+              </form>
+              <button type="submit" id="" class="bg-success text-white border-0 px-2" data-bs-toggle="modal" data-bs-target="#modal{{ partidos.id }}">Actualizar en vivo</button> 
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+    <!-- Modal para la editación del post -->
+    {% for partidos in resultados_publicados %}
+    <div class="modal fade" id="modal{{ partidos.id }}" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title text-secondary fw-bold fs-3" id=""></h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="{{ url_for('resultados.modificar_marcador', id=partidos.id) }}" method="POST" class="row">
+                <div class="col-md-8 mb-2"> 
+                <label for="seccion">Sección</label>
+                <input type="text" name="seccion" id="seccion" class="form-control" value="{{ partidos.seccion }}">
+                </div>
+                <div class="col-md-8 mb-2">
+                <label for="liga">Liga</label>
+                <input name="liga" id="liga" class="form-control" value="{{ partidos.liga }}">
+                </div>
+                <div class="col-md-7 mb-2">
+                <label for="equipoA">Equipo A</label>
+                <input type="text" name="equipoA" id="equipoA" class="form-control" value="{{ partidos.equipoA }}">
+                </div>
+                <div class="col-md-2 mb-2"> 
+                <label for="resultado1"></label>
+                <input type="text" name="resultado1" id="resultado1" class="form-control" value="{{ partidos.resultado1 }}">
+                </div>
+                <div class="col-md-7 mb-2">
+                <label for="equipoB">Equipo B</label>
+                <input type="text" name="equipoB" id="equipoB" class="form-control" value="{{ partidos.equipoB }}">
+                </div>
+                <div class="col-md-2 mb-2">
+                <label for="resultado2" class="form-label"></label>
+                <input type="text" name="resultado2" id="resultado2" class="form-control" value="{{ partidos.resultado2 }}">
+                </div>
+                <div class="col-md-6 mb-2">
+                <label for="fecha_parti">Fecha partido</label>
+                <input type="text" name="fecha_parti" id="fecha_parti" class="form-control" value="{{ partidos.fecha_partido }}">
+                </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <button type="submit" class="btn btn-success mt-3">Actualizar</button>
+                  </div>
+                  <!--<div class="col-6">
+                    <button type="button" class="btn btn-danger mt-3" data-bs-dismiss="modal">Cerrar</button>
+                  </div>-->
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+{% endblock %}

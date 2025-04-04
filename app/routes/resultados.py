@@ -4,11 +4,21 @@ from ..models.horario import Horario
 
 resultados_bp = Blueprint('resultados', __name__)
 
+# Admin
+@resultados_bp.route('/news/admin/acceso')
+def news():
+    return render_template('admin/pub_marcadores.html')
+# Cerrar Sesión
+@resultados_bp.route('/cerrar_sesion')
+def cerrar_sesion():
+    return render_template('sitio/home.html')
+
 # Página principal: muestra todos los resultados
 @resultados_bp.route('/')
 def sitio_home():
-    resultados = Horario.query.all()
-    return render_template('index.html', resultados=resultados)
+    ver_publicacion = Horario.query.all()
+    print(ver_publicacion)
+    return render_template('index.html', ver_publicacion=ver_publicacion)
 # Página de administración: muestra los marcadores
 @resultados_bp.route('/admin/pub_marcadores')
 def pub_marcadores():
