@@ -329,7 +329,7 @@
               <h5 class="text-center text-secondary fw-bold deporte">{{ date.seccion }}</h5>
             </div>
           </div>
-          <div class="carousel-item">
+          <div class="carousel-item {% if loop.index0 == 0 %}active{% endif %}">
             <div class="card">
               <div class="card-body">
                 <h6 class="text-center text-secondary"></h6>
@@ -338,7 +338,7 @@
                     date.resultado1 }}</strong></h5>
                 <h5 class="text-white fw-bold">{{ date.equipoB }}<strong class="fw-bold text-white ps-2"> {{
                     date.resultado2 }}</strong></h5>
-                <h6 class="text-center text-info">{{ date.fecha_partido }}</h6>
+                <h6 class="text-center text-info fw-bold">{{ date.fecha_partido }}</h6>
               </div>
             </div>
           </div>

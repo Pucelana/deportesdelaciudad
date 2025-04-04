@@ -16,13 +16,13 @@ def cerrar_sesion():
 # Página principal: muestra todos los resultados
 @resultados_bp.route('/')
 def sitio_home():
-    ver_publicacion = Horario.query.all()
+    ver_publicacion = Horario.query.order_by(Horario.fecha_partido.asc(), Horario.id.asc()).all()
     print(ver_publicacion)
     return render_template('index.html', ver_publicacion=ver_publicacion)
 # Página de administración: muestra los marcadores
 @resultados_bp.route('/admin/pub_marcadores')
 def pub_marcadores():
-    resultados_publicados = Horario.query.all()
+    resultados_publicados = Horario.query.order_by(Horario.id.asc()).all()
     return render_template('admin/pub_marcadores.html', resultados_publicados=resultados_publicados)
 # Crear nuevos resultados
 @resultados_bp.route('/admin/crear_resultados', methods=['GET', 'POST'])
