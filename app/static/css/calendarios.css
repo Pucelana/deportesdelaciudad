@@ -1,0 +1,149 @@
+/*Seccion de Baloncesto */
+.calend_basket{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/cancha_basket.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    /*min-height: 100vh;*/
+    
+}
+.tabla_equipos{
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    border: 1px solid #ad6331;
+}
+.card_calendario{
+    background-color: transparent;
+    border: 1px solid #ad6331;
+    font-size: 0.9em;
+}
+.fondo_jornadas{
+    background-color: #ad6331;
+}
+.jorn_ida{
+    color: #a5a5a5;
+    white-space: nowrap;
+}
+.jorn_vuelta{
+    color: #a5a5a5;
+    white-space: nowrap;
+}
+.jorn_tres{
+    color: #a5a5a5;
+    white-space: nowrap;
+}
+@media (max-width:576){
+    .jorn_ida{
+        font-size: 10px;
+    }
+    .jorn_vuelta{
+        font-size: 10px;
+    }
+    .jorn_tres{
+        font-size: 10px;
+    }
+
+}
+.tabla_resultados th{
+    color: #474747;
+    text-align: center;
+    font-size: 0.88em;
+    border: 1px solid black;
+}
+.tabla_resultados td{
+    text-align: center;
+    font-size: 0.79em;
+    border: 1px solid black;
+    padding: 0px;
+    padding-top: 8px;
+    font-weight: bold;
+}
+/*.vertical {
+    writing-mode: vertical-lr; /* Para texto vertical de izquierda a derecha 
+    transform: rotate(180deg); /* Ajustar la orientación del texto 
+    white-space: nowrap; /* Evita que el texto se ajuste automáticamente 
+}*/
+/*Seccion del Fútbol*/
+.calend_futbol{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/campo_futbol.webp');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    /*min-height: 100vh;*/
+}
+.tabla_equ_futb{
+    margin-top: 2%;
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    border: 1px solid #5eda62;
+}
+.jor-futb{
+    color: #3d3a3a;
+}
+.tabla_resul_futbol th{
+    color: #161616;
+    text-align: center;
+    font-size: 0.88em;
+    border: 1px solid black;
+}
+.tabla_resul_futbol td{
+    text-align: center;
+    font-size: 0.79em;
+    border: 1px solid black;
+    padding: 0px;
+    padding-top: 8px;
+    font-weight: bold;
+
+}
+/* Sección de Balonmano */
+.calend_balonmano{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/cancha_balonmano2.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    min-height: 100vh;
+}
+.tabla_equipos_aula{
+    margin-top: 2%;
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    border: 1px solid #ad6331;
+}
+/* Sección Rugby */
+.calend_rugby{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/camp_rugby.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;  
+}
+/* Sección Hockey */
+.calend_hockey{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/pista_hockey.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;  
+}
+/* Sección Fútbol Sala */
+.calend_futbol_sala{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/futbol_sala.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;  
+}
+/* Sección Voleibol */
+.calend_voley{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/cancha_voley.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;  
+}
+
+
+

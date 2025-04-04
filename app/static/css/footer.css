@@ -1,0 +1,68 @@
+/*html {
+    min-height: 100%;
+    position: relative;
+  }
+  body {
+    margin: 0;
+  }*/
+.footer-seccion{
+    font-family: 'Dancing Script', cursive;
+    font-size: 2em;
+    /*background-color: #adbcd3;*/
+    background-color: transparent;
+    backdrop-filter: blur(8px);
+    box-shadow: 0px -12px 12px rgba(21, 21, 22, 0.18);
+    margin-top: auto;  
+}
+.logo-footer{
+  max-width: 150px;
+}
+@media (max-width: 576px){
+  .footer-seccion{
+    height: 150px;
+  }
+  .footer-seccion .logo-footer{
+    max-width: 70px;
+  }
+}
+@media (max-width: 992px){
+  .footer-seccion .logo-footer{
+    max-width: 60px;
+  }
+}
+
+@media (max-width: 768px){
+  .footer-seccion{
+    height: 135px;
+    font-size: 0.80em;
+  }
+  .footer-seccion .logo-footer{
+    max-width: 40px;
+  }
+}
+@media (max-width: 368px){
+  .footer-seccion{
+    height: 155px;
+    font-size: 0.80em;
+  }
+  .footer-seccion .logo-footer{
+    max-width: 40px;
+  }
+}
+@media (max-width: 912px) {
+  .footer-seccion {
+    background-color: transparent; /* Asegura que el fondo transparente se mantenga */
+  }
+}
+.copa{
+  margin-bottom: 8%;
+}
+.copa_uemc{
+  margin-bottom: 22%;
+}
+.copa_caja{
+  margin-bottom: 10%;
+}
+.copa_panteras{
+  margin-bottom: 10%;
+}

@@ -1,0 +1,10 @@
+.admin{
+    margin-top: 15%;
+    display: flex;
+    justify-content: center;
+}
+.card_admin{
+    padding: 3%;
+    width: 120%;
+    text-align: center;
+}

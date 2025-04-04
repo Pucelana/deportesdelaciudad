@@ -1,0 +1,99 @@
+
+@media (max-width:576px){
+    .table-responsive {
+        font-size: 0.8rem;
+      }
+      .size_equipos {
+        font-size: 0.85rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .fw-bold {
+        font-size: 0.85rem;
+      }
+      .table th, .table td {
+        padding: 0.3rem;
+        text-align: start;
+      }
+      .tabla_posiciones th, .tabla_posiciones td {
+        font-size: 0.75rem; /* Ajusta el tamaño del texto según tus necesidades */
+      }
+}
+.size_equipos {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fw-bold {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Fútbol Sala */
+.table .pos-ascen{
+  background-color: #198754; /* Green background */
+  color: white; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-europa{
+  background-color: #198754; /* Green background */
+  color: white; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-ehf{
+  background-color: #198754; /* Green background */
+  color: white; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-ehfec{
+  background-color: #FFC107 !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-playoff-titulo{
+  background-color: #28a745; /* Green background */
+  color: white; /* White text */
+  font-weight: bold; /* Bold text */
+}   
+.table .pos-copa{
+  background-color: #ffc107 !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-nada{
+  background-color: #6c757d !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-desc{
+  background-color: #dc3545 !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-promo{
+  background-color: #ff7171 !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-playoff{
+  background-color: #ffc107 !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+.table .pos-playoff2{
+  background-color: #1774ff !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}  
+.table .pos-confe{
+  background-color: #fffc5f !important; /* Green background */
+  color: white !important; /* White text */
+  font-weight: bold; /* Bold text */
+}
+@media (max-width: 576px){
+  .text-analisis{
+    font-size: 1.5em;
+  }
+
+}

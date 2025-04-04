@@ -1,0 +1,98 @@
+.seccion_playoff{
+    margin-top: 5%;
+    font-family: 'Caveat', cursive;
+    text-align: start;
+    background-color: white;
+    font-size: 1.75em;
+    padding: 1.5%;
+}
+.fondos_playoffs{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/static/img/fondo_playoff.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+.tabla_playoff{
+    background-color: transparent;
+    backdrop-filter: blur(4px);
+    border: 1px solid #ddba49;
+    box-shadow: 10px 5px 5px 7px gray;
+    margin-bottom: 6%;
+}
+.fondos_copa{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/img/copa_del_rey3.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+.tabla_copa{
+    background-color: transparent;
+    backdrop-filter: blur(3px);
+    border: 1px solid #ddba49;
+    box-shadow: 6px 5px 5px 5px rgb(255, 245, 205);
+}
+.equipo_copa{
+    font-family: 'Dancing Script', cursive;
+    text-align: center;
+    color: #ddba49;
+    font-size: 4.5em;
+}
+.text-copa{
+    color: white;
+}
+.text-copa_uemc{
+    color: #ffffff;
+}
+.text-playoff{
+    text-align: center;
+    color: #ddba49;
+    font-size: 5em;
+    margin-top: 4%;
+}
+@media (max-width: 576px){
+    .text-playoff{
+        font-size: 1.8em;
+    }
+}
+@media (max-width: 768px){
+    .text-playoff{
+        font-size: 2.5em;
+    }
+}
+.fondo_basket_playoff{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/playoffs_basket.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    overflow: hidden;
+    box-shadow: 10px 5px 5px gray;
+}
+.fondo_futbol_playoff{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/playoff_futbol.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    overflow: hidden;
+    box-shadow: 10px 5px 5px gray;
+}
+.fondo_rugby_playoff{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/rugby_playoff.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    box-shadow: 10px 5px 5px gray;
+}
+.fondo_hockey_playoff{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/hockey_playoff.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    overflow: hidden;
+    box-shadow: 10px 5px 5px gray;
+}

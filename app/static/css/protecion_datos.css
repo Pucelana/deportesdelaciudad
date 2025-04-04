@@ -1,0 +1,9 @@
+.proteccion{
+    background: white;
+    display: flex;
+    justify-content: center;
+}
+.aviso_legal{
+    color: black;
+    font-family: 'Courier New', Courier, monospace;
+}

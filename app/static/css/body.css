@@ -1,0 +1,20 @@
+body{
+    /*background: linear-gradient(top left, #ff7878, #3a71d8);*/
+    /*background: -webkit-linear-gradient(180deg, #ffa3a3, #89a8e2);*/
+    /*position: relative;*/
+    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/pucela2.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    min-height: calc(100vh - (82px + 85px));
+}
+#body_secciones{
+    /*background-color: #ffefef;*/
+    background: -webkit-linear-gradient(180deg, #ffc3c3, #91abdb);
+}
+.body_admin{
+    /*background-color: #ffefef;*/
+    background: -webkit-linear-gradient(180deg, #ffc3c3, #91abdb);
+}

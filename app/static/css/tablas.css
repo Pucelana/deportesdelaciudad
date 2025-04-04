@@ -1,0 +1,68 @@
+.table-responsive {
+    overflow-x: auto;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+/* BALONCESTO */
+#form_partidos_uemc{
+    display: none;
+}
+#form_partidos_ponce{
+    display: none;
+}
+#form_partidos_aliados{
+    display: none;
+}
+/* FÚTBOL */
+#form_partidos_valladolid{
+    display: none;
+}
+#form_partidos_promesas{
+    display: none;
+}
+#form_partidos_simancas{
+    display: none;
+}
+#form_partidos_parquesol{
+    display: none;
+}
+/* FÚTBOL SALA */
+#form_partidos_valladolid_fs{
+    display: none;
+}
+#form_partidos_valladolidfsf{
+    display: none;
+}
+#form_partidos_tierno{
+    display: none;
+}
+/* BALONMANO */
+#form_partidos_aula{
+    display: none;
+}
+#form_partidos_recoletas{
+    display: none;
+}
+/* RUGBY */
+#form_partidos_salvador{
+    display: none;
+}
+#form_partidos_vrac{
+    display: none;
+}
+#form_partidos_salvador_fem{
+    display: none;
+}
+/* HOCKEY */
+#form_partidos_caja{
+    display: none;
+}
+#form_partidos_panteras{
+    display: none;
+}
+/* VOLEIBOL */
+#form_partidos_vcv{
+    display: none;
+}

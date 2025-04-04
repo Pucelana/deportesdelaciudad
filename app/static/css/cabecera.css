@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.logo_principal{
+    width: 100%;
+}
+.text-menu-nav {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.5em;
+}
+.text-menu-seccion{
+    font-family: 'Caveat', cursive;
+    font-size: 1.6em;
+}
+.iconos{
+    width: 30px;
+    height: 30px;
+    filter: invert(100%);  
+}
+.iconos:hover{
+    filter: invert(0%); 
+}
+.usuario{
+    width: 30px;
+    height: 30px;
+    filter: invert(100%);
+}
+.usuario:hover{
+    filter: invert(0%);
+}
+.bg-menu{
+    /*background-color: #6a9be4;*/
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    content: 100%;
+}
+.bg_menu_seccion{
+    /*background-color: #ff6767;*/
+    background-color: transparent;
+    backdrop-filter: blur(18px);
+    content: 100%;
+    justify-content: center;
+}
+.menu-desple{
+    border: 0;
+    position: relative;
+    height: 230px;
+    width: 150px;
+    background: white;
+    box-shadow: 1px 12px 33px rgba(0, 0, 0, 0.5);
+}
+.menu-desple:before{
+    border: 15px solid white;
+    content: '';
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: -28px;
+    left: calc(35% - 15px)
+}
+.menu-desple2{
+    border: 0;
+    position: relative;
+    height: 230px;
+    width: 150px;
+    background: white;
+    box-shadow: 1px 12px 33px rgba(0, 0, 0, 0.5);
+}
+.menu-desple2:before{
+    border: 15px solid white;
+    content: '';
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: -28px;
+    left: calc(35% - 15px)
+}
+.menu-desple3{
+    border: 0;
+    position: relative;
+    height: 230px;
+    width: 150px;
+    background: white;
+    box-shadow: 1px 12px 33px rgba(0, 0, 0, 0.5);
+}
+.menu-desple3:before{
+    border: 15px solid white;
+    content: '';
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: 20px;
+    left: calc(35% - 15px)
+}
+.menu-desple4{
+    border: 0;
+    position: relative;
+    height: 230px;
+    width: 150px;
+    background: white;
+    box-shadow: 1px 12px 33px rgba(0, 0, 0, 0.5);
+}
+.menu-desple4:before{
+    border: 15px solid white;
+    content: '';
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    position: absolute;
+    top: 20px;
+    left: calc(35% - 15px)
+}

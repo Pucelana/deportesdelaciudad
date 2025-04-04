@@ -1,0 +1,70 @@
+.esquema {
+    display: flex;
+}
+
+.bloque {
+    border: 1px solid #ccc;
+    margin: 10px;
+    padding: 10px;
+    width: 200px;
+}
+
+.titulo {
+    font-weight: bold;
+    background-color: #f0f0f0;
+    padding: 5px;
+}
+.encabezados{
+    color: #4e4e4e;
+    font-weight: bold;
+}
+
+.contenido {
+    padding: 5px;
+}
+
+.contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.categoria {
+    text-align: center;
+    border: 2px solid #d8d8d8;
+    padding: 20px;
+    width: 100%;
+    margin: 20px;
+}
+.categoria ul {
+    list-style-type: none;
+    padding: 0;
+}
+.categoria ul li {
+    margin-bottom: 10px;
+}
+.horizontal-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+/* Sistema ligas Fútbol */
+.federacion {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.texto-adicional {
+    display: none;
+}
+
+.texto-adicional.mostrado {
+    display: block;
+    width: 100%;
+}
+
+.federacion.oculto {
+    display: none;
+}

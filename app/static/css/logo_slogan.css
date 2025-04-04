@@ -1,0 +1,86 @@
+.letras_logo{
+    font-family: 'Dancing Script', cursive;
+    font-size: 7em;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 2%;
+    /*color: red;*/
+    color: white;
+}
+.logo_principal{
+    margin: 0;
+    padding: 0;
+    height: 65vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #fff; 
+
+}
+.slogan{
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    font-weight: 400;
+    font-size: 3em;
+    /*color: #004ec4;*/
+    color: white;
+}
+.img_principal{
+    max-width: 100%;
+    height: auto;
+}
+@media screen and (min-width: 320px) {
+    .letras_logo {
+        font-size: 1.75em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+
+    .slogan {
+        font-size: 0.75em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+@media screen and (min-width: 576px) {
+    .letras_logo {
+        font-size: 3em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+
+    .slogan {
+        font-size: 1.5em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+@media screen and (min-width: 768px) {
+    .letras_logo {
+        font-size: 5.5em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+
+    .slogan {
+        font-size: 2.5em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+@media screen and (min-width: 992px) {
+    .letras_logo {
+        font-size: 6em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+
+    .slogan {
+        font-size: 3em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+@media screen and (min-width: 1200px) {
+    .letras_logo {
+        font-size: 6em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+
+    .slogan {
+        font-size: 2.75em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}
+@media screen and (min-width: 1400px) {
+    .letras_logo {
+        font-size: 8em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+
+    .slogan {
+        font-size: 3em; /* Ajusta el tamaño de la fuente para pantallas más pequeñas */
+    }
+}

@@ -1,0 +1,13 @@
+.fondos_europa{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/copa_europa1.jpg');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+.tabla_europa{
+    background-color: transparent;
+    backdrop-filter: blur(3px);
+    border: 1px solid #ffe81e;
+    box-shadow: 5px 4px 4px 4px rgb(209, 203, 145);
+}

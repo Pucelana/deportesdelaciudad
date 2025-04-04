@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Indie+Flower&display=swap');
+/* Modelo de fuentes
+- font-family: 'Dancing Script', cursive; 
+- font-family: 'Caveat', cursive;
+- font-family: 'Indie Flower', cursive;
+*/
+@import "carrusel.css";
+@import "cabecera.css";
+@import "body.css";
+@import "logo_slogan.css";
+@import "secciones.css";
+@import "noticias.css";
+@import "admin.css";
+@import "resultados.css";
+@import "seccion_deportes.css";
+@import "tablas.css";
+@import "calendarios.css";
+@import "leer_mas.css";
+@import "esquemas.css";
+@import "sistemas_ligas.css";
+@import "cuadro_eliminatorias.css";
+@import "footer.css";
+@import "playoffs.css";
+@import "europa.css";
+@import "modal.css";
+@import "protecion_datos.css";
+@import "clasificaciones.css";

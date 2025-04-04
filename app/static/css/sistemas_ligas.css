@@ -1,0 +1,11 @@
+.sistema_ligas{
+    background-color: transparent;
+    backdrop-filter: blur(12px);
+    border: 2px solid #d8d8d8;
+}
+.tipo_sistema{
+    font-family: 'Dancing Script', cursive;
+    color: white;
+    text-align: center;
+    font-size: 4em;
+}
