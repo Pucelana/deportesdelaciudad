@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <title>{% block titulo %}  {% endblock %}</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Área de administración del sitio web.">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">  
+  <!-- Favicon -->  
+  <link rel="icon" type="image/jpg" href="/static/img/logo.png"/>  
+</head>
+<body class="body_admin">
+    <nav class="nav justify-content-start mb-3">
+      <a class="nav-link" href="#"></a>
+      <!--<a class="nav-link" href="/admin/crear_noticia">Crear Noticias</a>-->
+      <!--<a class="nav-link" href="/admin/publi_noticia">Publicar Noticias</a>-->
+      <a class="nav-link" href="/admin/crear_resultados">Crear Resultados</a>
+      <!--<a class="nav-link" href="/admin/pub_marcadores">Marcadores</a>-->
+      <a class="nav-link" href="/admin/pub_marcadores">Resultados</a>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clubs Participantes</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="dropdown-item" href="/admin/jornada0_uemc">UEMC Valladolid</a>
+            <!--<a class="dropdown-item" href="/admin/jornada0_uemc_copa">UEMC Valladolid (Copa)</a>-->
+            <a class="dropdown-item" href="/admin/jornada0_ponce">Ponce Valladolid</a>
+            <a class="dropdown-item" href="/admin/jornada0_aliados">Fundación Aliados</a>
+            <a class="dropdown-item" href="/admin/jornada0_valladolid">Real Valladolid</a>
+            <a class="dropdown-item" href="/admin/jornada0_promesas">Promesas</a>
+            <a class="dropdown-item" href="/admin/jornada0_simancas">RV Simancas</a>
+            <a class="dropdown-item" href="/admin/jornada0_parquesol">CD Parquesol</a>
+            <a class="dropdown-item" href="/admin/jornada0_fsvalladolid">Valladolid FS</a>
+            <a class="dropdown-item" href="/admin/jornada0_tierno">Valladolid Tierno Galván</a>
+            <a class="dropdown-item" href="/admin/jornada0_valladolidfsf">Atl.Valladolid T.G</a>
+            <a class="dropdown-item" href="/admin/jornada0_aula">Aula Valladolid</a>
+            <a class="dropdown-item" href="/admin/jornada0_recoletas">Atl.Valladolid</a>
+            <a class="dropdown-item" href="/admin/jornada0_vrac">VRAC</a>
+            <a class="dropdown-item" href="/admin/jornada0_salvador">CR El Salvador</a>
+            <a class="dropdown-item" href="/admin/jornada0_salvador_fem">El Salvador Fem.</a>
+            <a class="dropdown-item" href="/admin/jornada0_caja">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="/admin/jornada0_panteras">CPLV Munia Panteras</a>
+            <a class="dropdown-item" href="/admin/jornada0_vcv">Univ.Valladolid VCV</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="dropdown-item" href="/admin/calendario_uemc">UEMC Valladolid</a>
+            <a class="dropdown-item" href="/admin/calendario_ponce">Ponce Valladolid</a>
+            <a class="dropdown-item" href="/admin/calendario_aliados">Fundación Aliados</a>
+            <a class="dropdown-item" href="/admin/calend_valladolid">Real Valladolid</a>
+            <a class="dropdown-item" href="/admin/calend_promesas">Promesas</a>
+            <a class="dropdown-item" href="/admin/calend_simancas">RV Simancas</a>
+            <a class="dropdown-item" href="/admin/calend_parquesol">CD Parquesol</a>
+            <a class="dropdown-item" href="/admin/calend_valladolid_fs">Valladolid FS</a>
+            <a class="dropdown-item" href="/admin/calend_tierno">Valladolid Tierno Galván</a>
+            <a class="dropdown-item" href="/admin/calend_valladolidfsf">Atl.Valladolid T.G</a>
+            <a class="dropdown-item" href="/admin/calend_aula">Aula Valladolid</a>
+            <a class="dropdown-item" href="/admin/calend_recoletas">Atl.Valladolid</a>
+            <a class="dropdown-item" href="/admin/calend_vrac">VRAC</a>
+            <a class="dropdown-item" href="/admin/calend_salvador">CR El Salvador</a>
+            <a class="dropdown-item" href="/admin/calend_salvador_fem">El Salvador Fem.</a>
+            <a class="dropdown-item" href="/admin/calend_caja">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="/admin/calend_panteras">CPLV Munia Panteras</a>
+            <a class="dropdown-item" href="/admin/calend_vcv">Univ.Valladolid VCV</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PlayOffs</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="dropdown-item" href="/admin/playoff_uemc/">UEMC Valladolid</a>
+            <a class="dropdown-item" href="/admin/playoff_ponce/">Ponce Valladolid</a>
+            <a class="dropdown-item" href="/admin/playoff_aliados/">Fundación Aliados</a>
+            <a class="dropdown-item" href="/admin/playoff_valladolid/">Real Valladolid</a>
+            <a class="dropdown-item" href="/admin/playoff_promesas/">Real Valladolid Promesas</a>
+            <!--<a class="dropdown-item" href="">RV Simancas</a>-->
+            <!--<a class="dropdown-item" href="">CD Parquesol</a>-->
+            <a class="dropdown-item" href="/admin/playoff_aula/">Aula Valladolid</a>
+            <a class="dropdown-item" href="/admin/playoff_recoletas">Atl.Valladolid</a>
+            <a class="dropdown-item" href="/admin/playoff_vrac/">VRAC</a>
+            <a class="dropdown-item" href="/admin/playoff_salvador/">CR El Salvador</a>
+            <a class="dropdown-item" href="/admin/playoff_salvador_fem/">El Salvador Fem.</a>
+            <a class="dropdown-item" href="/admin/playoff_caja/">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="/admin/playoff_panteras/">CPLV Munia Panteras</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Copa Rey - Reina</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="dropdown-item" href="/admin/copa_uemc/">UEMC Valladolid</a>
+            <!--<a class="dropdown-item" href="">Ponce Valladolid</a>-->
+            <a class="dropdown-item" href="/admin/copa_aliados/">Fundación Aliados</a>
+            <a class="dropdown-item" href="/admin/copa_valladolid/">Real Valladolid</a>
+            <!--<a class="dropdown-item" href=""></a>-->
+            <!--<a class="dropdown-item" href="">RV Simancas</a>-->
+            <a class="dropdown-item" href="/admin/copa_parquesol/">CD Parquesol</a>
+            <a class="dropdown-item" href="/admin/copa_aula/">Aula Valladolid</a>
+            <a class="dropdown-item" href="/admin/copa_recoletas/">Atl.Valladolid</a>
+            <a class="dropdown-item" href="/admin/copa_vrac/">VRAC</a>
+            <a class="dropdown-item" href="/admin/copa_salvador/">CR El Salvador</a>
+            <a class="dropdown-item" href="/admin/copa_salvador_fem/">El Salvador Fem.</a>
+            <a class="dropdown-item" href="/admin/copa_caja/">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="/admin/copa_panteras/">CPLV Munia Panteras</a>
+          </div>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Europa</a>
+          <div class="dropdown-menu" aria-labelledby="dropdownId">
+            <a class="dropdown-item" href="/admin/europa_uemc/">UEMC Valladolid</a>
+            <a class="dropdown-item" href="/admin/europa_ponce/">Ponce Valladolid</a>
+            <a class="dropdown-item" href="/admin/europa_aliados/">Fundación Aliados</a>
+            <a class="dropdown-item" href="/admin/europa_valladolid/">Real Valladolid</a>
+            <a class="dropdown-item" href="/admin/europa_promesas/">Real Valladolid Promesas</a>
+            <!--<a class="dropdown-item" href="">RV Simancas</a>-->
+            <!--<a class="dropdown-item" href="">CD Parquesol</a>-->
+            <a class="dropdown-item" href="/admin/europa_aula/">Aula Valladolid</a>
+            <a class="dropdown-item" href="/admin/europa_recoletas">Atl.Valladolid</a>
+            <a class="dropdown-item" href="/admin/europa_vrac/">VRAC</a>
+            <a class="dropdown-item" href="/admin/europa_salvador/">CR El Salvador</a>
+            <a class="dropdown-item" href="/admin/europa_salvador_fem/">El Salvador Fem.</a>
+            <a class="dropdown-item" href="/admin/europa_caja/">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="/admin/europa_panteras/">CPLV Munia Panteras</a>
+          </div>
+      </li>
+      <a class="nav-link" href="/cerrar_sesion">Salir</a>
+    </nav>
+    {% block contenido %}
+
+    {% endblock %}
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+  </script>
+  <script src="/static/js/script.js"></script>
+</body>
+</html>
