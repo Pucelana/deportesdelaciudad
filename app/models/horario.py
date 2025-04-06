@@ -10,5 +10,7 @@ class Horario(db.Model):
     equipoB = db.Column(db.String(100))
     resultado2 = db.Column(db.String(10))
     fecha_partido = db.Column(db.String(50))
+    en_directo = db.Column(db.Boolean, default=False)
+    minuto = db.Column(db.String(10))
     def __repr__(self):
         return f'<Horario {self.equipoA} vs {self.equipoB} - {self.fecha_partido}>'

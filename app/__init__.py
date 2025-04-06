@@ -1,5 +1,5 @@
 from flask import Flask
-from .extensions import db 
+from flask_migrate import Migrate
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
@@ -13,6 +13,8 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('config.Config')
     db.init_app(app)
+    # Inicializa Flask-Migrate
+    migrate = Migrate(app, db)
     app.register_blueprint(secciones_bp)
     app.register_blueprint(resultados_bp)
     

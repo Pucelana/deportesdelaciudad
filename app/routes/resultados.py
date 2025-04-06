@@ -54,6 +54,16 @@ def modificar_marcador(id):
     resultado.fecha_partido = request.form.get('fecha_parti')
     db.session.commit()
     return redirect(url_for('resultados.pub_marcadores'))
+# Crear y actualizar los directos
+@resultados_bp.route('/actualizar_directo/<int:id>', methods=['POST'])
+def actualizar_directo(id):
+    partido = Horario.query.get_or_404(id)
+    partido.en_directo = 'en_directo' in request.form
+    partido.minuto = request.form.get('minuto')
+    partido.resultado1 = request.form.get('resultado1')
+    partido.resultado2 = request.form.get('resultado2')
+    db.session.commit()
+    return redirect(request.referrer or url_for('resultados.admin_resultados'))
 # Eliminar marcador
 @resultados_bp.route('/eliminar_resultado/<int:id>', methods=['POST'])
 def eliminar_resultado(id):
