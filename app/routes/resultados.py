@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from app.extensions import db
 from ..models.horario import Horario
 
@@ -19,6 +19,23 @@ def sitio_home():
     ver_publicacion = Horario.query.order_by(Horario.fecha_partido.asc(), Horario.id.asc()).all()
     print(ver_publicacion)
     return render_template('index.html', ver_publicacion=ver_publicacion)
+# Ver los partidos en directo en la página principal
+@resultados_bp.route('/api/partidos_directo')
+def partidos_directo():
+    partidos = Horario.query.filter_by(en_directo=True).all()
+    data = []
+    for p in partidos:
+        data.append({
+            'id': p.id,
+            'equipoA': p.equipoA,
+            'equipoB': p.equipoB,
+            'resultado1': p.resultado1,
+            'resultado2': p.resultado2,
+            'minuto': p.minuto,
+            'liga': p.liga,
+            'seccion': p.seccion
+        })
+    return jsonify(data)
 # Página de administración: muestra los marcadores
 @resultados_bp.route('/admin/pub_marcadores')
 def pub_marcadores():

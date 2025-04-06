@@ -26,3 +26,4 @@ if(window.matchMedia("(min-width:320px)").matches){
     console.error('Elemento no encontrado con el ID carouselExampleControls');
     $(multipleItemCarousel).addClass('slide');
 }
+

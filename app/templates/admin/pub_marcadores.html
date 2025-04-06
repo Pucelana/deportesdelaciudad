@@ -93,23 +93,28 @@
         </div>
       </div>
       <!-- Modal para crear los directos -->
-      <div class="modal fade" id="modalDirecto{{ partidos.id }}" tabindex="-1" aria-hidden="true">
+      <div class="modal fade" id="modalDirecto{{ partidos.id }}" tabindex="-1" aria-labelledby="modalDirectoLabel{{ partidos.id }}" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title fw-bold">Actualizar Partido en Directo</h5>
+              <h5 class="modal-title fw-bold" id="modalDirectoLabel{{ partidos.id }}">Actualizar Partido en Directo</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
             </div>
             <div class="modal-body">
               <form action="{{ url_for('resultados.actualizar_directo', id=partidos.id) }}" method="POST">
+                <!-- Checkbox para estado 'en_directo' -->
                 <div class="form-check mb-2">
                   <input class="form-check-input" type="checkbox" name="en_directo" id="en_directo{{ partidos.id }}" {% if partidos.en_directo %}checked{% endif %}>
                   <label class="form-check-label" for="en_directo{{ partidos.id }}">¿Está en directo?</label>
                 </div>
+                
+                <!-- Campo para minuto -->
                 <div class="mb-2">
                   <label for="minuto">Minuto</label>
                   <input type="text" class="form-control" name="minuto" id="minuto" value="{{ partidos.minuto }}">
                 </div>
+      
+                <!-- Campos para resultados -->
                 <div class="mb-2">
                   <label for="resultado1">Resultado A</label>
                   <input type="text" class="form-control" name="resultado1" value="{{ partidos.resultado1 }}">
@@ -118,6 +123,8 @@
                   <label for="resultado2">Resultado B</label>
                   <input type="text" class="form-control" name="resultado2" value="{{ partidos.resultado2 }}">
                 </div>
+                
+                <!-- Botón para guardar cambios -->
                 <button type="submit" class="btn btn-primary mt-2">Guardar Cambios</button>
               </form>
             </div>
