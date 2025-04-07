@@ -358,13 +358,13 @@
       </div><!--Fin Carrusel-->
     </section>
       <!-- Resultados flotantes en directo -->
-      <section id="en-directo" class="container-fluid d-flex justify-content-center align-items-center" style="display: none;" id="directo-section">
+      <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center" style="display: none;">
         <div class="card shadow-lg border-0 w-25" id="directo-container">
-          <div class="card-header bg-danger text-white fw-bold text-center">
+          <div class="card-header bg-info text-white fw-bold text-center">
             🟢 Partidos en Directo
           </div>
-          <div class="card-body p-2" id="directo-contenido">
-            <p class="text-muted text-center mb-0">Cargando partidos...</p>
+          <div class="card-body bg-light p-2" id="directo-contenido">
+            <!-- Las cards se insertarán aquí -->
           </div>
         </div>
       </section>
@@ -599,37 +599,65 @@
   <script src="/static/js/leer_mas.js"></script>
   <script src="/static/js/proteccion-datos.js"></script>
   <script>
-    function cargarPartidosEnDirecto() {
-      fetch('/api/partidos_directo')
-        .then(response => response.json())
-        .then(data => {
-          const contenedor = document.getElementById('directo-contenido');
-          contenedor.innerHTML = '';
+    let indexActual = 0;
+let partidosGuardados = [];
 
-          if (data.length === 0) {
-            contenedor.innerHTML = '<p class="text-muted text-center mb-0">No hay partidos en directo.</p>';
-            return;
-          }
+function mostrarPartido(partido, contenedor) {
+  const card = document.createElement('div');
+  card.className = 'body-directo mb-2 p-3 rounded fade';
+  card.innerHTML = `
+    <h5 class="mb-3 text-danger fw-bold text-center">${partido.liga}</h5>
+    <p class="mb-1 fs-4 text-white text-center"><strong>${partido.equipoA}</strong> ${partido.resultado1}</p>
+    <p class="mb-3 fs-4 text-white text-center"><strong>${partido.equipoB}</strong> ${partido.resultado2}</p>
+    <p class="mb-0 fs-5 text-black text-center fw-bold"><small>Minuto ${partido.minuto}</small></p>
+  `;
 
-          data.forEach(partido => {
-            const card = document.createElement('div');
-            card.className = 'body-directo mb-2 p-2 rounded shadow-sm';
-            card.innerHTML = `
-              <h5 class="mb-1 text-danger fw-bold text-center">${partido.liga}</h5>
-              <p class="mb-1 fs-5 text-white text-center"><strong>${partido.equipoA}</strong> ${partido.resultado1}</p>
-              <p class="mb-1 fs-5 text-white text-center"><strong>${partido.equipoB}</strong> ${partido.resultado2}</p>
-              <p class="mb-0 text-info text-center"><small>Minuto ${partido.minuto}</small></p>
-            `;
-            contenedor.appendChild(card);
-          });
-        })
-        .catch(error => {
-          console.error('Error al cargar partidos en directo:', error);
-        });
+  contenedor.innerHTML = '';
+  contenedor.appendChild(card);
+  void card.offsetWidth; // fuerza reflow para reiniciar transición
+  card.classList.add('show');
+}
+
+function cargarPartidosEnDirecto() {
+  fetch('/api/partidos_directo')
+    .then(response => response.json())
+    .then(data => {
+      const contenedor = document.getElementById('directo-contenido');
+      const seccion = document.getElementById('en-direct');
+
+      if (data.length === 0) {
+        seccion.style.setProperty('display', 'none', 'important');
+        partidosGuardados = [];
+        indexActual = 0;
+        contenedor.innerHTML = '';
+        return;
+      }
+
+      seccion.style.setProperty('display', 'flex', 'important');
+      partidosGuardados = data; // guardamos para el carrusel
+      indexActual = 0; // reiniciamos index
+      mostrarPartido(partidosGuardados[indexActual], contenedor);
+    })
+    .catch(error => {
+      console.error('Error al cargar partidos en directo:', error);
+    });
+}
+
+// Función para cambiar de partido cada 10 segundos
+function iniciarCarrusel() {
+  setInterval(() => {
+    const contenedor = document.getElementById('directo-contenido');
+    if (partidosGuardados.length > 1) {
+      indexActual = (indexActual + 1) % partidosGuardados.length;
+      mostrarPartido(partidosGuardados[indexActual], contenedor);
     }
-    // Cargar al inicio y luego cada 10 segundos
-    cargarPartidosEnDirecto();
-    setInterval(cargarPartidosEnDirecto, 5000);
+  }, 10000); // 10 segundos
+}
+
+// Ejecutar todo
+cargarPartidosEnDirecto();
+setInterval(cargarPartidosEnDirecto, 15000); // actualiza cada 15s desde backend
+iniciarCarrusel();
 
     
 
