@@ -16,3 +16,11 @@ class UEMCPartido(db.Model):
     resultadoA = db.Column(db.String(120))
     resultadoB = db.Column(db.String(120))
     visitante = db.Column(db.String(255))   
+
+class UEMCClub(db.Model):
+    __tablename__ = 'uemc_clubs'
+    # Definir la columna ID
+    id = db.Column(db.Integer, primary_key=True)
+    # Definir la columna 'nombre' para el nombre del club
+    nombre = db.Column(db.String(255), nullable=False)
+    
