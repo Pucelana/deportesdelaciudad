@@ -33,4 +33,14 @@ class CopaUEMC(db.Model):
     local = db.Column(db.String(255))  # Nombre del equipo local
     resultadoA = db.Column(db.String(120))  # Resultado del equipo local
     resultadoB = db.Column(db.String(120))  # Resultado del equipo visitante
-    visitante = db.Column(db.String(255)) 
+    visitante = db.Column(db.String(255))
+    
+class Clasificacion(db.Model):
+    __tablename__ = 'clasificacion_copa'
+    id = db.Column(db.Integer, primary_key=True)
+    grupo = db.Column(db.String(50))
+    equipo = db.Column(db.String(50))
+    jugados = db.Column(db.Integer, default=0)
+    ganados = db.Column(db.Integer, default=0)
+    perdidos = db.Column(db.Integer, default=0)
+    puntos = db.Column(db.Integer, default=0)     

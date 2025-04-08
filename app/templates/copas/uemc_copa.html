@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="es">
-
 <head>
   <title>Copa de España - UEMC Valladolid</title>
   <!-- Required meta tags -->
@@ -32,7 +31,6 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-
 <body class="fondos_copa">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
@@ -79,7 +77,6 @@
                     </tbody>
                   </table>
                   <p class="text-center fw-bold text-white fs-5">Enfrentamientos</p>
-
                   <div class="enfrentamientos" id="enfrentamientos{{ grupo }}" style="display: none;">
                     <table class="table border-dark">
                       {% for partido in data['partidos'] %}
@@ -107,7 +104,6 @@
                       {% endfor %}
                     </table>
                   </div>
-
                   <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
                     onclick="mostrarEnfrentamientos('enfrentamientos{{ grupo }}'); return false;">Ver
                     Enfrentamientos</a>
@@ -128,7 +124,6 @@
                   <p class="text-center fw-bold text-primary fs-3">Cuartos</p>
                   <div class="enfrentamientos" id="cuartos" style="display: none;">
                     <table class="table border-dark">
-
                       {% for partido in eliminatorias['cuartos']['partidos'] %}
                       <tr>
                         <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
@@ -150,7 +145,6 @@
                           {{ partido['visitante'] }}</td>
                       </tr>
                       {% endfor %}
-
                     </table>
                   </div>
                   <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
@@ -165,7 +159,6 @@
                   <p class="text-center fw-bold text-primary fs-3">Semifinal</p>
                   <div class="enfrentamientos" id="semifinales" style="display: none;">
                     <table class="table border-dark">
-
                       {% for partido in eliminatorias['semifinales']['partidos'] %}
                       <tr>
                         <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
@@ -187,7 +180,6 @@
                           {{ partido['visitante'] }}</td>
                       </tr>
                       {% endfor %}
-
                     </table>
                   </div>
                   <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
@@ -202,7 +194,6 @@
                   <p class="text-center fw-bold text-primary fs-3">Final</p>
                   <div class="enfrentamientos" id="final" style="display: none;">
                     <table class="table border-dark">
-
                       {% for partido in eliminatorias['final']['partidos'] %}
                       <tr>
                         <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
@@ -224,7 +215,6 @@
                           {{ partido['visitante'] }}</td>
                       </tr>
                       {% endfor %}
-
                     </table>
                   </div>
                   <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"

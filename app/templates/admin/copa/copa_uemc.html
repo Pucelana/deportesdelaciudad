@@ -29,7 +29,7 @@
   <section class="container-lg">
     <!-- Formulario para los resultados de los partidos -->
     <div class="container-lg d-flex justify-content-center">
-      <form id="form_copa_uemc" method="POST" action="/admin/crear_copa_uemc" class="row mb-3">
+      <form id="form_copa_uemc" method="POST" action="/crear_copa_uemc" class="row mb-3">
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
         <select id="encuentros" name="encuentros">
@@ -67,12 +67,12 @@
       <tbody>
         {% for enfrentamiento in datos.partidos %}
         <tr>
-          <td>{{ enfrentamiento['fecha'] }}</td>
-          <td>{{ enfrentamiento['hora'] }}</td>
-          <td>{{ enfrentamiento['local'] }}</td>
+          <td>{{ enfrentamiento.fecha }}</td>
+          <td>{{ enfrentamiento.hora }}</td>
+          <td>{{ enfrentamiento.local }}</td>
           <td>{{ enfrentamiento.resultadoA if enfrentamiento.resultadoA is not none else '' }}</td>
           <td>{{ enfrentamiento.resultadoB if enfrentamiento.resultadoB is not none else '' }}</td>
-          <td>{{ enfrentamiento['visitante'] }}</td>
+          <td>{{ enfrentamiento.visitante }}</td>
         </tr>
         {% endfor %}
       </tbody>
@@ -80,7 +80,7 @@
     <div class="d-flex ms-1 my-1">
       <button type="submit" id="btn-modificar{{ datos.id }}" class="bg-info text-white border-0 rounded py-1 px-2 me-2"
         data-bs-toggle="modal" data-bs-target="#modal{{ datos.id }}">Modificar</button>
-      <form method="POST" action="{{ url_for('eliminar_copa_uemc', identificador=encuentros) }}">
+      <form method="POST" action="{{ url_for('uemc_route_bp.eliminar_copa_uemc', identificador=encuentros) }}">
         <button type="submit" class="btn btn-danger">Borrar</button>
       </form>
     </div>
@@ -99,7 +99,7 @@
         </div>
         <div class="modal-body">
           <form id="form-modificar-{{ datos.id }}" method="POST"
-            action="{{ url_for('modificar_copa_uemc', id=datos.id) }}">
+            action="{{ url_for('uemc_route_bp.modificar_copa_uemc', id=datos.id) }}">
             <input type="hidden" name="eliminatoria" value="{{ grupo }}">
             <input type="hidden" name="num_partidos" value="{{ datos.partidos | length }}">
             {% for partido in datos.partidos %}
@@ -189,7 +189,7 @@
           var html = `
                     <div class="col-md-5">
                         <label for="fecha${i}">Fecha</label>
-                        <input type="text" class="form-control" id="fecha${i}" name="fecha${i}">
+                        <input type="date" class="form-control" id="fecha${i}" name="fecha${i}">
                     </div>
                     <div class="col-md-5">
                         <label for="hora${i}">Hora</label>
