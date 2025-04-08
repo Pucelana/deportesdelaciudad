@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>{% block titulo %} Sección de los deportes {% endblock %}</title>
+  <title>Clasificación y Ánalisis UEMC</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,137 +30,198 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="../static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-<body class="bg-white calend_basket">
-  <div class="d-flex flex-column min-vh-100">
+
+<body class="calend_basket">
+  <div class="d-flex flex-column min-vh-100 sticky-top">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ps-1 pt-1">
         <li class="breadcrumb-item"><a href="/seccion/baloncesto" class="text-white text-decoration-none">Sección</a>
         </li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendarios UEMC</li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
       </ol>
     </nav>
+    <h2 class="text-white text-center">UEMC Valladolid 24/25</h2>
     <section class="container-lg mb-5 flex-fill copa">
       <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!-- Tabla calendario UEMC -->
+          <div class="carousel-item active"><!--Tabla Clasificación-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold">Calendario Individual 24/25</h3>
-                    <table class="table table-bordered tabla_equiposs tabla_uemc"><!--Tabla Calendario UEMC-->
-                      <thead>
-                        <tr class="text-center text-dark">
-                          <th></th>
-                          <th colspan="2">Jornadas</th>
-                          <th colspan="4">Resultados</th>
-                          <th colspan="2">Partidos</th>
-                        </tr>
-                        <tr class="text-center text-dark">
-                          <th scope="col">Equipos</th>
-                          <th>Ida</th>
-                          <th>Vta</th>
-                          <th colspan="2">Ida</th>
-                          <th colspan="2">Vta</th>
-                          <th>PG</th>
-                          <th>PP</th>
-                          <th>Average</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_uemc.items() %}
-                        <tr class="text-center">
-                            <th class="text-white size_equipos">{{ equipo }}</th>
-                            <td class="jorn_ida fw-bold">
-                                {% if datos_equipo.get('primer_enfrentamiento') %}
-                                J-{{ datos_equipo['primer_enfrentamiento']|regex_replace('Jornada','') }}
-                                {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] %}
-                                ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] }})
-                                {% endif %}
-                                {% endif %}
-                            </td>
-                            <td class="jorn_vuelta fw-bold">
-                                {% if datos_equipo.get('segundo_enfrentamiento') %}
-                                J-{{ datos_equipo['segundo_enfrentamiento']|regex_replace('Jornada','') }}
-                                {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] %}
-                                ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] }})
-                                {% endif %}
-                                {% endif %}
-                            </td>
-                            {% if datos_equipo.get('resultadoA') is not none %}
-                            <td class="resultadoA fw-bold">{{ datos_equipo['resultadoA'] }}</td>
-                            {% else %}
-                            <td class="resultadoA fw-bold"></td>
-                            {% endif %}
-                            {% if datos_equipo.get('resultadoB') is not none %}
-                            <td class="resultadoB fw-bold">{{ datos_equipo['resultadoB'] }}</td>
-                            {% else %}
-                            <td class="resultadoB fw-bold"></td>
-                            {% endif %}
-                            {% if datos_equipo.get('resultadoAA') is not none %}
-                            <td class="resultadoAA fw-bold">{{ datos_equipo['resultadoAA'] }}</td>
-                            {% else %}
-                            <td class="resultadoAA fw-bold"></td>
-                            {% endif %}
-                            {% if datos_equipo.get('resultadoBB') is not none %}
-                            <td class="resultadoBB fw-bold">{{ datos_equipo['resultadoBB'] }}</td>
-                            {% else %}
-                            <td class="resultadoBB fw-bold"></td>
-                            {% endif %}
-                            <td class="gan-1"></td>
-                            <td class="per-1"></td>
-                            <td class="average"></td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item"><!-- Resultados temporada 23/24 -->
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold">Resultados 24/25</h3>
-                <div class="card-body">
-                  <div class="container-fluid">
-                    <div class="row">
-                      {% for goles in nuevos_datos_uemc %}
-                      <div class="col-lg-4">
-                        <div class="card card_calendario mb-3">
-                          <div class="table-responsive">
-                            <table class="table table-bordered card_calendario tabla_jornadas">
-                              <thead class="fondo_jornadas">
-                                <tr class="text-center">
-                                  <td colspan="5" class="text-center text-white fw-bold">{{ goles.nombre }}</td>
-                                </tr>
-                              </thead>
-                              <tbody style="display:none">
-                                {% for partido in goles.partidos %}
-                                <tr class="text-center">
-                                  <td class="text-center text-white fw-bold">{{ partido.fecha }} {{ partido.hora.strftime('%H:%M') if partido.hora else '' }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
-                                </tr>
-                                {% endfor %}
-                              </tbody>
-                            </table>
-                            <div class="d-flex ms-1 my-1">
-                              <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                class="text-decoration-none ps-3 text-white">Ver</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {% endfor %}
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-analisis">Clasificación - Liga Primera FEB</h3>
+                    <div class="col-12">
+                      <table id="tablaClasificacion" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PP</th>
+                            <th>PF</th>
+                            <th>PC</th>
+                            <th>DP</th>
+                            <th>PTS</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_uemc %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 9 %}pos-playoff{% elif loop.index <= 15 %}pos-nada{% elif loop.index <= 18 %}pos-desc{% endif %}">
+                              {{ loop.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
+                            <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>
+                            <td class="perdidos fw-bold">{{ equipo.datos.perdidos }}</td>
+                            <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
+                            <td class="contra fw-bold">{{ equipo.datos.contra }}</td>
+                            <td class="dife fw-bold">{{ equipo.datos.diferencia_canastas }}</td>
+                            <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
+                <p class="ms-4">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
+                  PC(Puntos Contra); DP (Diferencia Puntos) PTS (Puntos)</p>
+                <p class="ms-4">Campeón (Ascenso Directo)<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
+                    class="badge bg-warning ms-2">2-9</span> ; Descenso<span class="badge bg-danger ms-2">16-18</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item"><!--Tabla Ascenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-analisis">Ascenso - Liga ACB</h3>
+                    <div class="col-12">
+                      <table id="tablaAscenso" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>GA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_uemc %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="jugados1 fw-bold">{{ equipo.datos.jugados }}</td>
+                            <td class="pts-act1 fw-bold">{{ equipo.datos.ganados }}</td>
+                            <td class="proxi1 fw-bold"></td>
+                            <td class="pts-mate1 fw-bold"></td>
+                            <td class="pts-opti1 fw-bold"></td>
+                            <td class="pts-pesi1 fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                  Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item"><!--Tabla PlayOff-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center mb-4 text-analisis">PlayOff - Liga ACB</h3>
+                    <div class="col-12">
+                      <table id="tablaPlayUemc" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>GA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_uemc %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos play-equipo">{{ equipo.equipo }}</td>
+                            <td class="play-jug fw-bold">{{ equipo.datos.jugados }}</td>
+                            <td class="play-act fw-bold">{{ equipo.datos.ganados }}</td>
+                            <td class="play-prox fw-bold"></td>
+                            <td class="play-mate fw-bold"></td>
+                            <td class="play-opti fw-bold"></td>
+                            <td class="plya-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                  Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item"><!--Tabla Descenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center mb-4 text-analisis">Descenso - Liga Segunda FEB</h3>
+                    <div class="col-12">
+                      <table id="tablaDescUemc" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>GA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_uemc %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="desc-jug fw-bold">{{ equipo.datos.jugados }}</td>
+                            <td class="desc-act fw-bold">{{ equipo.datos.ganados }}</td>
+                            <td class="desc-prox fw-bold"></td>
+                            <td class="desc-mate fw-bold"></td>
+                            <td class="desc-opti fw-bold"></td>
+                            <td class="desc-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                  Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
           </div>
@@ -370,7 +431,7 @@
         </div>
       </div>
     </div>
-    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
+    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Nosotros -->
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
@@ -397,6 +458,7 @@
       </div>
     </div>
   </div>
+  <!--Fin Carrusel-->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Bootstrap JavaScript Libraries -->
@@ -407,195 +469,7 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
-  <script src="/static/js/leer_mas.js"></script>
+  <script src="/static/js/analisis-uemc.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Seleccionar todas las filas de la tabla
-      var filas = document.querySelectorAll('.tabla_uemc tbody tr');
-      // Iterar sobre cada fila
-      filas.forEach(function (fila) {
-        // Obtener el nombre del equipo de la fila actual
-        var equipo = fila.querySelector('th').textContent.trim();
-        console.log(equipo)
-        // Obtener la jornada y determinar si el UEMC juega en casa o como visitante
-        var jornadaElement = fila.querySelector('.jorn_ida');
-        var esLocal = false; // Por defecto, asumimos que el UEMC juega como visitante
-        if (jornadaElement) {
-          var jornada = jornadaElement.textContent.trim();
-          if (jornada.includes('C')) {
-            esLocal = true;
-          }
-        }
-        // Obtener los valores de los resultados de la fila
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        console.log(resultadoA)
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        console.log(resultadoB)
-        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
-        console.log(resultadoAA)
-        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
-        console.log(resultadoBB)
-        // Comparar los resultados y actualizar el estilo de las celdas correspondientes
-        var gan1 = fila.querySelector('.gan-1');
-        var per1 = fila.querySelector('.per-1');
-        var ganados1 = 0;
-        var perdidos1 = 0;
-        if (esLocal) {
-          if (resultadoA > resultadoB) {
-            ganados1 = 1;
-            gan1.textContent = '1';
-            gan1.style.color = 'green';
-            per1.textContent = '-';
-          } else if (resultadoA < resultadoB) {
-            perdidos1 = 1;
-            per1.textContent = '1';
-            per1.style.color = 'red';
-            gan1.textContent = '-';
-          }
-        } else {
-          if (resultadoB > resultadoA) {
-            ganados1 = 1;
-            gan1.textContent = '1';
-            gan1.style.color = 'green';
-            per1.textContent = '-';
-          } else if (resultadoB < resultadoA) {
-            perdidos1 = 1;
-            per1.textContent = '1';
-            per1.style.color = 'red';
-            gan1.textContent = '-';
-          }
-        }
-        // Actualizar recuentos del primer enfrentamiento según los resultados del segundo enfrentamiento
-        var jornadaElement2 = fila.querySelector('.jorn_vuelta');
-        var esLocalSegundo = false; // Por defecto, asumimos que el UEMC juega como visitante
-        if (jornadaElement2) {
-          var jornada2 = jornadaElement2.textContent.trim();
-          if (jornada2.includes('C')) {
-            esLocalSegundo = true;
-          }
-        }
-        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
-          if (esLocalSegundo) {
-            if (resultadoAA > resultadoBB) {
-              ganados1++;
-              gan1.textContent = ganados1.toString();
-              gan1.style.color = 'green';
-            } else if (resultadoAA < resultadoBB) {
-              perdidos1++;
-              per1.textContent = perdidos1.toString();
-              per1.style.color = 'red';
-            }
-          } else { // Si UEMC jugó como visitante en el segundo enfrentamiento
-            if (resultadoBB > resultadoAA) {
-              ganados1++;
-              gan1.textContent = ganados1.toString();
-              gan1.style.color = 'green';
-            } else if (resultadoBB < resultadoAA) {
-              perdidos1++;
-              per1.textContent = perdidos1.toString();
-              per1.style.color = 'red';
-            }
-          }
-        }
-      });
-      // Cálculo del average del primer enfrentamiento
-      filas.forEach(function (fila) {
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        var average = fila.querySelector('.average');
-        var avgIda; // Average del primer enfrentamiento
-        if (resultadoA && resultadoB) {
-          if (fila.querySelector('.jorn_ida').textContent.trim().includes('C')) {
-            // UEMC juega como local
-            avgIda = resultadoA - resultadoB; // Calcula la diferencia de puntos
-          } else {
-            // UEMC juega como visitante
-            avgIda = resultadoB - resultadoA; // Calcula la diferencia de puntos
-          }
-        } else {
-          avgIda = 0; // Si no hay resultados, el average es 0
-        }
-        if (!isNaN(avgIda)) {
-          average.textContent = avgIda;
-          // Colorea el average según su valor
-          if (avgIda > 0) {
-            average.style.color = 'green';
-          } else if (avgIda < 0) {
-            average.style.color = 'red';
-          } else {
-            average.style.color = 'blue';
-          }
-        } else {
-          average.textContent = '';
-        }
-      });
-      // Cálculo del average del primer enfrentamiento
-      filas.forEach(function (fila) {
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        var average = fila.querySelector('.average');
-        var avgIda; // Average del primer enfrentamiento
-        if (resultadoA && resultadoB) {
-          if (fila.querySelector('.jorn_ida').textContent.trim().includes('C')) {
-            // UEMC juega como local
-            avgIda = resultadoA - resultadoB; // Calcula la diferencia de puntos
-          } else {
-            // UEMC juega como visitante
-            avgIda = resultadoB - resultadoA; // Calcula la diferencia de puntos
-          }
-        } else {
-          avgIda = 0; // Si no hay resultados, el average es 0
-        }
-        if (!isNaN(avgIda)) {
-          average.textContent = avgIda;
-          // Colorea el average según su valor
-          if (avgIda > 0) {
-            average.style.color = 'green';
-          } else if (avgIda < 0) {
-            average.style.color = 'red';
-          } else {
-            average.style.color = 'blue';
-          }
-        } else {
-          average.textContent = '';
-        }
-      });
-      // Cálculo del average del segundo enfrentamiento
-      filas.forEach(function (fila) {
-        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
-        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
-        var average = fila.querySelector('.average');
-        var avgVuelta; // Average del segundo enfrentamiento
-        if (resultadoAA && resultadoBB) {
-          if (fila.querySelector('.jorn_vuelta').textContent.trim().includes('C')) {
-            // UEMC juega como local en el segundo enfrentamiento
-            avgVuelta = resultadoAA - resultadoBB; // Calcula la diferencia de puntos
-          } else {
-            // UEMC juega como visitante en el segundo enfrentamiento
-            avgVuelta = resultadoBB - resultadoAA; // Calcula la diferencia de puntos
-          }
-        } else {
-          avgVuelta = 0; // Si no hay resultados, el average es 0
-        }
-        if (!isNaN(avgVuelta)) {
-          // Actualiza el average total sumando o restando el average del segundo enfrentamiento
-          var avgTotal = parseInt(average.textContent) + avgVuelta;
-          average.textContent = avgTotal;
-          // Colorea el average según su valor
-          if (avgTotal > 0) {
-            average.style.color = 'green';
-          } else if (avgTotal < 0) {
-            average.style.color = 'red';
-          } else {
-            average.style.color = 'blue';
-          }
-        } else {
-          average.textContent = '';
-        }
-      });
-    });
-  </script>
 </body>
-
 </html>

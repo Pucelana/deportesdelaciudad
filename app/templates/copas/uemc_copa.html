@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Clasificación y Ánalisis UEMC</title>
+  <title>Copa de España - UEMC Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,219 +33,217 @@
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
 
-<body class="calend_basket">
-  <div class="d-flex flex-column min-vh-100 sticky-top">
+<body class="fondos_copa">
+  <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ps-1 pt-1">
-        <li class="breadcrumb-item"><a href="/seccion/baloncesto" class="text-white text-decoration-none">Sección</a>
-        </li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
+      <ol class="breadcrumb ps-2 pt-2">
+        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
+        <li class="breadcrumb-item active text-info" aria-current="page">Copa UEMC Valladolid</li>
       </ol>
     </nav>
-    <h2 class="text-white text-center">UEMC Valladolid 24/25</h2>
-    <section class="container-lg mb-5 flex-fill copa">
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active"><!--Tabla Clasificación-->
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Clasificación - Liga Primera FEB</h3>
-                    <div class="col-12">
-                      <table id="tablaClasificacion" class="table">
-                        <thead>
-                          <tr class="text-center">
-                            <th></th>
-                            <th>Equipos</th>
-                            <th>PJ</th>
-                            <th>PG</th>
-                            <th>PP</th>
-                            <th>PF</th>
-                            <th>PC</th>
-                            <th>DP</th>
-                            <th>PTS</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for equipo in clasificacion_analisis_uemc %}
-                          <tr class="text-center">
-                            <td
-                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 9 %}pos-playoff{% elif loop.index <= 15 %}pos-nada{% elif loop.index <= 18 %}pos-desc{% endif %}">
-                              {{ loop.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
-                            <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
-                            <td class="perdidos fw-bold">{{ equipo['datos']['perdidos'] }}</td>
-                            <td class="favor fw-bold">{{ equipo['datos']['favor'] }}</td>
-                            <td class="contra fw-bold">{{ equipo['datos']['contra']}}</td>
-                            <td class="dife fw-bold">{{ equipo['datos']['diferencia_canastas'] }}</td>
-                            <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
+    <h1 class="text-playoff">Copa de España 24/25</h1>
+    <span class="equipo_copa">UEMC Valladolid</span>
+    <section class="container-lg flex-fill copa_uemc">
+      <!-- Clasificaciones y Enfrentamientos de Grupos -->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 75rem;">
+          <div class="card-body">
+            {% for grupo, data in equipos_por_encuentros.items() %}
+            <div class="row table-responsive mb-4">
+              <div class="col-12">
+                <p class="text-center fw-bold text-primary fs-2">{{ grupo }}</p>
+                <div class="clasificacion" id="clasificacion{{ grupo }}">
+                  <table class="table border-dark">
+                    <thead>
+                      <tr>
+                        <th class="text-center text-white"></th>
+                        <th class="text-center text-white">Equipo</th>
+                        <th class="text-center text-white">PJ</th>
+                        <th class="text-center text-white">PG</th>
+                        <th class="text-center text-white">PP</th>
+                        <th class="text-center text-white">PTOS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for equipo, datos in clasificaciones[grupo] %}
+                      <tr>
+                        <td class="text-center text-white {% if loop.index == 1 %}pos-ascen{% endif %}">{{ loop.index }}
+                        </td>
+                        <td class="text-center text-white">{{ equipo }}</td>
+                        <td class="text-center text-white">{{ datos.jugados }}</td>
+                        <td class="text-center text-white">{{ datos.ganados }}</td>
+                        <td class="text-center text-white">{{ datos.perdidos }}</td>
+                        <td class="text-center text-white">{{ datos.puntos }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <p class="text-center fw-bold text-white fs-5">Enfrentamientos</p>
+
+                  <div class="enfrentamientos" id="enfrentamientos{{ grupo }}" style="display: none;">
+                    <table class="table border-dark">
+                      {% for partido in data['partidos'] %}
+                      <tr>
+                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
+                        <td class="text-center text-copa_uemc fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and (partido.resultadoA|int < partido.resultadoB|int or partido.resultadoB|int >= 100) %}text-danger{% endif %}">
+                          {{ partido['local'] }}
+                        </td>
+                        <td class="text-center text-white fw-bold fs-5">
+                          {% if partido['resultadoA'] is not none %}
+                          {{ partido['resultadoA'] }}
+                          {% endif %}
+                        </td>
+                        <td class="text-center text-white fw-bold fs-5">
+                          {% if partido['resultadoB'] is not none %}
+                          {{ partido['resultadoB'] }}
+                          {% endif %}
+                        </td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and (partido.resultadoA|int > partido.resultadoB|int or partido.resultadoA|int >= 100) %}
+                          text-danger {% endif %}">
+                          {{ partido['visitante'] }}
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </table>
                   </div>
+
+                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
+                    onclick="mostrarEnfrentamientos('enfrentamientos{{ grupo }}'); return false;">Ver
+                    Enfrentamientos</a>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
-                  PC(Puntos Contra); DP (Diferencia Puntos) PTS (Puntos)</p>
-                <p class="ms-4">Campeón (Ascenso Directo)<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
-                    class="badge bg-warning ms-2">2-9</span> ; Descenso<span class="badge bg-danger ms-2">16-18</span>
-                </p>
               </div>
             </div>
+            {% endfor %}
           </div>
-          <div class="carousel-item"><!--Tabla Ascenso-->
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Ascenso - Liga ACB</h3>
-                    <div class="col-12">
-                      <table id="tablaAscenso" class="table">
-                        <thead>
-                          <tr class="text-center">
-                            <th></th>
-                            <th>Equipos</th>
-                            <th>PJ</th>
-                            <th>GA</th>
-                            <th>Prox</th>
-                            <th>PM</th>
-                            <th>PO</th>
-                            <th>PPes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for equipo in clasificacion_analisis_uemc %}
-                          <tr class="text-center">
-                            <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
-                            <td class="jugados1 fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="pts-act1 fw-bold">{{ equipo['datos']['ganados'] }}</td>
-                            <td class="proxi1 fw-bold"></td>
-                            <td class="pts-mate1 fw-bold"></td>
-                            <td class="pts-opti1 fw-bold"></td>
-                            <td class="pts-pesi1 fw-bold"></td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-1" style="width: 75rem;">
+          <div class="card-body">
+            <!-- Cuartos -->
+            <div class="row table-responsive">
+              <div class="col-12">
+                <div class="">
+                  <p class="text-center fw-bold text-primary fs-3">Cuartos</p>
+                  <div class="enfrentamientos" id="cuartos" style="display: none;">
+                    <table class="table border-dark">
+
+                      {% for partido in eliminatorias['cuartos']['partidos'] %}
+                      <tr>
+                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido['local'] }}</td>
+                        <td class="text-center text-white fw-bold fs-4">
+                          {% if partido['resultadoA'] is not none %}
+                          {{ partido['resultadoA'] }}
+                          {% endif %}
+                        </td>
+                        <td class="text-center text-white fw-bold fs-4">
+                          {% if partido['resultadoB'] is not none %}
+                          {{ partido['resultadoB'] }}
+                          {% endif %}
+                        </td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido['visitante'] }}</td>
+                      </tr>
+                      {% endfor %}
+
+                    </table>
                   </div>
+                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
+                    onclick="mostrarEnfrentamientos('cuartos'); return false;">Ver Partidos</a>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
-                  Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
-          </div>
-          <div class="carousel-item"><!--Tabla PlayOff-->
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">PlayOff - Liga ACB</h3>
-                    <div class="col-12">
-                      <table id="tablaPlayUemc" class="table">
-                        <thead>
-                          <tr class="text-center">
-                            <th></th>
-                            <th>Equipos</th>
-                            <th>PJ</th>
-                            <th>GA</th>
-                            <th>Prox</th>
-                            <th>PM</th>
-                            <th>PO</th>
-                            <th>PPes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for equipo in clasificacion_analisis_uemc %}
-                          <tr class="text-center">
-                            <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos play-equipo">{{ equipo['equipo'] }}</td>
-                            <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="play-act fw-bold">{{ equipo['datos']['ganados'] }}</td>
-                            <td class="play-prox fw-bold"></td>
-                            <td class="play-mate fw-bold"></td>
-                            <td class="play-opti fw-bold"></td>
-                            <td class="plya-pesi fw-bold"></td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
+            <!-- Semifinales -->
+            <div class="row table-responsive">
+              <div class="col-12">
+                <div class="">
+                  <p class="text-center fw-bold text-primary fs-3">Semifinal</p>
+                  <div class="enfrentamientos" id="semifinales" style="display: none;">
+                    <table class="table border-dark">
+
+                      {% for partido in eliminatorias['semifinales']['partidos'] %}
+                      <tr>
+                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido['local'] }}</td>
+                        <td class="text-center text-white fw-bold fs-4">
+                          {% if partido['resultadoA'] is not none %}
+                          {{ partido['resultadoA'] }}
+                          {% endif %}
+                        </td>
+                        <td class="text-center text-white fw-bold fs-4">
+                          {% if partido['resultadoB'] is not none %}
+                          {{ partido['resultadoB'] }}
+                          {% endif %}
+                        </td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido['visitante'] }}</td>
+                      </tr>
+                      {% endfor %}
+
+                    </table>
                   </div>
+                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
+                    onclick="mostrarEnfrentamientos('semifinales'); return false;">Ver Partidos</a>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
-                  Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
-          </div>
-          <div class="carousel-item"><!--Tabla Descenso-->
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Descenso - Liga Segunda FEB</h3>
-                    <div class="col-12">
-                      <table id="tablaDescUemc" class="table">
-                        <thead>
-                          <tr class="text-center">
-                            <th></th>
-                            <th>Equipos</th>
-                            <th>PJ</th>
-                            <th>GA</th>
-                            <th>Prox</th>
-                            <th>PM</th>
-                            <th>PO</th>
-                            <th>PPes</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for equipo in clasificacion_analisis_uemc %}
-                          <tr class="text-center">
-                            <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
-                            <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="desc-act fw-bold">{{ equipo['datos']['ganados'] }}</td>
-                            <td class="desc-prox fw-bold"></td>
-                            <td class="desc-mate fw-bold"></td>
-                            <td class="desc-opti fw-bold"></td>
-                            <td class="desc-pesi fw-bold"></td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
-                      </table>
-                    </div>
+            <!-- Final -->
+            <div class="row table-responsive">
+              <div class="col-12">
+                <div class="">
+                  <p class="text-center fw-bold text-primary fs-3">Final</p>
+                  <div class="enfrentamientos" id="final" style="display: none;">
+                    <table class="table border-dark">
+
+                      {% for partido in eliminatorias['final']['partidos'] %}
+                      <tr>
+                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido['local'] }}</td>
+                        <td class="text-center text-white fw-bold fs-4">
+                          {% if partido['resultadoA'] is not none %}
+                          {{ partido['resultadoA'] }}
+                          {% endif %}
+                        </td>
+                        <td class="text-center text-white fw-bold fs-4">
+                          {% if partido['resultadoB'] is not none %}
+                          {{ partido['resultadoB'] }}
+                          {% endif %}
+                        </td>
+                        <td
+                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido['visitante'] }}</td>
+                      </tr>
+                      {% endfor %}
+
+                    </table>
                   </div>
+                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
+                    onclick="mostrarEnfrentamientos('final'); return false;">Ver Partidos</a>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
-                  Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
       <div class="row">
-        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
             <h5 class="text-white">Nosotros</h5>
           </a>
@@ -262,8 +260,8 @@
             <h5 class="text-white ms-4">Política de cookies</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+        <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-2" alt="eldeportedelaciudad">
         </div>
       </div>
     </footer>
@@ -431,7 +429,7 @@
         </div>
       </div>
     </div>
-    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Nosotros -->
+    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
@@ -439,7 +437,7 @@
         <form action="/enviar_correo" method="POST">
           <div class="mb-3">
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+            <input type="email" id="email" name="email" class="form-control" autocomplete="off" required>
           </div>
           <div class="mb-3">
             <label for="ciudad">Ciudad:</label>
@@ -458,7 +456,6 @@
       </div>
     </div>
   </div>
-  <!--Fin Carrusel-->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Bootstrap JavaScript Libraries -->
@@ -468,8 +465,13 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
-  <script src="/static/js/script.js"></script>
-  <script src="/static/js/analisis-uemc.js"></script>
-  <script src="/static/js/num_caracteres.js"></script>
+  <script src="/static/js/proteccion-datos.js"></script>
+  <!--<script src="/static/js/script.js"></script>-->
+  <script>
+    function mostrarEnfrentamientos(id) {
+      var elem = document.getElementById(id);
+      elem.style.display = elem.style.display === 'none' ? 'block' : 'none';
+    }
+  </script>
 </body>
 </html>
