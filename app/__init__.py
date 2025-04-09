@@ -12,6 +12,7 @@ from .routes.uemc_route import uemc_route_bp
 def create_app():
     load_dotenv()
     app = Flask(__name__)
+    app.secret_key = 'sk_4F8v9u13sjd9sjd82018fh01hf01h'
     app.config.from_object('config.Config')
     db.init_app(app)
     from .models import uemc

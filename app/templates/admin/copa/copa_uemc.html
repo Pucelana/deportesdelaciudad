@@ -29,7 +29,7 @@
   <section class="container-lg">
     <!-- Formulario para los resultados de los partidos -->
     <div class="container-lg d-flex justify-content-center">
-      <form id="form_copa_uemc" method="POST" action="/crear_copa_uemc" class="row mb-3">
+      <form id="form_copa_uemc" method="POST" action="/admin/crear_copa_uemc" class="row mb-3">
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
         <select id="encuentros" name="encuentros">
@@ -99,8 +99,9 @@
         </div>
         <div class="modal-body">
           <form id="form-modificar-{{ datos.id }}" method="POST"
-            action="{{ url_for('uemc_route_bp.modificar_copa_uemc', id=datos.id) }}">
+            action="{{ url_for('uemc_route_bp.modificar_copa_uemc', encuentros=datos.encuentros) }}">
             <input type="hidden" name="eliminatoria" value="{{ grupo }}">
+            <input type="hidden" name="encuentros" value="{{ datos.encuentros }}">
             <input type="hidden" name="num_partidos" value="{{ datos.partidos | length }}">
             {% for partido in datos.partidos %}
             <!-- Campo oculto para el ID del partido -->

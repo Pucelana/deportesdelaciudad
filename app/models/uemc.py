@@ -43,4 +43,17 @@ class Clasificacion(db.Model):
     jugados = db.Column(db.Integer, default=0)
     ganados = db.Column(db.Integer, default=0)
     perdidos = db.Column(db.Integer, default=0)
-    puntos = db.Column(db.Integer, default=0)     
+    puntos = db.Column(db.Integer, default=0)
+
+class PlayoffUEMC(db.Model):
+    __tablename__ = 'playoff_uemc'
+    id = db.Column(db.Integer, primary_key=True)
+    eliminatoria = db.Column(db.String(20), nullable=False)
+    fecha = db.Column(db.String(20), nullable=True)
+    hora = db.Column(db.String(10), nullable=True)
+    local = db.Column(db.String(100), nullable=True)
+    resultadoA = db.Column(db.String(10), nullable=True)
+    resultadoB = db.Column(db.String(10), nullable=True)
+    visitante = db.Column(db.String(100), nullable=True)
+    orden = db.Column(db.Integer)         
+    

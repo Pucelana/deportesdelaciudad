@@ -1,7 +1,7 @@
 from app import create_app
 from app.extensions import db
 from app.models.horario import Horario
-from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion
+from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC
 
 app = create_app()
 

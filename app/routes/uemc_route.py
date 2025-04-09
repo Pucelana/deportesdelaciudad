@@ -3,7 +3,7 @@ from datetime import datetime
 from collections import defaultdict
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion
+from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC
 
 uemc_route_bp = Blueprint('uemc_route_bp', __name__)
 
@@ -360,11 +360,11 @@ def recalcular_clasificaciones(partidos):
     clasificaciones = {}
     enfrentamientos_directos = {}
     for partido in partidos:
-        grupo = partido.get('encuentros')
-        local = partido['local']
-        visitante = partido['visitante']
-        resultado_local = int(partido['resultadoA']) if partido['resultadoA'].isdigit() else None
-        resultado_visitante = int(partido['resultadoB']) if partido['resultadoB'].isdigit() else None
+        grupo = partido.encuentros
+        local = partido.local
+        visitante = partido.visitante
+        resultado_local = int(partido.resultadoA) if partido.resultadoA.isdigit() else None
+        resultado_visitante = int(partido.resultadoB) if partido.resultadoB.isdigit() else None
         if grupo not in clasificaciones:
             clasificaciones[grupo] = {}
         if local not in clasificaciones[grupo]:
@@ -468,30 +468,30 @@ def ver_copa_uemc():
         print(f"Error al obtener o formatear los datos de la Copa VRAC: {e}")
         return render_template('error.html')
 # Modificar los partidos de los playoff
-@uemc_route_bp.route('/modificar_copa_uemc/<int:id>', methods=['POST'])
-def modificar_copa_uemc(id):
+@uemc_route_bp.route('/modificar_copa_uemc/<string:encuentros>', methods=['POST'])
+def modificar_copa_uemc(encuentros):
     if request.method == 'POST':
-        encuentros = request.form.get('encuentros')
         num_partidos = int(request.form.get('num_partidos', 0))
         try:
-            partido = CopaUEMC.query.get(id)  # Obtener el partido por ID
-            if partido:
-                partido.encuentros = encuentros
-                db.session.commit()
-                for i in range(num_partidos):
-                    partido_id = request.form.get(f'partido_id{i}')
-                    partido_modificado = CopaUEMC.query.get(partido_id)
-                    if partido_modificado:
-                        partido_modificado.fecha = request.form.get(f'fecha{i}', '')
-                        partido_modificado.hora = request.form.get(f'hora{i}', '')
-                        partido_modificado.local = request.form.get(f'local{i}', '')
-                        partido_modificado.resultadoA = request.form.get(f'resultadoA{i}', '')
-                        partido_modificado.resultadoB = request.form.get(f'resultadoB{i}', '')
-                        partido_modificado.visitante = request.form.get(f'visitante{i}', '')
-                db.session.commit()
+            for i in range(num_partidos):
+                partido_id = request.form.get(f'partido_id{i}')
+                if not partido_id:
+                    continue
+                partido = CopaUEMC.query.get(int(partido_id))
+                if partido:
+                    partido.fecha = request.form.get(f'fecha{i}', partido.fecha)
+                    partido.hora = request.form.get(f'hora{i}', partido.hora)
+                    partido.local = request.form.get(f'local{i}', partido.local)
+                    partido.resultadoA = request.form.get(f'resultadoA{i}', partido.resultadoA)
+                    partido.resultadoB = request.form.get(f'resultadoB{i}', partido.resultadoB)
+                    partido.visitante = request.form.get(f'visitante{i}', partido.visitante)
+                    partido.encuentros = encuentros
+            db.session.commit()
+            flash('Partidos modificados correctamente', 'success')
         except Exception as e:
             db.session.rollback()
-            print(f"Error en la base de datos: {e}")
+            print(f"Error al modificar partidos: {e}")
+            flash('Hubo un error al modificar los partidos', 'error')
         return redirect(url_for('uemc_route_bp.ver_copa_uemc'))
 # Eliminar partidos Copa UEMC
 @uemc_route_bp.route('/eliminar_copa_uemc/<string:identificador>', methods=['POST'])
@@ -508,7 +508,7 @@ def eliminar_copa_uemc(identificador):
     except Exception as e:
         db.session.rollback()
         flash(f'Error al eliminar partidos: {str(e)}', 'error')
-    return redirect(url_for('ver_copa_uemc'))
+    return redirect(url_for('uemc_route_bp.ver_copa_uemc'))
 # Ruta para mostrar la Copa UEMC
 @uemc_route_bp.route('/uemc_copa/')
 def uemc_copa():
@@ -533,4 +533,90 @@ def uemc_copa():
         data_clasificaciones[grupo] = equipos_ordenados
     return render_template('copas/uemc_copa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias, clasificaciones=data_clasificaciones)
 
- 
+# PLAYOFF UEMC
+# Crear formulario para los playoff
+@uemc_route_bp.route('/crear_playoff_uemc', methods=['GET', 'POST'])
+def crear_playoff_uemc():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'cuartos': 20,
+            'semifinales': 2,
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = PlayoffUEMC(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
+    return render_template('admin/playoffs/playoff_uemc.html')
+# Ver encuentros playoff en Admin
+@uemc_route_bp.route('/playoff_uemc/')
+def ver_playoff_uemc():
+    eliminatorias = ['cuartos', 'semifinales', 'final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = PlayoffUEMC.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffUEMC.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/playoffs/playoff_uemc.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de los playoff
+@uemc_route_bp.route('/modificar_playoff_uemc/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_playoff_uemc(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+
+            partido_obj = PlayoffUEMC.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+
+        # Commit para guardar los cambios
+        db.session.commit()
+
+        flash('Playoff actualizado correctamente', 'success')
+        return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
+
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
+# Eliminar los partidos de los playoff
+@uemc_route_bp.route('/eliminar_playoff_uemc/<string:eliminatoria>', methods=['POST'])
+def eliminar_playoff_uemc(eliminatoria):
+    partidos = PlayoffUEMC.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
+    return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
+# Mostrar los playoffs del UEMC
+@uemc_route_bp.route('/playoffs_uemc/')
+def playoffs_uemc():
+    eliminatorias = ['cuartos', 'semifinales', 'final']
+    datos_europa = {}
+    for eliminatoria in eliminatorias:
+        partidos = PlayoffUEMC.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_europa[eliminatoria] = partidos
+    return render_template('playoff/uemc_playoff.html', datos_europa=datos_europa)
