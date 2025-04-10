@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Crear Jornadas Real Valladolid</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="description" content="Área de administración del sitio web.">
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
+    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+    <!--Favicon-->
+    <link rel="icon" type="image/jpg" href="/static/img/logo.png"/>
+  </head>
+<body class="body_admin">
+  <nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-1">
+      <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Real Valladolid</li>
+    </ol>
+  </nav>
+  <header>
+    <h1 class="text-center">Resultados Liga Hypermotion 25/26</h1>
+  </header>
+    <section class="container-lg">
+      <div class="d-flex justify-content-center mb-4">
+        <button onclick="mostrarFormularioValladolid()" class="btn btn-success text-center fs-3">Crear Resultados</button>
+      </div>
+      <!-- Formulario para los resultados de los partidos -->
+      <div class="container-lg" id="form_partidos_valladolid">
+        <form method="POST" action="/admin/crear_calendario_valladolid" class="row mb-3">
+          <div class="col-md-12">
+            <label for="nombre">Jornada</label>
+            <input type="text" class="form-control" id="nombre" name="nombre">
+          </div>
+          <div class="col-md-12">
+            <label for="num_partidos">Número de partidos</label>
+            <input type="text" class="form-control" id="num_partidos" name="num_partidos">
+          </div>
+          {% for i in range(11) %}
+          <div class="col-md-5">
+            <label for="fecha{{i}}">Fecha</label>
+            <input type="date" class="form-control" id="fecha{{i}}" name="fecha{{i}}">
+          </div>
+          <div class="col-md-5">
+            <label for="hora{{i}}">Hora</label>
+            <input type="time" class="form-control" id="hora{{i}}" name="hora{{i}}">
+          </div>
+          <div class="col-md-5">
+            <label for="local{{i}}">Equipo Local</label>
+            <input type="text" class="form-control" id="local{{i}}" name="local{{i}}">
+          </div>
+          <div class="col-md-1">
+            <label for="resultadoA{{i}}"></label>
+            <input type="text" class="form-control" id="resultadoA{{i}}" name="resultadoA{{i}}">
+          </div>
+          <div class="col-md-1">
+            <label for="resultadoB{{i}}"></label>
+            <input type="text" class="form-control" id="resultadoB{{i}}" name="resultadoB{{i}}">
+          </div>
+          <div class="col-md-5">
+            <label for="visitante{{i}}">Equipo Visitante</label>
+            <input type="text" class="form-control" id="visitante{{i}}" name="visitante{{i}}">
+          </div>
+          {% endfor %}      
+          <div class="col-md-4 mt-2">
+            <button class="btn btn-primary" type="submit">Guardar Jornada</button>
+          </div>
+          <div class="col-md-4 mt-2">
+            <button class="btn btn-danger" type="submit">Cerrar</button>
+          </div>    
+        </form>
+      </div>
+    </section>
+    <!--Visibilidad de los resultados-->
+      <div class="container-fluid">
+        <div class="row">
+        {% for jornada in jornadas %}
+          <div class="col-lg-4">
+            <div class="card mb-3">
+              <div class="table-responsive">
+                <table class="table table-bordered tabla_equipos">
+                  <thead>
+                    <tr class="text-center">
+                      <td colspan="5" class="text-center fw-bold">{{ jornada.nombre }}</td>
+                    </tr>
+                  </thead>
+                  <tbody style="display:none">
+                  {% for partido in jornada.partidos %}
+                    <tr class="text-center">
+                      <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora.strftime('%H:%M') if partido.hora else '' }}</td>
+                      <td class="text-center fw-bold">{{ partido.local }}</td>
+                      <td class="text-center">{{ partido.resultadoA }}</td>
+                      <td class="text-center">{{ partido.resultadoB }}</td>
+                      <td class="text-center fw-bold">{{ partido.visitante }}</td>
+                    </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+                <div class="col-10 d-flex ms-1 my-1">
+                  <!--<form action="" method="POST">
+                  <button type="button" class="bg-success text-white border-0 px-2 me-2">Publicar</button>
+                  </form>-->
+                  <button type="submit" id="btn-modificar{{ jornada.id }}" class="bg-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal" data-bs-target="#modal{{ jornada.id }}">Modificar</button>
+                  <a href="#" onclick="toggleTabla(this, '{{ jornada.nombre }}') " class="text-decoration-none btn btn-primary text-white">Ver Tabla</a>
+                  <form action="{{ url_for('valladolid_route_bp.eliminar_jornada_valladolid', id=jornada.id) }}" method="POST">
+                    <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 me-2 ms-5">Eliminar</button>
+                  </form> 
+                </div>
+              </div> 
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    <!-- Modal para modificar la jornada -->
+    {% for jornada in jornadas %}
+    <div class="modal fade" id="modal{{ jornada.id }}" tabindex="-1" role="dialog" aria-labelledby="modificarModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="modificarModalLabel">Modificar Jornada</h5>
+          </div>
+          <div class="modal-body">
+          <!-- Contenido del formulario para modificar la jornada -->
+          <form method="POST" action="{{ url_for('valladolid_route_bp.modificar_jornada_valladolid', id=jornada.id) }}" class="row">
+            <div class="col-md-12 mb-2"> 
+              <label for="nombre">Jornada</label>
+              <input type="text" name="nombre" id="nombre" class="form-control" value="{{ jornada.nombre }}">
+            </div>
+            <div class="col-md-12">
+              <label for="num_partidos">Número de partidos</label>
+              <input type="text" class="form-control" id="num_partidos" name="num_partidos" value="{{ jornada.num_partidos }}">
+            </div>
+            {% for partido in jornada.partidos %}
+            <div class="col-md-5 mb-2">
+              <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
+              <label for="fecha{{ loop.index0 }}">Fecha</label>
+              <input type="date" name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
+            </div>
+            <div class="col-md-5 mb-2">
+              <label for="hora{{ loop.index0 }}">Hora</label>
+              <input type="time" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora.strftime('%H:%M') if partido.hora else '' }}">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="local{{ loop.index0 }}">Equipo A</label>
+              <input name="local{{ loop.index0 }}" id="local{{ loop.index0 }}" class="form-control" value="{{ partido.local }}">
+            </div>
+            <div class="col-md-2 mb-2">
+              <label for="resultadoA{{ loop.index0 }}"></label>
+              <input type="text" name="resultadoA{{ loop.index0 }}" id="resultadoA{{ loop.index0 }}" class="form-control" value="{{ partido.resultadoA }}">
+            </div>
+            <div class="col-md-2 mb-2"> 
+              <label for="resultadoB{{ loop.index0 }}"></label>
+              <input type="text" name="resultadoB{{ loop.index0 }}" id="resultadoB{{ loop.index0 }}" class="form-control" value="{{ partido.resultadoB }}">
+            </div>
+            <div class="col-md-4 mb-2">
+              <label for="visitante{{ loop.index0 }}">Equipo B</label>
+              <input type="text" name="visitante{{ loop.index0 }}" id="visitante{{ loop.index0 }}" class="form-control" value="{{ partido.visitante }}">
+            </div>
+            {% endfor %}
+            <div class="row">
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-success mt-3">Actualizar</button>
+              </div>
+              <div class="col-md-4">
+                <button type="submit" class="btn btn-danger mt-3">Cerrar</button>
+              </div>
+            </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="/static/js/leer_mas.js"></script>
+    <script>
+        function toggleTabla(element, nombreTabla) {
+          event.preventDefault();
+        // Encuentra el contenedor padre de la tabla
+        var container = element.closest('.card');
+          if (container) {
+          // Encuentra el tbody dentro de la tabla específica
+          var tbody = container.querySelector('.tabla_equipos tbody');
+            if (tbody) {
+            // Muestra u oculta el tbody
+            tbody.style.display = (tbody.style.display === 'none' || tbody.style.display === '') ? 'table-row-group' : 'none';
+            }
+          }
+        }
+    </script>
+</body>
+</html>
