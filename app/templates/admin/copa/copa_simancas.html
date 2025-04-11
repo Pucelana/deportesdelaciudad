@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <title>Copa - RV Simancas Fem.</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Área de administración del sitio web.">
+    <meta name="robots" content="noindex, nofollow">
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+</head>
+
+<body class="body_admin">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ps-2 pt-2">
+            <li class="breadcrumb-item"><a href="/admin/pub_marcadores"
+                    class="text-white text-decoration-none">Inicio</a></li>
+            <li class="breadcrumb-item active text-dark" aria-current="page">Copa RV Simancas Fem.</li>
+        </ol>
+    </nav>
+    <header>
+        <h1 class="text-center mb-5">Copa de La Reina 25/26</h1>
+    </header>
+    <section class="container-lg">
+        <!-- Formulario para los resultados de los partidos -->
+        <div class="container-lg d-flex justify-content-center">
+            <form id="form_copa_parquesol" method="POST" action="/admin/crear_copa_simancas" class="row mb-3">
+                <div class="form-group col-md-6">
+                    <!-- Selección de etapa del torneo -->
+                    <label for="eliminatoria">Etapa del Torneo:</label>
+                    <select id="eliminatoria" name="eliminatoria" class="form-control">
+                        <option value="ronda1">Fase 1ª</option>
+                        <option value="ronda2">Fase 2ª</option>
+                        <option value="ronda3">Fase 3ª</option>
+                        <option value="octavos">Octavos de Final</option>
+                        <option value="cuartos">Cuartos de Final</option>
+                        <option value="semifinales">Semifinales</option>
+                        <option value="final">Final</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="num_partidos">Número de Partidos</label>
+                    <input type="text" name="num_partidos" id="num_partidos" class="form-control">
+                </div>
+                <div id="partidos-container" class="container-lg col-lg-12"></div>
+                <!-- Botones de acción -->
+                <div class="col-md-12 mt-2">
+                    <button class="btn btn-primary" type="submit">Guardar Jornada</button>
+                    <button class="btn btn-danger" type="button">Cerrar</button>
+                </div>
+            </form>
+        </div>
+    </section>
+    <div class="container">
+        <div class="tournament">
+            {% for eliminatoria, partidos in datos_eliminatorias.items() %}
+            <h4 class="text-center">{{ eliminatoria | capitalize }}</h4>
+            <table class="table border-secondary">
+                <tbody>
+                    {% for partido in partidos %}
+                    <tr>
+                        <td>{{ partido.fecha }}</td>
+                        <td>{{ partido.hora }}</td>
+                        <td>{{ partido.local }}</td>
+                        <td>{{ partido.resultadoA }}</td>
+                        <td>{{ partido.resultadoB }}</td>
+                        <td>{{ partido.visitante }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="d-flex ms-1 my-1">
+                <button type="button" id="btn-modal{{ loop.index }}"
+                    class="btn btn-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal"
+                    data-bs-target="#modal{{ loop.index }}">Modificar</button>
+                <form method="POST" action="/eliminar_copa_simancas/{{ eliminatoria }}">
+                    <button type="submit" class="btn btn-danger">Borrar</button>
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!--Fin Carrusel-->
+    <!-- Creación del Modal -->
+    {% for eliminatoria, partidos in datos_eliminatorias.items() %}
+    <div class="modal fade" id="modal{{ loop.index }}" tabindex="-1" role="dialog"
+        aria-labelledby="modificarModalLabel{{ loop.index }}" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modificarModalLabel{{ loop.index }}">Modificar Partidos</h5>
+                    <button type="button" class="close bg-white border-0 fs-2" data-bs-dismiss="modal"
+                        aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="/modificar_copa_simancas/{{ eliminatoria }}">
+                        <input type="hidden" name="eliminatoria" value="{{ eliminatoria }}">
+                        <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
+                        {% for partido in partidos %}
+                        <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
+                        <div class="form-group">
+                            <label for="fecha{{ loop.index0 }}">Fecha</label>
+                            <input type="text" class="form-control" id="fecha{{ loop.index0 }}"
+                                name="fecha{{ loop.index0 }}" value="{{ partido.fecha }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="hora{{ loop.index0 }}">Hora</label>
+                            <input type="text" class="form-control" id="hora{{ loop.index0 }}"
+                                name="hora{{ loop.index0 }}" value="{{ partido.hora }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="local{{ loop.index0 }}">Local</label>
+                            <input type="text" class="form-control" id="local{{ loop.index0 }}"
+                                name="local{{ loop.index0 }}" value="{{ partido.local }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="resultadoA{{ loop.index0 }}">Resultado A</label>
+                            <input type="text" class="form-control" id="resultadoA{{ loop.index0 }}"
+                                name="resultadoA{{ loop.index0 }}" value="{{ partido.resultadoA }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="resultadoB{{ loop.index0 }}">Resultado B</label>
+                            <input type="text" class="form-control" id="resultadoB{{ loop.index0 }}"
+                                name="resultadoB{{ loop.index0 }}" value="{{ partido.resultadoB }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="visitante{{ loop.index0 }}">Visitante</label>
+                            <input type="text" class="form-control" id="visitante{{ loop.index0 }}"
+                                name="visitante{{ loop.index0 }}" value="{{ partido.visitante }}">
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary mt-3">Guardar Cambios</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const numPartidosInput = document.getElementById('num_partidos');
+            const container = document.getElementById('partidos-container');
+
+            numPartidosInput.addEventListener('change', function () {
+                const numPartidos = parseInt(this.value) || 0;
+                container.innerHTML = '';
+
+                for (let i = 0; i < numPartidos; i++) {
+                    container.innerHTML += `
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label text-primary">Partido ${i + 1}</label>
+                            <div class="col-md-5">
+                                <label for="fecha${i}" class="col-form-label">Fecha</label>
+                                <input type="text" name="fecha${i}" id="fecha${i}" class="form-control">
+                            </div>
+                            <div class="col-md-5">
+                                <label for="hora${i}" class="col-form-label">Hora</label>
+                                <input type="text" name="hora${i}" id="hora${i}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="local${i}" class="col-form-label">Local</label>
+                                <input type="text" name="local${i}" id="local${i}" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="resultadoA${i}" class="col-form-label">Resultado A</label>
+                                <input type="text" name="resultadoA${i}" id="resultadoA${i}" class="form-control">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="resultadoB${i}" class="col-form-label">Resultado B</label>
+                                <input type="text" name="resultadoB${i}" id="resultadoB${i}" class="form-control">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="visitante${i}" class="col-form-label">Visitante</label>
+                                <input type="text" name="visitante${i}" id="visitante${i}" class="form-control">
+                            </div>
+                        </div>
+                        `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -84,7 +84,7 @@ tabla.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equipos.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor = '';
-    if (equipoData.index <= 1) {
+    if (equipoData.index <= 2) {
         claseColor = 'pos-ascen';
     } else if (equipoData.index <= 16) {
         claseColor = 'pos-nada';
@@ -102,12 +102,13 @@ equipos.forEach((equipoData) => {
     tabla.appendChild(nuevaFila);
 });
 
-/*// Tercera función para calcular el porcentaje a los PlayOff
-const filas1 = document.querySelectorAll("#tablaPlaySiman tbody tr");
-const partidosTotales1 = 42; // Cambiado a 42 partidos en la temporada
+// Tercera función para calcular el porcentaje a los PlayOff
+const filas1 = document.querySelectorAll("#tablaPlaySimancas tbody tr");
+const partidosTotales1 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar1 = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFija1 = 70; // Ajusta este valor según tus necesidades
 const equipo1s1 = [];
+let index1 = 1;
 filas1.forEach((fila, indice) => {
     const equipo1 = fila.querySelector(`.fw-bold`).textContent;
     const partidosJugados1 = parseInt(fila.querySelector(`.play-jug`).textContent);
@@ -127,6 +128,7 @@ filas1.forEach((fila, indice) => {
     const partidosGanadosOptimistas1 = Math.min(partidosGanadosMatematicos1 -24, puntosParaAscenso1);
 
     equipo1s1.push({
+        index1 : index1,
         equipo1,
         partidosJugados1,
         puntosActuales1,
@@ -135,15 +137,27 @@ filas1.forEach((fila, indice) => {
         partidosGanadosOptimistas1,
         partidosGanadosPesimistas1
     });
+    index1++
 });
 // Ordenar los equipo1s1 por proximidad descendente
 equipo1s1.sort((a, b) => b.proximidadDePlayOff - a.proximidadDePlayOff);
 // Actualizar la tabla1 con los datos ordenados
-const tabla1 = document.querySelector("#tablaPlaySiman tbody");
+const tabla1 = document.querySelector("#tablaPlaySimancas tbody");
 tabla1.innerHTML = ""; // Limpiar la tabla1 antes de actualizar
 equipo1s1.forEach((equipo1Data) => {
     const nuevaFila1 = document.createElement("tr");
+    let claseColor1 = '';
+    if (equipo1Data.index1 <= 2) {
+        claseColor1 = 'pos-nada';
+    } else if (equipo1Data.index1 <= 3) {
+        claseColor1 = 'pos-playoff';
+    } else if (equipo1Data.index1 <= 4) {
+        claseColor1 = 'pos-playoff2';
+    } else if (equipo1Data.index1 <= 16) {
+        claseColor1 = 'pos-nada';   
+    }    
     nuevaFila1.innerHTML = `
+    <td class="fw-bold text-center ${claseColor1}">${equipo1Data.index1}</td>
     <td class="fw-bold text-center">${equipo1Data.equipo1}</td>
     <td class="play-jug fw-bold text-center">${equipo1Data.partidosJugados1}</td>
     <td class="play-act fw-bold text-center">${equipo1Data.puntosActuales1}</td>
@@ -153,11 +167,11 @@ equipo1s1.forEach((equipo1Data) => {
     <td class="play-pesi fw-bold text-center">${equipo1Data.partidosGanadosPesimistas1}</td>
     `;
     tabla1.appendChild(nuevaFila1);
-});*/
+});
 
 // Cuarta función para calcular la permanencia
 const filas2 = document.querySelectorAll("#tablaDescSimancas tbody tr");
-const partidosTotales2 = 42; // Cambiado a 42 partidos en la temporada
+const partidosTotales2 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFijar2 = 32; // Ajusta este valor según tus necesidades
 const equipos2 = [];
@@ -196,7 +210,7 @@ tabla2.innerHTML = ""; // Limpiar la tabla2 antes de actualizar
 equipos2.forEach((equipo2Data) => {
     const nuevaFila2 = document.createElement("tr");
     let claseColor2 = '';
-    if (equipo2Data.index2 <= 13) {
+    if (equipo2Data.index2 <= 15) {
         claseColor2 = 'pos-nada';
     } else if (equipo2Data.index2 <= 16) {
         claseColor2 = 'pos-desc';
