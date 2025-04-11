@@ -369,6 +369,9 @@ def crear_playoff_simancas():
         num_partidos = int(num_partidos_str) if num_partidos_str else 0
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
+        # 🧹 Eliminar partidos ANTES de agregar nuevos
+        PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).delete()
+        
         for i in range(num_partidos):
             partido = PlayoffSimancas(
                 eliminatoria = eliminatoria,
@@ -379,7 +382,6 @@ def crear_playoff_simancas():
                 resultadoB = request.form.get(f'resultadoB{i}', ''),
                 visitante = request.form.get(f'visitante{i}', '')
             )
-            PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).delete()
             db.session.add(partido)
         db.session.commit()
         return redirect(url_for('simancas_route_bp.ver_playoff_simancas'))

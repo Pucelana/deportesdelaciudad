@@ -11,7 +11,7 @@ class SimancasPartido(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     jornada_id = db.Column(db.Integer, db.ForeignKey('jornadas_simancas.id'), nullable=False)
     fecha = db.Column(db.String(25))
-    hora = db.Column(db.Time, nullable=False)
+    hora = db.Column(db.String(25))
     local = db.Column(db.String(255))
     resultadoA = db.Column(db.String(120))
     resultadoB = db.Column(db.String(120))

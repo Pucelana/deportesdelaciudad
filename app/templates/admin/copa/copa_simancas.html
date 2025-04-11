@@ -79,7 +79,7 @@
                 <button type="button" id="btn-modal{{ loop.index }}"
                     class="btn btn-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal"
                     data-bs-target="#modal{{ loop.index }}">Modificar</button>
-                <form method="POST" action="/eliminar_copa_simancas/{{ eliminatoria }}">
+                <form method="POST" action="{{ url_for('simancas_route_bp.eliminar_copa_simancas', eliminatoria=eliminatoria) }}">
                     <button type="submit" class="btn btn-danger">Borrar</button>
                 </form>
             </div>
@@ -101,7 +101,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="/modificar_copa_simancas/{{ eliminatoria }}">
+                    <form method="POST" action="{{ url_for('simancas_route_bp.modificar_copa_simancas_post', eliminatoria=eliminatoria) }}">
                         <input type="hidden" name="eliminatoria" value="{{ eliminatoria }}">
                         <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
                         {% for partido in partidos %}

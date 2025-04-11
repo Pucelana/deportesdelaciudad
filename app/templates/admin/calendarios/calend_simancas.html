@@ -45,7 +45,7 @@
           </div>
           <div class="col-md-5">
             <label for="hora{{i}}">Hora</label>
-            <input type="time" class="form-control" id="hora{{i}}" name="hora{{i}}">
+            <input type="text" class="form-control" id="hora{{i}}" name="hora{{i}}">
           </div>
           <div class="col-md-5">
             <label for="local{{i}}">Equipo Local</label>
@@ -104,7 +104,7 @@
                   </form>-->
                   <button type="submit" id="btn-modificar{{ jornada.id }}" class="bg-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal" data-bs-target="#modal{{ jornada.id }}">Modificar</button>
                   <a href="#" onclick="toggleTabla(this, '{{ jornada.nombre }}') " class="text-decoration-none btn btn-primary text-white">Ver Tabla</a>
-                  <form action="{{ url_for('eliminar_jorn_simancas', id=jornada.id) }}" method="POST">
+                  <form action="{{ url_for('simancas_route_bp.eliminar_jornada_simancas', id=jornada.id) }}" method="POST">
                     <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 ms-5">Eliminar</button>
                   </form>            
                 </div>
@@ -124,7 +124,7 @@
           </div>
           <div class="modal-body">
           <!-- Contenido del formulario para modificar la jornada -->
-          <form method="POST" action="{{ url_for('modificar_jorn_simancas', id=jornada.id) }}" class="row">
+          <form method="POST" action="{{ url_for('simancas_route_bp.modificar_jornada_simancas', id=jornada.id) }}" class="row">
             <div class="col-md-12 mb-2"> 
               <label for="nombre">Jornada</label>
               <input type="text" name="nombre" id="nombre" class="form-control" value="{{ jornada.nombre }}">
@@ -137,11 +137,11 @@
             <div class="col-md-5 mb-2">
               <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
               <label for="fecha{{ loop.index0 }}">Fecha</label>
-              <input name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
+              <input type="text" name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
             </div>
             <div class="col-md-5 mb-2">
               <label for="hora{{ loop.index0 }}">Hora</label>
-              <input type="time" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
+              <input type="text" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
             </div>
             <div class="col-md-4 mb-2">
               <label for="local{{ loop.index0 }}">Equipo A</label>
