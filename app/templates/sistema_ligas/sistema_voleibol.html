@@ -1,7 +1,7 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-  <title>PlayOffs Ascenso - Real Valladolid</title>
+  <title>Sistemas de Ligas - Voleibol Masculino</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,59 +31,231 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-
-<body class="fondos_playoffs">
+<body id="body_secciones">
   <div class="d-flex flex-column min-vh-100">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">PlayOffs Real Valladolid</li>
-      </ol>
-    </nav>
-    <h1 class="text-playoff">Fase Final Al Ascenso</h1>
-    <span class="equipo_copa">Real Valladolid</span>
-    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem;">
-          <div class="card-body">
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  {% for ronda, partidos in datos_playoff.items() %}
-                  <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
-                  <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
-                    <table class="table border-secondary">
-                      {% for partido in partidos %}
-                      <tr class="text-center">
-                        <td class="text-center text-white">{{ partido.fecha }}</td>
-                        <td class="text-center text-white">{{ partido.hora }}</td>
-                        <td
-                          class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido.local }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
-                        <td
-                          class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido.visitante }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
+    <section id="cabecera1" class="align-items-center sticky-top">
+      <header class="container-fluid d-none d-lg-block"><!-- Cabecera Principal -->
+        <!--<div class="d-flex justify-content-center">
+            <img src="/static/img/logo_3_bis.png" class="img-fluid" alt="eldeportedelaciudad">
+          </div>-->
+        <div class="row bg-menu-sistema shadow">
+          <div class="col-lg-9 col-md-9">
+            <nav class="navbar navbar-expand navbar-light ">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                  <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/"
+                        aria-current="page">Página Principal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/baloncesto"
+                        aria-current="page">Baloncesto</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/balonmano"
+                        aria-current="page">Balonmano</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol"
+                        aria-current="page">Fútbol</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol_sala"
+                        aria-current="page">Fútbol Sala</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/hockey"
+                        aria-current="page">Hockey Línea</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/rugby"
+                        aria-current="page">Rugby</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/voleibol"
+                        aria-current="page">Voleibol</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+          </div>
+        </div>
+      </header>
+    </section>
+    <!--Fin header1-->
+    <header class="container-fluid d-lg-none d-md-block bg-menu-sistema">
+      <section id="cabecera1" class="d-flex justify-content-around align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/"
+                    aria-current="page">Página Principal</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/baloncesto"
+                    aria-current="page">Baloncesto</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/balonmano"
+                    aria-current="page">Balonmano</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol"
+                    aria-current="page">Fútbol</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol_sala"
+                    aria-current="page">Fútbol Sala</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/hockey"
+                    aria-current="page">Hockey Línea</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/rugby"
+                    aria-current="page">Rugby</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/voleibol"
+                    aria-current="page">Voleibol</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div>
+          <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+        </div>
+      </section>
+    </header><!-- Fin header 2 -->
+    <section class="container-lg mb-5 flex-fill">
+      <h1 class="h1_seccion pb-2">Sistema ligas voleibol</h1>
+      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active"><!-- Sistema liga - Voleibol Masculino -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema">Voleibol Masculino</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- SuperLiga Masculina -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">SuperLiga Masculina</h3>
+                          <p class="fw-bold">RFEV</p>
+                          <p class="fw-bold">1ª Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Un grupo con 12 equipos, jugándose por el sistema de liga a doble vuelta. </p>
+                            <strong>Copa del Rey</strong>
+                            <p>Los equipos que ocupan las 7 primeras plazas de la clasificación al finalizar la primera
+                              vuelta (13 partidos) y al equipo organizador, o en el caso de que no haya a los 8 primeros
+                              en la primera vuelta.</p>
+                            <strong>Título SuperLiga</strong>
+                            <p>Se clasificán para la siguiente fase por el título los ocho primeros.</p>
+                            <strong>Descenso</strong>
+                            <p>Los dos últimos clasificados descienden a Superliga 2.</p>
+                            <strong>Europa</strong>
+                            <p>La CEV otorga a la Superliga española 2 plazas de clasificación para competiciones
+                              continentales, que se distribuyen de la siguiente forma:
+                            <p>El campeón de los Play Offs y por lo tanto de la Superliga acceden a disputar la tercera
+                              ronda de clasificación a CEV Champions League. En caso de perder, jugaría los sesenta y
+                              cuatroavos de final de la CEV Cup.</p>
+                            El subcampeón de la Superliga accede a disputar los treintaidosavos de final de la Challenge
+                            Cup.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- SuperLiga Masculina 2 -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">SuperLiga Masculina 2</h3>
+                          <p class="fw-bold">RFEV</p>
+                          <p class="fw-bold">2º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Lo componen 3 grupo con 12 equipos en cada grupo, jugándose por el sistema de liga a
+                              doble vuelta.</p>
+                            <strong>Playoff Ascenso</strong>
+                            <p>Obtendrán el derecho para disputar el Play-Off de ascenso los 2 primeros de cada grupo,
+                              creandose 2 grupos de 3 equipos cada uno y se clasificán para las semifinales los 2
+                              mejores de cada grupo, los vencedores de las semifinales ascenderan a la SuperLiga, y se
+                              jugará la final para determinar el campeón de la competición.</p>
+                            <strong>Descenso</strong>
+                            <p>Descienden de forma directa los 2 últimos clasificados de cada grupo.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 1ª División Masculina -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">1ª División Masculina</h3>
+                          <p class="fw-bold">RFEV</p>
+                          <p class="fw-bold">3º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Lo componen 3 grupo con 12 equipos en cada grupo, jugándose por el sistema de liga a
+                              doble vuelta.</p>
+                            <strong>PlayOffs Ascenso</strong>
+                            <p>Obtendrán el derecho para disputar el Play-Off de ascenso los 2 primeros de cada grupo,
+                              creandose 2 grupos de 3 equipos cada uno y se clasificán para las semifinales los 2
+                              mejores de cada grupo, los vencedores de las semifinales ascenderan a la SuperLiga 2, y se
+                              jugará la final para determinar el campeón de la competición</p>
+                            <strong>Descenso</strong>
+                            <p></p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    data-ronda="{{ loop.index }}">Ver Partidos</a>
-                  {% endfor %}
                 </div>
               </div>
             </div>
           </div>
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
-    </section>
+    </section><!--Fin Carrusel-->
     <footer class="container-fluid mt-auto footer-seccion">
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold fs-4 pt-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
@@ -102,13 +274,7 @@
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
             <h5 class="text-white ms-4">Política de cookies</h5>
           </a>
-          <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>-->
         </div>
-        <!--<div class="col-lg-2 d-flex justify-content-end align-items-center ">
-          <a><img src="/static/img/facebook.png" class="iconos me-4" alt="facebook"></a>
-          <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
-          <--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>->
-        </div>-->
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
           <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
         </div>
@@ -282,7 +448,7 @@
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
-        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.com&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad@gmail.com</a></p>
+        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">eldeportedelaciudad@gmail.com</a></p>
       </div>
     </div>
   </div>
@@ -295,31 +461,23 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
-  <script src="/static/js/proteccion-datos.js"></script>
-  <!--<script src="/static/js/script.js"></script>-->
-  <script src="/static/js/proteccion-datos.js"></script>
-    <script src="/static/js/num_caracteres.js"></script>
+  <script src="/static/js/script.js"></script>
   <script>
-    $(document).ready(function() {
-      $('.mostrar-enlace').click(function(e) {
-        e.preventDefault();
-        var enlace = $(this);
-        var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');        
-        // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();        
-        // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();        
-        // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');        
-        // Cambiar el texto del enlace actual
-        if (textoAdicional.is(':visible')) {
-          enlace.text('Ocultar');
-        } else {
-          enlace.text('Ver Partidos');
-        }
-      });
-    });
+    function mostrarTexto(enlace) {
+      // Obtener el elemento <li> padre del enlace
+      var liElement = enlace.parentNode;
+      // Encontrar el elemento de texto adicional dentro del <li> padre
+      var textoAdicional = liElement.querySelector('.texto-adicional');
+      // Toggle para mostrar u ocultar el texto adicional
+      if (textoAdicional.style.display === 'none' || textoAdicional.style.display === '') {
+        textoAdicional.style.display = 'block'; // Mostrar el texto adicional
+        enlace.textContent = 'Ocultar'; // Cambiar el texto del enlace
+      } else {
+        textoAdicional.style.display = 'none'; // Ocultar el texto adicional
+        enlace.textContent = 'Leer más'; // Cambiar el texto del enlace
+      }
+    }
   </script>
 </body>
+
 </html>

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Crear Jornadas Real Valladolid</title>
+    <title>Calendario - Promesas</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -17,19 +17,19 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Real Valladolid</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Promesas</li>
     </ol>
   </nav>
   <header>
-    <h1 class="text-center">Resultados Liga Hypermotion 25/26</h1>
+    <h1 class="text-center">Resultados Liga 2ª RFEF 25/26</h1>
   </header>
     <section class="container-lg">
       <div class="d-flex justify-content-center mb-4">
-        <button onclick="mostrarFormularioValladolid()" class="btn btn-success text-center fs-3">Crear Resultados</button>
+        <button onclick="mostrarFormularioPromesas()" class="btn btn-success text-center fs-3">Crear Resultados</button>
       </div>
       <!-- Formulario para los resultados de los partidos -->
-      <div class="container-lg" id="form_partidos_valladolid">
-        <form method="POST" action="/admin/crear_calendario_valladolid" class="row mb-3">
+      <div class="container-lg" id="form_partidos_promesas">
+        <form method="POST" action="/admin/crear_calendario_promesas" class="row mb-3">
           <div class="col-md-12">
             <label for="nombre">Jornada</label>
             <input type="text" class="form-control" id="nombre" name="nombre">
@@ -38,14 +38,14 @@
             <label for="num_partidos">Número de partidos</label>
             <input type="text" class="form-control" id="num_partidos" name="num_partidos">
           </div>
-          {% for i in range(11) %}
+          {% for i in range(9) %}
           <div class="col-md-5">
             <label for="fecha{{i}}">Fecha</label>
             <input type="text" class="form-control" id="fecha{{i}}" name="fecha{{i}}">
           </div>
           <div class="col-md-5">
             <label for="hora{{i}}">Hora</label>
-            <input type="time" class="form-control" id="hora{{i}}" name="hora{{i}}">
+            <input type="text" class="form-control" id="hora{{i}}" name="hora{{i}}">
           </div>
           <div class="col-md-5">
             <label for="local{{i}}">Equipo Local</label>
@@ -89,7 +89,7 @@
                   <tbody style="display:none">
                   {% for partido in jornada.partidos %}
                     <tr class="text-center">
-                      <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora.strftime('%H:%M') if partido.hora else '' }}</td>
+                      <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
                       <td class="text-center fw-bold">{{ partido.local }}</td>
                       <td class="text-center">{{ partido.resultadoA }}</td>
                       <td class="text-center">{{ partido.resultadoB }}</td>
@@ -98,15 +98,16 @@
                   {% endfor %}
                   </tbody>
                 </table>
-                <div class="col-10 d-flex ms-1 my-1">
+                <div class="d-flex ms-1 my-1">
                   <!--<form action="" method="POST">
                   <button type="button" class="bg-success text-white border-0 px-2 me-2">Publicar</button>
                   </form>-->
                   <button type="submit" id="btn-modificar{{ jornada.id }}" class="bg-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal" data-bs-target="#modal{{ jornada.id }}">Modificar</button>
                   <a href="#" onclick="toggleTabla(this, '{{ jornada.nombre }}') " class="text-decoration-none btn btn-primary text-white">Ver Tabla</a>
-                  <form action="{{ url_for('valladolid_route_bp.eliminar_jornada_valladolid', id=jornada.id) }}" method="POST">
-                    <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 me-2 ms-5">Eliminar</button>
-                  </form> 
+                  <form action="{{ url_for('promesas_route_bp.eliminar_jornada_promesas', id=jornada.id) }}" method="POST">
+                    <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 ms-5">Eliminar</button>
+                  </form>
+                  
                 </div>
               </div> 
             </div>
@@ -124,7 +125,7 @@
           </div>
           <div class="modal-body">
           <!-- Contenido del formulario para modificar la jornada -->
-          <form method="POST" action="{{ url_for('valladolid_route_bp.modificar_jornada_valladolid', id=jornada.id) }}" class="row">
+          <form method="POST" action="{{ url_for('promesas_route_bp.modificar_jornada_promesas', id=jornada.id) }}" class="row">
             <div class="col-md-12 mb-2"> 
               <label for="nombre">Jornada</label>
               <input type="text" name="nombre" id="nombre" class="form-control" value="{{ jornada.nombre }}">
@@ -136,13 +137,12 @@
             {% for partido in jornada.partidos %}
             <div class="col-md-5 mb-2">
               <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
-              <input type="hidden" name="orden{{ loop.index0 }}" value="{{ loop.index0 }}">
               <label for="fecha{{ loop.index0 }}">Fecha</label>
               <input type="text" name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
             </div>
             <div class="col-md-5 mb-2">
-              <label for="hora{{ loop.index0 }}">Hora</label>
-              <input type="text" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora.strftime('%H:%M') if partido.hora else '' }}">
+              <label for="hora{{ loop.index0 }}"></label>
+              <input type="text" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
             </div>
             <div class="col-md-4 mb-2">
               <label for="local{{ loop.index0 }}">Equipo A</label>

@@ -9,6 +9,8 @@ from .routes.secciones import secciones_bp
 from .routes.resultados import resultados_bp
 from .routes.uemc_route import uemc_route_bp
 from .routes.valladolid_route import valladolid_route_bp
+from .routes.promesas_route import promesas_route_bp
+from .routes.simancas_route import simancas_route_bp
 
 def create_app():
     load_dotenv()
@@ -23,6 +25,8 @@ def create_app():
     app.register_blueprint(resultados_bp)
     app.register_blueprint(uemc_route_bp, url_prefix='/admin')
     app.register_blueprint(valladolid_route_bp, url_prefix='/admin')
+    app.register_blueprint(promesas_route_bp, url_prefix='/admin')
+    app.register_blueprint(simancas_route_bp, url_prefix='/admin')
     
     return app 
 

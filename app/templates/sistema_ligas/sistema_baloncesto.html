@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>Sistemas de Ligas - Baloncesto</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="keywords"
+    content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
+  <meta name="author" content="eldeportedelaciudad">
+  <!-- Twitter meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Eldeportedelaciudad">
+  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:image" content="https://i.imgur.com/lMxHirK.png">
+  <meta name="twitter:site" content="@deporteyciudad">
+  <meta name="twitter:creator" content="@deporteyciudad">
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Eldeportedelaciudad">
+  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:image" content="https://i.imgur.com/lMxHirK.png">
+  <meta property="og:url" content="mi dominio">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="eldeportedelaciudad">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+</head>
+<body id="body_secciones">
+  <div class="d-flex flex-column min-vh-100">
+    <section id="cabecera1" class="align-items-center sticky-top">
+      <header class="container-fluid d-none d-lg-block"><!-- Cabecera Principal -->
+        <!--<div class="d-flex justify-content-center">
+            <img src="/static/img/logo_3_bis.png" class="img-fluid" alt="eldeportedelaciudad">
+          </div>-->
+        <div class="row bg-menu-sistema shadow">
+          <div class="col-lg-9 col-md-9">
+            <nav class="navbar navbar-expand navbar-light ">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                  <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/"
+                        aria-current="page">Página Principal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/baloncesto"
+                        aria-current="page">Baloncesto</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/balonmano"
+                        aria-current="page">Balonmano</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol"
+                        aria-current="page">Fútbol</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol_sala"
+                        aria-current="page">Fútbol Sala</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/hockey"
+                        aria-current="page">Hockey Línea</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/rugby"
+                        aria-current="page">Rugby</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/voleibol"
+                        aria-current="page">Voleibol</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+          </div>
+        </div>
+    </section>
+    </header><!--Fin header1-->
+    <header class="container-fluid d-lg-none d-md-block bg-menu-sistema">
+      <section id="cabecera1" class="d-flex justify-content-around align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/"
+                    aria-current="page">Página Principal</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/baloncesto"
+                    aria-current="page">Baloncesto</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/balonmano"
+                    aria-current="page">Balonmano</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol"
+                    aria-current="page">Fútbol</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol_sala"
+                    aria-current="page">Fútbol Sala</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/hockey"
+                    aria-current="page">Hockey Línea</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/rugby"
+                    aria-current="page">Rugby</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/voleibol"
+                    aria-current="page">Voleibol</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div>
+          <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+        </div>
+      </section>
+    </header><!-- Fin header 2 -->
+    <section class="container-lg mb-5 flex-fill">
+      <h1 class="h1_seccion pb-3">Sistema ligas baloncesto</h1>
+      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active"><!-- Sistema liga - Baloncesto BSR -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema">Baloncesto Silla de Ruedas</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- Liga BSR División de Honor -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Liga BSR División de Honor</h3>
+                          <p class="fw-bold">FEDDF</p>
+                          <p class="fw-bold">1ª Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Actualmente consta de 12 equipos, todos contra todos, y a doble partido.</p>
+                            <strong>Primera Vuelta - Copa del Rey</strong>
+                            <p>Los ocho primeros equipos clasificados al final de la primera vuelta de la competición
+                              disputan la Copa del Rey.</p>
+                            <strong>Título Liga BSR División de Honor</strong>
+                            <p>Se clasificán los 4 primeros para una FinalFour.</p>
+                            <strong>Promoción Descenso</strong>
+                            <p>El penultimo clasificado jugará la promoción con el 2º clasificado de la 1ª División, el
+                              ganador jugara la siguiente temporada en la Divisón de Honor.</p>
+                            <strong>Descenso</strong>
+                            <p>El ultimo clasificado desciende directamente a la Liga BSR 1ª División.</p>
+                            <strong>Europa</strong>
+                            <p>El primer clasificado jugara en Europa la siguiente temporada.</p>
+                            <strong>Supercopa España BSR</strong>
+                            <p>La disputarán los dos primeros clasificados de la liga regular y el finalista y
+                              semifinalista de la Copa del Rey, a partido único y en campo neutral.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Liga BSR 1ª División -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Liga BSR 1ª División</h3>
+                          <p class="fw-bold">FEDDF</p>
+                          <p class="fw-bold">2º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Actualmente consta de 10 equipos, todos contra todos, y a doble partido.</p>
+                            <strong>Ascenso Directo</strong>
+                            <p>Asciende a la Liga BSR División de Honor de forma automatica el 1º del campeonato, y así
+                              proclamandose támbien campeón de la 1ª División.</p>
+                            <strong>Promoción Ascenso</strong>
+                            <p>Partido de promoción entre el penúltimo
+                              clasificado en División de Honor y el 2º clasificado en 1ª
+                              División, el ganador jugará la siguiente temporada en División de Honor y el perdedor en
+                              1ª División.</p>
+                            <strong>Descenso</strong>
+                            <p>Descinede a la 2ª División de forma autómatica el ultimo clasificado al finalizar la
+                              temporada.</p>
+                            <strong>Promoción Descenso</strong>
+                            <p>Partido de promoción entre el penúltimo
+                              clasificado en Primera División y el segundo clasificado en Segunda
+                              División, el ganador jugará la siguiente temporada en 1ª División y el perdedor jugará en
+                              2ª División.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Liga BSR 2ª División -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Liga BSR 2ª División</h3>
+                          <p class="fw-bold">FEDDF</p>
+                          <p class="fw-bold">3º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Actualmente consta de 2 grupos, con un total de 11 equipos.</p>
+                            <strong>Ascenso Directo</strong>
+                            <p>Asciende a la Liga BSR 1ª División de forma automatica el 1º del campeonato, y así
+                              proclamandose támbien campeón de la 2ª División.</p>
+                            <strong>Promoción Ascenso</strong>
+                            <p>Partido de promoción entre el penúltimo
+                              clasificado en 1ª División y el 2º clasificado en 2ª
+                              División, el ganador jugará la siguiente temporada en 1ª División y el perdedor en 2ª
+                              División.</p>
+                            <strong>Descenso</strong>
+                            <p>No hay descenso de categoría en la actualidad.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item active"><!-- Sistema liga - Baloncesto Femenino -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema">Baloncesto Femenino</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- Liga Femenina Endesa -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Liga Femenina Endesa</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold">1ª Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Actualmente consta de 16 equipos, se juega un formato de round robin.</p>
+                            <strong>Primera Vuelta - Copa de laReina</strong>
+                            <p>Los siete primeros equipos clasificados al final de la primera vuelta de la competición y
+                              el anfitrión disputan la Copa de la Reina de baloncesto.​ Además, el título clasifica a la
+                              Supercopa de España.</p>
+                            <strong>Título Liga Femenina Endesa</strong>
+                            <p>Se clasificán los 8 primeros para los playoffs de cuartos, semifinales y final al mejor
+                              de 3 partidos cada uno</p>
+                            <strong>Descenso</strong>
+                            <p>Los 2 últimos clasificados descienden a Liga Femenina Challenge.</p>
+                            <strong>Euroliga</strong>
+                            <p>El primer clasificado disputa la Euroliga Femenina, jugando otros equipos la Eurocopa
+                              Femenina de la FIBA. Si bien en los últimos años varios equipos han renunciado a
+                              participar en competiciones europeas</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Liga Femenina Challange -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Liga Femenina Challange</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold">2º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>La Liga Femenina Challenge se disputa bajo un único grupo de competición en el que sus 16
+                              equipos se enfrentarán en una Liga Regular a ida/vuelta.</p>
+                            <strong>Ascenso Directo</strong>
+                            <p> El primer clasificado asciende directamente a la Liga Femenina Endesa</p>
+                            <strong>Play-Offs Ascenso</strong>
+                            <p> Los equipos clasificados entre el 2.º y el 9.º puesto pasan a disputar los play-offs de
+                              ascenso, que son unas eliminatorias de cuartos de final, semifinales y final, en las que
+                              el campeón también consigue el ascenso a la Liga Femenina Endesa.
+                              En cuartos de final, el segundo clasificado de la fase regular se enfrenta al noveno, el
+                              tercero al octavo, el cuarto al séptimo y el quinto al sexto. La primera eliminatorias es
+                              al mejor de tres partidos. El primer encuentro se disputa en la cancha del equipo mejor
+                              clasificado y el siguiente en la del rival. En caso de empate, se disputa un tercer
+                              encuentro en el pabellón del primero de ellos.
+                              Los cuatro equipos clasificados disputan una final a cuatro, estilo final four, a un único
+                              partido de semifinal y una final entre los vencedores. El ganador, si cumple los
+                              requisitos económicos y técnicos, disputará la siguiente edición de la Liga Femenina
+                              Endesa.</p>
+                            <strong>Descenso</strong>
+                            <p>Descienden a la Liga Femenina 2, los 2 últimos clasificados.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Liga Femenina 2 -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Liga Femenina 2</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold">3º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>Se compone de 2 grupos de 14 equipos cada uno</p>
+                            <strong>Ascenso</strong>
+                            <p>Los cuatro primeros de ambos cuadros disputarán en una misma sede la fase de ascenso. Los
+                              dos mejores de cada grupo pasaran a las finales. El ganador de cada una de ellas asciende
+                              deportivamente a Liga Femenina Challenge.</p>
+                            <strong>Descenso</strong>
+                            <p>Descienden a la 1ª División Femenina, los 3 últimos clasificados de cada grupo, siendo un
+                              total de 6 descendidos.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 1ª División Femenina -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">1ª División Femenina</h2>
+                          <p class="fw-bold">Federación Autónomica</p>
+                          <p class="fw-bold">4º Nivel</p>
+                          <div class="texto-adicional">
+                            <strong>Organización de la categoría</strong>
+                            <p> Esta competición está dividida en diferentes grupos por comunidades autónomas.
+                              Actualmente esta organizada en cuatro grupos con varias ligas(de una o varias comunidades
+                              autónomas) en cada uno.</p>
+                            <strong class="text-start">GRUPO 1: Integrado por los equipos de Galicia, Asturias,
+                              Cantabria, Castilla y León, País Vasco, Navarra y La Rioja</strong>
+                            <li class="text-start"><strong>Liga:</strong> Galicia, Asturias, Cantabria y Castilla y León
+                            </li>
+                            <li class="text-start"><strong>Liga:</strong>País Vasco, Navarra y La Rioja</li>
+                            <li class="text-start mb-3">Luego hay otros 3 grupos, solo mostramos donde aparece Castilla
+                              y León</li>
+                            <strong>Fase de Ascenso</strong>
+                            <p>Se clasifican los 4 mejores de cada grupo, en total 16 equipos, donde se jugará una Fase
+                              Final de Ascenso.</p>
+                            <strong>Fase Final</strong>
+                            <p>Los 16 equipos participantes se dividirán en 4 grupos de 4 equipos cada uno, y se
+                              disputarán 2 Fases de Ascenso (en dos sedes únicas).</p>
+                            <p>En cada subgrupo jugarán todos contra todos a una sola vuelta (tres jornadas). En la
+                              cuarta jornada se celebrará el encuentro entre los segundos clasificados de cada subgrupo,
+                              a fin de definir los 6 equipos que obtendrán el ascenso a la Liga Femenina 2. Ascenderán:
+                              los 4 vencedores de cada uno de los subgrupos de las Fases de Ascenso, más los 2
+                              vencedores de los encuentros jugados entre los segundos clasificados.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item"><!-- Sistema liga - Baloncesto Masculino -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema">Baloncesto Masculino</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- Liga ACB -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Liga ACB</h2>
+                          <p class="fw-bold">Asociación de Clubes de Baloncesto (organ. privada)</p>
+                          <p class="fw-bold">1ª Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>La Liga ACB está formada por 18 equipos que compiten en una primera fase o fase regular
+                              en una Liga en la que cada uno se enfrenta dos veces a todos los demás.</p>
+                            <strong>Primera Vuelta - Copa del Rey</strong>
+                            <p>Al finalizar la primera vuelta los ocho primeros clasificados disputan la Copa del Rey
+                              aunque puede dar el caso que el octavo clasificado no la dispute, eso es que una de las
+                              plazas es para un equipo anfitrión de la ciudad que organiza el torneo. Se disputa a
+                              partido único</p>
+                            <strong>Título de la ACB</strong>
+                            <p>Al final de la fase regular, los ocho primeros clasificados se enfrentan en los
+                              play–offs, se emparejan esos ocho equipos de acuerdo con su clasificación en la fase
+                              regular y disputan unas eliminatorias al mejor de tres partidos (cinco en la final). Los
+                              primeros clasificados tienen ventaja de campo y los emparejamientos se hacen favoreciendo
+                              la clasificación previa, el primero juega con el octavo, el segundo con el séptimo, el
+                              tercero con el sexto, y el cuarto con el quinto. El ganador de estas eliminatorias es
+                              proclamado campeón de la Liga ACB.</p>
+                            <strong>Euroliga</strong>
+                            <p>Por primera vez en esta liga, todos los participantes se enfrentarán entre sí en una liga
+                              a ida y vuelta que consta de 30 jornadas. Los mejores ocho al final de la fase regular,
+                              jugarán un playoff de cuartos de final que decidirá los cuatro participantes de la Final
+                              Four. Ese playoff será al mejor de cinco encuentros, con ventaja de campo para los que
+                              hubieran quedado mejor clasificados en la liga regular.</p>
+                            <p>Acceso a la competición.
+                              A partir de la temporada 2009–10, los criterios para disputarla cambiaron:
+                              Varios equipos elegidos a través de una fórmula basada en el rendimiento competitivo, los
+                              ingresos de televisión, y la asistencia en casa, reciben "Licencias A", dándoles entrada
+                              automática a la fase de grupos. Originalmente, 13 clubes recibieron una Licencia A, con el
+                              Asseco Prokom Gdynia de Polonia convirtiéndose en el 14.º antes de la temporada
+                              2011–12.14​ Las licencias A se otorgan por tres años, lo que significa que el próximo
+                              ajuste de Licencias A no tuvo lugar hasta la temporada 2012–13. Sin embargo, la Euroleague
+                              Basketball suspendió la licencia A de Virtus Roma después de que el club terminó en la
+                              mitad inferior de su liga doméstica en la temporada 2010–11.15​
+                              Ocho equipos reciben cada año una "Licencia B" para disputar la fase de grupos. Siete de
+                              ellos se basan directamente en la clasificacióm de la liga doméstica en la que compite. La
+                              octava es una tarjeta de invitación de tres años sobre la base de factores similares a las
+                              Licencias A; la primera tarjeta de invitación se otorgó al ASVEL Basket.
+                              El ganador de la Eurocup de la pasada temporada recibe una "Licencia C" para disputar la
+                              fase de grupos. Si el club se clasifica a través de una Licencia B a través de su liga
+                              doméstica, la Licencia C se destinará a un equipo que pague una tarjeta de invitación.
+                              Otros ocho equipos disputan la Fase Previa y el ganador recibe una "Licencia B".
+                            </p>
+                            <strong>Eurocap</strong>
+                            <p>La Eurocup está formada anualmente por 20 equipos de Europa e Israel, la plaza se
+                              consigue por méritos deportivos. No obstante, se otorgan el siguiente número máximo de
+                              plazas en función de la liga:
+                              - Liga Adriatica: los 3 mejores equipos de esta liga (sin tener en cuenta al ganador de la
+                              Liga Adriática)
+                              - VTB United League: los 3 mejores equipos de esta liga (sin tener en cuenta a CSKA Moscú
+                              y al 2.º clasificado).
+                              - Liga Endesa: el segundo, tercer y cuarto mejor equipo de esta liga (sin tener en cuenta
+                              a Real Madrid, a F. C. Barcelona y a Baskonia).
+                              - Pro A: los 2 mejores equipos de esta liga.
+                              - Lega Basket Serie A: los 2 mejores equipos de esta liga (sin tener en cuenta a EA7
+                              Emporio Armani Milano).
+                              - Beko BBL: los 2 mejores equipos de esta liga (sin tener en cuenta al ganador).
+                              - Türkiye Basketbol Süper Ligi: los 2 mejores equipos de esta liga (sin tener en cuenta a
+                              Fenerbahçe y a Anadolu Efes).
+                              - A1 Ethniki: el mejor clasificado de esta liga (sin tener en cuenta a Olympiacos B.C. y a
+                              Panathinaikos BC).
+                              - Ligat ha'Al: el mejor clasificado de esta liga (sin tener en cuenta a Maccabi Tel Aviv).
+                              - Polska Liga Koszykówki: el mejor clasificado de esta liga.
+                              - Lietuvos Krepšinio Lyga: el mejor clasificado de esta liga (sin tener en cuenta a
+                              Zalgiris Kaunas).
+                              4 tarjetas de invitación.
+                              Al ganador de la Eurocup, si cumplen los requisitos, se les invita a competir en la
+                              Euroliga la próxima temporada.
+                            </p>
+                            <strong>Descenso</strong>
+                            <p>Los equipos clasificados en las dos últimas plazas al finalizar la fase regular
+                              descienden a la categoría inmediatamente inferior, denominada Liga LEB Oro.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Primera FEB -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Primera FEB</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold">2º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>La Liga Leb Oro está formada por 18 equipos que compiten en una primera fase o fase
+                              regular en una Liga en la que cada uno se enfrenta dos veces a todos los demás.</p>
+                            <strong>Copa de España</strong>
+                            <p>Primera edición de la Copa de España, donde participarán 40 equipos entre primera FEB,
+                              Segunda FEB y tercera FEB.
+                              La competición se desarrollara primero con 8 grupos con 5 equipos en cada grupo, donde se
+                              jugará un total de 5 Jornadas en cada grupo. Los primeros de cada grupo pasarán a jugar
+                              los cuartos de final, que estos se jugarán a ida y vuelta. Los ganadores de cuartos
+                              pasarán a jugar la Final-Four en enero en la sede que sea elegida.
+                            </p>
+                            <strong>Ascenso Directo</strong>
+                            <p> El primer clasificado asciende directamente a la Liga ACB</p>
+                            <strong>Play-Offs Ascenso</strong>
+                            <p> Los equipos clasificados entre el 2.º y el 9.º puesto pasan a disputar los play-offs de
+                              ascenso, que son unas eliminatorias de cuartos de final, semifinales y final, en las que
+                              el campeón también consigue el ascenso a la Liga ACB.
+                              En cuartos de final, el segundo clasificado de la fase regular se enfrenta al noveno, el
+                              tercero al octavo, el cuarto al séptimo y el quinto al sexto. La primera eliminatorias es
+                              al mejor de 5 partidos. Los dos primeros encuentros se disputa en la cancha del equipo
+                              mejor clasificado y los otros dos encuentros siguiente en la del rival. En caso de empate,
+                              se disputa un quinto encuentro en el pabellón del primero de ellos.
+                              Los cuatro equipos clasificados disputan una final a cuatro, estilo final four, a un único
+                              partido de semifinal y una final entre los vencedores. El ganador, si cumple los
+                              requisitos económicos y técnicos, disputará la siguiente edición de la Liga ACB.</p>
+                            <strong>Descenso</strong>
+                            <p>Descienden de categoría, a la LEB Plata, tres equipos, el último el penúltimo y
+                              antepenúltimo clasificados de la fase regular.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Segunda FEB -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Segunda FEB</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold">3º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>En la actualidad la Liga Leb Plata se ha ampliado a 28 equipos divididos en 2 grupos de
+                              14 con una fase regular independiente en cada grupo.</p>
+                            <strong>Copa de España</strong>
+                            <p>Primera edición de la Copa de España, donde participarán 40 equipos entre primera FEB,
+                              Segunda FEB y tercera FEB.
+                              La competición se desarrollara primero con 8 grupos con 5 equipos en cada grupo, donde se
+                              jugará un total de 5 Jornadas en cada grupo. Los primeros de cada grupo pasarán a jugar
+                              los cuartos de final, que estos se jugarán a ida y vuelta. Los ganadores de cuartos
+                              pasarán a jugar la Final-Four en enero en la sede que sea elegida.
+                            </p>
+                            <strong>Ascenso Directo</strong>
+                            <p> Al final de la temporada regular, el primer equipo de cada grupo jugará una eliminatoria
+                              para ascender directamente a LEB Oro, el equipo perdedor pasará a los cuartos de final de
+                              los play-offs de ascenso</p>
+                            <strong>Play-Offs Ascenso</strong>
+                            <p>Los equipos que terminen del 2.º al 8.º lugar de cada grupo se clasificarán para los
+                              play-offs de ascenso, en eliminatorias de octavos, cuartos y semifinales para determinar
+                              los otros dos equipos que accederán a LEB Oro.</p>
+                            <strong>Descenso</strong>
+                            <p>Descienden a liga EBA 6 equipos, los dos últimos de cada grupo y los dos perdedores de
+                              los dos play-offs de descenso que diputarán los equipos que terminen el 11.º de un grupo
+                              contra el 12.º del otro grupo.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Tercera FEB -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Tercera FEB</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold">4º Nivel</p>
+                          <div class="texto-adicional">
+                            <strong>Organización de la categoría</strong>
+                            <p>Los equipos están divididos actualmente, según su proximidad geográfica, en cinco
+                              conferencias, cada una de ellas formada por dos grupos de 14 equipos</p>
+                            <strong>Conferencias</strong>
+                            <li class="text-start"><strong>Conferencia A:</strong> 2 grupos (A-A y A-B) de Galicia,
+                              Asturias, Cantabria, Castilla y León, Navarra, La Rioja y País Vasco.</li>
+                            <li class="text-start"><strong>Conferencia B:</strong> 2 grupos (B-A y B-B) de Canarias,
+                              Castilla-La Mancha y Madrid.</li>
+                            <li class="text-start"><strong>Conferencia C:</strong> 2 grupos (C-A y C-B) de Aragón,
+                              Cataluña e Islas Baleares.</li>
+                            <li class="text-start"><strong>Conferencia D:</strong> 2 grupos (D-A y D-B) de Andalucía,
+                              Extremadura, Ceuta y Melilla.</li>
+                            <li class="text-start"><strong>Conferencia E:</strong> 2 grupos (E-A y E-B) de la Comunidad
+                              Valenciana y Región de Murcia.</li>
+                            <strong>Copa de España</strong>
+                            <p>Primera edición de la Copa de España, donde participarán 40 equipos entre primera FEB,
+                              Segunda FEB y tercera FEB.
+                              La competición se desarrollara primero con 8 grupos con 5 equipos en cada grupo, donde se
+                              jugará un total de 5 Jornadas en cada grupo. Los primeros de cada grupo pasarán a jugar
+                              los cuartos de final, que estos se jugarán a ida y vuelta. Los ganadores de cuartos
+                              pasarán a jugar la Final-Four en enero en la sede que sea elegida.
+                            </p>
+                            <strong>Fase de Ascenso</strong>
+                            <p>Ascenderán a la Liga LEB Plata 6 equipos: los vencedores de cada uno de los subgrupos de
+                              las Fases de Ascenso 4, más los dos 2 vencedores de los encuentros jugados entre los
+                              segundos clasificados, siempre que reúnan las condiciones establecidas para acceder a la
+                              Liga LEB Plata.</p>
+                            <strong>Descenso</strong>
+                            <p>Descenderán al Campeonato de España de 1ª División masculina 6 equipos de cada una de las
+                              conferencias B, C, D y E: los clasificados en los puestos 12º, 13º y 14º de cada uno de
+                              los grupos. De la conferencia A descenderán 8 equipos: los clasificados en los puestos
+                              11º, 12º, 13º y 14º de cada uno de los grupos.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 1ª División Nacional -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">1ª División Nacional</h2>
+                          <p class="fw-bold">Federaciones Autonómicas</p>
+                          <p class="fw-bold">5º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong>Organización de la categoría</strong>
+                            <p>La Primera División esta organizada actualmente en 15 grupos a nivel de comunidad
+                              autónoma (a excepción de País Vasco, Navarra y La Rioja que comparten grupo).</p>
+                            <strong>Ascenso</strong>
+                            <p>Los mejores equipos clasificados de cada grupo ascenderán la siguiente temporada a la
+                              Liga EBA.</p>
+                            <strong>Descenso</strong>
+                            <p>Descienden a Liga Provincial dependiendo de las Ligas Provinciales.
+                            </p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Liga Provincial -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h2 class="fw-bold fs-1">Liga Provincial</h2>
+                          <p class="fw-bold">Federación Española de Baloncesto</p>
+                          <p class="fw-bold"></p>
+                          <ul class="horizontal-list">
+                            <li><strong>1.ª Senior (6º Nivel)</strong>
+                              <div class="texto-adicional text-center">
+                                <strong>Organización de la categoría</strong>
+                                <p>Formadas por grupos compuestos por equipos de la misma provincia dentro de cada
+                                  comunidad autónoma. En cada provincia puede haber diferentes niveles jerárquicos.En
+                                  esta categoría de Valladolid juegan 12 equipos.</p>
+                                <strong>Ascenso</strong>
+                                <p>El ascenso a la 1ª División Nacional depende decada provincia en el comienzo de cada
+                                  temporada.</p>
+                                <strong>Descenso</strong>
+                                <p>Bajan los 3 últimos.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li><strong>2.ª Senior(7º Nivel)</strong>
+                              <div class="texto-adicional text-center">
+                                <strong>Organización de la categoría</strong>
+                                <p>Dos grupos, uno de 9 (Grupo” A”) y otro de 10 (Grupo” B”), en cada grupo todos contra
+                                  todos a doble vuelta.
+                                </p>
+                                <strong>Liga de Ascenso</strong>
+                                <p>Un grupo de 8, los cuatro primeros de cada grupo de la Liga Regular, jugando ida y
+                                  vuelta contra los equipos del otro grupo, valiendo los resultados de la Liga Regular.
+                                  Se establece la clasificación del 1º al 8º. Asciende los tres primeros de la Liga de
+                                  Ascenso de 2ª Senior</p>
+                                <strong>Descensos</strong>
+                                <p>No hay descensos.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </section><!--Fin Carrusel-->
+    <footer class="container-fluid mt-auto footer-seccion py-2">
+      <div class="row">
+        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+          <a>
+            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+          </a>
+        </div>
+        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+          <a href="#" id="nosotros-link" class="text-decoration-none">
+            <h5 class="text-white">Nosotros</h5>
+          </a>
+          <a href="#" id="contactanos-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Contáctanos</h5>
+          </a>
+          <a href="#" id="aviso-legal-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Aviso legal</h5>
+          </a>
+          <a href="#" id="politica-privacidad-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Política de privacidad</h5>
+          </a>
+          <a href="#" id="politica-cookies-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Política de cookies</h5>
+          </a>
+        </div>
+        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+        </div>
+      </div>
+    </footer>
+    <!-- Modales -->
+    <div id="aviso-legal-modal" class="custom-modal aviso-legal-modal"><!-- Aviso Legal -->
+      <div class="custom-modal-content aviso-legal-content">
+        <span class="custom-close" id="close-aviso-legal">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Aviso Legal</strong></h2>
+        <h3><strong>Datos Identificativos</strong></h3>
+        <p><strong>Nombre del Sitio:</strong> eldeportedelaciudad.com</p>
+        <p><strong>Propietario:</strong> Vanesa Acebes Juarez</p>
+        <p><strong>Nif:</strong> 44914916X</p>
+        <p><strong>Dirección:</strong> Calle Tomillo 2 1ºB, 47155 Santovenia de Pisuerga ( Valladolid )</p>
+        <p><strong>Correo Electrónico:</strong> eldeportedelaciudad@gmail.com</p>
+        <h3><strong>Condiciones de Uso</strong></h3>
+        <p>El uso de este sitio web implica la aceptación de las siguientes condiciones. Si no está de acuerdo con
+          ellas, por favor no utilice este sitio web.</p>
+        <h3><strong>Responsabilidad sobre el Contenido</strong></h3>
+        <p>El propietario de este sitio web no se responsabiliza de la veracidad, exactitud y actualidad de los datos
+          publicados. La información proporcionada es para fines informativos y puede no estar siempre actualizada.</p>
+        <h3><strong>Propiedad Intelectual</strong></h3>
+        <p>Todos los contenidos, textos, imágenes y código fuente son propiedad del propietario del sitio web o tienen
+          licencia para su uso. Queda prohibida su reproducción total o parcial sin autorización expresa.</p>
+        <h3><strong>Enlaces Externos</strong></h3>
+        <p>Este sitio web puede contener enlaces a otros sitios web. El propietario no se responsabiliza del contenido
+          de estos sitios externos.</p>
+        <p>Última actualización: 23/05/2024</p>
+      </div>
+    </div>
+    <div id="politica-privacidad-modal" class="custom-modal politica-privacidad-modal"><!-- Política de Privacidad -->
+      <div class="custom-modal-content politica-privacidad-content">
+        <span class="custom-close" id="close-politica-privacidad">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Política de Privacidad</strong></h2>
+        <p>En eldeportedelaciudad, respetamos su privacidad y estamos comprometidos a proteger su información personal.
+          Esta política de privacidad describe cómo recopilamos, utilizamos y compartimos su información personal.</p>
+        <h3><strong>Qué datos recogemos</strong></h3>
+        <p>Podemos recopilar información personal como su nombre, dirección de correo electrónico y dirección IP cuando
+          usted visita nuestro sitio web, se suscribe a nuestro boletín o interactúa con nuestras funciones.</p>
+        <h3><strong>Cómo recogemos los datos</strong></h3>
+        <p>Recopilamos datos personales de diversas maneras, como formularios en línea, cookies y tecnologías de
+          seguimiento, y cuando se suscribe a nuestros servicios.</p>
+        <h3><strong>Propósito de la recolección</strong></h3>
+        <p>Utilizamos sus datos para proporcionar y mejorar nuestros servicios, enviarle información relevante, y para
+          análisis internos.</p>
+        <h3><strong>Compartir datos</strong></h3>
+        <p>No compartimos su información personal con terceros, excepto cuando es necesario para cumplir con la ley,
+          proteger nuestros derechos, o proporcionar nuestros servicios.</p>
+        <h3><strong>Derechos de los usuarios</strong></h3>
+        <p>Usted tiene derecho a acceder, rectificar y eliminar sus datos personales, así como a oponerse al
+          procesamiento de sus datos. Para ejercer estos derechos, póngase en contacto con nosotros en
+          contacto@example.com.</p>
+        <p>Última actualización: 23/05/2024</p>
+      </div>
+    </div>
+    <div id="politica-cookies-modal" class="custom-modal politica-cookies-modal"><!-- Política de Cookies -->
+      <div class="custom-modal-content politica-cookies-content">
+        <span class="custom-close" id="close-politica-cookies">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Política de Cookies</strong></h2>
+        <p>En eldeportedelaciudad, utilizamos cookies para mejorar su experiencia en nuestro sitio web. Esta política de
+          cookies explica qué son las cookies, cómo las usamos y cómo puede gestionarlas.</p>
+        <h3><strong>Qué son las cookies</strong></h3>
+        <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita nuestro sitio
+          web. Nos ayudan a recordar sus preferencias y a mejorar su experiencia de usuario.</p>
+        <h3><strong>Tipos de cookies utilizadas</strong></h3>
+        <p>Utilizamos cookies de sesión, cookies persistentes y cookies de terceros (como Google Analytics) para
+          recopilar información sobre cómo utiliza nuestro sitio web.</p>
+        <h3><strong>Propósito de las cookies</strong></h3>
+        <p>Las cookies nos ayudan a mejorar nuestro sitio web, proporcionar una mejor experiencia de usuario y analizar
+          el tráfico del sitio.</p>
+        <h3><strong>Gestión de cookies</strong></h3>
+        <p>Usted puede gestionar sus preferencias de cookies a través de la configuración de su navegador. Puede
+          aceptar, rechazar o eliminar cookies siguiendo las instrucciones específicas de su navegador.</p>
+        <p>Para más información sobre cómo gestionar cookies, visite <a
+            href="https://www.aboutcookies.org">AboutCookies.org</a>.</p>
+        <p>Última actualización: 23/05/2024</p>
+      </div>
+    </div>
+    <div id="nosotros-modal" class="custom-modal nosotros-modal"><!-- Nosotros -->
+      <div class="custom-modal-content nosotros-content">
+        <span class="custom-close" id="close-nosotros">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Nosotros</strong></h2>
+        <p>Bienvenid@s a <strong><i>eldeportedelaciudad</i></strong>, nos apasiona ofrecer la mejor información y
+          cobertura sobre los deportes de <i>Valladolid</i> que más te gustan. Hemos creado una plataforma completa que
+          abarca diversos deportes y competiciones, proporcionando a nuestros usuarios acceso fácil a calendarios,
+          resultados, clasificaciones y análisis detallados. ¡Descubre todo lo que tenemos preparado para ti!</p>
+        <div>
+          <h2>Deportes Disponibles</h2>
+          <p>Hemos incorporado una variedad de deportes para que todos los aficionados encuentren su lugar:</p>
+          <ul>
+            <li>Baloncesto</li>
+            <li>Balonmano</li>
+            <li>Fútbol</li>
+            <li>Fútbol Sala</li>
+            <li>Hockey Línea</li>
+            <li>Rugby</li>
+            <li>Voleibol</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Características de la Página</h2>
+          <ul>
+            <li>Calendarios individuales de cada equipo</li>
+            <li>Resultados de cada jornada</li>
+            <li>Clasificaciones actualizadas</li>
+            <li>Análisis de porcentaje para alcanzar objetivos</li>
+            <li>Eliminatorias de la copa</li>
+            <li>Competiciones europeas</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Copa y Europa</h2>
+          <h5>Eliminatorias de la Copa</h5>
+          <p>Sigue de cerca las eliminatorias de la Copa en cada deporte y mantente informado sobre los equipos que
+            luchan por el título.</p>
+          <h5>Competiciones Europeas</h5>
+          <p>Accede a la información de las competiciones europeas, con detalles sobre los equipos y los partidos.</p>
+        </div>
+        <div>
+          <h2>Sistemas de Ligas</h2>
+          <p>Cada deporte tiene su propio sistema de liga con diferentes niveles y estructuras. Te ofrecemos una
+            descripción detallada de cada uno de ellos, tanto femenino como masculino:</p>
+          <h5>Baloncesto Silla de Ruedas</h5>
+          <p>Liga BSR División de Honor, Liga BSR 1ª División, Liga BSR 2ª División y Copa de Europa.</p>
+          <h5>Baloncesto Femenino</h5>
+          <p>Liga Femenina Endesa, Liga Femenina Challange, Liga Femenina 2, 1ª División Femenina, Euroliga Femenina y
+            Eurocopa Femenina</p>
+          <h5>Baloncesto Masculino</h5>
+          <p>Liga ACB, Liga Leb Oro, Liga Leb Plata, Liga EBA, 1ª División Nacional, Euroliga y Eurocup.</p>
+          <h5>Balonmano Femenino</h5>
+          <p>Liga Guerrera Ibérdrola, Divisón Honor Oro, División Honor Plata, EHF Champions League y EHF European
+            League.</p>
+          <h5>Balonmano Masculino</h5>
+          <p>Liga Asobal, División Honor Plata, 1ª Divisón Nacional, 2ª División Nacional, Territoriales Autónomicas,
+            EHF Champions League y EHF European League.</p>
+          <h5>Fútbol Femenino</h5>
+          <p>Liga 1ª Divisón Nacional, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, Liga Gonalpi, Liga
+            Doble G y Liga de Campeones.</p>
+          <h5>Fútbol Masculino</h5>
+          <p>Liga EA Sports, Liga Hypermotion, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, 1ª Div.
+            Regional Aficionados, 1ª Div. Provincial Aficionados, 2ª Div. Provincial Aficionados, 3ª Div. Provincial
+            Aficionados, Champions League, Europe League, Conference League. </p>
+          <h5>Fútbol Sala Femenino</h5>
+          <p>Sin equipo actualmente de Valladolid en esta sección.</p>
+          <h5>Fútbol Sala Masculino</h5>
+          <p>Liga 1ª División, Liga 2ª División, Liga 2ª División B, Liga 3ª División, Champions.</p>
+          <h5>Hockey Línea Femenina</h5>
+          <p>Liga Élite Iberdrola, Liga Oro Femenina, Liga Plata Femenina y Copa de Europa.</p>
+          <h5>Hockey Línea Masculino</h5>
+          <p>Liga Élite Masculina, Liga Oro Masculina, Liga Plata Masculina y Copa de Europa.</p>
+          <h5>Rugby Femenino</h5>
+          <p>División de Honor Femenina, División Honor B Femenina, Copa Ibérica. </p>
+          <h5>Rugby Masculino</h5>
+          <p>División Honor, División Honor B, Copa Ibérica.</p>
+          <h5>Voleibol Femenino</h5>
+          <p>Sin equipo actualmente de Valladolid en esta sección.</p>
+          <h5>Voleibol Masculino</h5>
+          <p>Superliga Masculina, Superliga Masculina 2, 1ª División Masculina, CEV Champions League, Challange Cup.
+          </p>
+        </div>
+        <div>
+          <p>¡Explora y disfruta del deporte con nosotros! Estamos comprometidos a ofrecerte la mejor experiencia
+            deportiva en línea. Si tienes alguna pregunta o sugerencia, no dudes en ponerte en <a
+              href="#contactanos-modal" id="contacto-link" class="text-decoration-none">contacto</a> con nuestro equipo.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
+      <div class="custom-modal-content contactanos-content">
+        <span class="custom-close" id="close-contactanos">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
+        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">eldeportedelaciudad@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+  <script src="/static/js/script.js"></script>
+  <script>
+    function mostrarTexto(enlace) {
+      // Obtener el elemento <li> padre del enlace
+      var liElement = enlace.parentNode;
+      // Encontrar el elemento de texto adicional dentro del <li> padre
+      var textoAdicional = liElement.querySelector('.texto-adicional');
+      // Toggle para mostrar u ocultar el texto adicional
+      if (textoAdicional.style.display === 'none' || textoAdicional.style.display === '') {
+        textoAdicional.style.display = 'block'; // Mostrar el texto adicional
+        enlace.textContent = 'Ocultar'; // Cambiar el texto del enlace
+      } else {
+        textoAdicional.style.display = 'none'; // Ocultar el texto adicional
+        enlace.textContent = 'Leer más'; // Cambiar el texto del enlace
+      }
+    }
+  </script>
+</body>
+
+</html>

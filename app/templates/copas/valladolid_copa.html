@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>PlayOffs Ascenso - Real Valladolid</title>
+  <title>Copa de El Rey - Real Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description"
-    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga.">
   <meta name="keywords"
     content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
   <meta name="author" content="eldeportedelaciudad">
@@ -31,16 +31,15 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-
-<body class="fondos_playoffs">
+<body class="fondos_copa">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
+      <ol class="breadcrumb ps-2 pt-2">
         <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">PlayOffs Real Valladolid</li>
+        <li class="breadcrumb-item active text-info" aria-current="page">Copa Real Valladolid</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Fase Final Al Ascenso</h1>
+    <h1 class="text-playoff">Copa de El Rey 24/25</h1>
     <span class="equipo_copa">Real Valladolid</span>
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
       <div class="d-flex justify-content-center">
@@ -49,7 +48,7 @@
             <div class="row table-responsive">
               <div class="col-12">
                 <div class="">
-                  {% for ronda, partidos in datos_playoff.items() %}
+                  {% for ronda, partidos in datos_copa.items() %}
                   <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
                   <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
                     <table class="table border-secondary">
@@ -71,7 +70,7 @@
                   </div>
                   <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
                     data-ronda="{{ loop.index }}">Ver Partidos</a>
-                  {% endfor %}
+                  {% endfor %}  
                 </div>
               </div>
             </div>
@@ -79,14 +78,14 @@
         </div>
       </div>
     </section>
-    <footer class="container-fluid mt-auto footer-seccion">
+    <footer class="container-fluid mt-auto footer-seccion mt-4">
       <div class="row">
-        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold fs-4 pt-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
             <h5 class="text-white">Nosotros</h5>
           </a>
@@ -105,12 +104,12 @@
           <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>-->
         </div>
         <!--<div class="col-lg-2 d-flex justify-content-end align-items-center ">
-          <a><img src="/static/img/facebook.png" class="iconos me-4" alt="facebook"></a>
-          <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
-          <--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>->
-        </div>-->
-        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+      <a><img src="/static/img/facebook.png" class="iconos me-4" alt="facebook"></a>
+      <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
+      <--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>->
+    </div>-->
+        <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-2" alt="eldeportedelaciudad">
         </div>
       </div>
     </footer>
@@ -278,11 +277,30 @@
         </div>
       </div>
     </div>
-    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
+    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactos -->
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
-        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.com&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad@gmail.com</a></p>
+        <p>Escribe tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros.</p>
+        <form action="/enviar_correo" method="POST">
+          <div class="mb-3">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="provincia">Provincia:</label>
+            <input type="text" id="provincia" name="provincia" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="sugerencia">Sugerencia o Pregunta:</label>
+            <textarea id="sugerencia" name="sugerencia" class="form-control" rows="10" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
       </div>
     </div>
   </div>
@@ -297,21 +315,19 @@
     </script>
   <script src="/static/js/proteccion-datos.js"></script>
   <!--<script src="/static/js/script.js"></script>-->
-  <script src="/static/js/proteccion-datos.js"></script>
-    <script src="/static/js/num_caracteres.js"></script>
   <script>
     $(document).ready(function() {
       $('.mostrar-enlace').click(function(e) {
         e.preventDefault();
         var enlace = $(this);
         var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');        
+        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');       
         // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();        
+        $('.texto-adicional').not(textoAdicional).hide();       
         // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();        
+        textoAdicional.toggle();       
         // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');        
+        $('.mostrar-enlace').not(enlace).text('Ver Partidos');       
         // Cambiar el texto del enlace actual
         if (textoAdicional.is(':visible')) {
           enlace.text('Ocultar');

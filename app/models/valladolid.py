@@ -10,12 +10,13 @@ class ValladolidPartido(db.Model):
     __tablename__ = 'valladolid_partidos'
     id = db.Column(db.Integer, primary_key=True)
     jornada_id = db.Column(db.Integer, db.ForeignKey('jornadas_valladolid.id'), nullable=False)
-    fecha = db.Column(db.Date, nullable=False)
+    fecha = db.Column(db.String(25))
     hora = db.Column(db.Time, nullable=False)
     local = db.Column(db.String(255))
     resultadoA = db.Column(db.String(120))
     resultadoB = db.Column(db.String(120))
-    visitante = db.Column(db.String(255))   
+    visitante = db.Column(db.String(255))
+    orden = db.Column(db.Integer)   
 
 class ValladolidClub(db.Model):
     __tablename__ = 'valladolid_clubs'
@@ -27,25 +28,14 @@ class ValladolidClub(db.Model):
 class CopaValladolid(db.Model):
     __tablename__ = 'copa_valladolid'
     id = db.Column(db.Integer, primary_key=True)  # ID único para cada partido
-    encuentros = db.Column(db.String(255), nullable=True)  # Encuentros, por ejemplo, nombre del torneo o fase
-    fecha = db.Column(db.Date, nullable=False)  # Fecha del partido
-    hora = db.Column(db.Time, nullable=False)  # Hora del partido
+    eliminatoria = db.Column(db.String(50), nullable=False)
+    fecha = db.Column(db.String(20))  # Fecha del partido
+    hora = db.Column(db.String(20))  # Hora del partido
     local = db.Column(db.String(255))  # Nombre del equipo local
     resultadoA = db.Column(db.String(120))  # Resultado del equipo local
     resultadoB = db.Column(db.String(120))  # Resultado del equipo visitante
     visitante = db.Column(db.String(255))
     
-class ClasifValladolid(db.Model):
-    __tablename__ = 'clasif_copa_valladolid'
-    id = db.Column(db.Integer, primary_key=True)
-    grupo = db.Column(db.String(50))
-    equipo = db.Column(db.String(50))
-    jugados = db.Column(db.Integer, default=0)
-    ganados = db.Column(db.Integer, default=0)
-    empatados = db.Column(db.Integer, default=0)
-    perdidos = db.Column(db.Integer, default=0)
-    puntos = db.Column(db.Integer, default=0)
-
 class PlayoffValladolid(db.Model):
     __tablename__ = 'playoff_valladolid'
     id = db.Column(db.Integer, primary_key=True)

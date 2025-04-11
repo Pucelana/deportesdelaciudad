@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <title>Sistemas de Ligas - Fútbol</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="keywords"
+    content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
+  <meta name="author" content="eldeportedelaciudad">
+  <!-- Twitter meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Página deportiva de Valladolid">
+  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:image" content="URL_de_la_imagen">
+  <meta name="twitter:site" content="@tu_cuenta_de_twitter">
+  <meta name="twitter:creator" content="@cuenta_del_autor">
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Página deportiva de Valladolid">
+  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:image" content="URL_de_la_imagen">
+  <meta property="og:url" content="URL_de_tu_página">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="eldeportedelaciudad">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+</head>
+
+<body id="body_secciones">
+  <div class="d-flex flex-column min-vh-100">
+    <section id="cabecera1" class="align-items-center sticky-top">
+      <header class="container-fluid d-none d-lg-block"><!-- Cabecera Principal -->
+        <!--<div class="d-flex justify-content-center">
+            <img src="/static/img/logo_3_bis.png" class="img-fluid" alt="eldeportedelaciudad">
+          </div>-->
+        <div class="row bg-menu-sistema shadow">
+          <div class="col-lg-9 col-md-9">
+            <nav class="navbar navbar-expand navbar-light ">
+              <div class="container-fluid">
+                <a class="navbar-brand" href="#"></a>
+                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+                  aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="collapsibleNavId">
+                  <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/"
+                        aria-current="page">Página Principal</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/baloncesto"
+                        aria-current="page">Baloncesto</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/balonmano"
+                        aria-current="page">Balonmano</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol"
+                        aria-current="page">Fútbol</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol_sala"
+                        aria-current="page">Fútbol Sala</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/hockey"
+                        aria-current="page">Hockey Línea</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/rugby"
+                        aria-current="page">Rugby</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/voleibol"
+                        aria-current="page">Voleibol</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <div class="col-lg-3 col-md-3">
+            <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+          </div>
+        </div>
+    </section>
+    </header><!--Fin header1-->
+    <header class="container-fluid d-lg-none d-md-block bg-menu-sistema">
+      <section id="cabecera1" class="d-flex justify-content-around align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-light ">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav">
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/"
+                    aria-current="page">Página Principal</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/baloncesto"
+                    aria-current="page">Baloncesto</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/balonmano"
+                    aria-current="page">Balonmano</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol"
+                    aria-current="page">Fútbol</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/futbol_sala"
+                    aria-current="page">Fútbol Sala</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/hockey"
+                    aria-current="page">Hockey Línea</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active fs-5 text-white fw-bold text-menu-seccion" href="/sistema_ligas/rugby"
+                    aria-current="page">Rugby</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link active text-white fw-bold text-menu-seccion" href="/sistema_ligas/voleibol"
+                    aria-current="page">Voleibol</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div>
+          <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+        </div>
+      </section>
+    </header><!-- Fin header 2 -->
+    <section class="container-lg mb-5 flex-fill">
+      <h1 class="h1_seccion pb-2">Sistema ligas fútbol</h1>
+      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active"><!-- Sistema liga - Fútbol Femenino -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema">Fútbol Femenino</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- Profesional -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Profesional</h3>
+                          <p class="fw-bold">Ámbito Nacional</p>
+                          <ul class="horizontal-list">
+                            <li class="federacion">
+                              <p class="encabezados">1ª DIVISIÓN NACIONAL DEL FÚTBOL FEMENINO (1º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>La competición la disputan anualmente 16 equipos que juegan en un único grupo
+                                  enfrentándose todos contra todos a doble partido.</p>
+                                <strong>Campeón de liga</strong>
+                                <p>El club que suma más puntos al término del campeonato se proclama campeón de liga</p>
+                                <strong>Liga de Campeones de la UEFA</strong>
+                                <p>El primer y segundo clasificado juegán la Liga de Campeones de la UEFA.</p>
+                                <strong>Copa de la Reina</strong>
+                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                  Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
+                                  los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
+                                  las semifinales.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Los dos últimos equipos descienden a 1ª Federación Femenina.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Semiprofesional -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Semiprofesional</h3>
+                          <p class="fw-bold">Ámbito Nacional</p>
+                          <ul class="horizontal-list">
+                            <li class="federacion"><!-- 1ª FEDERACIÓN FEMENINA -->
+                              <p class="encabezados">1ª FEDERACIÓN FEMENINA (2º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>El formato esta formado por dos grupos, norte y sur, con 16 equipos cada uno.
+                                </p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>El primer clasificado de los grupos norte y sur ascenderá directamente a 1ª División
+                                </p>
+                                <strong>Play-Offs ascenso</strong>
+                                <p>La tercera plaza de ascenso surgirá de un play-off en el que el 2º de cada grupo se
+                                  enfrentará al 3º del otro en unas semifinales y el campeón de esa serie jugará una
+                                  final con el antepenúltimo de la 1ª División Femenina.</p>
+                                <strong>Copa de la Reina</strong>
+                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                  Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
+                                  los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
+                                  las semifinales.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Los descensos, serán para los 4 últimos equipos clasificados, 2 de cada grupo.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 2º FEDERACIÓN FEMENINA -->
+                              <p class="encabezados">2ª FEDERACIÓN FEMENINA (3º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>Un total de 32 equipos disputan la competición. Están divididos en dos grupos de 16
+                                  equipos cada uno dependiendo de su situación geográfica
+                                </p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Ascienden a la siguiente categoría el 1º del grupo sur y grupo norte.</p>
+                                <strong>Play-Offs ascenso</strong>
+                                <p>Jugarán un play-off el 2º de cada grupo y el ganador ascenderá la 1ª Federación
+                                  Femenina. </p>
+                                <strong>Copa de la Reina</strong>
+                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                  Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
+                                  los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
+                                  las semifinales.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Descenderán de categoría los 3 últimos clasificados de cada grupo.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 3ª FEDERACIÓN FEMENINA -->
+                              <p class="encabezados">3ª FEDERACIÓN FEMENINA (4º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>Toman parte en el campeonato 96 equipos repartidos, por criterios de proximidad
+                                  geográfica, en 6 grupos de 16 equipos cada uno.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Los equipos campeones y 2º clasificados de cada uno de los seis
+                                  grupos ascenderán directamente a 2ª Federación de Fútbol
+                                  Femenino.
+                                  Los PlayOff se desarrollará mediante el sistema de eliminatorias, a doble partido,
+                                  conforme a la normativa específica de la RFEF.
+                                  Participarán los clubes clasificados en 3ª posición y los dos mejores
+                                  coeficientes en 4ª posición de todos los grupos, enfrentando a los mejores
+                                  coeficientes en 3ª posición contra los dos equipos de 4ª posición. Por último,
+                                  los dos mejores coeficientes restantes de 3ª posición contra los dos equipos
+                                  de peor coeficiente en 3ª posición. El orden de enfrentamiento será entre los
+                                  equipos de mejor coeficiente contra los equipos de peor coeficiente.</p>
+                                <strong>Copa de la Reina</strong>
+                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                  Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
+                                  los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
+                                  las semifinales.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p> Por su parte, los clubes que ocupen los puestos del 14º al 16º de cada uno de los 6
+                                  grupos, así como los 2 equipos con peor coeficiente de los clasificados en el puesto
+                                  13º, descenderán a categoría regional.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Amateur -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Amateur</h3>
+                          <p class="fw-bold">Ámbito Autónomico</p>
+                          <ul class="horizontal-list">
+                            <li class="federacion">
+                              <p class="encabezados">LIGA GONALPI (5º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>La competición se disputará, en un solo grupo compuesto por 16 equipos, por el
+                                  sistema de liga a doble vuelta.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Ascenderá a la 3ª Federación Femenina el primer clasificado de la competición y, si
+                                  por cualquier circunstancia por parte de la R.F.E.F., se requiriese a la R.F.C. y L.F.
+                                  una segunda plaza de ascenso, recaería en el 2º clasificado y así sucesivamente.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Descenderán a la 2ª División Regional Femenina – “Liga Doble G”, los equipos
+                                  clasificados en los puestos 15º y 16º y además tantos equipos como sea la diferencia
+                                  entre los descensos que existan de·3ª División Femenina a esta 1ª División Regional
+                                  Femenina – “Liga Gonalpi” y los ascensos de 1ª División Regional Femenina – “Liga
+                                  Gonalpi” a 3ª División Femenina.
+                                </p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion">
+                              <p class="encabezados">LIGA DOBLE G (6º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>La competición se disputará en dos grupos, “A” y “B”, de 14 equipos, de acuerdo a la
+                                  siguiente distribución geográfica.
+                                </p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Ascenderán a 1ª División Regional Femenina – “Liga Gonalpi”, el primer clasificado de
+                                  cada uno de los grupos “A” y “B” al término de la primera fase</p>
+                                <strong>Play-Offs ascenso</strong>
+                                <p>La disputarán los equipos clasificados en los puestos 2º y 3º de cada uno de los
+                                  grupos “A” y “B” al término de la primera fase y que se compondrá por dos
+                                  eliminatorias; la de semifinales y la final</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>No descenderá ningún club de Liga Doble G.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item"><!-- Sistema liga - Fútbol Masculino -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema">Fútbol Masculino</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- Profesional -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Profesional</h3>
+                          <p class="fw-bold">Ámbito Nacional</p>
+                          <ul class="horizontal-list">
+                            <li class="federacion"><!-- LA LIGA EA SPORTS -->
+                              <p class="encabezados">LA LIGA EA SPORTS (1º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>La 1ª División consta de un grupo único integrado por 20 equipos, pertenecientes a
+                                  clubes de fútbol o sociedades anónimas deportivas (SAD). Siguiendo un sistema de liga,
+                                  los 20 equipos se enfrentan todos contra todos en 2 ocasiones, una en campo propio y
+                                  otra en campo contrario, sumando un total de 38 jornadas. El orden de los encuentros
+                                  se decide por sorteo antes de empezar la competición.</p>
+                                <strong>Campeón</strong>
+                                <p>El equipo que más puntos sume al final del campeonato será proclamado campeón de Liga
+                                </p>
+                                <strong>Participación Europea</strong>
+                                <p>Obtendrá el derecho automático a participar en la fase de grupos de la siguiente
+                                  edición de la Liga de Campeones de la UEFA,el 1º, el 2º, el 3º y el 4º clasificado. El
+                                  5º clasificado obtendrá el derecho a participar en la ronda de play-off de la próxima
+                                  Liga Europa de la UEFA y, el 6º, en la tercera eliminatoria de la misma. Si en la Copa
+                                  del Rey el campeón está entre los 6 mejores clasificados, el 7º clasificado obtendrá
+                                  el derecho a jugar la tercera ronda previa de la siguiente edición de la Liga Europa.
+                                </p>
+                                <strong>Supercopa España</strong>
+                                <p>El campeón y el subcampeón disputan la Supercopa de España, enfrentándose a los
+                                  finalistas de la Copa del Rey de esa misma temporada.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Los tres últimos equipos descenderán a la 2ª División.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- LIGA HYPERMOTION -->
+                              <p class="encabezados">LA LIGA HYPERMOTION (2º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>Siguiendo un sistema de liga, consta de un grupo único integrado de veintidós equipos
+                                  que se enfrentan todos contra todos en dos ocasiones una en campo propio y otra en
+                                  campo contrario sumando un total de cuarenta y dos jornadas. El orden de los
+                                  encuentros se decide por sorteo antes de empezar la competición.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Al término de la temporada, el equipo que más puntos obtenga se proclama campeón de
+                                  2ª División y es ascendido, junto con el subcampeón, a 1ª División.</p>
+                                <strong>Promoción Ascenso</strong>
+                                <p>También asciende el ganador de una promoción disputada entre el 3º, 4º, 5º y 6º
+                                  clasificados. El sistema de esta promoción es de eliminación directa a doble partido,
+                                  enfrentándose el 3º con el 6º, así como el 4º con el 5º; los 2 vencedores pasarán a
+                                  disputar una nueva eliminatoria a ida y vuelta, de la cual saldrá el 3º equipo que
+                                  asciende a 1ª División.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p> Por su parte, los 4 últimos clasificados de 2ª División al término de la temporada
+                                  son relegados a 1ª Federación, siendo sustituidos por los 2 campeones de grupo y los 2
+                                  ganadores de la promoción de ascenso de esa categoría.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Semiprofesional -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Semiprofesional</h3>
+                          <p class="fw-bold">Ámbito Nacional</p>
+                          <ul class="horizontal-list">
+                            <li class="federacion"><!-- 1ª FEDERACIÓN -->
+                              <p class="encabezados">1ª FEDERACIÓN (3º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>Estos 40 equipos se dividen en dos grupos de 20 equipos distribuidos por proximidad
+                                  geográfica. El sistema de competición es el mismo que en el resto de categorías de la
+                                  Liga. Al término de la temporada, un número de equipos por determinar, de entre los
+                                  que acumulan más puntos en cada grupo, excepto los equipos filiales, se clasifican
+                                  para disputar la siguiente edición de la Copa del Rey.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Ascenderán a 2ª División 4 equipos. Dos de ellos serán los campeones de cada grupo.
+                                  Los otros 2 serán los ganadores de dos eliminatorias que disputarán los equipos
+                                  clasificados del 2º al 5º puesto de cada grupo. Las posiciones obtenidas durante la
+                                  fase regular determinarán los emparejamientos. Las eliminatorias serán a partido
+                                  único. En caso de empate, habrá prórroga; si después de ella persiste el empate, se
+                                  clasificará el que mejor puesto haya obtenido en la primera fase, y si ambos
+                                  terminaron en el mismo puesto, habrá tandas de penaltis.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Descenderán a Segunda Federación los cinco últimos equipos de cada grupo (del 16º al
+                                  20º).</p>
+                                <strong>Final de campeones</strong>
+                                <p>Los equipos clasificados en 1º lugar en cada uno de los 2 grupos se enfrentan entre
+                                  sí para determinar quien resulta campeón de la 1ª Federación. El ganador obtiene la
+                                  clasificación directa a la 2ª ronda de la Copa del Rey, así como el trofeo que le
+                                  acredita como Campeón de 1ª Federación.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 2ª FEDERACIÓN -->
+                              <p class="encabezados">2ª FEDERACIÓN (4º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>La 2ª Federación está integrada por un total de 90 clubes divididos en 5 grupos de 18
+                                  equipos cada uno distribuidos por proximidad geográfica, en la nueva reestructuración
+                                  del fútbol español tras la supresión en la temporada 2019-20 de los descensos de
+                                  categoría, provocada por la pandemia de COVID-19 en España, y que provocó que las
+                                  categorías tuvieran un exceso de clubes en la temporada 2020-21.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Ascenderán a la 1ª Federación 10 equipos. Los campeones de cada uno de los 5 grupos
+                                  subirán directamente. Los clasificados del 2º al 5º de cada grupo (20 equipos)
+                                  disputarán 2 eliminatorias en sede neutral, mezclándose entre los grupos, para
+                                  determinar las 5 plazas de ascenso restantes.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Descenderán los 5 últimos de cada grupo (del 14º al 18º). Los 4 peores 13º disputarán
+                                  una eliminatoria en sede neutral de la que saldrán 2 equipos que también descenderán a
+                                  la 3ª Federación.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 3ª FEDERACIÓN -->
+                              <p class="encabezados">3ª FEDERACIÓN (5º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>El Grupo VIII de la 3ª Federación española de fútbol es el grupo autonómico
+                                  castellano y leonés de dicha categoría; constituye el 5º nivel de competición del
+                                  sistema de liga en Castilla y León, suele estar integrado por 17 clubes. Al término de
+                                  la temporada, el 1º clasificado (excluyendo a los equipos filiales) se clasifica para
+                                  disputar la siguiente edición de la Copa del Rey.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Una vez finalizada la temporada regular, el primer clasificado se proclama campeón y
+                                  asciende directamente a Segunda División RFEF, mientras que los clasificados entre el
+                                  2º y el 5º lugar disputan un playoff territorial para decidir una plaza que da acceso
+                                  a la Promoción de ascenso a Segunda División RFEF. Esta promoción consta de una ronda
+                                  de eliminación directa en la que el vencedor asciende de categoría.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Al término de la temporada los 3 últimos clasificados descienden directamente a
+                                  Primera División Regional Aficionados de Castilla y León. Existe la posibilidad de que
+                                  desciendan además tantos equipos a 1ª División Regional Aficionados de Castilla y
+                                  León, como equipos de Castilla y León que desciendan de la 2ª División RFEF a 3ª
+                                  División RFEF. También puede ocurrir que algunos de los equipos del grupo clasificados
+                                  para el playoff logre el ascenso a la 2ª División RFEF, en cuyo caso ascenderían a 3ª
+                                  División RFEF tantos conjuntos de 1ª División Regional Aficionados de Castilla y León
+                                  como clubes hayan logrado el ascenso a 2ª División RFEF.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Amateur -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1">Amateur - CyL</h3>
+                          <p class="fw-bold">Ámbito Regional</p>
+                          <ul class="horizontal-list">
+                            <li class="federacion"><!-- 1ª DIV. REGIONAL AFICIONADOS -->
+                              <p class="encabezados">1ª Div. Regional Aficionados (6º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>Reúne a 32 equipos divididos en dos grupos de 16 equipos cada uno, entre los que se
+                                  distribuyen por proximidad geográfica las 9 provincias de la comunidad. Su
+                                  organización corre a cargo de la Real Federación de Castilla y León de Fútbol.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>El primer clasificado de cada grupo ascenderá de forma directa a la categoría
+                                  superior, siendo la Tercera División RFEF. </p>
+                                <strong>Play-Offs de Ascenso</strong>
+                                <p>El segundo y el tercer clasificado de cada grupo disputarán un Play-Off formado por
+                                  dos rondas de eliminatorias a doble partido. El equipo que supere ambas rondas
+                                  obtendrá el ascenso a la Tercera Federación.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Descienden 7 equipos, 4 del grupo A y 3 del grupo B </p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 1ª DIV. PROVINCIAL AFICIONADOS -->
+                              <p class="encabezados">1ª Div. Provincial Aficionados (7º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p> Está compuesta por 9 grupos. Cada grupo está compuesto por un número de equipos
+                                  variable, según la provincia. Pero a la hora del ascenso solo suben 7 equipos, porque
+                                  los grupos de Segovia y Soria han rechazado plaza en la 1ª Div. Regional Aficionados.
+                                </p>
+                                <strong>Ascenso de categoría</strong>
+                                <p> Al finalizar la temporada ascienden a Primera División Regional Aficionados el
+                                  primero de cada grupo.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>Como Valladolid si que tiene 2ª Div. Provincial Aficionados, descenderían 3 del grupo
+                                  que pertenezca a Valladolid en la 1ª Div. Provincial Aficionados.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 2ª DIV. PROVINCIAL AFICIONADOS -->
+                              <p class="encabezados">2ª Div. Provincial Aficiondos (8º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p>Está compuesto por tres grupos, uno por cada provincia que posee esta categoría que
+                                  Valladolid es una de las tres provincias que si la posee, y es de un número de equipos
+                                  variable.</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Al finalizar la temporada ascienden a Primera División Provincial Aficionados el
+                                  número de equipos que la delegación provincial correspondiente estime oportuno,
+                                  prefijado antes del inicio de temporada y que también depende de las renuncias que
+                                  haya en esta y en otras categorías.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p>En esta categoría no existen los descensos, salvo en el grupo de Valladolid, que es
+                                  la única provincia de la comunidad que posee una categoría más baja, la Tercera
+                                  División Provincial Aficionados.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                            <li class="federacion"><!-- 3ª DIV. PROVINCIAL AFICIONADOS -->
+                              <p class="encabezados">3ª Div. Provincial Aficionados (9º Nivel)</p>
+                              <div class="texto-adicional">
+                                <strong>Organización de la Categoría</strong>
+                                <p> Está compuesto por dos grupos (solo Valladolid dispone de esta categoría).</p>
+                                <strong>Ascenso de categoría</strong>
+                                <p>Al finalizar la temporada ascienden a Segunda División Provincial Aficionados el
+                                  número de equipos que la delegación Vallisoletana estime oportuno, prefijado antes del
+                                  inicio de temporada y que también depende de las renuncias que haya en esta y en otras
+                                  categorías.</p>
+                                <strong>Descenso de categoría</strong>
+                                <p> En esta categoría no existen los descensos.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+    </section><!--Fin Carrusel-->
+    <footer class="container-fluid mt-auto footer-seccion">
+      <div class="row">
+        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+          <a>
+            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+          </a>
+        </div>
+        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+          <a href="#" id="nosotros-link" class="text-decoration-none">
+            <h5 class="text-white">Nosotros</h5>
+          </a>
+          <a href="#" id="contactanos-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Contáctanos</h5>
+          </a>
+          <a href="#" id="aviso-legal-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Aviso legal</h5>
+          </a>
+          <a href="#" id="politica-privacidad-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Política de privacidad</h5>
+          </a>
+          <a href="#" id="politica-cookies-link" class="text-decoration-none">
+            <h5 class="text-white ms-4">Política de cookies</h5>
+          </a>
+        </div>
+        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+        </div>
+      </div>
+    </footer>
+    <!-- Modales -->
+    <div id="aviso-legal-modal" class="custom-modal aviso-legal-modal"><!-- Aviso Legal -->
+      <div class="custom-modal-content aviso-legal-content">
+        <span class="custom-close" id="close-aviso-legal">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Aviso Legal</strong></h2>
+        <h3><strong>Datos Identificativos</strong></h3>
+        <p><strong>Nombre del Sitio:</strong> eldeportedelaciudad.com</p>
+        <p><strong>Propietario:</strong> Vanesa Acebes Juarez</p>
+        <p><strong>Nif:</strong> 44914916X</p>
+        <p><strong>Dirección:</strong> Calle Tomillo 2 1ºB, 47155 Santovenia de Pisuerga ( Valladolid )</p>
+        <p><strong>Correo Electrónico:</strong> eldeportedelaciudad@gmail.com</p>
+        <h3><strong>Condiciones de Uso</strong></h3>
+        <p>El uso de este sitio web implica la aceptación de las siguientes condiciones. Si no está de acuerdo con
+          ellas, por favor no utilice este sitio web.</p>
+        <h3><strong>Responsabilidad sobre el Contenido</strong></h3>
+        <p>El propietario de este sitio web no se responsabiliza de la veracidad, exactitud y actualidad de los datos
+          publicados. La información proporcionada es para fines informativos y puede no estar siempre actualizada.</p>
+        <h3><strong>Propiedad Intelectual</strong></h3>
+        <p>Todos los contenidos, textos, imágenes y código fuente son propiedad del propietario del sitio web o tienen
+          licencia para su uso. Queda prohibida su reproducción total o parcial sin autorización expresa.</p>
+        <h3><strong>Enlaces Externos</strong></h3>
+        <p>Este sitio web puede contener enlaces a otros sitios web. El propietario no se responsabiliza del contenido
+          de estos sitios externos.</p>
+        <p>Última actualización: 23/05/2024</p>
+      </div>
+    </div>
+    <div id="politica-privacidad-modal" class="custom-modal politica-privacidad-modal"><!-- Política de Privacidad -->
+      <div class="custom-modal-content politica-privacidad-content">
+        <span class="custom-close" id="close-politica-privacidad">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Política de Privacidad</strong></h2>
+        <p>En eldeportedelaciudad, respetamos su privacidad y estamos comprometidos a proteger su información personal.
+          Esta política de privacidad describe cómo recopilamos, utilizamos y compartimos su información personal.</p>
+        <h3><strong>Qué datos recogemos</strong></h3>
+        <p>Podemos recopilar información personal como su nombre, dirección de correo electrónico y dirección IP cuando
+          usted visita nuestro sitio web, se suscribe a nuestro boletín o interactúa con nuestras funciones.</p>
+        <h3><strong>Cómo recogemos los datos</strong></h3>
+        <p>Recopilamos datos personales de diversas maneras, como formularios en línea, cookies y tecnologías de
+          seguimiento, y cuando se suscribe a nuestros servicios.</p>
+        <h3><strong>Propósito de la recolección</strong></h3>
+        <p>Utilizamos sus datos para proporcionar y mejorar nuestros servicios, enviarle información relevante, y para
+          análisis internos.</p>
+        <h3><strong>Compartir datos</strong></h3>
+        <p>No compartimos su información personal con terceros, excepto cuando es necesario para cumplir con la ley,
+          proteger nuestros derechos, o proporcionar nuestros servicios.</p>
+        <h3><strong>Derechos de los usuarios</strong></h3>
+        <p>Usted tiene derecho a acceder, rectificar y eliminar sus datos personales, así como a oponerse al
+          procesamiento de sus datos. Para ejercer estos derechos, póngase en contacto con nosotros en
+          contacto@example.com.</p>
+        <p>Última actualización: 23/05/2024</p>
+      </div>
+    </div>
+    <div id="politica-cookies-modal" class="custom-modal politica-cookies-modal"><!-- Política de Cookies -->
+      <div class="custom-modal-content politica-cookies-content">
+        <span class="custom-close" id="close-politica-cookies">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Política de Cookies</strong></h2>
+        <p>En eldeportedelaciudad, utilizamos cookies para mejorar su experiencia en nuestro sitio web. Esta política de
+          cookies explica qué son las cookies, cómo las usamos y cómo puede gestionarlas.</p>
+        <h3><strong>Qué son las cookies</strong></h3>
+        <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita nuestro sitio
+          web. Nos ayudan a recordar sus preferencias y a mejorar su experiencia de usuario.</p>
+        <h3><strong>Tipos de cookies utilizadas</strong></h3>
+        <p>Utilizamos cookies de sesión, cookies persistentes y cookies de terceros (como Google Analytics) para
+          recopilar información sobre cómo utiliza nuestro sitio web.</p>
+        <h3><strong>Propósito de las cookies</strong></h3>
+        <p>Las cookies nos ayudan a mejorar nuestro sitio web, proporcionar una mejor experiencia de usuario y analizar
+          el tráfico del sitio.</p>
+        <h3><strong>Gestión de cookies</strong></h3>
+        <p>Usted puede gestionar sus preferencias de cookies a través de la configuración de su navegador. Puede
+          aceptar, rechazar o eliminar cookies siguiendo las instrucciones específicas de su navegador.</p>
+        <p>Para más información sobre cómo gestionar cookies, visite <a
+            href="https://www.aboutcookies.org">AboutCookies.org</a>.</p>
+        <p>Última actualización: 23/05/2024</p>
+      </div>
+    </div>
+    <div id="nosotros-modal" class="custom-modal nosotros-modal"><!-- Nosotros -->
+      <div class="custom-modal-content nosotros-content">
+        <span class="custom-close" id="close-nosotros">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Nosotros</strong></h2>
+        <p>Bienvenid@s a <strong><i>eldeportedelaciudad</i></strong>, nos apasiona ofrecer la mejor información y
+          cobertura sobre los deportes de <i>Valladolid</i> que más te gustan. Hemos creado una plataforma completa que
+          abarca diversos deportes y competiciones, proporcionando a nuestros usuarios acceso fácil a calendarios,
+          resultados, clasificaciones y análisis detallados. ¡Descubre todo lo que tenemos preparado para ti!</p>
+        <div>
+          <h2>Deportes Disponibles</h2>
+          <p>Hemos incorporado una variedad de deportes para que todos los aficionados encuentren su lugar:</p>
+          <ul>
+            <li>Baloncesto</li>
+            <li>Balonmano</li>
+            <li>Fútbol</li>
+            <li>Fútbol Sala</li>
+            <li>Hockey Línea</li>
+            <li>Rugby</li>
+            <li>Voleibol</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Características de la Página</h2>
+          <ul>
+            <li>Calendarios individuales de cada equipo</li>
+            <li>Resultados de cada jornada</li>
+            <li>Clasificaciones actualizadas</li>
+            <li>Análisis de porcentaje para alcanzar objetivos</li>
+            <li>Eliminatorias de la copa</li>
+            <li>Competiciones europeas</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Copa y Europa</h2>
+          <h5>Eliminatorias de la Copa</h5>
+          <p>Sigue de cerca las eliminatorias de la Copa en cada deporte y mantente informado sobre los equipos que
+            luchan por el título.</p>
+          <h5>Competiciones Europeas</h5>
+          <p>Accede a la información de las competiciones europeas, con detalles sobre los equipos y los partidos.</p>
+        </div>
+        <div>
+          <h2>Sistemas de Ligas</h2>
+          <p>Cada deporte tiene su propio sistema de liga con diferentes niveles y estructuras. Te ofrecemos una
+            descripción detallada de cada uno de ellos, tanto femenino como masculino:</p>
+          <h5>Baloncesto Silla de Ruedas</h5>
+          <p>Liga BSR División de Honor, Liga BSR 1ª División, Liga BSR 2ª División y Copa de Europa.</p>
+          <h5>Baloncesto Femenino</h5>
+          <p>Liga Femenina Endesa, Liga Femenina Challange, Liga Femenina 2, 1ª División Femenina, Euroliga Femenina y
+            Eurocopa Femenina</p>
+          <h5>Baloncesto Masculino</h5>
+          <p>Liga ACB, Liga Leb Oro, Liga Leb Plata, Liga EBA, 1ª División Nacional, Euroliga y Eurocup.</p>
+          <h5>Balonmano Femenino</h5>
+          <p>Liga Guerrera Ibérdrola, Divisón Honor Oro, División Honor Plata, EHF Champions League y EHF European
+            League.</p>
+          <h5>Balonmano Masculino</h5>
+          <p>Liga Asobal, División Honor Plata, 1ª Divisón Nacional, 2ª División Nacional, Territoriales Autónomicas,
+            EHF Champions League y EHF European League.</p>
+          <h5>Fútbol Femenino</h5>
+          <p>Liga 1ª Divisón Nacional, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, Liga Gonalpi, Liga
+            Doble G y Liga de Campeones.</p>
+          <h5>Fútbol Masculino</h5>
+          <p>Liga EA Sports, Liga Hypermotion, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, 1ª Div.
+            Regional Aficionados, 1ª Div. Provincial Aficionados, 2ª Div. Provincial Aficionados, 3ª Div. Provincial
+            Aficionados, Champions League, Europe League, Conference League. </p>
+          <h5>Fútbol Sala Femenino</h5>
+          <p>Sin equipo actualmente de Valladolid en esta sección.</p>
+          <h5>Fútbol Sala Masculino</h5>
+          <p>Liga 1ª División, Liga 2ª División, Liga 2ª División B, Liga 3ª División, Champions.</p>
+          <h5>Hockey Línea Femenina</h5>
+          <p>Liga Élite Iberdrola, Liga Oro Femenina, Liga Plata Femenina y Copa de Europa.</p>
+          <h5>Hockey Línea Masculino</h5>
+          <p>Liga Élite Masculina, Liga Oro Masculina, Liga Plata Masculina y Copa de Europa.</p>
+          <h5>Rugby Femenino</h5>
+          <p>División de Honor Femenina, División Honor B Femenina, Copa Ibérica. </p>
+          <h5>Rugby Masculino</h5>
+          <p>División Honor, División Honor B, Copa Ibérica.</p>
+          <h5>Voleibol Femenino</h5>
+          <p>Sin equipo actualmente de Valladolid en esta sección.</p>
+          <h5>Voleibol Masculino</h5>
+          <p>Superliga Masculina, Superliga Masculina 2, 1ª División Masculina, CEV Champions League, Challange Cup.
+          </p>
+        </div>
+        <div>
+          <p>¡Explora y disfruta del deporte con nosotros! Estamos comprometidos a ofrecerte la mejor experiencia
+            deportiva en línea. Si tienes alguna pregunta o sugerencia, no dudes en ponerte en <a
+              href="#contactanos-modal" id="contacto-link" class="text-decoration-none">contacto</a> con nuestro equipo.
+          </p>
+        </div>
+      </div>
+    </div>
+    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
+      <div class="custom-modal-content contactanos-content">
+        <span class="custom-close" id="close-contactanos">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
+        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">eldeportedelaciudad@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+  <script src="/static/js/script.js"></script>
+  <script src="/static/js/proteccion-datos.js"></script>
+  <script>
+    function mostrarTexto(enlace) {
+      // Obtener el elemento <li> padre del enlace
+      var liElement = enlace.parentNode;
+
+      // Encontrar el elemento de texto adicional dentro del <li> padre
+      var textoAdicional = liElement.querySelector('.texto-adicional');
+
+      // Toggle para mostrar u ocultar el texto adicional
+      if (textoAdicional.style.display === 'none' || textoAdicional.style.display === '') {
+        textoAdicional.style.display = 'block'; // Mostrar el texto adicional
+        enlace.textContent = 'Ocultar'; // Cambiar el texto del enlace
+      } else {
+        textoAdicional.style.display = 'none'; // Ocultar el texto adicional
+        enlace.textContent = 'Leer más'; // Cambiar el texto del enlace
+      }
+    }
+  </script>
+</body>
+
+</html>

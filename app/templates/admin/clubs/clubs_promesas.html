@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Equipos - Real Valladolid</title>
+    <title>Equipos - Real Valladolid B</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -17,16 +17,16 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 24/25 Real Valladolid</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Real Valladolid B</li>
     </ol>
   </nav>
   <header>
-    <h1 class="text-center">Equipos Liga 25/26</h1>
+    <h1 class="text-center">Equipos Liga 2ª RFEF 25/26</h1>
   </header>
     <section class="container-lg">
       <!-- Formulario para los resultados de los partidos -->
       <div class="container-lg">
-        <form method="POST" action="/admin/jornada0_valladolid" class="row mb-3">
+        <form method="POST" action="/admin/jornada0_promesas" class="row mb-3">
           <div class="col-md-12">
             <label for="equipo">Nombre Equipos</label>
             <input type="text" class="form-control" id="equipo" name="equipo">
@@ -56,7 +56,7 @@
                     <td class="text-center fw-bold">{{ club['nombre'] }}</td>
                     <td>
                       <!-- Botón para cada equipo -->
-                      <form action="{{ url_for('valladolid_route_bp.eliminar_club_valladolid', club_id=club.id) }}" method="POST">
+                      <form action="{{ url_for('promesas_route_bp.eliminar_club_promesas', club_id=club.id) }}" method="POST">
                         <input type="hidden" name="index" value="{{ index }}">
                         <button type="submit" class="btn btn-danger">Borrar</button>
                       </form>

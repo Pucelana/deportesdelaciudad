@@ -3,19 +3,19 @@ from datetime import datetime
 from collections import defaultdict
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid, PlayoffValladolid
+from ..models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas, PlayoffSimancas
 
-valladolid_route_bp = Blueprint('valladolid_route_bp', __name__)
+simancas_route_bp = Blueprint('simancas_route_bp', __name__)
 
-# LIGA REAL VALLADOLID
-# Crear el calendario Real Valladolid
-@valladolid_route_bp.route('/crear_calendario_valladolid', methods=['GET', 'POST'])
-def ingresar_resultado_valladolid():
+# LIGA RV SIMANCAS
+# Crear el calendario RV Simancas
+@simancas_route_bp.route('/crear_calendario_simancas', methods=['GET', 'POST'])
+def ingresar_resultado_simancas():
     if request.method == 'POST':
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaValladolid(nombre=nombre_jornada)
+        jornada = JornadaSimancas(nombre=nombre_jornada)
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
@@ -26,10 +26,8 @@ def ingresar_resultado_valladolid():
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
             visitante = request.form.get(f'visitante{i}')            
-            # Validar y convertir la hora
-            hora = convertir_hora(hora)
             # Crear el objeto partido y agregarlo a la sesión
-            partido = ValladolidPartido(
+            partido = SimancasPartido(
                 jornada_id=jornada.id,
                 fecha=fecha,
                 hora=hora,
@@ -43,29 +41,24 @@ def ingresar_resultado_valladolid():
         # Confirmar todos los cambios en la base de datos
         db.session.commit()
         # Redirigir al calendario después de crear la jornada
-        return redirect(url_for('valladolid_route_bp.calendarios_valladolid'))
+        return redirect(url_for('simancas_route_bp.calendarios_simancas'))
     # Si es un GET, renderizamos el formulario de creación
-    return render_template('admin/calendarios/calend_valladolid.html')
-def convertir_hora(hora_str):
-    try:
-        return datetime.strptime(hora_str, "%H:%M").time()
-    except (ValueError, TypeError):
-        return None
+    return render_template('admin/calendarios/calend_simancas.html')
 # Ver calendario Real Valladolid en Admin
-@valladolid_route_bp.route('/calendario_valladolid')
-def calendarios_valladolid():
-    jornadas = JornadaValladolid.query.order_by(JornadaValladolid.id.asc()).all()
+@simancas_route_bp.route('/calendario_simancas')
+def calendarios_simancas():
+    jornadas = JornadaSimancas.query.order_by(JornadaSimancas.id.asc()).all()
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
-        jornada.partidos = db.session.query(ValladolidPartido)\
+        jornada.partidos = db.session.query(SimancasPartido)\
             .filter_by(jornada_id=jornada.id)\
-            .order_by(ValladolidPartido.orden.asc())\
+            .order_by(SimancasPartido.orden.asc())\
             .all()
-    return render_template('admin/calendarios/calend_valladolid.html', jornadas=jornadas)
+    return render_template('admin/calendarios/calend_simancas.html', jornadas=jornadas)
 # Modificar jornada
-@valladolid_route_bp.route('/modificar_jornada_valladolid/<int:id>', methods=['GET', 'POST'])
-def modificar_jornada_valladolid(id):
-    jornada = db.session.query(JornadaValladolid).filter(JornadaValladolid.id == id).first()
+@simancas_route_bp.route('/modificar_jornada_simancas/<int:id>', methods=['GET', 'POST'])
+def modificar_jornada_simancas(id):
+    jornada = db.session.query(JornadaSimancas).filter(JornadaSimancas.id == id).first()
     if jornada:
         if request.method == 'POST':
             nombre_jornada = request.form['nombre']
@@ -81,9 +74,9 @@ def modificar_jornada_valladolid(id):
                 resultadoB = request.form[f'resultadoB{i}']
                 visitante = request.form[f'visitante{i}']                
                 # Obtener el partido correspondiente por ID
-                partido = db.session.query(ValladolidPartido).filter(ValladolidPartido.id == partido_id).first()
+                partido = db.session.query(SimancasPartido).filter(SimancasPartido.id == partido_id).first()
                 if partido:
-                    partido.hora = convertir_hora(hora)
+                    partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
                     partido.resultadoB = resultadoB
@@ -92,35 +85,35 @@ def modificar_jornada_valladolid(id):
                     partido.orden = orden
             # Guardar cambios en la base de datos
             db.session.commit()
-            return redirect(url_for('valladolid_route_bp.calendarios_valladolid'))
+            return redirect(url_for('simancas_route_bp.calendarios_simancas'))
         # Si es un GET, pasamos la jornada con sus partidos ya cargados
         for partido in jornada.partidos:
             partido.hora = partido.hora.strftime('%H:%M') if partido.hora else ''
-    return render_template('admin/calendarios/calend_valladolid.html', jornada=jornada)
+    return render_template('admin/calendarios/calend_simancas.html', jornada=jornada)
 # Eliminar jornada
-@valladolid_route_bp.route('/eliminar_jornada_valladolid/<int:id>', methods=['GET','POST'])
-def eliminar_jornada_valladolid(id):
+@simancas_route_bp.route('/eliminar_jornada_simancas/<int:id>', methods=['GET','POST'])
+def eliminar_jornada_simancas(id):
     # Obtener la jornada
-    jornada = db.session.query(JornadaValladolid).filter(JornadaValladolid.id == id).first()   
+    jornada = db.session.query(JornadaSimancas).filter(JornadaSimancas.id == id).first()   
     if jornada:
         # Eliminar los partidos asociados a la jornada
-        db.session.query(ValladolidPartido).filter(ValladolidPartido.jornada_id == id).delete()
+        db.session.query(SimancasPartido).filter(SimancasPartido.jornada_id == id).delete()
         # Eliminar la jornada
         db.session.delete(jornada)       
         # Confirmar los cambios en la base de datos
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
-    return redirect(url_for('valladolid_route_bp.calendarios_valladolid'))    
-# Obtener datos Real Valladolid
-def obtener_datos_valladolid():
-    # Obtener todas las jornadas UEMC
-    jornadas = JornadaValladolid.query.all()
+    return redirect(url_for('simancas_route_bp.calendarios_simancas'))    
+# Obtener datos RV Simancas
+def obtener_datos_simancas():
+    # Obtener todas las jornadas RV Simancas
+    jornadas = JornadaSimancas.query.all()
     jornadas_con_partidos = []
     for jornada in jornadas:
         # Obtener los partidos de esta jornada
-        partidos = db.session.query(ValladolidPartido)\
+        partidos = db.session.query(SimancasPartido)\
             .filter_by(jornada_id=jornada.id)\
-            .order_by(ValladolidPartido.orden.asc())\
+            .order_by(SimancasPartido.orden.asc())\
             .all()       
         jornada_con_partidos = {
             'nombre': jornada.nombre,
@@ -129,12 +122,12 @@ def obtener_datos_valladolid():
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
 # Calendario Real Valladolid
-@valladolid_route_bp.route('/equipos_futbol/calendario_valladolid')
-def calendario_valladolid():
-    datos = obtener_datos_valladolid()
-    nuevos_datos_valladolid = [dato for dato in datos if dato]
-    equipo_valladolid = 'Real Valladolid'
-    tabla_partidos_valladolid = {}
+@simancas_route_bp.route('/equipos_futbol/calendario_simancas')
+def calendario_simancas():
+    datos = obtener_datos_simancas()
+    nuevos_datos_simancas = [dato for dato in datos if dato]
+    equipo_simancas = 'RV Simancas Fem.'
+    tabla_partidos_simancas = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
         for partido in jornada['partidos']:
@@ -143,80 +136,80 @@ def calendario_valladolid():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
             # Verificamos si el UEMC está jugando
-            if equipo_local == equipo_valladolid or equipo_visitante == equipo_valladolid:
+            if equipo_local == equipo_simancas or equipo_visitante == equipo_simancas:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_valladolid:
+                if equipo_local == equipo_simancas:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_valladolid = 'C'
+                    rol_simancas = 'C'
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_valladolid = 'F'                
+                    rol_simancas = 'F'                
                 # Verificamos si el equipo contrario no está en la tabla
-                if equipo_contrario not in tabla_partidos_valladolid:
-                    tabla_partidos_valladolid[equipo_contrario] = {'jornadas': {}}                                       
+                if equipo_contrario not in tabla_partidos_simancas:
+                    tabla_partidos_simancas[equipo_contrario] = {'jornadas': {}}                                       
                 # Verificamos si es el primer o segundo enfrentamiento
-                if 'primer_enfrentamiento' not in tabla_partidos_valladolid[equipo_contrario]:
-                    tabla_partidos_valladolid[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
-                    tabla_partidos_valladolid[equipo_contrario]['resultadoA'] = resultado_a
-                    tabla_partidos_valladolid[equipo_contrario]['resultadoB'] = resultado_b
-                elif 'segundo_enfrentamiento' not in tabla_partidos_valladolid[equipo_contrario]:
-                    tabla_partidos_valladolid[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
-                    tabla_partidos_valladolid[equipo_contrario]['resultadoAA'] = resultado_a
-                    tabla_partidos_valladolid[equipo_contrario]['resultadoBB'] = resultado_b                 
+                if 'primer_enfrentamiento' not in tabla_partidos_simancas[equipo_contrario]:
+                    tabla_partidos_simancas[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_simancas[equipo_contrario]['resultadoA'] = resultado_a
+                    tabla_partidos_simancas[equipo_contrario]['resultadoB'] = resultado_b
+                elif 'segundo_enfrentamiento' not in tabla_partidos_simancas[equipo_contrario]:
+                    tabla_partidos_simancas[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_simancas[equipo_contrario]['resultadoAA'] = resultado_a
+                    tabla_partidos_simancas[equipo_contrario]['resultadoBB'] = resultado_b                 
                 # Agregamos la jornada y resultados
-                if jornada['nombre'] not in tabla_partidos_valladolid[equipo_contrario]['jornadas']:
-                    tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']] = {
+                if jornada['nombre'] not in tabla_partidos_simancas[equipo_contrario]['jornadas']:
+                    tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']] = {
                         'resultadoA': resultado_a,
                         'resultadoB': resultado_b,
-                        'rol_valladolid': rol_valladolid
+                        'rol_simancas': rol_simancas
                     }               
-                # Asignamos los resultados según el rol del UEMC
+                # Asignamos los resultados según el rol del RV Simancas
                 if equipo_local == equipo_contrario or equipo_visitante == equipo_contrario:
-                    if not tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['rol_valladolid'] = rol_valladolid
+                    if not tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
                     else:
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['rol_valladolid'] = rol_valladolid
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
                 else:
-                    if not tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['rol_valladolid'] = rol_valladolid
+                    if not tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
                     else:
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['rol_valladolid'] = rol_valladolid
-    return render_template('equipos_futbol/calendario_valladolid.html', tabla_partidos_valladolid=tabla_partidos_valladolid, nuevos_datos_valladolid=nuevos_datos_valladolid)
-# Jornada 0 Real Valladolid
-@valladolid_route_bp.route('/jornada0_valladolid', methods=['GET', 'POST'])
-def jornada0_valladolid():
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
+    return render_template('equipos_futbol/calendario_simancas.html', tabla_partidos_simancas=tabla_partidos_simancas, nuevos_datos_simancas=nuevos_datos_simancas)
+# Jornada 0 RV Simancas
+@simancas_route_bp.route('/jornada0_simancas', methods=['GET', 'POST'])
+def jornada0_simancas():
     if request.method == 'POST':
         if 'equipo' in request.form:
             club = request.form['equipo']
             if club:
-                nuevo_club = ValladolidClub(nombre=club)
+                nuevo_club = SimancasClub(nombre=club)
                 db.session.add(nuevo_club)
                 db.session.commit()
-            return redirect(url_for('valladolid_route_bp.jornada0_valladolid'))
-    clubs = ValladolidClub.query.all()  # Obtener todos los clubes de PostgreSQL
-    return render_template('admin/clubs/clubs_valladolid.html', clubs=clubs)
+            return redirect(url_for('simancas_route_bp.jornada0_simancas'))
+    clubs = SimancasClub.query.all()  # Obtener todos los clubes de PostgreSQL
+    return render_template('admin/clubs/clubs_simancas.html', clubs=clubs)
 # Eliminar clubs jornada 0
-@valladolid_route_bp.route('/eliminar_club_valladolid/<int:club_id>', methods=['POST'])
-def eliminar_club_valladolid(club_id):
-    club = ValladolidClub.query.get(club_id)
+@simancas_route_bp.route('/eliminar_club_simancas/<int:club_id>', methods=['POST'])
+def eliminar_club_simancas(club_id):
+    club = SimancasClub.query.get(club_id)
     if club:
         db.session.delete(club)
         db.session.commit()
-    return redirect(url_for('valladolid_route_bp.jornada0_valladolid'))
-# Crear la clasificación Real Valladolid
-def generar_clasificacion_analisis_futbol_valladolid(data):
+    return redirect(url_for('simancas_route_bp.jornada0_simancas'))
+# Crear la clasificación RV Simancas
+def generar_clasificacion_analisis_futbol_simancas(data):
     clasificacion = defaultdict(lambda: {'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'favor': 0, 'contra': 0, 'diferencia_goles': 0, 'puntos': 0})
     for jornada in data:
         for partido in jornada['partidos']:
@@ -259,16 +252,16 @@ def generar_clasificacion_analisis_futbol_valladolid(data):
     clasificacion_ordenada = sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_goles']), reverse=True)
     return [{'equipo': equipo, 'datos': datos} for equipo, datos in clasificacion_ordenada]
 # Ruta para mostrar la clasificación y análisis del UEMC
-@valladolid_route_bp.route('/equipos_futbol/clasif_analisis_valladolid')
-def clasif_analisis_valladolid():
-    data = obtener_datos_valladolid()
+@simancas_route_bp.route('/equipos_futbol/clasif_analisis_simancas')
+def clasif_analisis_simancas():
+    data = obtener_datos_simancas()
     # Genera la clasificación y análisis actual
-    clasificacion_analisis_valladolid = generar_clasificacion_analisis_futbol_valladolid(data)    
+    clasificacion_analisis_simancas = generar_clasificacion_analisis_futbol_simancas(data)    
     # Obtén los equipos desde la base de datos PostgreSQL
-    clubs_valladolid = ValladolidClub.query.all()
+    clubs_simancas = SimancasClub.query.all()
     # Inicializa las estadísticas de los equipos que aún no están en la clasificación
-    for club in clubs_valladolid:
-        if not any(equipo['equipo'] == club.nombre for equipo in clasificacion_analisis_valladolid):
+    for club in clubs_simancas:
+        if not any(equipo['equipo'] == club.nombre for equipo in clasificacion_analisis_simancas):
             equipo = {
                 'equipo': club.nombre,
                 'datos': {
@@ -282,20 +275,20 @@ def clasif_analisis_valladolid():
                     'diferencia_goles': 0
                 }
             }
-            clasificacion_analisis_valladolid.append(equipo)
-    return render_template('equipos_futbol/clasif_analisis_valladolid.html',
-        clasificacion_analisis_valladolid=clasificacion_analisis_valladolid)
+            clasificacion_analisis_simancas.append(equipo)
+    return render_template('equipos_futbol/clasif_analisis_simancas.html',
+        clasificacion_analisis_simancas=clasificacion_analisis_simancas)
 
-# COPA DEL REY REAL VALLADOLID
+# COPA DEL REY RV Simancas
 # Creación de las eliminatorias de copa
-@valladolid_route_bp.route('/crear_copa_valladolid', methods=['GET', 'POST'])
-def crear_copa_valladolid():
+@simancas_route_bp.route('/crear_copa_simancas', methods=['GET', 'POST'])
+def crear_copa_simancas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')
         max_partidos = {
-            'ronda1': 55,
-            'ronda2': 28,
-            'ronda3': 16,
+            'ronda1': 16,
+            'ronda2': 8,
+            'ronda3': 8,
             'octavos': 8,
             'cuartos': 4,
             'semifinales': 4,
@@ -305,7 +298,7 @@ def crear_copa_valladolid():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         for i in range(num_partidos):
-            partido = CopaValladolid(
+            partido = CopaSimancas(
                 eliminatoria=eliminatoria,
                 fecha=request.form.get(f'fecha{i}', ''),
                 hora=request.form.get(f'hora{i}', ''),
@@ -316,25 +309,25 @@ def crear_copa_valladolid():
             )
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for('valladolid_route_bp.ver_copa_valladolid'))
-    return render_template('admin/copa/copa_valladolid.html')   
+        return redirect(url_for('simancas_route_bp.ver_copa_simancas'))
+    return render_template('admin/copa/copa_simancas.html')   
 # Ver las eliminatorias en Admin
-@valladolid_route_bp.route('/copa_valladolid/')
-def ver_copa_valladolid():
+@simancas_route_bp.route('/copa_simancas/')
+def ver_copa_simancas():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {
-        e: CopaValladolid.query.filter_by(eliminatoria=e).all()
+        e: CopaSimancas.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
     }
-    return render_template('admin/copa/copa_valladolid.html', datos_eliminatorias=datos_eliminatorias)
+    return render_template('admin/copa/copa_simancas.html', datos_eliminatorias=datos_eliminatorias)
 # Modificar las eliminatorias
-@valladolid_route_bp.route('/modificar_copa_valladolid_post', methods=['POST'])
-def modificar_copa_valladolid_post():
+@simancas_route_bp.route('/modificar_copa_simancas_post', methods=['POST'])
+def modificar_copa_simancas_post():
     eliminatoria = request.form['eliminatoria']
     num_partidos = int(request.form['num_partidos'])
     for i in range(num_partidos):
         partido_id = request.form.get(f'partido_id{i}')
-        partido = CopaValladolid.query.get(partido_id)
+        partido = CopaSimancas.query.get(partido_id)
         if partido:
             partido.eliminatoria = eliminatoria  # Opcional: si quieres actualizarla por partido
             partido.fecha = request.form.get(f'fecha{i}', '')
@@ -344,30 +337,31 @@ def modificar_copa_valladolid_post():
             partido.resultadoB = request.form.get(f'resultadoB{i}', '')
             partido.visitante = request.form.get(f'visitante{i}', '')
     db.session.commit()
-    return redirect(url_for('valladolid_route_bp.ver_copa_valladolid'))
+    return redirect(url_for('simancas_route_bp.ver_copa_simancas'))
 # Eliminar las eliminatorias en Admin
-@valladolid_route_bp.route('/eliminar_copa_valladolid/<string:eliminatoria>', methods=['POST'])
-def eliminar_copa_valladolid(eliminatoria):
-    CopaValladolid.query.filter_by(eliminatoria=eliminatoria).delete()
+@simancas_route_bp.route('/eliminar_copa_simancas/<string:eliminatoria>', methods=['POST'])
+def eliminar_copa_simancas(eliminatoria):
+    CopaSimancas.query.filter_by(eliminatoria=eliminatoria).delete()
     db.session.commit()
-    return redirect(url_for('valladolid_route_bp.ver_copa_valladolid'))
+    return redirect(url_for('simancas_route_bp.ver_copa_simancas'))
 # Ver las eliminatorias en la página principal Copa
-@valladolid_route_bp.route('/valladolid_copa/')
-def copas_valladolid():
+@simancas_route_bp.route('/simancas_copa/')
+def copas_simancas():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_copa = {
-        e: CopaValladolid.query.filter_by(eliminatoria=e).all()
+        e: CopaSimancas.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
     }
-    return render_template('copas/valladolid_copa.html', datos_copa=datos_copa)
+    return render_template('copas/simancas_copa.html', datos_copa=datos_copa)
 
-# PLAYOFF ASCENSO REAL VALLADOLID
+# PLAYOFF ASCENSO RV Simancas
 # Crear formulario para los playoff
-@valladolid_route_bp.route('/crear_playoff_valladolid', methods=['GET', 'POST'])
-def crear_playoff_valladolid():
+@simancas_route_bp.route('/crear_playoff_simancas', methods=['GET', 'POST'])
+def crear_playoff_simancas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
+            'cuartos': 8,
             'semifinales': 4,
             'final': 2
         }.get(eliminatoria, 0)
@@ -376,7 +370,7 @@ def crear_playoff_valladolid():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         for i in range(num_partidos):
-            partido = PlayoffValladolid(
+            partido = PlayoffSimancas(
                 eliminatoria = eliminatoria,
                 fecha = request.form.get(f'fecha{i}', ''),
                 hora = request.form.get(f'hora{i}', ''),
@@ -385,30 +379,30 @@ def crear_playoff_valladolid():
                 resultadoB = request.form.get(f'resultadoB{i}', ''),
                 visitante = request.form.get(f'visitante{i}', '')
             )
-            PlayoffValladolid.query.filter_by(eliminatoria=eliminatoria).delete()
+            PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).delete()
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for('valladolid_route_bp.ver_playoff_valladolid'))
-    return render_template('admin/playoffs/playoff_valladolid.html')
+        return redirect(url_for('simancas_route_bp.ver_playoff_simancas'))
+    return render_template('admin/playoffs/playoff_simancas.html')
 # Ver encuentros playoff en Admin
-@valladolid_route_bp.route('/playoff_valladolid/')
-def ver_playoff_valladolid():
-    eliminatorias = ['semifinales', 'final']
+@simancas_route_bp.route('/playoff_simancas/')
+def ver_playoff_simancas():
+    eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}
     for eliminatoria in eliminatorias:
-        partidos = PlayoffValladolid.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffValladolid.orden).all()
+        partidos = PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffSimancas.orden).all()
         datos_playoff[eliminatoria] = partidos
-    return render_template('admin/playoffs/playoff_valladolid.html', datos_playoff=datos_playoff)
+    return render_template('admin/playoffs/playoff_simancas.html', datos_playoff=datos_playoff)
 # Modificar los partidos de los playoff
-@valladolid_route_bp.route('/modificar_playoff_valladolid/<string:eliminatoria>', methods=['GET', 'POST'])
-def modificar_playoff_valladolid(eliminatoria):
+@simancas_route_bp.route('/modificar_playoff_simancas/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_playoff_simancas(eliminatoria):
     if request.method == 'POST':
         num_partidos = int(request.form.get('num_partidos', 0))
         for i in range(num_partidos):
             partido_id = request.form.get(f'partido_id{i}')
             if not partido_id:
                 continue
-            partido_obj = PlayoffValladolid.query.get(int(partido_id))
+            partido_obj = PlayoffSimancas.query.get(int(partido_id))
             if not partido_obj:
                 continue
             partido_obj.fecha = request.form.get(f'fecha{i}', '')
@@ -421,24 +415,24 @@ def modificar_playoff_valladolid(eliminatoria):
         # Commit para guardar los cambios
         db.session.commit()
         flash('Playoff actualizado correctamente', 'success')
-        return redirect(url_for('valladolid_route_bp.ver_playoff_valladolid'))
+        return redirect(url_for('simancas_route_bp.ver_playoff_simancas'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
-    return redirect(url_for('valladolid_route_bp.ver_playoff_valladolid'))
+    return redirect(url_for('simancas_route_bp.ver_playoff_simancas'))
 # Eliminar los partidos de los playoff
-@valladolid_route_bp.route('/eliminar_playoff_valladolid/<string:eliminatoria>', methods=['POST'])
-def eliminar_playoff_valladolid(eliminatoria):
-    partidos = PlayoffValladolid.query.filter_by(eliminatoria=eliminatoria).all()
+@simancas_route_bp.route('/eliminar_playoff_simancas/<string:eliminatoria>', methods=['POST'])
+def eliminar_playoff_simancas(eliminatoria):
+    partidos = PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).all()
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
     flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
-    return redirect(url_for('valladolid_route_bp.ver_playoff_valladolid'))
-# Mostrar los playoffs del Real Valladolid
-@valladolid_route_bp.route('/playoffs_valladolid/')
-def playoffs_valladolid():
-    eliminatorias = ['semifinales', 'final']
+    return redirect(url_for('simancas_route_bp.ver_playoff_simancas'))
+# Mostrar los playoffs del RV Simancas
+@simancas_route_bp.route('/playoffs_simancas/')
+def playoffs_simancas():
+    eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}
     for eliminatoria in eliminatorias:
-        partidos = PlayoffValladolid.query.filter_by(eliminatoria=eliminatoria).all()
+        partidos = PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos
-    return render_template('playoff/valladolid_playoff.html', datos_playoff=datos_playoff)
+    return render_template('playoff/simancas_playoff.html', datos_playoff=datos_playoff)

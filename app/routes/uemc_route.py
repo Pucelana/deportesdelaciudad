@@ -576,16 +576,13 @@ def ver_playoff_uemc():
 def modificar_playoff_uemc(eliminatoria):
     if request.method == 'POST':
         num_partidos = int(request.form.get('num_partidos', 0))
-
         for i in range(num_partidos):
             partido_id = request.form.get(f'partido_id{i}')
             if not partido_id:
                 continue
-
             partido_obj = PlayoffUEMC.query.get(int(partido_id))
             if not partido_obj:
                 continue
-
             partido_obj.fecha = request.form.get(f'fecha{i}', '')
             partido_obj.hora = request.form.get(f'hora{i}', '')
             partido_obj.local = request.form.get(f'local{i}', '')
@@ -593,13 +590,10 @@ def modificar_playoff_uemc(eliminatoria):
             partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
             partido_obj.visitante = request.form.get(f'visitante{i}', '')
             partido_obj.orden = i
-
         # Commit para guardar los cambios
         db.session.commit()
-
         flash('Playoff actualizado correctamente', 'success')
         return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
-
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
 # Eliminar los partidos de los playoff
