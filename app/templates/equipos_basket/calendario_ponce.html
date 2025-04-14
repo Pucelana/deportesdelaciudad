@@ -1,8 +1,7 @@
 <!doctype html>
 <html lang="es">
-
 <head>
-  <title>{% block titulo %} Sección de los deportes {% endblock %}</title>
+  <title>Calendario-Ponce Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,27 +29,27 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="../static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
 <body class="bg-white calend_basket">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ps-1 pt-1">
+      <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/seccion/baloncesto" class="text-white text-decoration-none">Sección</a>
         </li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendarios UEMC</li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario Ponce</li>
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
       <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!-- Tabla calendario UEMC -->
+          <div class="carousel-item active"> <!-- Tabla Calendario Individual -->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
                     <h3 class="text-center text-white fw-bold">Calendario Individual 24/25</h3>
-                    <table class="table table-bordered tabla_equiposs tabla_uemc"><!--Tabla Calendario UEMC-->
+                    <table class="table table-bordered tabla_equipos tabla_ponce"><!--Tabla Calendario Ponce-->
                       <thead>
                         <tr class="text-center text-dark">
                           <th></th>
@@ -70,65 +69,49 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_uemc.items() %}
+                        {% for equipo, datos_equipo in tabla_partidos_ponce.items() %}
                         <tr class="text-center">
-                            <th class="text-white size_equipos">{{ equipo }}</th>
-                            <td class="jorn_ida fw-bold">
-                                {% if datos_equipo.get('primer_enfrentamiento') %}
-                                J -{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                                {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] %}
-                                ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] }})
-                                {% endif %}
-                                {% endif %}
-                            </td>
-                            <td class="jorn_vuelta fw-bold">
-                                {% if datos_equipo.get('segundo_enfrentamiento') %}
-                                J -{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                                {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] %}
-                                ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] }})
-                                {% endif %}
-                                {% endif %}
-                            </td>
-                            {% if datos_equipo.get('resultadoA') is not none %}
-                            <td class="resultadoA fw-bold">{{ datos_equipo['resultadoA'] }}</td>
-                            {% else %}
-                            <td class="resultadoA fw-bold"></td>
+                          <th class="text-white size_equipos">{{ equipo }}</th>
+                          <td class="jorn_ida fw-bold">
+                            {% if datos_equipo.get('primer_enfrentamiento') %}
+                            J-{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_ponce'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_ponce'] }})
                             {% endif %}
-                            {% if datos_equipo.get('resultadoB') is not none %}
-                            <td class="resultadoB fw-bold">{{ datos_equipo['resultadoB'] }}</td>
-                            {% else %}
-                            <td class="resultadoB fw-bold"></td>
                             {% endif %}
-                            {% if datos_equipo.get('resultadoAA') is not none %}
-                            <td class="resultadoAA fw-bold">{{ datos_equipo['resultadoAA'] }}</td>
-                            {% else %}
-                            <td class="resultadoAA fw-bold"></td>
+                          </td>
+                          <td class="jorn_vuelta fw-bold">
+                            {% if datos_equipo.get('segundo_enfrentamiento') %}
+                            J-{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_ponce'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_ponce'] }})
                             {% endif %}
-                            {% if datos_equipo.get('resultadoBB') is not none %}
-                            <td class="resultadoBB fw-bold">{{ datos_equipo['resultadoBB'] }}</td>
-                            {% else %}
-                            <td class="resultadoBB fw-bold"></td>
                             {% endif %}
-                            <td class="gan-1"></td>
-                            <td class="per-1"></td>
-                            <td class="average"></td>
+                          </td>
+                          <td class="resultadoA fw-bold">{{ tabla_partidos_ponce[equipo]['resultadoA'] }}</td>
+                          <td class="resultadoB fw-bold">{{ tabla_partidos_ponce[equipo]['resultadoB'] }}</td>
+                          <td class="resultadoAA fw-bold">{{ tabla_partidos_ponce[equipo]['resultadoAA'] }}</td>
+                          <td class="resultadoBB fw-bold">{{ tabla_partidos_ponce[equipo]['resultadoBB'] }}</td>
+                          <td class="gan-1"></td>
+                          <td class="per-1"></td>
+                          <td class="average"></td>
                         </tr>
                         {% endfor %}
-                    </tbody>
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!-- Resultados temporada -->
+          <div class="carousel-item"><!-- Resultados temporada 23/24 -->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold">Resultados 25/26</h3>
+                <h3 class="text-center text-white fw-bold my-3">Resultados 24/25</h3>
                 <div class="card-body">
                   <div class="container-fluid">
                     <div class="row">
-                      {% for goles in nuevos_datos_uemc %}
+                      {% for goles in nuevos_datos_ponce %}
                       <div class="col-lg-4">
                         <div class="card card_calendario mb-3">
                           <div class="table-responsive">
@@ -141,7 +124,7 @@
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-center text-white fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-white text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
                                   <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
                                   <td class="text-center text-white">{{ partido.resultadoA }}</td>
                                   <td class="text-center text-white">{{ partido.resultadoB }}</td>
@@ -412,7 +395,7 @@
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Seleccionar todas las filas de la tabla
-      var filas = document.querySelectorAll('.tabla_uemc tbody tr');
+      var filas = document.querySelectorAll('.tabla_ponce tbody tr');
       // Iterar sobre cada fila
       filas.forEach(function (fila) {
         // Obtener el nombre del equipo de la fila actual

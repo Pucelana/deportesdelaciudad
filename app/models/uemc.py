@@ -10,12 +10,13 @@ class UEMCPartido(db.Model):
     __tablename__ = 'uemc_partidos'
     id = db.Column(db.Integer, primary_key=True)
     jornada_id = db.Column(db.Integer, db.ForeignKey('jornadas_uemc.id'), nullable=False)
-    fecha = db.Column(db.Date, nullable=False)
-    hora = db.Column(db.Time, nullable=False)
+    fecha = db.Column(db.String(20))
+    hora = db.Column(db.String(20))
     local = db.Column(db.String(255))
     resultadoA = db.Column(db.String(120))
     resultadoB = db.Column(db.String(120))
     visitante = db.Column(db.String(255))
+    orden = db.Column(db.Integer)
       
 
 class UEMCClub(db.Model):

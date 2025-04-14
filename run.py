@@ -5,6 +5,7 @@ from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasif
 from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas
+from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce
 
 app = create_app()
 

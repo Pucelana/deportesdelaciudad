@@ -27,10 +27,6 @@ def ingresar_resultado_uemc():
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
             visitante = request.form.get(f'visitante{i}')            
-            # Validar y convertir la fecha
-            fecha = convertir_fecha(fecha)
-            # Validar y convertir la hora
-            hora = convertir_hora(hora)
             # Crear el objeto partido y agregarlo a la sesión
             partido = UEMCPartido(
                 jornada_id=jornada.id,
@@ -48,32 +44,26 @@ def ingresar_resultado_uemc():
         return redirect(url_for('uemc_route_bp.calendarios_uemc'))
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_uemc.html')
-def convertir_fecha(fecha_str):
-    try:
-        return datetime.strptime(fecha_str, "%Y-%m-%d").date()
-    except (ValueError, TypeError):
-        return None
-def convertir_hora(hora_str):
-    try:
-        return datetime.strptime(hora_str, "%H:%M").time()
-    except (ValueError, TypeError):
-        return None
 # Ver calendario UEMC en Admin
 @uemc_route_bp.route('/calendario_uemc')
 def calendarios_uemc():
     jornadas = JornadaUEMC.query.order_by(JornadaUEMC.id.asc()).all()
+    # Ordenar los partidos por el campo `orden` en cada jornada
+    for jornada in jornadas:
+        jornada.partidos = db.session.query(UEMCPartido)\
+            .filter_by(jornada_id=jornada.id)\
+            .order_by(UEMCPartido.orden.asc())\
+            .all()
     return render_template('admin/calendarios/calend_uemc.html', jornadas=jornadas)
 # Modificar jornada
 @uemc_route_bp.route('/modificar_jornada_uemc/<int:id>', methods=['GET', 'POST'])
 def modificar_jornada_uemc(id):
     jornada = db.session.query(JornadaUEMC).filter(JornadaUEMC.id == id).first()
-    
     if jornada:
         if request.method == 'POST':
             nombre_jornada = request.form['nombre']
             num_partidos = int(request.form['num_partidos'])
-            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada
-            
+            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada          
             # Actualizar los partidos
             for i in range(num_partidos):
                 partido_id = request.form[f'partido_id{i}']
@@ -82,28 +72,21 @@ def modificar_jornada_uemc(id):
                 local = request.form[f'local{i}']
                 resultadoA = request.form[f'resultadoA{i}']
                 resultadoB = request.form[f'resultadoB{i}']
-                visitante = request.form[f'visitante{i}']
-                
+                visitante = request.form[f'visitante{i}']                
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(UEMCPartido).filter(UEMCPartido.id == partido_id).first()
-                
                 if partido:
-                    partido.fecha = convertir_fecha(fecha)
-                    partido.hora = convertir_hora(hora)
+                    partido.fecha = fecha
+                    partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
                     partido.resultadoB = resultadoB
                     partido.visitante = visitante
-
+                    orden = int(request.form.get(f'orden{i}', i))  # Usa 'i' como fallback
+                    partido.orden = orden
             # Guardar cambios en la base de datos
             db.session.commit()
-            return redirect(url_for('uemc_route_bp.calendarios_uemc'))
-
-        # Si es un GET, pasamos la jornada con sus partidos ya cargados
-        for partido in jornada.partidos:
-            partido.fecha = partido.fecha.strftime('%Y-%m-%d') if partido.fecha else ''
-            partido.hora = partido.hora.strftime('%H:%M') if partido.hora else ''
-        
+            return redirect(url_for('uemc_route_bp.calendarios_uemc'))        
     return render_template('admin/calendarios/calend_uemc.html', jornada=jornada)
 # Eliminar jornada
 @uemc_route_bp.route('/eliminar_jornada_uemc/<int:id>', methods=['GET','POST'])

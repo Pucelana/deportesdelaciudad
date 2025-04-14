@@ -86,9 +86,6 @@ def modificar_jornada_simancas(id):
             # Guardar cambios en la base de datos
             db.session.commit()
             return redirect(url_for('simancas_route_bp.calendarios_simancas'))
-        # Si es un GET, pasamos la jornada con sus partidos ya cargados
-        for partido in jornada.partidos:
-            partido.hora = partido.hora.strftime('%H:%M') if partido.hora else ''
     return render_template('admin/calendarios/calend_simancas.html', jornada=jornada)
 # Eliminar jornada
 @simancas_route_bp.route('/eliminar_jornada_simancas/<int:id>', methods=['GET','POST'])
