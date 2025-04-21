@@ -32,23 +32,22 @@
       <form id="form_playoff_ponce" method="POST" action="/admin/crear_playoff_ponce" class="row mb-3">
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
-        <select id="encuentros" name="encuentros">
+        <select id="eliminatoria" name="eliminatoria">
           <option value="partidosGrupo">Partidos Grupo</option>
           <option value="partidos2º">Partidos 2º</option>
         </select>
         <div class="form-group col-md-6">
           <label for="num_partidos">Número de Partidos</label>
-          <input type="text" name="num_partidos" id="num_partidos" class="form-control">
+          <input type="hidden" name="num_partidos" id="num_partidos" class="form-control">
         </div>
         <div id="partidosContainer" class="container-lg col-lg-12"></div>
         <!-- Formulario creado con Javascript -->
-    </div>
-    <!-- Botones de acción -->
-    <div class="col-md-12 mt-2">
-      <button class="btn btn-primary" type="submit">Guardar Jornada</button>
-      <button class="btn btn-danger" type="button">Cerrar</button>
-    </div>
-    </form>
+        <!-- Botones de acción -->
+        <div class="col-md-12 mt-2">
+          <button class="btn btn-primary" type="submit">Guardar Jornada</button>
+          <button class="btn btn-danger" type="button">Cerrar</button>
+        </div>
+      </form>
     </div>
   </section>
   <div class="tournament">
@@ -151,7 +150,7 @@
       // Obtener el contenedor de los partidos
       var partidosContainer = document.getElementById("partidosContainer");
       // Obtener el campo de selección de etapa del torneo
-      var selectEliminatoria = document.getElementById("encuentros");
+      var selectEliminatoria = document.getElementById("eliminatoria");
       // Agregar un evento de cambio al campo de selección
       selectEliminatoria.addEventListener("change", function () {
         // Limpiar el contenedor de los partidos
@@ -161,7 +160,7 @@
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
         if (selectedOption.startsWith("partidosGrupo")) {
-          numPartidos = 12;
+          numPartidos = 6;
         } else if (selectedOption === "partidos2º") {
           numPartidos = 2;
         }

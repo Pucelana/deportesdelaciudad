@@ -6,6 +6,7 @@ from app.models.valladolid import JornadaValladolid, ValladolidPartido, Valladol
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas
 from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce
+from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados
 
 app = create_app()
 

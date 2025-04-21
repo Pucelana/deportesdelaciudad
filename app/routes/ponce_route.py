@@ -275,7 +275,7 @@ def crear_playoff_ponce():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
-            'partidosGrupo': 12,
+            'partidosGrupo': 6,
             'partidos2º': 2
         }.get(eliminatoria, 0)
         num_partidos_str = request.form.get('num_partidos', '0').strip()
@@ -327,9 +327,9 @@ def modificar_playoff_ponce(eliminatoria):
         # Commit para guardar los cambios
         db.session.commit()
         flash('Playoff actualizado correctamente', 'success')
-        return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
+        return redirect(url_for('ponce_route_bp.ver_playoff_ponce'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
-    return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
+    return redirect(url_for('ponce_route_bp.ver_playoff_ponce'))
 # Eliminar los partidos de los playoff
 @ponce_route_bp.route('/eliminar_playoff_ponce/<string:eliminatoria>', methods=['POST'])
 def eliminar_playoff_ponce(eliminatoria):

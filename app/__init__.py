@@ -12,6 +12,7 @@ from .routes.valladolid_route import valladolid_route_bp
 from .routes.promesas_route import promesas_route_bp
 from .routes.simancas_route import simancas_route_bp
 from .routes.ponce_route import ponce_route_bp
+from .routes.aliados_route import aliados_route_bp
 
 def create_app():
     load_dotenv()
@@ -29,6 +30,7 @@ def create_app():
     app.register_blueprint(promesas_route_bp, url_prefix='/admin')
     app.register_blueprint(simancas_route_bp, url_prefix='/admin')
     app.register_blueprint(ponce_route_bp, url_prefix='/admin')
+    app.register_blueprint(aliados_route_bp, url_prefix='/admin')
     
     return app 
 
