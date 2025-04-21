@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>Supercopa - Fundación Aliados</title>
+  <title>PlayOffs Título - Aula Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,16 +31,17 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
+
 <body class="fondos_playoffs">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Fundación Aliados</li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">PlayOffs Aula Valladolid</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Supercopa 25/26</h1>
-    <span class="equipo_copa">Fundación Aliados</span>
+    <h1 class="text-playoff">Fase Final Al Título</h1>
+    <span class="equipo_copa">Aula Valladolid</span>
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 70rem;">
@@ -48,7 +49,7 @@
             <div class="row table-responsive">
               <div class="col-12">
                 <div class="">
-                  {% for ronda, partidos in datos_supercopa.items() %}
+                  {% for ronda, partidos in datos_playoff.items() %}
                   <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
                   <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
                     <table class="table border-secondary">
@@ -80,12 +81,12 @@
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
       <div class="row">
-        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
             <h5 class="text-white">Nosotros</h5>
           </a>
@@ -102,8 +103,8 @@
             <h5 class="text-white ms-4">Política de cookies</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+        <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1" alt="eldeportedelaciudad">
         </div>
       </div>
     </footer>
@@ -288,7 +289,6 @@
       </div>
     </div>
   </div>
-
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Bootstrap JavaScript Libraries -->
@@ -303,18 +303,18 @@
   <script src="/static/js/proteccion-datos.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
   <script>
-    $(document).ready(function() {
-      $('.mostrar-enlace').click(function(e) {
+    $(document).ready(function () {
+      $('.mostrar-enlace').click(function (e) {
         e.preventDefault();
         var enlace = $(this);
         var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');        
+        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');
         // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();        
+        $('.texto-adicional').not(textoAdicional).hide();
         // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();        
+        textoAdicional.toggle();
         // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');        
+        $('.mostrar-enlace').not(enlace).text('Ver Partidos');
         // Cambiar el texto del enlace actual
         if (textoAdicional.is(':visible')) {
           enlace.text('Ocultar');
@@ -325,4 +325,5 @@
     });
   </script>
 </body>
+
 </html>

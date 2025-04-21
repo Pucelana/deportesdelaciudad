@@ -7,6 +7,8 @@ from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub, 
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas
 from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce
 from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados
+from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula
+from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas
 
 app = create_app()
 

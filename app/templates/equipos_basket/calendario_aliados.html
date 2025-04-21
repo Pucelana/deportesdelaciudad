@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <title>Calendario-Fundación Aliados</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description"
+        content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga.">
+    <meta name="keywords"
+        content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
+    <meta name="author" content="eldeportedelaciudad">
+    <!-- Twitter meta tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Página deportiva de Valladolid">
+    <meta name="twitter:description"
+        content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+    <meta name="twitter:image" content="URL_de_la_imagen">
+    <meta name="twitter:site" content="@tu_cuenta_de_twitter">
+    <meta name="twitter:creator" content="@cuenta_del_autor">
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Página deportiva de Valladolid">
+    <meta property="og:description"
+        content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+    <meta property="og:image" content="URL_de_la_imagen">
+    <meta property="og:url" content="URL_de_tu_página">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="eldeportedelaciudad">
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+</head>
+
+<body class="bg-white calend_basket">
+    <div class="d-flex flex-column min-vh-100">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb ms-1">
+                <li class="breadcrumb-item"><a href="/seccion/baloncesto"
+                        class="text-white text-decoration-none">Sección</a>
+                </li>
+                <li class="breadcrumb-item active text-dark" aria-current="page">Calendario Fundación Aliados</li>
+            </ol>
+        </nav>
+        <section class="container-lg mb-5 flex-fill copa">
+            <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active"><!--Tabla Calendario-->
+                        <div class="d-flex justify-content-center">
+                            <div class="card tabla_equipos" style="width: 80rem;">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <h3 class="text-center text-white fw-bold">Calendario Individual 25/26</h3>
+                                        <table class="table table-bordered tabla_equipos tabla_aliados">
+                                            <!--Tabla Calendario F.Aliados-->
+                                            <thead>
+                                                <tr class="text-center text-dark">
+                                                    <th></th>
+                                                    <th colspan="2">Jornadas</th>
+                                                    <th colspan="4">Resultados</th>
+                                                    <th colspan="2">Partidos</th>
+                                                </tr>
+                                                <tr class="text-center text-dark">
+                                                    <th scope="col">Equipos</th>
+                                                    <th>Ida</th>
+                                                    <th>Vlt</th>
+                                                    <th colspan="2">Ida</th>
+                                                    <th colspan="2">Vlt</th>
+                                                    <th>PG</th>
+                                                    <th>PP</th>
+                                                    <th>Aver.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for equipo, datos_equipo in tabla_partidos_aliados.items() %}
+                                                <tr class="text-center">
+                                                    <th class="text-white size_equipos">{{ equipo }}</th>
+                                                    <td class="jorn_ida fw-bold">
+                                                        {% if datos_equipo.get('primer_enfrentamiento') %}
+                                                        J -{{
+                                                        datos_equipo['primer_enfrentamiento']|replace('Jornada','')
+                                                        }}
+                                                        {% if
+                                                        datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aliados']
+                                                        %}
+                                                        ({{
+                                                        datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aliados']
+                                                        }})
+                                                        {% endif %}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="jorn_vuelta fw-bold">
+                                                        {% if datos_equipo.get('segundo_enfrentamiento') %}
+                                                        J -{{
+                                                        datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
+                                                        }}
+                                                        {% if
+                                                        datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aliados']
+                                                        %}
+                                                        ({{
+                                                        datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aliados']
+                                                        }})
+                                                        {% endif %}
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="resultadoA fw-bold">{{
+                                                        tabla_partidos_aliados[equipo]['resultadoA'] }}</td>
+                                                    <td class="resultadoB fw-bold">{{
+                                                        tabla_partidos_aliados[equipo]['resultadoB'] }}</td>
+                                                    <td class="resultadoAA fw-bold">{{
+                                                        tabla_partidos_aliados[equipo]['resultadoAA'] }}</td>
+                                                    <td class="resultadoBB fw-bold">{{
+                                                        tabla_partidos_aliados[equipo]['resultadoBB'] }}</td>
+                                                    <td class="gan-1"></td>
+                                                    <td class="per-1"></td>
+                                                    <td class="average"></td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item"><!-- Resultados temporada 23/24 -->
+                        <div class="d-flex justify-content-center">
+                            <div class="card tabla_equipos" style="width: 80rem;">
+                                <h3 class="text-center text-white fw-bold my-3">Resultados 25/26</h3>
+                                <div class="card-body">
+                                    <div class="container-fluid">
+                                        <div class="row">
+                                            {% for goles in nuevos_datos_aliados %}
+                                            <div class="col-lg-4">
+                                                <div class="card card_calendario mb-3">
+                                                    <div class="table-responsive">
+                                                        <table
+                                                            class="table table-bordered card_calendario tabla_jornadas">
+                                                            <thead class="fondo_jornadas">
+                                                                <tr class="text-center">
+                                                                    <td colspan="5"
+                                                                        class="text-center text-white fw-bold">{{
+                                                                        goles.nombre }}</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody style="display:none">
+                                                                {% for partido in goles.partidos %}
+                                                                <tr class="text-center">
+                                                                    <td class="text-white text-center fw-bold">{{
+                                                                        partido.fecha }} {{ partido.hora }}</td>
+                                                                    <td class="text-center fw-bold size_equipos">{{
+                                                                        partido.local }}</td>
+                                                                    <td class="text-center text-white">{{
+                                                                        partido.resultadoA }}</td>
+                                                                    <td class="text-center text-white">{{
+                                                                        partido.resultadoB }}</td>
+                                                                    <td class="text-center fw-bold size_equipos">{{
+                                                                        partido.visitante }}</td>
+                                                                </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="d-flex ms-1 my-1">
+                                                            <a href="#"
+                                                                onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
+                                                                class="text-decoration-none ps-3 text-white">Ver</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+        <footer class="container-fluid mt-auto footer-seccion">
+            <div class="row">
+                <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+                    <a>
+                        <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+                    </a>
+                </div>
+                <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+                    <a href="#" id="nosotros-link" class="text-decoration-none">
+                        <h5 class="text-white">Nosotros</h5>
+                    </a>
+                    <a href="#" id="contactanos-link" class="text-decoration-none">
+                        <h5 class="text-white ms-4">Contáctanos</h5>
+                    </a>
+                    <a href="#" id="aviso-legal-link" class="text-decoration-none">
+                        <h5 class="text-white ms-4">Aviso legal</h5>
+                    </a>
+                    <a href="#" id="politica-privacidad-link" class="text-decoration-none">
+                        <h5 class="text-white ms-4">Política de privacidad</h5>
+                    </a>
+                    <a href="#" id="politica-cookies-link" class="text-decoration-none">
+                        <h5 class="text-white ms-4">Política de cookies</h5>
+                    </a>
+                </div>
+                <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
+                    <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer"
+                        alt="eldeportedelaciudad">
+                </div>
+            </div>
+        </footer>
+        <!-- Modales -->
+        <div id="aviso-legal-modal" class="custom-modal aviso-legal-modal"><!-- Aviso Legal -->
+            <div class="custom-modal-content aviso-legal-content">
+                <span class="custom-close" id="close-aviso-legal">&times;</span>
+                <h2 class="text-center fs-1 pb-3"><strong>Aviso Legal</strong></h2>
+                <h3><strong>Datos Identificativos</strong></h3>
+                <p><strong>Nombre del Sitio:</strong> eldeportedelaciudad.com</p>
+                <p><strong>Propietario:</strong> Vanesa Acebes Juarez</p>
+                <p><strong>Nif:</strong> 44914916X</p>
+                <p><strong>Dirección:</strong> Calle Tomillo 2 1ºB, 47155 Santovenia de Pisuerga ( Valladolid )</p>
+                <p><strong>Correo Electrónico:</strong> eldeportedelaciudad@gmail.com</p>
+                <h3><strong>Condiciones de Uso</strong></h3>
+                <p>El uso de este sitio web implica la aceptación de las siguientes condiciones. Si no está de acuerdo
+                    con
+                    ellas, por favor no utilice este sitio web.</p>
+                <h3><strong>Responsabilidad sobre el Contenido</strong></h3>
+                <p>El propietario de este sitio web no se responsabiliza de la veracidad, exactitud y actualidad de los
+                    datos
+                    publicados. La información proporcionada es para fines informativos y puede no estar siempre
+                    actualizada.</p>
+                <h3><strong>Propiedad Intelectual</strong></h3>
+                <p>Todos los contenidos, textos, imágenes y código fuente son propiedad del propietario del sitio web o
+                    tienen
+                    licencia para su uso. Queda prohibida su reproducción total o parcial sin autorización expresa.</p>
+                <h3><strong>Enlaces Externos</strong></h3>
+                <p>Este sitio web puede contener enlaces a otros sitios web. El propietario no se responsabiliza del
+                    contenido
+                    de estos sitios externos.</p>
+                <p>Última actualización: 23/05/2024</p>
+            </div>
+        </div>
+        <div id="politica-privacidad-modal" class="custom-modal politica-privacidad-modal">
+            <!-- Política de Privacidad -->
+            <div class="custom-modal-content politica-privacidad-content">
+                <span class="custom-close" id="close-politica-privacidad">&times;</span>
+                <h2 class="text-center fs-1 pb-3"><strong>Política de Privacidad</strong></h2>
+                <p>En eldeportedelaciudad, respetamos su privacidad y estamos comprometidos a proteger su información
+                    personal.
+                    Esta política de privacidad describe cómo recopilamos, utilizamos y compartimos su información
+                    personal.</p>
+                <h3><strong>Qué datos recogemos</strong></h3>
+                <p>Podemos recopilar información personal como su nombre, dirección de correo electrónico y dirección IP
+                    cuando
+                    usted visita nuestro sitio web, se suscribe a nuestro boletín o interactúa con nuestras funciones.
+                </p>
+                <h3><strong>Cómo recogemos los datos</strong></h3>
+                <p>Recopilamos datos personales de diversas maneras, como formularios en línea, cookies y tecnologías de
+                    seguimiento, y cuando se suscribe a nuestros servicios.</p>
+                <h3><strong>Propósito de la recolección</strong></h3>
+                <p>Utilizamos sus datos para proporcionar y mejorar nuestros servicios, enviarle información relevante,
+                    y para
+                    análisis internos.</p>
+                <h3><strong>Compartir datos</strong></h3>
+                <p>No compartimos su información personal con terceros, excepto cuando es necesario para cumplir con la
+                    ley,
+                    proteger nuestros derechos, o proporcionar nuestros servicios.</p>
+                <h3><strong>Derechos de los usuarios</strong></h3>
+                <p>Usted tiene derecho a acceder, rectificar y eliminar sus datos personales, así como a oponerse al
+                    procesamiento de sus datos. Para ejercer estos derechos, póngase en contacto con nosotros en
+                    contacto@example.com.</p>
+                <p>Última actualización: 23/05/2024</p>
+            </div>
+        </div>
+        <div id="politica-cookies-modal" class="custom-modal politica-cookies-modal"><!-- Política de Cookies -->
+            <div class="custom-modal-content politica-cookies-content">
+                <span class="custom-close" id="close-politica-cookies">&times;</span>
+                <h2 class="text-center fs-1 pb-3"><strong>Política de Cookies</strong></h2>
+                <p>En eldeportedelaciudad, utilizamos cookies para mejorar su experiencia en nuestro sitio web. Esta
+                    política de
+                    cookies explica qué son las cookies, cómo las usamos y cómo puede gestionarlas.</p>
+                <h3><strong>Qué son las cookies</strong></h3>
+                <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita nuestro
+                    sitio
+                    web. Nos ayudan a recordar sus preferencias y a mejorar su experiencia de usuario.</p>
+                <h3><strong>Tipos de cookies utilizadas</strong></h3>
+                <p>Utilizamos cookies de sesión, cookies persistentes y cookies de terceros (como Google Analytics) para
+                    recopilar información sobre cómo utiliza nuestro sitio web.</p>
+                <h3><strong>Propósito de las cookies</strong></h3>
+                <p>Las cookies nos ayudan a mejorar nuestro sitio web, proporcionar una mejor experiencia de usuario y
+                    analizar
+                    el tráfico del sitio.</p>
+                <h3><strong>Gestión de cookies</strong></h3>
+                <p>Usted puede gestionar sus preferencias de cookies a través de la configuración de su navegador. Puede
+                    aceptar, rechazar o eliminar cookies siguiendo las instrucciones específicas de su navegador.</p>
+                <p>Para más información sobre cómo gestionar cookies, visite <a
+                        href="https://www.aboutcookies.org">AboutCookies.org</a>.</p>
+                <p>Última actualización: 23/05/2024</p>
+            </div>
+        </div>
+        <div id="nosotros-modal" class="custom-modal nosotros-modal"><!-- Nosotros -->
+            <div class="custom-modal-content nosotros-content">
+                <span class="custom-close" id="close-nosotros">&times;</span>
+                <h2 class="text-center fs-1 pb-3"><strong>Nosotros</strong></h2>
+                <p>Bienvenid@s a <strong><i>eldeportedelaciudad</i></strong>, nos apasiona ofrecer la mejor información
+                    y
+                    cobertura sobre los deportes de <i>Valladolid</i> que más te gustan. Hemos creado una plataforma
+                    completa que
+                    abarca diversos deportes y competiciones, proporcionando a nuestros usuarios acceso fácil a
+                    calendarios,
+                    resultados, clasificaciones y análisis detallados. ¡Descubre todo lo que tenemos preparado para ti!
+                </p>
+                <div>
+                    <h2>Deportes Disponibles</h2>
+                    <p>Hemos incorporado una variedad de deportes para que todos los aficionados encuentren su lugar:
+                    </p>
+                    <ul>
+                        <li>Baloncesto</li>
+                        <li>Balonmano</li>
+                        <li>Fútbol</li>
+                        <li>Fútbol Sala</li>
+                        <li>Hockey Línea</li>
+                        <li>Rugby</li>
+                        <li>Voleibol</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Características de la Página</h2>
+                    <ul>
+                        <li>Calendarios individuales de cada equipo</li>
+                        <li>Resultados de cada jornada</li>
+                        <li>Clasificaciones actualizadas</li>
+                        <li>Análisis de porcentaje para alcanzar objetivos</li>
+                        <li>Eliminatorias de la copa</li>
+                        <li>Competiciones europeas</li>
+                    </ul>
+                </div>
+                <div>
+                    <h2>Copa y Europa</h2>
+                    <h5>Eliminatorias de la Copa</h5>
+                    <p>Sigue de cerca las eliminatorias de la Copa en cada deporte y mantente informado sobre los
+                        equipos que
+                        luchan por el título.</p>
+                    <h5>Competiciones Europeas</h5>
+                    <p>Accede a la información de las competiciones europeas, con detalles sobre los equipos y los
+                        partidos.</p>
+                </div>
+                <div>
+                    <h2>Sistemas de Ligas</h2>
+                    <p>Cada deporte tiene su propio sistema de liga con diferentes niveles y estructuras. Te ofrecemos
+                        una
+                        descripción detallada de cada uno de ellos, tanto femenino como masculino:</p>
+                    <h5>Baloncesto Silla de Ruedas</h5>
+                    <p>Liga BSR División de Honor, Liga BSR 1ª División, Liga BSR 2ª División y Copa de Europa.</p>
+                    <h5>Baloncesto Femenino</h5>
+                    <p>Liga Femenina Endesa, Liga Femenina Challange, Liga Femenina 2, 1ª División Femenina, Euroliga
+                        Femenina y
+                        Eurocopa Femenina</p>
+                    <h5>Baloncesto Masculino</h5>
+                    <p>Liga ACB, Liga Leb Oro, Liga Leb Plata, Liga EBA, 1ª División Nacional, Euroliga y Eurocup.</p>
+                    <h5>Balonmano Femenino</h5>
+                    <p>Liga Guerrera Ibérdrola, Divisón Honor Oro, División Honor Plata, EHF Champions League y EHF
+                        European
+                        League.</p>
+                    <h5>Balonmano Masculino</h5>
+                    <p>Liga Asobal, División Honor Plata, 1ª Divisón Nacional, 2ª División Nacional, Territoriales
+                        Autónomicas,
+                        EHF Champions League y EHF European League.</p>
+                    <h5>Fútbol Femenino</h5>
+                    <p>Liga 1ª Divisón Nacional, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, Liga
+                        Gonalpi, Liga
+                        Doble G y Liga de Campeones.</p>
+                    <h5>Fútbol Masculino</h5>
+                    <p>Liga EA Sports, Liga Hypermotion, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, 1ª
+                        Div.
+                        Regional Aficionados, 1ª Div. Provincial Aficionados, 2ª Div. Provincial Aficionados, 3ª Div.
+                        Provincial
+                        Aficionados, Champions League, Europe League, Conference League. </p>
+                    <h5>Fútbol Sala Femenino</h5>
+                    <p>Sin equipo actualmente de Valladolid en esta sección.</p>
+                    <h5>Fútbol Sala Masculino</h5>
+                    <p>Liga 1ª División, Liga 2ª División, Liga 2ª División B, Liga 3ª División, Champions.</p>
+                    <h5>Hockey Línea Femenina</h5>
+                    <p>Liga Élite Iberdrola, Liga Oro Femenina, Liga Plata Femenina y Copa de Europa.</p>
+                    <h5>Hockey Línea Masculino</h5>
+                    <p>Liga Élite Masculina, Liga Oro Masculina, Liga Plata Masculina y Copa de Europa.</p>
+                    <h5>Rugby Femenino</h5>
+                    <p>División de Honor Femenina, División Honor B Femenina, Copa Ibérica. </p>
+                    <h5>Rugby Masculino</h5>
+                    <p>División Honor, División Honor B, Copa Ibérica.</p>
+                    <h5>Voleibol Femenino</h5>
+                    <p>Sin equipo actualmente de Valladolid en esta sección.</p>
+                    <h5>Voleibol Masculino</h5>
+                    <p>Superliga Masculina, Superliga Masculina 2, 1ª División Masculina, CEV Champions League,
+                        Challange Cup.
+                    </p>
+                </div>
+                <div>
+                    <p>¡Explora y disfruta del deporte con nosotros! Estamos comprometidos a ofrecerte la mejor
+                        experiencia
+                        deportiva en línea. Si tienes alguna pregunta o sugerencia, no dudes en ponerte en <a
+                            href="#contactanos-modal" id="contacto-link" class="text-decoration-none">contacto</a> con
+                        nuestro equipo.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
+            <div class="custom-modal-content contactanos-content">
+                <span class="custom-close" id="close-contactanos">&times;</span>
+                <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
+                <p>Escribe tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros.
+                </p>
+                <form action="/enviar_correo" method="POST">
+                    <div class="mb-3">
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="ciudad">Ciudad:</label>
+                        <input type="text" id="ciudad" name="ciudad" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="provincia">Provincia:</label>
+                        <input type="text" id="provincia" name="provincia" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="sugerencia">Sugerencia o Pregunta:</label>
+                        <textarea id="sugerencia" name="sugerencia" class="form-control" rows="10" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+        </script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/leer_mas.js"></script>
+    <script src="/static/js/num_caracteres.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Seleccionar todas las filas de la tabla
+            var filas = document.querySelectorAll('.tabla_aliados tbody tr');
+            // Iterar sobre cada fila
+            filas.forEach(function (fila) {
+                // Obtener el nombre del equipo de la fila actual
+                var equipo = fila.querySelector('th').textContent.trim();
+                console.log(equipo)
+                // Obtener la jornada y determinar si el UEMC juega en casa o como visitante
+                var jornadaElement = fila.querySelector('.jorn_ida');
+                var esLocal = false; // Por defecto, asumimos que el UEMC juega como visitante
+                if (jornadaElement) {
+                    var jornada = jornadaElement.textContent.trim();
+                    if (jornada.includes('C')) {
+                        esLocal = true;
+                    }
+                }
+                // Obtener los valores de los resultados de la fila
+                var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
+                console.log(resultadoA)
+                var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
+                console.log(resultadoB)
+                var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
+                console.log(resultadoAA)
+                var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
+                console.log(resultadoBB)
+                // Comparar los resultados y actualizar el estilo de las celdas correspondientes
+                var gan1 = fila.querySelector('.gan-1');
+                var per1 = fila.querySelector('.per-1');
+                var ganados1 = 0;
+                var perdidos1 = 0;
+                if (esLocal) {
+                    if (resultadoA > resultadoB) {
+                        ganados1 = 1;
+                        gan1.textContent = '1';
+                        gan1.style.color = 'green';
+                        per1.textContent = '-';
+                    } else if (resultadoA < resultadoB) {
+                        perdidos1 = 1;
+                        per1.textContent = '1';
+                        per1.style.color = 'red';
+                        gan1.textContent = '-';
+                    }
+                } else {
+                    if (resultadoB > resultadoA) {
+                        ganados1 = 1;
+                        gan1.textContent = '1';
+                        gan1.style.color = 'green';
+                        per1.textContent = '-';
+                    } else if (resultadoB < resultadoA) {
+                        perdidos1 = 1;
+                        per1.textContent = '1';
+                        per1.style.color = 'red';
+                        gan1.textContent = '-';
+                    }
+                }
+                // Actualizar recuentos del primer enfrentamiento según los resultados del segundo enfrentamiento
+                var jornadaElement2 = fila.querySelector('.jorn_vuelta');
+                var esLocalSegundo = false; // Por defecto, asumimos que el UEMC juega como visitante
+                if (jornadaElement2) {
+                    var jornada2 = jornadaElement2.textContent.trim();
+                    if (jornada2.includes('C')) {
+                        esLocalSegundo = true;
+                    }
+                }
+                if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
+                    if (esLocalSegundo) {
+                        if (resultadoAA > resultadoBB) {
+                            ganados1++;
+                            gan1.textContent = ganados1.toString();
+                            gan1.style.color = 'green';
+                        } else if (resultadoAA < resultadoBB) {
+                            perdidos1++;
+                            per1.textContent = perdidos1.toString();
+                            per1.style.color = 'red';
+                        }
+                    } else { // Si UEMC jugó como visitante en el segundo enfrentamiento
+                        if (resultadoBB > resultadoAA) {
+                            ganados1++;
+                            gan1.textContent = ganados1.toString();
+                            gan1.style.color = 'green';
+                        } else if (resultadoBB < resultadoAA) {
+                            perdidos1++;
+                            per1.textContent = perdidos1.toString();
+                            per1.style.color = 'red';
+                        }
+                    }
+                }
+            });
+            // Cálculo del average del primer enfrentamiento
+            filas.forEach(function (fila) {
+                var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
+                var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
+                var average = fila.querySelector('.average');
+                var avgIda; // Average del primer enfrentamiento
+                if (resultadoA && resultadoB) {
+                    if (fila.querySelector('.jorn_ida').textContent.trim().includes('C')) {
+                        // UEMC juega como local
+                        avgIda = resultadoA - resultadoB; // Calcula la diferencia de puntos
+                    } else {
+                        // UEMC juega como visitante
+                        avgIda = resultadoB - resultadoA; // Calcula la diferencia de puntos
+                    }
+                } else {
+                    avgIda = 0; // Si no hay resultados, el average es 0
+                }
+                if (!isNaN(avgIda)) {
+                    average.textContent = avgIda;
+                    // Colorea el average según su valor
+                    if (avgIda > 0) {
+                        average.style.color = 'green';
+                    } else if (avgIda < 0) {
+                        average.style.color = 'red';
+                    } else {
+                        average.style.color = 'blue';
+                    }
+                } else {
+                    average.textContent = '';
+                }
+            });
+            // Cálculo del average del primer enfrentamiento
+            filas.forEach(function (fila) {
+                var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
+                var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
+                var average = fila.querySelector('.average');
+                var avgIda; // Average del primer enfrentamiento
+                if (resultadoA && resultadoB) {
+                    if (fila.querySelector('.jorn_ida').textContent.trim().includes('C')) {
+                        // UEMC juega como local
+                        avgIda = resultadoA - resultadoB; // Calcula la diferencia de puntos
+                    } else {
+                        // UEMC juega como visitante
+                        avgIda = resultadoB - resultadoA; // Calcula la diferencia de puntos
+                    }
+                } else {
+                    avgIda = 0; // Si no hay resultados, el average es 0
+                }
+                if (!isNaN(avgIda)) {
+                    average.textContent = avgIda;
+                    // Colorea el average según su valor
+                    if (avgIda > 0) {
+                        average.style.color = 'green';
+                    } else if (avgIda < 0) {
+                        average.style.color = 'red';
+                    } else {
+                        average.style.color = 'blue';
+                    }
+                } else {
+                    average.textContent = '';
+                }
+            });
+            // Cálculo del average del segundo enfrentamiento
+            filas.forEach(function (fila) {
+                var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
+                var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
+                var average = fila.querySelector('.average');
+                var avgVuelta; // Average del segundo enfrentamiento
+                if (resultadoAA && resultadoBB) {
+                    if (fila.querySelector('.jorn_vuelta').textContent.trim().includes('C')) {
+                        // UEMC juega como local en el segundo enfrentamiento
+                        avgVuelta = resultadoAA - resultadoBB; // Calcula la diferencia de puntos
+                    } else {
+                        // UEMC juega como visitante en el segundo enfrentamiento
+                        avgVuelta = resultadoBB - resultadoAA; // Calcula la diferencia de puntos
+                    }
+                } else {
+                    avgVuelta = 0; // Si no hay resultados, el average es 0
+                }
+                if (!isNaN(avgVuelta)) {
+                    // Actualiza el average total sumando o restando el average del segundo enfrentamiento
+                    var avgTotal = parseInt(average.textContent) + avgVuelta;
+                    average.textContent = avgTotal;
+                    // Colorea el average según su valor
+                    if (avgTotal > 0) {
+                        average.style.color = 'green';
+                    } else if (avgTotal < 0) {
+                        average.style.color = 'red';
+                    } else {
+                        average.style.color = 'blue';
+                    }
+                } else {
+                    average.textContent = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

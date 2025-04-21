@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Equipos - Fundación Aliados</title>
+    <title>Equipos - Aula Valladolid</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -17,16 +17,16 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Fundación Aliados</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Aula Valladolid</li>
     </ol>
   </nav>
   <header>
-    <h1 class="text-center">Equipos División Honor BSR 25/26</h1>
+    <h1 class="text-center">Equipos Liga Guerreras 25/26</h1>
   </header>
     <section class="container-lg">
       <!-- Formulario para los resultados de los partidos -->
       <div class="container-lg">
-        <form method="POST" action="/admin/jornada0_aliados" class="row mb-3">
+        <form method="POST" action="/admin/jornada0_aula" class="row mb-3">
           <div class="col-md-12">
             <label for="equipo">Nombre Equipos</label>
             <input type="text" class="form-control" id="equipo" name="equipo">
@@ -51,18 +51,18 @@
                     </tr>
                   </thead>
                   <tbody">
-                    {% for club in clubs %}
-                    <tr class="text-center">
-                      <td class="text-center fw-bold">{{ club['nombre'] }}</td>
-                      <td>
-                        <!-- Botón para cada equipo -->
-                        <form action="{{ url_for('aliados_route_bp.eliminar_club_aliados', club_id=club.id) }}" method="POST">
-                          <input type="hidden" name="index" value="{{ index }}">
-                          <button type="submit" class="btn btn-danger">Borrar</button>
+                  {% for club in clubs %}
+                  <tr class="text-center">
+                    <td class="text-center fw-bold">{{ club['nombre'] }}</td>
+                    <td>
+                      <!-- Botón para cada equipo -->
+                      <form action="{{ url_for('aula_route_bp.eliminar_club_aula', club_id=club.id) }}" method="POST">
+                        <input type="hidden" name="index" value="{{ index }}">
+                        <button type="submit" class="btn btn-danger">Borrar</button>
                       </form>
-                      </td>
-                    </tr>
-                    {% endfor %}
+                    </td>
+                  </tr>
+                  {% endfor %}
                   </tbody>
                 </table>
               </div> 

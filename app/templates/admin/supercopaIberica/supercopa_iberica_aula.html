@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Copa - Fundación Aliados</title>
+    <title>Supercopa Ibérica - Aula Valladolid</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,29 +15,26 @@
     <!-- Favicon -->
     <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-
 <body class="body_admin">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
             <li class="breadcrumb-item"><a href="/admin/pub_marcadores"
                     class="text-white text-decoration-none">Inicio</a>
             </li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">Copa Fundación Aliados</li>
+            <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Ibérica Aula Valladolid</li>
         </ol>
     </nav>
     <header>
-        <h1 class="text-center mb-5">Copa Fundación Aliados 25/26</h1>
+        <h1 class="text-center mb-5">Supercopa Ibérica Aula Valladolid 25/26</h1>
     </header>
     <section class="container-lg">
         <!-- Formulario para los resultados de los partidos -->
         <div class="container-lg d-flex justify-content-center">
-            <form id="form_playoff_ponce" method="POST" action="/admin/crear_copa_aliados" class="row mb-3">
+            <form id="form_playoff_ponce" method="POST" action="/admin/crear_supercopa_iberica_aula" class="row mb-3">
                 <!-- Selección de etapa del torneo -->
                 <label for="encuentros">Etapa del Torneo:</label>
                 <select id="eliminatoria" name="eliminatoria">
-                    <option value="cuartos">Cuartos</option>
-                    <option value="semifinales">Smifinales</option>
-                    <option value="eliminados">3º y 4º Puesto</option>
+                    <option value="semifinales">Semifinales</option>
                     <option value="final">Final</option>
                 </select>
                 <div class="form-group col-md-6">
@@ -76,7 +73,7 @@
                 class="btn btn-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal"
                 data-bs-target="#modal{{ loop.index }}">Modificar</button>
             <form method="POST"
-                action="{{ url_for('aliados_route_bp.eliminar_copa_aliados', eliminatoria=eliminatoria) }}">
+                action="{{ url_for('aula_route_bp.eliminar_supercopa_iberica_aula', eliminatoria=eliminatoria) }}">
                 <button type="submit" class="btn btn-danger">Borrar</button>
             </form>
         </div>
@@ -98,7 +95,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST"
-                        action="{{ url_for('aliados_route_bp.modificar_copa_aliados', eliminatoria=eliminatoria) }}">
+                        action="{{ url_for('aula_route_bp.modificar_supercopa_iberica_aula', eliminatoria=eliminatoria) }}">
                         <input type="hidden" name="eliminatoria" value="{{ eliminatoria }}">
                         <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
                         {% for partido in partidos %}
@@ -165,11 +162,7 @@
                 var selectedOption = selectEliminatoria.value;
                 // Determinar el número de partidos según la etapa seleccionada
                 var numPartidos;
-                if (selectedOption.startsWith("cuartos")) {
-                    numPartidos = 4;
-                } else if (selectedOption === "semifinales") {
-                    numPartidos = 2;
-                } else if (selectedOption === "eliminados") {
+                if (selectedOption.startsWith("semifinales")) {
                     numPartidos = 2;
                 } else if (selectedOption === "final") {
                     numPartidos = 1;

@@ -1,7 +1,8 @@
 <!doctype html>
 <html lang="es">
+
 <head>
-  <title>Supercopa - Fundación Aliados</title>
+  <title>Clasificación y Ánalisis - Aula Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,51 +32,216 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-<body class="fondos_playoffs">
+
+<body class="calend_balonmano">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Fundación Aliados</li>
+        <li class="breadcrumb-item"><a href="/seccion/balonmano" class="text-white text-decoration-none">Sección</a>
+        </li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Supercopa 25/26</h1>
-    <span class="equipo_copa">Fundación Aliados</span>
-    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem;">
-          <div class="card-body">
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  {% for ronda, partidos in datos_supercopa.items() %}
-                  <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
-                  <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
-                    <table class="table border-secondary">
-                      {% for partido in partidos %}
-                      <tr class="text-center">
-                        <td class="text-center text-white">{{ partido.fecha }}</td>
-                        <td class="text-center text-white">{{ partido.hora }}</td>
-                        <td
-                          class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido.local }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
-                        <td
-                          class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido.visitante }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
+    <h2 class="text-white text-center">Aula Valladolid 24/25</h2>
+    <section class="container-lg mb-5 flex-fill">
+      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active"><!--Tabla Clasificación-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-analisis">Clasificación - Liga Guerreras Iberdrola</h3>
+                    <div class="col-12">
+                      <table id="tablaClasificacion" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PTS</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DG</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_aula %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if loop.index <= 8 %}pos-playoff-titulo{% elif loop.index <= 13 %}pos-nada{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
+                              {{ loop.index }}
+                            </td>
+                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
+                            <td class="empatados fw-bold">{{ equipo['datos']['empatados'] }}</td>
+                            <td class="perdidos fw-bold">{{ equipo['datos']['perdidos'] }}</td>
+                            <td class="favor fw-bold">{{ equipo['datos']['favor'] }}</td>
+                            <td class="contra fw-bold">{{ equipo['datos']['contra']}}</td>
+                            <td class="diferencia_goles fw-bold">{{ equipo['datos']['diferencia_goles'] }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    data-ronda="{{ loop.index }}">Ver Partidos</a>
-                  {% endfor %}
                 </div>
+                <p class="ms-4"> PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
+                  (Partidos Perdidos); GF (Goles Favor); GC(Goles Contra); DG (Diferencia Goles)</p>
+                <p class="ms-4">PlayOffs (Título)<span class="badge bg-success ms-2">1-8</span>; Descenso<span
+                    class="badge bg-danger ms-2">14</span>; Puestos Europa Final PlayOff Título<span class="badge bg-success ms-2">1-4</span></p>
               </div>
             </div>
           </div>
+          <div class="carousel-item"><!--Tabla PlayOff-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center mb-4 text-analisis">PlayOff al Título</h3>
+                    <div class="col-12">
+                      <table id="tablaPlayAula" class="table"><!--Tabla PlayOff-->
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_aula %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="play-prox fw-bold"></td>
+                            <td class="play-mate fw-bold"></td>
+                            <td class="play-opti fw-bold"></td>
+                            <td class="play-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item"><!--Tabla Descenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center mb-4 text-analisis">Descenso División Honor Oro</h3>
+                    <div class="col-12">
+                      <table id="tablaDescAula" class="table"><!--Tabla Descenso-->
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_aula %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="desc-prox fw-bold"></td>
+                            <td class="desc-mate fw-bold"></td>
+                            <td class="desc-opti fw-bold"></td>
+                            <td class="desc-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <!--<div class="carousel-item"><--Tabla Europa->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center mb-4 text-analisis">Competiciones Europeas (Clasificación final)</h3>
+                    <div class="col-12">
+                      <table id="tablaEuroAula" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <--<th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>->
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_aula %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if loop.index <= 1 %}pos-ehf{% elif loop.index <= 4 %}pos-ehfec{% elif loop.index <=14 %}pos-nada{% endif %}">
+                              {{ loop.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <--<td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="play-prox fw-bold"></td>
+                            <td class="play-mate fw-bold"></td>
+                            <td class="play-opti fw-bold"></td>
+                            <td class="play-pesi fw-bold"></td>->
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">Esta clasificación se determina una vez jugados los
+                  playoff al título.</p>
+                <p class="ms-4">EHF<span class="badge bg-success ms-2">1</span> ; EHFEC<span
+                    class="badge bg-warning ms-2">2-4</span></p>
+              </div>
+            </div>
+          </div>-->
         </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+          data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -120,8 +286,7 @@
         <p><strong>Correo Electrónico:</strong> eldeportedelaciudad@gmail.com</p>
         <h3><strong>Condiciones de Uso</strong></h3>
         <p>El uso de este sitio web implica la aceptación de las siguientes condiciones. Si no está de acuerdo con
-          ellas,
-          por favor no utilice este sitio web.</p>
+          ellas, por favor no utilice este sitio web.</p>
         <h3><strong>Responsabilidad sobre el Contenido</strong></h3>
         <p>El propietario de este sitio web no se responsabiliza de la veracidad, exactitud y actualidad de los datos
           publicados. La información proporcionada es para fines informativos y puede no estar siempre actualizada.</p>
@@ -130,8 +295,7 @@
           licencia para su uso. Queda prohibida su reproducción total o parcial sin autorización expresa.</p>
         <h3><strong>Enlaces Externos</strong></h3>
         <p>Este sitio web puede contener enlaces a otros sitios web. El propietario no se responsabiliza del contenido
-          de
-          estos sitios externos.</p>
+          de estos sitios externos.</p>
         <p>Última actualización: 23/05/2024</p>
       </div>
     </div>
@@ -155,8 +319,8 @@
           proteger nuestros derechos, o proporcionar nuestros servicios.</p>
         <h3><strong>Derechos de los usuarios</strong></h3>
         <p>Usted tiene derecho a acceder, rectificar y eliminar sus datos personales, así como a oponerse al
-          procesamiento
-          de sus datos. Para ejercer estos derechos, póngase en contacto con nosotros en contacto@example.com.</p>
+          procesamiento de sus datos. Para ejercer estos derechos, póngase en contacto con nosotros en
+          contacto@example.com.</p>
         <p>Última actualización: 23/05/2024</p>
       </div>
     </div>
@@ -168,20 +332,16 @@
           cookies explica qué son las cookies, cómo las usamos y cómo puede gestionarlas.</p>
         <h3><strong>Qué son las cookies</strong></h3>
         <p>Las cookies son pequeños archivos de texto que se almacenan en su dispositivo cuando visita nuestro sitio
-          web.
-          Nos ayudan a recordar sus preferencias y a mejorar su experiencia de usuario.</p>
+          web. Nos ayudan a recordar sus preferencias y a mejorar su experiencia de usuario.</p>
         <h3><strong>Tipos de cookies utilizadas</strong></h3>
         <p>Utilizamos cookies de sesión, cookies persistentes y cookies de terceros (como Google Analytics) para
-          recopilar
-          información sobre cómo utiliza nuestro sitio web.</p>
+          recopilar información sobre cómo utiliza nuestro sitio web.</p>
         <h3><strong>Propósito de las cookies</strong></h3>
         <p>Las cookies nos ayudan a mejorar nuestro sitio web, proporcionar una mejor experiencia de usuario y analizar
-          el
-          tráfico del sitio.</p>
+          el tráfico del sitio.</p>
         <h3><strong>Gestión de cookies</strong></h3>
         <p>Usted puede gestionar sus preferencias de cookies a través de la configuración de su navegador. Puede
-          aceptar,
-          rechazar o eliminar cookies siguiendo las instrucciones específicas de su navegador.</p>
+          aceptar, rechazar o eliminar cookies siguiendo las instrucciones específicas de su navegador.</p>
         <p>Para más información sobre cómo gestionar cookies, visite <a
             href="https://www.aboutcookies.org">AboutCookies.org</a>.</p>
         <p>Última actualización: 23/05/2024</p>
@@ -223,8 +383,7 @@
           <h2>Copa y Europa</h2>
           <h5>Eliminatorias de la Copa</h5>
           <p>Sigue de cerca las eliminatorias de la Copa en cada deporte y mantente informado sobre los equipos que
-            luchan
-            por el título.</p>
+            luchan por el título.</p>
           <h5>Competiciones Europeas</h5>
           <p>Accede a la información de las competiciones europeas, con detalles sobre los equipos y los partidos.</p>
         </div>
@@ -241,12 +400,10 @@
           <p>Liga ACB, Liga Leb Oro, Liga Leb Plata, Liga EBA, 1ª División Nacional, Euroliga y Eurocup.</p>
           <h5>Balonmano Femenino</h5>
           <p>Liga Guerrera Ibérdrola, Divisón Honor Oro, División Honor Plata, EHF Champions League y EHF European
-            League.
-          </p>
+            League.</p>
           <h5>Balonmano Masculino</h5>
           <p>Liga Asobal, División Honor Plata, 1ª Divisón Nacional, 2ª División Nacional, Territoriales Autónomicas,
-            EHF
-            Champions League y EHF European League.</p>
+            EHF Champions League y EHF European League.</p>
           <h5>Fútbol Femenino</h5>
           <p>Liga 1ª Divisón Nacional, Liga 1ª Federación, Liga 2ª Federación, Liga 3ª Federación, Liga Gonalpi, Liga
             Doble G y Liga de Campeones.</p>
@@ -284,45 +441,42 @@
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
-        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.com&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad@gmail.com</a></p>
+        <p>Escribe tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros.</p>
+        <form action="/enviar_correo" method="POST">
+          <div class="mb-3">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="provincia">Provincia:</label>
+            <input type="text" id="provincia" name="provincia" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="sugerencia">Sugerencia o Pregunta:</label>
+            <textarea id="sugerencia" name="sugerencia" class="form-control" rows="10" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
       </div>
     </div>
   </div>
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <!-- Bootstrap JavaScript Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
-  <script src="/static/js/proteccion-datos.js"></script>
-  <!--<script src="/static/js/script.js"></script>-->
-  <script src="/static/js/proteccion-datos.js"></script>
-  <script src="/static/js/num_caracteres.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('.mostrar-enlace').click(function(e) {
-        e.preventDefault();
-        var enlace = $(this);
-        var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');        
-        // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();        
-        // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();        
-        // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');        
-        // Cambiar el texto del enlace actual
-        if (textoAdicional.is(':visible')) {
-          enlace.text('Ocultar');
-        } else {
-          enlace.text('Ver Partidos');
-        }
-      });
-    });
-  </script>
+    <!--Fin Carrusel-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+      </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+      </script>
+    <script src="/static/js/script.js"></script>
+    <script src="/static/js/analisis-aula.js"></script>
+    <script src="/static/js/num_caracteres.js"></script>
 </body>
+
 </html>

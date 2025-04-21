@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>Supercopa - Fundación Aliados</title>
+  <title>Supercopa Ibérica - Aula Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -36,11 +36,11 @@
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Fundación Aliados</li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Ibérica Aula Valladolid</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Supercopa 25/26</h1>
-    <span class="equipo_copa">Fundación Aliados</span>
+    <h1 class="text-playoff">Supercopa Ibérica 25/26</h1>
+    <span class="equipo_copa">Aula Valladolid</span>
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 70rem;">
@@ -48,7 +48,7 @@
             <div class="row table-responsive">
               <div class="col-12">
                 <div class="">
-                  {% for ronda, partidos in datos_supercopa.items() %}
+                  {% for ronda, partidos in datos_supercopa_iberica.items() %}
                   <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
                   <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
                     <table class="table border-secondary">
