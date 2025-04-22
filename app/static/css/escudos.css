@@ -1,0 +1,20 @@
+.escudos-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  
+  .escudo {
+    width: 80px; /* Ajustá el tamaño según necesites */
+    height: 80px;
+    object-fit: contain;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Sombra sutil inicial */
+    border-radius: 10px;
+  }
+  
+  .escudo:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más fuerte al hacer hover */
+  }

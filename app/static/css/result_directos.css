@@ -1,60 +1,78 @@
 #directo-container {
-    border-radius: 15px;
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+#directo-contenido {
+  max-height: 250px;
+  overflow-y: auto;
+  /* Permite el desplazamiento si hay muchos partidos */
+  transition: all 0.3s ease;
+  background-color: transparent !important;
+  backdrop-filter: blur(24px);
+  margin: 0 .1em;
+  border-radius: 0;
+  box-shadow: 1px 3px 4px rgba(22, 22, 26, .18);
+}
+
+#directo-container h6 {
+  font-size: 1rem;
+}
+
+#en-direct{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1055;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
   }
-  
-  #directo-contenido {
-    max-height: 300px; 
-    overflow-y: auto; /* Permite el desplazamiento si hay muchos partidos */
-    transition: all 0.3s ease;
-    background-color: transparent !important;
-    backdrop-filter: blur(20px);
-    margin: 0 .1em;
-    border-radius: 0;
-    box-shadow: 1px 3px 4px rgba(22, 22, 26, .18);
-  }
-  
-  #directo-container h6 {
-    font-size: 1rem;
-  }
-  #en-direct{
-    margin-top: 8rem;
-  }
-  
-  .mb-2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  .p-2 {
-    padding: 0.5rem;
-  }
-  
-  /* Ajustes para la tarjeta de partidos en directo */
-  .partido-directo {
-    width: 100%; /* Establece el ancho al 100% de su contenedor */
-    max-width: 10rem; /* Limita el ancho máximo de cada tarjeta */
-    margin: 0.5rem; /* Añade espacio entre las tarjetas */
-  }
-  
-  .partido-directo .card-body {
-    padding: 0.5rem; /* Reduce el padding dentro de la tarjeta */
-  }
-  
-  .partido-directo h6 {
-    font-size: 1rem; /* Ajusta el tamaño del texto */
-  }
-  
-  #directo-section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-  }
-  .fade{
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-  }
-  .fade.show {
-    opacity: 1;
-  }
-  
+
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
+}
+
+/* Ajustes para la tarjeta de partidos en directo */
+.partido-directo {
+  width: 100%;
+  /* Establece el ancho al 100% de su contenedor */
+  max-width: 10rem;
+  /* Limita el ancho máximo de cada tarjeta */
+  margin: 0.5rem;
+  /* Añade espacio entre las tarjetas */
+}
+
+.partido-directo .card-body {
+  padding: 0.5rem;
+  /* Reduce el padding dentro de la tarjeta */
+}
+
+.partido-directo h6 {
+  font-size: 1rem;
+  /* Ajusta el tamaño del texto */
+}
+
+#directo-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.fade.show {
+  opacity: 1;
+}

@@ -9,12 +9,24 @@ from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonc
 from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados
 from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula
 from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas
+from app.models.usuarios import Usuario
+
+from flask_login import LoginManager
 
 app = create_app()
 
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['CACHE_TYPE'] = 'null'  # Esto desactiva el caché
-app.debug = True 
+app.debug = True
+
+# --- FLASK-LOGIN ---
+login_manager = LoginManager()
+login_manager.login_view = 'usuarios_route_bp.login'  # Nombre de la vista donde redirige si no está logueado
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return Usuario.query.get(int(user_id)) 
 
 
 if __name__=="__main__":

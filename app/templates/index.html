@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <title class="text-warning fw-bold">Eldeportedelaciudad</title>
   <!-- Required meta tags -->
@@ -13,13 +14,15 @@
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="twitter:image" content="URL_de_la_imagen">
   <meta name="twitter:site" content="@tu_cuenta_de_twitter">
   <meta name="twitter:creator" content="@cuenta_del_autor">
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta property="og:image" content="URL_de_la_imagen">
   <meta property="og:url" content="URL_de_tu_página">
   <meta property="og:type" content="website">
@@ -31,6 +34,7 @@
   <!--Favicon-->
   <link rel="icon" type="image/jpg" href="../static/img/logo_sinfondo.png" />
 </head>
+
 <body>
   <div class="d-flex flex-column min-vh-100">
     <header class="container-fluid d-none d-lg-block  sticky-top">
@@ -88,7 +92,7 @@
                     </li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle fw-bold text-white text-menu-nav" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Copa Rey / Reina</a>
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Copa</a>
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/admin/valladolid_copa">Real Valladolid</a>
                         <a class="dropdown-item" href="/admin/simancas_copa">RV Simancas Fem.</a>
@@ -160,7 +164,7 @@
                     </li>
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle fw-bold text-white text-menu-nav" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sistema de Ligas</a>
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sistema Ligas</a>
                       <div class="dropdown-menu menu-desple2" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/sistema_ligas/baloncesto">Baloncesto</a>
                         <a class="dropdown-item" href="/sistema_ligas/balonmano">Balonmano</a>
@@ -187,9 +191,32 @@
             </nav>
           </div>
           <div class="col-lg-4 col-md-4 d-flex justify-content-end align-items-center">
-            <a><img src="/static/img/facebook.png" class="iconos pe-1" alt="facebook"></a>
-            <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
-            <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>--->
+            <div class="d-flex">
+              <a><img src="/static/img/facebook.png" class="iconos pe-2" alt="facebook"></a>
+              <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
+              <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>--->
+            </div>
+            <div class="dropdown">
+              <button class="btn text-white dropdown-toggle d-flex align-items-center" type="button" id="userDropdown"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="/static/img/usuario_sf.png" alt="usuario" class="usuario">
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                {% if current_user.is_authenticated %}
+
+                <li><span class="dropdown-item-text">Hola, {{ current_user.nombre }}</span></li>
+                <li>
+                  <hr class="dropdown-divider">
+                </li>
+                <li><a class="dropdown-item text-danger" href="{{ url_for('usuarios_route_bp.logout') }}">Cerrar sesión</a></li>
+                {% else %}
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar
+                    sesión</a></li>
+                <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
+                    data-bs-target="#registroModal">Registrarse</a></li>
+                {% endif %}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
@@ -360,6 +387,23 @@
                 <a class="dropdown-item" href="#">Twitter</a>
               </div>
             </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fs-5 text-white fw-bold text-menu-nav" href="#" id="userDropdownMobile"
+                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bi bi-person-circle me-1"></i> Cuenta
+              </a>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownMobile">
+                {% if current_user.is_authenticated %}
+                <span class="dropdown-item-text" href="{{ url_for('usuarios_route_bp.perfil') }}">Hola, {{
+                  current_user.nombre }}</span>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-danger" href="{{ url_for('usuarios_route_bp.logout') }}">Cerrar sesión</a>
+                {% else %}
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</a>
+                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal">Registrarse</a>
+                {% endif %}
+              </div>
+            </li>
           </ul>
         </div>
         <div>
@@ -374,7 +418,7 @@
     <section id="valladolid" class="container-fluid flex-fill">
       <div id="carouselExampleControls" class="carousel mt-3" data-bs-ride="carousel">
         <div class="carousel-inner">
-         {% if ver_publicacion %}
+          {% if ver_publicacion %}
           {% for date in ver_publicacion %}
           <div class="d-flex">
             <div class="card-2">
@@ -395,7 +439,7 @@
             </div>
           </div>
           {% endfor %}
-         {% endif %}  
+          {% endif %}
         </div>
         <button class="carousel-control-prev mt-3 bg-secondary" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
@@ -409,28 +453,48 @@
         </button>
       </div><!--Fin Carrusel-->
     </section>
-      <!-- Resultados flotantes en directo -->
-      <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center" style="display: none;">
-        <div class="card shadow-lg border-0 w-25" id="directo-container">
-          <div class="card-header bg-info text-white fw-bold text-center">
-            🟢 Partidos en Directo
-          </div>
-          <div class="card-body bg-light p-2" id="directo-contenido">
-            <!-- Las cards se insertarán aquí -->
-          </div>
+    <!-- Resultados flotantes en directo -->
+    <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center"
+      style="display: none;">
+      <div class="card shadow-lg border-0 w-25" id="directo-container">
+        <div class="card-header fs-5 bg-info text-white fw-bold text-center">
+          🟢 Partidos en Directo
         </div>
-      </section>
-      <section class="container-fluid logo_principal">
-        <div class="row container-lg">
-          <div class="col-lg-10 col-md-10 col-sm-10 text-center">
-            <h1 class="letras_logo">deportesdelaciudad</h1>
-            <h2 class="slogan">Deporte local , Corazón urbano</h2>
-          </div>
-          <div class="col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center">
-            <img src="/static/img/logo_sinfondo4.png" class="img-fluid img_principal" alt="eldeportedelaciudad">
-          </div>
+        <div class="card-body bg-light p-2" id="directo-contenido">
+          <!-- Las cards se insertarán aquí -->
         </div>
-      </section>
+        <div class="card-footer text-center bg-light">
+          <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
+        </div>
+      </div>
+    </section>
+    <section class="container-fluid logo_principal">
+      <div class="row container-lg">
+        <div class="col-lg-10 col-md-10 col-sm-10 text-center">
+          <h1 class="letras_logo">deportesdelaciudad</h1>
+          <h2 class="slogan">Deporte local , Corazón urbano</h2>
+        </div>
+        <div class="col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid img_principal" alt="eldeportedelaciudad">
+        </div>
+      </div>
+    </section>
+    <!--Logos Escudos-->
+    <section class="container-fluid py-3 mb-3">
+      <div class="container-lg d-flex justify-content-center flex-wrap gap-5">
+        <!-- Reemplazá los src con las rutas de tus escudos -->
+        <img src="/static/img/aliados_sf.png" class="img-fluid escudo" alt="Fundación Aliados" />
+        <img src="/static/img/aula_sf.png" class="img-fluid escudo" alt="Aula Valladolid" />
+        <img src="/static/img/cplv_sf.png" class="img-fluid escudo" alt="CPLV Hockey" />
+        <img src="/static/img/galvan_sf.png" class="img-fluid escudo" alt="Tierno Galván Valladolid" />
+        <img src="/static/img/ponce_sf.png" class="img-fluid escudo" alt="Ponce Valladolid" />
+        <img src="/static/img/pucela_sf.png" class="img-fluid escudo" alt="Real Valladolid" />
+        <img src="/static/img/reco_fs.png" class="img-fluid escudo" alt="Recoletas Atl.Valladolid" />
+        <img src="/static/img/salvador_sf.png" class="img-fluid escudo" alt="El Salvador" />
+        <img src="/static/img/valla_voley_sf.png" class="img-fluid escudo" alt="Univ.Valladolid VCV" />
+        <img src="/static/img/vrac_sf.png" class="img-fluid escudo" alt="VRAC" />
+      </div>
+    </section>
     <footer class="container-fluid mt-auto footer-seccion py-2">
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
@@ -634,9 +698,77 @@
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
-        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.com&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad@gmail.com</a></p>
+        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya
+          pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros
+          directamente a nuestro gmail de la página <a
+            href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.com&body=Hola, me pongo en contacto con vosotros para......"
+            class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad@gmail.com</a></p>
       </div>
+    </div>
   </div>
+  <!-- Modal Registro -->
+  <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true"
+    data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <form method="POST" action="{{ url_for('usuarios_route_bp.register') }}">
+          <div class="modal-header">
+            <h5 class="modal-title" id="registroModalLabel">Crear Cuenta</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="usuario" class="form-label">Nombre</label>
+              <input type="text" id="usuario" name="usuario" class="form-control" autocomplete="usuario" required>
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo</label>
+              <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" id="password" name="password" class="form-control" autocomplete="password"
+                required>
+            </div>
+            <div class="mb-3">
+              <label for="confirmar_password" class="form-label">Confirmar contraseña</label>
+              <input type="password" id="confirmar_password" name="confirmar_password" class="form-control"
+                autocomplete="confirmar_password" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Registrarse</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Login -->
+  <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
+    data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <form method="POST" action="{{ url_for('usuarios_route_bp.login') }}">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="email" class="form-label">Correo</label>
+              <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+              <label for="password" class="form-label">Contraseña</label>
+              <input type="password" name="password" class="form-control" required>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -652,68 +784,70 @@
   <script src="/static/js/proteccion-datos.js"></script>
   <script>
     let indexActual = 0;
-let partidosGuardados = [];
+    let partidosGuardados = [];
 
-function mostrarPartido(partido, contenedor) {
-  const card = document.createElement('div');
-  card.className = 'body-directo mb-2 p-3 rounded fade';
-  card.innerHTML = `
-    <h5 class="mb-3 text-danger fw-bold text-center">${partido.liga}</h5>
-    <p class="mb-1 fs-4 text-white text-center"><strong>${partido.equipoA}</strong> ${partido.resultado1}</p>
-    <p class="mb-3 fs-4 text-white text-center"><strong>${partido.equipoB}</strong> ${partido.resultado2}</p>
-    <p class="mb-0 fs-5 text-black text-center fw-bold"><small>Minuto ${partido.minuto}</small></p>
+    function mostrarPartido(partido, contenedor) {
+      const card = document.createElement('div');
+      card.className = 'body-directo mb-2 p-3 rounded fade';
+      card.innerHTML = `
+    <h5 class="mb-3 fs-4 text-primary fw-bold text-center">${partido.liga}</h5>
+    <p class="mb-1 fs-3 text-white text-center"><strong>${partido.equipoA}</strong> ${partido.resultado1}</p>
+    <p class="mb-3 fs-3 text-white text-center"><strong>${partido.equipoB}</strong> ${partido.resultado2}</p>
+    <p class="mb-0 fs-4 text-danger text-center fw-bold"><small>Minuto ${partido.minuto}</small></p>
   `;
 
-  contenedor.innerHTML = '';
-  contenedor.appendChild(card);
-  void card.offsetWidth; // fuerza reflow para reiniciar transición
-  card.classList.add('show');
-}
-
-function cargarPartidosEnDirecto() {
-  fetch('/api/partidos_directo')
-    .then(response => response.json())
-    .then(data => {
-      const contenedor = document.getElementById('directo-contenido');
-      const seccion = document.getElementById('en-direct');
-
-      if (data.length === 0) {
-        seccion.style.setProperty('display', 'none', 'important');
-        partidosGuardados = [];
-        indexActual = 0;
-        contenedor.innerHTML = '';
-        return;
-      }
-
-      seccion.style.setProperty('display', 'flex', 'important');
-      partidosGuardados = data; // guardamos para el carrusel
-      indexActual = 0; // reiniciamos index
-      mostrarPartido(partidosGuardados[indexActual], contenedor);
-    })
-    .catch(error => {
-      console.error('Error al cargar partidos en directo:', error);
-    });
-}
-
-// Función para cambiar de partido cada 10 segundos
-function iniciarCarrusel() {
-  setInterval(() => {
-    const contenedor = document.getElementById('directo-contenido');
-    if (partidosGuardados.length > 1) {
-      indexActual = (indexActual + 1) % partidosGuardados.length;
-      mostrarPartido(partidosGuardados[indexActual], contenedor);
+      contenedor.innerHTML = '';
+      contenedor.appendChild(card);
+      void card.offsetWidth; // fuerza reflow para reiniciar transición
+      card.classList.add('show');
     }
-  }, 10000); // 10 segundos
-}
 
-// Ejecutar todo
-cargarPartidosEnDirecto();
-setInterval(cargarPartidosEnDirecto, 15000); // actualiza cada 15s desde backend
-iniciarCarrusel();
+    function cargarPartidosEnDirecto() {
+      fetch('/api/partidos_directo')
+        .then(response => response.json())
+        .then(data => {
+          const contenedor = document.getElementById('directo-contenido');
+          const seccion = document.getElementById('en-direct');
 
-    
+          if (data.length === 0) {
+            seccion.style.setProperty('display', 'none', 'important');
+            partidosGuardados = [];
+            indexActual = 0;
+            contenedor.innerHTML = '';
+            return;
+          }
 
-  
+          seccion.style.setProperty('display', 'flex', 'important');
+          partidosGuardados = data; // guardamos para el carrusel
+          indexActual = 0; // reiniciamos index
+          mostrarPartido(partidosGuardados[indexActual], contenedor);
+        })
+        .catch(error => {
+          console.error('Error al cargar partidos en directo:', error);
+        });
+    }
+
+    // Función para cambiar de partido cada 10 segundos
+    function iniciarCarrusel() {
+      setInterval(() => {
+        const contenedor = document.getElementById('directo-contenido');
+        if (partidosGuardados.length > 1) {
+          indexActual = (indexActual + 1) % partidosGuardados.length;
+          mostrarPartido(partidosGuardados[indexActual], contenedor);
+        }
+      }, 5000); // 10 segundos
+    }
+
+    // Ejecutar todo
+    cargarPartidosEnDirecto();
+    setInterval(cargarPartidosEnDirecto, 15000); // actualiza cada 15s desde backend
+    iniciarCarrusel();
+
+    function cerrarModalDirecto() {
+      const seccion = document.getElementById('en-direct');
+      seccion.style.setProperty('display', 'none', 'important');
+    }
   </script>
 </body>
+
 </html>
