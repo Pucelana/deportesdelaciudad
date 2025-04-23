@@ -36,7 +36,7 @@ def create_app():
     app.register_blueprint(aliados_route_bp, url_prefix='/admin')
     app.register_blueprint(aula_route_bp, url_prefix='/admin')
     app.register_blueprint(recoletas_route_bp, url_prefix='/admin')
-    app.register_blueprint(usuarios_route_bp, url_prefix='/admin')
+    app.register_blueprint(usuarios_route_bp)
     
     return app 
 

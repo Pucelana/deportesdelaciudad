@@ -51,6 +51,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
                   <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                    {% if current_user.is_authenticated %}
+
                     <li class="nav-item">
                       <a class="nav-link active text-white fw-bold text-menu-nav" href="/"
                         aria-current="page">Inicio</a>
@@ -175,16 +177,8 @@
                         <a class="dropdown-item" href="/sistema_ligas/voleibol">Voleibol</a>
                       </div>
                     </li>
-                    <!--<li class="nav-item">
-                        <a class="nav-link fs-5 text-white" href="#"></a>
-                    </li>-->
+                    {% endif %}
 
-                    <!--<li class="nav-item">
-                        <a class="nav-link fs-5 text-white" href="#">Suscripción</a>
-                    </li>-->
-                    <!--<li class="nav-item">
-                        <a class="nav-link fs-5 text-white" href="#">Contactos</a>
-                    </li>-->
                   </ul>
                 </div>
               </div>
@@ -203,14 +197,26 @@
               </button>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                 {% if current_user.is_authenticated %}
-
                 <li><span class="dropdown-item-text">Hola, {{ current_user.nombre }}</span></li>
                 <li>
                   <hr class="dropdown-divider">
                 </li>
-                <li><a class="dropdown-item text-danger" href="{{ url_for('usuarios_route_bp.logout') }}">Cerrar sesión</a></li>
+                <a class="dropdown-item text-danger" href="#"
+                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  Cerrar sesión
+                </a>
+                <form id="logout-form" action="{{ url_for('usuarios_route_bp.logout') }}" method="GET"
+                  style="display: none;"></form>
+                <form action="{{ url_for('usuarios_route_bp.darse_de_baja') }}" method="POST"
+                  onsubmit="return confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');">
+                  <a class="dropdown-item text-danger" href="#" data-bs-toggle="modal" data-bs-target="#bajaModal">
+                    Darse de baja
+                  </a>
+                </form>
+
                 {% else %}
-                <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar
+                <li><a class="dropdown-item" action="{{ url_for('usuarios_route_bp.login') }}" data-bs-toggle="modal"
+                    data-bs-target="#loginModal">Iniciar
                     sesión</a></li>
                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
                     data-bs-target="#registroModal">Registrarse</a></li>
@@ -231,6 +237,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              {% if current_user.is_authenticated %}
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <a class="nav-link active fs-5 text-white fw-bold text-menu-nav" href="/"
@@ -356,20 +363,7 @@
                     <a class="dropdown-item" href="/admin/sistema_ligas/voleibol">Voleibol</a>
                   </div>
                 </li>
-                <!--<li class="nav-item">
-                  <a class="nav-link fs-5 text-white" href="#">Calendarios</a>
-              </li>-->
-                <!--<li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle fs-5 text-white" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Participa</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownId">
-                      <a class="dropdown-item" href="#">¿Qué hacer?</a>
-                      <a class="dropdown-item" href="#">Comparteló</a>
-                      <a class="dropdown-item" href="#">Escribé tu noticia</a>
-                    </div>
-                </li>-->
-                <!--<li class="nav-item">
-                  <a class="nav-link fs-5 text-white" href="#">Suscripción</a>
-              </li>-->
+                {% endif %}
               </ul>
             </div>
           </div>
@@ -394,10 +388,15 @@
               </a>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownMobile">
                 {% if current_user.is_authenticated %}
-                <span class="dropdown-item-text" href="{{ url_for('usuarios_route_bp.perfil') }}">Hola, {{
+                <span class="dropdown-item-text" action="{{ url_for('usuarios_route_bp.perfil') }}">Hola, {{
                   current_user.nombre }}</span>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item text-danger" href="{{ url_for('usuarios_route_bp.logout') }}">Cerrar sesión</a>
+                <hr class="dropdown-divider">
+                <a class="dropdown-item text-danger" href="#"
+                  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                  Cerrar sesión
+                </a>
+                <form id="logout-form" action="{{ url_for('usuarios_route_bp.logout') }}" method="GET"
+                  style="display: none;"></form>
                 {% else %}
                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</a>
                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal">Registrarse</a>
@@ -415,6 +414,7 @@
       </section>
     </header>
     <!--Carrusel-->
+    {% if current_user.is_authenticated %}
     <section id="valladolid" class="container-fluid flex-fill">
       <div id="carouselExampleControls" class="carousel mt-3" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -468,6 +468,18 @@
         </div>
       </div>
     </section>
+    {% else %}
+    <!-- Mensaje si NO está autenticado -->
+    <section class="container text-center mt-5">
+      <h3 class="text-danger fw-bold">🔒 Registrate para ver resultados, partidos en directo, clasificaciones, análisis
+        y mucho más...</h3>
+      <p>
+        <a href="#" class="btn btn-primary mt-2" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</a>
+        <a href="#" class="btn btn-secondary mt-2" data-bs-toggle="modal"
+          data-bs-target="#registroModal">Registrarse</a>
+      </p>
+    </section>
+    {% endif %}
     <section class="container-fluid logo_principal">
       <div class="row container-lg">
         <div class="col-lg-10 col-md-10 col-sm-10 text-center">
@@ -719,7 +731,7 @@
           <div class="modal-body">
             <div class="mb-3">
               <label for="usuario" class="form-label">Nombre</label>
-              <input type="text" id="usuario" name="usuario" class="form-control" autocomplete="usuario" required>
+              <input type="text" id="usuario" name="usuario" class="form-control" autocomplete="username" required>
             </div>
             <div class="mb-3">
               <label for="email" class="form-label">Correo</label>
@@ -727,13 +739,13 @@
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
-              <input type="password" id="password" name="password" class="form-control" autocomplete="password"
+              <input type="password" id="password" name="password" class="form-control" autocomplete="new password"
                 required>
             </div>
             <div class="mb-3">
               <label for="confirmar_password" class="form-label">Confirmar contraseña</label>
               <input type="password" id="confirmar_password" name="confirmar_password" class="form-control"
-                autocomplete="confirmar_password" required>
+                autocomplete="new password" required>
             </div>
           </div>
           <div class="modal-footer">
@@ -756,11 +768,11 @@
           <div class="modal-body">
             <div class="mb-3">
               <label for="email" class="form-label">Correo</label>
-              <input type="email" name="email" class="form-control" required>
+              <input type="email" name="email" class="form-control" autocomplete="email" required>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
-              <input type="password" name="password" class="form-control" required>
+              <input type="password" name="password" class="form-control" autocomplete="current-password" required>
             </div>
           </div>
           <div class="modal-footer">
@@ -768,6 +780,30 @@
           </div>
         </div>
       </form>
+    </div>
+  </div>
+  <!-- Modal para confirmar la baja -->
+  <div class="modal fade" id="bajaModal" tabindex="-1" aria-labelledby="bajaModalLabel" aria-hidden="true" data-bs-backdrop="false">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-danger">
+        <div class="modal-header bg-danger text-white">
+          <h5 class="modal-title" id="bajaModalLabel">¿Estás seguro?</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          Esta acción eliminará tu cuenta <strong>de forma permanente</strong>. No podrás recuperarla después.
+          <br><br>¿Deseas continuar?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form action="{{ url_for('usuarios_route_bp.darse_de_baja') }}" method="POST">
+            {% if current_user.is_authenticated and current_user.is_authenticated %}
+           
+            {% endif %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar mi cuenta</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -809,6 +845,11 @@
           const contenedor = document.getElementById('directo-contenido');
           const seccion = document.getElementById('en-direct');
 
+          // Chequea si existen los elementos antes de manipularlos
+          if (!contenedor || !seccion) {
+            return;
+          }
+
           if (data.length === 0) {
             seccion.style.setProperty('display', 'none', 'important');
             partidosGuardados = [];
@@ -831,22 +872,26 @@
     function iniciarCarrusel() {
       setInterval(() => {
         const contenedor = document.getElementById('directo-contenido');
-        if (partidosGuardados.length > 1) {
+        if (contenedor && partidosGuardados.length > 1) {
           indexActual = (indexActual + 1) % partidosGuardados.length;
           mostrarPartido(partidosGuardados[indexActual], contenedor);
         }
       }, 5000); // 10 segundos
     }
 
-    // Ejecutar todo
-    cargarPartidosEnDirecto();
-    setInterval(cargarPartidosEnDirecto, 15000); // actualiza cada 15s desde backend
-    iniciarCarrusel();
-
     function cerrarModalDirecto() {
       const seccion = document.getElementById('en-direct');
-      seccion.style.setProperty('display', 'none', 'important');
+      if (seccion) {
+        seccion.style.setProperty('display', 'none', 'important');
+      }
     }
+
+    // Asegura que se ejecute solo cuando el DOM esté listo
+    document.addEventListener("DOMContentLoaded", function () {
+      cargarPartidosEnDirecto();
+      setInterval(cargarPartidosEnDirecto, 15000);
+      iniciarCarrusel();
+    });
   </script>
 </body>
 
