@@ -275,3 +275,168 @@ def clasif_analisis_recoletas():
             clasificacion_analisis_recoletas.append(equipo)
     return render_template('equipos_balonmano/clasif_analisis_recoletas.html',
         clasificacion_analisis_recoletas=clasificacion_analisis_recoletas)
+    
+# PLAYOFF ATL.VALLADOLID
+# Crear formulario para los playoff
+@recoletas_route_bp.route('/crear_playoff_recoletas', methods=['GET', 'POST'])
+def crear_playoff_recoletas():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'promocion': 2,
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = PlayoffRecoletas(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('recoletas_route_bp.ver_playoff_recoletas'))
+    return render_template('admin/playoffs/playoff_recoletas.html')
+# Ver encuentros playoff en Admin
+@recoletas_route_bp.route('/playoff_recoletas/')
+def ver_playoff_recoletas():
+    eliminatorias = ['promocion']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = PlayoffRecoletas.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffRecoletas.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/playoffs/playoff_recoletas.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de los playoff
+@recoletas_route_bp.route('/modificar_playoff_recoletas/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_playoff_recoletas(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = PlayoffRecoletas.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        flash('Playoff actualizado correctamente', 'success')
+        return redirect(url_for('recoletas_route_bp.ver_playoff_recoletas'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('recoletas_route_bp.ver_playoff_recoletas'))
+# Eliminar los partidos de los playoff
+@recoletas_route_bp.route('/eliminar_playoff_recoletas/<string:eliminatoria>', methods=['POST'])
+def eliminar_playoff_recoletas(eliminatoria):
+    partidos = PlayoffRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
+    return redirect(url_for('recoletas_route_bp.ver_playoff_recoletas'))
+# Mostrar los playoffs del Atl.Valladolid
+@recoletas_route_bp.route('/playoffs_recoletas/')
+def playoffs_recoletas():
+    eliminatorias = ['promocion']
+    datos_playoff = {}
+    for eliminatoria in eliminatorias:
+        partidos = PlayoffRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_playoff[eliminatoria] = partidos   
+    return render_template('playoff/recoletas_playoff.html', datos_playoff=datos_playoff)    
+    
+# COPA ATL.VALLADOLID
+# Crear formulario para la copa
+@recoletas_route_bp.route('/crear_copa_recoletas', methods=['GET', 'POST'])
+def crear_copa_recoletas():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'ronda1': 12,
+            'ronda2': 6,
+            'octavos': 6,
+            'cuartos': 4,
+            'semifinales': 2,
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = CopaRecoletas(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('recoletas_route_bp.ver_copa_recoletas'))
+    return render_template('admin/copa/copa_recoletas.html')
+# Ver encuentros copa en Admin
+@recoletas_route_bp.route('/copa_recoletas/')
+def ver_copa_recoletas():
+    eliminatorias = ['ronda1', 'ronda2', 'octavos', 'cuartos', 'semifinales', 'final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).order_by(CopaRecoletas.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/copa/copa_recoletas.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la copa
+@recoletas_route_bp.route('/modificar_copa_recoletas/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_copa_recoletas(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = CopaRecoletas.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        flash('Copa actualizado correctamente', 'success')
+        return redirect(url_for('recoletas_route_bp.ver_copa_recoletas'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('recoletas_route_bp.ver_copa_recoletas'))
+# Eliminar los partidos de la copa
+@recoletas_route_bp.route('/eliminar_copa_recoletas/<string:eliminatoria>', methods=['POST'])
+def eliminar_copa_recoletas(eliminatoria):
+    partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
+    return redirect(url_for('recoletas_route_bp.ver_copa_recoletas'))
+# Mostrar la copa del Atl.Valladolid
+@recoletas_route_bp.route('/copas_recoletas/')
+def copas_recoletas():
+    eliminatorias = ['ronda1' ,'ronda2', 'octavos','cuartos', 'semifinales', 'final']
+    datos_copa = {}
+    for eliminatoria in eliminatorias:
+        partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_copa[eliminatoria] = partidos   
+    return render_template('copas/recoletas_copa.html', datos_copa=datos_copa)
