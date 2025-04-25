@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
     <title></title>
     <!-- Required meta tags -->
@@ -46,9 +47,16 @@
         </nav>
         <h2 class="text-white text-center text-analisis">Fundación Aliados 24/25</h2>
         <section class="container-lg mb-5 flex-fill copa">
-            <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+            <!-- Navegador personalizado -->
+            <div class="d-flex justify-content-center my-3 gap-3">
+                <a href="#slide-clasificacion" class="btn btn-outline-dark" data-slide="0">Clasificación</a>
+                <a href="#slide-playoff" class="btn btn-outline-dark" data-slide="1">PlayOff</a>
+                <a href="#slide-europa" class="btn btn-outline-dark" data-slide="2">Europa</a>             
+                <a href="#slide-descenso" class="btn btn-outline-dark" data-slide="3">Descenso</a>
+            </div>
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
                 <div class="carousel-inner">
-                    <div class="carousel-item active"><!--Tabla Clasificación-->
+                    <div class="carousel-item active" id="slide-clasificacion"><!--Tabla Clasificación-->
                         <div class="d-flex justify-content-center">
                             <div class="card tabla_equipos" style="width: 80rem;">
                                 <div class="card-body">
@@ -105,7 +113,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item"><!--Tabla PlayOff-->
+                    <div class="carousel-item" id="slide-playoff"><!--Tabla PlayOff-->
                         <div class="d-flex justify-content-center">
                             <div class="card tabla_equipos" style="width: 80rem;">
                                 <div class="card-body">
@@ -152,7 +160,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item"><!--Tabla Europa-->
+                    <div class="carousel-item" id="slide-europa"><!--Tabla Europa-->
                         <div class="d-flex justify-content-center">
                             <div class="card tabla_equipos" style="width: 80rem;">
                                 <div class="card-body">
@@ -199,7 +207,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="carousel-item"><!--Tabla Descenso-->
+                    <div class="carousel-item" id="slide-descenso"><!--Tabla Descenso-->
                         <div class="d-flex justify-content-center">
                             <div class="card tabla_equipos" style="width: 80rem;">
                                 <div class="card-body">
@@ -525,7 +533,9 @@
         integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
         </script>
     <script src="/static/js/script.js"></script>
+    <script src="/static/js/slide.js"></script>
     <script src="/static/js/analisis-aliados.js"></script>
     <script src="/static/js/num_caracteres.js"></script>
 </body>
+
 </html>

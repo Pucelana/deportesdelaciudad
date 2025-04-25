@@ -47,7 +47,19 @@ class CopaRecoletas(db.Model):
     resultadoA = db.Column(db.String(10), nullable=True)
     resultadoB = db.Column(db.String(10), nullable=True)
     visitante = db.Column(db.String(100), nullable=True)
-    orden = db.Column(db.Integer) 
+    orden = db.Column(db.Integer)
+    
+class CopaEspañaRecoletas(db.Model):
+    __tablename__ = 'copa_españa_recoletas'
+    id = db.Column(db.Integer, primary_key=True)
+    eliminatoria = db.Column(db.String(20), nullable=False)
+    fecha = db.Column(db.String(20), nullable=True)
+    hora = db.Column(db.String(10), nullable=True)
+    local = db.Column(db.String(100), nullable=True)
+    resultadoA = db.Column(db.String(10), nullable=True)
+    resultadoB = db.Column(db.String(10), nullable=True)
+    visitante = db.Column(db.String(100), nullable=True)
+    orden = db.Column(db.Integer)     
     
 class SupercopaIbericaRecoletas(db.Model):
     __tablename__ = 'supercopa_iberica_recoletas'
@@ -71,4 +83,14 @@ class EuropaRecoletas(db.Model):
     resultadoA = db.Column(db.String(10), nullable=True)
     resultadoB = db.Column(db.String(10), nullable=True)
     visitante = db.Column(db.String(100), nullable=True)
-    orden = db.Column(db.Integer) 
+    orden = db.Column(db.Integer)
+    
+class ClasificacionEuropa(db.Model):
+    __tablename__ = 'clasificacion_europa'
+    id = db.Column(db.Integer, primary_key=True)
+    grupo = db.Column(db.String(50))
+    equipo = db.Column(db.String(50))
+    jugados = db.Column(db.Integer, default=0)
+    ganados = db.Column(db.Integer, default=0)
+    perdidos = db.Column(db.Integer, default=0)
+    puntos = db.Column(db.Integer, default=0)     

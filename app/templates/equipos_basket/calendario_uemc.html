@@ -14,13 +14,15 @@
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="twitter:image" content="URL_de_la_imagen">
   <meta name="twitter:site" content="@tu_cuenta_de_twitter">
   <meta name="twitter:creator" content="@cuenta_del_autor">
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta property="og:image" content="URL_de_la_imagen">
   <meta property="og:url" content="URL_de_tu_página">
   <meta property="og:type" content="website">
@@ -32,6 +34,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="../static/img/logo.png" />
 </head>
+
 <body class="bg-white calend_basket">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
@@ -42,9 +45,14 @@
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-3 gap-3">
+        <a href="#slide-calendario" class="btn btn-outline-dark" data-slide="0">Calendario</a>
+        <a href="#slide-resultados" class="btn btn-outline-dark" data-slide="1">Resultados</a>
+      </div>
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!-- Tabla calendario UEMC -->
+          <div class="carousel-item active " id="slide-calendario"><!-- Tabla calendario UEMC -->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
@@ -72,56 +80,56 @@
                       <tbody>
                         {% for equipo, datos_equipo in tabla_partidos_uemc.items() %}
                         <tr class="text-center">
-                            <th class="text-white size_equipos">{{ equipo }}</th>
-                            <td class="jorn_ida fw-bold">
-                                {% if datos_equipo.get('primer_enfrentamiento') %}
-                                J -{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                                {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] %}
-                                ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] }})
-                                {% endif %}
-                                {% endif %}
-                            </td>
-                            <td class="jorn_vuelta fw-bold">
-                                {% if datos_equipo.get('segundo_enfrentamiento') %}
-                                J -{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                                {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] %}
-                                ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] }})
-                                {% endif %}
-                                {% endif %}
-                            </td>
-                            {% if datos_equipo.get('resultadoA') is not none %}
-                            <td class="resultadoA fw-bold">{{ datos_equipo['resultadoA'] }}</td>
-                            {% else %}
-                            <td class="resultadoA fw-bold"></td>
+                          <th class="text-white size_equipos">{{ equipo }}</th>
+                          <td class="jorn_ida fw-bold">
+                            {% if datos_equipo.get('primer_enfrentamiento') %}
+                            J -{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_uemc'] }})
                             {% endif %}
-                            {% if datos_equipo.get('resultadoB') is not none %}
-                            <td class="resultadoB fw-bold">{{ datos_equipo['resultadoB'] }}</td>
-                            {% else %}
-                            <td class="resultadoB fw-bold"></td>
                             {% endif %}
-                            {% if datos_equipo.get('resultadoAA') is not none %}
-                            <td class="resultadoAA fw-bold">{{ datos_equipo['resultadoAA'] }}</td>
-                            {% else %}
-                            <td class="resultadoAA fw-bold"></td>
+                          </td>
+                          <td class="jorn_vuelta fw-bold">
+                            {% if datos_equipo.get('segundo_enfrentamiento') %}
+                            J -{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_uemc'] }})
                             {% endif %}
-                            {% if datos_equipo.get('resultadoBB') is not none %}
-                            <td class="resultadoBB fw-bold">{{ datos_equipo['resultadoBB'] }}</td>
-                            {% else %}
-                            <td class="resultadoBB fw-bold"></td>
                             {% endif %}
-                            <td class="gan-1"></td>
-                            <td class="per-1"></td>
-                            <td class="average"></td>
+                          </td>
+                          {% if datos_equipo.get('resultadoA') is not none %}
+                          <td class="resultadoA fw-bold">{{ datos_equipo['resultadoA'] }}</td>
+                          {% else %}
+                          <td class="resultadoA fw-bold"></td>
+                          {% endif %}
+                          {% if datos_equipo.get('resultadoB') is not none %}
+                          <td class="resultadoB fw-bold">{{ datos_equipo['resultadoB'] }}</td>
+                          {% else %}
+                          <td class="resultadoB fw-bold"></td>
+                          {% endif %}
+                          {% if datos_equipo.get('resultadoAA') is not none %}
+                          <td class="resultadoAA fw-bold">{{ datos_equipo['resultadoAA'] }}</td>
+                          {% else %}
+                          <td class="resultadoAA fw-bold"></td>
+                          {% endif %}
+                          {% if datos_equipo.get('resultadoBB') is not none %}
+                          <td class="resultadoBB fw-bold">{{ datos_equipo['resultadoBB'] }}</td>
+                          {% else %}
+                          <td class="resultadoBB fw-bold"></td>
+                          {% endif %}
+                          <td class="gan-1"></td>
+                          <td class="per-1"></td>
+                          <td class="average"></td>
                         </tr>
                         {% endfor %}
-                    </tbody>
+                      </tbody>
                     </table>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!-- Resultados temporada -->
+          <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada -->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
                 <h3 class="text-center text-white fw-bold">Resultados 25/26</h3>
@@ -165,7 +173,7 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -174,7 +182,7 @@
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button>-->
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -407,9 +415,11 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
   <script src="/static/js/leer_mas.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
   <script>
+    
     document.addEventListener('DOMContentLoaded', function () {
       // Seleccionar todas las filas de la tabla
       var filas = document.querySelectorAll('.tabla_uemc tbody tr');
@@ -595,6 +605,7 @@
         }
       });
     });
+
   </script>
 </body>
 
