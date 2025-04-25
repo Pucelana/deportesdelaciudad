@@ -14,13 +14,15 @@
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Eldeportedelaciudad">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="twitter:image" content="https://i.imgur.com/lMxHirK.png">
   <meta name="twitter:site" content="@deporteyciudad">
   <meta name="twitter:creator" content="@deporteyciudad">
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Eldeportedelaciudad">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta property="og:image" content="https://i.imgur.com/lMxHirK.png">
   <meta property="og:url" content="mi dominio">
   <meta property="og:type" content="website">
@@ -32,6 +34,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
+
 <body id="body_secciones">
   <div class="d-flex flex-column min-vh-100">
     <section id="cabecera1" class="align-items-center sticky-top">
@@ -148,9 +151,15 @@
     </header><!-- Fin header 2 -->
     <section class="container-lg mb-5 flex-fill">
       <h1 class="h1_seccion pb-3">Sistema ligas baloncesto</h1>
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-3 gap-3">
+        <a href="#slide-bsr" class="btn btn-outline-dark" data-slide="0">BSR</a>
+        <a href="#slide-femenino" class="btn btn-outline-dark" data-slide="1">Femenino</a>
+        <a href="#slide-masculino" class="btn btn-outline-dark" data-slide="2">Masculino</a>
+      </div>
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!-- Sistema liga - Baloncesto BSR -->
+          <div class="carousel-item active" id="slide-bsr"><!-- Sistema liga - Baloncesto BSR -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
@@ -247,7 +256,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item active"><!-- Sistema liga - Baloncesto Femenino -->
+          <div class="carousel-item active" id="slide-femenino"><!-- Sistema liga - Baloncesto Femenino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
@@ -379,7 +388,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!-- Sistema liga - Baloncesto Masculino -->
+          <div class="carousel-item" id="slide-masculino"><!-- Sistema liga - Baloncesto Masculino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
@@ -664,7 +673,7 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -673,7 +682,7 @@
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button>-->
       </div>
     </section><!--Fin Carrusel-->
     <footer class="container-fluid mt-auto footer-seccion py-2">
@@ -873,7 +882,11 @@
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
-        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">eldeportedelaciudad@gmail.com</a></p>
+        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya
+          pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros
+          directamente a nuestro gmail de la página <a
+            href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web&body=Hola, me pongo en contacto con vosotros para......"
+            class="fs-5 text-center d-flex justify-content-center pt-3">eldeportedelaciudad@gmail.com</a></p>
       </div>
     </div>
   </div>
@@ -887,6 +900,7 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
   <script>
     function mostrarTexto(enlace) {
       // Obtener el elemento <li> padre del enlace

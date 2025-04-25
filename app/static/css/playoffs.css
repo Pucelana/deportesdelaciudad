@@ -22,14 +22,21 @@
 }
 .fondos_copa{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/img/copa_del_rey3.png');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_del_rey.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
+.fondos_copa_balonmano{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_rey_balonmano.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
 }
 .tabla_copa{
     background-color: transparent;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(5px);
     border: 1px solid #ddba49;
     box-shadow: 6px 5px 5px 5px rgb(255, 245, 205);
 }

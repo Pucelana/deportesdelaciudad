@@ -148,9 +148,14 @@
     </header><!-- Fin header 2 -->
     <section class="container-lg mb-5 flex-fill">
       <h1 class="h1_seccion pb-2">Sistema ligas hockey línea</h1>
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-3 gap-3">
+        <a href="#slide-femenino" class="btn btn-outline-dark" data-slide="0">Femenino</a>
+        <a href="#slide-masculino" class="btn btn-outline-dark" data-slide="1">Masculino</a>
+      </div>
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!-- Sistema liga - Hockey Femenino -->
+          <div class="carousel-item active" id="slide-femenino"><!-- Sistema liga - Hockey Femenino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
@@ -250,7 +255,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!-- Sistema liga - Baloncesto Masculino -->
+          <div class="carousel-item" id="slide-masculino"><!-- Sistema liga - Hockey Masculino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
@@ -352,7 +357,7 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -361,7 +366,7 @@
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button>-->
       </div>
     </section><!--Fin Carrusel-->
     <footer class="container-fluid mt-auto footer-seccion">
@@ -575,6 +580,7 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
   <script>
     function mostrarTexto(enlace) {
       // Obtener el elemento <li> padre del enlace

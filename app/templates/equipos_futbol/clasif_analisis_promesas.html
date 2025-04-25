@@ -43,9 +43,16 @@
     </nav>
     <h2 class="text-white text-center text-analisis">Real Valladolid Prom. 24/25</h2>
     <section class="container-lg mb-5 flex-fill copa">
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-3 gap-3">
+        <a href="#slide-clasificacion" class="btn btn-outline-dark" data-slide="0">Clasificación</a>
+        <a href="#slide-ascenso" class="btn btn-outline-dark" data-slide="1">Ascenso</a>
+        <a href="#slide-playoff" class="btn btn-outline-dark" data-slide="2">PlayOff</a>
+        <a href="#slide-descenso" class="btn btn-outline-dark" data-slide="3">Descenso</a>
+      </div>
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!--Tabla Clasificación-->
+          <div class="carousel-item active" id="slide-clasificacion"><!--Tabla Clasificación-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equ_futb" style="width: 80rem;">
                 <div class="card-body">
@@ -97,7 +104,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!--Tabla Ascenso-->
+          <div class="carousel-item" id="slide-ascenso"><!--Tabla Ascenso-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equ_futb" style="width: 80rem;">
                 <div class="card-body">
@@ -140,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!--Tabla PlayOff-->
+          <div class="carousel-item" id="slide-playoff"><!--Tabla PlayOff-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equ_futb" style="width: 80rem;">
                 <div class="card-body">
@@ -183,7 +190,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!--Tabla Permanencia-->
+          <div class="carousel-item" id="slide-descenso"><!--Tabla Permanencia-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equ_futb" style="width: 80rem;">
                 <div class="card-body">
@@ -227,7 +234,7 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -236,7 +243,7 @@
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button>-->
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -470,6 +477,7 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
   <script src="/static/js/analisis-prome.js"></script>
   <script scr="/static/js/num_caracteres.js"></script>
 </body>

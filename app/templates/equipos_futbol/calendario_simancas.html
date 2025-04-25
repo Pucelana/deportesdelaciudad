@@ -40,9 +40,14 @@
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-3 gap-3">
+        <a href="#slide-calendario" class="btn btn-outline-dark" data-slide="0">Calendario</a>
+        <a href="#slide-resultados" class="btn btn-outline-dark" data-slide="1">Resultados</a>
+      </div>
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active"><!--Tabla Calendario Real Valladolid Fem.-->
+          <div class="carousel-item active" id="slide-calendario"><!--Tabla Calendario Real Valladolid Fem.-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
@@ -102,7 +107,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item"><!-- Resultados temporada 23/24 -->
+          <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada 23/24 -->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos" style="width: 80rem;">
                 <h3 class="text-center text-white fw-bold my-3">Resultados 24/25</h3>
@@ -146,7 +151,7 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+        <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -155,7 +160,7 @@
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button>-->
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -388,6 +393,7 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
   <script src="/static/js/leer_mas.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
   <script>

@@ -45,43 +45,49 @@
         </nav>
         <h1 class="text-playoff pb-2">Copa de El Rey 25/26</h1>
         <span class="text-playoff equipo_copa">Fundación Aliados</span>
-        <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-            <div class="d-flex justify-content-center">
-                <div class="card tabla_copa mt-4" style="width: 70rem;">
-                    <div class="card-body">
-                        <div class="row table-responsive">
-                            <div class="col-12">
-                                <div class="">
-                                    {% for ronda, partidos in datos_copa.items() %}
-                                    <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
-                                    <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
+        <section class="container-lg flex-fill copa">
+            <!-- Navegación -->
+            <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+                {% for ronda in datos_copa.keys() %}
+                <a href="#" class="btn btn-outline-dark btn-ronda" data-target="ronda{{ loop.index0 }}">{{
+                    ronda|capitalize }}</a>
+                {% endfor %}
+            </div>
+
+            <!-- Contenedor de rondas -->
+            <div id="contenedor-rondas">
+                {% for ronda, partidos in datos_copa.items() %}
+                <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+                    id="ronda{{ loop.index0 }}">
+                    <div class="d-flex justify-content-center">
+                        <div class="card tabla_copa mt-4" style="width: 70rem;">
+                            <div class="card-body">
+                                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                                <div class="row table-responsive">
+                                    <div class="col-12">
                                         <table class="table border-secondary">
                                             {% for partido in partidos %}
                                             <tr class="text-center">
-                                                <td class="text-center text-white">{{ partido.fecha }}</td>
-                                                <td class="text-center text-white">{{ partido.hora }}</td>
+                                                <td class="text-white">{{ partido.fecha }}</td>
+                                                <td class="text-white">{{ partido.hora }}</td>
                                                 <td
-                                                    class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                                                    class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
                                                     {{ partido.local }}</td>
-                                                <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoA }}
-                                                </td>
-                                                <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoB }}
-                                                </td>
+                                                <td class="text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
+                                                <td class="text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
                                                 <td
-                                                    class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                                                    class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
                                                     {{ partido.visitante }}</td>
                                             </tr>
                                             {% endfor %}
                                         </table>
                                     </div>
-                                    <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                                        data-ronda="{{ loop.index }}">Ver Partidos</a>
-                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
         </section>
         <footer class="container-fluid mt-auto footer-seccion">
@@ -350,30 +356,33 @@
     <script src="/static/js/proteccion-datos.js"></script>
     <!--<script src="/static/js/script.js"></script>-->
     <script>
-        $(document).ready(function () {
-            $('.mostrar-enlace').click(function (e) {
-                e.preventDefault();
-                var enlace = $(this);
-                var ronda = enlace.data('ronda');
-                var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');
-
-                // Ocultar todos los demás divs de texto adicional excepto el actual
-                $('.texto-adicional').not(textoAdicional).hide();
-
-                // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-                textoAdicional.toggle();
-
-                // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-                $('.mostrar-enlace').not(enlace).text('Ver Partidos');
-
-                // Cambiar el texto del enlace actual
-                if (textoAdicional.is(':visible')) {
-                    enlace.text('Ocultar');
-                } else {
-                    enlace.text('Ver Partidos');
-                }
-            });
+        document.addEventListener("DOMContentLoaded", function () {
+        const botones = document.querySelectorAll(".btn-ronda");
+        const rondas = document.querySelectorAll(".ronda-item");
+    
+        botones.forEach(boton => {
+          boton.addEventListener("click", function (e) {
+            e.preventDefault();
+    
+            // Oculta todas las rondas
+            rondas.forEach(r => r.classList.add("d-none"));
+            rondas.forEach(r => r.classList.remove("d-block"));
+    
+            // Activa solo la seleccionada
+            const targetId = this.dataset.target;
+            const targetDiv = document.getElementById(targetId);
+            if (targetDiv) {
+              targetDiv.classList.remove("d-none");
+              targetDiv.classList.add("d-block");
+            }
+    
+            // Opcional: marcar el botón activo
+            botones.forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+          });
         });
-    </script>
+      });
+      </script>
 </body>
+
 </html>
