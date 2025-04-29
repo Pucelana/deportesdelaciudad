@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <title>Copa de España - UEMC Valladolid</title>
   <!-- Required meta tags -->
@@ -13,13 +14,15 @@
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="twitter:image" content="URL_de_la_imagen">
   <meta name="twitter:site" content="@tu_cuenta_de_twitter">
   <meta name="twitter:creator" content="@cuenta_del_autor">
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta property="og:image" content="URL_de_la_imagen">
   <meta property="og:url" content="URL_de_tu_página">
   <meta property="og:type" content="website">
@@ -31,7 +34,8 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-<body class="fondos_copa">
+
+<body class="fondo_copa_basket">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ps-2 pt-2">
@@ -41,189 +45,119 @@
     </nav>
     <h1 class="text-playoff">Copa de España 24/25</h1>
     <span class="equipo_copa">UEMC Valladolid</span>
+    <!-- Navegación -->
+    <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+      {% for grupo in clasificaciones.keys() %}
+      <a href="#" class="btn btn-outline-info btn-slide {% if loop.first %}active{% endif %}"
+        data-target="grupo{{ loop.index0 }}">
+        {{ grupo }}
+      </a>
+      {% endfor %}
+      {% for ronda in eliminatorias.keys() %}
+      <a href="#" class="btn btn-outline-info btn-slide" data-target="ronda{{ loop.index0 }}">
+        {{ ronda|capitalize }}
+      </a>
+      {% endfor %}
+    </div>
     <section class="container-lg flex-fill copa_uemc">
-      <!-- Clasificaciones y Enfrentamientos de Grupos -->
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 75rem;">
-          <div class="card-body">
-            {% for grupo, data in equipos_por_encuentros.items() %}
-            <div class="row table-responsive mb-4">
-              <div class="col-12">
-                <p class="text-center fw-bold text-primary fs-2">{{ grupo }}</p>
-                <div class="clasificacion" id="clasificacion{{ grupo }}">
-                  <table class="table border-dark">
-                    <thead>
-                      <tr>
-                        <th class="text-center text-white"></th>
-                        <th class="text-center text-white">Equipo</th>
-                        <th class="text-center text-white">PJ</th>
-                        <th class="text-center text-white">PG</th>
-                        <th class="text-center text-white">PP</th>
-                        <th class="text-center text-white">PTOS</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for equipo, datos in clasificaciones[grupo] %}
-                      <tr>
-                        <td class="text-center text-white {% if loop.index == 1 %}pos-ascen{% endif %}">{{ loop.index }}
-                        </td>
-                        <td class="text-center text-white">{{ equipo }}</td>
-                        <td class="text-center text-white">{{ datos.jugados }}</td>
-                        <td class="text-center text-white">{{ datos.ganados }}</td>
-                        <td class="text-center text-white">{{ datos.perdidos }}</td>
-                        <td class="text-center text-white">{{ datos.puntos }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                  <p class="text-center fw-bold text-white fs-5">Enfrentamientos</p>
-                  <div class="enfrentamientos" id="enfrentamientos{{ grupo }}" style="display: none;">
-                    <table class="table border-dark">
-                      {% for partido in data['partidos'] %}
-                      <tr>
-                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
-                        <td class="text-center text-copa_uemc fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and (partido.resultadoA|int < partido.resultadoB|int or partido.resultadoB|int >= 100) %}text-danger{% endif %}">
-                          {{ partido['local'] }}
-                        </td>
-                        <td class="text-center text-white fw-bold fs-5">
-                          {% if partido['resultadoA'] is not none %}
-                          {{ partido['resultadoA'] }}
-                          {% endif %}
-                        </td>
-                        <td class="text-center text-white fw-bold fs-5">
-                          {% if partido['resultadoB'] is not none %}
-                          {{ partido['resultadoB'] }}
-                          {% endif %}
-                        </td>
-                        <td
-                          class="text-center text-copa_uemc fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and (partido.resultadoA|int > partido.resultadoB|int or partido.resultadoA|int >= 100) %}
-                          text-danger {% endif %}">
-                          {{ partido['visitante'] }}
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </table>
-                  </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    onclick="mostrarEnfrentamientos('enfrentamientos{{ grupo }}'); return false;">Ver
-                    Enfrentamientos</a>
-                </div>
+      <!-- Contenido Clasificaciones y Eliminatorias -->
+      <div id="contenedor-secciones">
+
+        <!-- Clasificaciones -->
+        {% for grupo in clasificaciones.keys() %}
+        <div class="seccion-slide {% if loop.first %}d-block{% else %}d-none{% endif %}" id="grupo{{ loop.index0 }}">
+          <div class="d-flex justify-content-center">
+            <div class="card tabla_copa mt-4" style="width: 70rem;">
+              <div class="card-body">
+                <h3 class="text-center text-white">Clasificación {{ grupo }}</h3>
+                <table class="table border-secondary text-white text-center">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Equipo</th>
+                      <th>PJ</th>
+                      <th>PG</th>
+                      <th>PP</th>
+                      <th>PTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for equipo, stats in equipos %}
+                    <tr>
+                      <td>{{ loop.index }}</td>
+                      <td class="fw-bold">{{ equipo }}</td>
+                      <td>{{ stats.jugados }}</td>
+                      <td>{{ stats.ganados }}</td>
+                      <td>{{ stats.perdidos }}</td>
+                      <td>{{ stats.puntos }}</td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
               </div>
+              <h4 class="text-white mt-4">Partidos del {{ grupo }}</h4>
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Resultado</th>
+                    <th>Visitante</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for partido in equipos_por_encuentros[grupo].partidos %}
+                  <tr>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.hora }}</td>
+                    <td class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">{{ partido.local }}</td>
+                    <td>{{ partido.resultadoA }} - {{ partido.resultadoB }}</td>
+                    <td class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">{{ partido.visitante }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
-            {% endfor %}
           </div>
         </div>
-      </div>
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-1" style="width: 75rem;">
-          <div class="card-body">
-            <!-- Cuartos -->
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  <p class="text-center fw-bold text-primary fs-3">Cuartos</p>
-                  <div class="enfrentamientos" id="cuartos" style="display: none;">
-                    <table class="table border-dark">
-                      {% for partido in eliminatorias['cuartos']['partidos'] %}
-                      <tr>
-                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
+        {% endfor %}
+
+        <!-- Eliminatorias -->
+        {% for ronda, datos in eliminatorias.items() %}
+        {% set partidos = datos['partidos'] %}
+        <div class="seccion-slide d-none" id="ronda{{ loop.index0 }}">
+          <div class="d-flex justify-content-center">
+            <div class="card tabla_copa mt-4" style="width: 70rem;">
+              <div class="card-body">
+                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                <div class="row table-responsive">
+                  <div class="col-12">
+                    <table class="table border-secondary text-white text-center">
+                      {% for partido in partidos %}
+                      <tr class="text-center">
+                        <td class="text-white">{{ partido.fecha }}</td>
+                        <td class="text-white">{{ partido.hora }}</td>
                         <td
-                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido['local'] }}</td>
-                        <td class="text-center text-white fw-bold fs-4">
-                          {% if partido['resultadoA'] is not none %}
-                          {{ partido['resultadoA'] }}
-                          {% endif %}
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido.local }}
                         </td>
-                        <td class="text-center text-white fw-bold fs-4">
-                          {% if partido['resultadoB'] is not none %}
-                          {{ partido['resultadoB'] }}
-                          {% endif %}
-                        </td>
+                        <td class="text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
+                        <td class="text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
                         <td
-                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido['visitante'] }}</td>
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido.visitante }}
+                        </td>
                       </tr>
                       {% endfor %}
                     </table>
                   </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    onclick="mostrarEnfrentamientos('cuartos'); return false;">Ver Partidos</a>
-                </div>
-              </div>
-            </div>
-            <!-- Semifinales -->
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  <p class="text-center fw-bold text-primary fs-3">Semifinal</p>
-                  <div class="enfrentamientos" id="semifinales" style="display: none;">
-                    <table class="table border-dark">
-                      {% for partido in eliminatorias['semifinales']['partidos'] %}
-                      <tr>
-                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
-                        <td
-                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido['local'] }}</td>
-                        <td class="text-center text-white fw-bold fs-4">
-                          {% if partido['resultadoA'] is not none %}
-                          {{ partido['resultadoA'] }}
-                          {% endif %}
-                        </td>
-                        <td class="text-center text-white fw-bold fs-4">
-                          {% if partido['resultadoB'] is not none %}
-                          {{ partido['resultadoB'] }}
-                          {% endif %}
-                        </td>
-                        <td
-                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido['visitante'] }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
-                  </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    onclick="mostrarEnfrentamientos('semifinales'); return false;">Ver Partidos</a>
-                </div>
-              </div>
-            </div>
-            <!-- Final -->
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  <p class="text-center fw-bold text-primary fs-3">Final</p>
-                  <div class="enfrentamientos" id="final" style="display: none;">
-                    <table class="table border-dark">
-                      {% for partido in eliminatorias['final']['partidos'] %}
-                      <tr>
-                        <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
-                        <td
-                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido['local'] }}</td>
-                        <td class="text-center text-white fw-bold fs-4">
-                          {% if partido['resultadoA'] is not none %}
-                          {{ partido['resultadoA'] }}
-                          {% endif %}
-                        </td>
-                        <td class="text-center text-white fw-bold fs-4">
-                          {% if partido['resultadoB'] is not none %}
-                          {{ partido['resultadoB'] }}
-                          {% endif %}
-                        </td>
-                        <td
-                          class="text-center text-copa_uemc fw-bold fs-4 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido['visitante'] }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
-                  </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    onclick="mostrarEnfrentamientos('final'); return false;">Ver Partidos</a>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -456,12 +390,33 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/proteccion-datos.js"></script>
+  <script src="/static/js/slide.js"></script>
   <!--<script src="/static/js/script.js"></script>-->
   <script>
-    function mostrarEnfrentamientos(id) {
-      var elem = document.getElementById(id);
-      elem.style.display = elem.style.display === 'none' ? 'block' : 'none';
-    }
+    document.querySelectorAll('.btn-slide').forEach(button => {
+      button.addEventListener('click', e => {
+        e.preventDefault();
+        const targetId = button.dataset.target;
+
+        // Ocultar todas las secciones
+        document.querySelectorAll('.seccion-slide').forEach(section => {
+          section.classList.add('d-none');
+          section.classList.remove('d-block');
+        });
+
+        // Mostrar la sección deseada
+        const targetSection = document.getElementById(targetId);
+        if (targetSection) {
+          targetSection.classList.remove('d-none');
+          targetSection.classList.add('d-block');
+        }
+
+        // Actualizar clase activa en los botones
+        document.querySelectorAll('.btn-slide').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+      });
+    });
   </script>
 </body>
+
 </html>

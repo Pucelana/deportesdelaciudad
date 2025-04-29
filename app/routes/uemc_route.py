@@ -381,7 +381,7 @@ def recalcular_clasificaciones(partidos):
 # Función para obtener equipos desde la base de datos
 def obtener_equipos_desde_bd(partidos):
     # Obtener todos los partidos de la base de datos
-    partidos = CopaUEMC.query.all()
+    partidos = CopaUEMC.query.order_by(CopaUEMC.id).all()
     # Definir los grupos y fases de eliminatorias
     grupos = {'grupoA', 'grupoB', 'grupoC', 'grupoD', 'grupoE', 'grupoF', 'grupoG', 'grupoH'}
     fases_eliminatorias = {'cuartos', 'semifinales', 'final'}
@@ -411,7 +411,7 @@ def obtener_equipos_desde_bd(partidos):
     return equipos_por_encuentros, eliminatorias
 # Obtener equipos Copa UEMC
 def obtener_copa_uemc():
-    partidos = CopaUEMC.query.all()
+    partidos = CopaUEMC.query.order_by(CopaUEMC.id).all()
     print("Partidos desde la BD:", partidos)  # Añadir esta línea para depuración
     return partidos
 # Formatear partidos por grupo
@@ -498,23 +498,37 @@ def uemc_copa():
     partidos = obtener_copa_uemc()
     equipos_por_encuentros, eliminatorias = obtener_equipos_desde_bd(partidos)
     clasificaciones, enfrentamientos_directos = recalcular_clasificaciones(partidos)
+    # Definir fases eliminatorias que no deben entrar en las clasificaciones por grupo
+    fases_eliminatorias = {'cuartos', 'semifinales', 'final'}
     data_clasificaciones = {}
     for grupo, equipos in clasificaciones.items():
-        equipos_ordenados = sorted(equipos.items(), key=lambda item: (-item[1]['puntos'], item[1]['ganados'], item[1]['perdidos'], -item[1]['jugados']))
+        if grupo in fases_eliminatorias:
+            continue  # Saltar fases eliminatorias
+        # Ordenar equipos según criterios
+        equipos_ordenados = sorted(
+            equipos.items(),
+            key=lambda item: (-item[1]['puntos'], item[1]['ganados'], item[1]['perdidos'], -item[1]['jugados'])
+        )
+        # Criterio de desempate por enfrentamientos directos
         def criterio_enfrentamientos_directos(equipo1, equipo2):
             if equipo1 in enfrentamientos_directos and equipo2 in enfrentamientos_directos[equipo1]:
-                resultado_directo = enfrentamientos_directos[equipo1][equipo2]
-                return resultado_directo
+                return enfrentamientos_directos[equipo1][equipo2]
             return 0
-        equipos_ordenados = sorted(equipos_ordenados, key=lambda item: (
-            -item[1]['puntos'],
-            item[1]['ganados'],
-            item[1]['perdidos'],
-            -item[1]['jugados'],
-            -criterio_enfrentamientos_directos(item[0], item[0])
-        ))
+        equipos_ordenados = sorted(
+            equipos_ordenados,
+            key=lambda item: (
+                -item[1]['puntos'],
+                item[1]['ganados'],
+                item[1]['perdidos'],
+                -item[1]['jugados'],
+                -criterio_enfrentamientos_directos(item[0], item[0])
+            )
+        )
         data_clasificaciones[grupo] = equipos_ordenados
-    return render_template('copas/uemc_copa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias, clasificaciones=data_clasificaciones)
+    return render_template(
+        'copas/uemc_copa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
+        clasificaciones=data_clasificaciones
+    )
 
 # PLAYOFF UEMC
 # Crear formulario para los playoff

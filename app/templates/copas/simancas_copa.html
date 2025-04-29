@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <title>Copa de La Reina - RV Simancas Fem.</title>
   <!-- Required meta tags -->
@@ -13,13 +14,15 @@
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="twitter:image" content="URL_de_la_imagen">
   <meta name="twitter:site" content="@tu_cuenta_de_twitter">
   <meta name="twitter:creator" content="@cuenta_del_autor">
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta property="og:image" content="URL_de_la_imagen">
   <meta property="og:url" content="URL_de_tu_página">
   <meta property="og:type" content="website">
@@ -31,7 +34,8 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
-<body class="fondos_copa">
+
+<body class="fondo_copa_rugby">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ps-2 pt-2">
@@ -42,41 +46,48 @@
     <h1 class="text-playoff">Copa de La Reina 25/26</h1>
     <span class="equipo_copa">RV Simancas Fem.</span>
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem;">
-          <div class="card-body">
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  {% for ronda, partidos in datos_copa.items() %}
-                  <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
-                  <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
+      <!-- Navegación -->
+      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+        {% for ronda in datos_copa.keys() %}
+        <a href="#" class="btn btn-outline-info btn-ronda" data-target="ronda{{ loop.index0 }}">{{
+          ronda|capitalize }}</a>
+        {% endfor %}
+      </div>
+      <!-- Contenedor de rondas -->
+      <div id="contenedor-rondas">
+        {% for ronda, partidos in datos_copa.items() %}
+        <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}" id="ronda{{ loop.index0 }}">
+          <div class="d-flex justify-content-center">
+            <div class="card tabla_copa mt-4" style="width: 70rem;">
+              <div class="card-body">
+                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                <div class="row table-responsive">
+                  <div class="col-12">
                     <table class="table border-secondary">
                       {% for partido in partidos %}
                       <tr class="text-center">
-                        <td class="text-center text-white">{{ partido.fecha }}</td>
-                        <td class="text-center text-white">{{ partido.hora }}</td>
+                        <td class="text-white">{{ partido.fecha }}</td>
+                        <td class="text-white">{{ partido.hora }}</td>
                         <td
-                          class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
                           {{ partido.local }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
+                        <td class="text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
+                        <td class="text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
                         <td
-                          class="text-center text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
                           {{ partido.visitante }}</td>
                       </tr>
                       {% endfor %}
                     </table>
                   </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    data-ronda="{{ loop.index }}">Ver Partidos</a>
-                  {% endfor %}  
                 </div>
               </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
+    </section>
     </section>
     <footer class="container-fluid mt-auto footer-seccion mt-4">
       <div class="row">
@@ -316,18 +327,18 @@
   <script src="/static/js/proteccion-datos.js"></script>
   <!--<script src="/static/js/script.js"></script>-->
   <script>
-    $(document).ready(function() {
-      $('.mostrar-enlace').click(function(e) {
+    $(document).ready(function () {
+      $('.mostrar-enlace').click(function (e) {
         e.preventDefault();
         var enlace = $(this);
         var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');       
+        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');
         // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();       
+        $('.texto-adicional').not(textoAdicional).hide();
         // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();       
+        textoAdicional.toggle();
         // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');       
+        $('.mostrar-enlace').not(enlace).text('Ver Partidos');
         // Cambiar el texto del enlace actual
         if (textoAdicional.is(':visible')) {
           enlace.text('Ocultar');
@@ -338,4 +349,5 @@
     });
   </script>
 </body>
+
 </html>

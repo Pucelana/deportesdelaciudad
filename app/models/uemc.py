@@ -30,12 +30,13 @@ class CopaUEMC(db.Model):
     __tablename__ = 'copa_uemc'
     id = db.Column(db.Integer, primary_key=True)  # ID único para cada partido
     encuentros = db.Column(db.String(255), nullable=True)  # Encuentros, por ejemplo, nombre del torneo o fase
-    fecha = db.Column(db.Date, nullable=False)  # Fecha del partido
-    hora = db.Column(db.Time, nullable=False)  # Hora del partido
+    fecha = db.Column(db.String(20))
+    hora = db.Column(db.String(20))  # Hora del partido
     local = db.Column(db.String(255))  # Nombre del equipo local
     resultadoA = db.Column(db.String(120))  # Resultado del equipo local
     resultadoB = db.Column(db.String(120))  # Resultado del equipo visitante
     visitante = db.Column(db.String(255))
+    orden = db.Column(db.Integer) 
     
 class Clasificacion(db.Model):
     __tablename__ = 'clasificacion_copa'

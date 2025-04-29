@@ -114,7 +114,7 @@
             </div>
             <div class="mb-3">
               <label for="hora{{ loop.index0 }}">Hora:</label>
-              <input type="time" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
+              <input type="text" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
                 value="{{ partido.hora }}">
             </div>
             <div class="mb-3">
@@ -190,11 +190,11 @@
           var html = `
                     <div class="col-md-5">
                         <label for="fecha${i}">Fecha</label>
-                        <input type="date" class="form-control" id="fecha${i}" name="fecha${i}">
+                        <input type="text" class="form-control" id="fecha${i}" name="fecha${i}">
                     </div>
                     <div class="col-md-5">
                         <label for="hora${i}">Hora</label>
-                        <input type="time" class="form-control" id="hora${i}" name="hora${i}">
+                        <input type="text" class="form-control" id="hora${i}" name="hora${i}">
                     </div>
                     <div class="col-md-4">
                         <label for="local${i}">Local</label>

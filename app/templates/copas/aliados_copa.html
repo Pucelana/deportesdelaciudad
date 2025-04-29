@@ -35,7 +35,7 @@
     <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
 
-<body class="fondos_copa">
+<body class="fondo_copa_aliados">
     <div class="d-flex flex-column min-vh-100">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb ps-2 pt-2">
@@ -43,13 +43,13 @@
                 <li class="breadcrumb-item active text-info" aria-current="page">Copa Fundación Aliados</li>
             </ol>
         </nav>
-        <h1 class="text-playoff pb-2">Copa de El Rey 25/26</h1>
-        <span class="text-playoff equipo_copa">Fundación Aliados</span>
+        <h1 class="text-playoff">Copa de El Rey 25/26</h1>
+        <span class="equipo_copa">Fundación Aliados</span>
         <section class="container-lg flex-fill copa">
             <!-- Navegación -->
             <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
                 {% for ronda in datos_copa.keys() %}
-                <a href="#" class="btn btn-outline-dark btn-ronda" data-target="ronda{{ loop.index0 }}">{{
+                <a href="#" class="btn btn-outline-info btn-ronda" data-target="ronda{{ loop.index0 }}">{{
                     ronda|capitalize }}</a>
                 {% endfor %}
             </div>
