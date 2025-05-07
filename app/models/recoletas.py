@@ -76,7 +76,7 @@ class SupercopaIbericaRecoletas(db.Model):
 class EuropaRecoletas(db.Model):
     __tablename__ = 'europa_recoletas'
     id = db.Column(db.Integer, primary_key=True)
-    eliminatoria = db.Column(db.String(20), nullable=False)
+    encuentros = db.Column(db.String(20), nullable=False)
     fecha = db.Column(db.String(20), nullable=True)
     hora = db.Column(db.String(10), nullable=True)
     local = db.Column(db.String(100), nullable=True)

@@ -609,7 +609,6 @@ def supercopas_iberica_recoletas():
 def crear_europa_recoletas():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
-        print(f"Encuentros: {encuentros}")
         num_partidos = int(request.form.get('num_partidos', 0))     
         for i in range(num_partidos):
             fecha = request.form.get(f'fecha{i}')
@@ -686,9 +685,9 @@ def recalcular_clasificaciones(partidos):
         if grupo not in clasificaciones:
             clasificaciones[grupo] = {}
         if local not in clasificaciones[grupo]:
-            clasificaciones[grupo][local] = {'jugados': 0, 'ganados': 0, 'perdidos': 0, 'puntos': 0}
+            clasificaciones[grupo][local] = {'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'puntos': 0}
         if visitante not in clasificaciones[grupo]:
-            clasificaciones[grupo][visitante] = {'jugados': 0, 'ganados': 0, 'perdidos': 0, 'puntos': 0}
+            clasificaciones[grupo][visitante] = {'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'puntos': 0}
         if resultado_local is not None and resultado_visitante is not None:
             clasificaciones[grupo][local]['jugados'] += 1
             clasificaciones[grupo][visitante]['jugados'] += 1
@@ -696,15 +695,17 @@ def recalcular_clasificaciones(partidos):
                 clasificaciones[grupo][local]['ganados'] += 1
                 clasificaciones[grupo][local]['puntos'] += 2
                 clasificaciones[grupo][visitante]['perdidos'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 1
+                clasificaciones[grupo][visitante]['puntos'] += 0
             elif resultado_local < resultado_visitante:
                 clasificaciones[grupo][visitante]['ganados'] += 1
                 clasificaciones[grupo][visitante]['puntos'] += 2
                 clasificaciones[grupo][local]['perdidos'] += 1
-                clasificaciones[grupo][local]['puntos'] += 1
-            else:
-                clasificaciones[grupo][local]['puntos'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 1      
+                clasificaciones[grupo][local]['puntos'] += 0
+            else: 
+                clasificaciones[grupo][visitante]['empatados'] += 1
+                clasificaciones[grupo][visitante]['puntos'] += 1
+                clasificaciones[grupo][local]['empatados'] += 1
+                clasificaciones[grupo][local]['puntos'] += 1         
         if local not in enfrentamientos_directos:
             enfrentamientos_directos[local] = {}
         if visitante not in enfrentamientos_directos:
@@ -716,53 +717,70 @@ def recalcular_clasificaciones(partidos):
 # Función para obtener equipos desde la base de datos
 def obtener_equipos_desde_bd(partidos):
     # Obtener todos los partidos de la base de datos
-    partidos = EuropaRecoletas.query.all()
+    partidos = EuropaRecoletas.query.order_by(EuropaRecoletas.id).all()
     # Definir los grupos y fases de eliminatorias
-    grupos = {'grupoA', 'grupoB', 'grupoC', 'grupoD', 'grupoE', 'grupoF', 'grupoG', 'grupoH'}
-    fases_eliminatorias = {'cuartos', 'semifinales', 'final'}
+    fase_preliminar = 'preliminar'
+    grupos_iniciales = {'grupoA', 'grupoB', 'grupoC', 'grupoD', 'grupoE', 'grupoF', 'grupoG', 'grupoH'}
+    segunda_fase_grupos = {'grupo1', 'grupo2', 'grupo3', 'grupo4'}
+    fases_eliminatorias = {'octavos' ,'cuartos', 'semifinales', 'final'}
     equipos_por_encuentros = {}
-    eliminatorias = {'cuartos': {'partidos': []}, 'semifinales': {'partidos': []}, 'final': {'partidos': []}}
+    eliminatorias = {fase: {'partidos': []} for fase in fases_eliminatorias}
+    preliminar = {'equipos': [], 'partidos': []}
+    segunda_fase = {}
+    # Procesamos los partidos
     for partido in partidos:
-        # Asumimos que 'encuentros' es un campo que puede ser 'grupoA', 'cuartos', etc.
-        grupo_o_fase = partido.encuentros
-        if grupo_o_fase in fases_eliminatorias:
-            # Añadir partidos a la fase de eliminación correspondiente
-            eliminatorias[grupo_o_fase]['partidos'].append(partido)
-        elif grupo_o_fase in grupos:
-            # Añadir equipos y partidos a los grupos
-            if grupo_o_fase not in equipos_por_encuentros:
-                equipos_por_encuentros[grupo_o_fase] = {'equipos': [], 'partidos': []}          
-            # Creamos los diccionarios de los equipos
-            local = {'nombre': partido.local, 'jugados': 0, 'ganados': 0, 'perdidos': 0, 'puntos': 0}
-            visitante = {'nombre': partido.visitante, 'jugados': 0, 'ganados': 0, 'perdidos': 0, 'puntos': 0}
-            # Añadir equipos si no existen en la lista de equipos del grupo
-            if not any(e['nombre'] == local['nombre'] for e in equipos_por_encuentros[grupo_o_fase]['equipos']):
-                equipos_por_encuentros[grupo_o_fase]['equipos'].append(local)
-            if not any(e['nombre'] == visitante['nombre'] for e in equipos_por_encuentros[grupo_o_fase]['equipos']):
-                equipos_por_encuentros[grupo_o_fase]['equipos'].append(visitante)
-            equipos_por_encuentros[grupo_o_fase]['partidos'].append(partido)
+        fase = partido.encuentros
+        if fase == fase_preliminar:
+            # Añadir a fase preliminar
+            local = {'nombre': partido.local, 'jugados': 0, 'ganados': 0, 'empatados': 0 , 'perdidos': 0, 'puntos': 0}
+            visitante = {'nombre': partido.visitante, 'jugados': 0, 'ganados': 0, 'empatados': 0 , 'perdidos': 0, 'puntos': 0}
+            if not any(e['nombre'] == local['nombre'] for e in preliminar['equipos']):
+                preliminar['equipos'].append(local)
+            if not any(e['nombre'] == visitante['nombre'] for e in preliminar['equipos']):
+                preliminar['equipos'].append(visitante)
+            preliminar['partidos'].append(partido)
+        elif fase in grupos_iniciales or fase in segunda_fase_grupos:
+            # Determinamos si es grupo inicial o de segunda fase
+            grupo_dict = equipos_por_encuentros if fase in grupos_iniciales else segunda_fase
+            if fase not in grupo_dict:
+                grupo_dict[fase] = {'equipos': [], 'partidos': []}
+            local = {'nombre': partido.local, 'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0}
+            visitante = {'nombre': partido.visitante, 'jugados': 0, 'ganados': 0, 'empatados': 0 , 'perdidos': 0, 'puntos': 0}
+            if not any(e['nombre'] == local['nombre'] for e in grupo_dict[fase]['equipos']):
+                grupo_dict[fase]['equipos'].append(local)
+            if not any(e['nombre'] == visitante['nombre'] for e in grupo_dict[fase]['equipos']):
+                grupo_dict[fase]['equipos'].append(visitante)
+            grupo_dict[fase]['partidos'].append(partido)
+        elif fase in fases_eliminatorias:
+            eliminatorias[fase]['partidos'].append(partido)
         else:
-            print(f"Grupo o fase no reconocido: {grupo_o_fase}")
-    return equipos_por_encuentros, eliminatorias
+            print(f"Fase no reconocida: {fase}")
+    return preliminar, equipos_por_encuentros, segunda_fase, eliminatorias
 # Obtener equipos Europa Atl.Valladolid
 def obtener_europa_recoletas():
-    partidos = EuropaRecoletas.query.all()
+    partidos = EuropaRecoletas.query.order_by(EuropaRecoletas.id).all()
     print("Partidos desde la BD:", partidos)  # Añadir esta línea para depuración
     return partidos
 # Formatear partidos por grupo
 def formatear_partidos_por_encuentros(partidos):
     encuentros = {
-        'grupoA': {'id': 1, 'encuentros': 'grupoA', 'partidos': []},
-        'grupoB': {'id': 2, 'encuentros': 'grupoB', 'partidos': []},
-        'grupoC': {'id': 3, 'encuentros': 'grupoC', 'partidos': []},
-        'grupoD': {'id': 4, 'encuentros': 'grupoD', 'partidos': []},
-        'grupoE': {'id': 5, 'encuentros': 'grupoE', 'partidos': []},
-        'grupoF': {'id': 6, 'encuentros': 'grupoF', 'partidos': []},
-        'grupoG': {'id': 7, 'encuentros': 'grupoG', 'partidos': []},
-        'grupoH': {'id': 8, 'encuentros': 'grupoH', 'partidos': []},
-        'cuartos': {'id': 9, 'encuentros': 'cuartos', 'partidos': []},
-        'semifinales': {'id': 10, 'encuentros': 'semifinales', 'partidos': []},
-        'final': {'id': 11, 'encuentros': 'final', 'partidos': []}
+        'preliminar':{'id':1, 'encuentros': 'preliminar', 'partidos':[]},
+        'grupoA': {'id': 2, 'encuentros': 'grupoA', 'partidos': []},
+        'grupoB': {'id': 3, 'encuentros': 'grupoB', 'partidos': []},
+        'grupoC': {'id': 4, 'encuentros': 'grupoC', 'partidos': []},
+        'grupoD': {'id': 5, 'encuentros': 'grupoD', 'partidos': []},
+        'grupoE': {'id': 6, 'encuentros': 'grupoE', 'partidos': []},
+        'grupoF': {'id': 7, 'encuentros': 'grupoF', 'partidos': []},
+        'grupoG': {'id': 8, 'encuentros': 'grupoG', 'partidos': []},
+        'grupoH': {'id': 9, 'encuentros': 'grupoH', 'partidos': []},
+        'grupo1': {'id': 10, 'encuentros': 'grupo1', 'partidos': []},
+        'grupo2': {'id': 11, 'encuentros': 'grupo2', 'partidos': []},
+        'grupo3': {'id': 12, 'encuentros': 'grupo3', 'partidos': []},
+        'grupo4': {'id': 13, 'encuentros': 'grupo4', 'partidos': []},
+        'octavos': {'id': 14, 'encuentros': 'octavos', 'partidos': []},
+        'cuartos': {'id': 15, 'encuentros': 'cuartos', 'partidos': []},
+        'semifinales': {'id': 16, 'encuentros': 'semifinales', 'partidos': []},
+        'final': {'id': 17, 'encuentros': 'final', 'partidos': []}
     }
     for partido in partidos:
         # Si el objeto 'partido' es de SQLAlchemy, accedemos a sus atributos con punto
@@ -784,7 +802,7 @@ def ver_europa_recoletas():
         return render_template('admin/europa/europa_recoletas.html', dats5=dats5)
     except Exception as e:
         print(f"Error al obtener o formatear los datos de Europa del Atl.Valladolid: {e}")
-        return render_template('error.html')
+        return f"Ocurrió un error: {e}", 500
 # Modificar los partidos de los playoff
 @recoletas_route_bp.route('/modificar_europa_recoletas/<string:encuentros>', methods=['POST'])
 def modificar_europa_recoletas(encuentros):
@@ -831,7 +849,7 @@ def eliminar_europa_recoletas(identificador):
 @recoletas_route_bp.route('/recoletas_europa/')
 def recoletas_europa():
     partidos = obtener_europa_recoletas()
-    equipos_por_encuentros, eliminatorias = obtener_equipos_desde_bd(partidos)
+    preliminar, equipos_por_encuentros, segunda_fase, eliminatorias = obtener_equipos_desde_bd(partidos)
     clasificaciones, enfrentamientos_directos = recalcular_clasificaciones(partidos)
     data_clasificaciones = {}
     for grupo, equipos in clasificaciones.items():
@@ -849,4 +867,4 @@ def recoletas_europa():
             -criterio_enfrentamientos_directos(item[0], item[0])
         ))
         data_clasificaciones[grupo] = equipos_ordenados
-    return render_template('europa/recoletas_europa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias, clasificaciones=data_clasificaciones)
+    return render_template('europa/recoletas_europa.html', equipos_por_encuentros=equipos_por_encuentros, segunda_fase=segunda_fase, eliminatorias=eliminatorias, preliminar=preliminar, clasificaciones=data_clasificaciones)

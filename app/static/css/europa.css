@@ -5,6 +5,13 @@
     background-size: 100% 100%;
     background-position: center;
 }
+.fondo_europa_reco{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/ehf_balonmano.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
 .tabla_europa{
     background-color: transparent;
     backdrop-filter: blur(3px);

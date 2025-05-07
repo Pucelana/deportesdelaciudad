@@ -18,7 +18,6 @@ class UEMCPartido(db.Model):
     visitante = db.Column(db.String(255))
     orden = db.Column(db.Integer)
       
-
 class UEMCClub(db.Model):
     __tablename__ = 'uemc_clubs'
     # Definir la columna ID

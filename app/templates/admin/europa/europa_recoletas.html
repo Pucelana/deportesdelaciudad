@@ -33,6 +33,7 @@
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
         <select id="encuentros" name="encuentros">
+          <option value="preliminar">Fase Preliminar</option>
           <option value="grupoA">Grupo A</option>
           <option value="grupoB">Grupo B</option>
           <option value="grupoC">Grupo C</option>
@@ -41,6 +42,11 @@
           <option value="grupoF">Grupo F</option>
           <option value="grupoG">Grupo G</option>
           <option value="grupoH">Grupo H</option>
+          <option value="grupo1">Grupo 1</option>
+          <option value="grupo2">Grupo 2</option>
+          <option value="grupo3">Grupo 3</option>
+          <option value="grupo4">Grupo 4</option>
+          <option value="octavos">Octavos</option>
           <option value="cuartos">Cuartos</option>
           <option value="semifinales">Semifinales</option>
           <option value="final">Final</option>
@@ -114,7 +120,7 @@
             </div>
             <div class="mb-3">
               <label for="hora{{ loop.index0 }}">Hora:</label>
-              <input type="time" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
+              <input type="text" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
                 value="{{ partido.hora }}">
             </div>
             <div class="mb-3">
@@ -170,8 +176,12 @@
         var selectedOption = selectEliminatoria.value;
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
-        if (selectedOption.startsWith("grupo")) {
+        if (selectedOption === "preliminar"){
+          numPartidos = 20;
+        } else if (selectedOption.startsWith("grupo")) {
           numPartidos = 10;
+        }  else if (selectedOption === "octavos") {
+          numPartidos = 16; 
         } else if (selectedOption === "cuartos") {
           numPartidos = 8;
         } else if (selectedOption === "semifinales") {
@@ -190,11 +200,11 @@
           var html = `
                     <div class="col-md-5">
                         <label for="fecha${i}">Fecha</label>
-                        <input type="date" class="form-control" id="fecha${i}" name="fecha${i}">
+                        <input type="text" class="form-control" id="fecha${i}" name="fecha${i}">
                     </div>
                     <div class="col-md-5">
                         <label for="hora${i}">Hora</label>
-                        <input type="time" class="form-control" id="hora${i}" name="hora${i}">
+                        <input type="text" class="form-control" id="hora${i}" name="hora${i}">
                     </div>
                     <div class="col-md-4">
                         <label for="local${i}">Local</label>
