@@ -65,45 +65,16 @@
       <span class="equipo_copa">Atl.Valladolid</span>
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-        <!-- Preliminar -->
-        <a
-          href="#"
-          class="btn btn-outline-info btn-ronda"
-          data-target="preliminar"
-          >Preliminar</a
-        >
-
-        <!-- Clasificaciones (Grupos Iniciales) -->
-        {% for grupo in clasificaciones.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-info btn-ronda"
-          data-target="grupo{{ loop.index0 }}"
-        >
-          {{ grupo }}
-        </a>
-        {% endfor %}
-
-        <!-- Segunda Fase -->
-        {% for grupo in segunda_fase.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-info btn-ronda"
-          data-target="segunda{{ loop.index0 }}"
-        >
-          {{ grupo }}
-        </a>
-        {% endfor %}
-
-        <!-- Eliminatorias -->
-        {% for ronda in eliminatorias.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-info btn-ronda"
-          data-target="ronda{{ loop.index0 }}"
-        >
-          {{ ronda|capitalize }}
-        </a>
+        {% for seccion in secciones_nav %}
+          <a
+            href="#"
+            class="btn btn-outline-info btn-ronda"
+            data-target="{% if seccion == 'preliminar' %}preliminar
+                          {% elif seccion in clasificaciones %}grupo{{ loop.index0 }}
+                          {% elif seccion in segunda_fase %}segunda{{ loop.index0 }}
+                          {% else %}ronda{{ loop.index0 }}{% endif %}">
+            {{ seccion|capitalize }}
+          </a>
         {% endfor %}
       </div>
       <section class="container-lg flex-fill copa_uemc">
@@ -170,6 +141,7 @@
                         <th>Equipo</th>
                         <th>PJ</th>
                         <th>PG</th>
+                        <th>PE</th>
                         <th>PP</th>
                         <th>PTS</th>
                       </tr>
@@ -181,6 +153,7 @@
                         <td class="fw-bold">{{ equipo }}</td>
                         <td>{{ stats.jugados }}</td>
                         <td>{{ stats.ganados }}</td>
+                        <td>{{ stats.empatados }}</td>
                         <td>{{ stats.perdidos }}</td>
                         <td>{{ stats.puntos }}</td>
                       </tr>
@@ -188,7 +161,6 @@
                     </tbody>
                   </table>
                 </div>
-                <h4 class="text-white mt-4">Partidos del {{ grupo }}</h4>
                 <table class="table border-secondary text-white text-center">
                   <thead>
                     <tr>
@@ -234,8 +206,45 @@
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
                   <h3 class="text-center text-white">
-                    Segunda Fase - {{ grupo }}
+                    Segunda Fase - {{ grupo|capitalize }}
                   </h3>
+
+                  <!-- Tabla de clasificación -->
+                  {% if clasificaciones[grupo] is defined %}
+                  <h5 class="text-white text-center">Clasificación</h5>
+                  <table
+                  class="table border-secondary text-white text-center"
+                  >
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Equipo</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PE</th>
+                        <th>PP</th>
+                        <th>PTS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for equipo, datos in clasificaciones[grupo] %}
+                      <tr>
+                        <td>{{ loop.index }}</td>
+                        <td class="text-start text-copa fw-bold">
+                          {{ equipo }}
+                        </td>
+                        <td>{{ datos.jugados }}</td>
+                        <td>{{ datos.ganados }}</td>
+                        <td>{{ datos.empatados }}</td>
+                        <td>{{ datos.perdidos }}</td>
+                        <td>{{ datos.puntos }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  {% endif %}
+
+                  <!-- Tabla de partidos -->
                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
@@ -733,31 +742,33 @@
     <script src="/static/js/proteccion-datos.js"></script>
     <!--<script src="/static/js/script.js"></script>-->
     <script>
-      document.querySelectorAll(".btn-ronda").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.preventDefault();
-          const targetId = button.dataset.target;
+      document.querySelectorAll('.btn-ronda').forEach(boton => {
+    boton.addEventListener('click', function (e) {
+      e.preventDefault();
 
-          // Ocultar todas las secciones
-          document.querySelectorAll(".seccion-slide").forEach((section) => {
-            section.classList.add("d-none");
-            section.classList.remove("d-block");
-          });
-
-          // Mostrar la sección deseada
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            targetSection.classList.remove("d-none");
-            targetSection.classList.add("d-block");
-          }
-
-          // Actualizar clase activa en los botones
-          document
-            .querySelectorAll(".btn-slide")
-            .forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-        });
+      // Oculta todas las secciones
+      document.querySelectorAll('.seccion-slide').forEach(seccion => {
+        seccion.classList.add('d-none');
+        seccion.classList.remove('d-block');
       });
+
+      // Desactiva todos los botones
+      document.querySelectorAll('.btn-ronda').forEach(btn => {
+        btn.classList.remove('active');
+      });
+
+      // Muestra la sección seleccionada
+      const target = this.getAttribute('data-target');
+      const seccionMostrar = document.getElementById(target);
+      if (seccionMostrar) {
+        seccionMostrar.classList.remove('d-none');
+        seccionMostrar.classList.add('d-block');
+      }
+
+      // Marca el botón como activo
+      this.classList.add('active');
+    });
+  });
     </script>
   </body>
 </html>

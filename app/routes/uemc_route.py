@@ -537,9 +537,10 @@ def crear_playoff_uemc():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
-            'cuartos': 20,
-            'semifinales': 2,
-            'final': 1
+            'directo': 2,
+            'octavos': 16,
+            'cuartos': 8,
+            'semifinales': 4,
         }.get(eliminatoria, 0)
         num_partidos_str = request.form.get('num_partidos', '0').strip()
         num_partidos = int(num_partidos_str) if num_partidos_str else 0
@@ -562,7 +563,7 @@ def crear_playoff_uemc():
 # Ver encuentros playoff en Admin
 @uemc_route_bp.route('/playoff_uemc/')
 def ver_playoff_uemc():
-    eliminatorias = ['cuartos', 'semifinales', 'final']
+    eliminatorias = ['directo', 'octavos','cuartos', 'semifinales']
     datos_eliminatorias = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffUEMC.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffUEMC.orden).all()
@@ -605,7 +606,7 @@ def eliminar_playoff_uemc(eliminatoria):
 # Mostrar los playoffs del UEMC
 @uemc_route_bp.route('/playoffs_uemc/')
 def playoffs_uemc():
-    eliminatorias = ['cuartos', 'semifinales', 'final']
+    eliminatorias = ['directo', 'octavos','cuartos', 'semifinales']
     datos_europa = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffUEMC.query.filter_by(eliminatoria=eliminatoria).all()

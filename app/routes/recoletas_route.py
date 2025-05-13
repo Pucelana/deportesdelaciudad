@@ -853,18 +853,27 @@ def recoletas_europa():
     clasificaciones, enfrentamientos_directos = recalcular_clasificaciones(partidos)
     data_clasificaciones = {}
     for grupo, equipos in clasificaciones.items():
-        equipos_ordenados = sorted(equipos.items(), key=lambda item: (-item[1]['puntos'], item[1]['ganados'], item[1]['perdidos'], -item[1]['jugados']))
+        equipos_ordenados = sorted(equipos.items(), key=lambda item: (-item[1]['puntos'], item[1]['ganados'], item[1]['empatados'],item[1]['perdidos'], -item[1]['jugados']))
         def criterio_enfrentamientos_directos(equipo1, equipo2):
             if equipo1 in enfrentamientos_directos and equipo2 in enfrentamientos_directos[equipo1]:
-                resultado_directo = enfrentamientos_directos[equipo1][equipo2]
-                return resultado_directo
+                return enfrentamientos_directos[equipo1][equipo2]
             return 0
         equipos_ordenados = sorted(equipos_ordenados, key=lambda item: (
             -item[1]['puntos'],
             item[1]['ganados'],
+            item[1]['empatados'],
             item[1]['perdidos'],
             -item[1]['jugados'],
             -criterio_enfrentamientos_directos(item[0], item[0])
         ))
         data_clasificaciones[grupo] = equipos_ordenados
-    return render_template('europa/recoletas_europa.html', equipos_por_encuentros=equipos_por_encuentros, segunda_fase=segunda_fase, eliminatorias=eliminatorias, preliminar=preliminar, clasificaciones=data_clasificaciones)
+         # Crear la lista de secciones únicas y ordenadas para el menú de navegación
+    secciones_nav = ['preliminar']
+    secciones_nav += list(clasificaciones.keys())
+    secciones_nav += list(segunda_fase.keys())
+    orden_eliminatorias = ['octavos', 'cuartos', 'semifinales', 'final']
+    secciones_nav += [r for r in orden_eliminatorias if r in eliminatorias]
+
+    from collections import OrderedDict
+    secciones_nav = list(OrderedDict.fromkeys(secciones_nav))  # elimina duplicados manteniendo el orden
+    return render_template('europa/recoletas_europa.html', equipos_por_encuentros=equipos_por_encuentros, segunda_fase=segunda_fase, eliminatorias=eliminatorias, preliminar=preliminar, clasificaciones=data_clasificaciones,secciones_nav=secciones_nav)
