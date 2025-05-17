@@ -9,6 +9,7 @@ from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonc
 from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados
 from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula
 from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, CopaEspañaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa
+from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, CopaCaja, SupercopaCaja, EuropaCaja
 from app.models.usuarios import Usuario
 
 from flask_login import LoginManager

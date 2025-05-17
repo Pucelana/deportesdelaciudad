@@ -724,7 +724,7 @@ def obtener_equipos_desde_bd(partidos):
     segunda_fase_grupos = {'grupo1', 'grupo2', 'grupo3', 'grupo4'}
     fases_eliminatorias = {'octavos' ,'cuartos', 'semifinales', 'final'}
     equipos_por_encuentros = {}
-    eliminatorias = {fase: {'partidos': []} for fase in fases_eliminatorias}
+    eliminatorias = {fase.lower(): {'partidos': []} for fase in fases_eliminatorias}
     preliminar = {'equipos': [], 'partidos': []}
     segunda_fase = {}
     # Procesamos los partidos
@@ -833,7 +833,7 @@ def modificar_europa_recoletas(encuentros):
 @recoletas_route_bp.route('/eliminar_europa_recoletas/<string:identificador>', methods=['POST'])
 def eliminar_europa_recoletas(identificador):
     try:
-        if identificador.startswith('grupo') or identificador in ['cuartos', 'semifinales', 'final']:
+        if identificador.startswith('grupo') or identificador in ['preliminar','octavos','cuartos', 'semifinales', 'final']:
             partidos = EuropaRecoletas.query.filter_by(encuentros=identificador).all()
             for partido in partidos:
                 db.session.delete(partido)
@@ -851,29 +851,64 @@ def recoletas_europa():
     partidos = obtener_europa_recoletas()
     preliminar, equipos_por_encuentros, segunda_fase, eliminatorias = obtener_equipos_desde_bd(partidos)
     clasificaciones, enfrentamientos_directos = recalcular_clasificaciones(partidos)
-    data_clasificaciones = {}
+    grupos_fase1 = {'grupoA', 'grupoB', 'grupoC', 'grupoD', 'grupoE', 'grupoF', 'grupoG', 'grupoH'}
+    grupos_eliminatorias = {'preliminar', 'octavos', 'cuartos', 'semifinales', 'final'}
+    clasificaciones_fase1 = {}
+    clasificaciones_fase2 = {}
     for grupo, equipos in clasificaciones.items():
-        equipos_ordenados = sorted(equipos.items(), key=lambda item: (-item[1]['puntos'], item[1]['ganados'], item[1]['empatados'],item[1]['perdidos'], -item[1]['jugados']))
         def criterio_enfrentamientos_directos(equipo1, equipo2):
             if equipo1 in enfrentamientos_directos and equipo2 in enfrentamientos_directos[equipo1]:
                 return enfrentamientos_directos[equipo1][equipo2]
             return 0
-        equipos_ordenados = sorted(equipos_ordenados, key=lambda item: (
-            -item[1]['puntos'],
-            item[1]['ganados'],
-            item[1]['empatados'],
-            item[1]['perdidos'],
-            -item[1]['jugados'],
-            -criterio_enfrentamientos_directos(item[0], item[0])
-        ))
-        data_clasificaciones[grupo] = equipos_ordenados
-         # Crear la lista de secciones únicas y ordenadas para el menú de navegación
-    secciones_nav = ['preliminar']
-    secciones_nav += list(clasificaciones.keys())
-    secciones_nav += list(segunda_fase.keys())
-    orden_eliminatorias = ['octavos', 'cuartos', 'semifinales', 'final']
-    secciones_nav += [r for r in orden_eliminatorias if r in eliminatorias]
+        equipos_ordenados = sorted(
+            equipos.items(),
+            key=lambda item: (
+                -item[1]['puntos'],
+                item[1]['ganados'],
+                item[1]['empatados'],
+                item[1]['perdidos'],
+                -item[1]['jugados'],
+                -criterio_enfrentamientos_directos(item[0], item[0])
+            )
+        )
+        grupo_lower = grupo.lower()
+        if grupo_lower in grupos_eliminatorias:
+            continue  # no agregamos clasificación
+        elif grupo_lower in [g.lower() for g in grupos_fase1]:
+            clasificaciones_fase1[grupo] = equipos_ordenados
+        elif grupo_lower.startswith('grupo') and grupo_lower[5:].isdigit():  # grupo1, grupo2...
+            clasificaciones_fase2[grupo] = equipos_ordenados
+         # ORDEN PERSONALIZADO DE FASES
+    orden_grupos_fase1 = ['grupoA', 'grupoB', 'grupoC', 'grupoD', 'grupoE', 'grupoF', 'grupoG', 'grupoH']
+    orden_grupos_fase2 = ['grupo1', 'grupo2', 'grupo3', 'grupo4']
+    orden_eliminatorias = ['preliminar','octavos', 'cuartos', 'semifinales', 'final']
 
-    from collections import OrderedDict
-    secciones_nav = list(OrderedDict.fromkeys(secciones_nav))  # elimina duplicados manteniendo el orden
-    return render_template('europa/recoletas_europa.html', equipos_por_encuentros=equipos_por_encuentros, segunda_fase=segunda_fase, eliminatorias=eliminatorias, preliminar=preliminar, clasificaciones=data_clasificaciones,secciones_nav=secciones_nav)
+    # Clasificaciones fase 1 ordenadas
+    clasificaciones_fase1_ordenadas = {
+        grupo: clasificaciones_fase1[grupo]
+        for grupo in orden_grupos_fase1
+        if grupo in clasificaciones_fase1
+    }
+
+    # Clasificaciones fase 2 ordenadas
+    clasificaciones_fase2_ordenadas = {
+        grupo: clasificaciones_fase2[grupo]
+        for grupo in orden_grupos_fase2
+        if grupo in clasificaciones_fase2
+    }
+
+    # Eliminatorias ordenadas
+    eliminatorias_ordenadas = {
+        fase: eliminatorias[fase]
+        for fase in orden_eliminatorias
+        if fase in eliminatorias
+    }    
+    return render_template(
+        'europa/recoletas_europa.html',
+        equipos_por_encuentros=equipos_por_encuentros,
+        segunda_fase=segunda_fase,
+        eliminatorias=eliminatorias_ordenadas,
+        preliminar=preliminar,
+        clasificaciones_fase1=clasificaciones_fase1_ordenadas,
+        clasificaciones_fase2=clasificaciones_fase2_ordenadas
+    )

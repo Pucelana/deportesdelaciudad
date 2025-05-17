@@ -65,16 +65,41 @@
       <span class="equipo_copa">Atl.Valladolid</span>
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-        {% for seccion in secciones_nav %}
-          <a
-            href="#"
-            class="btn btn-outline-info btn-ronda"
-            data-target="{% if seccion == 'preliminar' %}preliminar
-                          {% elif seccion in clasificaciones %}grupo{{ loop.index0 }}
-                          {% elif seccion in segunda_fase %}segunda{{ loop.index0 }}
-                          {% else %}ronda{{ loop.index0 }}{% endif %}">
-            {{ seccion|capitalize }}
-          </a>
+        <a
+          href="#"
+          class="btn btn-outline-info btn-slide"
+          data-target="preliminar"
+        >
+          Preliminar
+        </a>
+        {% for grupo in clasificaciones_fase1.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-info btn-slide {% if loop.first %}active{% endif %}"
+          data-target="grupo{{ loop.index0 }}"
+        >
+          {{ grupo }}
+        </a>
+        {% endfor %}
+
+        
+
+        {% for grupo in clasificaciones_fase2.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-info btn-slide"
+          data-target="segunda{{ loop.index0 }}"
+        >
+          {{ grupo }}
+        </a>
+        {% endfor %} {% for ronda in eliminatorias.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-info btn-slide"
+          data-target="eliminatoria{{ loop.index0 }}"
+        >
+          {{ ronda|capitalize }}
+        </a>
         {% endfor %}
       </div>
       <section class="container-lg flex-fill copa_uemc">
@@ -122,17 +147,13 @@
             </div>
           </div>
           <!-- Clasificaciones: Grupos Iniciales -->
-          {% for grupo in clasificaciones.keys() %} {% if grupo in
-          equipos_por_encuentros %}
-          <div
-            class="seccion-slide {% if loop.first %}d-block{% else %}d-none{% endif %}"
-            id="grupo{{ loop.index0 }}"
-          >
+          {% for grupo, equipos in clasificaciones_fase1.items() %}
+          <div class="seccion-slide d-none" id="grupo{{ loop.index0 }}">
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
                   <h3 class="text-center text-white">
-                    Clasificación {{ grupo }}
+                    {{ grupo }}
                   </h3>
                   <table class="table border-secondary text-white text-center">
                     <thead>
@@ -147,7 +168,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for equipo, stats in clasificaciones[grupo] %}
+                      {% for equipo, stats in equipos %}
                       <tr>
                         <td>{{ loop.index }}</td>
                         <td class="fw-bold">{{ equipo }}</td>
@@ -172,8 +193,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                    {% for partido in equipos_por_encuentros[grupo]['partidos']
-                    %}
+                    {% if grupo in equipos_por_encuentros %} {% for partido in
+                    equipos_por_encuentros[grupo]['partidos'] %}
                     <tr>
                       <td>{{ partido.fecha }}</td>
                       <td>{{ partido.hora }}</td>
@@ -191,30 +212,28 @@
                         {{ partido.visitante }}
                       </td>
                     </tr>
-                    {% endfor %}
+                    {% endfor %} {% endif %}
                   </tbody>
                 </table>
               </div>
             </div>
           </div>
-          {% endif %} {% endfor %}
+          {% endfor %}
 
           <!-- Segunda Fase -->
-          {% for grupo, data in segunda_fase.items() %}
+          {% for grupo, equipos in clasificaciones_fase2.items() %}
           <div class="seccion-slide d-none" id="segunda{{ loop.index0 }}">
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
                   <h3 class="text-center text-white">
-                    Segunda Fase - {{ grupo|capitalize }}
+                    {{ grupo }}
                   </h3>
 
                   <!-- Tabla de clasificación -->
-                  {% if clasificaciones[grupo] is defined %}
+
                   <h5 class="text-white text-center">Clasificación</h5>
-                  <table
-                  class="table border-secondary text-white text-center"
-                  >
+                  <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
                         <th>#</th>
@@ -227,7 +246,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for equipo, datos in clasificaciones[grupo] %}
+                      {% for equipo, datos in equipos %}
                       <tr>
                         <td>{{ loop.index }}</td>
                         <td class="text-start text-copa fw-bold">
@@ -242,7 +261,6 @@
                       {% endfor %}
                     </tbody>
                   </table>
-                  {% endif %}
 
                   <!-- Tabla de partidos -->
                   <table class="table border-secondary text-white text-center">
@@ -256,12 +274,13 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for partido in data.partidos %}
+                      {% if grupo in segunda_fase %} {% for partido in
+                      segunda_fase[grupo]["partidos"] %}
                       <tr>
                         <td>{{ partido.fecha }}</td>
                         <td>{{ partido.hora }}</td>
                         <td
-                          class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-danger{% endif %}"
                         >
                           {{ partido.local }}
                         </td>
@@ -269,12 +288,12 @@
                           {{ partido.resultadoA }} - {{ partido.resultadoB }}
                         </td>
                         <td
-                          class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-danger{% endif %}"
                         >
                           {{ partido.visitante }}
                         </td>
                       </tr>
-                      {% endfor %}
+                      {% endfor %} {% endif %}
                     </tbody>
                   </table>
                 </div>
@@ -284,13 +303,13 @@
           {% endfor %}
 
           <!-- Eliminatorias -->
-          {% for ronda, datos in eliminatorias.items() %}
-          <div class="seccion-slide d-none" id="ronda{{ loop.index0 }}">
+          {% for ronda in eliminatorias.keys() %}
+          <div class="seccion-slide d-none" id="eliminatoria{{ loop.index0 }}">
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
                   <h3 class="text-center text-white text-capitalize">
-                    {{ ronda }}
+                    {{ ronda | capitalize }}
                   </h3>
                   <table class="table border-secondary text-white text-center">
                     <thead>
@@ -304,7 +323,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                      {% for partido in datos.partidos %}
+                      {% for partido in eliminatorias[ronda].partidos %}
                       <tr>
                         <td>{{ partido.fecha }}</td>
                         <td>{{ partido.hora }}</td>
@@ -742,33 +761,26 @@
     <script src="/static/js/proteccion-datos.js"></script>
     <!--<script src="/static/js/script.js"></script>-->
     <script>
-      document.querySelectorAll('.btn-ronda').forEach(boton => {
-    boton.addEventListener('click', function (e) {
-      e.preventDefault();
+      document.querySelectorAll(".btn-slide").forEach((btn) => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = this.dataset.target;
 
-      // Oculta todas las secciones
-      document.querySelectorAll('.seccion-slide').forEach(seccion => {
-        seccion.classList.add('d-none');
-        seccion.classList.remove('d-block');
+          // Ocultar todas
+          document
+            .querySelectorAll(".seccion-slide")
+            .forEach((sec) => sec.classList.add("d-none"));
+
+          // Mostrar la elegida
+          document.getElementById(target).classList.remove("d-none");
+
+          // Marcar botón activo
+          document
+            .querySelectorAll(".btn-slide")
+            .forEach((b) => b.classList.remove("active"));
+          this.classList.add("active");
+        });
       });
-
-      // Desactiva todos los botones
-      document.querySelectorAll('.btn-ronda').forEach(btn => {
-        btn.classList.remove('active');
-      });
-
-      // Muestra la sección seleccionada
-      const target = this.getAttribute('data-target');
-      const seccionMostrar = document.getElementById(target);
-      if (seccionMostrar) {
-        seccionMostrar.classList.remove('d-none');
-        seccionMostrar.classList.add('d-block');
-      }
-
-      // Marca el botón como activo
-      this.classList.add('active');
-    });
-  });
     </script>
   </body>
 </html>

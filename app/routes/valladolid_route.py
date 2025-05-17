@@ -26,8 +26,6 @@ def ingresar_resultado_valladolid():
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
             visitante = request.form.get(f'visitante{i}')            
-            # Validar y convertir la hora
-            hora = convertir_hora(hora)
             # Crear el objeto partido y agregarlo a la sesión
             partido = ValladolidPartido(
                 jornada_id=jornada.id,
@@ -46,11 +44,6 @@ def ingresar_resultado_valladolid():
         return redirect(url_for('valladolid_route_bp.calendarios_valladolid'))
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_valladolid.html')
-def convertir_hora(hora_str):
-    try:
-        return datetime.strptime(hora_str, "%H:%M").time()
-    except (ValueError, TypeError):
-        return None
 # Ver calendario Real Valladolid en Admin
 @valladolid_route_bp.route('/calendario_valladolid')
 def calendarios_valladolid():
@@ -83,7 +76,7 @@ def modificar_jornada_valladolid(id):
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(ValladolidPartido).filter(ValladolidPartido.id == partido_id).first()
                 if partido:
-                    partido.hora = convertir_hora(hora)
+                    partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
                     partido.resultadoB = resultadoB
