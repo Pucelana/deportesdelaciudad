@@ -2,12 +2,12 @@
 <html lang="es">
 
 <head>
-  <title>Calendario - CPLV Munia Panteras</title>
+  <title>Copa de Europa - CPLV Caja Rural</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description"
-    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga.">
   <meta name="keywords"
     content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
   <meta name="author" content="eldeportedelaciudad">
@@ -33,146 +33,168 @@
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
 
-<body class="bg-white calend_hockey">
+<body class="fondos_europa">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/hockey" class="text-white text-decoration-none">Sección</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario CPLV Munia Panteras</li>
+      <ol class="breadcrumb ps-2 pt-2">
+        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
+        <li class="breadcrumb-item active text-info" aria-current="page">Copa de Europa CPLV Caja Rural</li>
       </ol>
     </nav>
-    <section class="container-lg mb-5 flex-fill copa">
-        <!-- Navegador personalizado -->
-      <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-calendario" class="btn btn-outline-info" data-slide="0">Calendario</a>
-        <a href="#slide-resultados" class="btn btn-outline-info" data-slide="1">Resultados</a>
+    <h1 class="text-playoff">Copa de Europa 25/26</h1>
+    <span class="equipo_copa">CPLV Caja Rural</span>
+    <!-- Navegación -->
+      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+        {% for grupo in clasificaciones.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-info btn-slide {% if loop.first %}active{% endif %}"
+          data-target="grupo{{ loop.index0 }}"
+        >
+          {{ grupo }}
+        </a>
+        {% endfor %} {% for ronda in eliminatorias.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-info btn-slide"
+          data-target="ronda{{ loop.index0 }}"
+        >
+          {{ ronda|capitalize }}
+        </a>
+        {% endfor %}
       </div>
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active" id="slide-calendario"><!--Tabla Calendario CPLV Munia Panteras-->
+    <section class="container-lg flex-fill copa_uemc">
+        <!-- Contenido Clasificaciones y Eliminatorias -->
+        <div id="contenedor-secciones">
+          <!-- Clasificaciones -->
+          {% for grupo in clasificaciones.keys() %}
+          <div
+            class="seccion-slide {% if loop.first %}d-block{% else %}d-none{% endif %}"
+            id="grupo{{ loop.index0 }}">
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_caja" style="width: 80rem;">
+              <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold my-3">Calendario Individual 25/26</h3>
-                    <table class="table table-bordered tabla_equipos tabla_panteras">
-                      <thead>
-                        <tr class="text-center text-dark">
-                          <th></th>
-                          <th colspan="2">Jornadas</th>
-                          <th colspan="4">Resultados</th>
-                          <!--<th colspan="2">Partidos</th>-->
-                        </tr>
-                        <tr class="text-center text-dark">
-                          <th scope="col">Equipos</th>
-                          <th>Ida</th>
-                          <th>Vlt</th>
-                          <th colspan="2">Ida</th>
-                          <th colspan="2">Vlt</th>
-                          <th>Puntos</th>
-                          <!--<th>PP</th>-->
-                          <th>Average</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_panteras.items() %}
-                        <tr class="text-center">
-                          <th class="text-white size_equipos">{{ equipo }}</th>
-                          <td class="jorn_ida fw-bold">
-                            {% if datos_equipo.get('primer_enfrentamiento') %}
-                            J-{{ datos_equipo['primer_enfrentamiento']|regex_replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_panteras'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_panteras'] }})
-                            {% endif %}
-                            {% endif %}
-                          </td>
-                          <td class="jorn_vuelta fw-bold">
-                            {% if datos_equipo.get('segundo_enfrentamiento') %}
-                            J-{{ datos_equipo['segundo_enfrentamiento']|regex_replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_panteras'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_panteras'] }})
-                            {% endif %}
-                            {% endif %}
-                          </td>
-                          <td class="resultadoA fw-bold">{{ tabla_partidos_panteras[equipo]['resultadoA'] }}</td>
-                          <td class="resultadoB fw-bold">{{ tabla_partidos_panteras[equipo]['resultadoB'] }}</td>
-                          <td class="resultadoAA fw-bold">{{ tabla_partidos_panteras[equipo]['resultadoAA'] }}</td>
-                          <td class="resultadoBB fw-bold">{{ tabla_partidos_panteras[equipo]['resultadoBB'] }}</td>
-                          <td class="part1"></td>
-                          <td class="average"></td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
+                  <h3 class="text-center text-white">
+                    Clasificación {{ grupo }}
+                  </h3>
+                  <table class="table border-secondary text-white text-center">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Equipo</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PP</th>
+                        <th>PTS</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for equipo, stats in equipos %}
+                      <tr>
+                        <td>{{ loop.index }}</td>
+                        <td class="fw-bold">{{ equipo }}</td>
+                        <td>{{ stats.jugados }}</td>
+                        <td>{{ stats.ganados }}</td>
+                        <td>{{ stats.perdidos }}</td>
+                        <td>{{ stats.puntos }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
+                <h4 class="text-white mt-4">Partidos {{ grupo }}</h4>
+                <table class="table border-secondary text-white text-center">
+                  <thead>
+                    <tr>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>Local</th>
+                      <th>Resultado</th>
+                      <th>Visitante</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for partido in equipos_por_encuentros[grupo].partidos %}
+                    <tr>
+                      <td>{{ partido.fecha }}</td>
+                      <td>{{ partido.hora }}</td>
+                      <td
+                        class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
+                      >
+                        {{ partido.local }}
+                      </td>
+                      <td>
+                        {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                      </td>
+                      <td
+                        class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
+                      >
+                        {{ partido.visitante }}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada 23/24 -->
+          {% endfor %}
+
+          <!-- Eliminatorias -->
+          {% for ronda, datos in eliminatorias.items() %} {% set partidos =
+          datos['partidos'] %}
+          <div class="seccion-slide d-none" id="ronda{{ loop.index0 }}">
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_panteras" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold my-3">Resultados 24/25</h3>
+              <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <div class="container-fluid">
-                    <div class="row">
-                      {% for goles in nuevos_datos_panteras %}
-                      <div class="col-lg-4">
-                        <div class="card card_calendario mb-3">
-                          <div class="table-responsive">
-                            <table class="table table-bordered card_calendario tabla_jornadas">
-                              <thead class="fondo_jornadas">
-                                <tr class="text-center">
-                                  <td colspan="5" class="text-center text-white fw-bold">{{ goles.nombre }}</td>
-                                </tr>
-                              </thead>
-                              <tbody style="display:none">
-                                {% for partido in goles.partidos %}
-                                <tr class="text-center">
-                                  <td class="text-center text-white">{{ partido.fecha }} {{ partido.hora }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
-                                </tr>
-                                {% endfor %}
-                              </tbody>
-                            </table>
-                            <div class="d-flex ms-1 my-1">
-                              <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                class="text-decoration-none ps-3 text-white">Ver</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {% endfor %}
+                  <h3 class="text-center text-white text-capitalize">
+                    {{ ronda }}
+                  </h3>
+                  <div class="row table-responsive">
+                    <div class="col-12">
+                      <table
+                        class="table border-secondary text-white text-center"
+                      >
+                        {% for partido in partidos %}
+                        <tr class="text-center">
+                          <td class="text-white">{{ partido.fecha }}</td>
+                          <td class="text-white">{{ partido.hora }}</td>
+                          <td
+                            class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
+                          >
+                            {{ partido.local }}
+                          </td>
+                          <td class="text-white fw-bold fs-5">
+                            {{ partido.resultadoA }}
+                          </td>
+                          <td class="text-white fw-bold fs-5">
+                            {{ partido.resultadoB }}
+                          </td>
+                          <td
+                            class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
+                          >
+                            {{ partido.visitante }}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </table>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          {% endfor %}
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
-    </section>
+      </section>
     <footer class="container-fluid mt-auto footer-seccion">
       <div class="row">
-        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
             <h5 class="text-white">Nosotros</h5>
           </a>
@@ -189,8 +211,8 @@
             <h5 class="text-white ms-4">Política de cookies</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+        <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-2" alt="eldeportedelaciudad">
         </div>
       </div>
     </footer>
@@ -366,7 +388,7 @@
         <form action="/enviar_correo" method="POST">
           <div class="mb-3">
             <label for="email">Correo Electrónico:</label>
-            <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+            <input type="email" id="email" name="email" class="form-control" autocomplete="off" required>
           </div>
           <div class="mb-3">
             <label for="ciudad">Ciudad:</label>
@@ -394,158 +416,34 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
-  <script src="/static/js/script.js"></script>
-  <script src="/static/js/leer_mas.js"></script>
-  <script src="/static/js/num_caracteres.js"></script>
+  <script src="/static/js/proteccion-datos.js"></script>
+  <!--<script src="/static/js/script.js"></script>-->
   <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Seleccionar todas las filas de la tabla
-      var filas = document.querySelectorAll('.tabla_panteras tbody tr');
-      // Iterar sobre cada fila
-      filas.forEach(function (fila) {
-        // Obtener el nombre del equipo de la fila actual
-        var equipo = fila.querySelector('th').textContent.trim();
-        console.log(equipo)
-        // Obtener la jornada y determinar si el Promesas juega en casa o como visitante
-        var jornadaElement = fila.querySelector('.jorn_ida');
-        var esLocal = false; // Por defecto, asumimos que el Promesas juega como visitante
-        if (jornadaElement) {
-          var jornada = jornadaElement.textContent.trim();
-          if (jornada.includes('C')) {
-            esLocal = true;
-          }
-        }
-        // Obtener los valores de los resultados de la fila
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        console.log(resultadoA)
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        console.log(resultadoB)
-        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
-        console.log(resultadoAA)
-        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
-        console.log(resultadoBB)
-        // Comparar los resultados y actualizar el estilo de las celdas correspondientes
-        var part1 = fila.querySelector('.part1');
-        var average = fila.querySelector('.average');
-        if (esLocal) {
-          if (resultadoA > resultadoB) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoA === resultadoB) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoA < resultadoB) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoAA > resultadoBB) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoAA === resultadoBB) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoAA < resultadoBB) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          }
-        } else {
-          if (resultadoB > resultadoA) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoB === resultadoA) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoB < resultadoA) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoBB > resultadoAA) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoBB === resultadoAA) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoBB < resultadoAA) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          }
-        }
-        // Verificar si se tienen los resultados del segundo enfrentamiento
-        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
-          // Calcular el puntaje del segundo enfrentamiento
-          var puntajeSegundoEnfrentamiento = 0;
-          // Determinar si el equipo juega como local o visitante en el segundo enfrentamiento
-          if (resultadoAA > resultadoBB) {
-            // "AA" gana como local
-            if (!esLocal) {
-              puntajeSegundoEnfrentamiento = 3;
-            }
-          } else if (resultadoAA < resultadoBB) {
-            // "AA" gana como visitante
-            if (esLocal) {
-              puntajeSegundoEnfrentamiento = 3;
-            }
-          } else {
-            // Empate en el segundo enfrentamiento
-            puntajeSegundoEnfrentamiento = 1;
-          }
-          // Actualizar el puntaje total sumando el del segundo enfrentamiento
-          if (part1.textContent === '-') {
-            part1.textContent = puntajeSegundoEnfrentamiento.toString();
-          } else {
-            part1.textContent = (parseInt(part1.textContent) + puntajeSegundoEnfrentamiento).toString();
-          }
-        }
-      });
-      // Iterar sobre cada fila
-      filas.forEach(function (fila) {
-        // Obtener los valores de resultadoA y resultadoB de la fila actual
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        // Obtener los valores de resultadoAA y resultadoBB de la fila actual para la jornada de vuelta
-        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
-        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
-        // Obtener la celda 'average'
-        var average = fila.querySelector('.average');
-        // Calcular la diferencia de goles dependiendo si resultadoA juega como local o visitante
-        var diferenciaGolesIda;
-        if (fila.querySelector('.jorn_ida').textContent.includes('C')) {
-          // resultadoA juega en casa
-          diferenciaGolesIda = resultadoA - resultadoB;
-        } else {
-          // resultadoA juega como visitante
-          diferenciaGolesIda = resultadoB - resultadoA;
-        }
-        // Calcular la diferencia de goles para la jornada de vuelta
-        var diferenciaGolesVuelta;
-        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
-          if (fila.querySelector('.jorn_ida').textContent.includes('C')) {
-            // resultadoAA juega como visitante en la jornada de vuelta
-            diferenciaGolesVuelta = resultadoBB - resultadoAA;
-          } else {
-            // resultadoAA juega en casa en la jornada de vuelta
-            diferenciaGolesVuelta = resultadoAA - resultadoBB;
-          }
-        } else {
-          diferenciaGolesVuelta = 0;
-        }
-        var averageTotal = diferenciaGolesIda + diferenciaGolesVuelta;
-        if (!isNaN(averageTotal)) {
-          // Asignar el valor del average total a la celda 'average'
-          average.textContent = averageTotal;
-          // Determinar el color de la celda 'average' según la diferencia de goles
-          if (averageTotal > 0) {
-            average.style.color = 'lime'; // Equipo A ganó
-          } else if (averageTotal < 0) {
-            average.style.color = 'darkred'; // Equipo A perdió
-          } else {
-            average.style.color = 'deepskyblue'; // Empate
-          }
-        } else {
-          // Si averageTotal es NaN, dejar la celda vacía
-          average.textContent = '';
-        }
-      });
-    });
-  </script>
-</body>
+      document.querySelectorAll(".btn-slide").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = button.dataset.target;
 
+          // Ocultar todas las secciones
+          document.querySelectorAll(".seccion-slide").forEach((section) => {
+            section.classList.add("d-none");
+            section.classList.remove("d-block");
+          });
+
+          // Mostrar la sección deseada
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.classList.remove("d-none");
+            targetSection.classList.add("d-block");
+          }
+
+          // Actualizar clase activa en los botones
+          document
+            .querySelectorAll(".btn-slide")
+            .forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+    </script>
+</body>
 </html>

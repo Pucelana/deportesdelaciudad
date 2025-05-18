@@ -72,7 +72,7 @@ class SupercopaCaja(db.Model):
 class EuropaCaja(db.Model):
     __tablename__ = 'europa_caja'
     id = db.Column(db.Integer, primary_key=True)
-    eliminatoria = db.Column(db.String(20), nullable=False)
+    encuentros = db.Column(db.String(20), nullable=False)
     fecha = db.Column(db.String(20), nullable=True)
     hora = db.Column(db.String(10), nullable=True)
     local = db.Column(db.String(100), nullable=True)
@@ -81,4 +81,15 @@ class EuropaCaja(db.Model):
     resultadoB = db.Column(db.String(10), nullable=True)
     bonusB = db.Column(db.String(120))
     visitante = db.Column(db.String(100), nullable=True)
-    orden = db.Column(db.Integer)  
+    orden = db.Column(db.Integer)
+
+class Clasificacion(db.Model):
+    __tablename__ = 'clasificacion_euro_caja'
+    id = db.Column(db.Integer, primary_key=True)
+    grupo = db.Column(db.String(50))
+    equipo = db.Column(db.String(50))
+    jugados = db.Column(db.Integer, default=0)
+    ganados = db.Column(db.Integer, default=0)
+    perdidos = db.Column(db.Integer, default=0)
+    puntos = db.Column(db.Integer, default=0)    
+    bonus = db.Column(db.Integer, default=0)  
