@@ -731,3 +731,88 @@ def panteras_europa():
         'europa/panteras_europa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
         clasificaciones=data_clasificaciones
     )     
+
+# SUPERCOPA ESPAÑA CPLV MUNIA PANTERAS
+# Crear formulario para la supercopa
+@panteras_route_bp.route('/crear_supercopa_panteras', methods=['GET', 'POST'])
+def crear_supercopa_panteras():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'semifinales': 2,
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = SupercopaPanteras(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                bonusA = request.form.get(f'bonusA{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                bonusB = request.form.get(f'bonusB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
+    return render_template('admin/supercopa/supercopa_panteras.html')
+# Ver encuentros supercopa en Admin
+@panteras_route_bp.route('/supercopa_panteras/')
+def ver_supercopa_panteras():
+    eliminatorias = ['semifinales', 'final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaPanteras.query.filter_by(eliminatoria=eliminatoria).order_by(SupercopaPanteras.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/supercopa/supercopa_panteras.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la supercopa
+@panteras_route_bp.route('/modificar_supercopa_panteras/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_supercopa_panteras(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = SupercopaPanteras.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.bonusA = request.form.get(f'bonusA{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.bonusB = request.form.get(f'bonusB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        flash('Supercopa actualizado correctamente', 'success')
+        return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
+# Eliminar los partidos de la supercopa Ibérica
+@panteras_route_bp.route('/eliminar_supercopa_panteras/<string:eliminatoria>', methods=['POST'])
+def eliminar_supercopa_panteras(eliminatoria):
+    partidos = SupercopaPanteras.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
+    return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
+# Mostrar la supercopa del CPLV Munia Panteras
+@panteras_route_bp.route('/supercopas_panteras/')
+def supercopas_panteras():
+    eliminatorias = ['semifinales', 'final']
+    datos_supercopa = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaPanteras.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_supercopa[eliminatoria] = partidos   
+    return render_template('supercopas/panteras_supercopa.html', datos_supercopa=datos_supercopa)     
