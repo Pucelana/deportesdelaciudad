@@ -41,6 +41,13 @@
     background-size: 100% 100%;
     background-position: center;
 }
+.fondo_copa_rugby{
+    position: relative;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_rugby.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+}
 .fondos_copa_balonmano{
     position: relative;
     background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_rey_balonmano.png');

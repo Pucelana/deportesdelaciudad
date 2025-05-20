@@ -11,6 +11,7 @@ from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, Co
 from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, CopaEspañaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa
 from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion
 from app.models.panteras import JornadaPanteras, PanterasPartido, PanterasClub,  PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion
+from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
 from app.models.usuarios import Usuario
 
 from flask_login import LoginManager

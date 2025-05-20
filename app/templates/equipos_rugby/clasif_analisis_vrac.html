@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Calendario - CPLV Caja Rural</title>
+  <title>Clasificación y Ánalisis - DH VRAC</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -33,122 +33,178 @@
   <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
 
-<body class="bg-white calend_hockey">
+<body class="calend_rugby">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/hockey" class="text-white text-decoration-none">Sección</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario CPLV Caja Rural</li>
+        <li class="breadcrumb-item"><a href="/seccion/rugby" class="text-white text-decoration-none">Sección</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
       </ol>
     </nav>
+    <h2 class="text-white text-center">VRAC 24/25</h2>
     <section class="container-lg mb-5 flex-fill copa">
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-calendario" class="btn btn-outline-info" data-slide="0">Calendario</a>
-        <a href="#slide-resultados" class="btn btn-outline-info" data-slide="1">Resultados</a>
+        <a href="#slide-clasificacion" class="btn btn-outline-info" data-slide="0">Clasificación</a>
+        <a href="#slide-a" class="btn btn-outline-info" data-slide="1">Grupo A</a>
+        <a href="#slide-b" class="btn btn-outline-info" data-slide="2">Grupo B</a>
       </div>
-      <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
+      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active" id="slide-calendario"><!--Tabla Calendario CPLV Caja Rural-->
+          <div class="carousel-item" id="slide-clasificacion"><!--Tabla Clasificación-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_caja" style="width: 80rem;">
+              <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold my-3">Calendario Individual 24/25</h3>
-                    <table class="table table-bordered tabla_equipos tabla_caja">
-                      <thead>
-                        <tr class="text-center text-dark">
-                          <th></th>
-                          <th colspan="2">Jornadas</th>
-                          <th colspan="4">Resultados</th>
-                          <!--<th colspan="2">Partidos</th>-->
-                        </tr>
-                        <tr class="text-center text-dark">
-                          <th scope="col">Equipos</th>
-                          <th>Ida</th>
-                          <th>Vlt</th>
-                          <th colspan="2">Ida</th>
-                          <th colspan="2">Vlt</th>
-                          <th>Puntos</th>
-                          <!--<th>PP</th>-->
-                          <th>Average</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_caja.items() %}
-                        <tr class="text-center">
-                          <th class="text-white size_equipos">{{ equipo }}</th>
-                          <td class="jorn_ida fw-bold">
-                            {% if datos_equipo.get('primer_enfrentamiento') %}
-                            J-{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_caja'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_caja'] }})
-                            {% endif %}
-                            {% endif %}
-                          </td>
-                          <td class="jorn_vuelta fw-bold">
-                            {% if datos_equipo.get('segundo_enfrentamiento') %}
-                            J-{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_caja'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_caja'] }})
-                            {% endif %}
-                            {% endif %}
-                          </td>
-                          <td class="resultadoA fw-bold">{{ tabla_partidos_caja[equipo]['resultadoA'] }}</td>
-                          <td class="resultadoB fw-bold">{{ tabla_partidos_caja[equipo]['resultadoB'] }}</td>
-                          <td class="resultadoAA fw-bold">{{ tabla_partidos_caja[equipo]['resultadoAA'] }}</td>
-                          <td class="resultadoBB fw-bold">{{ tabla_partidos_caja[equipo]['resultadoBB'] }}</td>
-                          <td class="part1"></td>
-                          <td class="average"></td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada 23/24 -->
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_caja" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold my-3">Resultados 24/25</h3>
-                <div class="card-body">
-                  <div class="container-fluid">
-                    <div class="row">
-                      {% for goles in nuevos_datos_caja %}
-                      <div class="col-lg-4">
-                        <div class="card card_calendario mb-3">
-                          <div class="table-responsive">
-                            <table class="table table-bordered card_calendario tabla_jornadas">
-                              <thead class="fondo_jornadas">
-                                <tr class="text-center">
-                                  <td colspan="5" class="text-center text-white fw-bold">{{ goles.nombre }}</td>
-                                </tr>
-                              </thead>
-                              <tbody style="display:none">
-                                {% for partido in goles.partidos %}
-                                <tr class="text-center">
-                                  <td class="text-center text-white">{{ partido.fecha }} {{ partido.hora }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
-                                </tr>
-                                {% endfor %}
-                              </tbody>
-                            </table>
-                            <div class="d-flex ms-1 my-1">
-                              <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                class="text-decoration-none ps-3 text-white">Ver</a>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      {% endfor %}
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-analisis">Clasificación - División de Honor Rugby</h3>
+                    <div class="col-12">
+                      <table id="tablaClasificacion" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PTS</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DG</th>
+                            <th>B</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_vrac %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if equipo.index <= 6 %}pos-ascen{% elif equipo.index <= 12 %}pos-nada{% endif %}">
+                              {{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
+                            <td class="empatados fw-bold">{{ equipo['datos']['empatados'] }}</td>
+                            <td class="perdidos fw-bold">{{ equipo['datos']['perdidos'] }}</td>
+                            <td class="favor fw-bold">{{ equipo['datos']['favor'] }}</td>
+                            <td class="contra fw-bold">{{ equipo['datos']['contra']}}</td>
+                            <td class="diferencia_goles fw-bold">{{ equipo['datos']['diferencia_goles'] }}</td>
+                            <td class="bonus fw-bold">{{ equipo['datos']['bonus'] }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 </div>
+                <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
+                  (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); B (Bonus)</p>
+                <p class="ms-4">Grupo A<span class="badge bg-success ms-2">1-6</span> ; Grupo B<span
+                    class="badge bg-secondary ms-2">7-12</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" id="slide-a"><!--Tabla Grupo A - Ganadores-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-analisis">Grupo A - Ganadores</h3>
+                    <div class="col-12">
+                      <table id="tablaAscensoAliados" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PTS</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DG</th>
+                            <th>BONUS</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in grupoA2 %}
+                          <tr class="text-center">
+                            <td class="fw-bold {% if equipo.index <= 6 %}pos-ascen{% endif %}">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
+                            <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
+                            <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>
+                            <td class="empatados fw-bold">{{ equipo.datos.empatados }}</td>
+                            <td class="perdidos fw-bold">{{ equipo.datos.perdidos }}</td>
+                            <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
+                            <td class="contra fw-bold">{{ equipo.datos.contra }}</td>
+                            <td class="diferencia_goles fw-bold">{{ equipo.datos.diferencia_goles }}</td>
+                            <td class="bonus fw-bold">{{ equipo.datos.bonus }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
+                  (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); BNS (Bonus)</p>
+                <p class="ms-4">PlayOff (Cuartos de final)<span class="badge bg-success ms-2">1-6</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="carousel-item" id="slide-b"><!--Tabla Grupo B - Perdedores-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center mb-4 text-analisis">Grupo B - Perdedores</h3>
+                    <div class="col-12">
+                      <table id="tablaPlayAula" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PTS</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DG</th>
+                            <th>BNS</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in grupoB2 %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if equipo.index <= 8 %}pos-ascen{% elif equipo.index <= 10 %}pos-nada{% elif equipo.index <= 11 %}pos-promo{% elif equipo.index <= 12 %}pos-desc{% endif %}">
+                              {{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
+                            <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
+                            <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>
+                            <td class="empatados fw-bold">{{ equipo.datos.empatados }}</td>
+                            <td class="perdidos fw-bold">{{ equipo.datos.perdidos }}</td>
+                            <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
+                            <td class="contra fw-bold">{{ equipo.datos.contra }}</td>
+                            <td class="diferencia_goles fw-bold">{{ equipo.datos.diferencia_goles }}</td>
+                            <td class="bonus fw-bold">{{ equipo.datos.bonus }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+                <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
+                  (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); BNS (Bonus)</p>
+                <p class="ms-4">PlayOff (Cuartos de final)<span class="badge bg-success ms-2">7-8</span> ; Promoción
+                  Descenso<span class="badge ms-2" style="background-color: #d86f6f;">11</span> ; Descenso<span
+                    class="badge bg-danger ms-2">12</span></p>
               </div>
             </div>
           </div>
@@ -385,6 +441,7 @@
       </div>
     </div>
   </div>
+  <!--Fin Carrusel-->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Bootstrap JavaScript Libraries -->
@@ -395,157 +452,7 @@
     integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
     </script>
   <script src="/static/js/script.js"></script>
-  <script src="/static/js/leer_mas.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Seleccionar todas las filas de la tabla
-      var filas = document.querySelectorAll('.tabla_caja tbody tr');
-      // Iterar sobre cada fila
-      filas.forEach(function (fila) {
-        // Obtener el nombre del equipo de la fila actual
-        var equipo = fila.querySelector('th').textContent.trim();
-        console.log(equipo)
-        // Obtener la jornada y determinar si el Promesas juega en casa o como visitante
-        var jornadaElement = fila.querySelector('.jorn_ida');
-        var esLocal = false; // Por defecto, asumimos que el Promesas juega como visitante
-        if (jornadaElement) {
-          var jornada = jornadaElement.textContent.trim();
-          if (jornada.includes('C')) {
-            esLocal = true;
-          }
-        }
-        // Obtener los valores de los resultados de la fila
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        console.log(resultadoA)
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        console.log(resultadoB)
-        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
-        console.log(resultadoAA)
-        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
-        console.log(resultadoBB)
-        // Comparar los resultados y actualizar el estilo de las celdas correspondientes
-        var part1 = fila.querySelector('.part1');
-        var average = fila.querySelector('.average');
-        if (esLocal) {
-          if (resultadoA > resultadoB) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoA === resultadoB) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoA < resultadoB) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoAA > resultadoBB) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoAA === resultadoBB) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoAA < resultadoBB) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          }
-        } else {
-          if (resultadoB > resultadoA) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoB === resultadoA) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoB < resultadoA) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoBB > resultadoAA) {
-            part1.textContent = '3';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoBB === resultadoAA) {
-            part1.textContent = '1';
-            part1.style.color = 'deepskyblue';
-          } else if (resultadoBB < resultadoAA) {
-            part1.textContent = '0';
-            part1.style.color = 'deepskyblue';
-          }
-        }
-        // Verificar si se tienen los resultados del segundo enfrentamiento
-        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
-          // Calcular el puntaje del segundo enfrentamiento
-          var puntajeSegundoEnfrentamiento = 0;
-          // Determinar si el equipo juega como local o visitante en el segundo enfrentamiento
-          if (resultadoAA > resultadoBB) {
-            // "AA" gana como local
-            if (!esLocal) {
-              puntajeSegundoEnfrentamiento = 3;
-            }
-          } else if (resultadoAA < resultadoBB) {
-            // "AA" gana como visitante
-            if (esLocal) {
-              puntajeSegundoEnfrentamiento = 3;
-            }
-          } else {
-            // Empate en el segundo enfrentamiento
-            puntajeSegundoEnfrentamiento = 1;
-          }
-          // Actualizar el puntaje total sumando el del segundo enfrentamiento
-          if (part1.textContent === '-') {
-            part1.textContent = puntajeSegundoEnfrentamiento.toString();
-          } else {
-            part1.textContent = (parseInt(part1.textContent) + puntajeSegundoEnfrentamiento).toString();
-          }
-        }
-      });
-      // Iterar sobre cada fila
-      filas.forEach(function (fila) {
-        // Obtener los valores de resultadoA y resultadoB de la fila actual
-        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
-        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
-        // Obtener los valores de resultadoAA y resultadoBB de la fila actual para la jornada de vuelta
-        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
-        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
-        // Obtener la celda 'average'
-        var average = fila.querySelector('.average');
-        // Calcular la diferencia de goles dependiendo si resultadoA juega como local o visitante
-        var diferenciaGolesIda;
-        if (fila.querySelector('.jorn_ida').textContent.includes('C')) {
-          // resultadoA juega en casa
-          diferenciaGolesIda = resultadoA - resultadoB;
-        } else {
-          // resultadoA juega como visitante
-          diferenciaGolesIda = resultadoB - resultadoA;
-        }
-        // Calcular la diferencia de goles para la jornada de vuelta
-        var diferenciaGolesVuelta;
-        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
-          if (fila.querySelector('.jorn_ida').textContent.includes('C')) {
-            // resultadoAA juega como visitante en la jornada de vuelta
-            diferenciaGolesVuelta = resultadoBB - resultadoAA;
-          } else {
-            // resultadoAA juega en casa en la jornada de vuelta
-            diferenciaGolesVuelta = resultadoAA - resultadoBB;
-          }
-        } else {
-          diferenciaGolesVuelta = 0;
-        }
-        var averageTotal = diferenciaGolesIda + diferenciaGolesVuelta;
-        if (!isNaN(averageTotal)) {
-          // Asignar el valor del average total a la celda 'average'
-          average.textContent = averageTotal;
-          // Determinar el color de la celda 'average' según la diferencia de goles
-          if (averageTotal > 0) {
-            average.style.color = 'lime'; // Equipo A ganó
-          } else if (averageTotal < 0) {
-            average.style.color = 'darkred'; // Equipo A perdió
-          } else {
-            average.style.color = 'deepskyblue'; // Empate
-          }
-        } else {
-          // Si averageTotal es NaN, dejar la celda vacía
-          average.textContent = '';
-        }
-      });
-    });
-  </script>
 </body>
 
 </html>

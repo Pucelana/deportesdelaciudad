@@ -80,7 +80,7 @@
                           <th class="text-white size_equipos">{{ equipo }}</th>
                           <td class="jorn_ida fw-bold">
                             {% if datos_equipo.get('primer_enfrentamiento') %}
-                            J-{{ datos_equipo['primer_enfrentamiento']|regex_replace('Jornada','') }}
+                            J-{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
                             {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_panteras'] %}
                             ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_panteras'] }})
                             {% endif %}
@@ -88,7 +88,7 @@
                           </td>
                           <td class="jorn_vuelta fw-bold">
                             {% if datos_equipo.get('segundo_enfrentamiento') %}
-                            J-{{ datos_equipo['segundo_enfrentamiento']|regex_replace('Jornada','') }}
+                            J-{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
                             {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_panteras'] %}
                             ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_panteras'] }})
                             {% endif %}
