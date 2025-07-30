@@ -46,9 +46,9 @@
     <section class="container-lg mb-5 flex-fill">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-clasificacion" class="btn btn-outline-dark" data-slide="0">Clasificación</a>
-        <a href="#slide-playoff" class="btn btn-outline-dark" data-slide="1">PlayOff</a>
-        <a href="#slide-descenso" class="btn btn-outline-dark" data-slide="2">Descenso</a>
+        <a href="#slide-clasificacion" class="btn btn-outline-info" data-slide="0">Clasificación</a>
+        <a href="#slide-playoff" class="btn btn-outline-info" data-slide="1">PlayOff</a>
+        <a href="#slide-descenso" class="btn btn-outline-info" data-slide="2">Descenso</a>
       </div>
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
@@ -78,7 +78,7 @@
                           {% for equipo in clasificacion_analisis_aula %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if loop.index <= 8 %}pos-playoff-titulo{% elif loop.index <= 13 %}pos-nada{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
+                              class="fw-bold {% if loop.index <= 8 %}pos-playoff-titulo{% elif loop.index <= 9 %}pos-nada {% elif loop.index <= 13 %}pos-promo{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
                               {{ loop.index }}
                             </td>
                             <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
@@ -99,7 +99,8 @@
                 </div>
                 <p class="ms-4"> PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
                   (Partidos Perdidos); GF (Goles Favor); GC(Goles Contra); DG (Diferencia Goles)</p>
-                <p class="ms-4">PlayOffs (Título)<span class="badge bg-success ms-2">1-8</span>; Descenso<span
+                <p class="ms-4">PlayOffs (Título)<span class="badge bg-success ms-2">1-8</span>; Playoffs Permanencia<span
+                    class="badge bg-danger ms-2">10-13</span>; Descenso<span
                     class="badge bg-danger ms-2">14</span>; Puestos Europa Final PlayOff Título<span class="badge bg-success ms-2">1-4</span></p>
               </div>
             </div>

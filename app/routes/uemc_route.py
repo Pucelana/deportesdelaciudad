@@ -424,10 +424,9 @@ def formatear_partidos_por_encuentros(partidos):
         'grupoE': {'id': 5, 'encuentros': 'grupoE', 'partidos': []},
         'grupoF': {'id': 6, 'encuentros': 'grupoF', 'partidos': []},
         'grupoG': {'id': 7, 'encuentros': 'grupoG', 'partidos': []},
-        'grupoH': {'id': 8, 'encuentros': 'grupoH', 'partidos': []},
-        'cuartos': {'id': 9, 'encuentros': 'cuartos', 'partidos': []},
-        'semifinales': {'id': 10, 'encuentros': 'semifinales', 'partidos': []},
-        'final': {'id': 11, 'encuentros': 'final', 'partidos': []}
+        'cuartos': {'id': 8, 'encuentros': 'cuartos', 'partidos': []},
+        'semifinales': {'id': 9, 'encuentros': 'semifinales', 'partidos': []},
+        'final': {'id': 10, 'encuentros': 'final', 'partidos': []}
     }
     for partido in partidos:
         # Si el objeto 'partido' es de SQLAlchemy, accedemos a sus atributos con punto

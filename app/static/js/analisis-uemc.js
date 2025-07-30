@@ -77,7 +77,7 @@ equipos.forEach((equipoData) => {
     let claseColor = '';
     if (equipoData.index <= 1) {
         claseColor = 'pos-ascen';
-    } else if (equipoData.index <=18) {
+    } else if (equipoData.index <=14) {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
@@ -133,9 +133,9 @@ equiposPlay.forEach((equipoData) => {
     let claseColor1 = '';
     if (equipoData.index1 <= 1) {
         claseColor1 = 'pos-nada';
-    } else if (equipoData.index1 <=9) {
+    } else if (equipoData.index1 <=8) {
         claseColor1 = 'pos-playoff';
-    }else if (equipoData.index1 <=18) {
+    }else if (equipoData.index1 <=14) {
         claseColor1 = 'pos-nada';
     }
     nuevaFila.innerHTML = `
@@ -188,9 +188,11 @@ tabla2.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equiposDesc.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor2 = '';
-    if (equipoData.index2 <= 15) {
+    if (equipoData.index2 <= 10) {
         claseColor2 = 'pos-nada';
-    }else if (equipoData.index2 <=18) {
+    }else if (equipoData.index2 <=12) {
+        claseColor2 = 'pos-promo';
+    }else if (equipoData.index2 <=14) {
         claseColor2 = 'pos-desc';
     }
     nuevaFila.innerHTML = `

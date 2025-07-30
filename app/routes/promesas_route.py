@@ -26,8 +26,6 @@ def ingresar_resultado_promesas():
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
             visitante = request.form.get(f'visitante{i}')            
-            # Validar y convertir la hora
-            hora = convertir_hora(hora)
             # Crear el objeto partido y agregarlo a la sesión
             partido = PromesasPartido(
                 jornada_id=jornada.id,
@@ -46,11 +44,6 @@ def ingresar_resultado_promesas():
         return redirect(url_for('promesas_route_bp.calendarios_promesas'))
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_promesas.html')
-def convertir_hora(hora_str):
-    try:
-        return datetime.strptime(hora_str, "%H:%M").time()
-    except (ValueError, TypeError):
-        return None
 # Ver calendario Real Valladolid Promesas en Admin
 @promesas_route_bp.route('/calendario_promesas')
 def calendarios_promesas():

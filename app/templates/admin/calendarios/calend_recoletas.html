@@ -17,11 +17,11 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 23/24 Atlético Valladolid</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 Atlético Valladolid</li>
     </ol>
   </nav>
   <header>
-    <h1 class="text-center">Resultados Liga Asobal 23/24</h1>
+    <h1 class="text-center">Resultados Liga Asobal 25/26</h1>
   </header>
     <section class="container-lg">
       <div class="d-flex justify-content-center mb-4">
@@ -45,7 +45,7 @@
           </div>
           <div class="col-md-5">
             <label for="hora{{i}}">Hora</label>
-            <input type="time" class="form-control" id="hora{{i}}" name="hora{{i}}">
+            <input type="text" class="form-control" id="hora{{i}}" name="hora{{i}}">
           </div>
           <div class="col-md-5">
             <label for="local{{i}}">Equipo Local</label>
@@ -138,11 +138,11 @@
             <div class="col-md-5 mb-2">
               <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
               <label for="fecha{{ loop.index0 }}">Fecha</label>
-              <input name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
+              <input type="text" name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
             </div>
             <div class="col-md-5 mb-2">
               <label for="hora{{ loop.index0 }}">Hora</label>
-              <input type="time" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
+              <input type="text" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
             </div>
             <div class="col-md-4 mb-2">
               <label for="local{{ loop.index0 }}">Equipo A</label>

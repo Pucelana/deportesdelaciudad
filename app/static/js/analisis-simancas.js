@@ -84,9 +84,9 @@ tabla.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equipos.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor = '';
-    if (equipoData.index <= 2) {
+    if (equipoData.index <= 1) {
         claseColor = 'pos-ascen';
-    } else if (equipoData.index <= 16) {
+    } else if (equipoData.index <= 9) {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
@@ -103,7 +103,7 @@ equipos.forEach((equipoData) => {
 });
 
 // Tercera función para calcular el porcentaje a los PlayOff
-const filas1 = document.querySelectorAll("#tablaPlaySimancas tbody tr");
+/*const filas1 = document.querySelectorAll("#tablaPlaySimancas tbody tr");
 const partidosTotales1 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar1 = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFija1 = 70; // Ajusta este valor según tus necesidades
@@ -167,7 +167,7 @@ equipo1s1.forEach((equipo1Data) => {
     <td class="play-pesi fw-bold text-center">${equipo1Data.partidosGanadosPesimistas1}</td>
     `;
     tabla1.appendChild(nuevaFila1);
-});
+});*/
 
 // Cuarta función para calcular la permanencia
 const filas2 = document.querySelectorAll("#tablaDescSimancas tbody tr");
@@ -210,9 +210,9 @@ tabla2.innerHTML = ""; // Limpiar la tabla2 antes de actualizar
 equipos2.forEach((equipo2Data) => {
     const nuevaFila2 = document.createElement("tr");
     let claseColor2 = '';
-    if (equipo2Data.index2 <= 15) {
+    if (equipo2Data.index2 <= 7) {
         claseColor2 = 'pos-nada';
-    } else if (equipo2Data.index2 <= 16) {
+    } else if (equipo2Data.index2 <= 9) {
         claseColor2 = 'pos-desc';
     }
     nuevaFila2.innerHTML = `

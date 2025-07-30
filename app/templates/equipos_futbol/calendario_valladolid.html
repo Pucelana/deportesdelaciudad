@@ -128,7 +128,7 @@
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-center fw-bold text-white">{{ partido.fecha }} {{ partido.hora.strftime('%H:%M') if partido.hora else '' }}</td>
+                                  <td class="text-center fw-bold text-white">{{ partido.fecha }} - {{ partido.hora }}</td>
                                   <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
                                   <td class="text-center text-white">{{ partido.resultadoA }}</td>
                                   <td class="text-center text-white">{{ partido.resultadoB }}</td>

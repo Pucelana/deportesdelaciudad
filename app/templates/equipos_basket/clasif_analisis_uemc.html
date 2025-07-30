@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Clasificación y Ánalisis CB Cdad. Valladolid</title>
+  <title>Clasificación y Ánalisis UEMC CBC Valladolid</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -43,7 +43,7 @@
         <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
       </ol>
     </nav>
-    <h2 class="text-white text-center fs-1">CB Cdad. de Valladolid 25/26</h2>
+    <h2 class="text-white text-center fs-1">UEMC CBC Valladolid 25/26</h2>
     <section class="container-lg mb-5 flex-fill copa">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
@@ -59,7 +59,7 @@
               <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Clasificación - Liga Segunda FEB</h3>
+                    <h3 class="text-center text-analisis">Clasificación - Liga Segunda FEB (Grp-Oeste)</h3>
                     <div class="col-12">
                       <table id="tablaClasificacion" class="table">
                         <thead>
@@ -79,7 +79,7 @@
                           {% for equipo in clasificacion_analisis_uemc %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 9 %}pos-playoff{% elif loop.index <= 15 %}pos-nada{% elif loop.index <= 18 %}pos-desc{% endif %}">
+                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
                             <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
                             <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
@@ -98,8 +98,8 @@
                 </div>
                 <p class="ms-4">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
                   PC(Puntos Contra); DP (Diferencia Puntos) PTS (Puntos)</p>
-                <p class="ms-4">Campeón (PlayOff Ascenso Directo)<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
-                    class="badge bg-warning ms-2">2-8</span> ; Descenso<span class="badge bg-danger ms-2">13-14</span>
+                <p class="ms-4">Playoff (Campeón y Acesso directo )<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
+                    class="badge bg-warning ms-2">2-8</span> ; Promoción Descenso<span class="badge ms-2" style="background-color: #ff7171;" >11-12</span> ; Descenso<span class="badge bg-danger ms-2">13-14</span>
                 </p>
               </div>
             </div>
@@ -195,7 +195,7 @@
               <div class="card tabla_equipos" style="width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Descenso - Liga Tercera FEB</h3>
+                    <h3 class="text-center mb-4 text-analisis">Descenso y Promo Descenso - Liga Tercera FEB</h3>
                     <div class="col-12">
                       <table id="tablaDescUemc" class="table">
                         <thead>
