@@ -79,7 +79,7 @@
                           {% for equipo in clasificacion_analisis_uemc %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}">
+                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
                             <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
                             <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
@@ -98,8 +98,8 @@
                 </div>
                 <p class="ms-4">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
                   PC(Puntos Contra); DP (Diferencia Puntos) PTS (Puntos)</p>
-                <p class="ms-4">Playoff (Campeón y Acesso directo )<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
-                    class="badge bg-warning ms-2">2-8</span> ; Promoción Descenso<span class="badge ms-2" style="background-color: #ff7171;" >11-12</span> ; Descenso<span class="badge bg-danger ms-2">13-14</span>
+                <p class="ms-4">Playoff (Campeón y Final Ascenso )<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
+                    class="badge bg-warning ms-2">2-8</span> ; Promoción Descenso<span class="badge ms-2" style="background-color: #ff7171;" >12</span> ; Descenso<span class="badge bg-danger ms-2">13-14</span>
                 </p>
               </div>
             </div>

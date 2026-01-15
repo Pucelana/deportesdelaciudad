@@ -41,7 +41,7 @@
 const filas = document.querySelectorAll("#tablaAscenso tbody tr");
 const partidosTotales = 34; // Total de partidos en la temporada
 const partidosPorGanar = 1; // Cantidad de puntos por partido ganado
-const puntosAscenso = 28; // Puntos relativos para quedar primero
+const puntosAscenso = 26; // Puntos relativos para quedar primero
 const equipos = [];
 let index = 1;
 filas.forEach((fila, indice) => {
@@ -188,7 +188,7 @@ tabla2.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equiposDesc.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor2 = '';
-    if (equipoData.index2 <= 10) {
+    if (equipoData.index2 <= 11) {
         claseColor2 = 'pos-nada';
     }else if (equipoData.index2 <=12) {
         claseColor2 = 'pos-promo';

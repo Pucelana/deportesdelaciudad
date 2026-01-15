@@ -7,11 +7,11 @@
 }
 .text-menu-nav {
     font-family: 'Dancing Script', cursive;
-    font-size: 1.75em;
+    font-size: 2em;
 }
 .text-menu-seccion{
     font-family: 'Caveat', cursive;
-    font-size: 1.7em;
+    font-size: 2em;
 }
 .iconos{
     width: 35px;
@@ -113,4 +113,7 @@
     position: absolute;
     top: 20px;
     left: calc(35% - 15px)
+}
+.logo-movil{
+    width: 100px;
 }

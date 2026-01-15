@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title class="text-warning fw-bold">Eldeportedelaciudad</title>
+  <title class="text-warning fw-bold">deportesdelaciudad</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -10,7 +10,7 @@
     content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="keywords"
     content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
-  <meta name="author" content="eldeportedelaciudad">
+  <meta name="author" content="deportesdelaciudad">
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Página deportiva de Valladolid">
@@ -32,11 +32,16 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="../static/css/estilo.css" rel="stylesheet" type="text/css">
   <!--Favicon-->
-  <link rel="icon" type="image/jpg" href="../static/img/logo_sinfondo.png" />
+  <link rel="icon" type="image/jpg" href="../static/img/logo-deportes2.png" />
 </head>
 
 <body>
-  <div class="d-flex flex-column min-vh-100">
+  <!-- Pantalla inicial -->
+  <div id="splash">
+    <img src="../static/img/logo-deportes2.png" alt="Logo">
+    <h1>Deportesdelaciudad</h1>
+  </div>
+  <div id="contenido" class="d-flex flex-column min-vh-100">
     <header class="container-fluid d-none d-lg-block  sticky-top">
       <section id="cabecera1" class="align-items-center">
         <div class="row bg-menu shadow">
@@ -62,12 +67,12 @@
                     </li>-->
                     <li class="nav-item dropdown">
                       <a class="nav-link dropdown-toggle fw-bold text-white text-menu-nav" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Equipos</a>
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ligas</a>
                       <div class="dropdown-menu menu-desple" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/seccion/baloncesto">Baloncesto</a>
                         <a class="dropdown-item" href="/seccion/balonmano">Balonmano</a>
                         <a class="dropdown-item" href="/seccion/futbol">Fútbol</a>
-                        <a class="dropdown-item" href="/seccion/futbol_sala">Fútbol Sala</a>
+                        <!-- <a class="dropdown-item" href="/seccion/futbol_sala">Fútbol Sala</a> -->
                         <a class="dropdown-item" href="/seccion/hockey">Hockey Línea</a>
                         <a class="dropdown-item" href="/seccion/rugby">Rugby</a>
                         <a class="dropdown-item" href="/seccion/voleibol">Voleibol</a>
@@ -171,14 +176,13 @@
                         <a class="dropdown-item" href="/sistema_ligas/baloncesto">Baloncesto</a>
                         <a class="dropdown-item" href="/sistema_ligas/balonmano">Balonmano</a>
                         <a class="dropdown-item" href="/sistema_ligas/futbol">Fútbol</a>
-                        <a class="dropdown-item" href="/sistema_ligas/futbol_sala">Fútbol Sala</a>
+                        <!-- <a class="dropdown-item" href="/sistema_ligas/futbol_sala">Fútbol Sala</a> -->
                         <a class="dropdown-item" href="/sistema_ligas/hockey">Hockey Línea</a>
                         <a class="dropdown-item" href="/sistema_ligas/rugby">Rugby</a>
                         <a class="dropdown-item" href="/sistema_ligas/voleibol">Voleibol</a>
                       </div>
                     </li>
                     {% endif %}
-
                   </ul>
                 </div>
               </div>
@@ -248,12 +252,12 @@
               </li>-->
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle fs-5 text-white fw-bold text-menu-nav" href="#" id="dropdownId"
-                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Equipos</a>
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ligas</a>
                   <div class="dropdown-menu menu-desple3" aria-labelledby="dropdownId">
                     <a class="dropdown-item" href="/seccion/baloncesto">Baloncesto</a>
                     <a class="dropdown-item" href="/seccion/balonmano">Balonmano</a>
                     <a class="dropdown-item" href="/seccion/futbol">Fútbol</a>
-                    <a class="dropdown-item" href="/seccion/futbol_sala">Fútbol Sala</a>
+                    <!-- <a class="dropdown-item" href="/seccion/futbol_sala">Fútbol Sala</a> -->
                     <a class="dropdown-item" href="/seccion/hockey">Hockey Línea</a>
                     <a class="dropdown-item" href="/seccion/rugby">Rugby</a>
                     <a class="dropdown-item" href="/seccion/voleibol">Voleibol</a>
@@ -357,7 +361,7 @@
                     <a class="dropdown-item" href="/admin/sistema_ligas/baloncesto">Baloncesto</a>
                     <a class="dropdown-item" href="/admin/sistema_ligas/balonmano">Balonmano</a>
                     <a class="dropdown-item" href="/admin/sistema_ligas/futbol">Fútbol</a>
-                    <a class="dropdown-item" href="/admin/sistema_ligas/futbol_sala">Fútbol Sala</a>
+                    <!-- <a class="dropdown-item" href="/admin/sistema_ligas/futbol_sala">Fútbol Sala</a> -->
                     <a class="dropdown-item" href="/admin/sistema_ligas/hockey">Hockey Línea</a>
                     <a class="dropdown-item" href="/admin/sistema_ligas/rugby">Rugby</a>
                     <a class="dropdown-item" href="/admin/sistema_ligas/voleibol">Voleibol</a>
@@ -369,7 +373,7 @@
           </div>
         </nav>
         <div>
-          <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-movil" alt="deportesdelaciudad">
         </div>
         <div>
           <ul class="navbar-nav text-end">
@@ -429,12 +433,12 @@
             <div class="card">
               <div class="card-body">
                 <h6 class="text-center text-secondary"></h6>
-                <h6 class="text-center fw-bold text-info">{{ date.liga }}</h6>
+                <h6 class="text-center fw-bold text-primary">{{ date.liga }}</h6>
                 <h5 class="text-white fw-bold">{{ date.equipoA }}<strong class="fw-bold text-white ps-2"> {{
                     date.resultado1 }}</strong></h5>
                 <h5 class="text-white fw-bold">{{ date.equipoB }}<strong class="fw-bold text-white ps-2"> {{
                     date.resultado2 }}</strong></h5>
-                <h6 class="text-center text-info fw-bold">{{ date.fecha_partido }}</h6>
+                <h6 class="text-center text-primary fw-bold">{{ date.fecha_partido }}</h6>
               </div>
             </div>
           </div>
@@ -454,8 +458,7 @@
       </div><!--Fin Carrusel-->
     </section>
     <!-- Resultados flotantes en directo -->
-    <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center"
-      style="display: none;">
+    <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
       <div class="card shadow-lg border-0 w-25" id="directo-container">
         <div class="card-header fs-5 bg-info text-white fw-bold text-center">
           🟢 Partidos en Directo
@@ -480,55 +483,96 @@
       </p>
     </section>
     {% endif %}
-    <section class="container-fluid logo_principal">
+    <!--<section class="container-fluid logo_principal">
       <div class="row container-lg">
         <div class="col-lg-10 col-md-10 col-sm-10 text-center">
           <h1 class="letras_logo">deportesdelaciudad</h1>
           <h2 class="slogan">Deporte local , Corazón urbano</h2>
         </div>
         <div class="col-lg-2 col-md-2 col-sm-2 d-flex justify-content-center">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid img_principal" alt="eldeportedelaciudad">
+          <img src="/static/img/logo_sinfondo3.png" class="img-fluid img_principal" alt="eldeportedelaciudad">
         </div>
       </div>
-    </section>
+    </section>-->
     <!--Logos Escudos-->
-    <section class="container-fluid py-3 mb-3">
+    <section class="container-fluid py-3 mb-5">
+      {% if current_user.is_authenticated %}
       <div class="container-lg d-flex justify-content-center flex-wrap gap-5">
         <!-- Reemplazá los src con las rutas de tus escudos -->
-        <img src="/static/img/aliados_sf.png" class="img-fluid escudo" alt="Fundación Aliados" />
-        <img src="/static/img/aula_sf.png" class="img-fluid escudo" alt="Aula Valladolid" />
-        <img src="/static/img/cplv_sf.png" class="img-fluid escudo" alt="CPLV Hockey" />
-        <img src="/static/img/galvan_sf.png" class="img-fluid escudo" alt="Tierno Galván Valladolid" />
-        <img src="/static/img/ponce_sf.png" class="img-fluid escudo" alt="Ponce Valladolid" />
-        <img src="/static/img/pucela_sf.png" class="img-fluid escudo" alt="Real Valladolid" />
-        <img src="/static/img/reco_fs.png" class="img-fluid escudo" alt="Recoletas Atl.Valladolid" />
-        <img src="/static/img/salvador_sf.png" class="img-fluid escudo" alt="El Salvador" />
-        <img src="/static/img/valla_voley_sf.png" class="img-fluid escudo" alt="Univ.Valladolid VCV" />
-        <img src="/static/img/vrac_sf.png" class="img-fluid escudo" alt="VRAC" />
+        <a href="/admin/equipos_hockey/clasif_analisis_panteras" class="escudo-link">
+          <img src="/static/img/cplv_sf.png" class="escudo" alt="CPLV Munia Panteras" />
+          <span class="escudo-nombre">CPLV Munia Panteras</span>
+        </a> 
+        <a href="/admin/equipos_basket/clasif_analisis_aliados" class="escudo-link">
+          <img src="/static/img/aliados_sf.png" class="escudo" alt="Fundación Aliados">
+          <span class="escudo-nombre">Fundación Aliados</span>
+        </a>
+        <a href="/admin/equipos_futbol/clasif_analisis_promesas" class="escudo-link">
+          <img src="/static/img/pucela_sf.png" class="escudo" alt="Real Valladolid B" />
+          <span class="escudo-nombre">Real Valladolid B</span>
+
+        </a>
+        <a href="/admin/equipos_balonmano/clasif_analisis_aula" class="escudo-link">
+          <img src="/static/img/aula_sf.png" class="escudo" alt="Aula Valladolid" />
+          <span class="escudo-nombre">Aula Valladolid</span>
+        </a>
+        <a href="/admin/equipos_hockey/clasif_analisis_caja" class="escudo-link">
+          <img src="/static/img/cplv_sf.png" class="escudo" alt="CPLV Caja Rural" />
+          <span class="escudo-nombre">CPLV Caja Rural</span>
+        </a>
+        <a href="/admin/equipos_basket/clasif_analisis_uemc" class="escudo-link">
+          <img src="/static/img/cbc_sf.png" class="escudo" alt="CBC Valladolid" />
+          <span class="escudo-nombre">CBC Valladolid</span>
+        </a>
+        <a href="/admin/equipos_basket/clasif_analisis_ponce" class="escudo-link">
+          <img src="/static/img/ponce_sf.png" class="escudo" alt="Ponce Valladolid" />
+          <span class="escudo-nombre">Ponce Valladolid</span>
+        </a>
+        <a href="/admin/equipos_futbol/clasif_analisis_valladolid" class="escudo-link">
+          <img src="/static/img/pucela_sf.png" class="escudo" alt="Real Valladolid" />
+          <span class="escudo-nombre">Real Valladolid</span>
+        </a>
+        <a href="/admin/equipos_balonmano/clasif_analisis_recoletas" class="escudo-link">
+          <img src="/static/img/reco_fs.png" class="escudo" alt="Recoletas Atl.Valladolid" />
+          <span class="escudo-nombre">Recoletas Atl.Valladolid</span>
+        </a>
+        <a href="/admin/equipos_rugby/clasif_analisis_salvador" class="escudo-link">
+          <img src="/static/img/salvador_sf.png" class="escudo" alt="El Salvador" />
+          <span class="escudo-nombre">El Salvador</span>
+        </a>
+        <a href="/admin/equipos_voley/clasif_analisis_universidad" class="escudo-link">
+          <img src="/static/img/valla_voley_sf.png" class="escudo" alt="Univ.Valladolid VCV" />
+          <span class="escudo-nombre">Univ.Valladolid VCV</span>
+        </a>
+        <a href="/admin/equipos_rugby/clasif_analisis_vrac" class="escudo-link">
+          <img src="/static/img/vrac_sf.png" class="escudo" alt="VRAC" />
+          <span class="escudo-nombre">VRAC</span>
+        </a>
       </div>
+      {% endif %}
     </section>
     <footer class="container-fluid mt-auto footer-seccion py-2">
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold fs-4 pt-2">deportesdelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold fs-3 pt-2">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white">Nosotros</h5>
+            <h5 class="text-white fs-4">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Contáctanos</h5>
+            <h5 class="text-white fs-4 ms-4">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Aviso legal</h5>
+            <h5 class="text-white fs-4 ms-4">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de privacidad</h5>
+            <h5 class="text-white fs-4 ms-4">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de cookies</h5>
+            <h5 class="text-white fs-4 ms-4">Política de cookies</h5>
           </a>
           <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>-->
         </div>
@@ -538,7 +582,7 @@
           <--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>->
         </div>-->
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
         </div>
       </div>
     </footer>
@@ -739,13 +783,12 @@
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Contraseña</label>
-              <input type="password" id="password" name="password" class="form-control" autocomplete="new password"
-                required>
+              <input type="password" id="password" name="password" class="form-control" required>
             </div>
             <div class="mb-3">
               <label for="confirmar_password" class="form-label">Confirmar contraseña</label>
               <input type="password" id="confirmar_password" name="confirmar_password" class="form-control"
-                autocomplete="new password" required>
+                required>
             </div>
           </div>
           <div class="modal-footer">
@@ -851,14 +894,14 @@
           }
 
           if (data.length === 0) {
-            seccion.style.setProperty('display', 'none', 'important');
+            seccion.classList.remove('visible');
             partidosGuardados = [];
             indexActual = 0;
             contenedor.innerHTML = '';
             return;
           }
 
-          seccion.style.setProperty('display', 'flex', 'important');
+          seccion.classList.add('visible');
           partidosGuardados = data; // guardamos para el carrusel
           indexActual = 0; // reiniciamos index
           mostrarPartido(partidosGuardados[indexActual], contenedor);
@@ -885,13 +928,40 @@
         seccion.style.setProperty('display', 'none', 'important');
       }
     }
+    function mostrarDirectos() {
+  const directos = document.getElementById("en-direct");
+  directos.classList.add("visible");
+}
 
-    // Asegura que se ejecute solo cuando el DOM esté listo
-    document.addEventListener("DOMContentLoaded", function () {
-      cargarPartidosEnDirecto();
-      setInterval(cargarPartidosEnDirecto, 15000);
-      iniciarCarrusel();
-    });
+// Cerrar sección
+function cerrarModalDirecto() {
+  const seccion = document.getElementById('en-direct');
+  if (seccion) {
+    seccion.classList.remove('visible');
+  }
+}
+
+// Ejecutar cuando el DOM esté listo
+document.addEventListener("DOMContentLoaded", function () {
+  cargarPartidosEnDirecto();
+  setInterval(cargarPartidosEnDirecto, 15000); // refrescar cada 15s
+  iniciarCarrusel();
+});
+const splash = document.getElementById("splash");
+const contenido = document.getElementById("contenido");
+
+if (sessionStorage.getItem("splashShown")) {
+  // Ya se mostró → no lo enseñamos
+  splash.style.display = "none";
+  contenido.style.display = "block";
+} else {
+  // Primera vez → lo mostramos
+  sessionStorage.setItem("splashShown", "true");
+  splash.classList.add("hidden");
+  setTimeout(() => {
+    contenido.style.display = "block";
+  }, 2500);
+}
   </script>
 </body>
 

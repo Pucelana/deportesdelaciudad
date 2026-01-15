@@ -121,7 +121,7 @@ def obtener_datos_uemc():
 def calendario_uemc():
     datos = obtener_datos_uemc()
     nuevos_datos_uemc = [dato for dato in datos if dato]
-    equipo_uemc = 'UEMC Real Valladolid'
+    equipo_uemc = 'CBC Valladolid'
     tabla_partidos_uemc = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:

@@ -15,7 +15,7 @@
     margin-top: auto;  
 }
 .logo-footer{
-  max-width: 150px;
+  max-width: 80px;
 }
 @media (max-width: 576px){
   .footer-seccion{
