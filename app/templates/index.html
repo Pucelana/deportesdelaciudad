@@ -38,8 +38,12 @@
 <body>
   <!-- Pantalla inicial -->
   <div id="splash">
-    <img src="../static/img/logo-deportes2.png" alt="Logo">
-    <h1>Deportesdelaciudad</h1>
+  <div class="splash-bg"></div>
+  <div class="splash-content">
+    <img src="../static/img/logo-deportes2.png" alt="Logo" class="splash-logo">
+    <h1 class="splash-title">Deportes de la ciudad</h1>
+    <p class="splash-sub">Deporte local, corazón urbano</p>
+  </div>
   </div>
   <div id="contenido" class="d-flex flex-column min-vh-100">
     <header class="container-fluid d-none d-lg-block  sticky-top">
@@ -947,21 +951,31 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(cargarPartidosEnDirecto, 15000); // refrescar cada 15s
   iniciarCarrusel();
 });
-const splash = document.getElementById("splash");
-const contenido = document.getElementById("contenido");
+document.addEventListener("DOMContentLoaded", function () {
 
-if (sessionStorage.getItem("splashShown")) {
-  // Ya se mostró → no lo enseñamos
-  splash.style.display = "none";
-  contenido.style.display = "block";
-} else {
-  // Primera vez → lo mostramos
-  sessionStorage.setItem("splashShown", "true");
-  splash.classList.add("hidden");
-  setTimeout(() => {
+  const splash = document.getElementById("splash");
+  const contenido = document.getElementById("contenido");
+
+  if (!splash || !contenido) return;
+
+  if (sessionStorage.getItem("splashShown")) {
+    splash.style.display = "none";
     contenido.style.display = "block";
-  }, 2500);
-}
+  } else {
+    sessionStorage.setItem("splashShown", "true");
+
+    setTimeout(() => {
+      splash.classList.add("hidden");
+
+      setTimeout(() => {
+        splash.style.display = "none";
+        contenido.style.display = "block";
+      }, 2500);
+
+    }, 4000);
+  }
+
+});
   </script>
 </body>
 

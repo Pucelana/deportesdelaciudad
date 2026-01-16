@@ -76,6 +76,7 @@ def modificar_jornada_valladolid(id):
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(ValladolidPartido).filter(ValladolidPartido.id == partido_id).first()
                 if partido:
+                    partido.fecha = fecha
                     partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
@@ -251,7 +252,7 @@ def generar_clasificacion_analisis_futbol_valladolid(data):
             clasificacion[equipo_visitante]['diferencia_goles'] += resultado_visitante - resultado_local  
     clasificacion_ordenada = sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_goles']), reverse=True)
     return [{'equipo': equipo, 'datos': datos} for equipo, datos in clasificacion_ordenada]
-# Ruta para mostrar la clasificación y análisis del UEMC
+# Ruta para mostrar la clasificación y análisis del Real Valladolid
 @valladolid_route_bp.route('/equipos_futbol/clasif_analisis_valladolid')
 def clasif_analisis_valladolid():
     data = obtener_datos_valladolid()
@@ -286,9 +287,10 @@ def crear_copa_valladolid():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')
         max_partidos = {
-            'ronda1': 55,
-            'ronda2': 28,
-            'ronda3': 16,
+            'ronda1': 20,
+            'ronda2': 56,
+            'ronda3': 28,
+            'ronda4': 16,
             'octavos': 8,
             'cuartos': 4,
             'semifinales': 4,
@@ -314,7 +316,7 @@ def crear_copa_valladolid():
 # Ver las eliminatorias en Admin
 @valladolid_route_bp.route('/copa_valladolid/')
 def ver_copa_valladolid():
-    eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
+    eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'ronda4', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {
         e: CopaValladolid.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
@@ -347,7 +349,7 @@ def eliminar_copa_valladolid(eliminatoria):
 # Ver las eliminatorias en la página principal Copa
 @valladolid_route_bp.route('/valladolid_copa/')
 def copas_valladolid():
-    eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
+    eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'ronda4', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_copa = {
         e: CopaValladolid.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
