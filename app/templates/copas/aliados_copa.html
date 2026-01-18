@@ -35,21 +35,20 @@
     <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
 </head>
 
-<body class="fondo_copa_aliados">
+<body class="fondo_basket">
     <div class="d-flex flex-column min-vh-100">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb ps-2 pt-2">
-                <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-                <li class="breadcrumb-item active text-info" aria-current="page">Copa Fundación Aliados</li>
+                <li class="breadcrumb-item"><a href="/seccion/aliados" class="text-white text-decoration-none">BSR Valladolid</a></li>
+                <li class="breadcrumb-item active text-dark" aria-current="page">Copa del Rey 25/26</li>
             </ol>
         </nav>
-        <h1 class="text-playoff">Copa de El Rey 25/26</h1>
-        <span class="equipo_copa">Fundación Aliados</span>
+        <h1 class="text-playoff">BSR Valladolid</h1>
         <section class="container-lg flex-fill copa">
             <!-- Navegación -->
             <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
                 {% for ronda in datos_copa.keys() %}
-                <a href="#" class="btn btn-outline-info btn-ronda" data-target="ronda{{ loop.index0 }}">{{
+                <a href="#" class="btn btn-outline-dark btn-ronda" data-target="ronda{{ loop.index0 }}">{{
                     ronda|capitalize }}</a>
                 {% endfor %}
             </div>
@@ -62,7 +61,7 @@
                     <div class="d-flex justify-content-center">
                         <div class="card tabla_copa mt-4" style="width: 70rem;">
                             <div class="card-body">
-                                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                                <h3 class="text-center text-white text-capitalize text-copa">{{ ronda }}</h3>
                                 <div class="row table-responsive">
                                     <div class="col-12">
                                         <table class="table border-secondary">
@@ -94,28 +93,28 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
                     <a>
-                        <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+                        <h5 class="text-start text-white fw-bold pt-1 fs-3 ms-2 text_uemc">deportesdelaciudad &copy; 2026</h5>
                     </a>
                 </div>
                 <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
                     <a href="#" id="nosotros-link" class="text-decoration-none">
-                        <h5 class="text-white">Nosotros</h5>
+                        <h5 class="text-white fs-4 text_uemc">Nosotros</h5>
                     </a>
                     <a href="#" id="contactanos-link" class="text-decoration-none">
-                        <h5 class="text-white ms-4">Contáctanos</h5>
+                        <h5 class="text-white ms-4 fs-4 text_uemc">Contáctanos</h5>
                     </a>
                     <a href="#" id="aviso-legal-link" class="text-decoration-none">
-                        <h5 class="text-white ms-4">Aviso legal</h5>
+                        <h5 class="text-white ms-4 fs-4 text_uemc">Aviso legal</h5>
                     </a>
                     <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-                        <h5 class="text-white ms-4">Política de privacidad</h5>
+                        <h5 class="text-white ms-4 fs-4 text_uemc">Política de privacidad</h5>
                     </a>
                     <a href="#" id="politica-cookies-link" class="text-decoration-none">
-                        <h5 class="text-white ms-4">Política de cookies</h5>
+                        <h5 class="text-white ms-4 fs-4 text_uemc">Política de cookies</h5>
                     </a>
                 </div>
                 <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
-                    <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer"
+                    <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer"
                         alt="eldeportedelaciudad">
                 </div>
             </div>

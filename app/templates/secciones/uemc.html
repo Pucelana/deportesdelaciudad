@@ -1,0 +1,57 @@
+{% extends 'secciones/base.html' %}
+{% block titulo %} CBC Valladolid {% endblock %}
+{% block contenido %}
+<div class="team-header">
+  <h1 class="h1_seccion">CBC Valladolid</h1>
+  <img src="/static/img/cbc_sf.png" alt="CBC Valladolid" class="team-logo">
+</div>
+<section class="container-lg seccion_deportes">
+  <diV class="fondo_basket">
+    <div class="shadow-lg p-3">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h3 class="text_uemc">LIGA 2ª FEB</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/equipos_basket/calendario_uemc" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Calendario y Resultados</h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/equipos_basket/clasif_analisis_uemc" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Clasificación y Objetivos</h5></a>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-lg">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h3 class="text_uemc">COPA ESPAÑA</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/uemc_copa" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Calendario - Resultados</h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/uemc_copa" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Eliminatorias</h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a><h5></h5></a>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-lg">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h3 class="text_uemc">PLAYOFFS</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/playoffs_uemc" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Playoff Final</h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/playoffs_uemc" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Playoff Eliminatorias</h5></a>
+        </div>
+      </div>
+    </div>
+  </diV>
+</section>
+{% endblock %}

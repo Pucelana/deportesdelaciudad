@@ -1,36 +1,41 @@
 /*Seccion de Baloncesto */
 .calend_basket{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/cancha_basket.jpg');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);;
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
+    box-shadow: 10px 5px 5px gray;
     /*min-height: 100vh;*/
     
 }
 .tabla_equipos{
     background-color: transparent;
     backdrop-filter: blur(12px);
-    border: 1px solid #ad6331;
+    border: 1px solid #bda6cc;
 }
 .card_calendario{
     background-color: transparent;
-    border: 1px solid #ad6331;
+    border: 1px solid #672e8d;
     font-size: 0.9em;
 }
 .fondo_jornadas{
-    background-color: #ad6331;
+    background-color: #672e8d;
 }
 .jorn_ida{
-    color: #a5a5a5;
+    color: #7a7a7a;
     white-space: nowrap;
 }
 .jorn_vuelta{
-    color: #a5a5a5;
+    color: #7a7a7a;
     white-space: nowrap;
 }
 .jorn_tres{
-    color: #a5a5a5;
+    color: #7a7a7a;
     white-space: nowrap;
 }
 @media (max-width:576){
@@ -67,11 +72,15 @@
 /*Seccion del Fútbol*/
 .calend_futbol{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/campo_futbol.webp');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
-    /*min-height: 100vh;*/
+    box-shadow: 10px 5px 5px gray;
 }
 .tabla_equ_futb{
     margin-top: 2%;
@@ -100,49 +109,74 @@
 /* Sección de Balonmano */
 .calend_balonmano{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/cancha_balonmano2.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
-    min-height: 100vh;
+    box-shadow: 10px 5px 5px gray;
+    /*min-height: 100vh;*/
 }
 .tabla_equipos_aula{
     margin-top: 2%;
     background-color: transparent;
     backdrop-filter: blur(12px);
-    border: 1px solid #ad6331;
+    border: 1px solid #672e8d;
 }
 /* Sección Rugby */
 .calend_rugby{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/camp_rugby.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-position: center;  
+    background-position: center;
+    box-shadow: 10px 5px 5px gray; 
 }
 /* Sección Hockey */
 .calend_hockey{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/pista_hockey.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-position: center;  
+    background-position: center;
+    box-shadow: 10px 5px 5px gray; 
 }
 /* Sección Fútbol Sala */
 .calend_futbol_sala{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/futbol_sala.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-position: center;  
+    background-position: center;
+    box-shadow: 10px 5px 5px gray;  
 }
 /* Sección Voleibol */
 .calend_voley{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/cancha_voley.jpg');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);;
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-position: center;  
+    background-position: center;
+    box-shadow: 10px 5px 5px gray;  
 }
 
 

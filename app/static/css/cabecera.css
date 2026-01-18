@@ -6,12 +6,14 @@
     width: 100%;
 }
 .text-menu-nav {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Caveat', cursive;
     font-size: 2em;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .text-menu-seccion{
     font-family: 'Caveat', cursive;
     font-size: 2em;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .iconos{
     width: 35px;
@@ -45,7 +47,7 @@
 .menu-desple{
     border: 0;
     position: relative;
-    height: 230px;
+    height: 150px;
     width: 150px;
     background: white;
     box-shadow: 1px 12px 33px rgba(0, 0, 0, 0.5);

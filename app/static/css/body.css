@@ -13,7 +13,11 @@ body{
 }
 #body_secciones{
     /*background-color: #ffefef;*/
-    background: -webkit-linear-gradient(180deg, #ffc3c3, #91abdb);
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
 }
 .body_admin{
     /*background-color: #ffefef;*/

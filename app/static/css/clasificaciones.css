@@ -20,10 +20,49 @@
         font-size: 0.75rem; /* Ajusta el tamaño del texto según tus necesidades */
       }
 }
+@media (max-width:576px){
+    .table-responsive {
+        font-size: 0.8rem;
+      }
+      .size_equipos2 {
+        font-size: 0.80rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .fw-bold {
+        font-size: 0.85rem;
+      }
+      .table th, .table td {
+        padding: 0.3rem;
+        text-align: start;
+      }
+      .tabla_posiciones th, .tabla_posiciones td {
+        font-size: 0.75rem; /* Ajusta el tamaño del texto según tus necesidades */
+      }
+}
+
 .size_equipos {
+  font-size: 1.25em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 0 6px rgba(0,0,0,0.70);
+}
+.size_equipos2 {
+  font-size: 1.30em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 6px rgba(0,0,0,0.70);
+}
+.text-descrip{
+  font-size: 1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 0 6px rgba(0,0,0,0.70);
+
 }
 .fw-bold {
   white-space: nowrap;
@@ -91,9 +130,17 @@
   color: white !important; /* White text */
   font-weight: bold; /* Bold text */
 }
+.text-analisis{
+  text-align: center;
+  font-size: 2.5em;
+  color: white;
+  font-weight: bold;
+  text-shadow: 0 0 6px rgba(0,0,0,0.70);
+}
 @media (max-width: 576px){
   .text-analisis{
     font-size: 1.5em;
+    
   }
 
 }

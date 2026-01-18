@@ -38,19 +38,19 @@
   <div class="d-flex flex-column min-vh-100 sticky-top">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ps-1 pt-1">
-        <li class="breadcrumb-item"><a href="/seccion/baloncesto" class="text-white text-decoration-none">Sección</a>
+        <li class="breadcrumb-item"><a href="/seccion/uemc" class="text-white text-decoration-none">CBC Valladolid</a>
         </li>
         <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
       </ol>
     </nav>
-    <h2 class="text-white text-center fs-1">CBC Valladolid 25/26</h2>
+    <h2 class="text-white text-center fs-1 text-analisis">CBC Valladolid 25/26</h2>
     <section class="container-lg mb-5 flex-fill copa">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-clasificacion" class="btn btn-outline-info" data-slide="0">Clasificación</a>
-        <a href="#slide-ascenso" class="btn btn-outline-info" data-slide="1">Ascenso</a>
-        <a href="#slide-playoff" class="btn btn-outline-info" data-slide="2">PlayOff</a>
-        <a href="#slide-descenso" class="btn btn-outline-info" data-slide="3">Descenso</a>
+        <a href="#slide-clasificacion" class="btn btn-outline-dark" data-slide="0">Clasificación</a>
+        <a href="#slide-ascenso" class="btn btn-outline-dark" data-slide="1">Ascenso</a>
+        <a href="#slide-playoff" class="btn btn-outline-dark" data-slide="2">PlayOff</a>
+        <a href="#slide-descenso" class="btn btn-outline-dark" data-slide="3">Descenso</a>
       </div>
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
@@ -81,14 +81,14 @@
                             <td
                               class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
-                            <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
-                            <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>
-                            <td class="perdidos fw-bold">{{ equipo.datos.perdidos }}</td>
-                            <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
-                            <td class="contra fw-bold">{{ equipo.datos.contra }}</td>
-                            <td class="dife fw-bold">{{ equipo.datos.diferencia_canastas }}</td>
-                            <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo.equipo }}</td>
+                            <td class="jugados fw-bold fs-5">{{ equipo.datos.jugados }}</td>
+                            <td class="ganados fw-bold fs-5">{{ equipo.datos.ganados }}</td>
+                            <td class="perdidos fw-bold fs-5">{{ equipo.datos.perdidos }}</td>
+                            <td class="favor fw-bold fs-5">{{ equipo.datos.favor }}</td>
+                            <td class="contra fw-bold fs-5">{{ equipo.datos.contra }}</td>
+                            <td class="dife fw-bold fs-5">{{ equipo.datos.diferencia_canastas }}</td>
+                            <td class="puntos fw-bold fs-5">{{ equipo.datos.puntos }}</td>
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -96,10 +96,10 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
+                <p class="ms-4 text-descrip">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
                   PC(Puntos Contra); DP (Diferencia Puntos) PTS (Puntos)</p>
-                <p class="ms-4">Playoff (Campeón y Final Ascenso )<span class="badge bg-success ms-2">1</span> ; PlayOffs<span
-                    class="badge bg-warning ms-2">2-8</span> ; Promoción Descenso<span class="badge ms-2" style="background-color: #ff7171;" >12</span> ; Descenso<span class="badge bg-danger ms-2">13-14</span>
+                <p class="ms-4 text-descrip">Playoff (Campeón y Final Ascenso )<span class="badge bg-success ms-2 text-descrip">1</span> ; PlayOffs<span
+                    class="badge bg-warning ms-2 text-descrip">2-8</span> ; Promoción Descenso<span class="badge ms-2 text-descrip" style="background-color: #ff7171;" >12</span> ; Descenso<span class="badge bg-danger ms-2 text-descrip">13-14</span>
                 </p>
               </div>
             </div>
@@ -128,7 +128,7 @@
                           {% for equipo in clasificacion_analisis_uemc %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo.equipo }}</td>
                             <td class="jugados1 fw-bold">{{ equipo.datos.jugados }}</td>
                             <td class="pts-act1 fw-bold">{{ equipo.datos.ganados }}</td>
                             <td class="proxi1 fw-bold"></td>
@@ -142,7 +142,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                <p class="ms-4 text-descrip">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
                   Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
@@ -171,7 +171,7 @@
                           {% for equipo in clasificacion_analisis_uemc %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos play-equipo">{{ equipo.equipo }}</td>
+                            <td class="fw-bold size_equipos2 play-equipo">{{ equipo.equipo }}</td>
                             <td class="play-jug fw-bold">{{ equipo.datos.jugados }}</td>
                             <td class="play-act fw-bold">{{ equipo.datos.ganados }}</td>
                             <td class="play-prox fw-bold"></td>
@@ -185,7 +185,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                <p class="ms-4 text-descrip">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
                   Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
@@ -214,7 +214,7 @@
                           {% for equipo in clasificacion_analisis_uemc %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo.equipo }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo.equipo }}</td>
                             <td class="desc-jug fw-bold">{{ equipo.datos.jugados }}</td>
                             <td class="desc-act fw-bold">{{ equipo.datos.ganados }}</td>
                             <td class="desc-prox fw-bold"></td>
@@ -228,7 +228,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                <p class="ms-4 text-descrip">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
                   Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
@@ -250,28 +250,28 @@
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold pt-1 fs-3 ms-2 text-analisis">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white">Nosotros</h5>
+            <h5 class="text-white fs-4 text-analisis">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Contáctanos</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Aviso legal</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de privacidad</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de cookies</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de cookies</h5>
           </a>
         </div>
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>

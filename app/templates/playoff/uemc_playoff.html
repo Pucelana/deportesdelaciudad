@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>PlayOffs Al Ascenso - UEMC Real Valladolid</title>
+    <title>PlayOff Ascenso - CBC Valladolid</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -16,7 +16,7 @@
       name="keywords"
       content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga"
     />
-    <meta name="author" content="eldeportedelaciudad" />
+    <meta name="author" content="deportesdelaciudad" />
     <!-- Twitter meta tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Página deportiva de Valladolid" />
@@ -46,30 +46,30 @@
     />
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
     <!-- Favicon -->
-    <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+    <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
   </head>
 
-  <body class="fondos_playoffs">
+  <body class="fondo_basket">
     <div class="d-flex flex-column min-vh-100">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ms-1">
           <li class="breadcrumb-item">
-            <a href="/" class="text-white text-decoration-none">Inicio</a>
+            <a href="/seccion/uemc" class="text-white text-decoration-none">CBC Valladolid</a>
           </li>
           <li class="breadcrumb-item active text-dark" aria-current="page">
-            PlayOffs UEMC Real Valladolid
+            PlayOff
           </li>
         </ol>
       </nav>
-      <h1 class="text-playoff">Fase Final Ascenso</h1>
-      <span class="equipo_copa">UEMC Real Valladolid</span>
+      <h1 class="text-playoff">CBC Valladolid</h1>
+      <span class="equipo_copa"></span>
       <section class="container-lg flex-fill copa">
         <!-- Navegación -->
         <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
           {% for ronda in datos_europa.keys() %}
           <a
             href="#"
-            class="btn btn-outline-info fw-bold btn-ronda"
+            class="btn btn-outline-dark fw-bold btn-ronda"
             data-target="ronda{{ loop.index0 }}"
             >{{ ronda|capitalize }}</a
           >
@@ -85,7 +85,7 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text-center text-info fw-bold text-capitalize">
+                  <h3 class="text-center text-white text-analisis fw-bold text-capitalize">
                     {{ ronda }}
                   </h3>
                   <div class="row table-responsive">
@@ -96,7 +96,7 @@
                           <td class="text-white fs-5">{{ partido.fecha }}</td>
                           <td class="text-white fs-5">{{ partido.hora }}</td>
                           <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
+                            class="text-copa fw-bold fs-3 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
                           >
                             {{ partido.local }}
                           </td>
@@ -107,7 +107,7 @@
                             {{ partido.resultadoB }}
                           </td>
                           <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
+                            class="text-copa fw-bold fs-3 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
                           >
                             {{ partido.visitante }}
                           </td>
@@ -129,8 +129,8 @@
             class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0"
           >
             <a>
-              <h5 class="text-start text-white fw-bold fs-4 ms-2">
-                eldeportedelaciudad &copy; 2024
+              <h5 class="text-start text-white fw-bold fs-3 text-analisis ms-2">
+                deportesdelaciudad &copy; 2026
               </h5>
             </a>
           </div>
@@ -138,32 +138,32 @@
             class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0"
           >
             <a href="#" id="nosotros-link" class="text-decoration-none">
-              <h5 class="text-white">Nosotros</h5>
+              <h5 class="text-white fs-4 text-analisis">Nosotros</h5>
             </a>
             <a href="#" id="contactanos-link" class="text-decoration-none">
-              <h5 class="text-white ms-4">Contáctanos</h5>
+              <h5 class="text-white ms-4 fs-4 text-analisis">Contáctanos</h5>
             </a>
             <a href="#" id="aviso-legal-link" class="text-decoration-none">
-              <h5 class="text-white ms-4">Aviso legal</h5>
+              <h5 class="text-white ms-4 fs-4 text-analisis">Aviso legal</h5>
             </a>
             <a
               href="#"
               id="politica-privacidad-link"
               class="text-decoration-none"
             >
-              <h5 class="text-white ms-4">Política de privacidad</h5>
+              <h5 class="text-white ms-4 fs-4 text-analisis">Política de privacidad</h5>
             </a>
             <a href="#" id="politica-cookies-link" class="text-decoration-none">
-              <h5 class="text-white ms-4">Política de cookies</h5>
+              <h5 class="text-white ms-4 fs-4 text-analisis">Política de cookies</h5>
             </a>
           </div>
           <div
             class="col-12 col-lg-2 d-flex justify-content-center align-items-center"
           >
             <img
-              src="/static/img/logo_sinfondo4.png"
-              class="img-fluid me-2 p-1"
-              alt="eldeportedelaciudad"
+              src="/static/img/logo-deportes2.png"
+              class="img-fluid me-2 p-1 logo-footer"
+              alt="deportesdelaciudad"
             />
           </div>
         </div>

@@ -1,6 +1,17 @@
 .h1_deportes{
     color: #0d6efd;
 }
+.team-header {
+  display: flex;
+  align-items: center;  /* centra verticalmente logo y texto */
+  justify-content: center; /* centra horizontalmente en la página */
+  gap: 50px; /* espacio entre logo y texto */
+  margin-top: 20px;
+}
+.team-logo {
+  width: 80px; /* tamaño del escudo */
+  height: auto;
+}
 .h1_seccion{
     margin-top: 1%;
     font-family: 'Caveat', cursive;
@@ -8,6 +19,7 @@
     color: white;
     text-align: center;
     font-size: 5em;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .seccion_texto{
     margin-top: 0%;
@@ -30,7 +42,11 @@
 }
 .fondo_basket{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/basket.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -42,18 +58,21 @@
     font-size: 3em;
     color: white;
     font-weight: bold;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .text_ponce{
     text-align: center;
     font-size: 3em;
     color: white;
     font-weight: bold;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .text_fundacion{
     text-align: center;
     font-size: 3em;
     color: white;
     font-weight: bold;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 @media (max-width: 576px){
     .text_uemc{
@@ -79,15 +98,24 @@
 }
 .fondo_balonmano{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('/static/img/balonmano.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    background-position: center;
     overflow: hidden;
     box-shadow: 10px 5px 5px gray;
 }
 .fondo_futbol{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/static/img/futbol.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -96,7 +124,11 @@
 }
 .fondo_futbol_sala{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/futsal.jpg');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -105,7 +137,11 @@
 }
 .fondo_hockey{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/hockey2.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
@@ -114,17 +150,27 @@
 }
 .fondo_rugby{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/rugby2.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    background-position: center;
     overflow: hidden;
     box-shadow: 10px 5px 5px gray;
 }
 .fondo_voley{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/voley.jpg');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
+    background-position: center;
     overflow: hidden;
     box-shadow: 10px 5px 5px gray;
 }
