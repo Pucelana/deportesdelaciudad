@@ -39,17 +39,17 @@
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ps-2 pt-2">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-info" aria-current="page">Copa Real Valladolid</li>
+        <li class="breadcrumb-item"><a href="/seccion/valladolid" class="text-white text-decoration-none">Real Valladolid</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Copa del Rey</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Copa de El Rey 25/26</h1>
-    <span class="equipo_copa">Real Valladolid</span>
+    <h1 class="text-playoff">Real Valladolid</h1>
+    <span class="equipo_copa"></span>
     <section class="container-lg flex-fill copa">
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
         {% for ronda in datos_copa.keys() %}
-        <a href="#" class="btn btn-outline-info fw-bold btn-ronda" data-target="ronda{{ loop.index0 }}">{{ ronda|capitalize }}</a>
+        <a href="#" class="btn btn-outline-dark fw-bold btn-ronda" data-target="ronda{{ loop.index0 }}">{{ ronda|capitalize }}</a>
         {% endfor %}
       </div>
       <!-- Contenedor de rondas -->
@@ -59,19 +59,19 @@
           <div class="d-flex justify-content-center">
             <div class="card tabla_copa mt-4" style="width: 70rem;">
               <div class="card-body">
-                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                <h3 class="text-copa text-center text-white text-capitalize fs-3">{{ ronda }}</h3>
                 <div class="row table-responsive">
                   <div class="col-12">
                     <table class="table border-secondary">
                       {% for partido in partidos %}
                       <tr class="text-center">
-                        <td class="text-white">{{ partido.fecha }}</td>
-                        <td class="text-white">{{ partido.hora }}</td>
-                        <td class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                        <td class="text-copa  fs-4">{{ partido.fecha }}</td>
+                        <td class="text-copa text-white fs-4">{{ partido.hora }}</td>
+                        <td class="text-copa fw-bold fs-3 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
                           {{ partido.local }}</td>
-                        <td class="text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                        <td class="text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
-                        <td class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                        <td class="text-copa text-white fw-bold fs-4">{{ partido.resultadoA }}</td>
+                        <td class="text-copa text-white fw-bold fs-4">{{ partido.resultadoB }}</td>
+                        <td class="text-copa fw-bold fs-3 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
                           {{ partido.visitante }}</td>
                       </tr>
                       {% endfor %}
@@ -89,24 +89,24 @@
       <div class="row">
         <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold fs-3 ms-2">deportesdelaciudad &copy; 2026</h5>
+            <h5 class="text-start text-white fw-bold fs-3 text-analisis ms-2">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white fs-4">Nosotros</h5>
+            <h5 class="text-white fs-4 text-analisis">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4">Contáctanos</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4">Aviso legal</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4">Política de privacidad</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4">Política de cookies</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de cookies</h5>
           </a>
           <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>-->
         </div>
@@ -116,7 +116,7 @@
       <--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>->
     </div>-->
         <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-2" alt="deportesdelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-2 logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>

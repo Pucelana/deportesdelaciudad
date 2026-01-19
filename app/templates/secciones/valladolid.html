@@ -1,64 +1,59 @@
 {% extends 'secciones/base.html' %}
-{% block titulo %} Sección Fútbol {% endblock %}
+{% block titulo %} Real Valladolid {% endblock %}
 {% block contenido %}
-<h1 class="h1_seccion">Sección de Fútbol</h1>
+<div class="team-header">
+  <h1 class="h1_seccion">Real Valladolid</h1>
+  <img src="/static/img/pucela_sf.png" alt="Real Valladolid" class="team-logo">
+</div>
   <section class="container-lg seccion_deportes flex-fill">
     <div class="fondo_futbol">
       <div class="shadow-lg p-3">
         <div class="row mb-4">
           <div class="col-12">
-            <h3 class="text_uemc"></h3>
+            <h3 class="text_uemc">LIGA HYPERMOTION</h3>
             <h4 class="text-center text-white fw-bold"></h4>
           </div>
           <div class="col-6 text-center">
-            <a href="" class="text-decoration-none"><h5 class="text-white"></h5></a>
+            <a href="/admin/equipos_futbol/calendario_valladolid" class="text-decoration-none"><h5 class="text_uemc text-white fs-3">Calendario y Resultados</h5></a>
           </div>
           <div class="col-6 text-center">
-            <a href="" class="text-decoration-none"><h5 class="text-white"></h5></a>
+            <a href="/admin/equipos_futbol/clasif_analisis_valladolid" class="text-decoration-none"><h5 class="text_uemc text-white fs-3">Clasificación y Objetivos</h5></a>
           </div>
         </div>
       </div>
     <div class="shadow-lg">
       <div class="row mb-4">
         <div class="col-12">
-          <h3 class="text_uemc">Real Valladolid</h3>
-          <!--<h4 class="text-center text-white fw-bold">Liga EA Sports</h4>-->
-          <h4 class="text-center text-white fw-bold">Liga Hypermotion</h4>
+          <h3 class="text_uemc">COPA DEL REY</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/equipos_futbol/calendario_valladolid" class="text-decoration-none"><h5 class="text-white fs-4">Calendario y Resultados</h5></a>
-        </div>
-        <div class="col-6 text-center">
-          <a href="/admin/equipos_futbol/clasif_analisis_valladolid" class="text-decoration-none"><h5 class="text-white fs-4">Clasificación y Objetivos</h5></a>
+          <a href="/admin/valladolid_copa" class="text-decoration-none"><h5 class="text_uemc text-white fs-3">Eliminatoria</h5></a>
         </div>
       </div>
     </div>
-    <div class="shadow-lg">
+    <!--<div class="shadow-lg">
       <div class="row mb-4">
         <div class="col-12">
-          <h3 class="text_ponce">Real Valladolid Promesas</h3>
-          <h4 class="text-center text-white fw-bold">Liga 2ª RFEF Grp-1</h4>
+          <h3 class="text_ponce">PLAYOFF</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/equipos_futbol/calendario_promesas" class="text-decoration-none"><h5 class="text-white fs-4">Calendario y Resultados</h5></a>
-        </div>
-        <div class="col-6 text-center">
-          <a href="/admin/equipos_futbol/clasif_analisis_promesas" class="text-decoration-none"><h5 class="text-white fs-4">Clasificación y Objetivos</h5></a>
+          <a href="/admin/playoffs_valladolid" class="text-decoration-none"><h5 class="text_uemc text-white fs-3">Eliminatorias</h5></a>
         </div>
       </div>
-    </div>
-    <div class="shadow-lg">
+    </div>-->
+    <!--<div class="shadow-lg">
       <div class="row mb-4">
         <div class="col-12">    
-          <h3 class="text_fundacion">Real Valladolid Femenino</h3>
-          <!--<h4 class="text-center text-white fw-bold">Liga 3ª Federación Fem</h4>-->
-          <h4 class="text-center text-white fw-bold">Liga Doble G Grp-B</h4>
+          <h3 class="text_fundacion"></h3>
+          <h4 class="text-center text-white fw-bold"></h4>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/equipos_futbol/calendario_simancas" class="text-decoration-none"><h5 class="text-white fs-4">Calendario y Resultados</h5></a>
+          <a href="" class="text-decoration-none"><h5 class="text-white fs-4"></h5></a>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/equipos_futbol/clasif_analisis_simancas" class="text-decoration-none"><h5 class="text-white fs-4">Clasificación y Objetivos</h5></a>
+          <a href="" class="text-decoration-none"><h5 class="text-white fs-4"></h5></a>
         </div>
       </div>
     </div>
@@ -75,7 +70,7 @@
           <a href="" class="text-decoration-none"><h5 class="text-white"></h5></a>
         </div>
       </div>
-    </div>
+    </div>-->
     </div>
   </section>
 {% endblock %}

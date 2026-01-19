@@ -22,10 +22,15 @@
 }
 .fondos_copa{
     position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_del_rey.png');
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: 100% 100%;
     background-position: center;
+    box-shadow: 10px 5px 5px gray;
 }
 .fondo_copa_aliados{
     position: relative;
@@ -89,7 +94,7 @@
     font-size: 4.5em;
 }
 .text-copa{
-    font-family: 'Caveat', cursive;
+    /*font-family: 'Caveat', cursive;*/
     text-align: center;
     color: white;
     font-size: 3em;
