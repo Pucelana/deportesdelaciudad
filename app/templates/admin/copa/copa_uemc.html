@@ -33,13 +33,11 @@
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
         <select id="encuentros" name="encuentros">
-          <option value="grupoA">Grupo A</option>
-          <option value="grupoB">Grupo B</option>
-          <option value="grupoC">Grupo C</option>
-          <option value="grupoD">Grupo D</option>
-          <option value="grupoE">Grupo E</option>
-          <option value="grupoF">Grupo F</option>
-          <option value="grupoG">Grupo G</option>
+          <option value="liga_j1">Jornada 1</option>
+          <option value="liga_j2">Jornada 2</option>
+          <option value="liga_j3">Jornada 3</option>
+          <option value="dieciseisavos">Dieciseisavos</option>
+          <option value="octavos">Octavos</option>
           <option value="cuartos">Cuartos</option>
           <option value="semifinales">Semifinales</option>
           <option value="final">Final</option>
@@ -59,79 +57,109 @@
     </form>
     </div>
   </section>
-  <div class="tournament">
-    {% for encuentros, datos in dats5.items() %}
-    <h4 class="text-center">{{ datos.encuentros }}</h4>
-    <table class="table border-secondary">
+  <div class="tournament mt-4">
+    <!-- Fase Regular -->
+  <h3 class="text-center text_uemc">Fase Regular</h3>
+  {% for jornada, partidos in datos_jornadas.items() %}
+    <h4 class="text-center text_uemc fs-4">{{ jornada|replace('_',' ')|title }}</h4>
+    <table class="table table-bordered border-secondary">
       <tbody>
-        {% for enfrentamiento in datos.partidos %}
-        <tr>
-          <td>{{ enfrentamiento.fecha }}</td>
-          <td>{{ enfrentamiento.hora }}</td>
-          <td>{{ enfrentamiento.local }}</td>
-          <td>{{ enfrentamiento.resultadoA if enfrentamiento.resultadoA is not none else '' }}</td>
-          <td>{{ enfrentamiento.resultadoB if enfrentamiento.resultadoB is not none else '' }}</td>
-          <td>{{ enfrentamiento.visitante }}</td>
-        </tr>
+        {% for partido in partidos %}
+          <tr>
+            <td>{{ partido.fecha }}</td>
+            <td>{{ partido.hora }}</td>
+            <td>{{ partido.local }}</td>
+            <td>{{ partido.resultadoA if partido.resultadoA is not none else '' }}</td>
+            <td>{{ partido.resultadoB if partido.resultadoB is not none else '' }}</td>
+            <td>{{ partido.visitante }}</td>
+            <td class="d-flex gap-1"></td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
-    <div class="d-flex ms-1 my-1">
-      <button type="submit" id="btn-modificar{{ datos.id }}" class="bg-info text-white border-0 rounded py-1 px-2 me-2"
-        data-bs-toggle="modal" data-bs-target="#modal{{ datos.id }}">Modificar</button>
-      <form method="POST" action="{{ url_for('uemc_route_bp.eliminar_copa_uemc', identificador=encuentros) }}">
-        <button type="submit" class="btn btn-danger">Borrar</button>
+    <div class="d-flex justify-content-center gap-2 mb-2">
+     <!-- Modificar partido -->
+        <button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#modal-{{jornada }}">Modificar</button>
+      <!-- Borrar partido -->
+        <form method="POST" action="{{ url_for('uemc_route_bp.eliminar_copa_uemc', identificador=jornada) }}">
+          <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
+        </form>
+    </div>
+  {% endfor %}
+  <!-- Eliminatorias -->
+  <h3 class="text-center text_uemc mt-5">Fases de Eliminatorias</h3>
+  {% for fase, partidos in datos_eliminatorias.items() %}
+    <h4 class="text-center text_uemc fs-5">{{ fase|title }}</h4>
+    <table class="table table-bordered border-secondary">
+      <tbody>
+        {% for partido in partidos %}
+          <tr>
+            <td>{{ partido.fecha }}</td>
+            <td>{{ partido.hora }}</td>
+            <td>{{ partido.local }}</td>
+            <td>{{ partido.resultadoA if partido.resultadoA is not none else '' }}</td>
+            <td>{{ partido.resultadoB if partido.resultadoB is not none else '' }}</td>
+            <td>{{ partido.visitante }}</td>
+            <td class="d-flex gap-1"></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="d-flex justify-content-center gap-2 mb-2">
+    <!-- Modificar partido -->
+      <button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#modal-{{ fase }}">Modificar</button>
+    <!-- Borrar partido -->
+      <form method="POST" action="{{ url_for('uemc_route_bp.eliminar_copa_uemc', identificador=fase) }}">
+        <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
       </form>
     </div>
-    {% endfor %}
+  {% endfor %}
   </div>
   <!--Fin Carrusel-->
   <!-- Creación del Modal -->
-  {% for encuentros, datos in dats5.items() %}
-  <div class="modal fade" id="modal{{ datos.id }}" tabindex="-1" role="dialog" aria-labelledby="modificarModalLabel"
+  {% for jornada, partidos in datos_jornadas.items() %}
+  <div class="modal fade" id="modal-{{ jornada }}" tabindex="-1" role="dialog" aria-labelledby="modificarModalLabel"
     aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Editar {{ datos.encuentros }}</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Modificar {{ jornada|replace('_',' ')|title }}</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form id="form-modificar-{{ datos.id }}" method="POST"
-            action="{{ url_for('uemc_route_bp.modificar_copa_uemc', encuentros=datos.encuentros) }}">
-            <input type="hidden" name="eliminatoria" value="{{ grupo }}">
-            <input type="hidden" name="encuentros" value="{{ datos.encuentros }}">
-            <input type="hidden" name="num_partidos" value="{{ datos.partidos | length }}">
-            {% for partido in datos.partidos %}
+          <form method="POST" action="{{ url_for('uemc_route_bp.modificar_copa_uemc', encuentros=jornada) }}">
+            <!-- Número de partidos (crucial para la ruta) -->
+            <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
+            {% for partido in partidos %}
             <!-- Campo oculto para el ID del partido -->
             <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
             <!-- Campos de entrada para editar el partido -->
-            <div class="mb-3">
+            <div class="form-group">
               <label for="fecha{{ loop.index0 }}">Fecha:</label>
               <input type="text" class="form-control" id="fecha{{ loop.index0 }}" name="fecha{{ loop.index0 }}"
                 value="{{ partido.fecha }}">
             </div>
-            <div class="mb-3">
+            <div class="form-group">
               <label for="hora{{ loop.index0 }}">Hora:</label>
               <input type="text" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
                 value="{{ partido.hora }}">
             </div>
-            <div class="mb-3">
+            <div class="form-group">
               <label for="local{{ loop.index0 }}">Local:</label>
               <input type="text" class="form-control" id="local{{ loop.index0 }}" name="local{{ loop.index0 }}"
                 value="{{ partido.local }}">
             </div>
-            <div class="mb-3">
+            <div class="form-group">
               <label for="resultadoA{{ loop.index0 }}">Resultado A:</label>
               <input type="text" class="form-control" id="resultadoA{{ loop.index0 }}"
                 name="resultadoA{{ loop.index0 }}" value="{{ partido.resultadoA }}">
             </div>
-            <div class="mb-3">
+            <div class="form-group">
               <label for="resultadoB{{ loop.index0 }}">Resultado B:</label>
               <input type="text" class="form-control" id="resultadoB{{ loop.index0 }}"
                 name="resultadoB{{ loop.index0 }}" value="{{ partido.resultadoB }}">
             </div>
-            <div class="mb-3">
+            <div class="form-group">
               <label for="visitante{{ loop.index0 }}">Visitante:</label>
               <input type="text" class="form-control" id="visitante{{ loop.index0 }}" name="visitante{{ loop.index0 }}"
                 value="{{ partido.visitante }}">
@@ -169,10 +197,14 @@
         var selectedOption = selectEliminatoria.value;
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
-        if (selectedOption.startsWith("grupo")) {
-          numPartidos = 10;
-        } else if (selectedOption === "cuartos") {
+        if (selectedOption.startsWith("liga_j1") || selectedOption.startsWith("liga_j2") || selectedOption.startsWith("liga_j3")) {
+          numPartidos = 14;
+          } else if (selectedOption === "dieciseisavos") {
+          numPartidos = 16;
+        } else if (selectedOption === "octavos") {
           numPartidos = 8;
+        } else if (selectedOption === "cuartos") {
+          numPartidos = 4;
         } else if (selectedOption === "semifinales") {
           numPartidos = 2;
         } else if (selectedOption === "final") {
