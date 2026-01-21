@@ -45,7 +45,7 @@ const partidosPlayOff = 25; // Número de partidos para llegar a los playoffs
 const equiposPlay = [];
 let index1 = 1;
 filas1.forEach((fila) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.play-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.play-act`).textContent);
 
@@ -87,7 +87,7 @@ equiposPlay.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor1}">${equipoData.index1}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
+    <td class="fw-bold text-white size_equipos2 text-center">${equipoData.equipo}</td>
     <td class="play-jug fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="play-act fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="play-prox fw-bold text-center">${equipoData.proximidadAscenso}%</td>
@@ -106,7 +106,7 @@ const partidosDescenso = 11;
 const equiposDesc = [];
 let index2 = 1;
 filas2.forEach((fila) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.desc-act`).textContent);
     const puntosParaSalvar = partidosDescenso * partidosPorGanar2;
@@ -143,7 +143,7 @@ equiposDesc.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor2}">${equipoData.index2}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
     <td class="desc-jug fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="desc-act fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="desc-prox fw-bold text-center">${equipoData.proxiSalvacion}%</td>

@@ -95,7 +95,7 @@ const partidosPlayOff = 15; // Número de partidos para llegar a los playoffs
 const equiposPlay = [];
 let index = 1;
 filas1.forEach((fila, indice) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.play-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.play-act`).textContent);
 
@@ -137,7 +137,7 @@ equiposPlay.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
     <td class="play-jug fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="play-act fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="play-prox fw-bold text-center">${equipoData.proximidadAscenso}%</td>
@@ -156,7 +156,7 @@ const partidosDescenso = 5;
 const equiposDesc = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.desc-act`).textContent);
 
@@ -199,7 +199,7 @@ equiposDesc.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor2}">${equipoData.index2}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
     <td class="desc-jug fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="desc-act fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="desc-prox fw-bold text-center">${equipoData.proxiSalvacion}%</td>
@@ -218,7 +218,7 @@ const partidosEuro = 22;
 const equiposEuro = [];
 let index3 = 1;
 filas3.forEach((fila, indice) => {
-    const equipo3 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo3 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados3 = parseInt(fila.querySelector(`.euro-jug`).textContent);
     const puntosActuales3 = parseInt(fila.querySelector(`.euro-act`).textContent);
     const puntosParaEuro = partidosEuro * partidosPorGanar2;
@@ -255,7 +255,7 @@ equiposEuro.forEach((equipo3Data) => {
     }
     nuevaFila3.innerHTML = `
     <td class="fw-bold text-center ${claseColor3}">${equipo3Data.index3}</td>
-    <td class="fw-bold text-center">${equipo3Data.equipo3}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo3Data.equipo3}</td>
     <td class="euro-jug fw-bold text-center">${equipo3Data.partidosJugados3}</td>
     <td class="euro-act fw-bold text-center">${equipo3Data.puntosActuales3}</td>
     <td class="euro-prox fw-bold text-center">${equipo3Data.proxiEuro}%</td>

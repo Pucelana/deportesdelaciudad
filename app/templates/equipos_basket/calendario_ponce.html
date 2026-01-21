@@ -35,25 +35,25 @@
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/baloncesto" class="text-white text-decoration-none">Sección</a>
+        <li class="breadcrumb-item"><a href="/seccion/ponce" class="text-analisis fs-6 text-decoration-none">Ponce Valladolid</a>
         </li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario Ponce</li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario y Resultados</li>
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-calendario" class="btn btn-outline-info" data-slide="0">Calendario</a>
-        <a href="#slide-resultados" class="btn btn-outline-info" data-slide="1">Resultados</a>
+        <a href="#slide-calendario" class="btn btn-outline-dark" data-slide="0">Calendario</a>
+        <a href="#slide-resultados" class="btn btn-outline-dark" data-slide="1">Resultados</a>
       </div>
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
           <div class="carousel-item active" id="slide-calendario"> <!-- Tabla Calendario Individual -->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold">Calendario Individual 24/25</h3>
+                    <h3 class="text-analisis text-center text-white fw-bold">Calendario Individual</h3>
                     <table class="table table-bordered tabla_equipos tabla_ponce"><!--Tabla Calendario Ponce-->
                       <thead>
                         <tr class="text-center text-dark">
@@ -111,8 +111,8 @@
           </div>
           <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada 23/24 -->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold my-3">Resultados 24/25</h3>
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
+                <h3 class="text-center text-white fw-bold my-3 text-analisis">Resultados 25/26</h3>
                 <div class="card-body">
                   <div class="container-fluid">
                     <div class="row">
@@ -129,18 +129,18 @@
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-white text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
+                                  <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-center text-white fw-bold size_equipos">{{ partido.local }}</td>
+                                  <td class="text-center">{{ partido.resultadoA }}</td>
+                                  <td class="text-center">{{ partido.resultadoB }}</td>
+                                  <td class="text-center text-white fw-bold size_equipos">{{ partido.visitante }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>
                             </table>
                             <div class="d-flex ms-1 my-1">
                               <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                class="text-decoration-none ps-3 text-white">Ver</a>
+                                class="text-analisis text-decoration-none ps-3 fs-5 text-white">Ver</a>
                             </div>
                           </div>
                         </div>

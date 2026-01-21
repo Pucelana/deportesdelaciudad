@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>Clasificación y Ánalisis Ponce Valladolid</title>
+  <title>Clasificación y Ánalisis</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,32 +29,32 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
 <body class="calend_basket">
   <div class="d-flex flex-column min-vh-100 sticky-top">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/baloncesto" class="text-white text-decoration-none">Sección</a>
+        <li class="breadcrumb-item"><a href="/seccion/ponce" class="text-analisis fs-6 text-white text-decoration-none">Ponce Valladolid</a>
         </li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Análisis</li>
       </ol>
     </nav>
-    <h2 class="text-white text-center">Ponce Valladolid 25/26</h2>
+    <h2 class="text-analisis text-white text-center">Ponce Valladolid 25/26</h2>
     <section class="container-lg mb-5 flex-fill copa">
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-clasificacion" class="btn btn-outline-info" data-slide="0">Clasificación</a>
-        <a href="#slide-playoff" class="btn btn-outline-info" data-slide="1">PlayOff</a>
-        <a href="#slide-descenso" class="btn btn-outline-info" data-slide="2">Descenso</a>
+        <a href="#slide-clasificacion" class="btn btn-outline-dark" data-slide="0">Clasificación</a>
+        <a href="#slide-playoff" class="btn btn-outline-dark" data-slide="1">PlayOff</a>
+        <a href="#slide-descenso" class="btn btn-outline-dark" data-slide="2">Descenso</a>
       </div>
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
           <div class="carousel-item active" id="slide-clasificacion"><!--Tabla Clasificación-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Clasificación - Liga Femenina 2</h3>
+                    <h3 class="text-center text-analisis">Liga Femenina 2</h3>
                     <div class="col-12">
                       <table id="tablaClasificacion2" class="table"><!--Tabla Clasificación Ponce-->
                         <thead>
@@ -76,7 +76,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
                             <td class="perdidos fw-bold">{{ equipo['datos']['perdidos'] }}</td>
@@ -91,16 +91,16 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
+                <p class="ms-4 text-descrip">PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos Perdidos); PF (Puntos Favor);
                   PC(Puntos Contra); DP (Diferencia Puntos) PTS (Puntos)</p>
-                <p class="ms-4">PlayOffs<span class="badge bg-success ms-2">1-4</span> ; Descenso<span
+                <p class="ms-4 text-descrip">PlayOffs<span class="badge bg-success ms-2">1-4</span> ; Descenso<span
                     class="badge bg-danger ms-2">12-14</span></p>
               </div>
             </div>
           </div>
           <div class="carousel-item" id="slide-playoff"><!--Tabla PlayOff-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
                     <h3 class="text-center mb-4 text-analisis">PlayOff - Liga Femenina Challenge</h3>
@@ -122,7 +122,7 @@
                           {% for equipo in clasificacion_analisis_ponce %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos play-equipo">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos2 text-white play-equipo">{{ equipo['equipo'] }}</td>
                             <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
                             <td class="play-act fw-bold">{{ equipo['datos']['ganados'] }}</td>
                             <td class="play-prox fw-bold"></td>
@@ -136,17 +136,17 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
                   Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
           </div>
           <div class="carousel-item" id="slide-descenso"><!--Tabla Descenso-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Salvación - Descenso Liga Femenina 1</h3>
+                    <h3 class="text-center mb-4 text-analisis">Salvación - Descenso Liga Femen. 1</h3>
                     <div class="col-12">
                       <table id="tablaDescPonce" class="table"><!--Tabla Descenso-->
                         <thead>
@@ -165,7 +165,7 @@
                           {% for equipo in clasificacion_analisis_ponce %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos play-equipo">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos2 text-white play-equipo">{{ equipo['equipo'] }}</td>
                             <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
                             <td class="desc-act fw-bold">{{ equipo['datos']['ganados'] }}</td>
                             <td class="desc-prox fw-bold"></td>
@@ -179,7 +179,7 @@
                     </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM (Puntos
                   Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
@@ -201,28 +201,28 @@
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold pt-1 fs-3 ms-2 text-analisis">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white">Nosotros</h5>
+            <h5 class="text-white fs-4 text-analisis">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Contáctanos</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Aviso legal</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de privacidad</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de cookies</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de cookies</h5>
           </a>
         </div>
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>

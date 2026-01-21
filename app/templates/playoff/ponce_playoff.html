@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>Playoff Ascenso - Ponce Valladolid</title>
+  <title>Playoff Ascenso</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,25 +29,24 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
 <body class="fondos_copa">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ps-2 pt-2">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-info" aria-current="page">Playoff Ascenso Ponce Valladolid</li>
+        <li class="breadcrumb-item"><a href="/seccion/ponce" class="text_uemc fs-6 text-white text-decoration-none">Ponce Valladolid</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Playoff Ascenso 25/26</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Playoff Ascenso 24/25</h1>
-    <span class="equipo_copa">Ponce Valladolid</span>
+    <h1 class="text-playoff">Ponce Valladolid</h1>
     <section class="container-lg flex-fill copa_Ponce">
       <!-- Clasificaciones y Enfrentamientos de Grupos -->
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 75rem;">
           <div class="card-body">
             {% for ronda, partidos in datos_playoff.items() %}
-                  <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
+                  <p class="text-center fw-bold text-white text_uemc fs-3">{{ ronda|capitalize }}</p>
                   <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
                     <table class="table border-secondary">
                       {% for partido in partidos %}
@@ -66,7 +65,7 @@
                       {% endfor %}
                     </table>
                   </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
+                  <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-5 fw-bold"
                     data-ronda="{{ loop.index }}">Ver Partidos</a>
                   {% endfor %}
           </div>
@@ -77,28 +76,28 @@
       <div class="row">
         <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold text-analisis fs-3 ms-2">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white">Nosotros</h5>
+            <h5 class="text-white fs-4 text-analisis">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Contáctanos</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Aviso legal</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de privacidad</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de cookies</h5>
+            <h5 class="text-white ms-4 fs-4 text-analisis">Política de cookies</h5>
           </a>
         </div>
         <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-2" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>
