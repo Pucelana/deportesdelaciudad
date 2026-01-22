@@ -3,7 +3,8 @@ from datetime import datetime
 from collections import defaultdict
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados
+from app.models.uemc import CopaUEMC
+from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, Clasificacion
 
 aliados_route_bp = Blueprint('aliados_route_bp', __name__)
 
@@ -511,4 +512,215 @@ def supercopas_aliados():
     for eliminatoria in eliminatorias:
         partidos = SupercopaAliados.query.filter_by(eliminatoria=eliminatoria).all()
         datos_supercopa[eliminatoria] = partidos   
-    return render_template('supercopas/aliados_supercopa.html', datos_supercopa=datos_supercopa)       
+    return render_template('supercopas/aliados_supercopa.html', datos_supercopa=datos_supercopa)      
+
+# EUROCUP ALIADOS
+@aliados_route_bp.route('/crear_eurocup_aliados', methods=['GET', 'POST'])
+def crear_eurocup_aliados():
+    if request.method == 'POST':
+        encuentros = request.form.get('encuentros')
+        print(f"Encuentros: {encuentros}")
+        num_partidos = int(request.form.get('num_partidos', 0))     
+        for i in range(num_partidos):
+            fecha = request.form.get(f'fecha{i}')
+            hora = request.form.get(f'hora{i}')
+            local = request.form.get(f'local{i}')
+            resultadoA = request.form.get(f'resultadoA{i}')
+            resultadoB = request.form.get(f'resultadoB{i}')
+            visitante = request.form.get(f'visitante{i}')  
+            # Crear una nueva instancia de EurocupAliados con los datos recibidos           
+            nuevo_partido = EurocupAliados(
+                encuentros=encuentros,
+                fecha=fecha or '',
+                hora=hora or '',
+                local=local or '',
+                resultadoA=resultadoA or '',
+                resultadoB=resultadoB or '',
+                visitante=visitante or ''
+            )
+            # Agregar la instancia a la sesión y hacer commit
+            db.session.add(nuevo_partido)       
+        # Confirmar los cambios en la base de datos
+        db.session.commit()       
+        # Redirigir a la página para ver la Copa UEMC
+        return redirect(url_for('aliados_route_bp.ver_eurocup_aliados'))
+    # Renderizar el formulario para crear la copa UEMC
+    return render_template('admin/europa/eurocup_aliados.html')
+# Ver la Eurocup Aliados en Admin (crear/editar partidos)
+@aliados_route_bp.route('/eurocup_aliados/')
+def ver_eurocup_aliados():
+    # Definimos todas las jornadas de la fase regular
+    jornadas = ['liga_j1', 'liga_j2', 'liga_j3', 'liga_j4']
+    # Y las fases de eliminatorias
+    fases_eliminatorias = ['cuartos', 'semifinales', 'final']
+    # Diccionario para la fase regular
+    datos_jornadas = {j: EurocupAliados.query.filter_by(encuentros=j).order_by(EurocupAliados.id).all() for j in jornadas}
+    # Diccionario para eliminatorias
+    datos_eliminatorias = {f: EurocupAliados.query.filter_by(encuentros=f).order_by(EurocupAliados.id).all() for f in fases_eliminatorias}
+    return render_template('admin/europa/eurocup_aliados.html',datos_jornadas=datos_jornadas, datos_eliminatorias=datos_eliminatorias)
+# Actualizar clasificación de los grupos
+def actualizar_clasificacion(local, resultado_local, resultado_visitante, visitante):
+    # Convertir los resultados a enteros
+    resultado_local = int(resultado_local) if resultado_local.isdigit() else None
+    resultado_visitante = int(resultado_visitante) if resultado_visitante.isdigit() else None
+    # Consultar si los equipos ya están en la clasificación
+    clasificacion_local = Clasificacion.query.filter_by(equipo=local).first()
+    clasificacion_visitante = Clasificacion.query.filter_by( equipo=visitante).first()
+    # Si el local no existe, lo creamos
+    if not clasificacion_local:
+        clasificacion_local = Clasificacion( equipo=local, jugados=0, ganados=0, perdidos=0, puntos=0, pf=0, pc=0)
+        db.session.add(clasificacion_local)  
+    # Si el visitante no existe, lo creamos
+    if not clasificacion_visitante:
+        clasificacion_visitante = Clasificacion( equipo=visitante, jugados=0, ganados=0, perdidos=0, puntos=0, pf=0, pc=0)
+        db.session.add(clasificacion_visitante)   
+    # Actualizar los partidos jugados
+    if resultado_local is not None and resultado_visitante is not None:
+        clasificacion_local.jugados += 1
+        clasificacion_visitante.jugados += 1       
+        # Determinar el resultado del partido y actualizar clasificaciones
+        if resultado_local > resultado_visitante:
+            clasificacion_local.ganados += 1
+            clasificacion_local.puntos += 2
+            clasificacion_visitante.perdidos += 1
+            clasificacion_visitante.puntos += 1
+        elif resultado_local < resultado_visitante:
+            clasificacion_visitante.ganados += 1
+            clasificacion_visitante.puntos += 2
+            clasificacion_local.perdidos += 1
+            clasificacion_local.puntos += 1
+        else:
+            clasificacion_local.puntos += 1
+            clasificacion_visitante.puntos += 1  
+    # Guardar los cambios en la base de datos
+    db.session.commit()
+    return clasificacion_local, clasificacion_visitante
+def obtener_jornadas_liga():
+    jornadas = {}
+
+    partidos = EurocupAliados.query.filter(
+        EurocupAliados.encuentros.like('liga_%')
+    ).order_by(EurocupAliados.orden, EurocupAliados.id).all()
+
+    for partido in partidos:
+        jornada = partido.encuentros  # liga_j1, liga_j2...
+        if jornada not in jornadas:
+            jornadas[jornada] = []
+        jornadas[jornada].append(partido)
+    return jornadas
+def obtener_eliminatorias():
+    fases = ['cuartos', 'semifinales', 'final']
+    eliminatorias = {fase: [] for fase in fases}
+
+    partidos = EurocupAliados.query.filter(EurocupAliados.encuentros.in_(fases)).order_by(EurocupAliados.orden).all()
+
+    for partido in partidos:
+        eliminatorias[partido.encuentros].append(partido)
+
+    return eliminatorias
+# Recalcular clasificación
+def recalcular_clasificacion(jornadas):
+    clasificacion = {}
+
+    for jornada, partidos in jornadas.items():
+        for p in partidos:
+            if not p.local or not p.visitante:
+                continue
+            
+            local = p.local.strip()
+            visitante = p.visitante.strip()
+
+            if local not in clasificacion:
+                clasificacion[local] = {
+                    'equipo': local, 'jugados': 0, 'ganados': 0,
+                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
+                }
+
+            if visitante not in clasificacion:
+                clasificacion[visitante] = {
+                    'equipo': visitante, 'jugados': 0, 'ganados': 0,
+                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
+                }
+
+            # 👉 si no hay resultado, NO se calcula nada más
+            if not p.resultadoA or not p.resultadoB:
+                continue
+
+            if not p.resultadoA.isdigit() or not p.resultadoB.isdigit():
+                continue
+
+            resA = int(p.resultadoA)
+            resB = int(p.resultadoB)
+
+            clasificacion[local]['jugados'] += 1
+            clasificacion[visitante]['jugados'] += 1
+
+            clasificacion[local]['favor'] += resA
+            clasificacion[local]['contra'] += resB
+            clasificacion[visitante]['favor'] += resB
+            clasificacion[visitante]['contra'] += resA
+
+            if resA > resB:
+                clasificacion[local]['ganados'] += 1
+                clasificacion[local]['puntos'] += 2
+                clasificacion[visitante]['perdidos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+            elif resA < resB:
+                clasificacion[visitante]['ganados'] += 1
+                clasificacion[visitante]['puntos'] += 2
+                clasificacion[local]['perdidos'] += 1
+                clasificacion[local]['puntos'] += 1
+            else:
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
+    clasificacion_ordenada = sorted(
+        clasificacion.items(),
+        key=lambda x: (
+            -x[1]["puntos"],
+            -(x[1]["favor"] - x[1]["contra"]),
+            -x[1]["favor"]
+        )
+    )
+
+    return clasificacion_ordenada
+# Modificar los partidos de los playoff
+@aliados_route_bp.route('/modificar_eurocup_aliados/<string:encuentros>', methods=['POST'])
+def modificar_eurocup_aliados(encuentros):
+    try:
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            partido = EurocupAliados.query.get(int(partido_id))
+            if partido:
+                partido.fecha = request.form.get(f'fecha{i}', partido.fecha)
+                partido.hora = request.form.get(f'hora{i}', partido.hora)
+                partido.local = request.form.get(f'local{i}', partido.local)
+                partido.resultadoA = request.form.get(f'resultadoA{i}', partido.resultadoA)
+                partido.resultadoB = request.form.get(f'resultadoB{i}', partido.resultadoB)
+                partido.visitante = request.form.get(f'visitante{i}', partido.visitante)
+                partido.encuentros = encuentros
+            db.session.commit()
+            flash('Partidos modificados correctamente', 'success')
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error al modificar partidos: {e}")
+        flash('Hubo un error al modificar los partidos', 'error')
+    return redirect(url_for('aliados_route_bp.ver_eurocup_aliados'))
+# Eliminar partidos Copa UEMC
+@aliados_route_bp.route('/eliminar_eurocup_aliados/<string:identificador>', methods=['POST'])
+def eliminar_eurocup_aliados(identificador):
+    partidos = EurocupAliados.query.filter_by(encuentros=identificador).all()
+    for p in partidos:
+        db.session.delete(p)
+
+    db.session.commit()
+    return redirect(url_for('aliados_route_bp.ver_eurocup_aliados'))
+# Mostrar la Copa UEMC
+@aliados_route_bp.route('/aliados_eurocup/')
+def aliados_eurocup():
+    jornadas = obtener_jornadas_liga()
+    clasificacion = recalcular_clasificacion(jornadas)
+    eliminatorias = obtener_eliminatorias()
+    return render_template('europa/aliados_eurocup.html', jornadas=jornadas, clasificacion=clasificacion, eliminatorias=eliminatorias
+    )

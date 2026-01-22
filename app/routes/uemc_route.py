@@ -376,30 +376,37 @@ def obtener_eliminatorias():
 # Recalcular clasificación
 def recalcular_clasificacion(jornadas):
     clasificacion = {}
+
     for jornada, partidos in jornadas.items():
         for p in partidos:
             if not p.local or not p.visitante:
                 continue
             
-            local = p.local
-            visitante = p.visitante
-            
-            if not local or not visitante:
-                continue
-            
+            local = p.local.strip()
+            visitante = p.visitante.strip()
 
             if local not in clasificacion:
-                clasificacion[local] = {'equipo': local,'jugados':0,'ganados':0,'perdidos':0,'puntos':0,'favor':0,'contra':0}
+                clasificacion[local] = {
+                    'equipo': local, 'jugados': 0, 'ganados': 0,
+                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
+                }
 
             if visitante not in clasificacion:
-                clasificacion[visitante] = {'equipo': visitante,'jugados':0,'ganados':0,'perdidos':0,'puntos':0,'favor':0,'contra':0}
-            # 👉 SOLO si hay resultado se suman estadísticas
-            if p.resultadoA not in (None, "", " ") and p.resultadoB not in (None, "", " "):
-                try:
-                    resA = int(p.resultadoA)
-                    resB = int(p.resultadoB)
-                except:
-                    continue    
+                clasificacion[visitante] = {
+                    'equipo': visitante, 'jugados': 0, 'ganados': 0,
+                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
+                }
+
+            # 👉 si no hay resultado, NO se calcula nada más
+            if not p.resultadoA or not p.resultadoB:
+                continue
+
+            if not p.resultadoA.isdigit() or not p.resultadoB.isdigit():
+                continue
+
+            resA = int(p.resultadoA)
+            resB = int(p.resultadoB)
+
             clasificacion[local]['jugados'] += 1
             clasificacion[visitante]['jugados'] += 1
 
@@ -413,16 +420,24 @@ def recalcular_clasificacion(jornadas):
                 clasificacion[local]['puntos'] += 2
                 clasificacion[visitante]['perdidos'] += 1
                 clasificacion[visitante]['puntos'] += 1
-            else:
+            elif resA < resB:
                 clasificacion[visitante]['ganados'] += 1
                 clasificacion[visitante]['puntos'] += 2
                 clasificacion[local]['perdidos'] += 1
                 clasificacion[local]['puntos'] += 1
-    # 🔽 Ordenar clasificación (puntos, basket average, favor)
+            else:
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
     clasificacion_ordenada = sorted(
         clasificacion.items(),
-        key=lambda x: (x[1]["puntos"], x[1]["favor"] - x[1]["contra"], x[1]["favor"]), reverse=True
+        key=lambda x: (
+            -x[1]["puntos"],
+            -(x[1]["favor"] - x[1]["contra"]),
+            -x[1]["favor"]
+        )
     )
+
     return clasificacion_ordenada
 # Modificar los partidos de los playoff
 @uemc_route_bp.route('/modificar_copa_uemc/<string:encuentros>', methods=['POST'])

@@ -6,7 +6,7 @@ from app.models.valladolid import JornadaValladolid, ValladolidPartido, Valladol
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas
 from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce
-from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados
+from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, Clasificacion
 from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula
 from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, CopaEspañaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa
 from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>Calendario-Fundación Aliados</title>
+    <title>Eurocup1 - Fundación Aliados</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -48,233 +48,187 @@
     <!-- Favicon -->
     <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
   </head>
-  <body class="bg-white fondo_basket">
+
+  <body class="fondo_basket">
     <div class="d-flex flex-column min-vh-100">
       <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ms-1">
+        <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
-            <a
-              href="/seccion/aliados"
-              class="text-analisis fs-6 text-white text-decoration-none"
+            <a href="/seccion/aliados" class="text-white text-decoration-none"
               >Fundación Aliados</a
             >
           </li>
           <li class="breadcrumb-item active text-dark" aria-current="page">
-            Calendario y Resultados
+            Eurocup1
           </li>
         </ol>
       </nav>
-      <section class="container-lg mb-5 flex-fill copa">
-        <!-- Navegador personalizado -->
-        <div class="d-flex justify-content-center my-3 gap-3">
-          <a
-            href="#slide-calendario"
-            class="btn btn-outline-dark"
-            data-slide="0"
-            >Calendario</a
-          >
-          <a
-            href="#slide-resultados"
-            class="btn btn-outline-dark"
-            data-slide="1"
-            >Resultados</a
-          >
-        </div>
-        <div
-          id="carouselExampleControls"
-          class="carousel slide"
-          data-bs-ride="false"
+      <h1 class="text-playoff">Fundación Aliados</h1>
+      <span class="equipo_copa"></span>
+      <!-- Navegación -->
+      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+        <a
+          href="#"
+          class="btn btn-outline-dark btn-slide active"
+          data-target="clasificacion"
         >
-          <div class="carousel-inner">
-            <div class="carousel-item active" id="slide-calendario">
-              <!--Tabla Calendario-->
-              <div class="d-flex justify-content-center">
-                <div class="card tabla_equipos_aula" style="width: 80rem">
-                  <div class="card-body">
-                    <div class="table-responsive">
-                      <h3 class="text-center text-white fw-bold text-analisis">
-                        Calendario Individual 25/26
-                      </h3>
-                      <table
-                        class="table table-bordered tabla_equipos tabla_aliados"
-                      >
-                        <!--Tabla Calendario F.Aliados-->
-                        <thead>
-                          <tr class="text-center text-dark">
-                            <th></th>
-                            <th colspan="2">Jornadas</th>
-                            <th colspan="4">Resultados</th>
-                            <th colspan="2">Partidos</th>
-                          </tr>
-                          <tr class="text-center text-dark">
-                            <th scope="col">Equipos</th>
-                            <th>Ida</th>
-                            <th>Vlt</th>
-                            <th colspan="2">Ida</th>
-                            <th colspan="2">Vlt</th>
-                            <th>PG</th>
-                            <th>PP</th>
-                            <th>Aver.</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {% for equipo, datos_equipo in
-                          tabla_partidos_aliados.items() %}
-                          <tr class="text-center">
-                            <th class="text-white size_equipos2">
-                              {{ equipo }}
-                            </th>
-                            <td class="jorn_ida fw-bold">
-                              {% if datos_equipo.get('primer_enfrentamiento') %}
-                              J -{{
-                              datos_equipo['primer_enfrentamiento']|replace('Jornada','')
-                              }} {% if
-                              datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aliados']
-                              %} ({{
-                              datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aliados']
-                              }}) {% endif %} {% endif %}
-                            </td>
-                            <td class="jorn_vuelta fw-bold">
-                              {% if datos_equipo.get('segundo_enfrentamiento')
-                              %} J -{{
-                              datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
-                              }} {% if
-                              datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aliados']
-                              %} ({{
-                              datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aliados']
-                              }}) {% endif %} {% endif %}
-                            </td>
-                            <td class="resultadoA fw-bold">
-                              {{ tabla_partidos_aliados[equipo]['resultadoA'] }}
-                            </td>
-                            <td class="resultadoB fw-bold">
-                              {{ tabla_partidos_aliados[equipo]['resultadoB'] }}
-                            </td>
-                            <td class="resultadoAA fw-bold">
-                              {{ tabla_partidos_aliados[equipo]['resultadoAA']
-                              }}
-                            </td>
-                            <td class="resultadoBB fw-bold">
-                              {{ tabla_partidos_aliados[equipo]['resultadoBB']
-                              }}
-                            </td>
-                            <td class="gan-1"></td>
-                            <td class="per-1"></td>
-                            <td class="average"></td>
-                          </tr>
-                          {% endfor %}
-                        </tbody>
+          Clasificación
+        </a>
+        <!-- Jornadas -->
+        {% for jornada in jornadas.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-dark btn-slide"
+          data-target="{{ jornada }}"
+        >
+          {{ jornada|replace('_',' ')|title }}
+        </a>
+        {% endfor %}
+
+        <!-- Eliminatorias -->
+        {% for ronda in eliminatorias.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-dark btn-slide"
+          data-target="{{ ronda }}"
+        >
+          {{ ronda|capitalize }}
+        </a>
+        {% endfor %}
+      </div>
+      <section class="container-lg flex-fill copa_uemc">
+        <!-- Contenido Clasificaciones y Eliminatorias -->
+        <div id="contenedor-secciones">
+          <div class="seccion-slide d-block" id="clasificacion">
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_copa mt-4" style="width: 70rem">
+                <div class="card-body">
+                  <h3 class="text_uemc text-center text-white">Clasificación General</h3>
+                  <table class="table border-secondary text-white text-center">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-dark fs-4">Equipos</th>
+                        <th class="text-dark fs-4">P.J</th>
+                        <th class="text-dark fs-4">P.G</th>
+                        <th class="text-dark fs-4">P.Perd</th>
+                        <th class="text-dark fs-4">PTOS</th>
+                        <th class="text-dark fs-4">P.F</th>
+                        <th class="text-dark fs-4">P.Cont</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for equipo, stats in clasificacion %}
+                      <tr>
+                        <td class="text_uemc fs-4 {% if loop.index <= 14 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}">{{ loop.index }}</td>
+                        <td class="fw-bold text_uemc fs-4">{{ equipo }}</td>
+                        <td class="text_uemc fs-4">{{ stats.jugados }}</td>
+                        <td class="text_uemc fs-4">{{ stats.ganados }}</td>
+                        <td class="text_uemc fs-4">{{ stats.perdidos }}</td>
+                        <td class="text_uemc fs-4">{{ stats.puntos }}</td>
+                        <td class="text_uemc fs-4">{{ stats.favor }}</td>
+                        <td class="text_uemc fs-4">{{ stats.contra }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% for jornada, partidos in jornadas.items() %}
+          <div class="seccion-slide d-none" id="{{ jornada }}">
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_copa mt-4" style="width: 70rem">
+                <div class="card-body">
+                  <h3 class="text_uemc fs-4 text-center text-white">
+                    {{ jornada|replace('_',' ')|title }}
+                  </h3>
+                  <table class="table border-secondary text-white text-center">
+                    <thead>
+                      <tr>
+                        <th class="text-dark fs-5">Fecha</th>
+                        <th class="text-dark fs-5">Hora</th>
+                        <th class="text-dark fs-5">Local</th>
+                        <th class="text-dark fs-5">Resultado</th>
+                        <th class="text-dark fs-5">Visitante</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for partido in partidos %}
+                      <tr>
+                        <td class="text_uemc fs-5">{{ partido.fecha }}</td>
+                        <td class="text_uemc fs-5">{{ partido.hora }}</td>
+                        <td class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">{{ partido.local }}</td>
+                        <td class="text_uemc fs-4">
+                          {% if partido.resultadoA and partido.resultadoB %}
+                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                          {% else %}
+                            -
+                          {% endif %}
+                        </td>
+                        <td class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">{{ partido.visitante }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+
+          <!-- Eliminatorias -->
+          {% for ronda, partidos in eliminatorias.items() %}
+          <div class="seccion-slide d-none" id="{{ ronda }}">
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_copa mt-4" style="width: 70rem">
+                <div class="card-body">
+                  <h3 class="text_uemc text-center text-white fs-4 mb-3"> {{ ronda|capitalize }} </h3>
+                  <div class="row table-responsive">
+                    <div class="col-12">
+                      <table class="table border-secondary text-white text-center">
+                      {% for partido in partidos %}
+                        <tr class="text-center">
+                          <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
+                          <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
+                          <td
+                            class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"> {{ partido.local }}
+                          </td>
+                          <td class="text_uemc fw-bold fs-4">
+                            {{ partido.resultadoA }}
+                          </td>
+                          <td class="text_uemc fw-bold fs-4">
+                            {{ partido.resultadoB }}
+                          </td>
+                          <td
+                            class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"> {{ partido.visitante }}
+                          </td>
+                        </tr>
+                      {% endfor %}
                       </table>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="carousel-item" id="slide-resultados">
-              <!-- Resultados temporada 23/24 -->
-              <div class="d-flex justify-content-center">
-                <div class="card tabla_equipos" style="width: 80rem">
-                  <h3 class="text-center text-white fw-bold text-analisis my-3">
-                    Resultados 25/26
-                  </h3>
-                  <div class="card-body">
-                    <div class="container-fluid">
-                      <div class="row">
-                        {% for goles in nuevos_datos_aliados %}
-                        <div class="col-lg-4">
-                          <div class="card card_calendario mb-3">
-                            <div class="table-responsive">
-                              <table
-                                class="table table-bordered card_calendario tabla_jornadas"
-                              >
-                                <thead class="fondo_jornadas">
-                                  <tr class="text-center">
-                                    <td
-                                      colspan="5"
-                                      class="text-center text-white fw-bold"
-                                    >
-                                      {{ goles.nombre }}
-                                    </td>
-                                  </tr>
-                                </thead>
-                                <tbody style="display: none">
-                                  {% for partido in goles.partidos %}
-                                  <tr class="text-center">
-                                    <td class="text-white text-center fw-bold">
-                                      {{ partido.fecha }} {{ partido.hora }}
-                                    </td>
-                                    <td
-                                      class="text-center fw-bold size_equipos"
-                                    >
-                                      {{ partido.local }}
-                                    </td>
-                                    <td class="text-center text-white">
-                                      {{ partido.resultadoA }}
-                                    </td>
-                                    <td class="text-center text-white">
-                                      {{ partido.resultadoB }}
-                                    </td>
-                                    <td
-                                      class="text-center fw-bold size_equipos"
-                                    >
-                                      {{ partido.visitante }}
-                                    </td>
-                                  </tr>
-                                  {% endfor %}
-                                </tbody>
-                              </table>
-                              <div class="d-flex ms-1 my-1">
-                                <a
-                                  href="#"
-                                  onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                  class="text-decoration-none ps-3 text-white"
-                                  >Ver</a
-                                >
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        {% endfor %}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+          {% endfor %}
         </div>
       </section>
       <footer class="container-fluid mt-auto footer-seccion">
         <div class="row">
           <div
-            class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0"
+            class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0"
           >
             <a>
-              <h5 class="text-start text-white fw-bold pt-1 fs-3 ms-2 text-analisis">
+              <h5 class="text-start text-white fw-bold fs-3 text-analisis ms-2">
                 deportesdelaciudad &copy; 2026
               </h5>
             </a>
           </div>
           <div
-            class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0"
+            class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0"
           >
             <a href="#" id="nosotros-link" class="text-decoration-none">
               <h5 class="text-white fs-4 text-analisis">Nosotros</h5>
@@ -290,18 +244,22 @@
               id="politica-privacidad-link"
               class="text-decoration-none"
             >
-              <h5 class="text-white ms-4 fs-4 text-analisis">Política de privacidad</h5>
+              <h5 class="text-white ms-4 fs-4 text-analisis">
+                Política de privacidad
+              </h5>
             </a>
             <a href="#" id="politica-cookies-link" class="text-decoration-none">
-              <h5 class="text-white ms-4 fs-4 text-analisis">Política de cookies</h5>
+              <h5 class="text-white ms-4 fs-4 text-analisis">
+                Política de cookies
+              </h5>
             </a>
           </div>
           <div
-            class="col-12 col-lg-2 d-flex justify-content-center align-items-center"
+            class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center"
           >
             <img
               src="/static/img/logo-deportes2.png"
-              class="img-fluid logo-footer"
+              class="img-fluid me-2 p-2 logo-footer"
               alt="deportesdelaciudad"
             />
           </div>
@@ -615,7 +573,7 @@
                 id="email"
                 name="email"
                 class="form-control"
-                autocomplete="email"
+                autocomplete="off"
                 required
               />
             </div>
@@ -670,225 +628,33 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
-    <script src="/static/js/script.js"></script>
+    <script src="/static/js/proteccion-datos.js"></script>
     <script src="/static/js/slide.js"></script>
-    <script src="/static/js/leer_mas.js"></script>
-    <script src="/static/js/num_caracteres.js"></script>
-
+    <!--<script src="/static/js/script.js"></script>-->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // Seleccionar todas las filas de la tabla
-        var filas = document.querySelectorAll(".tabla_aliados tbody tr");
-        // Iterar sobre cada fila
-        filas.forEach(function (fila) {
-          // Obtener el nombre del equipo de la fila actual
-          var equipo = fila.querySelector("th").textContent.trim();
-          console.log(equipo);
-          // Obtener la jornada y determinar si el UEMC juega en casa o como visitante
-          var jornadaElement = fila.querySelector(".jorn_ida");
-          var esLocal = false; // Por defecto, asumimos que el UEMC juega como visitante
-          if (jornadaElement) {
-            var jornada = jornadaElement.textContent.trim();
-            if (jornada.includes("C")) {
-              esLocal = true;
-            }
+      document.querySelectorAll(".btn-slide").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = button.dataset.target;
+
+          // Ocultar todas las secciones
+          document.querySelectorAll(".seccion-slide").forEach((section) => {
+            section.classList.add("d-none");
+            section.classList.remove("d-block");
+          });
+
+          // Mostrar la sección deseada
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.classList.remove("d-none");
+            targetSection.classList.add("d-block");
           }
-          // Obtener los valores de los resultados de la fila
-          var resultadoA = parseInt(
-            fila.querySelector(".resultadoA").textContent
-          );
-          console.log(resultadoA);
-          var resultadoB = parseInt(
-            fila.querySelector(".resultadoB").textContent
-          );
-          console.log(resultadoB);
-          var resultadoAA = parseInt(
-            fila.querySelector(".resultadoAA").textContent
-          );
-          console.log(resultadoAA);
-          var resultadoBB = parseInt(
-            fila.querySelector(".resultadoBB").textContent
-          );
-          console.log(resultadoBB);
-          // Comparar los resultados y actualizar el estilo de las celdas correspondientes
-          var gan1 = fila.querySelector(".gan-1");
-          var per1 = fila.querySelector(".per-1");
-          var ganados1 = 0;
-          var perdidos1 = 0;
-          if (esLocal) {
-            if (resultadoA > resultadoB) {
-              ganados1 = 1;
-              gan1.textContent = "1";
-              gan1.style.color = "green";
-              per1.textContent = "-";
-            } else if (resultadoA < resultadoB) {
-              perdidos1 = 1;
-              per1.textContent = "1";
-              per1.style.color = "red";
-              gan1.textContent = "-";
-            }
-          } else {
-            if (resultadoB > resultadoA) {
-              ganados1 = 1;
-              gan1.textContent = "1";
-              gan1.style.color = "green";
-              per1.textContent = "-";
-            } else if (resultadoB < resultadoA) {
-              perdidos1 = 1;
-              per1.textContent = "1";
-              per1.style.color = "red";
-              gan1.textContent = "-";
-            }
-          }
-          // Actualizar recuentos del primer enfrentamiento según los resultados del segundo enfrentamiento
-          var jornadaElement2 = fila.querySelector(".jorn_vuelta");
-          var esLocalSegundo = false; // Por defecto, asumimos que el UEMC juega como visitante
-          if (jornadaElement2) {
-            var jornada2 = jornadaElement2.textContent.trim();
-            if (jornada2.includes("C")) {
-              esLocalSegundo = true;
-            }
-          }
-          if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
-            if (esLocalSegundo) {
-              if (resultadoAA > resultadoBB) {
-                ganados1++;
-                gan1.textContent = ganados1.toString();
-                gan1.style.color = "green";
-              } else if (resultadoAA < resultadoBB) {
-                perdidos1++;
-                per1.textContent = perdidos1.toString();
-                per1.style.color = "red";
-              }
-            } else {
-              // Si UEMC jugó como visitante en el segundo enfrentamiento
-              if (resultadoBB > resultadoAA) {
-                ganados1++;
-                gan1.textContent = ganados1.toString();
-                gan1.style.color = "green";
-              } else if (resultadoBB < resultadoAA) {
-                perdidos1++;
-                per1.textContent = perdidos1.toString();
-                per1.style.color = "red";
-              }
-            }
-          }
-        });
-        // Cálculo del average del primer enfrentamiento
-        filas.forEach(function (fila) {
-          var resultadoA = parseInt(
-            fila.querySelector(".resultadoA").textContent
-          );
-          var resultadoB = parseInt(
-            fila.querySelector(".resultadoB").textContent
-          );
-          var average = fila.querySelector(".average");
-          var avgIda; // Average del primer enfrentamiento
-          if (resultadoA && resultadoB) {
-            if (
-              fila.querySelector(".jorn_ida").textContent.trim().includes("C")
-            ) {
-              // UEMC juega como local
-              avgIda = resultadoA - resultadoB; // Calcula la diferencia de puntos
-            } else {
-              // UEMC juega como visitante
-              avgIda = resultadoB - resultadoA; // Calcula la diferencia de puntos
-            }
-          } else {
-            avgIda = 0; // Si no hay resultados, el average es 0
-          }
-          if (!isNaN(avgIda)) {
-            average.textContent = avgIda;
-            // Colorea el average según su valor
-            if (avgIda > 0) {
-              average.style.color = "green";
-            } else if (avgIda < 0) {
-              average.style.color = "red";
-            } else {
-              average.style.color = "blue";
-            }
-          } else {
-            average.textContent = "";
-          }
-        });
-        // Cálculo del average del primer enfrentamiento
-        filas.forEach(function (fila) {
-          var resultadoA = parseInt(
-            fila.querySelector(".resultadoA").textContent
-          );
-          var resultadoB = parseInt(
-            fila.querySelector(".resultadoB").textContent
-          );
-          var average = fila.querySelector(".average");
-          var avgIda; // Average del primer enfrentamiento
-          if (resultadoA && resultadoB) {
-            if (
-              fila.querySelector(".jorn_ida").textContent.trim().includes("C")
-            ) {
-              // UEMC juega como local
-              avgIda = resultadoA - resultadoB; // Calcula la diferencia de puntos
-            } else {
-              // UEMC juega como visitante
-              avgIda = resultadoB - resultadoA; // Calcula la diferencia de puntos
-            }
-          } else {
-            avgIda = 0; // Si no hay resultados, el average es 0
-          }
-          if (!isNaN(avgIda)) {
-            average.textContent = avgIda;
-            // Colorea el average según su valor
-            if (avgIda > 0) {
-              average.style.color = "green";
-            } else if (avgIda < 0) {
-              average.style.color = "red";
-            } else {
-              average.style.color = "blue";
-            }
-          } else {
-            average.textContent = "";
-          }
-        });
-        // Cálculo del average del segundo enfrentamiento
-        filas.forEach(function (fila) {
-          var resultadoAA = parseInt(
-            fila.querySelector(".resultadoAA").textContent
-          );
-          var resultadoBB = parseInt(
-            fila.querySelector(".resultadoBB").textContent
-          );
-          var average = fila.querySelector(".average");
-          var avgVuelta; // Average del segundo enfrentamiento
-          if (resultadoAA && resultadoBB) {
-            if (
-              fila
-                .querySelector(".jorn_vuelta")
-                .textContent.trim()
-                .includes("C")
-            ) {
-              // UEMC juega como local en el segundo enfrentamiento
-              avgVuelta = resultadoAA - resultadoBB; // Calcula la diferencia de puntos
-            } else {
-              // UEMC juega como visitante en el segundo enfrentamiento
-              avgVuelta = resultadoBB - resultadoAA; // Calcula la diferencia de puntos
-            }
-          } else {
-            avgVuelta = 0; // Si no hay resultados, el average es 0
-          }
-          if (!isNaN(avgVuelta)) {
-            // Actualiza el average total sumando o restando el average del segundo enfrentamiento
-            var avgTotal = parseInt(average.textContent) + avgVuelta;
-            average.textContent = avgTotal;
-            // Colorea el average según su valor
-            if (avgTotal > 0) {
-              average.style.color = "green";
-            } else if (avgTotal < 0) {
-              average.style.color = "red";
-            } else {
-              average.style.color = "blue";
-            }
-          } else {
-            average.textContent = "";
-          }
+
+          // Actualizar clase activa en los botones
+          document
+            .querySelectorAll(".btn-slide")
+            .forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
         });
       });
     </script>
