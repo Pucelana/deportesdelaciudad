@@ -3,7 +3,7 @@ from datetime import datetime
 from collections import defaultdict
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce
+from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce, Clasificacion
 
 ponce_route_bp = Blueprint('ponce_route_bp', __name__)
 
@@ -273,78 +273,209 @@ def clasif_analisis_ponce():
 @ponce_route_bp.route('/crear_playoff_ponce', methods=['GET', 'POST'])
 def crear_playoff_ponce():
     if request.method == 'POST':
-        eliminatoria = request.form.get('eliminatoria')       
-        max_partidos = {
-            'partidosGrupo': 6,
-            'partidos2º': 2
-        }.get(eliminatoria, 0)
-        num_partidos_str = request.form.get('num_partidos', '0').strip()
-        num_partidos = int(num_partidos_str) if num_partidos_str else 0
-        if num_partidos < 0 or num_partidos > max_partidos:
-            return "Número de partidos no válido"
+        encuentros = request.form.get('encuentros')
+        print(f"Encuentros: {encuentros}")
+        num_partidos = int(request.form.get('num_partidos', 0))     
         for i in range(num_partidos):
-            partido = PlayoffPonce(
-                eliminatoria = eliminatoria,
-                fecha = request.form.get(f'fecha{i}', ''),
-                hora = request.form.get(f'hora{i}', ''),
-                local = request.form.get(f'local{i}', ''),
-                resultadoA = request.form.get(f'resultadoA{i}', ''),
-                resultadoB = request.form.get(f'resultadoB{i}', ''),
-                visitante = request.form.get(f'visitante{i}', '')
+            fecha = request.form.get(f'fecha{i}')
+            hora = request.form.get(f'hora{i}')
+            local = request.form.get(f'local{i}')
+            resultadoA = request.form.get(f'resultadoA{i}')
+            resultadoB = request.form.get(f'resultadoB{i}')
+            visitante = request.form.get(f'visitante{i}')  
+            # Crear una nueva instancia de EurocupAliados con los datos recibidos           
+            nuevo_partido = PlayoffPonce(
+                encuentros=encuentros,
+                fecha=fecha or '',
+                hora=hora or '',
+                local=local or '',
+                resultadoA=resultadoA or '',
+                resultadoB=resultadoB or '',
+                visitante=visitante or ''
             )
-            db.session.add(partido)
-        db.session.commit()
+            # Agregar la instancia a la sesión y hacer commit
+            db.session.add(nuevo_partido)       
+        # Confirmar los cambios en la base de datos
+        db.session.commit()       
+        # Redirigir a la página para ver la Copa UEMC
         return redirect(url_for('ponce_route_bp.ver_playoff_ponce'))
+    # Renderizar el formulario para crear la copa UEMC
     return render_template('admin/playoffs/playoff_ponce.html')
 # Ver encuentros playoff en Admin
 @ponce_route_bp.route('/playoff_ponce/')
-def ver_playoff_ponce():
-    eliminatorias = ['partidosGrupo', 'partidos2º']
-    datos_eliminatorias = {}
-    for eliminatoria in eliminatorias:
-        partidos = PlayoffPonce.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffPonce.orden).all()
-        datos_eliminatorias[eliminatoria] = partidos
-    return render_template('admin/playoffs/playoff_ponce.html', datos_eliminatorias=datos_eliminatorias)
+def ver_eurocup_aliados():
+    # Definimos todas las jornadas de la fase regular
+    jornadas = ['liga_j1', 'liga_j2', 'liga_j3']
+    # Y las fases de eliminatorias
+    fases_eliminatorias = ['final_segundos']
+    # Diccionario para la fase regular
+    datos_jornadas = {j: PlayoffPonce.query.filter_by(encuentros=j).order_by(PlayoffPonce.id).all() for j in jornadas}
+    # Diccionario para eliminatorias
+    datos_eliminatorias = {f: PlayoffPonce.query.filter_by(encuentros=f).order_by(PlayoffPonce.id).all() for f in fases_eliminatorias}
+    return render_template('admin/playoffs/playoff_ponce.html',datos_jornadas=datos_jornadas, datos_eliminatorias=datos_eliminatorias)
+# Actualizar clasificación de los grupos
+def actualizar_clasificacion(local, resultado_local, resultado_visitante, visitante):
+    # Convertir los resultados a enteros
+    resultado_local = int(resultado_local) if resultado_local.isdigit() else None
+    resultado_visitante = int(resultado_visitante) if resultado_visitante.isdigit() else None
+    # Consultar si los equipos ya están en la clasificación
+    clasificacion_local = Clasificacion.query.filter_by(equipo=local).first()
+    clasificacion_visitante = Clasificacion.query.filter_by( equipo=visitante).first()
+    # Si el local no existe, lo creamos
+    if not clasificacion_local:
+        clasificacion_local = Clasificacion( equipo=local, jugados=0, ganados=0, perdidos=0, puntos=0, pf=0, pc=0)
+        db.session.add(clasificacion_local)  
+    # Si el visitante no existe, lo creamos
+    if not clasificacion_visitante:
+        clasificacion_visitante = Clasificacion( equipo=visitante, jugados=0, ganados=0, perdidos=0, puntos=0, pf=0, pc=0)
+        db.session.add(clasificacion_visitante)   
+    # Actualizar los partidos jugados
+    if resultado_local is not None and resultado_visitante is not None:
+        clasificacion_local.jugados += 1
+        clasificacion_visitante.jugados += 1       
+        # Determinar el resultado del partido y actualizar clasificaciones
+        if resultado_local > resultado_visitante:
+            clasificacion_local.ganados += 1
+            clasificacion_local.puntos += 2
+            clasificacion_visitante.perdidos += 1
+            clasificacion_visitante.puntos += 1
+        elif resultado_local < resultado_visitante:
+            clasificacion_visitante.ganados += 1
+            clasificacion_visitante.puntos += 2
+            clasificacion_local.perdidos += 1
+            clasificacion_local.puntos += 1
+        else:
+            clasificacion_local.puntos += 1
+            clasificacion_visitante.puntos += 1  
+    # Guardar los cambios en la base de datos
+    db.session.commit()
+    return clasificacion_local, clasificacion_visitante
+def obtener_jornadas_liga():
+    jornadas = {}
+
+    partidos = PlayoffPonce.query.filter(
+        PlayoffPonce.encuentros.like('liga_%')
+    ).order_by(PlayoffPonce.orden, PlayoffPonce.id).all()
+
+    for partido in partidos:
+        jornada = partido.encuentros  # liga_j1, liga_j2...
+        if jornada not in jornadas:
+            jornadas[jornada] = []
+        jornadas[jornada].append(partido)
+    return jornadas
+def obtener_eliminatorias():
+    fases = ['final_segundos']
+    eliminatorias = {fase: [] for fase in fases}
+
+    partidos = PlayoffPonce.query.filter(PlayoffPonce.encuentros.in_(fases)).order_by(PlayoffPonce.orden).all()
+
+    for partido in partidos:
+        eliminatorias[partido.encuentros].append(partido)
+
+    return eliminatorias
+# Recalcular clasificación
+def recalcular_clasificacion(jornadas):
+    clasificacion = {}
+
+    for jornada, partidos in jornadas.items():
+        for p in partidos:
+            if not p.local or not p.visitante:
+                continue
+            
+            local = p.local.strip()
+            visitante = p.visitante.strip()
+
+            if local not in clasificacion:
+                clasificacion[local] = {
+                    'equipo': local, 'jugados': 0, 'ganados': 0,
+                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
+                }
+
+            if visitante not in clasificacion:
+                clasificacion[visitante] = {
+                    'equipo': visitante, 'jugados': 0, 'ganados': 0,
+                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
+                }
+
+            # 👉 si no hay resultado, NO se calcula nada más
+            if not p.resultadoA or not p.resultadoB:
+                continue
+
+            if not p.resultadoA.isdigit() or not p.resultadoB.isdigit():
+                continue
+
+            resA = int(p.resultadoA)
+            resB = int(p.resultadoB)
+
+            clasificacion[local]['jugados'] += 1
+            clasificacion[visitante]['jugados'] += 1
+
+            clasificacion[local]['favor'] += resA
+            clasificacion[local]['contra'] += resB
+            clasificacion[visitante]['favor'] += resB
+            clasificacion[visitante]['contra'] += resA
+
+            if resA > resB:
+                clasificacion[local]['ganados'] += 1
+                clasificacion[local]['puntos'] += 2
+                clasificacion[visitante]['perdidos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+            elif resA < resB:
+                clasificacion[visitante]['ganados'] += 1
+                clasificacion[visitante]['puntos'] += 2
+                clasificacion[local]['perdidos'] += 1
+                clasificacion[local]['puntos'] += 1
+            else:
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
+    clasificacion_ordenada = sorted(
+        clasificacion.items(),
+        key=lambda x: (
+            -x[1]["puntos"],
+            -(x[1]["favor"] - x[1]["contra"]),
+            -x[1]["favor"]
+        )
+    )
+
+    return clasificacion_ordenada
 # Modificar los partidos de los playoff
-@ponce_route_bp.route('/modificar_playoff_ponce/<string:eliminatoria>', methods=['GET', 'POST'])
-def modificar_playoff_ponce(eliminatoria):
-    if request.method == 'POST':
+@ponce_route_bp.route('/modificar_playoff_ponce/<string:encuentros>', methods=['POST'])
+def modificar_playoff_ponce(encuentros):
+    try:
         num_partidos = int(request.form.get('num_partidos', 0))
         for i in range(num_partidos):
             partido_id = request.form.get(f'partido_id{i}')
-            if not partido_id:
-                continue
-            partido_obj = PlayoffPonce.query.get(int(partido_id))
-            if not partido_obj:
-                continue
-            partido_obj.fecha = request.form.get(f'fecha{i}', '')
-            partido_obj.hora = request.form.get(f'hora{i}', '')
-            partido_obj.local = request.form.get(f'local{i}', '')
-            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
-            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
-            partido_obj.visitante = request.form.get(f'visitante{i}', '')
-            partido_obj.orden = i
-        # Commit para guardar los cambios
-        db.session.commit()
-        flash('Playoff actualizado correctamente', 'success')
-        return redirect(url_for('ponce_route_bp.ver_playoff_ponce'))
-    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+            partido = PlayoffPonce.query.get(int(partido_id))
+            if partido:
+                partido.fecha = request.form.get(f'fecha{i}', partido.fecha)
+                partido.hora = request.form.get(f'hora{i}', partido.hora)
+                partido.local = request.form.get(f'local{i}', partido.local)
+                partido.resultadoA = request.form.get(f'resultadoA{i}', partido.resultadoA)
+                partido.resultadoB = request.form.get(f'resultadoB{i}', partido.resultadoB)
+                partido.visitante = request.form.get(f'visitante{i}', partido.visitante)
+                partido.encuentros = encuentros
+            db.session.commit()
+            flash('Partidos modificados correctamente', 'success')
+    except Exception as e:
+        db.session.rollback()
+        print(f"Error al modificar partidos: {e}")
+        flash('Hubo un error al modificar los partidos', 'error')
     return redirect(url_for('ponce_route_bp.ver_playoff_ponce'))
 # Eliminar los partidos de los playoff
-@ponce_route_bp.route('/eliminar_playoff_ponce/<string:eliminatoria>', methods=['POST'])
-def eliminar_playoff_ponce(eliminatoria):
-    partidos = PlayoffPonce.query.filter_by(eliminatoria=eliminatoria).all()
-    for partido in partidos:
-        db.session.delete(partido)
+@ponce_route_bp.route('/eliminar_playoff_ponce/<string:identificador>', methods=['POST'])
+def eliminar_playoff_ponce(identificador):
+    partidos = PlayoffPonce.query.filter_by(encuentros=identificador).all()
+    for p in partidos:
+        db.session.delete(p)
+
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
     return redirect(url_for('ponce_route_bp.ver_playoff_ponce'))
 # Mostrar los playoffs del Ponce
 @ponce_route_bp.route('/playoffs_ponce/')
-def playoffs_ponce():
-    eliminatorias = ['partidosGrupo', 'partidos2º']
-    datos_playoff = {}
-    for eliminatoria in eliminatorias:
-        partidos = PlayoffPonce.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/ponce_playoff.html', datos_playoff=datos_playoff)    
+def playoff_ponce():
+    jornadas = obtener_jornadas_liga()
+    clasificacion = recalcular_clasificacion(jornadas)
+    eliminatorias = obtener_eliminatorias()
+    return render_template('playoff/ponce_playoff.html', jornadas=jornadas, clasificacion=clasificacion, eliminatorias=eliminatorias
+    )    
