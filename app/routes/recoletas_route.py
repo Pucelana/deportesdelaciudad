@@ -76,6 +76,7 @@ def modificar_jornada_recoletas(id):
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(RecoletasPartido).filter(RecoletasPartido.id == partido_id).first()
                 if partido:
+                    partido.fecha = fecha
                     partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
@@ -123,7 +124,7 @@ def obtener_datos_recoletas():
 def calendario_recoletas():
     datos = obtener_datos_recoletas()
     nuevos_datos_recoletas = [dato for dato in datos if dato]
-    equipo_recoletas = 'Atl.Valladolid'
+    equipo_recoletas = 'Atl. Valladolid'
     tabla_partidos_recoletas = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:

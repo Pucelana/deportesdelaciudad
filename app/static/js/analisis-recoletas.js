@@ -51,7 +51,7 @@ const proximidadFija = 99; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila, indice) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.champ-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.champ-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -91,7 +91,7 @@ equipos.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
     <td class="champ-jug fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="champ-act fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="champ-prox fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
@@ -110,7 +110,7 @@ const proximidadFija3 = 75; // Ajusta este valor según tus necesidades
 const equipos3 = [];
 let index3 = 1;
 filas3.forEach((fila, indice) => {
-    const equipo3 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo3 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados3 = parseInt(fila.querySelector(`.euro-jug`).textContent);
     const puntosActuales3 = parseInt(fila.querySelector(`.euro-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -152,7 +152,7 @@ equipos3.forEach((equipo3Data) => {
     }
     nuevaFila3.innerHTML = `
     <td class="fw-bold text-center ${claseColor3}">${equipo3Data.index3}</td>
-    <td class="fw-bold text-center">${equipo3Data.equipo3}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo3Data.equipo3}</td>
     <td class="euro-jug fw-bold text-center">${equipo3Data.partidosJugados3}</td>
     <td class="euro-act fw-bold text-center">${equipo3Data.puntosActuales3}</td>
     <td class="euro-prox fw-bold text-center">${equipo3Data.proximidadDeAscenso3}%</td>
@@ -171,7 +171,7 @@ const proximidadFija1 = 56; // Ajusta este valor según tus necesidades
 const equipo1s1 = [];
 let index1 = 1;
 filas1.forEach((fila, indice) => {
-    const equipo1 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo1 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados1 = parseInt(fila.querySelector(`.promo-jug`).textContent);
     const puntosActuales1 = parseInt(fila.querySelector(`.promo-act`).textContent);
 
@@ -217,7 +217,7 @@ equipo1s1.forEach((equipo1Data) => {
     }
     nuevaFila1.innerHTML = `
     <td class="fw-bold text-center ${claseColor1}">${equipo1Data.index1}</td>
-    <td class="fw-bold text-center">${equipo1Data.equipo1}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo1Data.equipo1}</td>
     <td class="promo-jug fw-bold text-center">${equipo1Data.partidosJugados1}</td>
     <td class="promo-act fw-bold text-center">${equipo1Data.puntosActuales1}</td>
     <td class="promo-prox fw-bold text-center">${equipo1Data.proximidadDePlayOff}%</td>
@@ -236,7 +236,7 @@ const proximidadFijar2 = 55; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
-    const equipo2 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo2 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados2 = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales2 = parseInt(fila.querySelector(`.desc-act`).textContent);
 
@@ -280,7 +280,7 @@ equipos2.forEach((equipo2Data) => {
     }
     nuevaFila2.innerHTML = `
     <td class="fw-bold text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="fw-bold text-center">${equipo2Data.equipo2}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo2Data.equipo2}</td>
     <td class="desc-jug fw-bold text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act fw-bold text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox fw-bold text-center">${equipo2Data.proxiPermanencia}%</td>
