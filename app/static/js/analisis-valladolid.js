@@ -206,7 +206,7 @@ const proximidadFija3 = 57; // Ajusta este valor según tus necesidades
 const equipos3 = [];
 let index3 = 1;
 filas3.forEach((fila) => {
-    const equipo3 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo3 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados3 = parseInt(fila.querySelector(`.cham-jug`).textContent);
     const puntosActuales3 = parseInt(fila.querySelector(`.cham-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -248,7 +248,7 @@ equipos3.forEach((equipo3Data) => {
     }
     nuevaFila3.innerHTML = `
     <td class="fw-bold text-center ${claseColor3}">${equipo3Data.index3}</td>
-    <td class="fw-bold text-center">${equipo3Data.equipo3}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo3Data.equipo3}</td>
     <td class="cham-jug fw-bold text-center">${equipo3Data.partidosJugados3}</td>
     <td class="cham-act fw-bold text-center">${equipo3Data.puntosActuales3}</td>
     <td class="cham-proxi fw-bold text-center">${equipo3Data.proximidadDeChampions}%</td>
@@ -389,7 +389,7 @@ const proximidadFijar6 = 40; // Ajusta este valor según tus necesidades
 const equipos6 = [];
 let index6 = 1;
 filas6.forEach((fila) => {
-    const equipo6 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo6 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados6 = parseInt(fila.querySelector(`.desce-jug`).textContent);
     const puntosActuales6 = parseInt(fila.querySelector(`.desce-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -400,8 +400,8 @@ filas6.forEach((fila) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesPermanencia6 = partidosTotales6 - partidosJugados6;
     const partidosGanadosMatematicos6 = Math.min(puntosActuales6 + partidosRestantesPermanencia6 * puntosPorGanar6, puntosPermanencia6);
-    const partidosGanadosPesimistas6 = Math.min(partidosGanadosMatematicos6 -0, puntosPermanencia6);
-    const partidosGanadosOptimistas6 = Math.min(partidosGanadosMatematicos6 -2, puntosPermanencia6);
+    const partidosGanadosPesimistas6 = Math.min(partidosGanadosMatematicos6 + 2, puntosPermanencia6);
+    const partidosGanadosOptimistas6 = Math.min(partidosGanadosMatematicos6 - 2, puntosPermanencia6);
     equipos6.push({
         index6: index6,
         equipo6,
@@ -429,7 +429,7 @@ equipos6.forEach((equipo6Data) => {
     }
     nuevaFila6.innerHTML = `
     <td class="fw-bold text-center ${claseColor6}">${equipo6Data.index6}</td>
-    <td class="fw-bold text-center">${equipo6Data.equipo6}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo6Data.equipo6}</td>
     <td class="desce-jug fw-bold text-center">${equipo6Data.partidosJugados6}</td>
     <td class="desce-act fw-bold text-center">${equipo6Data.puntosActuales6}</td>
     <td class="desce-prox fw-bold text-center">${equipo6Data.proxiPermanencia6}%</td>
@@ -448,7 +448,7 @@ const proximidadFija7 = 90; // Ajusta este valor según tus necesidades
 const equipos7 = [];
 let index7 = 1;
 filas7.forEach((fila) => {
-    const equipo7 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo7 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados7 = parseInt(fila.querySelector(`.camp-jug`).textContent);
     const puntosActuales7 = parseInt(fila.querySelector(`.camp-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -488,7 +488,7 @@ equipos7.forEach((equipo7Data) => {
     }
     nuevaFila7.innerHTML = `
     <td class="fw-bold text-center ${claseColor7}">${equipo7Data.index7}</td>
-    <td class="fw-bold text-center">${equipo7Data.equipo7}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo7Data.equipo7}</td>
     <td class="camp-jug fw-bold text-center">${equipo7Data.partidosJugados7}</td>
     <td class="camp-act fw-bold text-center">${equipo7Data.puntosActuales7}</td>
     <td class="camp-proxi fw-bold text-center">${equipo7Data.proximidadDeChampions}%</td>

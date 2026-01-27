@@ -364,10 +364,6 @@ def crear_copa_recoletas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
-            'ronda1': 12,
-            'ronda2': 6,
-            'octavos': 6,
-            'cuartos': 4,
             'semifinales': 2,
             'final': 1
         }.get(eliminatoria, 0)
@@ -392,7 +388,7 @@ def crear_copa_recoletas():
 # Ver encuentros copa en Admin
 @recoletas_route_bp.route('/copa_recoletas/')
 def ver_copa_recoletas():
-    eliminatorias = ['ronda1', 'ronda2', 'octavos', 'cuartos', 'semifinales', 'final']
+    eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}
     for eliminatoria in eliminatorias:
         partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).order_by(CopaRecoletas.orden).all()
@@ -435,7 +431,7 @@ def eliminar_copa_recoletas(eliminatoria):
 # Mostrar la copa del Atl.Valladolid
 @recoletas_route_bp.route('/copas_recoletas/')
 def copas_recoletas():
-    eliminatorias = ['ronda1' ,'ronda2', 'octavos','cuartos', 'semifinales', 'final']
+    eliminatorias = ['semifinales', 'final']
     datos_copa = {}
     for eliminatoria in eliminatorias:
         partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()

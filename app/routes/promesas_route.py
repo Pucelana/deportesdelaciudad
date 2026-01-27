@@ -127,7 +127,7 @@ def obtener_datos_promesas():
 def calendario_promesas():
     datos = obtener_datos_promesas()
     nuevos_datos_promesas = [dato for dato in datos if dato]
-    equipo_promesas = 'Real Valladolid B'
+    equipo_promesas = 'RV Promesas'
     tabla_partidos_promesas = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
