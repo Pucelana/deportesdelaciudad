@@ -51,6 +51,14 @@ def seccion_salvador():
 def seccion_univ():
     return render_template('secciones/univ.html')
 
+@secciones_bp.route('/seccion/rv_femenino')
+def seccion_rv_femenino():
+    return render_template('secciones/rv_femenino.html')
+
+@secciones_bp.route('/seccion/galvan')
+def seccion_galvan():
+    return render_template('secciones/galvan.html')
+
 # Rutas de sistemas de ligas
 @secciones_bp.route('/sistema_ligas/futbol')
 def sistema_ligas_futbol():

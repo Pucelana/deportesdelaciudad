@@ -49,15 +49,15 @@ function mostrarFormularioParquesol(){
   document.getElementById('form_partidos_parquesol').style.display='block';
 }
 // FÚTBOL SALA
-function mostrarFormularioValladolidFs(){
+/*function mostrarFormularioValladolidFs(){
   document.getElementById('form_partidos_valladolid_fs').style.display='block';
+}*/
+function mostrarFormularioGalvan(){
+  document.getElementById('form_partidos_galvan').style.display='block';
 }
-function mostrarFormularioTierno(){
-  document.getElementById('form_partidos_tierno').style.display='block';
-}
-function mostrarFormularioValladolidFsf(){
+/*function mostrarFormularioValladolidFsf(){
   document.getElementById('form_partidos_valladolidfsf').style.display='block';
-}
+}*/
 // BALONMANO
 function mostrarFormularioAula(){
   document.getElementById('form_partidos_aula').style.display='block';

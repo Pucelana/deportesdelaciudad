@@ -83,7 +83,7 @@
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Balonmano</a>
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/seccion/aula">Aula Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/recoletas">Recoletas Valladolid</a>
+                        <a class="dropdown-item" href="/seccion/recoletas">Atl. Valladolid</a>
                       </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -92,6 +92,14 @@
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/seccion/valladolid">Real Valladolid</a>
                         <a class="dropdown-item" href="/seccion/promesas">RV Promesas</a>
+                        <a class="dropdown-item" href="/seccion/rv_femenino">RV Femenino</a>
+                      </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-nav" href="#" id="dropdownId"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol Sala</a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="/seccion/galvan">C.D Tierno Galván</a>
                       </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -217,7 +225,7 @@
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Balonmano</a>
                   <div class="dropdown-menu" aria-labelledby="dropdownId">
                     <a class="dropdown-item" href="/seccion/aula">Aula Valladolid</a>
-                    <a class="dropdown-item" href="/seccion/recoletas">Recoletas Atl.Valladolid</a>
+                    <a class="dropdown-item" href="/seccion/recoletas">Atl.Valladolid</a>
 
                   </div>
                 </li>
@@ -227,8 +235,16 @@
                   <div class="dropdown-menu" aria-labelledby="dropdownId">
                     <a class="dropdown-item" href="/seccion/valladolid">Real Valladolid</a>
                     <a class="dropdown-item" href="/seccion/promesas">RV Promesas</a>
+                    <a class="dropdown-item" href="/seccion/rv_femenino">RV Femenino</a>
                   </div>
                 </li>
+                <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-nav" href="#" id="dropdownId"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol Sala</a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="/seccion/galvan">C.D Tierno Galván</a>
+                      </div>
+                    </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle fs-5 text-white fw-bold text-menu-nav" href="#" id="dropdownId"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hockey</a>
@@ -398,6 +414,14 @@
       {% if current_user.is_authenticated %}
       <div class="container-lg d-flex justify-content-center flex-wrap gap-5">
         <!-- Reemplazá los src con las rutas de tus escudos -->
+         <a href="/seccion/rv_femenino" class="escudo-link">
+          <img src="/static/img/pucela_sf.png" class="escudo" alt="RV Femenino" />
+          <span class="escudo-nombre">RV Femenino</span>
+        </a>
+        <a href="/seccion/galvan" class="escudo-link">
+          <img src="/static/img/galvan_sf.png" class="escudo" alt="C.D Tierno Galván" />
+          <span class="escudo-nombre">C.D Tierno Galván</span>
+        </a>
         <a href="/seccion/panteras" class="escudo-link">
           <img src="/static/img/cplv_sf.png" class="escudo" alt="CPLV Munia Panteras" />
           <span class="escudo-nombre">CPLV Munia Panteras</span>

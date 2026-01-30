@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>Calendarios - RV Femenino</title>
+  <title>Calendario y Resultados</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,30 +29,30 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
 <body class="bg-white calend_futbol">
   <div class="d-flex flex-column min-vh-100 sticky-top">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/futbol" class="text-white text-decoration-none">Sección</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario RV Femenino</li>
+        <li class="breadcrumb-item"><a href="/seccion/rv_femenino" class="text-white text-decoration-none text-analisis fs-6">RV Femenino</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario y Resultados</li>
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-calendario" class="btn btn-outline-info" data-slide="0">Calendario</a>
-        <a href="#slide-resultados" class="btn btn-outline-info" data-slide="1">Resultados</a>
+        <a href="#slide-calendario" class="btn btn-outline-dark" data-slide="0">Calendario</a>
+        <a href="#slide-resultados" class="btn btn-outline-dark" data-slide="1">Resultados</a>
       </div>
       <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
           <div class="carousel-item active" id="slide-calendario"><!--Tabla Calendario Real Valladolid Fem.-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold">Calendario Individual 25/26</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">Calendario Individual 25/26</h3>
                     <table class="table table-bordered tabla_equipos tabla_simancas">
                       <thead>
                         <tr class="text-center text-dark">
@@ -109,8 +109,8 @@
           </div>
           <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada 23/24 -->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold my-3">Resultados 25/26</h3>
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
+                <h3 class="text-center text-white fw-bold my-3 text-analisis">Resultados 25/26</h3>
                 <div class="card-body">
                   <div class="container-fluid">
                     <div class="row">
@@ -127,18 +127,18 @@
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-white text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
+                                  <td class="text-dark text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-center fw-bold size_equipos text-white">{{ partido.local }}</td>
+                                  <td class="text-center text-dark fw-bold">{{ partido.resultadoA }}</td>
+                                  <td class="text-center text-dark fw-bold">{{ partido.resultadoB }}</td>
+                                  <td class="text-center fw-bold size_equipos text-white">{{ partido.visitante }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>
                             </table>
                             <div class="d-flex ms-1 my-1">
                               <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                class="text-decoration-none ps-3 text-white">Ver</a>
+                                class="text-decoration-none ps-3 text-white text-analisis fs-5">Ver</a>
                             </div>
                           </div>
                         </div>
@@ -167,28 +167,28 @@
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold pt-1 fs-3 ms-2 text-analisis">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white">Nosotros</h5>
+            <h5 class="text-white text-analisis fs-4">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Contáctanos</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Aviso legal</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de privacidad</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de cookies</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Política de cookies</h5>
           </a>
         </div>
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>

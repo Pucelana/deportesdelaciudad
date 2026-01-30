@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>Calendario - RV Femenino</title>
+    <title>Calendario - C.D Tierno Galván</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -17,19 +17,19 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">RV Femenino 25/26</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">C.D Tierno Galván 25/26</li>
     </ol>
   </nav>
   <header>
-    <h1 class="text-center">Resultados Liga Doble G (Grp-B) 25/26</h1>
+    <h1 class="text-center">Resultados 2ª División B 25/26</h1>
   </header>
     <section class="container-lg">
       <div class="d-flex justify-content-center mb-4">
-        <button onclick="mostrarFormularioSimancas()" class="btn btn-success text-center fs-3">Crear Resultados</button>
+        <button onclick="mostrarFormularioGalvan()" class="btn btn-success text-center fs-3">Crear Resultados</button>
       </div>
       <!-- Formulario para los resultados de los partidos -->
-      <div class="container-lg" id="form_partidos_promesas">
-        <form method="POST" action="/admin/crear_calendario_simancas" class="row mb-3">
+      <div class="container-lg" id="form_partidos_galvan">
+        <form method="POST" action="/admin/crear_calendario_galvan" class="row mb-3">
           <div class="col-md-12">
             <label for="nombre">Jornada</label>
             <input type="text" class="form-control" id="nombre" name="nombre">
@@ -38,7 +38,7 @@
             <label for="num_partidos">Número de partidos</label>
             <input type="text" class="form-control" id="num_partidos" name="num_partidos">
           </div>
-          {% for i in range(4) %}
+          {% for i in range(8) %}
           <div class="col-md-5">
             <label for="fecha{{i}}">Fecha</label>
             <input type="text" class="form-control" id="fecha{{i}}" name="fecha{{i}}">
@@ -104,7 +104,7 @@
                   </form>-->
                   <button type="submit" id="btn-modificar{{ jornada.id }}" class="bg-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal" data-bs-target="#modal{{ jornada.id }}">Modificar</button>
                   <a href="#" onclick="toggleTabla(this, '{{ jornada.nombre }}') " class="text-decoration-none btn btn-primary text-white">Ver Tabla</a>
-                  <form action="{{ url_for('simancas_route_bp.eliminar_jornada_simancas', id=jornada.id) }}" method="POST">
+                  <form action="{{ url_for('galvan_route_bp.eliminar_jornada_galvan', id=jornada.id) }}" method="POST">
                     <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 ms-5">Eliminar</button>
                   </form>            
                 </div>
@@ -124,7 +124,7 @@
           </div>
           <div class="modal-body">
           <!-- Contenido del formulario para modificar la jornada -->
-          <form method="POST" action="{{ url_for('simancas_route_bp.modificar_jornada_simancas', id=jornada.id) }}" class="row">
+          <form method="POST" action="{{ url_for('galvan_route_bp.modificar_jornada_galvan', id=jornada.id) }}" class="row">
             <div class="col-md-12 mb-2"> 
               <label for="nombre">Jornada</label>
               <input type="text" name="nombre" id="nombre" class="form-control" value="{{ jornada.nombre }}">

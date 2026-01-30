@@ -12,6 +12,7 @@ from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasCl
 from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion
 from app.models.panteras import JornadaPanteras, PanterasPartido, PanterasClub,  PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion
 from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
+from app.models.galvan import JornadaGalvan, GalvanPartido, GalvanClub,  PlayoffGalvan, CopaGalvan
 from app.models.usuarios import Usuario
 
 from flask_login import LoginManager

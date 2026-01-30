@@ -1,25 +1,28 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
+
 <head>
-  <title>{% block titulo %} Sección de los deportes {% endblock %}</title>
+  <title>Copa del Rey - C.D Tierno Galván</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description"
-    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga.">
   <meta name="keywords"
     content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
   <meta name="author" content="eldeportedelaciudad">
   <!-- Twitter meta tags -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta name="twitter:image" content="URL_de_la_imagen">
   <meta name="twitter:site" content="@tu_cuenta_de_twitter">
   <meta name="twitter:creator" content="@cuenta_del_autor">
   <!-- Open Graph meta tags -->
   <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
   <meta property="og:image" content="URL_de_la_imagen">
   <meta property="og:url" content="URL_de_tu_página">
   <meta property="og:type" content="website">
@@ -31,200 +34,93 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
-<body id="body_secciones">
+
+<body class="fondo_copa_rugby">
   <div class="d-flex flex-column min-vh-100">
-    <header class="container-fluid d-none d-lg-block sticky-top">
-      <section id="cabecera1" class="align-items-center ">
-        <div class="row bg_menu_seccion shadow-lg">
-          <div class="col-lg-9 col-md-9">
-            <nav class="navbar navbar-expand navbar-light">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="#"></a>
-                <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="collapse"
-                  data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
-                  aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="collapsibleNavId">
-                  <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                      <a class="nav-link active fw-bold text-white text-menu-seccion" href="/"
-                        aria-current="page">Inicio</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Baloncesto</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/uemc">CBC Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/ponce">Ponce Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/aliados">Fundación Aliados</a>
-                        <a class="dropdown-item" href="/sistema_ligas/baloncesto">Info</a>
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Balonmano</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/aula">Aula Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/recoletas">Atl. Valladolid</a>
-                        <a class="dropdown-item" href="/sistema_ligas/balonmano">Info</a>
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/valladolid">Real Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/promesas">RV Promesas</a>
-                        <a class="dropdown-item" href="/seccion/rv_femenino">RV Femenino</a>
-                        <a class="dropdown-item" href="/sistema_ligas/futbol">Info</a>
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol Sala</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/galvan">C.D Tierno Galván</a>
-                        <a class="dropdown-item" href="/sistema_ligas/futbol_sala">Info</a>
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Hockey</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/caja">CPLV Caja Rural</a>
-                        <a class="dropdown-item" href="/seccion/panteras">CPLV Munia Panteras</a>
-                        <a class="dropdown-item" href="/sistema_ligas/hockey">Info</a>
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rugby</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/salvador">El Salvador</a>
-                        <a class="dropdown-item" href="/seccion/vrac">VRAC</a>
-                        <a class="dropdown-item" href="/seccion/salvador_fem">El Salvador C.R</a>
-                        <a class="dropdown-item" href="/sistema_ligas/rugby">Info</a>
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Voley</a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/univ">Universidad Valladolid</a>
-                        <a class="dropdown-item" href="/sistema_ligas/voley">Info</a>
-                      </div>
-                    </li>
-                  </ul>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb ps-2 pt-2">
+        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
+        <li class="breadcrumb-item active text-info" aria-current="page">Copa C.D Tierno Galván</li>
+      </ol>
+    </nav>
+    <h1 class="text-playoff">Copa del Rey 25/26</h1>
+    <span class="equipo_copa">C.D Tierno Galván</span>
+    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
+      <!-- Navegación -->
+      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+        {% for ronda in datos_copa.keys() %}
+        <a href="#" class="btn btn-outline-info btn-ronda" data-target="ronda{{ loop.index0 }}">{{
+          ronda|capitalize }}</a>
+        {% endfor %}
+      </div>
+      <!-- Contenedor de rondas -->
+      <div id="contenedor-rondas">
+        {% for ronda, partidos in datos_copa.items() %}
+        <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}" id="ronda{{ loop.index0 }}">
+          <div class="d-flex justify-content-center">
+            <div class="card tabla_copa mt-4" style="width: 70rem;">
+              <div class="card-body">
+                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                <div class="row table-responsive">
+                  <div class="col-12">
+                    <table class="table border-secondary">
+                      {% for partido in partidos %}
+                      <tr class="text-center">
+                        <td class="text-white">{{ partido.fecha }}</td>
+                        <td class="text-white">{{ partido.hora }}</td>
+                        <td
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido.local }}</td>
+                        <td class="text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
+                        <td class="text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
+                        <td
+                          class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          {{ partido.visitante }}</td>
+                      </tr>
+                      {% endfor %}
+                    </table>
+                  </div>
                 </div>
               </div>
-            </nav>
-          </div>
-          
-        </div>
-      </section>
-    </header><!--Fin header1-->
-    <header class="container-fluid d-lg-none d-md-block bg_menu_seccion sticky-top">
-      <section id="cabecera1" class="d-flex justify-content-around align-items-center shadow">
-        <nav class="navbar navbar-expand-lg navbar-light ">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"></a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-              aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link active fw-bold fs-5 text-white text-menu-seccion" href="/"
-                    aria-current="page">Inicio</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion" href="#" id="dropdownId"
-                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Baloncesto</a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownId">
-                      <a class="dropdown-item" href="/seccion/uemc">CBC Valladolid</a>
-                      <a class="dropdown-item" href="/seccion/ponce">Ponce Valladolid</a>
-                      <a class="dropdown-item" href="/seccion/aliados">Fundación Aliados</a>
-                      <a class="dropdown-item" href="/sistema_ligas/baloncesto">Info</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion" href="#" id="dropdownId"
-                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Balonmano</a>
-                    <div class="dropdown-menu menu-desple" aria-labelledby="dropdownId">
-                      <a class="dropdown-item" href="/seccion/aula">Aula Valladolid</a>
-                      <a class="dropdown-item" href="/seccion/recoletas">Atl. Valladolid</a>
-                      <a class="dropdown-item" href="/sistema_ligas/balonmano">Info</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion" href="#" id="dropdownId"
-                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol</a>
-                    <div class="dropdown-menu menu-desple" aria-labelledby="dropdownId">
-                      <a class="dropdown-item" href="/seccion/valladolid">Real Valladolid</a>
-                      <a class="dropdown-item" href="/seccion/promesas">RV Promesas</a>
-                      <a class="dropdown-item" href="/seccion/rv_femenino">RV Femenino</a>
-                      <a class="dropdown-item" href="/sistema_ligas/futbol">Info</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion" href="#" id="dropdownId"
-                      data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol Sala</a>
-                    <div class="dropdown-menu menu-desple" aria-labelledby="dropdownId">
-                      <a class="dropdown-item" href="/seccion/galvan">C.D Tierno Galván</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active fw-bold fs-5 text-white text-menu-seccion" href="/seccion/hockey"
-                    aria-current="page">Hockey Línea</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active fw-bold fs-5 text-white text-menu-seccion" href="/seccion/rugby"
-                    aria-current="page">Rugby</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link active fw-bold fs-5 text-white text-menu-seccion" href="/seccion/voleibol"
-                    aria-current="page">Voleibol</a>
-                </li>
-              </ul>
             </div>
           </div>
-        </nav>
-        <div>
-          <img src="/static/img/logo_3_blanco.png" class="img-fluid" alt="eldeportedelaciudad">
         </div>
-      </section>
-    </header>
-    {% block contenido %}
-
-    {% endblock %}
-    <footer class="container-fluid mt-auto footer-seccion">
+        {% endfor %}
+      </div>
+    </section>
+    </section>
+    <footer class="container-fluid mt-auto footer-seccion mt-4">
       <div class="row">
-        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-3 col-md-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 text_uemc ms-2">deportesdelaciudad &copy; 2026</h5>
+            <h5 class="text-start text-white fw-bold fs-3 ms-2">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-lg-7 col-md-8 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white fs-4 text_uemc">Nosotros</h5>
+            <h5 class="text-white text-analisis fs-4">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4 text_uemc">Contáctanos</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4 text_uemc">Aviso legal</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4 text_uemc">Política de privacidad</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4 fs-4 text_uemc">Política de cookies</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Política de cookies</h5>
           </a>
+          <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>-->
         </div>
-        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+        <!--<div class="col-lg-2 d-flex justify-content-end align-items-center ">
+      <a><img src="/static/img/facebook.png" class="iconos me-4" alt="facebook"></a>
+      <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
+      <--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>->
+    </div>-->
+        <div class="col-lg-2 col-md-1 d-flex justify-content-center align-items-center ">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>
@@ -392,13 +288,32 @@
         </div>
       </div>
     </div>
-    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactanos -->
+    <div id="contactanos-modal" class="custom-modal contactanos-modal"><!-- Contactos -->
       <div class="custom-modal-content contactanos-content">
         <span class="custom-close" id="close-contactanos">&times;</span>
         <h2 class="text-center fs-1 pb-3"><strong>Contáctanos</strong></h2>
-        <p class="fs-4 text-center">Escribenos tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros. Para cualquier pregunta, sugerencia o información adicional contacta con nosotros directamente a nuestro gmail de la página <a href="mailto:eldeportedelaciudad@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.com&body=Hola, me pongo en contacto con vosotros para......" class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad@gmail.com</a></p>
+        <p>Escribe tus sugerencias, preguntas o alguna información adicional que se nos haya pasado a nosotros.</p>
+        <form action="/enviar_correo" method="POST">
+          <div class="mb-3">
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
+          </div>
+          <div class="mb-3">
+            <label for="ciudad">Ciudad:</label>
+            <input type="text" id="ciudad" name="ciudad" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="provincia">Provincia:</label>
+            <input type="text" id="provincia" name="provincia" class="form-control" required>
+          </div>
+          <div class="mb-3">
+            <label for="sugerencia">Sugerencia o Pregunta:</label>
+            <textarea id="sugerencia" name="sugerencia" class="form-control" rows="10" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
       </div>
-  </div>
+    </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -411,5 +326,28 @@
     </script>
   <script src="/static/js/proteccion-datos.js"></script>
   <!--<script src="/static/js/script.js"></script>-->
+  <script>
+    $(document).ready(function () {
+      $('.mostrar-enlace').click(function (e) {
+        e.preventDefault();
+        var enlace = $(this);
+        var ronda = enlace.data('ronda');
+        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');
+        // Ocultar todos los demás divs de texto adicional excepto el actual
+        $('.texto-adicional').not(textoAdicional).hide();
+        // Toggle para mostrar u ocultar el texto adicional de la ronda específica
+        textoAdicional.toggle();
+        // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
+        $('.mostrar-enlace').not(enlace).text('Ver Partidos');
+        // Cambiar el texto del enlace actual
+        if (textoAdicional.is(':visible')) {
+          enlace.text('Ocultar');
+        } else {
+          enlace.text('Ver Partidos');
+        }
+      });
+    });
+  </script>
 </body>
+
 </html>
