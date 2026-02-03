@@ -45,9 +45,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Segunda función para calcular el porcentaje al ascenso
 const filas = document.querySelectorAll("#tablaAscensoGalvan tbody tr");
-const partidosTotales = 14; // Cambiado a 42 partidos en la temporada
+const partidosTotales = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFija = 100; // Ajusta este valor según tus necesidades
+const proximidadFija = 94; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila, indice) => {
@@ -62,8 +62,8 @@ filas.forEach((fila, indice) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso = partidosTotales - partidosJugados;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * puntosPorGanar, puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 2, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -4, puntosParaAscenso);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 3, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -6, puntosParaAscenso);
     equipos.push({
         index: index,
         equipo,
@@ -171,7 +171,7 @@ equipo1s1.forEach((equipo1Data) => {
 const filas2 = document.querySelectorAll("#tablaDescGalvan tbody tr");
 const partidosTotales2 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 32; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 40; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
@@ -186,8 +186,8 @@ filas2.forEach((fila, indice) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesPermanencia = partidosTotales2 - partidosJugados2;
     const partidosGanadosMatematicos2 = Math.min(puntosActuales2 + partidosRestantesPermanencia * puntosPorGanar2, puntosPermanencia2);
-    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 13, puntosPermanencia2);
-    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -20, puntosPermanencia2);
+    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 2, puntosPermanencia2);
+    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -4, puntosPermanencia2);
     equipos2.push({
         index2: index2,
         equipo2,

@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-    <title>Copa de El Rey - Fundación Aliados</title>
+    <title>Copa del Rey - Fundación Aliados</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -39,7 +39,7 @@
     <div class="d-flex flex-column min-vh-100">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb ps-2 pt-2">
-                <li class="breadcrumb-item"><a href="/seccion/aliados" class="text-white text-decoration-none">BSR Valladolid</a></li>
+                <li class="breadcrumb-item"><a href="/seccion/aliados" class="text-white text-decoration-none text-analisis fs-6">BSR Valladolid</a></li>
                 <li class="breadcrumb-item active text-dark" aria-current="page">Copa del Rey 25/26</li>
             </ol>
         </nav>
@@ -67,15 +67,15 @@
                                         <table class="table border-secondary">
                                             {% for partido in partidos %}
                                             <tr class="text-center">
-                                                <td class="text-white">{{ partido.fecha }}</td>
-                                                <td class="text-white">{{ partido.hora }}</td>
+                                                <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
+                                                <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
                                                 <td
-                                                    class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                                                    class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
                                                     {{ partido.local }}</td>
-                                                <td class="text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                                                <td class="text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
+                                                <td class="text-white fw-bold fs-4">{{ partido.resultadoA }}</td>
+                                                <td class="text-white fw-bold fs-4">{{ partido.resultadoB }}</td>
                                                 <td
-                                                    class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                                                    class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
                                                     {{ partido.visitante }}</td>
                                             </tr>
                                             {% endfor %}
