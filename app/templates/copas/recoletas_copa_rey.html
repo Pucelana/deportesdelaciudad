@@ -44,14 +44,14 @@
     <section class="container-lg flex-fill copa">
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-        {% for ronda in datos_copa.keys() %}
+        {% for ronda in datos_copa_rey.keys() %}
         <a href="#" class="btn btn-outline-dark btn-ronda" data-target="ronda{{ loop.index0 }}">{{
           ronda|capitalize }}</a>
         {% endfor %}
       </div>
       <!-- Contenedor de rondas -->
       <div id="contenedor-rondas">
-        {% for ronda, partidos in datos_copa.items() %}
+        {% for ronda, partidos in datos_copa_rey.items() %}
         <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}" id="ronda{{ loop.index0 }}">
           <div class="d-flex justify-content-center">
             <div class="card tabla_copa mt-4" style="width: 70rem;">

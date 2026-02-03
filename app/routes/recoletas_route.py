@@ -3,7 +3,7 @@ from datetime import datetime
 from collections import defaultdict
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub, PlayoffRecoletas, CopaRecoletas,CopaEspañaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa
+from ..models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub, PlayoffRecoletas, CopaRecoletas,SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas
 
 recoletas_route_bp = Blueprint('recoletas_route_bp', __name__)
 
@@ -438,13 +438,17 @@ def copas_recoletas():
         datos_copa[eliminatoria] = partidos   
     return render_template('copas/recoletas_copa.html', datos_copa=datos_copa)
 
-# COPA DE ESPAÑA ATL.VALLADOLID
+# COPA DEL REY ATL.VALLADOLID
 # Crear formulario para la copa de españa
-@recoletas_route_bp.route('/crear_copa_españa_recoletas', methods=['GET', 'POST'])
-def crear_copa_españa_recoletas():
+@recoletas_route_bp.route('/crear_copa_rey_recoletas', methods=['GET', 'POST'])
+def crear_copa_rey_recoletas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
+            'ronda1': 12,
+            'ronda2': 6,
+            'octavos': 8,
+            'cuartos': 4,
             'semifinales': 2,
             'final': 1
         }.get(eliminatoria, 0)
@@ -453,7 +457,7 @@ def crear_copa_españa_recoletas():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         for i in range(num_partidos):
-            partido = CopaEspañaRecoletas(
+            partido = CopaReyRecoletas(
                 eliminatoria = eliminatoria,
                 fecha = request.form.get(f'fecha{i}', ''),
                 hora = request.form.get(f'hora{i}', ''),
@@ -464,20 +468,20 @@ def crear_copa_españa_recoletas():
             )
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for('recoletas_route_bp.ver_copa_españa_recoletas'))
-    return render_template('admin/copa/copa_recoletas.html')
+        return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
+    return render_template('admin/copa/copa_rey_recoletas.html')
 # Ver encuentros copa en Admin
-@recoletas_route_bp.route('/copa_recoletas/')
-def ver_copa_españa_recoletas():
-    eliminatorias = ['semifinales', 'final']
+@recoletas_route_bp.route('/copa_rey_recoletas/')
+def ver_copa_rey_recoletas():
+    eliminatorias = ['ronda1','ronda2','octavos','cuartos','semifinales', 'final']
     datos_eliminatorias = {}
     for eliminatoria in eliminatorias:
-        partidos = CopaEspañaRecoletas.query.filter_by(eliminatoria=eliminatoria).order_by(CopaEspañaRecoletas.orden).all()
+        partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).order_by(CopaReyRecoletas.orden).all()
         datos_eliminatorias[eliminatoria] = partidos
-    return render_template('admin/copa/copa_recoletas.html', datos_eliminatorias=datos_eliminatorias)
+    return render_template('admin/copa/copa_rey_recoletas.html', datos_eliminatorias=datos_eliminatorias)
 # Modificar los partidos de la copa
-@recoletas_route_bp.route('/modificar_copa_españa_recoletas/<string:eliminatoria>', methods=['GET', 'POST'])
-def modificar_copa_españa_recoletas(eliminatoria):
+@recoletas_route_bp.route('/modificar_copa_rey_recoletas/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_copa_rey_recoletas(eliminatoria):
     if request.method == 'POST':
         num_partidos = int(request.form.get('num_partidos', 0))
         for i in range(num_partidos):
@@ -497,27 +501,27 @@ def modificar_copa_españa_recoletas(eliminatoria):
         # Commit para guardar los cambios
         db.session.commit()
         flash('Copa actualizado correctamente', 'success')
-        return redirect(url_for('recoletas_route_bp.ver_copa_españa_recoletas'))
+        return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
-    return redirect(url_for('recoletas_route_bp.ver_copa_españa_recoletas'))
+    return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
 # Eliminar los partidos de la copa
-@recoletas_route_bp.route('/eliminar_copa_españa_recoletas/<string:eliminatoria>', methods=['POST'])
-def eliminar_copa_españa_recoletas(eliminatoria):
-    partidos = CopaEspañaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+@recoletas_route_bp.route('/eliminar_copa_rey_recoletas/<string:eliminatoria>', methods=['POST'])
+def eliminar_copa_rey_recoletas(eliminatoria):
+    partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
     flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
-    return redirect(url_for('recoletas_route_bp.ver_copa_españa_recoletas'))
+    return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
 # Mostrar la copa del Atl.Valladolid
-@recoletas_route_bp.route('/copas_españa_recoletas/')
-def copas_españa_recoletas():
-    eliminatorias = ['semifinales', 'final']
-    datos_copa_españa = {}
+@recoletas_route_bp.route('/copas_rey_recoletas/')
+def copas_rey_recoletas():
+    eliminatorias = ['ronda1','ronda2','octavos','cuartos','semifinales', 'final']
+    datos_copa_rey = {}
     for eliminatoria in eliminatorias:
-        partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_copa_españa[eliminatoria] = partidos   
-    return render_template('copas/recoletas_copa.html', datos_copa_españa=datos_copa_españa)
+        partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_copa_rey[eliminatoria] = partidos   
+    return render_template('copas/recoletas_copa_rey.html', datos_copa_rey=datos_copa_rey)
 
 # # SUPERCOPA IBÉRICA ATL.VALLADOLID
 # Crear formulario para la supercopa ibérica

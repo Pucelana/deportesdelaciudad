@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <title>Copa del Rey - Atl.Valladolid</title>
+    <title>Copa del Rey - Atl. Valladolid</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -12,7 +12,7 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
     <!--Favicon-->
-    <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+    <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
 <body class="body_admin">
     <nav aria-label="breadcrumb">
@@ -28,11 +28,15 @@
     <section class="container-lg">
         <!-- Formulario para los resultados de los partidos -->
         <div class="container-lg d-flex justify-content-center">
-            <form id="form_copa_valladolid" method="POST" action="/admin/crear_copa_recoletas" class="row mb-3">
+            <form id="form_copa_valladolid" method="POST" action="/admin/crear_copa_rey_recoletas" class="row mb-3">
                 <div class="form-group col-md-6">
                     <!-- Selección de etapa del torneo -->
                     <label for="eliminatoria">Etapa del Torneo:</label>
                     <select id="eliminatoria" name="eliminatoria" class="form-control">
+                        <option value="ronda1">1ª Ronda</option>
+                        <option value="ronda2">2ª Ronda</option>
+                        <option value="octavos">Octavos de Final</option>
+                        <option value="cuartos">Cuartos de Final</option>
                         <option value="semifinales">Semifinales</option>
                         <option value="final">Final</option>
                     </select>
@@ -73,7 +77,7 @@
                 <button type="button" id="btn-modal{{ loop.index }}"
                     class="btn btn-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal"
                     data-bs-target="#modal{{ loop.index }}">Modificar</button>
-                <form method="POST" action="{{ url_for('recoletas_route_bp.eliminar_copa_recoletas', eliminatoria=eliminatoria) }}">
+                <form method="POST" action="{{ url_for('recoletas_route_bp.eliminar_copa_rey_recoletas', eliminatoria=eliminatoria) }}">
                     <button type="submit" class="btn btn-danger">Borrar</button>
                 </form>
             </div>
@@ -94,7 +98,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ url_for('recoletas_route_bp.modificar_copa_recoletas', eliminatoria=eliminatoria) }}">
+                    <form method="POST" action="{{ url_for('recoletas_route_bp.modificar_copa_rey_recoletas', eliminatoria=eliminatoria) }}">
                         <input type="hidden" name="eliminatoria" value="{{ eliminatoria }}">
                         <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
                         {% for partido in partidos %}

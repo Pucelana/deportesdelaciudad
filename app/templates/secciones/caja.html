@@ -1,13 +1,50 @@
 {% extends 'secciones/base.html' %}
-{% block titulo %} Sección Hockey Línea {% endblock %}
+{% block titulo %} CPLV Caja Rural {% endblock %}
 {% block contenido %}
-<h1 class="h1_seccion">Sección de Hockey Línea</h1>
+<div class="team-header">
+  <h1 class="h1_seccion">CPLV Caja Rural</h1>
+  <img src="/static/img/cplv_sf.png" alt="CPLV Caja Rural" class="team-logo">
+</div>
 <section class="container-lg seccion_deportes">
   <div class="fondo_hockey">
-    <div class="shadow-lg p-3">
+    <!--<div class="shadow-lg p-3">
       <div class="row mb-4">
         <div class="col-12">
           <h3 class="text_uemc"></h3>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+        <div class="col-6 text-center">
+          <a href="" class="text-decoration-none"><h5 class="text-white"></h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a href="" class="text-decoration-none"><h5 class="text-white"></h5></a>
+        </div>
+        <-<div class="col-4 text-center">
+          <a href="#" class="text-decoration-none"><h5 class="text-white">PlayOff y PlayOut</h5></a>
+        </div>->
+      </div>
+    </div>-->
+    <div class="shadow-lg">
+      <div class="row mb-4">
+        <div class="col-12 mt-3">
+          <h3 class="text_uemc">LIGA ELITE MASCULINA</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/equipos_hockey/calendario_caja" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Calendario y Resultados</h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/equipos_hockey/clasif_analisis_caja" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Clasificación y Objetivos</h5></a>
+        </div>
+        <!--<div class="col-4 text-center">
+          <a href="#" class="text-decoration-none"><h5 class="text-white">PlayOff y PlayOut</h5></a>
+        </div>-->
+      </div>
+    </div>
+    <div class="shadow-lg">
+      <div class="row">
+        <div class="col-12 mt-3">
+          <a href="/admin/copas_caja" class="text-decoration-none"><h3 class="text_ponce">COPA DEL REY</h3></a>
           <h4 class="text-center text-white fw-bold"></h4>
         </div>
         <div class="col-6 text-center">
@@ -21,43 +58,9 @@
         </div>-->
       </div>
     </div>
-    <div class="shadow-lg">
-      <div class="row mb-4">
-        <div class="col-12">
-          <h3 class="text_uemc">CPLV Caja Rural</h3>
-          <h4 class="text-center text-white fw-bold">Liga Élite Masculina</h4>
-        </div>
-        <div class="col-6 text-center">
-          <a href="/admin/equipos_hockey/calendario_caja" class="text-decoration-none"><h5 class="text-white">Calendario</h5></a>
-        </div>
-        <div class="col-6 text-center">
-          <a href="/admin/equipos_hockey/clasif_analisis_caja" class="text-decoration-none"><h5 class="text-white">Clasificación y Objetivos</h5></a>
-        </div>
-        <!--<div class="col-4 text-center">
-          <a href="#" class="text-decoration-none"><h5 class="text-white">PlayOff y PlayOut</h5></a>
-        </div>-->
-      </div>
-    </div>
-    <div class="shadow-lg">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="text_ponce">CPLV Munia Panteras</h3>
-          <h4 class="text-center text-white fw-bold">Liga Élite Iberdrola</h4>
-        </div>
-        <div class="col-6 text-center">
-          <a href="/admin/equipos_hockey/calendario_panteras" class="text-decoration-none"><h5 class="text-white">Calendario</h5></a>
-        </div>
-        <div class="col-6 text-center">
-          <a href="/admin/equipos_hockey/clasif_analisis_panteras" class="text-decoration-none"><h5 class="text-white">Clasificación y Objetivos</h5></a>
-        </div>
-        <!--<div class="col-4 text-center">
-          <a href="#" class="text-decoration-none"><h5 class="text-white">PlayOff y PlayOut</h5></a>
-        </div>-->
-      </div>
-    </div>
     <div class="shadow-lg p-3">
       <div class="row mb-4">
-        <div class="col-12">
+        <div class="col-12 mt-3">
           <h3 class="text_uemc"></h3>
           <h4 class="text-center text-white fw-bold"></h4>
         </div>

@@ -47,10 +47,10 @@ class CopaRecoletas(db.Model):
     resultadoA = db.Column(db.String(10), nullable=True)
     resultadoB = db.Column(db.String(10), nullable=True)
     visitante = db.Column(db.String(100), nullable=True)
-    orden = db.Column(db.Integer)
+    orden = db.Column(db.Integer)   
     
-class CopaEspañaRecoletas(db.Model):
-    __tablename__ = 'copa_españa_recoletas'
+class CopaReyRecoletas(db.Model):
+    __tablename__ = 'copa_rey_recoletas'
     id = db.Column(db.Integer, primary_key=True)
     eliminatoria = db.Column(db.String(20), nullable=False)
     fecha = db.Column(db.String(20), nullable=True)
@@ -59,7 +59,7 @@ class CopaEspañaRecoletas(db.Model):
     resultadoA = db.Column(db.String(10), nullable=True)
     resultadoB = db.Column(db.String(10), nullable=True)
     visitante = db.Column(db.String(100), nullable=True)
-    orden = db.Column(db.Integer)     
+    orden = db.Column(db.Integer)       
     
 class SupercopaIbericaRecoletas(db.Model):
     __tablename__ = 'supercopa_iberica_recoletas'
