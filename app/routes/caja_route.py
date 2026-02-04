@@ -23,8 +23,10 @@ def ingresar_resultado_caja():
             fecha = request.form.get(f'fecha{i}')
             hora = request.form.get(f'hora{i}')
             local = request.form.get(f'local{i}')
+            bonusA= request.form.get(f'bonusA{i}')
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
+            bonusB= request.form.get(f'bonusB{i}')
             visitante = request.form.get(f'visitante{i}')            
             # Crear el objeto partido y agregarlo a la sesión
             partido = CajaPartido(
@@ -32,8 +34,10 @@ def ingresar_resultado_caja():
                 fecha=fecha,
                 hora=hora,
                 local=local,
+                bonusA=bonusA,
                 resultadoA=resultadoA,
                 resultadoB=resultadoB,
+                bonusB=bonusB,
                 visitante=visitante,
                 orden=i
             )
@@ -70,16 +74,21 @@ def modificar_jornada_caja(id):
                 fecha = request.form[f'fecha{i}']
                 hora = request.form[f'hora{i}']
                 local = request.form[f'local{i}']
+                bonusA = request.form[f'bonusA{i}']
                 resultadoA = request.form[f'resultadoA{i}']
                 resultadoB = request.form[f'resultadoB{i}']
+                bonusB = request.form[f'bonusB{i}']
                 visitante = request.form[f'visitante{i}']                
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(CajaPartido).filter(CajaPartido.id == partido_id).first()
                 if partido:
+                    partido.fecha = fecha
                     partido.hora = hora
                     partido.local = local
+                    partido.bonusA = bonusA
                     partido.resultadoA = resultadoA
                     partido.resultadoB = resultadoB
+                    partido.bonusB = bonusB
                     partido.visitante = visitante                 
                     orden = int(request.form.get(f'orden{i}', i))  # Usa 'i' como fallback
                     partido.orden = orden
@@ -216,12 +225,14 @@ def generar_clasificacion_analisis_hockey_caja(data):
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB 
             bonus_visitante = partido.bonusB
-            if resultado_local is None or resultado_visitante is None:
+            if resultado_local in(None, '', ' ' ) or resultado_visitante in (None, '', ' '):
                 print(f"Partido sin resultados válidos: {partido}")
                 continue            
             try:
                 resultado_local = int(resultado_local)
                 resultado_visitante = int(resultado_visitante)
+                bonus_local = int(bonus_local or 0)
+                bonus_visitante = int(bonus_visitante or 0)
             except ValueError:
                 print(f"Error al convertir resultados a enteros en el partido {partido}")
                 continue

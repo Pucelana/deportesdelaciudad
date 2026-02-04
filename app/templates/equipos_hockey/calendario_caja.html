@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Calendario - CPLV Caja Rural</title>
+  <title>Calendario y Resultados</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,31 +30,31 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
 
 <body class="bg-white calend_hockey">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/hockey" class="text-white text-decoration-none">Sección</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario CPLV Caja Rural</li>
+        <li class="breadcrumb-item"><a href="/seccion/caja" class="text-white text-decoration-none text-analisis fs-6">CPLV Caja Rural</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario y Resultados</li>
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-calendario" class="btn btn-outline-info" data-slide="0">Calendario</a>
-        <a href="#slide-resultados" class="btn btn-outline-info" data-slide="1">Resultados</a>
+        <a href="#slide-calendario" class="btn btn-outline-dark" data-slide="0">Calendario</a>
+        <a href="#slide-resultados" class="btn btn-outline-dark" data-slide="1">Resultados</a>
       </div>
       <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active" id="slide-calendario"><!--Tabla Calendario CPLV Caja Rural-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_caja" style="width: 80rem;">
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold my-3">Calendario Individual 24/25</h3>
+                    <h3 class="text-center text-white fw-bold my-3 text-analisis">Calendario Individual 24/25</h3>
                     <table class="table table-bordered tabla_equipos tabla_caja">
                       <thead>
                         <tr class="text-center text-dark">
@@ -111,8 +111,8 @@
           </div>
           <div class="carousel-item" id="slide-resultados"><!-- Resultados temporada 23/24 -->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_caja" style="width: 80rem;">
-                <h3 class="text-center text-white fw-bold my-3">Resultados 24/25</h3>
+              <div class="card tabla_equipos_aula" style="width: 80rem;">
+                <h3 class="text-center text-white fw-bold my-3 text-analisis">Resultados 24/25</h3>
                 <div class="card-body">
                   <div class="container-fluid">
                     <div class="row">
@@ -123,17 +123,19 @@
                             <table class="table table-bordered card_calendario tabla_jornadas">
                               <thead class="fondo_jornadas">
                                 <tr class="text-center">
-                                  <td colspan="5" class="text-center text-white fw-bold">{{ goles.nombre }}</td>
+                                  <td colspan="7" class="text-center text-white fw-bold">{{ goles.nombre }}</td>
                                 </tr>
                               </thead>
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-center text-white">{{ partido.fecha }} {{ partido.hora }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
+                                  <td class="text-center text-dark">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-center fw-bold text-white size_equipos">{{ partido.local }}</td>
+                                  <td class="text-center text-dark">{{ partido.bonusA }}</td>
+                                  <td class="text-center text-dark">{{ partido.resultadoA }}</td>
+                                  <td class="text-center text-dark">{{ partido.resultadoB }}</td>
+                                  <td class="text-center text-dark">{{ partido.bonusB }}</td>
+                                  <td class="text-center text-white fw-bold size_equipos">{{ partido.visitante }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>

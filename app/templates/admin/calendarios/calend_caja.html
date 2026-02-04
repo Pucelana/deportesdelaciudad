@@ -17,11 +17,11 @@
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 23/24 CPLV Caja Rural</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 25/26 CPLV Caja Rural</li>
     </ol>
   </nav>
   <header>
-    <h1 class="text-center">Resultados Liga Élite Masculina 23/24</h1>
+    <h1 class="text-center">Resultados Liga Élite Masculina 25/26</h1>
   </header>
     <section class="container-lg">
       <div class="d-flex justify-content-center mb-4">
@@ -99,8 +99,10 @@
                     <tr class="text-center">
                       <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
                       <td class="text-center fw-bold">{{ partido.local }}</td>
+                      <td class="text-center">{{ partido.bonusA }}</td>
                       <td class="text-center">{{ partido.resultadoA }}</td>
                       <td class="text-center">{{ partido.resultadoB }}</td>
+                      <td class="text-center">{{ partido.bonusB }}</td>
                       <td class="text-center fw-bold">{{ partido.visitante }}</td>
                     </tr>
                   {% endfor %}
