@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <title>Supercopa España - CPLV Caja Rural</title>
+  <title>Supercopa España</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,23 +29,23 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
+  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
 </head>
-<body class="fondos_playoffs">
+<body class="fondos_copa">
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa España CPLV Caja Rural</li>
+        <li class="breadcrumb-item"><a href="/seccion/caja" class="text-white text-decoration-none text-analisis fs-6">CPLV Caja Rural</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa de España</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Supercopa España 25/26</h1>
-    <span class="equipo_copa">CPLV Caja Rural</span>
+    <h1 class="text-playoff">CPLV Caja Rural</h1>
+    <span class="equipo_copa"></span>
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
          <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
         {% for ronda in datos_supercopa.keys() %}
-        <a href="#" class="btn btn-outline-info btn-ronda" data-target="ronda{{ loop.index0 }}">{{
+        <a href="#" class="btn btn-outline-dark btn-ronda" data-target="ronda{{ loop.index0 }}">{{
           ronda|capitalize }}</a>
         {% endfor %}
       </div>
@@ -56,14 +56,14 @@
           <div class="d-flex justify-content-center">
             <div class="card tabla_copa mt-4" style="width: 70rem;">
               <div class="card-body">
-                <h3 class="text-center text-white text-capitalize">{{ ronda }}</h3>
+                <h3 class="text-center text-white text-capitalize text-analisis">{{ ronda }}</h3>
                 <div class="row table-responsive">
                   <div class="col-12">
                     <table class="table border-secondary">
                       {% for partido in partidos %}
                       <tr class="text-center">
-                        <td class="text-white fs-5">{{ partido.fecha }}</td>
-                        <td class="text-white fs-5">{{ partido.hora }}</td>
+                        <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
+                        <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
                         <td
                           class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
                           {{ partido.local }}</td>
@@ -88,28 +88,28 @@
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 fs-4 ms-2">eldeportedelaciudad &copy; 2024</h5>
+            <h5 class="text-start text-white fw-bold pt-1 fs-3 ms-2 text-analisis">deportesdelaciudad &copy; 2026</h5>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white">Nosotros</h5>
+            <h5 class="text-white text-analisis fs-4">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Contáctanos</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Aviso legal</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de privacidad</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Política de privacidad</h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-4">Política de cookies</h5>
+            <h5 class="text-white ms-4 text-analisis fs-4">Política de cookies</h5>
           </a>
         </div>
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center ">
-          <img src="/static/img/logo_sinfondo4.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
         </div>
       </div>
     </footer>

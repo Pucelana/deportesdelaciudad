@@ -381,7 +381,7 @@ def crear_copa_caja():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
-            'cuartos': 3,
+            'cuartos': 4,
             'semifinales': 2,
             'final': 1
         }.get(eliminatoria, 0)

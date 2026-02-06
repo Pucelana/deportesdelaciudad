@@ -132,7 +132,7 @@ def obtener_datos_panteras():
 def calendario_panteras():
     datos = obtener_datos_panteras()
     nuevos_datos_panteras = [dato for dato in datos if dato]
-    equipo_panteras = 'CPLV Munia Panteras'
+    equipo_panteras = 'Panteras Caja Rural'
     tabla_partidos_panteras = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -225,12 +225,14 @@ def generar_clasificacion_analisis_hockey_panteras(data):
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB 
             bonus_visitante = partido.bonusB
-            if resultado_local is None or resultado_visitante is None:
+            if resultado_local in(None, '', ' ' ) or resultado_visitante in (None, '', ' '):
                 print(f"Partido sin resultados válidos: {partido}")
-                continue            
+                continue             
             try:
                 resultado_local = int(resultado_local)
                 resultado_visitante = int(resultado_visitante)
+                bonus_local = int(bonus_local or 0)
+                bonus_visitante = int(bonus_visitante or 0)
             except ValueError:
                 print(f"Error al convertir resultados a enteros en el partido {partido}")
                 continue
