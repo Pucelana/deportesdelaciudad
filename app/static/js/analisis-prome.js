@@ -204,8 +204,10 @@ tabla2.innerHTML = ""; // Limpiar la tabla2 antes de actualizar
 equipos2.forEach((equipo2Data) => {
     const nuevaFila2 = document.createElement("tr");
     let claseColor2 = '';
-    if (equipo2Data.index2 <= 13) {
+    if (equipo2Data.index2 <= 12) {
         claseColor2 = 'pos-nada';
+    } else if (equipo2Data.index2 <= 13) {
+        claseColor2 = 'pos-copa';     
     } else if (equipo2Data.index2 <= 18) {
         claseColor2 = 'pos-desc';
     }
