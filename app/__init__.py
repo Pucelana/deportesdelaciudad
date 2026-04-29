@@ -4,7 +4,7 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import load_dotenv
 import os
-from .extensions import db
+from .extensions import db, migrate
 from .routes.secciones import secciones_bp
 from .routes.resultados import resultados_bp
 from .routes.uemc_route import uemc_route_bp
@@ -27,9 +27,10 @@ def create_app():
     app.secret_key = 'sk_4F8v9u13sjd9sjd82018fh01hf01h'
     app.config.from_object('config.Config')
     db.init_app(app)
+    migrate.init_app(app, db)
+    
     from .models import uemc
-    # Inicializa Flask-Migrate
-    migrate = Migrate(app, db)
+
     app.register_blueprint(secciones_bp)
     app.register_blueprint(resultados_bp)
     app.register_blueprint(uemc_route_bp, url_prefix='/admin')
