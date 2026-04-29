@@ -19,6 +19,9 @@ from flask_login import LoginManager
 
 app = create_app()
 
+with app.app_context():
+    db.create_all()
+
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.config['CACHE_TYPE'] = 'null'  # Esto desactiva el caché
 app.debug = True
