@@ -1,34 +1,33 @@
 {% extends 'secciones/base.html' %}
-{% block titulo %} CBC Valladolid {% endblock %}
+{% block titulo %} El Salvador {% endblock %}
 {% block contenido %}
 <div class="team-header">
-  <h1 class="h1_seccion">CBC Valladolid</h1>
-  <img src="/static/img/cbc_sf.png" alt="CBC Valladolid" class="team-logo">
+  <h1 class="h1_seccion">El Salvador</h1>
+  <img src="/static/img/salvador_sf.png" alt="El Salvador" class="team-logo">
 </div>
-<section class="container-lg seccion_deportes">
-  <diV class="fondo_basket">
+<section class="container-lg seccion_deportes flex-fill">
+  <div class="fondo_rugby">
     <div class="shadow-lg p-3">
       <div class="row mb-4">
         <div class="col-12">
-          <h3 class="text_uemc">LIGA 2ª FEB</h3>
+          <h3 class="text_uemc">DIVISIÓN DE HONOR</h3>
           <h4 class="text-center text-white fw-bold"></h4>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/equipos_basket/calendario_uemc" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Calendario y Resultados</h5></a>
+          <a href="/admin/equipos_rugby/calendario_salvador" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Calendario y Resultados</h5></a>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/equipos_basket/clasif_analisis_uemc" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Clasificación y Objetivos</h5></a>
+          <a href="/admin/equipos_rugby/clasif_analisis_salvador" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Clasificación y Objetivos</h5></a>
         </div>
       </div>
     </div>
     <div class="shadow-lg">
       <div class="row mb-4">
         <div class="col-12">
-          <h3 class="text_uemc">COPA ESPAÑA</h3>
-          <h4 class="text-center text-white fw-bold"></h4>
+          <a href="/admin/salvador_copa" class="text-decoration-none"><h3 class="text_uemc pt-3">COPA ESPAÑA</h3></a>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/uemc_copa" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Calendario - Resultados - Eliminatorias</h5></a>
+          <a href="/admin/salvador_copa" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2"></h5></a>
         </div>
         <div class="col-6 text-center">
           <a><h5></h5></a>
@@ -38,17 +37,16 @@
     <div class="shadow-lg">
       <div class="row mb-4">
         <div class="col-12">
-          <h3 class="text_uemc">PLAYOFFS</h3>
-          <h4 class="text-center text-white fw-bold"></h4>
+          <a href="/admin/salvador_copa_iberica" class="text-decoration-none"><h3 class="text_uemc pt-3">COPA IBÉRICA</h3></a>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/playoffs_uemc" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Playoff Final</h5></a>
+          <a href="/admin/iberica_salvador" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2"></h5></a>
         </div>
         <div class="col-6 text-center">
-          <a href="/admin/playoffs_uemc" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2">Playoff Eliminatorias</h5></a>
+          <a href="/admin/iberica_salvador" class="text-decoration-none"><h5 class="text_uemc fs-3 text-center pb-2"></h5></a>
         </div>
       </div>
     </div>
-  </diV>
+  </div>
 </section>
 {% endblock %}
