@@ -2,6 +2,7 @@
   "name": "Deportes de la Ciudad",
   "short_name": "Deportes",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#050505",
   "theme_color": "#000000",
