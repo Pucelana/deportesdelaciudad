@@ -29,14 +29,17 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#000000">
 </head>
 
 <body class="bg-white calend_futbol">
   <div class="d-flex flex-column min-vh-100 sticky-top">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/valladolid" class="text-white text-decoration-none text-analisis fs-6">Sección</a></li>
+        <li class="breadcrumb-item"><a href="/seccion/valladolid" class="text-white text-decoration-none text-analisis fs-6">Real Valladolid</a></li>
         <li class="breadcrumb-item active text-dark" aria-current="page">Calendario Real Valladolid</li>
       </ol>
     </nav>
