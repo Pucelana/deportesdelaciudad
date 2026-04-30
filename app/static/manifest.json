@@ -3,7 +3,7 @@
   "short_name": "Deportes",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
+  "background":"radial-gradient(circle at 20% 20%, rgba(120,0,255,.25), transparent 40%), radial-gradient(circle at 80% 70%, rgba(255,0,100,.25), transparent 45%), linear-gradient(120deg, #050505, #0b0018, #050505)",
   "theme_color": "#000000",
   "icons": [
     {
