@@ -6,6 +6,8 @@ body{
     /*background: linear-gradient(top left, #ff7878, #3a71d8);*/
     /*background: -webkit-linear-gradient(180deg, #ffa3a3, #89a8e2);*/
     /*position: relative;*/
+    margin: 0;
+    background: #050505;
     padding-top: 0;
     background-image: linear-gradient(rgba(211, 211, 211, 0.6), rgba(0, 0, 0, 0.4)), url('/static/img/deporteciudad.png');
     background-repeat: no-repeat;
@@ -15,7 +17,8 @@ body{
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    color: white
+    color: white;
+    overflow-x: hidden;
 }
 @media (min-width: 992px) {
   body {
@@ -85,6 +88,9 @@ main {
   z-index: 2;
   text-align: center;
   animation: contentIn 1.3s ease forwards;
+  width: 90%;
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 @keyframes contentIn {
@@ -94,8 +100,10 @@ main {
 
 /* Logo */
 .splash-logo {
-  width: 350px;
+  width: 60%;
   margin-bottom: 20px;
+  max-width: 350px;
+  min-width: 180px;
   filter: drop-shadow(0 0 25px rgba(180,0,255,.6));
   animation: logoPulse 2.5s ease-in-out infinite alternate;
 }
@@ -107,7 +115,7 @@ main {
 
 /* Título */
 .splash-title {
-  font-size: 5em;
+  font-size: clamp(2rem, 6vw, 5rem);
   font-weight: 900;
   letter-spacing: 3px;
   margin: 0;
@@ -133,8 +141,8 @@ main {
 /* Subtítulo */
 .splash-sub {
   margin-top: 12px;
-  font-size: 1.4em;
-  letter-spacing: 4px;
+  font-size: clamp(0.9rem, 2.5vw, 1.4rem);
+  letter-spacing: clamp(1px, 1vw, 4px);
   background: linear-gradient(90deg, #7f00ff, #ff005d, #009dff);
   margin-top: 12px;
   font-size: 1.4em;
@@ -160,4 +168,17 @@ main {
   visibility: hidden;
   filter: blur(20px);
   transform: scale(1.1);
+}
+@media (max-width: 480px) {
+  .splash-logo {
+    width: 70%;
+  }
+
+  .splash-title {
+    line-height: 1.1;
+  }
+
+  .splash-sub {
+    letter-spacing: 2px;
+  }
 }

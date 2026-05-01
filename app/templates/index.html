@@ -419,7 +419,7 @@
      <!--Logos Escudos-->
      <section id="escudos-wrapper">
       <section class="container-fluid py-3 escudos-container">
-       <div class="container-lg d-flex justify-content-center flex-wrap gap-4">
+       <div class="container-lg d-flex justify-content-center flex-wrap gap-3 mb-3">
         <!-- Reemplazá los src con las rutas de tus escudos -->
          <a href="/seccion/rv_femenino" class="escudo-link">
           <img src="/static/img/pucela_sf.png" class="escudo" alt="RV Femenino" />
@@ -482,7 +482,7 @@
       </section>
      </section>
     </main>
-    <footer class="container-fluid mt-auto footer-seccion py-2">
+    <footer class="container-fluid mt-auto footer-seccion py-1">
 
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
@@ -881,31 +881,29 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
   </script>
-  <script>
+<script>
 document.addEventListener("DOMContentLoaded", () => {
   const splash = document.getElementById("splash");
 
-  // Solo mostrar primera vez
-  const hasVisited = localStorage.getItem("visited");
+  // Leer sessionStorage (NO localStorage)
+  const hasVisited = sessionStorage.getItem("visited");
 
   if (hasVisited) {
     splash.style.display = "none";
     return;
   }
 
-  // Marcar como visitado
-  localStorage.setItem("visited", "true");
+  // Marcar como visitado en esta sesión
+  sessionStorage.setItem("visited", "true");
 
-  // ocultar splash después de unos segundos
   setTimeout(() => {
     splash.classList.add("hidden");
 
-    // eliminar del DOM después de la animación
     setTimeout(() => {
       splash.style.display = "none";
-    }, 1000);
+    }, 1500);
 
-  }, 2500); // duración splash
+  }, 3000);
 });
 </script>
 </body>
