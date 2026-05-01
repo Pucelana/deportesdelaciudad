@@ -44,19 +44,10 @@
   <link href="{{ url_for('static', filename='css/estilo.css') }}" rel="stylesheet">
 </head>
 
-
 <body>
   <!-- Pantalla inicial -->
-  <div id="splash">
-  <div class="splash-bg"></div>
-  <div class="splash-content">
-    <img src="../static/img/logo-deportes2.png" alt="Logo" class="splash-logo">
-    <h1 class="splash-title">Deportes de la ciudad</h1>
-    <p class="splash-sub">Deporte local, corazón urbano</p>
-  </div>
-  </div>
-  <div id="contenido" class="d-flex flex-column min-vh-100">
-    <header class="container-fluid d-none d-lg-block  sticky-top">
+  <div id="contenido" class="d-flex flex-column">
+    <header class="container-fluid d-none d-lg-block bg-menu sticky-top">
       <section id="cabecera1" class="align-items-center">
         <div class="row bg-menu shadow">
           <div class="col-lg-8 col-md-8">
@@ -70,8 +61,6 @@
                 </button>
                 <div class="collapse navbar-collapse" id="collapsibleNavId">
                   <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                    {% if current_user.is_authenticated %}
-
                     <li class="nav-item">
                       <a class="nav-link active text-white fw-bold text-menu-nav" href="/"
                         aria-current="page">Inicio</a>
@@ -152,7 +141,6 @@
                         <a class="dropdown-item" href="/sistema_ligas/voleibol">Voleibol</a>
                       </div>
                     </li>-->
-                    {% endif %}
                   </ul>
                 </div>
               </div>
@@ -160,17 +148,19 @@
           </div>
           <div class="col-lg-4 col-md-4 d-flex justify-content-end align-items-center">
             <div class="d-flex">
+
               <a><img src="/static/img/facebook.png" class="iconos pe-2" alt="facebook"></a>
               <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
               <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>--->
+
             </div>
-            <div class="dropdown">
+            <!--<div class="dropdown">
+
               <button class="btn text-white dropdown-toggle d-flex align-items-center" type="button" id="userDropdown"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="/static/img/usuario_sf.png" alt="usuario" class="usuario">
               </button>
               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-                {% if current_user.is_authenticated %}
                 <li><span class="dropdown-item-text">Hola, {{ current_user.nombre }}</span></li>
                 <li>
                   <hr class="dropdown-divider">
@@ -187,15 +177,13 @@
                     Darse de baja
                   </a>
                 </form>
-
-                {% else %}
-                <li><a class="dropdown-item" action="{{ url_for('usuarios_route_bp.login') }}" data-bs-toggle="modal"
+                <--<li><a class="dropdown-item" action="{{ url_for('usuarios_route_bp.login') }}" data-bs-toggle="modal"
                     data-bs-target="#loginModal">Iniciar
                     sesión</a></li>
                 <li><a class="dropdown-item" href="#" data-bs-toggle="modal"
-                    data-bs-target="#registroModal">Registrarse</a></li>
-                {% endif %}
-              </ul>
+                    data-bs-target="#registroModal">Registrarse</a></li>->
+
+              </ul>-->
             </div>
           </div>
         </div>
@@ -211,7 +199,7 @@
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              {% if current_user.is_authenticated %}
+
               <ul class="navbar-nav">
                 <li class="nav-item">
                   <a class="nav-link active fs-5 text-white fw-bold text-menu-nav" href="/"
@@ -292,7 +280,7 @@
                     <a class="dropdown-item" href="/admin/sistema_ligas/voleibol">Voleibol</a>
                   </div>
                 </li>-->
-                {% endif %}
+
               </ul>
             </div>
           </div>
@@ -310,13 +298,13 @@
                 <a class="dropdown-item" href="#">Twitter</a>
               </div>
             </li>
-            <li class="nav-item dropdown">
+            <!--<li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle fs-5 text-white fw-bold text-menu-nav" href="#" id="userDropdownMobile"
                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i class="bi bi-person-circle me-1"></i> Cuenta
               </a>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdownMobile">
-                {% if current_user.is_authenticated %}
+
                 <span class="dropdown-item-text" action="{{ url_for('usuarios_route_bp.perfil') }}">Hola, {{
                   current_user.nombre }}</span>
                 <hr class="dropdown-divider">
@@ -326,12 +314,11 @@
                 </a>
                 <form id="logout-form" action="{{ url_for('usuarios_route_bp.logout') }}" method="GET"
                   style="display: none;"></form>
-                {% else %}
                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Iniciar sesión</a>
                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#registroModal">Registrarse</a>
-                {% endif %}
+
               </div>
-            </li>
+            </li>-->
           </ul>
         </div>
         <div>
@@ -342,9 +329,11 @@
         </div>
       </section>
     </header>
+    <!-- Fin header 2 -->
     <!--Carrusel-->
-    {% if current_user.is_authenticated %}
-    <section id="valladolid" class="container-fluid flex-fill">
+    <main class="flex-grow-1">
+
+     <section id="valladolid" class="container-fluid">
       <div id="carouselExampleControls" class="carousel mt-3" data-bs-ride="carousel">
         <div class="carousel-inner">
           {% if ver_publicacion %}
@@ -381,9 +370,9 @@
           <span class="visually-hidden">Next</span>
         </button>
       </div><!--Fin Carrusel-->
-    </section>
-    <!-- Resultados flotantes en directo -->
-    <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
+     </section>
+     <!-- Resultados flotantes en directo -->
+     <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
       <div class="card shadow-lg border-0 w-25" id="directo-container">
         <div class="card-header fs-5 bg-info text-white fw-bold text-center">
           🟢 Partidos en Directo
@@ -395,10 +384,10 @@
           <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
         </div>
       </div>
-    </section>
-    {% else %}
-    <!-- Mensaje si NO está autenticado -->
-    <section class="container text-center mt-5">
+     </section>
+  
+     <!-- Mensaje si NO está autenticado -->
+     <!--<section class="container text-center mt-5">
       <h3 class="text-danger fw-bold">🔒 Registrate para ver resultados, partidos en directo, clasificaciones, análisis
         y mucho más...</h3>
       <p>
@@ -406,9 +395,9 @@
         <a href="#" class="btn btn-secondary mt-2" data-bs-toggle="modal"
           data-bs-target="#registroModal">Registrarse</a>
       </p>
-    </section>
-    {% endif %}
-    <!--<section class="container-fluid logo_principal">
+    </section>-->
+
+     <!--<section class="container-fluid logo_principal">
       <div class="row container-lg">
         <div class="col-lg-10 col-md-10 col-sm-10 text-center">
           <h1 class="letras_logo">deportesdelaciudad</h1>
@@ -419,10 +408,10 @@
         </div>
       </div>
     </section>-->
-    <!--Logos Escudos-->
-    <section class="container-fluid py-3 mb-5">
-      {% if current_user.is_authenticated %}
-      <div class="container-lg d-flex justify-content-center flex-wrap gap-5">
+     <!--Logos Escudos-->
+     <section id="escudos-wrapper">
+      <section class="container-fluid py-3 escudos-container">
+       <div class="container-lg d-flex justify-content-center flex-wrap gap-4">
         <!-- Reemplazá los src con las rutas de tus escudos -->
          <a href="/seccion/rv_femenino" class="escudo-link">
           <img src="/static/img/pucela_sf.png" class="escudo" alt="RV Femenino" />
@@ -481,10 +470,12 @@
           <img src="/static/img/vrac_sf.png" class="escudo" alt="VRAC" />
           <span class="escudo-nombre">VRAC</span>
         </a>
-      </div>
-      {% endif %}
-    </section>
+       </div>
+      </section>
+     </section>
+    </main>
     <footer class="container-fluid mt-auto footer-seccion py-2">
+
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
@@ -518,6 +509,7 @@
           <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="eldeportedelaciudad">
         </div>
       </div>
+
     </footer>
     <!-- Modales -->
     <div id="aviso-legal-modal" class="custom-modal aviso-legal-modal text-dark"><!-- Aviso Legal -->
@@ -759,7 +751,7 @@
     </div>
   </div>
   <!-- Modal para confirmar la baja -->
-  <div class="modal fade" id="bajaModal" tabindex="-1" aria-labelledby="bajaModalLabel" aria-hidden="true" data-bs-backdrop="false">
+  <div class="modal fade" id="bajaModal" tabindex="-1" aria-labelledby="bajaModalLabel" aria-hidden="true"              data-bs-backdrop="false">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-danger">
         <div class="modal-header bg-danger text-white">
@@ -781,7 +773,6 @@
         </div>
       </div>
     </div>
-  </div>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <!-- Bootstrap JavaScript Libraries -->
@@ -880,31 +871,7 @@ document.addEventListener("DOMContentLoaded", function () {
   setInterval(cargarPartidosEnDirecto, 15000); // refrescar cada 15s
   iniciarCarrusel();
 });
-document.addEventListener("DOMContentLoaded", function () {
 
-  const splash = document.getElementById("splash");
-  const contenido = document.getElementById("contenido");
-
-  if (!splash || !contenido) return;
-
-  if (sessionStorage.getItem("splashShown")) {
-    splash.style.display = "none";
-    contenido.style.display = "block";
-  } else {
-    sessionStorage.setItem("splashShown", "true");
-
-    setTimeout(() => {
-      splash.classList.add("hidden");
-
-      setTimeout(() => {
-        splash.style.display = "none";
-        contenido.style.display = "block";
-      }, 2500);
-
-    }, 4000);
-  }
-
-});
   </script>
 </body>
 

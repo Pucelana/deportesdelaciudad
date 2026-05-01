@@ -2,9 +2,11 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 3rem;
     gap: 25px;
   }
+  #escudos-wrapper {
+  margin-top: auto;
+}
   .escudo-link {
   position: relative;
   text-decoration: none;
