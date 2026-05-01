@@ -431,42 +431,42 @@
           if (esLocal) {
             if (resultadoA > resultadoB) {
               part1.textContent = '2';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoA === resultadoB) {
               part1.textContent = '1';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoA < resultadoB) {
               part1.textContent = '0';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoAA > resultadoBB) {
               part1.textContent = '2';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoAA === resultadoBB) {
               part1.textContent = '1';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoAA < resultadoBB) {
               part1.textContent = '0';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             }
           } else {
             if (resultadoB > resultadoA) {
               part1.textContent = '2';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoB === resultadoA) {
               part1.textContent = '1';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoB < resultadoA) {
               part1.textContent = '0';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoBB > resultadoAA) {
               part1.textContent = '2';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoBB === resultadoAA) {
               part1.textContent = '1';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             } else if (resultadoBB < resultadoAA) {
               part1.textContent = '0';
-              part1.style.color = 'deepskyblue';
+              part1.style.color = 'blue';
             }
           }
           // Verificar si se tienen los resultados del segundo enfrentamiento
@@ -534,11 +534,11 @@
             average.textContent = averageTotal;
             // Determinar el color de la celda 'average' según la diferencia de goles
             if (averageTotal > 0) {
-              average.style.color = 'lime'; // Equipo A ganó
+              average.style.color = 'green'; // Equipo A ganó
             } else if (averageTotal < 0) {
-              average.style.color = 'darkred'; // Equipo A perdió
+              average.style.color = 'red'; // Equipo A perdió
             } else {
-              average.style.color = 'deepskyblue'; // Empate
+              average.style.color = 'black'; // Empate
             }
           } else {
             // Si averageTotal es NaN, dejar la celda vacía

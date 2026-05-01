@@ -70,12 +70,11 @@
                       <tr class="text-center">
                         <td class="text-copa  fs-4">{{ partido.fecha }}</td>
                         <td class="text-copa text-white fs-4">{{ partido.hora }}</td>
-                        <td class="text-copa fw-bold fs-3 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                        <td class="text-copa  fs-3 {% if partido.resultadoA > partido.resultadoB %} text-dark {% endif %}">
                           {{ partido.local }}</td>
                         <td class="text-copa text-white fw-bold fs-4">{{ partido.resultadoA }}</td>
                         <td class="text-copa text-white fw-bold fs-4">{{ partido.resultadoB }}</td>
-                        <td class="text-copa fw-bold fs-3 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
-                          {{ partido.visitante }}</td>
+                        <td class="text-copa fs-3 {% if partido.resultadoB > partido.resultadoA %}fw-bold text-dark{% endif %}"> {{ partido.visitante }}</td>
                       </tr>
                       {% endfor %}
                     </table>

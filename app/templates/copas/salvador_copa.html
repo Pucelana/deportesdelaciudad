@@ -92,7 +92,7 @@
                       <tr>
                         <td class="text-center text-white">{{ partido['fecha'] }} {{ partido['hora'] }}</td>
                         <td
-                          class="text-center text-copa_uemc fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          class="text-center text-copa_uemc fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
                           {{ partido['local'] }}
                         </td>
                         <td class="text-center text-white fw-bold fs-5">
@@ -106,7 +106,7 @@
                           {% endif %}
                         </td>
                         <td
-                          class="text-center text-copa_uemc fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          class="text-center text-copa_uemc fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
                           {{ partido['visitante'] }}
                         </td>
                       </tr>

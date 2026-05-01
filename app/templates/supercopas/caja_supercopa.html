@@ -65,12 +65,12 @@
                         <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
                         <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
                         <td
-                          class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}">
+                          class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
                           {{ partido.local }}</td>
                         <td class="text-white fw-bold fs-4">{{ partido.resultadoA }}</td>
                         <td class="text-white fw-bold fs-4">{{ partido.resultadoB }}</td>
                         <td
-                          class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}">
+                          class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
                           {{ partido.visitante }}</td>
                       </tr>
                       {% endfor %}
