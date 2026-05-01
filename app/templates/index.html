@@ -45,6 +45,14 @@
 </head>
 
 <body>
+  <div id="splash">
+   <div class="splash-bg"></div>
+    <div class="splash-content">
+     <img src="/static/img/logo-deportes2.png" class="splash-logo" alt="logo">
+     <h1 class="splash-title">deportesdelaciudad</h1>
+     <p class="splash-sub">Deporte local · Corazón urbano</p>
+    </div>
+  </div>
   <!-- Pantalla inicial -->
   <div id="contenido" class="d-flex flex-column">
     <header class="container-fluid d-none d-lg-block bg-menu sticky-top">
@@ -873,6 +881,33 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
   </script>
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const splash = document.getElementById("splash");
+
+  // Solo mostrar primera vez
+  const hasVisited = localStorage.getItem("visited");
+
+  if (hasVisited) {
+    splash.style.display = "none";
+    return;
+  }
+
+  // Marcar como visitado
+  localStorage.setItem("visited", "true");
+
+  // ocultar splash después de unos segundos
+  setTimeout(() => {
+    splash.classList.add("hidden");
+
+    // eliminar del DOM después de la animación
+    setTimeout(() => {
+      splash.style.display = "none";
+    }, 1000);
+
+  }, 2500); // duración splash
+});
+</script>
 </body>
 
 </html>

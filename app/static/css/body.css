@@ -136,16 +136,17 @@ main {
   font-size: 1.4em;
   letter-spacing: 4px;
   background: linear-gradient(90deg, #7f00ff, #ff005d, #009dff);
+  margin-top: 12px;
+  font-size: 1.4em;
+  letter-spacing: 4px;
+
+  background: linear-gradient(90deg, #7f00ff, #ff005d, #009dff);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 
-  animation: gradientMove 4s ease infinite;
-  text-shadow:
-    0 0 12px rgba(140,0,255,.6),
-    0 0 25px rgba(255,0,100,.4);
-  animation: subFade 2s ease infinite alternate;
+  animation: gradientMove 4s ease infinite, subFade 2s ease infinite alternate;
 }
 
 @keyframes subFade {
