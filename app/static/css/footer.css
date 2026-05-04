@@ -13,13 +13,14 @@
     backdrop-filter: blur(8px);
     box-shadow: 0px -12px 12px rgba(21, 21, 22, 0.18);
     margin-top: auto;  
+    padding: 15px 10px;
 }
 .logo-footer{
   max-width: 80px;
 }
 @media (max-width: 576px){
   .footer-seccion{
-    height: 150px;
+    padding: 20px 10px;
   }
   .footer-seccion .logo-footer{
     max-width: 70px;
@@ -33,7 +34,7 @@
 
 @media (max-width: 768px){
   .footer-seccion{
-    height: 135px;
+    padding: 20px 10px;
     font-size: 0.80em;
   }
   .footer-seccion .logo-footer{
@@ -42,7 +43,7 @@
 }
 @media (max-width: 368px){
   .footer-seccion{
-    height: 155px;
+    padding: 20px 10px;
     font-size: 0.80em;
   }
   .footer-seccion .logo-footer{
