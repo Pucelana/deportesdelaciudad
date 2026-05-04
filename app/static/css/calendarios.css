@@ -71,6 +71,8 @@
 }*/
 /*Seccion del Fútbol*/
 .calend_futbol{
+    min-height: 100vh;
+    min-height: 100dvh;
     position: relative;
     background: linear-gradient(135deg,
     #C3AEEB 0%,
@@ -78,7 +80,7 @@
     #F3DDEB 65%,
     #F8EEF4 100%);
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
     box-shadow: 10px 5px 5px gray;
 }
