@@ -83,7 +83,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 5 %}pos-playoff2{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 13 %}pos-confe{% elif loop.index <= 18 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold size_equipos text-white">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos text-white {% if 'Promesas' in equipo['equipo'] %}equipo-promesas{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
@@ -131,7 +131,7 @@
                           {% for equipo in clasificacion_analisis_promesas %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos2 text-white {% if 'Promesas' in equipo['equipo'] %}equipo-promesas-asc{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="jugados1 fw-bold">{{ equipo['datos']['jugados'] }}</td>
                             <td class="pts-act1 fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="proxi1 fw-bold"></td>
@@ -217,7 +217,7 @@
                           {% for equipo in clasificacion_analisis_promesas %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos2 text-white {% if 'Promesas' in equipo['equipo'] %}equipo-promesas{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
                             <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="desc-prox fw-bold"></td>

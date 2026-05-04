@@ -85,7 +85,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 3 %}pos-ehfec{% elif loop.index <= 8 %}pos-nada{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold size_equipos text-white">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos text-white {% if 'Simancas' in equipo['equipo'] %}equipo-simancas{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
