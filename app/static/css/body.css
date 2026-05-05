@@ -5,14 +5,13 @@ body{
     /*position: relative;*/
     margin: 0;
     background: #050505;
-    padding: 0;
-    min-height: 100vh;
-    min-height: 100dvh; /* 👈 clave para móviles modernos */
+    padding-top: 0;
     background-image: linear-gradient(rgba(211, 211, 211, 0.6), rgba(0, 0, 0, 0.4)), url('/static/img/deporteciudad.png');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     position: relative;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     color: white;
