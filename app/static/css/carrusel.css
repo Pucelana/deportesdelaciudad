@@ -117,5 +117,31 @@
     display: none !important;
   }
 
+#carouselExampleControls {
+  position: relative;
+}
+
+#carouselExampleControls::before,
+#carouselExampleControls::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 40px;
+  height: 100%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+#carouselExampleControls::before {
+  left: 0;
+  background: linear-gradient(to right, #fff, transparent);
+}
+
+#carouselExampleControls::after {
+  right: 0;
+  background: linear-gradient(to left, #fff, transparent);
+}  
+
+
 
  

@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // duplicar contenido
   carouselInner.innerHTML += carouselInner.innerHTML;
 
-  let speed = 0.4;
+  let speed = 0.25 + Math.random() * 0.1;
   let paused = false;
 
   function loop() {
