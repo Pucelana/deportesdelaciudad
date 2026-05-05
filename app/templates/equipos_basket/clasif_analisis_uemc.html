@@ -81,7 +81,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold size_equipos2 text-white">{{ equipo.equipo }}</td>
+                            <td class="fw-bold size_equipos2 text-white {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-cbc{% endif %}">{{ equipo.equipo }}</td>
                             <td class="jugados fw-bold fs-5">{{ equipo.datos.jugados }}</td>
                             <td class="ganados fw-bold fs-5">{{ equipo.datos.ganados }}</td>
                             <td class="perdidos fw-bold fs-5">{{ equipo.datos.perdidos }}</td>
