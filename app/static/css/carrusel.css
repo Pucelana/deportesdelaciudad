@@ -142,11 +142,11 @@
   background: linear-gradient(to left, #fff, transparent);
 }  
 
-.carousel-item {
+.fake-carousel .carousel-item {
   display: none;
 }
 
-.carousel-item.active {
+.fake-carousel .carousel-item.active {
   display: block;
 }
 
