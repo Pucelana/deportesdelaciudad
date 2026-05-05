@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!carouselInner) return;
 
-  if (!window.matchMedia("(max-width: 1024px)").matches) return;
+  if (!window.matchMedia("(max-width: 992px)").matches) return;
 
   // duplicar contenido
   carouselInner.innerHTML += carouselInner.innerHTML;
