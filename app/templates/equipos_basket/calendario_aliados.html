@@ -67,18 +67,8 @@
       <section class="container-lg mb-5 flex-fill copa">
         <!-- Navegador personalizado -->
         <div class="d-flex justify-content-center my-3 gap-3">
-          <a
-            href="#slide-calendario"
-            class="btn btn-outline-dark"
-            data-slide="0"
-            >Calendario</a
-          >
-          <a
-            href="#slide-resultados"
-            class="btn btn-outline-dark"
-            data-slide="1"
-            >Resultados</a
-          >
+          <button class="btn btn-outline-dark tab-btn active" data-target="slide-clasificacion">Clasificación</button>
+          <button class="btn btn-outline-dark tab-btn" data-target="slide-resultados">Resultados</button>
         </div>
         <div
           id="carouselExampleControls"
@@ -301,6 +291,7 @@
     <script src="/static/js/slide.js"></script>
     <script src="/static/js/leer_mas.js"></script>
     <script src="/static/js/num_caracteres.js"></script>
+    <script src="/static/js/carrusel_equipos.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
