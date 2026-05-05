@@ -2,7 +2,8 @@
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 25px;
+    gap: 18px;
+    padding: 10px;
   }
   #escudos-wrapper {
   margin-top: auto;
@@ -16,10 +17,9 @@
     width: 48px; /* Ajustá el tamaño según necesites */
     height: 48px;
     object-fit: contain;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Sombra sutil inicial */
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 6px;
   }
   
   .escudo:hover {
@@ -48,4 +48,36 @@
 .escudo-link:hover .escudo-nombre {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 576px) {
+  .escudos-container {
+    gap: 12px;
+  }
+
+  .escudo {
+    width: 38px;
+    height: 38px;
+  }
+
+  /* en móvil no hay hover, lo desactivamos */
+  .escudo:hover {
+    transform: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+  }
+
+  .escudo-nombre {
+    display: none;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 992px) {
+  .escudo {
+    width: 42px;
+    height: 42px;
+  }
+
+  .escudos-container {
+    gap: 14px;
+  }
 }
