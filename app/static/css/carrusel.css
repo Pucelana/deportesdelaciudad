@@ -142,6 +142,15 @@
   background: linear-gradient(to left, #fff, transparent);
 }  
 
+.carousel-item {
+  display: none;
+}
+
+.carousel-item.active {
+  display: block;
+}
+
+
 
 
  
