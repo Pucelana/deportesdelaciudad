@@ -52,7 +52,7 @@
 
 @media (max-width: 576px) {
   .escudos-container {
-    gap: 12px;
+    gap: 10px;
   }
 
   .escudo {
@@ -73,11 +73,11 @@
 
 @media (min-width: 577px) and (max-width: 992px) {
   .escudo {
-    width: 42px;
-    height: 42px;
+    width: 40px;
+    height: 40px;
   }
 
   .escudos-container {
-    gap: 14px;
+    gap: 12px;
   }
 }
