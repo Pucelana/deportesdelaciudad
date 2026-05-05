@@ -1,36 +1,34 @@
-const multipleItemCarousel = document.querySelector('#carouselExampleControls');
+document.addEventListener("DOMContentLoaded", () => {
 
-if (multipleItemCarousel && window.matchMedia("(min-width:320px)").matches) {
-    const carousel = new bootstrap.Carousel(multipleItemCarousel, {
-        interval: false
-    });
+  const carouselInner = document.querySelector('#carouselExampleControls .carousel-inner');
 
-    const carouselInner = $('.carousel-inner')[0];
-    const carouselItem = $('.carousel-item').width();
+  if (!carouselInner) return;
 
-    if (carouselInner && carouselItem) {
-        let carouselWidth = carouselInner.scrollWidth;
-        let cardWidth = carouselItem;
-        let scrollPosition = 0;
+  if (!window.matchMedia("(max-width: 768px)").matches) return;
 
-        $('.carousel-control-next').on('click', function () {
-            if (scrollPosition < (carouselWidth - (cardWidth * 2))) {
-                scrollPosition = scrollPosition + cardWidth;
-                $('.carousel-inner').animate({ scrollLeft: scrollPosition }, 600);
-            }
-        });
+  // duplicar contenido
+  carouselInner.innerHTML += carouselInner.innerHTML;
 
-        $('.carousel-control-prev').on('click', function () {
-            if (scrollPosition > 0) {
-                scrollPosition = scrollPosition - cardWidth;
-                $('.carousel-inner').animate({ scrollLeft: scrollPosition }, 600);
-            }
-        });
+  let speed = 0.4;
+  let paused = false;
+
+  function loop() {
+    if (!paused) {
+      carouselInner.scrollLeft += speed;
+
+      if (carouselInner.scrollLeft >= carouselInner.scrollWidth / 2) {
+        carouselInner.scrollLeft = 0;
+      }
     }
-} else {
-    //console.warn('No se encontró el carrusel o pantalla demasiado pequeña');
-    if (multipleItemCarousel) {
-        $(multipleItemCarousel).addClass('slide');
-    }
-}
 
+    requestAnimationFrame(loop);
+  }
+
+  loop();
+
+  carouselInner.addEventListener('touchstart', () => paused = true);
+  carouselInner.addEventListener('touchend', () => {
+    paused = false;
+  });
+
+});

@@ -84,3 +84,49 @@
 .fade.show {
   opacity: 1;
 }
+
+.directo-card {
+  padding: 12px;
+  border-radius: 12px;
+  backdrop-filter: blur(12px);
+}
+
+/* Liga */
+.directo-card .liga {
+  font-size: 0.85rem;
+  color: #aaa;
+  font-weight: 600;
+}
+
+/* Equipos */
+.directo-card .equipos {
+  gap: 10px;
+}
+
+/* Nombre equipos */
+.directo-card .nombre {
+  font-weight: 700;
+  color: white;
+  font-size: 0.90rem;
+}
+
+/* Resultado */
+.directo-card .resultado {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #00ff9d;
+  min-width: 70px;
+}
+
+/* Minuto */
+.directo-card .minuto {
+  font-size: 0.90rem;
+  font-weight: bold;
+  color: #ff4d4d;
+  animation: blink 1s infinite alternate;
+}
+
+@keyframes blink {
+  from { opacity: 0.6; }
+  to { opacity: 1; }
+}

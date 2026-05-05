@@ -60,6 +60,15 @@
 
 .carousel-inner{
     padding: 0.1rem;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-behavior: auto;
+    width: 100%;
+}
+
+.carousel-inner::-webkit-scrollbar {
+  display: none;
 }
 
 .card{
@@ -107,5 +116,6 @@
   .carousel-control-next {
     display: none !important;
   }
+
 
  

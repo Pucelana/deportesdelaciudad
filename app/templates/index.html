@@ -340,9 +340,8 @@
     <!-- Fin header 2 -->
     <!--Carrusel-->
     <main class="flex-grow-1">
-
      <section id="valladolid" class="container-fluid">
-      <div id="carouselExampleControls" class="carousel mt-3" data-bs-ride="carousel">
+      <div id="carouselExampleControls" class="mt-3">
         <div class="carousel-inner">
           {% if ver_publicacion %}
           {% for date in ver_publicacion %}
@@ -356,9 +355,9 @@
               <div class="card-body">
                 <h6 class="text-center text-secondary"></h6>
                 <h6 class="text-center fw-bold text-primary">{{ date.liga }}</h6>
-                <h5 class="text-white fw-bold">{{ date.equipoA }}<strong class="fw-bold text-white ps-2"> {{
+                <h5 class="text-white fw-bold">{{ date.equipoA }}<strong class="fw-bold text-success ps-2"> {{
                     date.resultado1 }}</strong></h5>
-                <h5 class="text-white fw-bold">{{ date.equipoB }}<strong class="fw-bold text-white ps-2"> {{
+                <h5 class="text-white fw-bold">{{ date.equipoB }}<strong class="fw-bold text-success ps-2"> {{
                     date.resultado2 }}</strong></h5>
                 <h6 class="text-center text-primary fw-bold">{{ date.fecha_partido }}</h6>
               </div>
@@ -367,7 +366,7 @@
           {% endfor %}
           {% endif %}
         </div>
-        <button class="carousel-control-prev mt-3 bg-secondary" type="button" data-bs-target="#carouselExampleControls"
+        <!--<button class="carousel-control-prev mt-3 bg-secondary" type="button" data-bs-target="#carouselExampleControls"
           data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>
@@ -376,7 +375,7 @@
           data-bs-slide="next">
           <span class="carousel-control-next-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Next</span>
-        </button>
+        </button>-->
       </div><!--Fin Carrusel-->
      </section>
      <!-- Resultados flotantes en directo -->
@@ -796,16 +795,29 @@
   <script>
     let indexActual = 0;
     let partidosGuardados = [];
-
     function mostrarPartido(partido, contenedor) {
       const card = document.createElement('div');
       card.className = 'body-directo mb-2 p-3 rounded fade';
       card.innerHTML = `
-    <h5 class="mb-3 fs-4 text-primary fw-bold text-center">${partido.liga}</h5>
-    <p class="mb-1 fs-3 text-white text-center"><strong>${partido.equipoA}</strong> ${partido.resultado1}</p>
-    <p class="mb-3 fs-3 text-white text-center"><strong>${partido.equipoB}</strong> ${partido.resultado2}</p>
-    <p class="mb-0 fs-4 text-danger text-center fw-bold"><small>Minuto ${partido.minuto}</small></p>
-  `;
+    <div class="directo-card">
+    <div class="liga text-center mb-2">
+      ${partido.liga}
+    </div>
+    <div class="equipos d-flex justify-content-between align-items-center">
+      <div class="equipo equipo-a text-start">
+        <span class="nombre">${partido.equipoA}</span>
+      </div>
+      <div class="resultado text-center">
+        ${partido.resultado1} - ${partido.resultado2}
+      </div>
+      <div class="equipo equipo-b text-end">
+        <span class="nombre">${partido.equipoB}</span>
+      </div>
+    </div>
+    <div class="minuto text-center mt-2">
+      ⏱ ${partido.minuto}'
+    </div>
+  </div>`;
 
       contenedor.innerHTML = '';
       contenedor.appendChild(card);
