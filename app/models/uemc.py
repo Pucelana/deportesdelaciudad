@@ -54,8 +54,8 @@ class PlayoffUEMC(db.Model):
     fecha = db.Column(db.String(20), nullable=True)
     hora = db.Column(db.String(10), nullable=True)
     local = db.Column(db.String(100), nullable=True)
-    resultadoA = db.Column(db.String(10), nullable=True)
-    resultadoB = db.Column(db.String(10), nullable=True)
+    resultadoA = db.Column(db.Integer, nullable=True)
+    resultadoB = db.Column(db.Integer, nullable=True)
     visitante = db.Column(db.String(100), nullable=True)
     orden = db.Column(db.Integer)         
     

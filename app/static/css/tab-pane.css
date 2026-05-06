@@ -1,0 +1,23 @@
+.tab-container {
+  position: relative;
+}
+
+.tab-pane {
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.4s ease;
+  display: none;
+}
+
+.tab-pane.active {
+  display: block;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* BOTONES ACTIVOS */
+.tab-btn.active {
+  background: linear-gradient(90deg, #7f00ff, #ff005d);
+  color: white;
+  border: none;
+}

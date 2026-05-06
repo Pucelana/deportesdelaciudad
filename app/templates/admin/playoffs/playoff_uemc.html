@@ -100,32 +100,32 @@
             {% for partido in partidos %}
             <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
             <div class="form-group">
-              <label for="fecha{{ loop.index0 }}">Fecha</label>
+              <label for="fecha{{ loop.index0 }}" class="text-dark">Fecha</label>
               <input type="text" class="form-control" id="fecha{{ loop.index0 }}" name="fecha{{ loop.index0 }}"
                 value="{{ partido.fecha }}">
             </div>
             <div class="form-group">
-              <label for="hora{{ loop.index0 }}">Hora</label>
-              <input type="text" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
+              <label for="hora{{ loop.index0 }}" class="text-dark">Hora</label>
+              <input type="text" class="form-control text-dark" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
                 value="{{ partido.hora }}">
             </div>
             <div class="form-group">
-              <label for="local{{ loop.index0 }}">Local</label>
+              <label for="local{{ loop.index0 }}" class="text-dark">Local</label>
               <input type="text" class="form-control" id="local{{ loop.index0 }}" name="local{{ loop.index0 }}"
                 value="{{ partido.local }}">
             </div>
             <div class="form-group">
-              <label for="resultadoA{{ loop.index0 }}">Resultado A</label>
+              <label for="resultadoA{{ loop.index0 }}" class="text-dark">Resultado A</label>
               <input type="text" class="form-control" id="resultadoA{{ loop.index0 }}"
                 name="resultadoA{{ loop.index0 }}" value="{{ partido.resultadoA }}">
             </div>
             <div class="form-group">
-              <label for="resultadoB{{ loop.index0 }}">Resultado B</label>
-              <input type="text" class="form-control" id="resultadoB{{ loop.index0 }}"
+              <label for="resultadoB{{ loop.index0 }}" class="text-dark">Resultado B</label>
+              <input type="text" class="form-control text-dark" id="resultadoB{{ loop.index0 }}"
                 name="resultadoB{{ loop.index0 }}" value="{{ partido.resultadoB }}">
             </div>
             <div class="form-group">
-              <label for="visitante{{ loop.index0 }}">Visitante</label>
+              <label for="visitante{{ loop.index0 }}" class="text-dark">Visitante</label>
               <input type="text" class="form-control" id="visitante{{ loop.index0 }}" name="visitante{{ loop.index0 }}"
                 value="{{ partido.visitante }}">
             </div>
