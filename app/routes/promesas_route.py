@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.promesas import JornadaPromesas, PromesasPartido, PromesasClub, PlayoffPromesas
@@ -210,47 +211,233 @@ def eliminar_club_promesas(club_id):
     return redirect(url_for('promesas_route_bp.jornada0_promesas'))
 # Crear la clasificación Real Valladolid Promesas
 def generar_clasificacion_analisis_futbol_promesas(data):
-    clasificacion = defaultdict(lambda: {'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'favor': 0, 'contra': 0, 'diferencia_goles': 0, 'puntos': 0})
+    clasificacion = defaultdict(lambda: {
+        'jugados': 0,
+        'ganados': 0,
+        'empatados': 0,
+        'perdidos': 0,
+        'favor': 0,
+        'contra': 0,
+        'diferencia_goles': 0,
+        'puntos': 0
+    })
+    # Guardar enfrentamientos directos
+    enfrentamientos = defaultdict(list)
+    # RECORRER PARTIDOS
     for jornada in data:
+
         for partido in jornada['partidos']:
-            equipo_local = partido.local 
-            equipo_visitante = partido.visitante   
+
+            equipo_local = partido.local
+            equipo_visitante = partido.visitante
+
             resultado_local = partido.resultadoA
-            resultado_visitante = partido.resultadoB 
-            if resultado_local is None or resultado_visitante is None:
-                print(f"Partido sin resultados válidos: {partido}")
-                continue            
+            resultado_visitante = partido.resultadoB
+
+            # Saltar partidos sin resultado
+            if (
+                resultado_local is None
+                or resultado_visitante is None
+                or resultado_local == ''
+                or resultado_visitante == ''
+            ):
+                continue
+
             try:
                 resultado_local = int(resultado_local)
                 resultado_visitante = int(resultado_visitante)
+
             except ValueError:
-                print(f"Error al convertir resultados a enteros en el partido {partido}")
                 continue
+
+            # PUNTOS
+
             if resultado_local > resultado_visitante:
+
                 clasificacion[equipo_local]['puntos'] += 3
                 clasificacion[equipo_local]['ganados'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 0
+
                 clasificacion[equipo_visitante]['perdidos'] += 1
+
             elif resultado_local < resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 0
-                clasificacion[equipo_local]['perdidos'] += 1
+
                 clasificacion[equipo_visitante]['puntos'] += 3
                 clasificacion[equipo_visitante]['ganados'] += 1
+
+                clasificacion[equipo_local]['perdidos'] += 1
+
             else:
+
                 clasificacion[equipo_local]['puntos'] += 1
-                clasificacion[equipo_local]['empatados'] += 1
                 clasificacion[equipo_visitante]['puntos'] += 1
-                clasificacion[equipo_visitante]['empatados'] += 1          
+
+                clasificacion[equipo_local]['empatados'] += 1
+                clasificacion[equipo_visitante]['empatados'] += 1
+
+            # PARTIDOS JUGADOS
+
             clasificacion[equipo_local]['jugados'] += 1
             clasificacion[equipo_visitante]['jugados'] += 1
+
+            # GOLES
+
             clasificacion[equipo_local]['favor'] += resultado_local
             clasificacion[equipo_local]['contra'] += resultado_visitante
+
             clasificacion[equipo_visitante]['favor'] += resultado_visitante
             clasificacion[equipo_visitante]['contra'] += resultado_local
-            clasificacion[equipo_local]['diferencia_goles'] += resultado_local - resultado_visitante
-            clasificacion[equipo_visitante]['diferencia_goles'] += resultado_visitante - resultado_local  
-    clasificacion_ordenada = sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_goles']), reverse=True)
-    return [{'equipo': equipo, 'datos': datos} for equipo, datos in clasificacion_ordenada]
+
+            # DIFERENCIA GOLES
+
+            clasificacion[equipo_local]['diferencia_goles'] += (
+                resultado_local - resultado_visitante
+            )
+
+            clasificacion[equipo_visitante]['diferencia_goles'] += (
+                resultado_visitante - resultado_local
+            )
+
+            # ENFRENTAMIENTOS DIRECTOS
+
+            clave = frozenset([equipo_local, equipo_visitante])
+
+            enfrentamientos[clave].append({
+                'local': equipo_local,
+                'visitante': equipo_visitante,
+                'goles_local': resultado_local,
+                'goles_visitante': resultado_visitante
+            })
+
+    # AVERAGE PARTICULAR
+ 
+    def average_particular(equipo_a, equipo_b):
+
+        partidos = enfrentamientos.get(
+            frozenset([equipo_a, equipo_b]),
+            []
+        )
+
+        # Necesitan jugar ida y vuelta
+        if len(partidos) < 2:
+            return None
+
+        puntos_a = 0
+        puntos_b = 0
+
+        goles_a = 0
+        goles_b = 0
+
+        for partido in partidos:
+
+            local = partido['local']
+            visitante = partido['visitante']
+
+            gl = partido['goles_local']
+            gv = partido['goles_visitante']
+
+            # Goles particulares
+            if local == equipo_a:
+
+                goles_a += gl
+                goles_b += gv
+
+            else:
+
+                goles_a += gv
+                goles_b += gl
+
+            # Puntos particulares
+            if gl > gv:
+
+                ganador = local
+
+            elif gv > gl:
+
+                ganador = visitante
+
+            else:
+
+                ganador = None
+
+            if ganador == equipo_a:
+
+                puntos_a += 3
+
+            elif ganador == equipo_b:
+
+                puntos_b += 3
+
+            else:
+
+                puntos_a += 1
+                puntos_b += 1
+
+        return {
+            'puntos_a': puntos_a,
+            'puntos_b': puntos_b,
+            'diff_a': goles_a - goles_b,
+            'diff_b': goles_b - goles_a
+        }
+
+    # FUNCIÓN DE ORDENACIÓN OFICIAL
+
+    def comparar_equipos(equipo_a, equipo_b):
+
+        nombre_a, datos_a = equipo_a
+        nombre_b, datos_b = equipo_b
+
+        # 1. PUNTOS GENERALES
+        if datos_a['puntos'] != datos_b['puntos']:
+
+            return datos_b['puntos'] - datos_a['puntos']
+
+        # 2. AVERAGE PARTICULAR
+        average = average_particular(nombre_a, nombre_b)
+
+        if average:
+
+            # Puntos particular
+            if average['puntos_a'] != average['puntos_b']:
+
+                return average['puntos_b'] - average['puntos_a']
+
+            # Diferencia goles particular
+            if average['diff_a'] != average['diff_b']:
+
+                return average['diff_b'] - average['diff_a']
+
+        # 3. DIFERENCIA GOLES GENERAL
+        if datos_a['diferencia_goles'] != datos_b['diferencia_goles']:
+
+            return (
+                datos_b['diferencia_goles']
+                - datos_a['diferencia_goles']
+            )
+
+        # 4. GOLES A FAVOR
+        return datos_b['favor'] - datos_a['favor']
+
+    # ============================================
+    # ORDENACIÓN FINAL
+    # ============================================
+
+    equipos = list(clasificacion.items())
+
+    equipos.sort(
+        key=cmp_to_key(comparar_equipos)
+    )
+
+    # ============================================
+    # DEVOLVER
+    # ============================================
+
+    return [
+        {
+            'equipo': equipo,
+            'datos': datos
+        }
+        for equipo, datos in equipos
+    ]
 # Ruta para mostrar la clasificación y análisis del Promesas
 @promesas_route_bp.route('/equipos_futbol/clasif_analisis_promesas')
 def clasif_analisis_promesas():
@@ -261,8 +448,13 @@ def clasif_analisis_promesas():
     clubs_promesas = PromesasClub.query.all()
     # Inicializa las estadísticas de los equipos que aún no están en la clasificación
     for club in clubs_promesas:
-        if not any(equipo['equipo'] == club.nombre for equipo in clasificacion_analisis_promesas):
-            equipo = {
+
+        if not any(
+            equipo['equipo'] == club.nombre
+            for equipo in clasificacion_analisis_promesas
+        ):
+
+            clasificacion_analisis_promesas.append({
                 'equipo': club.nombre,
                 'datos': {
                     'puntos': 0,
@@ -274,8 +466,12 @@ def clasif_analisis_promesas():
                     'contra': 0,
                     'diferencia_goles': 0
                 }
-            }
-            clasificacion_analisis_promesas.append(equipo)
+            })
+
+    clasificacion_analisis_promesas.sort(
+        key=lambda x: x['datos']['puntos'],
+        reverse=True
+    )
     return render_template('equipos_futbol/clasif_analisis_promesas.html',
         clasificacion_analisis_promesas=clasificacion_analisis_promesas)
 
