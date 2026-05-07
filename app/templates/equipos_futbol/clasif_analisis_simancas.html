@@ -50,20 +50,18 @@
     <section class="container-lg mb-5 flex-fill copa">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <button class="btn btn-outline-dark tab-btn active" data-target="slide-clasificacion">Clasificación</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-ascenso">Ascenso</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-playoff">PlayOff</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-descenso">Descenso</button>
+        <button class="btn btn-outline-dark tab-btn active" data-tab="clasificacion">Clasificación</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="ascenso">Ascenso</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="playoff">PlayOff</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="descenso">Descenso</button>
       </div>
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
-        <div class="carousel-inner fake-carousel">
-          <div class="carousel-item active" id="slide-clasificacion"><!--Tabla Clasificación-->
+      <div class="tab-container">
+          <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Liga Doble G (Grp-B)</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga Doble G (Grp-B)</h3>
                       <table id="tablaClasifSimancas" class="table">
                         <thead>
                           <tr class="text-center">
@@ -98,7 +96,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6"> PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
@@ -107,13 +104,12 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-ascenso"><!--Tabla Ascenso-->
+          <div class="tab-pane" id="ascenso"><!--Tabla Ascenso-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Liga Gonalpi</h3>
-                    <div class="col-12">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga Gonalpi</h3>
                       <table id="tablaAscensoSimancas" class="table">
                         <thead>
                           <tr class="text-center">
@@ -142,7 +138,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
@@ -150,13 +145,12 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-playoff"><!--Tabla PlayOff-->
+          <div class="tab-pane" id="playoff"><!--Tabla PlayOff-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">PlayOff Ascenso</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">PlayOff Ascenso</h3>
                       <table id="tablaPlaySimancas" class="table">
                         <thead>
                           <tr class="text-center">
@@ -185,7 +179,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
@@ -193,13 +186,12 @@
               </div>
             </div>
           </div>
-          <!--<div class="carousel-item" id="slide-descenso"><-Tabla Permanencia->
+          <div class="tab-pane" id="descenso"><!--Tabla Permanencia-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">2ª Regional Fem. </h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga Doble G</h3>
                       <table id="tablaDescSimancas" class="table">
                         <thead>
                           <tr class="text-center">
@@ -228,14 +220,13 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
-                <p class="ms-4">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
                   PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
-          </div>-->
+          </div>
           <!--<div class="carousel-item"><--Tabla Permanencia y Descenso Liga Gonalpi->
           <div class="d-flex justify-content-center">
             <div class="card tabla_equ_futb" style="width: 80rem;">
@@ -336,16 +327,6 @@
           </div>
         </div>-->
         </div>
-        <!--<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>-->
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -376,6 +357,7 @@
   <script src="/static/js/analisis-simancas.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
   <script src="/static/js/carrusel_equipos.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
 </body>
 
 </html>

@@ -37,27 +37,25 @@
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/rugby" class="text-white text-decoration-none">Sección</a></li>
+        <li class="breadcrumb-item"><a href="/seccion/vrac" class="text-white text-decoration-none text-analisis fs-6">VRAC</a></li>
         <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
       </ol>
     </nav>
-    <h2 class="text-white text-center">VRAC 24/25</h2>
+    <h2 class="text-white text-center text-analisis">VRAC 25/26</h2>
     <section class="container-lg mb-5 flex-fill copa">
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <button class="btn btn-outline-dark tab-btn active" data-target="slide-clasificacion">Clasificación</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-a">Grupo A</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-b">Grupo B</button>
+        <button class="btn btn-outline-dark tab-btn active" data-tab="clasificacion">Clasificación</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="grupo-a">Grupo A</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="grupo-b">Grupo B</button>
       </div>
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
-        <div class="carousel-inner fake-carousel">
-          <div class="carousel-item" id="slide-clasificacion"><!--Tabla Clasificación-->
+      <div class="tab-container">
+        <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Clasificación - División de Honor Rugby</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">División de Honor Rugby</h3>
                       <table id="tablaClasificacion" class="table">
                         <thead>
                           <tr class="text-center">
@@ -94,7 +92,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
@@ -104,13 +101,12 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-a"><!--Tabla Grupo A - Ganadores-->
+          <div class="tab-pane" id="grupo-a"><!--Tabla Grupo A - Ganadores-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center text-analisis">Grupo A - Ganadores</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Grupo A - Ganadores</h3>
                       <table id="tablaAscensoAliados" class="table">
                         <thead>
                           <tr class="text-center">
@@ -145,7 +141,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
@@ -154,13 +149,12 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-b"><!--Tabla Grupo B - Perdedores-->
+          <div class="tab-pane" id="grupo-b"><!--Tabla Grupo B - Perdedores-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Grupo B - Perdedores</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Grupo B - Perdedores</h3>
                       <table id="tablaPlayAula" class="table">
                         <thead>
                           <tr class="text-center">
@@ -197,7 +191,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
@@ -209,16 +202,6 @@
             </div>
           </div>
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -247,6 +230,7 @@
   <script src="/static/js/script.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
   <script src="/static/js/carrusel_equipos.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
 </body>
 
 </html>

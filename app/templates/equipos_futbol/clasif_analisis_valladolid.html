@@ -46,20 +46,18 @@
     <section class="container-lg mb-5 flex-fill copa">
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <button class="btn btn-outline-dark tab-btn active" data-target="slide-clasificacion">Clasificación</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-ascenso">Ascenso</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-playoff">PlayOff</button>
-        <button class="btn btn-outline-dark tab-btn" data-target="slide-descenso">Descenso</button>
+        <button class="btn btn-outline-dark tab-btn active" data-tab="clasificacion">Clasificación</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="ascenso">Ascenso</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="playoff">PlayOff</button>
+        <button class="btn btn-outline-dark tab-btn" data-tab="descenso">Descenso</button>
       </div>
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
-        <div class="carousel-inner fake-carousel">
-          <div class="carousel-item active" id="slide-clasificacion"><!--Tabla Clasificación 2ª Div.-->
+      <div class="tab-container">
+        <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación 2ª Div.-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Liga Hypermotion</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga Hypermotion</h3>
                       <table id="tablaClasifVallad2" class="table">
                         <thead>
                           <tr class="text-center">
@@ -94,7 +92,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6"> PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
@@ -104,13 +101,12 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-ascenso"><!--Tabla Campeón de Liga-->
+          <div class="tab-pane" id="ascenso"><!--Tabla Campeón de Liga-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Campeón y Ascenso a la Liga EA Sports</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Campeón y Ascenso a la Liga EA Sports</h3>
                       <table id="tablaCampeonVallad" class="table">
                         <thead>
                           <tr class="text-center">
@@ -139,7 +135,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
@@ -147,13 +142,12 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-playoff"><!--Tabla PlayOff Ascenso-->
+          <div class="tab-pane" id="playoff"><!--Tabla PlayOff Ascenso-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">PlayOff Ascenso Liga EA Sports</h3>
-                    <div class="col-12">
+                    <h3 class="text-center text-white fw-bold text-analisis">PlayOff Ascenso Liga EA Sports</h3>
                       <table id="tablaChampionsVallad" class="table">
                         <thead>
                           <tr class="text-center">
@@ -182,7 +176,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
@@ -276,13 +269,12 @@
               </div>
             </div>
           </div>-->
-          <div class="carousel-item" id="slide-descenso"><!--Tabla Descenso Liga BBVA-->
+          <div class="tab-pane" id="descenso"><!--Tabla Descenso Liga BBVA-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula" style="width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">Descenso Primera División RFEF</h3>
-                    <div class="col-12">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Primera División RFEF</h3>
                       <table id="tablaDescVallad2" class="table">
                         <thead>
                           <tr class="text-center">
@@ -311,7 +303,6 @@
                           {% endfor %}
                         </tbody>
                       </table>
-                    </div>
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
@@ -319,17 +310,6 @@
               </div>
             </div>
           </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-          data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
       </div>
     </section>
     <footer class="container-fluid mt-auto footer-seccion">
@@ -344,7 +324,6 @@
         </div>
       </div>
     </footer>
-  </div>
   <!--Fin Carrusel-->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"
     integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -360,5 +339,6 @@
   <script src="/static/js/analisis-valladolid.js"></script>
   <script src="/static/js/num_caracteres.js"></script>
   <script src="/static/js/carrusel_equipos.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
 </body>
 </html>

@@ -67,27 +67,18 @@
       <section class="container-lg mb-5 flex-fill copa">
         <!-- Navegador personalizado -->
         <div class="d-flex justify-content-center my-3 gap-3">
-          <button class="btn btn-outline-dark tab-btn active" data-target="slide-clasificacion">Clasificación</button>
-          <button class="btn btn-outline-dark tab-btn" data-target="slide-resultados">Resultados</button>
+          <button class="btn btn-outline-light tab-btn active" data-tab="calendario">Clasificación</button>
+          <button class="btn btn-outline-dark tab-btn" data-tab="resultados">Resultados</button>
         </div>
-        <div
-          id="carouselExampleControls"
-          class="carousel slide"
-          data-bs-ride="false"
-        >
-          <div class="carousel-inner fake-carousel">
-            <div class="carousel-item active" id="slide-calendario">
+        <div class="tab-container">
+          <div class="tab-pane active" id="calendario">
+            <div class="d-flex justify-content-center">
               <!--Tabla Calendario-->
-              <div class="d-flex justify-content-center">
-                <div class="card tabla_equipos_aula" style="width: 80rem">
+                <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
                   <div class="card-body">
                     <div class="table-responsive">
-                      <h3 class="text-center text-white fw-bold text-analisis">
-                        Calendario Individual 25/26
-                      </h3>
-                      <table
-                        class="table table-bordered tabla_equipos tabla_aliados"
-                      >
+                      <h3 class="text-center text-white fw-bold text-analisis">Calendario Individual 25/26</h3>
+                      <table class="table table-bordered tabla_equipos tabla_aliados">
                         <!--Tabla Calendario F.Aliados-->
                         <thead>
                           <tr class="text-center text-dark">
@@ -160,13 +151,11 @@
                 </div>
               </div>
             </div>
-            <div class="carousel-item" id="slide-resultados">
+            <div class="tab-pane" id="resultados">
               <!-- Resultados temporada 23/24 -->
               <div class="d-flex justify-content-center">
-                <div class="card tabla_equipos" style="width: 80rem">
-                  <h3 class="text-center text-white fw-bold text-analisis my-3">
-                    Resultados 25/26
-                  </h3>
+                <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+                  <h3 class="text-center text-white fw-bold text-analisis pt-2"> Resultados 25/26 </h3>
                   <div class="card-body">
                     <div class="container-fluid">
                       <div class="row">
@@ -232,24 +221,6 @@
               </div>
             </div>
           </div>
-          <button
-            class="carousel-control-prev"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="prev"
-          >
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button
-            class="carousel-control-next"
-            type="button"
-            data-bs-target="#carouselExampleControls"
-            data-bs-slide="next"
-          >
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
         </div>
       </section>
       <footer class="container-fluid mt-auto footer-seccion">
@@ -292,6 +263,7 @@
     <script src="/static/js/leer_mas.js"></script>
     <script src="/static/js/num_caracteres.js"></script>
     <script src="/static/js/carrusel_equipos.js"></script>
+    <script src="/static/js/tab-pane.js"></script>
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
