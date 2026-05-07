@@ -11,7 +11,7 @@ function calcularEstadisticas() {
         const partidosJugados = ganados + empatados + perdidos; // Ajuste para incluir empates
         row.querySelector('.jugados').textContent = partidosJugados;
         const diferenciaPuntos = ptosFav - ptosCont;
-        row.querySelector('.dife').textContent = diferenciaPuntos;
+        row.querySelector('.diferencia_goles').textContent = diferenciaPuntos;
 
         // Ajuste en la fórmula para calcular puntos
         const puntos = ganados * 3 + empatados; // Cambio en la puntuación de victoria y empate
@@ -22,8 +22,8 @@ function calcularEstadisticas() {
     filasDatos.sort((a, b) => {
         const puntosA = parseInt(a.querySelector('.puntos').textContent);
         const puntosB = parseInt(b.querySelector('.puntos').textContent);
-        const difPuntosA = parseInt(a.querySelector('.dife').textContent);
-        const difPuntosB = parseInt(b.querySelector('.dife').textContent);
+        const difPuntosA = parseInt(a.querySelector('.diferencia_goles').textContent);
+        const difPuntosB = parseInt(b.querySelector('.diferencia_goles').textContent);
         if (puntosB !== puntosA) {
             return puntosB - puntosA; // Ordenar por puntos de mayor a menor
         } else {
