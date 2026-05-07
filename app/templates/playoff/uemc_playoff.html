@@ -54,7 +54,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ms-1">
           <li class="breadcrumb-item">
-            <a href="/seccion/uemc" class="text-white text-decoration-none">CBC Valladolid</a>
+            <a href="/seccion/uemc" class="text-white text-decoration-none"
+              >CBC Valladolid</a
+            >
           </li>
           <li class="breadcrumb-item active text-dark" aria-current="page">
             PlayOff
@@ -85,7 +87,9 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text-center text-white text-analisis fw-bold text-capitalize">
+                  <h3
+                    class="text-center text-white text-analisis fw-bold text-capitalize"
+                  >
                     {{ ronda }}
                   </h3>
                   <div class="row table-responsive">
@@ -96,17 +100,22 @@
                           <td class="text-white fs-5">{{ partido.fecha }}</td>
                           <td class="text-white fs-5">{{ partido.hora }}</td>
                           <td
-                            class="text-copa fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"> {{ partido.local }}
+                            class="text-copa fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                          >
+                            {{ partido.local }}
                           </td>
                           <td class="text-white fw-bold fs-4" colspan="2">
-                          {% if partido.resultadoA is not none and partido.resultadoB is not none %}
-                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                          {% else %}
+                            {% if partido.resultadoA is not none and
+                            partido.resultadoB is not none %} {{
+                            partido.resultadoA }} - {{ partido.resultadoB }} {%
+                            else %}
                             <span class="text-muted">-</span>
-                          {% endif %}
+                            {% endif %}
                           </td>
                           <td
-                            class="text-copa fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"> {{ partido.visitante }}
+                            class="text-copa fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                          >
+                            {{ partido.visitante }}
                           </td>
                         </tr>
                         {% endfor %}
@@ -121,20 +130,20 @@
         </div>
       </section>
       <footer class="container-fluid mt-auto footer-seccion">
-        <div class="row">
-          <div
-            class="col-6 col-lg-6 d-flex justify-content-center align-items-center mb-1 mb-lg-0"
-          >
+        <div class="row align-items-center text-center">
+          <div class="col-12 col-md-6 mb-2 mb-md-0">
             <a>
-              <h5 class="text-start text-white fw-bold fs-3 text-analisis ms-2">
-                deportesdelaciudad &copy; 2026
+              <h5 class="text-white fw-bold text-analisis mb-0 fs-4">
+                deportesdeslaciudad &copy; 2026
               </h5>
             </a>
           </div>
-          <div
-            class="col-6 col-lg-6 d-flex justify-content-center align-items-center"
-          >
-            <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="deportesdelaciudad">
+          <div class="col-12 col-md-6">
+            <img
+              src="/static/img/logo-deportes2.png"
+              class="img-fluid logo-footer"
+              alt="deportesdelaciudad"
+            />
           </div>
         </div>
       </footer>
@@ -160,32 +169,32 @@
     <script src="/static/js/proteccion-datos.js"></script>
     <script src="/static/js/num_caracteres.js"></script>
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const botones = document.querySelectorAll(".btn-ronda");
-    const rondas = document.querySelectorAll(".ronda-item");
+      document.addEventListener("DOMContentLoaded", function () {
+        const botones = document.querySelectorAll(".btn-ronda");
+        const rondas = document.querySelectorAll(".ronda-item");
 
-    botones.forEach(boton => {
-      boton.addEventListener("click", function (e) {
-        e.preventDefault();
+        botones.forEach((boton) => {
+          boton.addEventListener("click", function (e) {
+            e.preventDefault();
 
-        // Oculta todas las rondas
-        rondas.forEach(r => r.classList.add("d-none"));
-        rondas.forEach(r => r.classList.remove("d-block"));
+            // Oculta todas las rondas
+            rondas.forEach((r) => r.classList.add("d-none"));
+            rondas.forEach((r) => r.classList.remove("d-block"));
 
-        // Activa solo la seleccionada
-        const targetId = this.dataset.target;
-        const targetDiv = document.getElementById(targetId);
-        if (targetDiv) {
-          targetDiv.classList.remove("d-none");
-          targetDiv.classList.add("d-block");
-        }
+            // Activa solo la seleccionada
+            const targetId = this.dataset.target;
+            const targetDiv = document.getElementById(targetId);
+            if (targetDiv) {
+              targetDiv.classList.remove("d-none");
+              targetDiv.classList.add("d-block");
+            }
 
-        // Opcional: marcar el botón activo
-        botones.forEach(b => b.classList.remove("active"));
-        this.classList.add("active");
+            // Opcional: marcar el botón activo
+            botones.forEach((b) => b.classList.remove("active"));
+            this.classList.add("active");
+          });
+        });
       });
-    });
-  });
-  </script>
+    </script>
   </body>
 </html>

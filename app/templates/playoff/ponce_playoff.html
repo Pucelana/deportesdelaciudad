@@ -103,7 +103,9 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text_uemc text-center text-white">Clasificación General</h3>
+                  <h3 class="text_uemc text-center text-white">
+                    Clasificación General
+                  </h3>
                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
@@ -120,7 +122,11 @@
                     <tbody>
                       {% for equipo, stats in clasificacion %}
                       <tr>
-                        <td class="text_uemc fs-4 {% if loop.index <= 14 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}">{{ loop.index }}</td>
+                        <td
+                          class="text_uemc fs-4 {% if loop.index <= 14 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}"
+                        >
+                          {{ loop.index }}
+                        </td>
                         <td class="fw-bold text_uemc fs-4">{{ equipo }}</td>
                         <td class="text_uemc fs-4">{{ stats.jugados }}</td>
                         <td class="text_uemc fs-4">{{ stats.ganados }}</td>
@@ -159,15 +165,21 @@
                       <tr>
                         <td class="text_uemc fs-5">{{ partido.fecha }}</td>
                         <td class="text_uemc fs-5">{{ partido.hora }}</td>
-                        <td class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">{{ partido.local }}</td>
-                        <td class="text_uemc fs-4">
-                          {% if partido.resultadoA and partido.resultadoB %}
-                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                          {% else %}
-                            -
-                          {% endif %}
+                        <td
+                          class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                        >
+                          {{ partido.local }}
                         </td>
-                        <td class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">{{ partido.visitante }}</td>
+                        <td class="text_uemc fs-4">
+                          {% if partido.resultadoA and partido.resultadoB %} {{
+                          partido.resultadoA }} - {{ partido.resultadoB }} {%
+                          else %} - {% endif %}
+                        </td>
+                        <td
+                          class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                        >
+                          {{ partido.visitante }}
+                        </td>
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -184,16 +196,26 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text_uemc text-center text-white fs-4 mb-3"> {{ ronda|capitalize }} </h3>
+                  <h3 class="text_uemc text-center text-white fs-4 mb-3">
+                    {{ ronda|capitalize }}
+                  </h3>
                   <div class="row table-responsive">
                     <div class="col-12">
-                      <table class="table border-secondary text-white text-center">
-                      {% for partido in partidos %}
+                      <table
+                        class="table border-secondary text-white text-center"
+                      >
+                        {% for partido in partidos %}
                         <tr class="text-center">
-                          <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
-                          <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
+                          <td class="text_uemc text-white fs-5">
+                            {{ partido.fecha }}
+                          </td>
+                          <td class="text_uemc text-white fs-5">
+                            {{ partido.hora }}
+                          </td>
                           <td
-                            class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"> {{ partido.local }}
+                            class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                          >
+                            {{ partido.local }}
                           </td>
                           <td class="text_uemc fw-bold fs-4">
                             {{ partido.resultadoA }}
@@ -202,10 +224,12 @@
                             {{ partido.resultadoB }}
                           </td>
                           <td
-                            class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"> {{ partido.visitante }}
+                            class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                          >
+                            {{ partido.visitante }}
                           </td>
                         </tr>
-                      {% endfor %}
+                        {% endfor %}
                       </table>
                     </div>
                   </div>
@@ -217,20 +241,20 @@
         </div>
       </section>
       <footer class="container-fluid mt-auto footer-seccion">
-        <div class="row">
-          <div
-            class="col-lg-6 col-md-6 d-flex justify-content-center align-items-center mb-1 mb-lg-0"
-          >
+        <div class="row align-items-center text-center">
+          <div class="col-12 col-md-6 mb-2 mb-md-0">
             <a>
-              <h5 class="text-start text-white fw-bold fs-3 text-analisis ms-2">
-                deportesdelaciudad &copy; 2026
+              <h5 class="text-white fw-bold text-analisis mb-0 fs-4">
+                deportesdeslaciudad &copy; 2026
               </h5>
             </a>
           </div>
-          <div
-            class="col-lg-6 col-md-6 d-flex justify-content-center align-items-center"
-          >
-            <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="deportesdelaciudad">
+          <div class="col-12 col-md-6">
+            <img
+              src="/static/img/logo-deportes2.png"
+              class="img-fluid logo-footer"
+              alt="deportesdelaciudad"
+            />
           </div>
         </div>
       </footer>
