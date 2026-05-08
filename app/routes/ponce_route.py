@@ -122,7 +122,7 @@ def obtener_datos_ponce():
 def calendario_ponce():
     datos = obtener_datos_ponce()
     nuevos_datos_ponce = [dato for dato in datos if dato]
-    equipo_ponce = 'CBC Valladolid Ponce'
+    equipo_ponce = 'Ponce Valladolid CB'
     tabla_partidos_ponce = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:

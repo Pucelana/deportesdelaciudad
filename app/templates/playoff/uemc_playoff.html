@@ -100,7 +100,7 @@
                           <td class="text-white fs-5">{{ partido.fecha }}</td>
                           <td class="text-white fs-5">{{ partido.hora }}</td>
                           <td
-                            class="text-copa fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                            class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
                           >
                             {{ partido.local }}
                           </td>
@@ -113,7 +113,7 @@
                             {% endif %}
                           </td>
                           <td
-                            class="text-copa fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                            class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
                           >
                             {{ partido.visitante }}
                           </td>
