@@ -32,8 +32,8 @@ class CopaUEMC(db.Model):
     fecha = db.Column(db.String(20))
     hora = db.Column(db.String(20))  # Hora del partido
     local = db.Column(db.String(255))  # Nombre del equipo local
-    resultadoA = db.Column(db.String(120))  # Resultado del equipo local
-    resultadoB = db.Column(db.String(120))  # Resultado del equipo visitante
+    resultadoA = db.Column(db.Integer, nullable=True)
+    resultadoB = db.Column(db.Integer, nullable=True) # Resultado del equipo visitante
     visitante = db.Column(db.String(255))
     orden = db.Column(db.Integer) 
     

@@ -123,7 +123,7 @@
                     <tbody>
                       {% for equipo, stats in clasificacion %}
                       <tr>
-                        <td class="text_uemc fs-4 {% if loop.index <= 14 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}">{{ loop.index }}</td>
+                        <td class="text_uemc fs-4 {% if loop.index <= 15 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}">{{ loop.index }}</td>
                         <td class="fw-bold text_uemc fs-4">{{ equipo }}</td>
                         <td class="text_uemc fs-4">{{ stats.jugados }}</td>
                         <td class="text_uemc fs-4">{{ stats.ganados }}</td>
@@ -162,7 +162,7 @@
                       <tr>
                         <td class="text_uemc fs-5">{{ partido.fecha }}</td>
                         <td class="text_uemc fs-5">{{ partido.hora }}</td>
-                        <td class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">{{ partido.local }}</td>
+                        <td class="text-copa fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">{{ partido.local }}</td>
                         <td class="text_uemc fs-4">
                           {% if partido.resultadoA and partido.resultadoB %}
                             {{ partido.resultadoA }} - {{ partido.resultadoB }}
@@ -170,7 +170,7 @@
                             -
                           {% endif %}
                         </td>
-                        <td class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">{{ partido.visitante }}</td>
+                        <td class="text-copa fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">{{ partido.visitante }}</td>
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -196,7 +196,7 @@
                           <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
                           <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
                           <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"> {{ partido.local }}
+                            class="text-copa fw-bold fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"> {{ partido.local }}
                           </td>
                           <td class="text_uemc fw-bold fs-4">
                             {{ partido.resultadoA }}
@@ -205,7 +205,7 @@
                             {{ partido.resultadoB }}
                           </td>
                           <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"> {{ partido.visitante }}
+                            class="text-copa fw-bold fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"> {{ partido.visitante }}
                           </td>
                         </tr>
                       {% endfor %}

@@ -454,8 +454,7 @@ def generar_clasificacion_analisis_baloncesto_uemc(data):
             'datos': datos
         }
         for equipo, datos in equipos
-    ]
-    
+    ]   
 # Ruta para mostrar la clasificación y análisis del UEMC
 @uemc_route_bp.route('/equipos_basket/clasif_analisis_uemc')
 def clasif_analisis_uemc():
@@ -498,34 +497,46 @@ def clasif_analisis_uemc():
 # Crear formulario para los grupos de la Copa UEMC
 @uemc_route_bp.route('/crear_copa_uemc', methods=['GET', 'POST'])
 def crear_copa_uemc():
+
+    def safe_int(value):
+        try:
+            if value is None or value == '':
+                return None
+            return int(value)
+        except ValueError:
+            return None
+
     if request.method == 'POST':
+
         encuentros = request.form.get('encuentros')
-        print(f"Encuentros: {encuentros}")
-        num_partidos = int(request.form.get('num_partidos', 0))     
+        num_partidos = int(request.form.get('num_partidos', 0))
+
         for i in range(num_partidos):
+
             fecha = request.form.get(f'fecha{i}')
             hora = request.form.get(f'hora{i}')
             local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')  
-            # Crear una nueva instancia de CopaUemc con los datos recibidos           
+            visitante = request.form.get(f'visitante{i}')
+
+            resultadoA = safe_int(request.form.get(f'resultadoA{i}'))
+            resultadoB = safe_int(request.form.get(f'resultadoB{i}'))
+
             nuevo_partido = CopaUEMC(
                 encuentros=encuentros,
                 fecha=fecha or '',
                 hora=hora or '',
                 local=local or '',
-                resultadoA=resultadoA or '',
-                resultadoB=resultadoB or '',
+                resultadoA=resultadoA,
+                resultadoB=resultadoB,
                 visitante=visitante or ''
             )
-            # Agregar la instancia a la sesión y hacer commit
-            db.session.add(nuevo_partido)       
-        # Confirmar los cambios en la base de datos
-        db.session.commit()       
-        # Redirigir a la página para ver la Copa UEMC
+
+            db.session.add(nuevo_partido)
+
+        db.session.commit()
+
         return redirect(url_for('uemc_route_bp.ver_copa_uemc'))
-    # Renderizar el formulario para crear la copa UEMC
+
     return render_template('admin/copa/copa_uemc.html')
 # Ver la Copa UEMC en Admin (crear/editar partidos)
 @uemc_route_bp.route('/copa_uemc/')
