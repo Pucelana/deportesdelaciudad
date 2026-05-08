@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.galvan import JornadaGalvan, GalvanPartido, GalvanClub, CopaGalvan, PlayoffGalvan
@@ -207,47 +208,190 @@ def eliminar_club_galvan(club_id):
     return redirect(url_for('galvan_route_bp.jornada0_galvan'))
 # Crear la clasificación RV Galvan
 def generar_clasificacion_analisis_futbol_galvan(data):
-    clasificacion = defaultdict(lambda: {'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'favor': 0, 'contra': 0, 'diferencia_goles': 0, 'puntos': 0})
+    clasificacion = defaultdict(lambda: {
+        'jugados': 0,
+        'ganados': 0,
+        'empatados': 0,
+        'perdidos': 0,
+        'favor': 0,
+        'contra': 0,
+        'diferencia_goles': 0,
+        'puntos': 0
+    })
+
+    # ================================
+    # ENFRENTAMIENTOS DIRECTOS
+    # ================================
+    enfrentamientos = defaultdict(list)
+
+    # ================================
+    # RECORRER PARTIDOS
+    # ================================
     for jornada in data:
+
         for partido in jornada['partidos']:
-            equipo_local = partido.local 
-            equipo_visitante = partido.visitante   
-            resultado_local = partido.resultadoA
-            resultado_visitante = partido.resultadoB 
-            if resultado_local is None or resultado_visitante is None:
-                print(f"Partido sin resultados válidos: {partido}")
-                continue            
-            try:
-                resultado_local = int(resultado_local)
-                resultado_visitante = int(resultado_visitante)
-            except ValueError:
-                print(f"Error al convertir resultados a enteros en el partido {partido}")
+
+            local = partido.local
+            visitante = partido.visitante
+
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
+
+            if (
+                r1 is None or r2 is None or
+                r1 == '' or r2 == ''
+            ):
                 continue
-            if resultado_local > resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 3
-                clasificacion[equipo_local]['ganados'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 0
-                clasificacion[equipo_visitante]['perdidos'] += 1
-            elif resultado_local < resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 0
-                clasificacion[equipo_local]['perdidos'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 3
-                clasificacion[equipo_visitante]['ganados'] += 1
+
+            try:
+                r1 = int(r1)
+                r2 = int(r2)
+            except ValueError:
+                continue
+
+            # ================================
+            # PUNTOS LIGA
+            # ================================
+            if r1 > r2:
+
+                clasificacion[local]['puntos'] += 3
+                clasificacion[local]['ganados'] += 1
+                clasificacion[visitante]['perdidos'] += 1
+
+            elif r1 < r2:
+
+                clasificacion[visitante]['puntos'] += 3
+                clasificacion[visitante]['ganados'] += 1
+                clasificacion[local]['perdidos'] += 1
+
             else:
-                clasificacion[equipo_local]['puntos'] += 1
-                clasificacion[equipo_local]['empatados'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 1
-                clasificacion[equipo_visitante]['empatados'] += 1          
-            clasificacion[equipo_local]['jugados'] += 1
-            clasificacion[equipo_visitante]['jugados'] += 1
-            clasificacion[equipo_local]['favor'] += resultado_local
-            clasificacion[equipo_local]['contra'] += resultado_visitante
-            clasificacion[equipo_visitante]['favor'] += resultado_visitante
-            clasificacion[equipo_visitante]['contra'] += resultado_local
-            clasificacion[equipo_local]['diferencia_goles'] += resultado_local - resultado_visitante
-            clasificacion[equipo_visitante]['diferencia_goles'] += resultado_visitante - resultado_local  
-    clasificacion_ordenada = sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_goles']), reverse=True)
-    return [{'equipo': equipo, 'datos': datos} for equipo, datos in clasificacion_ordenada]
+
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
+                clasificacion[local]['empatados'] += 1
+                clasificacion[visitante]['empatados'] += 1
+
+            # ================================
+            # JUGADOS
+            # ================================
+            clasificacion[local]['jugados'] += 1
+            clasificacion[visitante]['jugados'] += 1
+
+            # ================================
+            # GOLES
+            # ================================
+            clasificacion[local]['favor'] += r1
+            clasificacion[local]['contra'] += r2
+
+            clasificacion[visitante]['favor'] += r2
+            clasificacion[visitante]['contra'] += r1
+
+            clasificacion[local]['diferencia_goles'] += (r1 - r2)
+            clasificacion[visitante]['diferencia_goles'] += (r2 - r1)
+
+            # ================================
+            # ENFRENTAMIENTOS DIRECTOS
+            # ================================
+            enfrentamientos[frozenset([local, visitante])].append({
+                'local': local,
+                'visitante': visitante,
+                'goles_local': r1,
+                'goles_visitante': r2
+            })
+
+    # ================================
+    # AVERAGE PARTICULAR
+    # ================================
+    def average_particular(a, b):
+
+        partidos = enfrentamientos.get(frozenset([a, b]), [])
+
+        if len(partidos) < 2:
+            return None
+
+        puntos_a = 0
+        puntos_b = 0
+        goles_a = 0
+        goles_b = 0
+
+        for p in partidos:
+
+            l = p['local']
+            v = p['visitante']
+            gl = p['goles_local']
+            gv = p['goles_visitante']
+
+            if l == a:
+                goles_a += gl
+                goles_b += gv
+            else:
+                goles_a += gv
+                goles_b += gl
+
+            if gl > gv:
+                ganador = l
+            elif gv > gl:
+                ganador = v
+            else:
+                ganador = None
+
+            if ganador == a:
+                puntos_a += 3
+            elif ganador == b:
+                puntos_b += 3
+            else:
+                puntos_a += 1
+                puntos_b += 1
+
+        return {
+            'puntos_a': puntos_a,
+            'puntos_b': puntos_b,
+            'diff_a': goles_a - goles_b,
+            'diff_b': goles_b - goles_a
+        }
+
+    # ================================
+    # COMPARADOR PRO OFICIAL
+    # ================================
+    def comparar(a, b):
+
+        na, da = a
+        nb, db = b
+
+        # 1. puntos
+        if da['puntos'] != db['puntos']:
+            return db['puntos'] - da['puntos']
+
+        # 2. enfrentamiento directo
+        av = average_particular(na, nb)
+
+        if av:
+
+            if av['puntos_a'] != av['puntos_b']:
+                return av['puntos_b'] - av['puntos_a']
+
+            if av['diff_a'] != av['diff_b']:
+                return av['diff_b'] - av['diff_a']
+
+        # 3. diferencia goles
+        if da['diferencia_goles'] != db['diferencia_goles']:
+            return db['diferencia_goles'] - da['diferencia_goles']
+
+        # 4. goles a favor
+        return db['favor'] - da['favor']
+
+    # ================================
+    # ORDEN FINAL
+    # ================================
+    equipos = list(clasificacion.items())
+    equipos.sort(key=cmp_to_key(comparar))
+
+    return [
+        {'equipo': e, 'datos': d}
+        for e, d in equipos
+    ]
+    
 # Ruta para mostrar la clasificación y análisis del UEMC
 @galvan_route_bp.route('/equipos_futsal/clasif_analisis_galvan')
 def clasif_analisis_galvan():
@@ -258,8 +402,12 @@ def clasif_analisis_galvan():
     clubs_galvan = GalvanClub.query.all()
     # Inicializa las estadísticas de los equipos que aún no están en la clasificación
     for club in clubs_galvan:
-        if not any(equipo['equipo'] == club.nombre for equipo in clasificacion_analisis_galvan):
-            equipo = {
+        if not any(
+            equipo['equipo'] == club.nombre
+            for equipo in clasificacion_analisis_galvan
+        ):
+
+            clasificacion_analisis_galvan.append({
                 'equipo': club.nombre,
                 'datos': {
                     'puntos': 0,
@@ -271,8 +419,12 @@ def clasif_analisis_galvan():
                     'contra': 0,
                     'diferencia_goles': 0
                 }
-            }
-            clasificacion_analisis_galvan.append(equipo)
+            })
+
+    clasificacion_analisis_galvan.sort(
+        key=lambda x: x['datos']['puntos'],
+        reverse=True
+    )
     return render_template('equipos_futsal/clasif_analisis_galvan.html',
         clasificacion_analisis_galvan=clasificacion_analisis_galvan)
 

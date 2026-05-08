@@ -30,7 +30,10 @@
     integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
   <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
   <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#000000">
 </head>
 
 <body class="calend_deportes">
@@ -80,7 +83,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 5 %}pos-ehfec{% elif loop.index <=13 %}pos-nada{% elif loop.index <=14 %}pos-promo{% elif loop.index <= 16 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="text-white fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="text-white fw-bold size_equipos {% if 'Atl. Recoletas' in equipo['equipo'] %}equipo-recoletas{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>

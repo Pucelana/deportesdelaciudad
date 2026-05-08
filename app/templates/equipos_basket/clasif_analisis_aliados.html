@@ -46,7 +46,10 @@
     />
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
     <!-- Favicon -->
-    <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
+    <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#000000">
   </head>
 
   <body class="calend_deportes">
@@ -122,7 +125,7 @@
                           >
                             {{ loop.index }}
                           </td>
-                          <td class="fw-bold size_equipos2 text-white">
+                          <td class="fw-bold size_equipos2 text-white {% if 'Fundación Aliados' in equipo['equipo'] %}equipo-aliados{% endif %}">
                             {{ equipo['equipo'] }}
                           </td>
                           <td class="jugados fw-bold">

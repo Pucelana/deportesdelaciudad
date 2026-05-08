@@ -222,154 +222,129 @@ def generar_clasificacion_analisis_futbol_valladolid(data):
         'diferencia_goles': 0,
         'puntos': 0
     })
-    # Guardar enfrentamientos directos
+
+    # ================================
+    # ENFRENTAMIENTOS DIRECTOS
+    # ================================
     enfrentamientos = defaultdict(list)
+
+    # ================================
     # RECORRER PARTIDOS
+    # ================================
     for jornada in data:
 
         for partido in jornada['partidos']:
 
-            equipo_local = partido.local
-            equipo_visitante = partido.visitante
+            local = partido.local
+            visitante = partido.visitante
 
-            resultado_local = partido.resultadoA
-            resultado_visitante = partido.resultadoB
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
 
-            # Saltar partidos sin resultado
             if (
-                resultado_local is None
-                or resultado_visitante is None
-                or resultado_local == ''
-                or resultado_visitante == ''
+                r1 is None or r2 is None or
+                r1 == '' or r2 == ''
             ):
                 continue
 
             try:
-                resultado_local = int(resultado_local)
-                resultado_visitante = int(resultado_visitante)
-
+                r1 = int(r1)
+                r2 = int(r2)
             except ValueError:
                 continue
 
-            # PUNTOS
+            # ================================
+            # PUNTOS LIGA
+            # ================================
+            if r1 > r2:
 
-            if resultado_local > resultado_visitante:
+                clasificacion[local]['puntos'] += 3
+                clasificacion[local]['ganados'] += 1
+                clasificacion[visitante]['perdidos'] += 1
 
-                clasificacion[equipo_local]['puntos'] += 3
-                clasificacion[equipo_local]['ganados'] += 1
+            elif r1 < r2:
 
-                clasificacion[equipo_visitante]['perdidos'] += 1
-
-            elif resultado_local < resultado_visitante:
-
-                clasificacion[equipo_visitante]['puntos'] += 3
-                clasificacion[equipo_visitante]['ganados'] += 1
-
-                clasificacion[equipo_local]['perdidos'] += 1
+                clasificacion[visitante]['puntos'] += 3
+                clasificacion[visitante]['ganados'] += 1
+                clasificacion[local]['perdidos'] += 1
 
             else:
 
-                clasificacion[equipo_local]['puntos'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 1
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
 
-                clasificacion[equipo_local]['empatados'] += 1
-                clasificacion[equipo_visitante]['empatados'] += 1
+                clasificacion[local]['empatados'] += 1
+                clasificacion[visitante]['empatados'] += 1
 
-            # PARTIDOS JUGADOS
+            # ================================
+            # JUGADOS
+            # ================================
+            clasificacion[local]['jugados'] += 1
+            clasificacion[visitante]['jugados'] += 1
 
-            clasificacion[equipo_local]['jugados'] += 1
-            clasificacion[equipo_visitante]['jugados'] += 1
-
+            # ================================
             # GOLES
+            # ================================
+            clasificacion[local]['favor'] += r1
+            clasificacion[local]['contra'] += r2
 
-            clasificacion[equipo_local]['favor'] += resultado_local
-            clasificacion[equipo_local]['contra'] += resultado_visitante
+            clasificacion[visitante]['favor'] += r2
+            clasificacion[visitante]['contra'] += r1
 
-            clasificacion[equipo_visitante]['favor'] += resultado_visitante
-            clasificacion[equipo_visitante]['contra'] += resultado_local
+            clasificacion[local]['diferencia_goles'] += (r1 - r2)
+            clasificacion[visitante]['diferencia_goles'] += (r2 - r1)
 
-            # DIFERENCIA GOLES
-
-            clasificacion[equipo_local]['diferencia_goles'] += (
-                resultado_local - resultado_visitante
-            )
-
-            clasificacion[equipo_visitante]['diferencia_goles'] += (
-                resultado_visitante - resultado_local
-            )
-
+            # ================================
             # ENFRENTAMIENTOS DIRECTOS
-
-            clave = frozenset([equipo_local, equipo_visitante])
-
-            enfrentamientos[clave].append({
-                'local': equipo_local,
-                'visitante': equipo_visitante,
-                'goles_local': resultado_local,
-                'goles_visitante': resultado_visitante
+            # ================================
+            enfrentamientos[frozenset([local, visitante])].append({
+                'local': local,
+                'visitante': visitante,
+                'goles_local': r1,
+                'goles_visitante': r2
             })
 
+    # ================================
     # AVERAGE PARTICULAR
- 
-    def average_particular(equipo_a, equipo_b):
+    # ================================
+    def average_particular(a, b):
 
-        partidos = enfrentamientos.get(
-            frozenset([equipo_a, equipo_b]),
-            []
-        )
+        partidos = enfrentamientos.get(frozenset([a, b]), [])
 
-        # Necesitan jugar ida y vuelta
         if len(partidos) < 2:
             return None
 
         puntos_a = 0
         puntos_b = 0
-
         goles_a = 0
         goles_b = 0
 
-        for partido in partidos:
+        for p in partidos:
 
-            local = partido['local']
-            visitante = partido['visitante']
+            l = p['local']
+            v = p['visitante']
+            gl = p['goles_local']
+            gv = p['goles_visitante']
 
-            gl = partido['goles_local']
-            gv = partido['goles_visitante']
-
-            # Goles particulares
-            if local == equipo_a:
-
+            if l == a:
                 goles_a += gl
                 goles_b += gv
-
             else:
-
                 goles_a += gv
                 goles_b += gl
 
-            # Puntos particulares
             if gl > gv:
-
-                ganador = local
-
+                ganador = l
             elif gv > gl:
-
-                ganador = visitante
-
+                ganador = v
             else:
-
                 ganador = None
 
-            if ganador == equipo_a:
-
+            if ganador == a:
                 puntos_a += 3
-
-            elif ganador == equipo_b:
-
+            elif ganador == b:
                 puntos_b += 3
-
             else:
-
                 puntos_a += 1
                 puntos_b += 1
 
@@ -380,64 +355,45 @@ def generar_clasificacion_analisis_futbol_valladolid(data):
             'diff_b': goles_b - goles_a
         }
 
-    # FUNCIÓN DE ORDENACIÓN OFICIAL
+    # ================================
+    # COMPARADOR PRO OFICIAL
+    # ================================
+    def comparar(a, b):
 
-    def comparar_equipos(equipo_a, equipo_b):
+        na, da = a
+        nb, db = b
 
-        nombre_a, datos_a = equipo_a
-        nombre_b, datos_b = equipo_b
+        # 1. puntos
+        if da['puntos'] != db['puntos']:
+            return db['puntos'] - da['puntos']
 
-        # 1. PUNTOS GENERALES
-        if datos_a['puntos'] != datos_b['puntos']:
+        # 2. enfrentamiento directo
+        av = average_particular(na, nb)
 
-            return datos_b['puntos'] - datos_a['puntos']
+        if av:
 
-        # 2. AVERAGE PARTICULAR
-        average = average_particular(nombre_a, nombre_b)
+            if av['puntos_a'] != av['puntos_b']:
+                return av['puntos_b'] - av['puntos_a']
 
-        if average:
+            if av['diff_a'] != av['diff_b']:
+                return av['diff_b'] - av['diff_a']
 
-            # Puntos particular
-            if average['puntos_a'] != average['puntos_b']:
+        # 3. diferencia goles
+        if da['diferencia_goles'] != db['diferencia_goles']:
+            return db['diferencia_goles'] - da['diferencia_goles']
 
-                return average['puntos_b'] - average['puntos_a']
+        # 4. goles a favor
+        return db['favor'] - da['favor']
 
-            # Diferencia goles particular
-            if average['diff_a'] != average['diff_b']:
-
-                return average['diff_b'] - average['diff_a']
-
-        # 3. DIFERENCIA GOLES GENERAL
-        if datos_a['diferencia_goles'] != datos_b['diferencia_goles']:
-
-            return (
-                datos_b['diferencia_goles']
-                - datos_a['diferencia_goles']
-            )
-
-        # 4. GOLES A FAVOR
-        return datos_b['favor'] - datos_a['favor']
-
-    # ============================================
-    # ORDENACIÓN FINAL
-    # ============================================
-
+    # ================================
+    # ORDEN FINAL
+    # ================================
     equipos = list(clasificacion.items())
-
-    equipos.sort(
-        key=cmp_to_key(comparar_equipos)
-    )
-
-    # ============================================
-    # DEVOLVER
-    # ============================================
+    equipos.sort(key=cmp_to_key(comparar))
 
     return [
-        {
-            'equipo': equipo,
-            'datos': datos
-        }
-        for equipo, datos in equipos
+        {'equipo': e, 'datos': d}
+        for e, d in equipos
     ]
 # Ruta para mostrar la clasificación y análisis del Real Valladolid
 @valladolid_route_bp.route('/equipos_futbol/clasif_analisis_valladolid')

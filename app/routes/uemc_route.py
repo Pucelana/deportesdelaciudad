@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC
@@ -205,42 +206,256 @@ def eliminar_club_uemc(club_id):
     return redirect(url_for('uemc_route_bp.jornada0_uemc'))
 # Crear la clasificación UEMC
 def generar_clasificacion_analisis_baloncesto_uemc(data):
-    clasificacion = defaultdict(lambda: {'jugados': 0, 'ganados': 0, 'perdidos': 0, 'favor': 0, 'contra': 0, 'diferencia_canastas': 0, 'puntos': 0})
+
+    clasificacion = defaultdict(lambda: {
+        'jugados': 0,
+        'ganados': 0,
+        'perdidos': 0,
+        'favor': 0,
+        'contra': 0,
+        'diferencia_canastas': 0,
+        'puntos': 0
+    })
+
+# GUARDAR ENFRENTAMIENTOS
+
+    enfrentamientos = []
+
     for jornada in data:
+
         for partido in jornada['partidos']:
-            equipo_local = partido.local 
-            equipo_visitante = partido.visitante   
+
+            equipo_local = partido.local
+            equipo_visitante = partido.visitante
+
             resultado_local = partido.resultadoA
-            resultado_visitante = partido.resultadoB 
-            if resultado_local is None or resultado_visitante is None:
-                print(f"Partido sin resultados válidos: {partido}")
-                continue            
+            resultado_visitante = partido.resultadoB
+
+            # Saltar vacíos
+            if (
+                resultado_local is None
+                or resultado_visitante is None
+                or resultado_local == ''
+                or resultado_visitante == ''
+            ):
+                continue
+
             try:
+
                 resultado_local = int(resultado_local)
                 resultado_visitante = int(resultado_visitante)
+
             except ValueError:
-                print(f"Error al convertir resultados a enteros en el partido {partido}")
                 continue
+
+# CLASIFICACIÓN GENERAL
+
             if resultado_local > resultado_visitante:
+
                 clasificacion[equipo_local]['puntos'] += 2
                 clasificacion[equipo_local]['ganados'] += 1
+
                 clasificacion[equipo_visitante]['puntos'] += 1
                 clasificacion[equipo_visitante]['perdidos'] += 1
+
             else:
+
+                clasificacion[equipo_visitante]['puntos'] += 2
+                clasificacion[equipo_visitante]['ganados'] += 1
+
                 clasificacion[equipo_local]['puntos'] += 1
                 clasificacion[equipo_local]['perdidos'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 2
-                clasificacion[equipo_visitante]['ganados'] += 1           
+
             clasificacion[equipo_local]['jugados'] += 1
             clasificacion[equipo_visitante]['jugados'] += 1
+
             clasificacion[equipo_local]['favor'] += resultado_local
             clasificacion[equipo_local]['contra'] += resultado_visitante
+
             clasificacion[equipo_visitante]['favor'] += resultado_visitante
             clasificacion[equipo_visitante]['contra'] += resultado_local
-            clasificacion[equipo_local]['diferencia_canastas'] += resultado_local - resultado_visitante
-            clasificacion[equipo_visitante]['diferencia_canastas'] += resultado_visitante - resultado_local  
-    clasificacion_ordenada = sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_canastas']), reverse=True)
-    return [{'equipo': equipo, 'datos': datos} for equipo, datos in clasificacion_ordenada]
+
+            clasificacion[equipo_local]['diferencia_canastas'] += (
+                resultado_local - resultado_visitante
+            )
+
+            clasificacion[equipo_visitante]['diferencia_canastas'] += (
+                resultado_visitante - resultado_local
+            )
+
+# GUARDAR PARTIDO
+
+            enfrentamientos.append({
+                'local': equipo_local,
+                'visitante': equipo_visitante,
+                'puntos_local': resultado_local,
+                'puntos_visitante': resultado_visitante
+            })
+
+    # =========================================================
+    # MINI LIGA ENTRE EMPATADOS
+    # =========================================================
+
+    def clasificacion_particular(equipos_empatados):
+
+        mini = defaultdict(lambda: {
+            'victorias': 0,
+            'derrotas': 0,
+            'favor': 0,
+            'contra': 0,
+            'average': 0,
+            'puntos': 0
+        })
+
+        for partido in enfrentamientos:
+
+            local = partido['local']
+            visitante = partido['visitante']
+
+            if (
+                local not in equipos_empatados
+                or visitante not in equipos_empatados
+            ):
+                continue
+
+            pl = partido['puntos_local']
+            pv = partido['puntos_visitante']
+
+            # FAVOR / CONTRA
+
+            mini[local]['favor'] += pl
+            mini[local]['contra'] += pv
+
+            mini[visitante]['favor'] += pv
+            mini[visitante]['contra'] += pl
+
+            mini[local]['average'] += (pl - pv)
+            mini[visitante]['average'] += (pv - pl)
+
+            # VICTORIAS
+
+            if pl > pv:
+
+                mini[local]['victorias'] += 1
+                mini[visitante]['derrotas'] += 1
+
+                mini[local]['puntos'] += 2
+                mini[visitante]['puntos'] += 1
+
+            else:
+
+                mini[visitante]['victorias'] += 1
+                mini[local]['derrotas'] += 1
+
+                mini[visitante]['puntos'] += 2
+                mini[local]['puntos'] += 1
+
+        return mini
+
+    # =========================================================
+    # COMPARADOR OFICIAL
+    # =========================================================
+
+    def comparar_equipos(a, b):
+
+        nombre_a, datos_a = a
+        nombre_b, datos_b = b
+
+        # =========================================================
+        # 1. PUNTOS GENERALES
+        # =========================================================
+
+        if datos_a['puntos'] != datos_b['puntos']:
+
+            return datos_b['puntos'] - datos_a['puntos']
+
+        # =========================================================
+        # 2. EQUIPOS EMPATADOS
+        # =========================================================
+
+        equipos_empatados = []
+
+        for equipo, datos in clasificacion.items():
+
+            if datos['puntos'] == datos_a['puntos']:
+
+                equipos_empatados.append(equipo)
+
+        # =========================================================
+        # 3. MINI LIGA
+        # =========================================================
+
+        if len(equipos_empatados) >= 2:
+
+            mini = clasificacion_particular(equipos_empatados)
+
+            mini_a = mini[nombre_a]
+            mini_b = mini[nombre_b]
+
+            # Puntos mini liga
+
+            if mini_a['puntos'] != mini_b['puntos']:
+
+                return mini_b['puntos'] - mini_a['puntos']
+
+            # Average mini liga
+
+            if mini_a['average'] != mini_b['average']:
+
+                return mini_b['average'] - mini_a['average']
+
+            # Favor mini liga
+
+            if mini_a['favor'] != mini_b['favor']:
+
+                return mini_b['favor'] - mini_a['favor']
+
+        # =========================================================
+        # 4. DIFERENCIA GENERAL
+        # =========================================================
+
+        if (
+            datos_a['diferencia_canastas']
+            != datos_b['diferencia_canastas']
+        ):
+
+            return (
+                datos_b['diferencia_canastas']
+                - datos_a['diferencia_canastas']
+            )
+
+        # =========================================================
+        # 5. PUNTOS A FAVOR
+        # =========================================================
+
+        if datos_a['favor'] != datos_b['favor']:
+
+            return datos_b['favor'] - datos_a['favor']
+
+        return 0
+
+    # =========================================================
+    # ORDENAR
+    # =========================================================
+
+    equipos = list(clasificacion.items())
+
+    equipos.sort(
+        key=cmp_to_key(comparar_equipos)
+    )
+
+    # =========================================================
+    # DEVOLVER
+    # =========================================================
+
+    return [
+        {
+            'equipo': equipo,
+            'datos': datos
+        }
+        for equipo, datos in equipos
+    ]
+    
 # Ruta para mostrar la clasificación y análisis del UEMC
 @uemc_route_bp.route('/equipos_basket/clasif_analisis_uemc')
 def clasif_analisis_uemc():
@@ -251,22 +466,33 @@ def clasif_analisis_uemc():
     clubs_uemc = UEMCClub.query.all()
     # Inicializa las estadísticas de los equipos que aún no están en la clasificación
     for club in clubs_uemc:
-        if not any(equipo['equipo'] == club.nombre for equipo in clasificacion_analisis_uemc):
-            equipo = {
+        if not any(
+            equipo['equipo'] == club.nombre
+            for equipo in clasificacion_analisis_uemc
+        ):
+
+            clasificacion_analisis_uemc.append({
                 'equipo': club.nombre,
                 'datos': {
                     'puntos': 0,
                     'jugados': 0,
                     'ganados': 0,
+                    'empatados': 0,
                     'perdidos': 0,
                     'favor': 0,
                     'contra': 0,
-                    'diferencia_canastas': 0
+                    'diferencia_goles': 0
                 }
-            }
-            clasificacion_analisis_uemc.append(equipo)
-    return render_template('equipos_basket/clasif_analisis_uemc.html',
-        clasificacion_analisis_uemc=clasificacion_analisis_uemc)
+            })
+
+    clasificacion_analisis_uemc.sort(
+        key=lambda x: x['datos']['puntos'],
+        reverse=True
+    )
+    return render_template(
+        'equipos_basket/clasif_analisis_uemc.html',
+        clasificacion_analisis_uemc=clasificacion_analisis_uemc
+    )
 
 # COPA UEMC
 # Crear formulario para los grupos de la Copa UEMC
