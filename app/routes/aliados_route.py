@@ -582,7 +582,6 @@ def crear_copa_aliados():
         max_partidos = {
             'cuartos': 4,
             'semifinales': 2,
-            'eliminados': 2,
             'final': 1
         }.get(eliminatoria, 0)
         num_partidos_str = request.form.get('num_partidos', '0').strip()
@@ -649,7 +648,7 @@ def eliminar_copa_aliados(eliminatoria):
 # Mostrar la copa del Aliados
 @aliados_route_bp.route('/copas_aliados/')
 def copas_aliados():
-    eliminatorias = ['cuartos', 'semifinales', 'eliminados' ,'final']
+    eliminatorias = ['cuartos', 'semifinales' ,'final']
     datos_copa = {}
     for eliminatoria in eliminatorias:
         partidos = CopaAliados.query.filter_by(eliminatoria=eliminatoria).all()
