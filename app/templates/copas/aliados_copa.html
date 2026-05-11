@@ -116,7 +116,7 @@
                             {{ partido.hora }}
                           </td>
                           <td
-                            class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                            class="text-copa fw-bold fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
                           >
                             {{ partido.local }}
                           </td>
@@ -127,7 +127,7 @@
                             {{ partido.resultadoB }}
                           </td>
                           <td
-                            class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                            class="text-copa fw-bold fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
                           >
                             {{ partido.visitante }}
                           </td>
