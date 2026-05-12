@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.aula import JornadaAula, AulaPartido, AulaClub, PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula
+from ..models.aula import JornadaAula, AulaPartido, AulaClub, PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula, PermanenciaAula, JornadaPermanenciaAula
 
 aula_route_bp = Blueprint('aula_route_bp', __name__)
 
@@ -390,8 +390,7 @@ def generar_clasificacion_analisis_balonmano_aula(data):
     return [
         {'equipo': e, 'datos': d}
         for e, d in equipos
-    ]
-    
+    ]   
 # Ruta para mostrar la clasificación y análisis del Aula
 @aula_route_bp.route('/equipos_balonmano/clasif_analisis_aula')
 def clasif_analisis_aula():
@@ -513,6 +512,646 @@ def playoffs_aula():
         partidos = PlayoffAula.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos   
     return render_template('playoff/aula_playoff.html', datos_playoff=datos_playoff)
+
+#PLAYOFF PERMANENCIA AULA
+@aula_route_bp.route('/crear_permanencia_aula', methods=['GET', 'POST'])
+def resultado_permanencia_aula():
+
+    if request.method == 'POST':
+        numero_jornada = JornadaPermanenciaAula.query.count() + 1
+        num_partidos = int(request.form['num_partidos'])
+
+        # =========================
+        # CREAR JORNADA REAL
+        # =========================
+        jornada = JornadaPermanenciaAula(nombre=f'Jornada{numero_jornada}')
+        db.session.add(jornada)
+        db.session.flush()  # genera jornada.id
+
+        # =========================
+        # PARTIDOS
+        # =========================
+        for i in range(num_partidos):
+
+            fecha = request.form.get(f'fecha{i}')
+            hora = request.form.get(f'hora{i}')
+            local = request.form.get(f'local{i}')
+            resultadoA = request.form.get(f'resultadoA{i}')
+            resultadoB = request.form.get(f'resultadoB{i}')
+            visitante = request.form.get(f'visitante{i}')
+
+            partido = PermanenciaAula(
+                jornada_id=jornada.id,
+                fase='Permanencia',
+                fecha=fecha,
+                hora=hora,
+                local=local,
+                resultadoA=resultadoA,
+                resultadoB=resultadoB,
+                visitante=visitante,
+                orden=i
+            )
+
+            db.session.add(partido)
+
+        db.session.commit()
+
+        return redirect(url_for('aula_route_bp.permanencia_aula'))
+
+    return render_template('admin/permanencia/play_perm_aula.html')
+# Ver calendario Aula Valladolid en Admin
+@aula_route_bp.route('/permanencia_aula')
+def permanencia_aula():
+    jornadas = JornadaPermanenciaAula.query.order_by(JornadaPermanenciaAula.id.asc()).all()
+    # Ordenar los partidos por el campo `orden` en cada jornada
+    for jornada in jornadas:
+        jornada.partidos = db.session.query(PermanenciaAula)\
+            .filter(PermanenciaAula.jornada_id == jornada.id)\
+            .order_by(PermanenciaAula.orden.asc())\
+            .all()
+    return render_template('admin/permanencia/play_perm_aula.html', jornadas=jornadas)
+# Modificar jornada
+@aula_route_bp.route('/modificar_permanencia_aula/<int:id>', methods=['GET', 'POST'])
+def modificar_permanencia_aula(id):
+
+    # ⚠️ Esto debería ser JornadaPermanenciaAula, no PermanenciaAula
+    jornada = db.session.query(JornadaPermanenciaAula).filter(
+        JornadaPermanenciaAula.id == id
+    ).first()
+
+    if not jornada:
+        return redirect(url_for('aula_route_bp.permanencia_aula'))
+
+    if request.method == 'POST':
+
+        num_partidos = int(request.form['num_partidos'])
+
+        # =========================
+        # ACTUALIZAR PARTIDOS
+        # =========================
+        for i in range(num_partidos):
+
+            partido_id = request.form.get(f'partido_id{i}')
+
+            partido = db.session.query(PermanenciaAula).filter(
+                PermanenciaAula.id == partido_id
+            ).first()
+
+            if partido:
+
+                partido.fecha = request.form.get(f'fecha{i}')
+                partido.hora = request.form.get(f'hora{i}')
+                partido.local = request.form.get(f'local{i}')
+                partido.resultadoA = request.form.get(f'resultadoA{i}')
+                partido.resultadoB = request.form.get(f'resultadoB{i}')
+                partido.visitante = request.form.get(f'visitante{i}')
+                partido.orden = int(request.form.get(f'orden{i}', i))
+
+        db.session.commit()
+
+        return redirect(url_for('aula_route_bp.permanencia_aula'))
+
+    # =========================
+    # CARGAR PARTIDOS
+    # =========================
+    partidos = db.session.query(PermanenciaAula)\
+        .filter_by(jornada_id=jornada.id)\
+        .order_by(PermanenciaAula.orden.asc())\
+        .all()
+
+    return render_template(
+        'admin/permanencia/play_perm_aula.html',
+        jornada=jornada,
+        partidos=partidos
+    )
+# Eliminar jornada
+@aula_route_bp.route('/eliminar_permanencia_aula/<int:id>', methods=['GET', 'POST'])
+def eliminar_permanencia_aula(id):
+
+    # =========================
+    # 1. BUSCAR JORNADA REAL
+    # =========================
+    jornada = db.session.query(JornadaPermanenciaAula).filter(
+        JornadaPermanenciaAula.id == id
+    ).first()
+
+    if not jornada:
+        return redirect(url_for('aula_route_bp.permanencia_aula'))
+
+    # =========================
+    # 2. BORRAR PARTIDOS
+    # =========================
+    db.session.query(PermanenciaAula).filter(
+        PermanenciaAula.jornada_id == jornada.id
+    ).delete()
+
+    # =========================
+    # 3. BORRAR JORNADA
+    # =========================
+    db.session.delete(jornada)
+
+    db.session.commit()
+
+    return redirect(url_for('aula_route_bp.permanencia_aula'))
+# Obtener datos Aula Valladolid
+def obtener_datos_permanencia_aula():
+    # Obtener jornadas
+    jornadas = JornadaPermanenciaAula.query.order_by(
+        JornadaPermanenciaAula.id.asc()
+    ).all()
+    jornadas_con_partidos = []
+    for jornada in jornadas:
+        # Obtener partidos de la jornada
+        partidos = db.session.query(PermanenciaAula)\
+            .filter_by(jornada_id=jornada.id)\
+            .order_by(PermanenciaAula.orden.asc())\
+            .all()
+        jornadas_con_partidos.append({
+            'nombre': jornada.nombre,
+            'partidos': partidos
+        })
+    return jornadas_con_partidos
+# Calendario Aula Valladolid
+@aula_route_bp.route('/equipos_balonmano/calendario_aula')
+def calendario_permanencia_aula():
+    datos = obtener_datos_permanencia_aula()
+    nuevos_datos_aula = [dato for dato in datos if dato]
+    equipo_aula = 'Aula Valladolid'
+    tabla_partidos_aula = {}
+    # Iteramos sobre cada jornada y partido
+    for jornada in datos:
+        for partido in jornada['partidos']:
+            equipo_local = partido.local
+            equipo_visitante = partido.visitante
+            resultado_local = partido.resultadoA
+            resultado_visitante = partido.resultadoB                 
+            # Verificamos si el Aula está jugando
+            if equipo_local == equipo_aula or equipo_visitante == equipo_aula:
+                # Determinamos el equipo contrario y los resultados
+                if equipo_local == equipo_aula:
+                    equipo_contrario = equipo_visitante
+                    resultado_a = resultado_local
+                    resultado_b = resultado_visitante
+                    rol_aula = 'C'
+                else:
+                    equipo_contrario = equipo_local
+                    resultado_a = resultado_local
+                    resultado_b = resultado_visitante
+                    rol_aula = 'F'                
+                # Verificamos si el equipo contrario no está en la tabla
+                if equipo_contrario not in tabla_partidos_aula:
+                    tabla_partidos_aula[equipo_contrario] = {'jornadas': {}}                                       
+                # Verificamos si es el primer o segundo enfrentamiento
+                if 'primer_enfrentamiento' not in tabla_partidos_aula[equipo_contrario]:
+                    tabla_partidos_aula[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_aula[equipo_contrario]['resultadoA'] = resultado_a
+                    tabla_partidos_aula[equipo_contrario]['resultadoB'] = resultado_b
+                elif 'segundo_enfrentamiento' not in tabla_partidos_aula[equipo_contrario]:
+                    tabla_partidos_aula[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_aula[equipo_contrario]['resultadoAA'] = resultado_a
+                    tabla_partidos_aula[equipo_contrario]['resultadoBB'] = resultado_b                 
+                # Agregamos la jornada y resultados
+                if jornada['nombre'] not in tabla_partidos_aula[equipo_contrario]['jornadas']:
+                    tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']] = {
+                        'resultadoA': resultado_a,
+                        'resultadoB': resultado_b,
+                        'rol_aula': rol_aula
+                    }               
+                # Asignamos los resultados según el rol del Aula Valladolid
+                if equipo_local == equipo_contrario or equipo_visitante == equipo_contrario:
+                    if not tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
+                    else:
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
+                else:
+                    if not tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
+                    else:
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
+    return render_template('permanencia/aula_play_permanencia.html', tabla_partidos_aula=tabla_partidos_aula, nuevos_datos_aula=nuevos_datos_aula)
+# Crear la clasificación Aula
+def generar_clasificacion_permanencia_aula(
+    data,
+    data_permanencia
+):
+
+    # =========================================================
+    # SACAR EQUIPOS 10º AL 13º DE LIGA REGULAR
+    # =========================================================
+
+    clasificacion_regular = generar_clasificacion_analisis_balonmano_aula(
+        data
+    )
+
+    equipos_permanencia = [
+        equipo['equipo']
+        for equipo in clasificacion_regular[9:13]
+    ]
+
+    # =========================================================
+    # CLASIFICACIÓN VACÍA
+    # =========================================================
+
+    clasificacion = defaultdict(lambda: {
+        'jugados': 0,
+        'ganados': 0,
+        'empatados': 0,
+        'perdidos': 0,
+        'favor': 0,
+        'contra': 0,
+        'diferencia_goles': 0,
+        'puntos': 0
+    })
+
+    # =========================================================
+    # ENFRENTAMIENTOS DIRECTOS
+    # =========================================================
+
+    enfrentamientos = defaultdict(list)
+
+    # =========================================================
+    # FUNCIÓN PARA SUMAR PARTIDO
+    # =========================================================
+
+    def procesar_partido(
+        local,
+        visitante,
+        r1,
+        r2
+    ):
+
+        # ================================
+        # PUNTOS
+        # ================================
+
+        if r1 > r2:
+
+            clasificacion[local]['puntos'] += 2
+            clasificacion[local]['ganados'] += 1
+
+            clasificacion[visitante]['perdidos'] += 1
+
+        elif r1 < r2:
+
+            clasificacion[visitante]['puntos'] += 2
+            clasificacion[visitante]['ganados'] += 1
+
+            clasificacion[local]['perdidos'] += 1
+
+        else:
+
+            clasificacion[local]['puntos'] += 1
+            clasificacion[visitante]['puntos'] += 1
+
+            clasificacion[local]['empatados'] += 1
+            clasificacion[visitante]['empatados'] += 1
+
+        # ================================
+        # JUGADOS
+        # ================================
+
+        clasificacion[local]['jugados'] += 1
+        clasificacion[visitante]['jugados'] += 1
+
+        # ================================
+        # GOLES
+        # ================================
+
+        clasificacion[local]['favor'] += r1
+        clasificacion[local]['contra'] += r2
+
+        clasificacion[visitante]['favor'] += r2
+        clasificacion[visitante]['contra'] += r1
+
+        clasificacion[local]['diferencia_goles'] += (
+            r1 - r2
+        )
+
+        clasificacion[visitante]['diferencia_goles'] += (
+            r2 - r1
+        )
+
+        # ================================
+        # ENFRENTAMIENTOS DIRECTOS
+        # ================================
+
+        enfrentamientos[
+            frozenset([local, visitante])
+        ].append({
+            'local': local,
+            'visitante': visitante,
+            'goles_local': r1,
+            'goles_visitante': r2
+        })
+
+    # =========================================================
+    # AÑADIR RESULTADOS LIGA REGULAR
+    # SOLO ENTRE LOS 4 EQUIPOS
+    # =========================================================
+
+    for jornada in data:
+
+        for partido in jornada['partidos']:
+
+            local = partido.local
+            visitante = partido.visitante
+
+            if (
+                local not in equipos_permanencia
+                or visitante not in equipos_permanencia
+            ):
+                continue
+
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
+
+            if (
+                r1 is None
+                or r2 is None
+                or r1 == ''
+                or r2 == ''
+            ):
+                continue
+
+            try:
+
+                r1 = int(r1)
+                r2 = int(r2)
+
+            except ValueError:
+                continue
+
+            procesar_partido(
+                local,
+                visitante,
+                r1,
+                r2
+            )
+
+    # =========================================================
+    # AÑADIR PLAYOFF PERMANENCIA
+    # =========================================================
+
+    for jornada in data_permanencia:
+
+        for partido in jornada['partidos']:
+
+            local = partido.local
+            visitante = partido.visitante
+
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
+
+            if (
+                r1 is None
+                or r2 is None
+                or r1 == ''
+                or r2 == ''
+            ):
+                continue
+
+            try:
+
+                r1 = int(r1)
+                r2 = int(r2)
+
+            except ValueError:
+                continue
+
+            procesar_partido(
+                local,
+                visitante,
+                r1,
+                r2
+            )
+
+    # =========================================================
+    # AVERAGE PARTICULAR
+    # =========================================================
+
+    def average_particular(a, b):
+
+        partidos = enfrentamientos.get(
+            frozenset([a, b]),
+            []
+        )
+
+        if len(partidos) < 2:
+            return None
+
+        puntos_a = 0
+        puntos_b = 0
+
+        goles_a = 0
+        goles_b = 0
+
+        for p in partidos:
+
+            l = p['local']
+            v = p['visitante']
+
+            gl = p['goles_local']
+            gv = p['goles_visitante']
+
+            # GOLES
+
+            if l == a:
+
+                goles_a += gl
+                goles_b += gv
+
+            else:
+
+                goles_a += gv
+                goles_b += gl
+
+            # PUNTOS
+
+            if gl > gv:
+
+                ganador = l
+
+            elif gv > gl:
+
+                ganador = v
+
+            else:
+
+                ganador = None
+
+            if ganador == a:
+
+                puntos_a += 2
+
+            elif ganador == b:
+
+                puntos_b += 2
+
+            else:
+
+                puntos_a += 1
+                puntos_b += 1
+
+        return {
+            'puntos_a': puntos_a,
+            'puntos_b': puntos_b,
+            'diff_a': goles_a - goles_b,
+            'diff_b': goles_b - goles_a
+        }
+
+    # =========================================================
+    # COMPARADOR OFICIAL
+    # =========================================================
+
+    def comparar(a, b):
+
+        na, da = a
+        nb, db = b
+
+        # 1. PUNTOS
+
+        if da['puntos'] != db['puntos']:
+
+            return db['puntos'] - da['puntos']
+
+        # 2. AVERAGE PARTICULAR
+
+        av = average_particular(na, nb)
+
+        if av:
+
+            if av['puntos_a'] != av['puntos_b']:
+
+                return (
+                    av['puntos_b']
+                    - av['puntos_a']
+                )
+
+            if av['diff_a'] != av['diff_b']:
+
+                return (
+                    av['diff_b']
+                    - av['diff_a']
+                )
+
+        # 3. DIFERENCIA GENERAL
+
+        if (
+            da['diferencia_goles']
+            != db['diferencia_goles']
+        ):
+
+            return (
+                db['diferencia_goles']
+                - da['diferencia_goles']
+            )
+
+        # 4. GOLES A FAVOR
+
+        return (
+            db['favor']
+            - da['favor']
+        )
+
+    # =========================================================
+    # ORDENAR
+    # =========================================================
+
+    equipos = list(clasificacion.items())
+
+    equipos.sort(
+        key=cmp_to_key(comparar)
+    )
+
+    # =========================================================
+    # DEVOLVER
+    # =========================================================
+
+    return [
+        {
+            'equipo': equipo,
+            'datos': datos
+        }
+        for equipo, datos in equipos
+    ] 
+# Ruta para mostrar la clasificación y análisis del Aula
+@aula_route_bp.route('/aula_permanencia/')
+def aula_permanencia():
+
+    data = obtener_datos_aula()
+    data_permanencia = obtener_datos_permanencia_aula()
+
+    # =========================
+    # CLASIFICACIÓN BASE
+    # =========================
+    clasificacion_permanencia_aula = generar_clasificacion_permanencia_aula(
+        data,
+        data_permanencia
+    )
+
+    # =========================
+    # OBTENER EQUIPOS REALES
+    # =========================
+    partidos = PermanenciaAula.query.all()
+
+    equipos_existentes = set()
+
+    for partido in partidos:
+        if partido.local:
+            equipos_existentes.add(partido.local)
+        if partido.visitante:
+            equipos_existentes.add(partido.visitante)
+
+    # =========================
+    # AÑADIR EQUIPOS SIN DATOS
+    # =========================
+    for equipo in equipos_existentes:
+
+        if not any(
+            item['equipo'] == equipo
+            for item in clasificacion_permanencia_aula
+        ):
+
+            clasificacion_permanencia_aula.append({
+                'equipo': equipo,
+                'datos': {
+                    'puntos': 0,
+                    'jugados': 0,
+                    'ganados': 0,
+                    'empatados': 0,
+                    'perdidos': 0,
+                    'favor': 0,
+                    'contra': 0,
+                    'diferencia_goles': 0
+                }
+            })
+
+    # =========================
+    # ORDENAR CLASIFICACIÓN
+    # =========================
+    clasificacion_permanencia_aula.sort(
+        key=lambda x: x['datos']['puntos'],
+        reverse=True
+    )
+
+    # =========================
+    # RENDER
+    # =========================
+    return render_template(
+        'permanencias/aula_permanencia.html',
+        clasificacion_permanencia_aula=clasificacion_permanencia_aula,
+        nuevos_datos_aula=data_permanencia
+    )
+
+
 
 # COPA AULA VALLADOLID
 # Crear formulario para la copa

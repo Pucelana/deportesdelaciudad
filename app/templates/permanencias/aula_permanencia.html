@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <title>Permanencia - Aula</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta
+      name="description"
+      content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga."
+    />
+    <meta
+      name="keywords"
+      content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga"
+    />
+    <meta name="author" content="eldeportedelaciudad" />
+    <!-- Twitter meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Página deportiva de Valladolid" />
+    <meta
+      name="twitter:description"
+      content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga."
+    />
+    <meta name="twitter:image" content="URL_de_la_imagen" />
+    <meta name="twitter:site" content="@tu_cuenta_de_twitter" />
+    <meta name="twitter:creator" content="@cuenta_del_autor" />
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="Página deportiva de Valladolid" />
+    <meta
+      property="og:description"
+      content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga."
+    />
+    <meta property="og:image" content="URL_de_la_imagen" />
+    <meta property="og:url" content="URL_de_tu_página" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="eldeportedelaciudad" />
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#000000">
+  </head>
+
+  <body class="calend_deportes">
+    <div class="d-flex flex-column min-vh-100">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb ps-2 pt-2">
+          <li class="breadcrumb-item">
+            <a href="/seccion/aula" class="text-white text-decoration-none text-analisis fs-6"
+              >Aula Valladolid</a
+            >
+          </li>
+          <li class="breadcrumb-item active text-dark" aria-current="page">
+            Permanencia
+          </li>
+        </ol>
+      </nav>
+      <h1 class="text-playoff">Aula Valladolid</h1>
+      <span class="equipo_copa"></span>
+      <!-- Navegación -->
+      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+        <a
+          href="#"
+          class="btn btn-outline-dark btn-slide active"
+          data-target="clasificacion"
+        >
+          Clasificación
+        </a>
+        <!-- Jornadas -->
+        {% for jornada in nuevos_datos_aula %}
+        <a
+          href="#"
+          class="btn btn-outline-dark btn-slide"
+          data-target="{{ jornada.nombre }}"
+        >
+          {{ jornada.nombre }}
+        </a>
+        {% endfor %}
+      </div>
+      <section class="container-lg flex-fill copa_uemc">
+        <!-- Contenido Clasificaciones y Eliminatorias -->
+        <div id="contenedor-secciones">
+          <div class="seccion-slide d-block" id="clasificacion">
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_copa mt-4" style="width: 70rem">
+                <div class="card-body">
+                  <h3 class="text_uemc text-center text-white">Clasificación General</h3>
+                  <table class="table border-secondary text-white text-center">
+                    <thead>
+                      <tr>
+                        <th></th>
+                        <th class="text-dark fs-4">Equipos</th>
+                        <th class="text-dark fs-4">PTOS</th>
+                        <th class="text-dark fs-4">P.J</th>
+                        <th class="text-dark fs-4">Gan</th>
+                        <th class="text-dark fs-4">Em</th>
+                        <th class="text-dark fs-4">Pe</th>
+                        <th class="text-dark fs-4">GF</th>
+                        <th class="text-dark fs-4">GC</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for equipo in clasificacion_permanencia_aula %}
+                      <tr>
+                        <td class="text_uemc fs-4 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}">{{ loop.index }}</td>
+                        <td class="fw-bold text_uemc fs-4">{{ equipo.equipo }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.puntos }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.jugados }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.ganados }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.empatados }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.perdidos }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.favor }}</td>
+                        <td class="text_uemc fs-4">{{ equipo.datos.contra }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% for jornada in nuevos_datos_aula %}
+          <div class="seccion-slide d-none" id="{{ jornada.nombre }}">
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_copa mt-4" style="width: 70rem">
+                <div class="card-body">
+                  <h3 class="text_uemc fs-4 text-center text-white">
+                    {{ jornada.nombre}}
+                  </h3>
+                  <table class="table border-secondary text-white text-center">
+                    <thead>
+                      <tr>
+                        <th class="text-dark fs-5">Fecha</th>
+                        <th class="text-dark fs-5">Hora</th>
+                        <th class="text-dark fs-5">Local</th>
+                        <th class="text-dark fs-5">Resultado</th>
+                        <th class="text-dark fs-5">Visitante</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for partido in jornada.partidos %}
+                      <tr>
+                        <td class="text_uemc fs-5">{{ partido.fecha }}</td>
+                        <td class="text_uemc fs-5">{{ partido.hora }}</td>
+                        <td class="text-copa fw-bold fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">{{ partido.local }}</td>
+                        <td class="text_uemc fs-4">
+                          {% if partido.resultadoA and partido.resultadoB %}
+                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                          {% else %}
+                            -
+                          {% endif %}
+                        </td>
+                        <td class="text-copa fw-bold fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">{{ partido.visitante }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </section>
+      <footer class="container-fluid mt-auto footer-seccion">
+        <div class="row align-items-center text-center">
+          <div
+            class="col-lg-6 col-md-6 d-flex justify-content-center align-items-center mb-1 mb-lg-0"
+          >
+            <a>
+              <h5 class="text-start text-white fw-bold fs-3 text-analisis ms-2">
+                deportesdelaciudad &copy; 2026
+              </h5>
+            </a>
+          </div>
+          <div
+            class="col-lg-6 col-md-6 d-flex justify-content-center align-items-center"
+          >
+            <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="deportesdelaciudad">
+          </div>
+        </div>
+      </footer>
+    </div>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/static/js/proteccion-datos.js"></script>
+    <script src="/static/js/slide.js"></script>
+    <!--<script src="/static/js/script.js"></script>-->
+    <script>
+      document.querySelectorAll(".btn-slide").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = button.dataset.target;
+
+          // Ocultar todas las secciones
+          document.querySelectorAll(".seccion-slide").forEach((section) => {
+            section.classList.add("d-none");
+            section.classList.remove("d-block");
+          });
+
+          // Mostrar la sección deseada
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.classList.remove("d-none");
+            targetSection.classList.add("d-block");
+          }
+
+          // Actualizar clase activa en los botones
+          document
+            .querySelectorAll(".btn-slide")
+            .forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
+        });
+      });
+    </script>
+  </body>
+</html>

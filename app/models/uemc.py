@@ -57,5 +57,5 @@ class PlayoffUEMC(db.Model):
     resultadoA = db.Column(db.Integer, nullable=True)
     resultadoB = db.Column(db.Integer, nullable=True)
     visitante = db.Column(db.String(100), nullable=True)
-    orden = db.Column(db.Integer)         
+    orden = db.Column(db.Integer, default=0)         
     

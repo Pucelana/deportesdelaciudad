@@ -62,6 +62,9 @@ function mostrarFormularioGalvan(){
 function mostrarFormularioAula(){
   document.getElementById('form_partidos_aula').style.display='block';
 }
+function mostrarPermanenciaAula(){
+  document.getElementById('form_permanencia_aula').style.display='block';
+}
 function mostrarFormularioRecoletas(){
   document.getElementById('form_partidos_recoletas').style.display='block';
 }

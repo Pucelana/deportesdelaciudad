@@ -42,6 +42,9 @@
 #form_partidos_aula{
     display: none;
 }
+#form_permanencia_aula{
+    display: none;
+}
 #form_partidos_recoletas{
     display: none;
 }
