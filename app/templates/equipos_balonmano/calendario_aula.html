@@ -134,12 +134,12 @@
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-center fw-bold text-dark">{{ partido.fecha }} {{ partido.hora }}</td>
                                   <!--<td class="text-center text-white"></td>-->
-                                  <td class="text-center fw-bold text-white size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center fw-bold">{{ partido.resultadoA }}</td>
-                                  <td class="text-center fw-bold">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold text-white size_equipos">{{ partido.visitante }}</td>
+                                  <td class="text-center fw-bold text-white size_equipos2">{{ partido.local }}</td>
+                                  <td class="text-center fw-bold text-dark">{{ partido.resultadoA }}</td>
+                                  <td class="text-center fw-bold text-dark">{{ partido.resultadoB }}</td>
+                                  <td class="text-center fw-bold text-white size_equipos2">{{ partido.visitante }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>

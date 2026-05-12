@@ -179,22 +179,22 @@
                                 <tbody style="display: none">
                                   {% for partido in goles.partidos %}
                                   <tr class="text-center">
-                                    <td class="text-white text-center fw-bold">
+                                    <td class="text-dark text-center fw-bold">
                                       {{ partido.fecha }} {{ partido.hora }}
                                     </td>
                                     <td
-                                      class="text-center fw-bold size_equipos"
+                                      class="text-center text-white fw-bold size_equipos2"
                                     >
                                       {{ partido.local }}
                                     </td>
-                                    <td class="text-center text-white">
+                                    <td class="text-center text-dark fw-bold">
                                       {{ partido.resultadoA }}
                                     </td>
-                                    <td class="text-center text-white">
+                                    <td class="text-center text-dark fw-bold">
                                       {{ partido.resultadoB }}
                                     </td>
                                     <td
-                                      class="text-center fw-bold size_equipos"
+                                      class="text-center text-white fw-bold size_equipos2"
                                     >
                                       {{ partido.visitante }}
                                     </td>
@@ -206,7 +206,7 @@
                                 <a
                                   href="#"
                                   onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                  class="text-decoration-none ps-3 text-white"
+                                  class="text_uemc text-decoration-none ps-3 fs-5 text-white"
                                   >Ver</a
                                 >
                               </div>
