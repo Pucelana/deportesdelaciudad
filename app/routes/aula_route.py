@@ -124,7 +124,7 @@ def obtener_datos_aula():
 def calendario_aula():
     datos = obtener_datos_aula()
     nuevos_datos_aula = [dato for dato in datos if dato]
-    equipo_aula = 'Aula Valladolid F'
+    equipo_aula = 'Aula Valladolid'
     tabla_partidos_aula = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
