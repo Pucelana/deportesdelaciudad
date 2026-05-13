@@ -742,23 +742,16 @@ def generar_clasificacion_permanencia_aula(
     data,
     data_permanencia
 ):
-
-    # =========================================================
     # SACAR EQUIPOS 10º AL 13º DE LIGA REGULAR
-    # =========================================================
 
     clasificacion_regular = generar_clasificacion_analisis_balonmano_aula(
         data
     )
-
     equipos_permanencia = [
         equipo['equipo']
         for equipo in clasificacion_regular[9:13]
     ]
-
-    # =========================================================
     # CLASIFICACIÓN VACÍA
-    # =========================================================
 
     clasificacion = defaultdict(lambda: {
         'jugados': 0,
@@ -770,16 +763,11 @@ def generar_clasificacion_permanencia_aula(
         'diferencia_goles': 0,
         'puntos': 0
     })
-
-    # =========================================================
     # ENFRENTAMIENTOS DIRECTOS
-    # =========================================================
 
     enfrentamientos = defaultdict(list)
 
-    # =========================================================
     # FUNCIÓN PARA SUMAR PARTIDO
-    # =========================================================
 
     def procesar_partido(
         local,
@@ -787,8 +775,6 @@ def generar_clasificacion_permanencia_aula(
         r1,
         r2
     ):
-
-        # ================================
         # PUNTOS
         # ================================
 
