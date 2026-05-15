@@ -13,8 +13,8 @@
     .carousel-item{
         display: block;
         margin-right: 0;
-        flex: 0 0 calc(100% / 1.5);
-        min-width: 240px;
+        flex: 0 0 calc(100% / 2);
+        min-width: 260px;
     }
 }
 
