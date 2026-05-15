@@ -1,22 +1,30 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const carouselInner = document.querySelector('#carouselExampleControls .carousel-inner');
+  const carouselInner = document.querySelector(
+    '#carouselExampleControls .carousel-inner'
+  );
 
   if (!carouselInner) return;
 
-  if (!window.matchMedia("(max-width: 992px)").matches) return;
+  // ampliar rango tablets
+  if (!window.matchMedia("(max-width: 1200px)").matches) return;
 
   // duplicar contenido
   carouselInner.innerHTML += carouselInner.innerHTML;
 
-  let speed = 0.25 + Math.random() * 0.1;
+  let speed = 0.35;
   let paused = false;
 
   function loop() {
+
     if (!paused) {
+
       carouselInner.scrollLeft += speed;
 
-      if (carouselInner.scrollLeft >= carouselInner.scrollWidth / 2) {
+      if (
+        carouselInner.scrollLeft >=
+        carouselInner.scrollWidth / 2
+      ) {
         carouselInner.scrollLeft = 0;
       }
     }
@@ -24,11 +32,22 @@ document.addEventListener("DOMContentLoaded", () => {
     requestAnimationFrame(loop);
   }
 
-  loop();
+  // comprobar overflow real
+  if (
+    carouselInner.scrollWidth >
+    carouselInner.clientWidth
+  ) {
+    loop();
+  }
 
-  carouselInner.addEventListener('touchstart', () => paused = true);
-  carouselInner.addEventListener('touchend', () => {
-    paused = false;
-  });
+  carouselInner.addEventListener(
+    'touchstart',
+    () => paused = true
+  );
+
+  carouselInner.addEventListener(
+    'touchend',
+    () => paused = false
+  );
 
 });
