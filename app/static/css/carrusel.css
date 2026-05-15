@@ -13,7 +13,8 @@
     .carousel-item{
         display: block;
         margin-right: 0;
-        flex: 0 0 calc(100% / 2);
+        flex: 0 0 auto;
+        width: 260px;
         min-width: 260px;
     }
 }
@@ -60,7 +61,8 @@
 
 .carousel-inner{
     padding: 0.1rem;
-    display: flex;
+    display: flex !important;
+    flex-wrap: nowrap !important;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-behavior: auto;
