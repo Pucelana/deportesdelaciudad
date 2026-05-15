@@ -67,6 +67,7 @@
     overflow-y: hidden;
     scroll-behavior: auto;
     width: 100%;
+    -webkit-overflow-scrolling: touch;
 }
 
 .carousel-inner::-webkit-scrollbar {
