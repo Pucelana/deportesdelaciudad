@@ -106,8 +106,9 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text_uemc text-center text-white">Clasificación General</h3>
-                  <table class="table border-secondary text-white text-center">
+                  <div class="table-responsive">
+                   <h3 class="text_uemc text-center text-white">Clasificación General</h3>
+                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
                         <th></th>
@@ -134,7 +135,8 @@
                       </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
+                   </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,10 +146,11 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text_uemc fs-4 text-center text-white">
+                  <div class="table-responsive">
+                   <h3 class="text_uemc fs-4 text-center text-white">
                     {{ jornada|replace('_',' ')|title }}
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
+                   </h3>
+                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
                         <th class="text-dark fs-5">Fecha</th>
@@ -174,7 +177,8 @@
                       </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
+                   </table>
+                  </div>
                 </div>
               </div>
             </div>

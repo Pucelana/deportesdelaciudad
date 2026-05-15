@@ -638,7 +638,7 @@ def recalcular_clasificacion(jornadas):
             if not p.resultadoA or not p.resultadoB:
                 continue
 
-            if not p.resultadoA.isdigit() or not p.resultadoB.isdigit():
+            if p.resultadoA is None or p.resultadoB is None:
                 continue
 
             resA = int(p.resultadoA)

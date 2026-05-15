@@ -53,7 +53,7 @@
   </head>
 
   <body class="calend_deportes">
-    <div class="d-flex flex-column min-vh-100">
+    <div class="d-flex flex-column min-vh-100 sticky-top">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
@@ -88,15 +88,16 @@
         </a>
         {% endfor %}
       </div>
-      <section class="container-lg flex-fill copa_uemc">
+      <section class="container-lg mb-5 flex-fill">
         <!-- Contenido Clasificaciones y Eliminatorias -->
         <div id="contenedor-secciones">
           <div class="seccion-slide d-block" id="clasificacion">
             <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
                 <div class="card-body">
-                  <h3 class="text_uemc text-center text-white">Clasificación General</h3>
-                  <table class="table border-secondary text-white text-center">
+                  <div class="table-responsive">
+                   <h3 class="text_uemc text-center text-white">Clasificación General</h3>
+                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
                         <th></th>
@@ -125,7 +126,8 @@
                       </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
+                   </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -133,12 +135,13 @@
           {% for jornada in nuevos_datos_aula %}
           <div class="seccion-slide d-none" id="{{ jornada.nombre }}">
             <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
                 <div class="card-body">
-                  <h3 class="text_uemc fs-4 text-center text-white">
+                  <div class="table-responsive">
+                   <h3 class="text_uemc fs-4 text-center text-white">
                     {{ jornada.nombre}}
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
+                   </h3>
+                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
                         <th class="text-dark fs-5">Fecha</th>
@@ -165,7 +168,8 @@
                       </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
+                   </table>
+                  </div>
                 </div>
               </div>
             </div>
