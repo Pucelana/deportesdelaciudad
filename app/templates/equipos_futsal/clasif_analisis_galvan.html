@@ -81,7 +81,7 @@
                           {% for equipo in clasificacion_analisis_galvan %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}">
+                              class="fw-bold {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
                             <td class="fw-bold size_equipos text-white {% if 'Tierno Galván' in equipo['equipo'] %}equipo-galvan{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
