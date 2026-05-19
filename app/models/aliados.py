@@ -61,9 +61,24 @@ class SupercopaAliados(db.Model):
     visitante = db.Column(db.String(100), nullable=True)
     orden = db.Column(db.Integer)    
 
+class JornadaEurocup(db.Model):
+    __tablename__ = 'jornada_eurocup'
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(100), nullable=False)
+    partidos = db.relationship(
+        'EurocupAliados',
+        backref='jornada',
+        lazy=True,
+        cascade="all, delete-orphan"
+    )
+
 class EurocupAliados(db.Model):
     __tablename__ = 'eurocup_aliados'
-    id = db.Column(db.Integer, primary_key=True)  # ID único para cada partido
+    id = db.Column(db.Integer, primary_key=True)
+    jornada_id = db.Column(
+        db.Integer,
+        db.ForeignKey('jornada_eurocup.id')
+    )  # ID único para cada partido
     encuentros = db.Column(db.String(255), nullable=True)  # Encuentros, por ejemplo, nombre del torneo o fase
     fecha = db.Column(db.String(20))
     hora = db.Column(db.String(20))  # Hora del partido
@@ -73,12 +88,5 @@ class EurocupAliados(db.Model):
     visitante = db.Column(db.String(255))
     orden = db.Column(db.Integer)      
     
-class Clasificacion(db.Model):
-    __tablename__ = 'clasificacion_eurocup'
-    id = db.Column(db.Integer, primary_key=True)
-    grupo = db.Column(db.String(50))
-    equipo = db.Column(db.String(50))
-    jugados = db.Column(db.Integer, default=0)
-    ganados = db.Column(db.Integer, default=0)
-    perdidos = db.Column(db.Integer, default=0)
-    puntos = db.Column(db.Integer, default=0)        
+
+          

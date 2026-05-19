@@ -124,7 +124,7 @@ def obtener_datos_galvan():
 def calendario_galvan():
     datos = obtener_datos_galvan()
     nuevos_datos_galvan = [dato for dato in datos if dato]
-    equipo_galvan = 'C.D Tierno Galván'
+    equipo_galvan = 'Tierno Galván'
     tabla_partidos_galvan = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:

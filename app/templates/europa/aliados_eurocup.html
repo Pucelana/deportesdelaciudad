@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>Eurocup1 - Fundación Aliados</title>
+    <title>Eurocup 1 - Grp-A - Fundación Aliados</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -61,7 +61,7 @@
             >
           </li>
           <li class="breadcrumb-item active text-dark" aria-current="page">
-            Eurocup1
+            Eurocup 1 - Grp-A
           </li>
         </ol>
       </nav>
@@ -77,24 +77,13 @@
           Clasificación
         </a>
         <!-- Jornadas -->
-        {% for jornada in jornadas.keys() %}
+        {% for jornada, partidos in jornadas.items() %}
         <a
           href="#"
           class="btn btn-outline-dark btn-slide"
           data-target="{{ jornada }}"
         >
           {{ jornada|replace('_',' ')|title }}
-        </a>
-        {% endfor %}
-
-        <!-- Eliminatorias -->
-        {% for ronda in eliminatorias.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-dark btn-slide"
-          data-target="{{ ronda }}"
-        >
-          {{ ronda|capitalize }}
         </a>
         {% endfor %}
       </div>
@@ -105,11 +94,12 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text_uemc text-center text-white">
-                    Clasificación General
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
+                  <div class="table-responsive">
+                    <h3 class="text_uemc text-center text-white">
+                      Clasif. EuroCup 1 - Grp A
+                    </h3>
+                    <table class="table border-secondary text-white text-center">
+                     <thead>
                       <tr>
                         <th></th>
                         <th class="text-dark fs-4">Equipos</th>
@@ -125,11 +115,11 @@
                       {% for equipo, stats in clasificacion %}
                       <tr>
                         <td
-                          class="text_uemc fs-4 {% if loop.index <= 14 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}"
+                          class="text_uemc fs-4 {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 5 %}pos-nada{% endif %}"
                         >
                           {{ loop.index }}
                         </td>
-                        <td class="fw-bold text_uemc fs-4">{{ equipo }}</td>
+                        <td class="fw-bold fw-bold text_uemc fs-4">{{ equipo }}</td>
                         <td class="text_uemc fs-4">{{ stats.jugados }}</td>
                         <td class="text_uemc fs-4">{{ stats.ganados }}</td>
                         <td class="text_uemc fs-4">{{ stats.perdidos }}</td>
@@ -139,7 +129,8 @@
                       </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
+                   </table>
+                  </div>
                 </div>
               </div>
             </div>
@@ -149,10 +140,11 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text_uemc fs-4 text-center text-white">
-                    {{ jornada|replace('_',' ')|title }}
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
+                  <div class="table-responsive">
+                    <h3 class="text_uemc fs-4 text-center text-white">
+                      {{ jornada|replace('_',' ')|title }}
+                    </h3>
+                   <table class="table border-secondary text-white text-center">
                     <thead>
                       <tr>
                         <th class="text-dark fs-5">Fecha</th>
@@ -168,72 +160,24 @@
                         <td class="text_uemc fs-5">{{ partido.fecha }}</td>
                         <td class="text_uemc fs-5">{{ partido.hora }}</td>
                         <td
-                          class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                          class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
                         >
                           {{ partido.local }}
                         </td>
-                        <td class="text_uemc fs-4">
+                        <td class="text_uemc fw-bold fs-4">
                           {% if partido.resultadoA and partido.resultadoB %} {{
                           partido.resultadoA }} - {{ partido.resultadoB }} {%
                           else %} - {% endif %}
                         </td>
                         <td
-                          class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                          class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
                         >
                           {{ partido.visitante }}
                         </td>
                       </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-
-          <!-- Eliminatorias -->
-          {% for ronda, partidos in eliminatorias.items() %}
-          <div class="seccion-slide d-none" id="{{ ronda }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text_uemc text-center text-white fs-4 mb-3">
-                    {{ ronda|capitalize }}
-                  </h3>
-                  <div class="row table-responsive">
-                    <div class="col-12">
-                      <table
-                        class="table border-secondary text-white text-center"
-                      >
-                        {% for partido in partidos %}
-                        <tr class="text-center">
-                          <td class="text_uemc text-white fs-5">
-                            {{ partido.fecha }}
-                          </td>
-                          <td class="text_uemc text-white fs-5">
-                            {{ partido.hora }}
-                          </td>
-                          <td
-                            class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                          >
-                            {{ partido.local }}
-                          </td>
-                          <td class="text_uemc fw-bold fs-4">
-                            {{ partido.resultadoA }}
-                          </td>
-                          <td class="text_uemc fw-bold fs-4">
-                            {{ partido.resultadoB }}
-                          </td>
-                          <td
-                            class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                          >
-                            {{ partido.visitante }}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
+                   </table>
                   </div>
                 </div>
               </div>
@@ -279,6 +223,7 @@
     ></script>
     <script src="/static/js/proteccion-datos.js"></script>
     <script src="/static/js/slide.js"></script>
+    <script src="/static/js/num_caracteres.js"></script>
     <!--<script src="/static/js/script.js"></script>-->
     <script>
       document.querySelectorAll(".btn-slide").forEach((button) => {

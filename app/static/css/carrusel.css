@@ -13,7 +13,7 @@
     .carousel-item{
         display: block;
         margin-right: 0;
-        flex: 0 0 auto;
+        flex: 0 0 calc(100% / 2);
         min-width: 260px;
     }
 }
@@ -53,7 +53,7 @@
     .carousel-item{
         display: block;
         margin-right: 0;
-        flex: 0 0 calc(100% / 4);
+        flex: 0 0 calc(100% / 5.5);
         min-width: 290px;
     }
 }

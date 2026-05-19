@@ -33,12 +33,15 @@
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
         <select id="encuentros" name="encuentros">
-          <option value="liga_j1">Jornada 1</option>
-          <option value="liga_j2">Jornada 2</option>
-          <option value="liga_j3">Jornada 3</option>
-          <option value="liga_j4">Jornada 4</option>
-          <option value="cuartos">Cuartos</option>
+          <option value="dia_1">Día 1</option>
+          <option value="dia_2">Día 2</option>
+          <option value="partido1">Partido 1</option>
+          <option value="partido2">Partido 2</option>
+          <option value="partido3">Partido 3</option>
+          <option value="7º-8º">7º-8º</option>
+          <option value="5º-6º">5º-6º</option>
           <option value="semifinales">Semifinales</option>
+          <option value="3º-4º">3º-4º</option>
           <option value="final">Final</option>
         </select>
         <div class="form-group col-md-6">
@@ -196,12 +199,22 @@
         var selectedOption = selectEliminatoria.value;
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
-        if (selectedOption.startsWith("liga_j1") || selectedOption.startsWith("liga_j2") || selectedOption.startsWith("liga_j3") || selectedOption.startsWith("liga_j4")) { 
-          numPartidos = 3;
-        } else if (selectedOption === "cuartos") {
-          numPartidos = 4;
+        if (selectedOption.startsWith("dia_1") || selectedOption.startsWith("dia_2")) { 
+          numPartidos = 5;
+        } else if (selectedOption === "partido1") {
+          numPartidos = 8;
+        } else if (selectedOption === "partido2") {
+          numPartidos = 2;
+        } else if (selectedOption === "partido3") {
+          numPartidos = 2;
+        } else if (selectedOption === "7º-8º") {
+          numPartidos = 2;
+        } else if (selectedOption === "5º-6º") {
+          numPartidos = 1;
         } else if (selectedOption === "semifinales") {
           numPartidos = 2;
+        } else if (selectedOption === "3º-4º") {
+          numPartidos = 1;
         } else if (selectedOption === "final") {
           numPartidos = 1;
         }

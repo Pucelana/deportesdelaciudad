@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-    <title>Copa de España</title>
+    <title>Eurocup 2 - Final - Fundación Aliados</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
     <meta
@@ -46,68 +46,57 @@
     />
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
     <!-- Favicon -->
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
-    />
-    <link
-      rel="manifest"
-      href="{{ url_for('static', filename='manifest.json') }}"
-    />
-    <meta name="theme-color" content="#000000" />
+    <link rel="icon" type="image/jpg" href="/static/img/logo-deportes2.png" />
   </head>
+
   <body class="calend_deportes">
     <div class="d-flex flex-column min-vh-100">
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
             <a
-              href="/seccion/recoletas"
+              href="/seccion/aliados"
               class="text-white text-decoration-none text-analisis fs-6"
-              >Atl. Valladolid</a
+              >Fundación Aliados</a
             >
           </li>
           <li class="breadcrumb-item active text-dark" aria-current="page">
-            Copa de España
+            Eurocup 2 - Final
           </li>
         </ol>
       </nav>
-      <h1 class="text-playoff">Atl. Valladolid</h1>
+      <h1 class="text-playoff">Fundación Aliados</h1>
       <span class="equipo_copa"></span>
-      <section class="container-lg flex-fill copa">
-        <!-- Navegación -->
-        <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-          {% for ronda in datos_copa.keys() %}
-          <a
-            href="#"
-            class="btn btn-outline-dark btn-ronda"
-            data-target="ronda{{ loop.index0 }}"
-            >{{ ronda|capitalize }}</a
-          >
-          {% endfor %}
-        </div>
-        <!-- Contenedor de rondas -->
-        <div id="contenedor-rondas">
-          {% for ronda, partidos in datos_copa.items() %}
-          <div
-            class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
-            id="ronda{{ loop.index0 }}"
-          >
+      <!-- Navegación -->
+      <div class="d-flex justify-content-center my-2 gap-2 flex-wrap">
+        <!-- Eliminatorias -->
+        {% for ronda in eliminatorias.keys() %}
+        <a
+          href="#"
+          class="btn btn-outline-dark btn-slide"
+          data-target="{{ ronda }}"
+        >
+          {{ ronda|capitalize }}
+        </a>
+        {% endfor %}
+      </div>
+      <section class="container-lg flex-fill copa_uemc">
+        <!-- Contenido Clasificaciones y Eliminatorias -->
+        <div id="contenedor-secciones">
+          <!-- Eliminatorias -->
+          {% for ronda, partidos in eliminatorias.items() %}
+          <div class="seccion-slide d-none" id="{{ ronda }}">
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3
-                    class="text-center text-white text-capitalize text-analisis"
-                  >
-                    {{ ronda }}
+                  <h3 class="text_uemc text-center text-white fs-4 mb-3">
+                    {{ ronda|capitalize }}
                   </h3>
                   <div class="row table-responsive">
                     <div class="col-12">
-                      <table class="table border-secondary">
+                      <table
+                        class="table border-secondary text-white text-center"
+                      >
                         {% for partido in partidos %}
                         <tr class="text-center">
                           <td class="text_uemc text-white fs-5">
@@ -121,10 +110,10 @@
                           >
                             {{ partido.local }}
                           </td>
-                          <td class="text_uemc text-white fw-bold fs-4">
+                          <td class="text_uemc fw-bold fs-4">
                             {{ partido.resultadoA }}
                           </td>
-                          <td class="text_uemc text-white fw-bold fs-4">
+                          <td class="text_uemc fw-bold fs-4">
                             {{ partido.resultadoB }}
                           </td>
                           <td
@@ -179,31 +168,33 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
+    <script src="/static/js/proteccion-datos.js"></script>
+    <script src="/static/js/slide.js"></script>
+    <!--<script src="/static/js/script.js"></script>-->
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const botones = document.querySelectorAll(".btn-ronda");
-        const rondas = document.querySelectorAll(".ronda-item");
+      document.querySelectorAll(".btn-slide").forEach((button) => {
+        button.addEventListener("click", (e) => {
+          e.preventDefault();
+          const targetId = button.dataset.target;
 
-        botones.forEach((boton) => {
-          boton.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            // Oculta todas las rondas
-            rondas.forEach((r) => r.classList.add("d-none"));
-            rondas.forEach((r) => r.classList.remove("d-block"));
-
-            // Activa solo la seleccionada
-            const targetId = this.dataset.target;
-            const targetDiv = document.getElementById(targetId);
-            if (targetDiv) {
-              targetDiv.classList.remove("d-none");
-              targetDiv.classList.add("d-block");
-            }
-
-            // Opcional: marcar el botón activo
-            botones.forEach((b) => b.classList.remove("active"));
-            this.classList.add("active");
+          // Ocultar todas las secciones
+          document.querySelectorAll(".seccion-slide").forEach((section) => {
+            section.classList.add("d-none");
+            section.classList.remove("d-block");
           });
+
+          // Mostrar la sección deseada
+          const targetSection = document.getElementById(targetId);
+          if (targetSection) {
+            targetSection.classList.remove("d-none");
+            targetSection.classList.add("d-block");
+          }
+
+          // Actualizar clase activa en los botones
+          document
+            .querySelectorAll(".btn-slide")
+            .forEach((btn) => btn.classList.remove("active"));
+          button.classList.add("active");
         });
       });
     </script>
