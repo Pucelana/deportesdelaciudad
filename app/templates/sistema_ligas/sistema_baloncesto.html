@@ -212,45 +212,44 @@
         <img src="/static/img/basket_sf.png" alt="balón-baloncesto" class="team-logo">
       </div>
       <!-- Navegador personalizado -->
-      <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-bsr" class="btn btn-outline-dark" data-slide="0">BSR</a>
-        <a href="#slide-femenino" class="btn btn-outline-dark" data-slide="1">Femenino</a>
-        <a href="#slide-masculino" class="btn btn-outline-dark" data-slide="2">Masculino</a>
+      <div class="d-flex justify-content-center my-3 gap-2">
+        <button class="btn btn-outline-light tab-btn active" data-tab="bsr"> BSR </button>
+        <button class="btn btn-outline-light tab-btn" data-tab="femenino"> Femenino </button>
+        <button class="btn btn-outline-light tab-btn" data-tab="masculino"> Masculino </button>
       </div>
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
-        <div class="carousel-inner">
-          <div class="carousel-item active" id="slide-bsr"><!-- Sistema liga - Baloncesto BSR -->
+      <div id="tab-container">
+          <div class="tab-pane active" id="bsr"><!-- Sistema liga - Baloncesto BSR -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
-                  <h2 class="tipo_sistema">Baloncesto Silla de Ruedas</h2>
+                  <h2 class="tipo_sistema text-analisis">Baloncesto Silla de Ruedas</h2>
                   <div class="row d-flex justify-content-center">
                     <div class="col-lg-12"><!-- Liga BSR División de Honor -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">Liga BSR División de Honor</h3>
-                          <p class="fw-bold">FEDDF</p>
-                          <p class="fw-bold">1ª Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">Liga BSR División de Honor</h3>
+                          <p class="fw-bold text-analisis fs-4">FEDDF</p>
+                          <p class="fw-bold text-analisis fs-4">1ª Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Actualmente consta de 12 equipos, todos contra todos, y a doble partido.</p>
-                            <strong>Primera Vuelta - Copa del Rey</strong>
-                            <p>Los ocho primeros equipos clasificados al final de la primera vuelta de la competición
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Actualmente consta de 12 equipos, todos contra todos, y a doble partido.</p>
+                            <strong class="text-analisis fs-4">Primera Vuelta - Copa del Rey</strong>
+                            <p class="text-analisis fs-5">Los ocho primeros equipos clasificados al final de la primera vuelta de la competición
                               disputan la Copa del Rey.</p>
-                            <strong>Título Liga BSR División de Honor</strong>
-                            <p>Se clasificán los 4 primeros para una FinalFour.</p>
-                            <strong>Promoción Descenso</strong>
-                            <p>El penultimo clasificado jugará la promoción con el 2º clasificado de la 1ª División, el
+                            <strong class="text-analisis fs-4">Título Liga BSR División de Honor</strong>
+                            <p class="text-analisis fs-5">Se clasificán los 4 primeros para una FinalFour.</p>
+                            <strong class="text-analisis fs-4">Promoción Descenso</strong>
+                            <p class="text-analisis fs-5">El penultimo clasificado jugará la promoción con el 2º clasificado de la 1ª División, el
                               ganador jugara la siguiente temporada en la Divisón de Honor.</p>
-                            <strong>Descenso</strong>
-                            <p>El ultimo clasificado desciende directamente a la Liga BSR 1ª División.</p>
-                            <strong>Europa</strong>
-                            <p>El primer clasificado jugara en Europa la siguiente temporada.</p>
-                            <strong>Supercopa España BSR</strong>
-                            <p>La disputarán los dos primeros clasificados de la liga regular y el finalista y
+                            <strong class="text-analisis fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">El ultimo clasificado desciende directamente a la Liga BSR 1ª División.</p>
+                            <strong class="text-analisis fs-4">Europa</strong>
+                            <p class="text-analisis fs-5">El primer clasificado jugara en Europa la siguiente temporada.</p>
+                            <strong class="text-analisis fs-4">Supercopa España BSR</strong>
+                            <p class="text-analisis fs-5">La disputarán los dos primeros clasificados de la liga regular y el finalista y
                               semifinalista de la Copa del Rey, a partido único y en campo neutral.</p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -258,30 +257,30 @@
                     <div class="col-lg-12"><!-- Liga BSR 1ª División -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">Liga BSR 1ª División</h3>
-                          <p class="fw-bold">FEDDF</p>
-                          <p class="fw-bold">2º Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">Liga BSR 1ª División</h3>
+                          <p class="fw-bold text-analisis">FEDDF</p>
+                          <p class="fw-bold text-analisis">2º Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Actualmente consta de 10 equipos, todos contra todos, y a doble partido.</p>
-                            <strong>Ascenso Directo</strong>
-                            <p>Asciende a la Liga BSR División de Honor de forma automatica el 1º del campeonato, y así
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Actualmente consta de 10 equipos, todos contra todos, y a doble partido.</p>
+                            <strong class="text-analisis fs-4">Ascenso Directo</strong>
+                            <p class="text-analisis fs-5">Asciende a la Liga BSR División de Honor de forma automatica el 1º del campeonato, y así
                               proclamandose támbien campeón de la 1ª División.</p>
-                            <strong>Promoción Ascenso</strong>
-                            <p>Partido de promoción entre el penúltimo
+                            <strong class="text-analisis fs-4">PROMOCIÓN ASCENSO</strong>
+                            <p class="text-analisis fs-5">Partido de promoción entre el penúltimo
                               clasificado en División de Honor y el 2º clasificado en 1ª
                               División, el ganador jugará la siguiente temporada en División de Honor y el perdedor en
                               1ª División.</p>
-                            <strong>Descenso</strong>
-                            <p>Descinede a la 2ª División de forma autómatica el ultimo clasificado al finalizar la
+                            <strong class="text-analisis fs-4">DESCENSO</strong>
+                            <p class="text-analisis fs-5">Descinede a la 2ª División de forma autómatica el ultimo clasificado al finalizar la
                               temporada.</p>
-                            <strong>Promoción Descenso</strong>
-                            <p>Partido de promoción entre el penúltimo
+                            <strong class="text-analisis fs-4">Promoción Descenso</strong>
+                            <p class="text-analisis fs-5">Partido de promoción entre el penúltimo
                               clasificado en Primera División y el segundo clasificado en Segunda
                               División, el ganador jugará la siguiente temporada en 1ª División y el perdedor jugará en
                               2ª División.</p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -289,24 +288,24 @@
                     <div class="col-lg-12"><!-- Liga BSR 2ª División -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">Liga BSR 2ª División</h3>
-                          <p class="fw-bold">FEDDF</p>
-                          <p class="fw-bold">3º Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">Liga BSR 2ª División</h3>
+                          <p class="fw-bold text-analisis">FEDDF</p>
+                          <p class="fw-bold text-analisis">3º Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Actualmente consta de 2 grupos, con un total de 11 equipos.</p>
-                            <strong>Ascenso Directo</strong>
-                            <p>Asciende a la Liga BSR 1ª División de forma automatica el 1º del campeonato, y así
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Actualmente consta de 2 grupos, con un total de 11 equipos.</p>
+                            <strong class="text-analisis fs-4">Ascenso Directo</strong>
+                            <p class="text-analisis fs-5">Asciende a la Liga BSR 1ª División de forma automatica el 1º del campeonato, y así
                               proclamandose támbien campeón de la 2ª División.</p>
-                            <strong>Promoción Ascenso</strong>
-                            <p>Partido de promoción entre el penúltimo
+                            <strong class="text-analisis fs-4">PROMOCIÓN ASCENSO</strong>
+                            <p class="text-analisis fs-5">Partido de promoción entre el penúltimo
                               clasificado en 1ª División y el 2º clasificado en 2ª
                               División, el ganador jugará la siguiente temporada en 1ª División y el perdedor en 2ª
                               División.</p>
-                            <strong>Descenso</strong>
-                            <p>No hay descenso de categoría en la actualidad.</p>
+                            <strong class="text-analisis fs-4">DESCENSO</strong>
+                            <p class="text-analisis fs-5">No hay descenso de categoría en la actualidad.</p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -316,36 +315,36 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item active" id="slide-femenino"><!-- Sistema liga - Baloncesto Femenino -->
+          <div class="tab-pane active" id="femenino"><!-- Sistema liga - Baloncesto Femenino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
-                  <h2 class="tipo_sistema">Baloncesto Femenino</h2>
+                  <h2 class="tipo_sistema text-analisis">Baloncesto Femenino</h2>
                   <div class="row d-flex justify-content-center">
                     <div class="col-lg-12"><!-- Liga Femenina Endesa -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h2 class="fw-bold fs-1">Liga Femenina Endesa</h2>
-                          <p class="fw-bold">Federación Española de Baloncesto</p>
-                          <p class="fw-bold">1ª Nivel</p>
+                          <h2 class="fw-bold fs-1 text-analisis">Liga Femenina Endesa</h2>
+                          <p class="fw-bold text-analisis">Federación Española de Baloncesto</p>
+                          <p class="fw-bold text-analisis">1ª Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Actualmente consta de 16 equipos, se juega un formato de round robin.</p>
-                            <strong>Primera Vuelta - Copa de laReina</strong>
-                            <p>Los siete primeros equipos clasificados al final de la primera vuelta de la competición y
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Actualmente consta de 16 equipos, se juega un formato de round robin.</p>
+                            <strong class="text-analisis fs-4">Primera Vuelta - Copa de laReina</strong>
+                            <p class="text-analisis fs-5">Los siete primeros equipos clasificados al final de la primera vuelta de la competición y
                               el anfitrión disputan la Copa de la Reina de baloncesto.​ Además, el título clasifica a la
                               Supercopa de España.</p>
-                            <strong>Título Liga Femenina Endesa</strong>
-                            <p>Se clasificán los 8 primeros para los playoffs de cuartos, semifinales y final al mejor
+                            <strong class="text-analisis fs-4">Título Liga Femenina Endesa</strong>
+                            <p class="text-analisis fs-5">Se clasificán los 8 primeros para los playoffs de cuartos, semifinales y final al mejor
                               de 3 partidos cada uno</p>
-                            <strong>Descenso</strong>
-                            <p>Los 2 últimos clasificados descienden a Liga Femenina Challenge.</p>
-                            <strong>Euroliga</strong>
-                            <p>El primer clasificado disputa la Euroliga Femenina, jugando otros equipos la Eurocopa
+                            <strong class="text-analisis fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">Los 2 últimos clasificados descienden a Liga Femenina Challenge.</p>
+                            <strong class="text-analisis fs-4">Euroliga</strong>
+                            <p class="text-analisis fs-5">El primer clasificado disputa la Euroliga Femenina, jugando otros equipos la Eurocopa
                               Femenina de la FIBA. Si bien en los últimos años varios equipos han renunciado a
                               participar en competiciones europeas</p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -353,17 +352,17 @@
                     <div class="col-lg-12"><!-- Liga Femenina Challange -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h2 class="fw-bold fs-1">Liga Femenina Challange</h2>
-                          <p class="fw-bold">Federación Española de Baloncesto</p>
-                          <p class="fw-bold">2º Nivel</p>
+                          <h2 class="fw-bold fs-1 text-analisis">Liga Femenina Challange</h2>
+                          <p class="fw-bold text-analisis">Federación Española de Baloncesto</p>
+                          <p class="fw-bold text-analisis">2º Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>La Liga Femenina Challenge se disputa bajo un único grupo de competición en el que sus 16
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">La Liga Femenina Challenge se disputa bajo un único grupo de competición en el que sus 16
                               equipos se enfrentarán en una Liga Regular a ida/vuelta.</p>
-                            <strong>Ascenso Directo</strong>
-                            <p> El primer clasificado asciende directamente a la Liga Femenina Endesa</p>
-                            <strong>Play-Offs Ascenso</strong>
-                            <p> Los equipos clasificados entre el 2.º y el 9.º puesto pasan a disputar los play-offs de
+                            <strong class="text-analisis fs-4">Ascenso Directo</strong>
+                            <p class="text-analisis fs-5"> El primer clasificado asciende directamente a la Liga Femenina Endesa</p>
+                            <strong class="text-analisis fs-4">Play-Offs Ascenso</strong>
+                            <p class="text-analisis fs-5"> Los equipos clasificados entre el 2.º y el 9.º puesto pasan a disputar los play-offs de
                               ascenso, que son unas eliminatorias de cuartos de final, semifinales y final, en las que
                               el campeón también consigue el ascenso a la Liga Femenina Endesa.
                               En cuartos de final, el segundo clasificado de la fase regular se enfrenta al noveno, el
@@ -375,11 +374,11 @@
                               partido de semifinal y una final entre los vencedores. El ganador, si cumple los
                               requisitos económicos y técnicos, disputará la siguiente edición de la Liga Femenina
                               Endesa.</p>
-                            <strong>Descenso</strong>
-                            <p>Descienden a la Liga Femenina 2, los 2 últimos clasificados.
+                            <strong class="text-analisis fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">Descienden a la Liga Femenina 2, los 2 últimos clasificados.
                             </p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -387,22 +386,22 @@
                     <div class="col-lg-12"><!-- Liga Femenina 2 -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h2 class="fw-bold fs-1">Liga Femenina 2</h2>
-                          <p class="fw-bold">Federación Española de Baloncesto</p>
-                          <p class="fw-bold">3º Nivel</p>
+                          <h2 class="fw-bold fs-1 text-analisis">Liga Femenina 2</h2>
+                          <p class="fw-bold text-analisis">Federación Española de Baloncesto</p>
+                          <p class="fw-bold text-analisis">3º Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Se compone de 2 grupos de 14 equipos cada uno</p>
-                            <strong>Ascenso</strong>
-                            <p>Los cuatro primeros de ambos cuadros disputarán en una misma sede la fase de ascenso. Los
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Se compone de 2 grupos de 14 equipos cada uno</p>
+                            <strong class="text-analisis fs-4">Ascenso</strong>
+                            <p class="text-analisis fs-5">Los cuatro primeros de ambos cuadros disputarán en una misma sede la fase de ascenso. Los
                               dos mejores de cada grupo pasaran a las finales. El ganador de cada una de ellas asciende
                               deportivamente a Liga Femenina Challenge.</p>
-                            <strong>Descenso</strong>
-                            <p>Descienden a la 1ª División Femenina, los 3 últimos clasificados de cada grupo, siendo un
+                            <strong class="text-analisis fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">Descienden a la 1ª División Femenina, los 3 últimos clasificados de cada grupo, siendo un
                               total de 6 descendidos.
                             </p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -410,35 +409,35 @@
                     <div class="col-lg-12"><!-- 1ª División Femenina -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h2 class="fw-bold fs-1">1ª División Femenina</h2>
-                          <p class="fw-bold">Federación Autónomica</p>
-                          <p class="fw-bold">4º Nivel</p>
+                          <h2 class="fw-bold fs-1 text-analisis">1ª División Femenina</h2>
+                          <p class="fw-bold text-analisis">Federación Autónomica</p>
+                          <p class="fw-bold text-analisis">4º Nivel</p>
                           <div class="texto-adicional">
-                            <strong>Organización de la categoría</strong>
-                            <p> Esta competición está dividida en diferentes grupos por comunidades autónomas.
+                            <strong class="text-analisis fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5"> Esta competición está dividida en diferentes grupos por comunidades autónomas.
                               Actualmente esta organizada en cuatro grupos con varias ligas(de una o varias comunidades
                               autónomas) en cada uno.</p>
-                            <strong class="text-start">GRUPO 1: Integrado por los equipos de Galicia, Asturias,
+                            <strong class="text-analisis fs-4">GRUPO 1: Integrado por los equipos de Galicia, Asturias,
                               Cantabria, Castilla y León, País Vasco, Navarra y La Rioja</strong>
-                            <li class="text-start"><strong>Liga:</strong> Galicia, Asturias, Cantabria y Castilla y León
+                            <li class="text-analisis fs-5"><strong class="text-analisis fs-4">Liga:</strong> Galicia, Asturias, Cantabria y Castilla y León
                             </li>
-                            <li class="text-start"><strong>Liga:</strong>País Vasco, Navarra y La Rioja</li>
-                            <li class="text-start mb-3">Luego hay otros 3 grupos, solo mostramos donde aparece Castilla
+                            <li class="text-analisis fs-5"><strong class="text-analisis fs-4">Liga:</strong>País Vasco, Navarra y La Rioja</li>
+                            <li class="text-analisis fs-5">Luego hay otros 3 grupos, solo mostramos donde aparece Castilla
                               y León</li>
-                            <strong>Fase de Ascenso</strong>
-                            <p>Se clasifican los 4 mejores de cada grupo, en total 16 equipos, donde se jugará una Fase
+                            <strong class="text-analisis fs-4">Fase de Ascenso</strong>
+                            <p class="text-analisis fs-5">Se clasifican los 4 mejores de cada grupo, en total 16 equipos, donde se jugará una Fase
                               Final de Ascenso.</p>
-                            <strong>Fase Final</strong>
-                            <p>Los 16 equipos participantes se dividirán en 4 grupos de 4 equipos cada uno, y se
+                            <strong class="text-analisis fs-4">Fase Final</strong>
+                            <p class="text-analisis fs-5">Los 16 equipos participantes se dividirán en 4 grupos de 4 equipos cada uno, y se
                               disputarán 2 Fases de Ascenso (en dos sedes únicas).</p>
-                            <p>En cada subgrupo jugarán todos contra todos a una sola vuelta (tres jornadas). En la
+                            <p class="text-analisis fs-5">En cada subgrupo jugarán todos contra todos a una sola vuelta (tres jornadas). En la
                               cuarta jornada se celebrará el encuentro entre los segundos clasificados de cada subgrupo,
                               a fin de definir los 6 equipos que obtendrán el ascenso a la Liga Femenina 2. Ascenderán:
                               los 4 vencedores de cada uno de los subgrupos de las Fases de Ascenso, más los 2
                               vencedores de los encuentros jugados entre los segundos clasificados.
                             </p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -448,7 +447,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-masculino"><!-- Sistema liga - Baloncesto Masculino -->
+          <div class="tab-pane active" id="masculino"><!-- Sistema liga - Baloncesto Masculino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
@@ -732,7 +731,6 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
     </section><!--Fin Carrusel-->
     <footer class="container-fluid mt-auto footer-seccion">
@@ -759,6 +757,7 @@
     </script>
   <script src="/static/js/script.js"></script>
   <script src="/static/js/slide.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
   <script>
     function mostrarTexto(enlace) {
       // Obtener el elemento <li> padre del enlace
