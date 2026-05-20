@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Sistemas Ligas - Rugby</title>
+  <title>Sistema Ligas - Rugby</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -69,7 +69,7 @@
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Balonmano</a>
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/seccion/aula">Aula Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/recoletas">Recoletas Valladolid</a>
+                        <a class="dropdown-item" href="/seccion/recoletas">Atl. Valladolid</a>
                       </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -77,7 +77,15 @@
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol</a>
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/seccion/valladolid">Real Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/promesas">Real Valladolid B</a>
+                        <a class="dropdown-item" href="/seccion/promesas">RV Promesas</a>
+                        <a class="dropdown-item" href="/seccion/rv_femenino">RV Femenino</a>
+                      </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol-Sala</a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="/seccion/galvan">C.D Tierno Galván</a>
                       </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -124,6 +132,8 @@
         </li>       
         <li class="breadcrumb-item"><a href="/sistema_ligas/futbol" class="text-white text-decoration-none">Fútbol</a>
         </li>
+        <li class="breadcrumb-item"><a href="/sistema_ligas/futbol-sala" class="text-white text-decoration-none">Fútbol-Sala</a>
+        </li>
         <li class="breadcrumb-item"><a href="/sistema_ligas/hockey" class="text-white text-decoration-none">Hockey</a>
         </li>
         <li class="breadcrumb-item active text-dark" aria-current="page">Rugby</li>
@@ -168,7 +178,15 @@
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol</a>
                       <div class="dropdown-menu" aria-labelledby="dropdownId">
                         <a class="dropdown-item" href="/seccion/valladolid">Real Valladolid</a>
-                        <a class="dropdown-item" href="/seccion/promesas">Real Valladolid B</a>
+                        <a class="dropdown-item" href="/seccion/promesas">RV Promesas</a>
+                        <a class="dropdown-item" href="/seccion/rv_femenino">RV Femenino</a>
+                      </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion" href="#" id="dropdownId"
+                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Fútbol-Sala</a>
+                      <div class="dropdown-menu" aria-labelledby="dropdownId">
+                        <a class="dropdown-item" href="/seccion/galvan">C.D Tierno Galván</a>
                       </div>
                     </li>
                     <li class="nav-item dropdown">
@@ -206,31 +224,29 @@
     </header><!-- Fin header 2 -->
     <section class="container-lg mb-5 flex-fill">
       <div class="team-header">
-        <h1 class="h1_seccion">Sistema Ligas</h1>
+        <h1 class="h1_seccion">Sistemas</h1>
         <img src="/static/img/rugby2_sf.png" alt="balón-rugby" class="team-logo">
       </div>
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-femenino" class="btn btn-outline-dark" data-slide="0">Femenino</a>
-        <a href="#slide-masculino" class="btn btn-outline-dark" data-slide="1">Masculino</a>
+        <button class="btn btn-outline-light tab-btn active" data-tab="femenino">Femenino</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="masculino">Masculino</button>
       </div>
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
         <div class="carousel-inner">
-          <div class="carousel-item active" id="slide-femenino"><!-- Sistema liga - Rugby Femenino -->
+          <div class="tab-pane active" id="femenino"><!-- Sistema liga - Rugby Femenino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
                   <h2 class="tipo_sistema">Rugby Femenino</h2>
                   <div class="row d-flex justify-content-center">
-                    <div class="col-lg-12"><!-- División de Honnor Femenina -->
+                    <div class="col-lg-12"><!-- División de Honor -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">División de Honor Femenina</h3>
-                          <p class="fw-bold">Real Federación Española</p>
-                          <p class="fw-bold">1ª Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">División de Honor</h3>
+                          <p class="text-analisis fs-4">1ª Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Se jugará entre 8 equipos. Habrá una primera fase de liga regular de 7 partidos
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Se jugará entre 8 equipos. Habrá una primera fase de liga regular de 7 partidos
                               en 7 jornadas en la que jugarán todos contra todos a una vuelta, determinándose los
                               emparejamientos por sorteo. Finalizada dicha primera vuelta de liga regular se disputará
                               la segunda fase. Se constituirán dos grupos de 4 equipos (los 4 primeros o Grupo A: del 1º
@@ -239,8 +255,8 @@
                               disputarán una segunda fase de 3 jornadas también mediante sistema de liga regular (todos
                               contra todos) a una vuelta. Todos los puntos cuentan en la clasificación (es decir, se
                               arrastran y mantienen los puntos conseguidos en la primera fase). </p>
-                            <strong>Play-Off al Título</strong>
-                            <p>Finalizada la liga regular el título se decidirá mediante sistema de “Play off” entre los
+                            <strong class="text-analisis text-dark fs-4">Play-Off al Título</strong>
+                            <p class="text-analisis fs-5">Finalizada la liga regular el título se decidirá mediante sistema de “Play off” entre los
                               6 primeros clasificados de la liga regular (4 del Grupo A y el 1º y 2º del Grupo B), donde
                               el 1º y 2º del Grupo A quedan exentps de jugar los cuartos de final.
                               En la primera jornada (Cuartos de Final) los emparejamientos serán:QF1 3º Grupo A - 2º
@@ -249,26 +265,26 @@
                               2º Grupo A - Vencedor de QF1. Y la final será entre los ganadores de ambas semifinales,
                               todos los enfrentamientos son a partido único.
                             </p>
-                            <strong>Descenso</strong>
-                            <p>Desciende a División de Honor B el último clasificado.
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">Desciende a División de Honor B el último clasificado.
                               Promociona con el 2º de División de Honor B, el 7º clasificado, en eliminatoria a
                               partido único en campo neutral. Al finalizar la temporada 2023/24, de mantenerse este
                               sistema de competición, se realizaría una nueva asignación de grupos, conforme a la
                               clasificación de la liga regular a la finalización de la misma.</p>
-                            <strong>Copa FER Femenina</strong>
-                            <p>La jugarán los 16 equipos de División Honor Femenina y División Honor B Femenina
+                            <strong class="text-analisis text-dark fs-4">Copa FER Femenina</strong>
+                            <p class="text-analisis fs-5">La jugarán los 16 equipos de División Honor Femenina y División Honor B Femenina
                               agrupados en 4 grupos geográficos (Levante, Centro, Norte y Sur) de 4 equipos cada uno, en
                               formato de liga a una vuelta, jugando 3 partidos cada uno (dos en casa y uno fuera o
                               viceversa, lo cual será determinado por sorteo puro). Tras la primera fase, se jugarán
                               unas semifinales entre los primeros clasificados de cada grupo y una final, entre los
                               vencedores de ambas semifinales, ambas eliminatorias a partido único, siendo el orden de
                               los emparejamientos (local y visitante) determinado por sorteo puro.</p>
-                            <strong>Copa Ibérica Femenina</strong>
-                            <p>La jugarán los 2 campeones de cada Liga casera de España y Portugal, a partido único en
+                            <strong class="text-analisis text-dark fs-4">Copa Ibérica Femenina</strong>
+                            <p class="text-analisis fs-5">La jugarán los 2 campeones de cada Liga casera de España y Portugal, a partido único en
                               la sede que se elija, bien en España o en Portugal.
                             </p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -276,12 +292,11 @@
                     <div class="col-lg-12"><!-- División Honor B Femenina -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">División Honor B Femenina</h3>
-                          <p class="fw-bold">Real Federación Española</p>
-                          <p class="fw-bold">2º Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">División Honor B</h3>
+                          <p class="text-analisis fs-5">2º Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Se jugará entre 8 equipos. Habrá una primera fase de liga regular de 7 partidos
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Se jugará entre 8 equipos. Habrá una primera fase de liga regular de 7 partidos
                               en 7 jornadas en la que jugarán todos contra todos a una vuelta, determinándose los
                               emparejamientos por sorteo. Finalizada dicha primera vuelta de liga regular se disputará
                               la segunda fase. Se constituirán dos grupos de 4 equipos (los 4 primeros o Grupo A: del 1º
@@ -290,8 +305,8 @@
                               disputarán una segunda fase de 3 jornadas también mediante sistema de liga regular (todos
                               contra todos) a una vuelta. Todos los puntos cuentan en la clasificación (es decir, se
                               arrastran y mantienen los puntos conseguidos en la primera fase). </p>
-                            <strong>Play-Off Ascenso</strong>
-                            <p>Finalizada la liga regular el ascenso se decidirá mediante sistema de “Play off” entre
+                            <strong class="text-analisis text-dark fs-4">Play-Off Ascenso</strong>
+                            <p class="text-analisis fs-5">Finalizada la liga regular el ascenso se decidirá mediante sistema de “Play off” entre
                               los 6 primeros clasificados de la liga regular (4 del Grupo A y el 1º y 2º del Grupo B),
                               donde el 1º y 2º del Grupo A quedan exentos de jugar los cuartos de final.
                               En la primera jornada (Cuartos de Final) los emparejamientos serán:QF1 3º Grupo A - 2º
@@ -301,36 +316,73 @@
                               ganador ascendera directamente y el subcampeón jugará contra el 7º clasificado de la
                               División de Honor Femenina su participación en la primera categoría de la siguiente
                               temporada.</p>
-                            <strong>Descenso</strong>
-                            <p>El 8º clasificado descendera directamente a Regional, el 7º clasificado jugará contra el
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">El 8º clasificado descendera directamente a Regional, el 7º clasificado jugará contra el
                               2º clasificado de Regional, y el campeón jugará la siguiente temporada en la División de
                               Honor B Femenina.</p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Ligas Regionales -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">Ligas Regionales</h3>
+                          <p class="text-analisis fs-5">3º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Se jugará entre 8 equipos. Habrá una primera fase de liga regular de 7 partidos
+                              en 7 jornadas en la que jugarán todos contra todos a una vuelta, determinándose los
+                              emparejamientos por sorteo. Finalizada dicha primera vuelta de liga regular se disputará
+                              la segunda fase. Se constituirán dos grupos de 4 equipos (los 4 primeros o Grupo A: del 1º
+                              al 4º y los 4 siguientes o Grupo B: del 5º al 8º de acuerdo a lo que establece el
+                              Reglamento de Partidos y Competiciones para ligas a un número impar de vueltas) que
+                              disputarán una segunda fase de 3 jornadas también mediante sistema de liga regular (todos
+                              contra todos) a una vuelta. Todos los puntos cuentan en la clasificación (es decir, se
+                              arrastran y mantienen los puntos conseguidos en la primera fase). </p>
+                            <strong class="text-analisis text-dark fs-4">Play-Off Ascenso</strong>
+                            <p class="text-analisis fs-5">Finalizada la liga regular el ascenso se decidirá mediante sistema de “Play off” entre
+                              los 6 primeros clasificados de la liga regular (4 del Grupo A y el 1º y 2º del Grupo B),
+                              donde el 1º y 2º del Grupo A quedan exentos de jugar los cuartos de final.
+                              En la primera jornada (Cuartos de Final) los emparejamientos serán:QF1 3º Grupo A - 2º
+                              Grupo B;QF2 4º Grupo A - 1º Grupo A. Los encuentros de la segunda jornada (Semifinales)
+                              serán 1º Grupo A - Vencedor de QF2, y 2º Grupo A - Vencedor de QF1. Y la final será entre
+                              los ganadores de ambas semifinales, todos los enfrentamientos son a partido único. El
+                              ganador ascendera directamente y el subcampeón jugará contra el 7º clasificado de la
+                              División de Honor Femenina su participación en la primera categoría de la siguiente
+                              temporada.</p>
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">El 8º clasificado descendera directamente a Regional, el 7º clasificado jugará contra el
+                              2º clasificado de Regional, y el campeón jugará la siguiente temporada en la División de
+                              Honor B Femenina.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-masculino"><!-- Sistema liga - Rugby Masculino -->
+          <div class="tab-pane" id="masculino"><!-- Sistema liga - Rugby Masculino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
                   <h2 class="tipo_sistema">Rugby Masculino</h2>
                   <div class="row d-flex justify-content-center">
-                    <div class="col-lg-12"><!-- Liga Élite Masculina -->
+                    <div class="col-lg-12"><!-- División de Honor -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">División de Honor</h3>
-                          <p class="fw-bold">Real Federación Española</p>
-                          <p class="fw-bold">1ª Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">División de Honor</h3>
+                          <p class="text-analisis fs-5">1ª Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Se jugará entre 12 equipos. Habrá una primera fase de liga regular de 11 partidos
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Se jugará entre 12 equipos. Habrá una primera fase de liga regular de 11 partidos
                               en 11 jornadas en la que jugarán todos contra todos a una vuelta, determinándose los
                               emparejamientos por sorteo. Finalizada dicha primera vuelta de liga regular se disputará
                               la segunda fase. Se constituirán dos grupos de 6 equipos (los 6 primeros o Grupo A: del 1º
@@ -339,8 +391,8 @@
                               disputarán una segunda fase de 5 jornadas también mediante sistema de liga regular (todos
                               contra todos) a una vuelta. Todos los puntos cuentan en la clasificación (es decir, se
                               arrastran y mantienen los puntos conseguidos en la primera fase). </p>
-                            <strong>Play-Off al Título</strong>
-                            <p>Finalizada la liga regular el título se decidirá mediante sistema de “Play off” entre los
+                            <strong class="text-analisis text-dark fs-4">Play-Off al Título</strong>
+                            <p class="text-analisis fs-5">Finalizada la liga regular el título se decidirá mediante sistema de “Play off” entre los
                               8 primeros clasificados de la liga regular (6 del Grupo A y el 1º y 2º del Grupo B).
                               En la primera jornada (Cuartos de Final) los emparejamientos serán: 1º Grupo A - 2º
                               Grupo B; 4º Grupo A - 5º Grupo A; 2º Grupo A - 1º Grupo B (equivale al 7º general) y 3º
@@ -350,60 +402,81 @@
                               Las eliminatorias se jugarán a partido único en el campo del mejor clasificado al término
                               de la segunda vuelta o fase de liga regular.
                             </p>
-                            <strong>Descenso</strong>
-                            <p>Desciende a División de Honor B el último clasificado.
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">Desciende a División de Honor B el último clasificado.
                               Promociona con el 2º de División de Honor B, el 11º clasificado, en eliminatoria a
                               partido único en campo neutral. Al finalizar la temporada 2023/24, de mantenerse este
                               sistema de competición, se realizaría una nueva asignación de grupos, conforme a la
                               clasificación de la liga regular a la finalización de la misma.</p>
-                            <strong>Copa de El Rey</strong>
-                            <p>Disputarán esta competición de la Copa de El Rey los cuatro equipos que queden en
+                            <strong class="text-analisis text-dark fs-4">Copa de El Rey</strong>
+                            <p class="text-analisis fs-5">Disputarán esta competición de la Copa de El Rey los cuatro equipos que queden en
                               primer lugar tras los resultados de los partidos de la primera vuelta de la Liga de
                               División de Honor de cada uno de los cuatro grupos de tres equipos que se constituirán por
                               sorteo entre los doce equipos de los que constituyen la División de Honor, de tal forma
                               que cada equipo juega dentro de su grupo un encuentro como local y el otro como visitante.
                               Las eliminatorias de semifinales se disputarán a partido único, por sorteo entre los
                               cuatro equipos clasificados. </p>
-                            <strong>Copa Ibérica Femenina</strong>
-                            <p>La jugarán los 2 campeones de cada Liga casera de España y Portugal, a partido único en
+                            <strong class="text-analisis text-dark fs-4">Copa Ibérica Femenina</strong>
+                            <p class="text-analisis fs-5">La jugarán los 2 campeones de cada Liga casera de España y Portugal, a partido único en
                               la sede que se elija, bien en España o en Portugal.
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-12"><!-- División Honor B -->
+                    <div class="col-lg-12"><!-- División de Honor Élite -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1">División Honor B</h3>
-                          <p class="fw-bold">Real Federación Española</p>
-                          <p class="fw-bold">2º Nivel</p>
+                          <h3 class="fw-bold fs-1 text-analisis">División de Honor Élite</h3>
+                          <p class="text-analisis fs-4">2º Nivel</p>
                           <div class="texto-adicional text-center">
-                            <strong>Organización de la categoría</strong>
-                            <p>Se jugará entre 33 equipos en tres grupos de 11 equipos respectivamente. Grupo A
-                              (Norte): Asturias, Cantabria, Castilla y León, Galicia, Navarra-Rioja y País Vasco. Grupo
-                              B (Este-Levante): Aragón, Baleares, Castilla La Mancha Este, Cataluña, Murcia y Valencia.
-                              Grupo C (Centro-Sur): Andalucía, Canarias, Castilla La Mancha Norte/Sur/Oeste, Extremadura
-                              y Madrid.
-                              Habrá dos fases (una primera de 10 partidos en 11 jornadas y una segunda de 7 partidos en
-                              7 jornadas) de liga regular más unos “Play-offs”.
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Primer año de esta nueva categoría. Se disputa una primera fase, a doble vuelta, de 18 jornadas de liga regular más unos Play-Offs en dos jornadas entre los cuatro primeros clasificados al término de misma, siendo las semifinales (a) 1º - 4º y (b) 2º - 3º. La segunda jornada (Final) será entre los ganadores de los emparejamientos anteriores. Es decir: (c) Vencedor a - Vencedor b. Las eliminatorias se jugarán a partido único en el campo del mejor clasificado al término de la segunda vuelta de la liga regular. En la temporada 2026-27 no podrán participar equipos “B” de clubes de División de Honor Masculina en esta competición o división. Es decir, los 10 equipos de División de Honor.
                             </p>
-                            <strong>Play-Off Ascenso</strong>
-                            <p>Los 4 primeros clasificados jugarán las semifinales a parido único en el campo del mejor
-                              clasificado en la 2ª Fase de la Liga Regular. Los ganadores jugarán la final y el campeón
-                              ascendera de manera autómatica a la División de Honor, y el subcampeón jugará una
-                              eliminatoria con el 11º clasificado de la División de Honor en campo neutral, y el ganador
-                              jugará la siguiente temporada en la máxima categoría. </p>
-                            <strong>Descenso</strong>
-                            <p>El último clasificado del grupo A descenderá a categoría Regional. El
-                              penúltimo jugará una promoción a partido único con el 2º clasificado de la Fase de
-                              Ascenso de regional a División de Honor B en el campo del equipo de División de Honor B.
-                              En función de los huecos que se produzcan por ascensos y descensos entre esta categoría y
-                              la División de Honor masculina, el 11º clasificado y último, por tanto, en su caso, como
-                              mínimo promocionará, aunque podría ocurrir que descendiera directamente.</p>
+                            <strong class="text-analisis text-dark fs-4">Play-Off Ascenso</strong>
+                            <p class="text-analisis fs-5">El campeón asciende para la temporada 2026/27 a la División de Honor, la máxima categoría del rugby español. Dicho equipo no podrá ser de un club que ya milite o tenga equipo en la División de Honor o División de Honor Élite. </p>
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">Bajarán para esta edición el C. R. Cisneros Zeta "B" mas el último clasificado de esta edición, mientras que para la siguiente edición se sumaran el campeón de la División de Honor B y el último clasificado de la División de Honor que pasara de 11 a 10 participantes.</p>
                           </div>
-                          <a href="#" class="mostrar-enlace text-decoration-none"
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-12"><!-- División de Honor B -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">División de Honor B</h3>
+                          <p class="text-analisis fs-4">3º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">El formato actual consiste en tres grupos de ocho equipos cada uno organizados territorialmente para la mayor facilidad de desplazamiento de los equipos. Se disputan dos fases de liga regular más unos Play-Offs. La primera fase de esta Competición Nacional se juega en cada grupo por sistema de liga a una vuelta todos contra todos.
+                            </p>
+                            <strong class="text-analisis text-dark fs-4">Play-Off Ascenso</strong>
+                            <p class="text-analisis fs-5">Finalizada dicha primera vuelta de liga regular se disputa la segunda fase en la que los 3 primeros equipos clasificados de cada uno de los grupos (9 equipos en total) compiten entre sí en una liga regular a una sola vuelta (8 jornadas) conformando un nuevo grupo llamado Ascenso. En esta competición (o Grupo Ascenso) no se tienen en cuenta los resultados y puntos obtenidos por estos equipos en sus respectivos grupos durante la primera fase, partiendo todos ellos de cero. Finalizada esta segunda fase, la competición se decide mediante sistema de Play Off a partido único entre los 4 primeros clasificados, en dos eliminatorias. En la primera eliminatoria se enfrentan el 1º contra el 4º y el 2º contra el 3º, disputándose el partido en el campo del equipo mejor clasificado en la segunda fase de la liga regular. La final se disputa también a partido único entre los dos vencedores de las eliminatorias anteriores, jugándose el partido en el campo del equipo mejor clasificado en la segunda fase de la liga regular. El campeón perteneciente al Grupo Ascenso, ascienden a la División de Honor Élite, la nueva segunda categoría del rugby español desde 2025. Dicho equipo no podrá ser de un club que ya milite o tenga equipo en la División de Honor o División de Honor Élite. </p>
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">El resto de los equipos de cada grupo (A, B y C, 5 por cada uno de ellos) disputan la segunda fase mediante sistema de liga regular en sus respectivos grupos (todos contra todos) a una doble vuelta (10 jornadas en cada grupo, jugando 8 partidos cada equipo). En este caso, tampoco se tienen en cuenta los resultados y puntos obtenidos por estos equipos en sus respectivos grupos durante la primera fase, partiendo todos ellos de cero. Bajarán tantos equipos como sean necesarios con el fin de tener 8 equipos en cada grupo geográfico, teniendo en cuenta que al menos un equipo de Regional ascenderá.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
+                            onclick="mostrarTexto(this); return false;">Leer más</a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Ligas Regionales -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">Ligas Regionales</h3>
+                          <p class="text-analisis fs-4">4º Nivel</p>
+                          <div class="texto-adicional text-center">
+                            <strong class="text-analisis text-dark fs-4">Organización de la categoría</strong>
+                            <p class="text-analisis fs-5">Depende de cada Región Autonomica para la creación de los grupos.
+                            </p>
+                            <strong class="text-analisis text-dark fs-4">Play-Off Ascenso</strong>
+                            <p class="text-analisis fs-5">Para los ascensos a la División de Honor B, las competiciones autonómicas siguen un sistema parecido al de ascenso de la División de Honor B a la División de Honor, enfrentando a los campeones de las distintas divisiones entre ellos para decidir el ascenso al grupo correspondiente de la División de Honor B. </p>
+                            <strong class="text-analisis text-dark fs-4">Descenso</strong>
+                            <p class="text-analisis fs-5">En el caso de los descensos, estos se hacen automáticamente a la competición regional correspondiente, quedando en manos de la federación autonómica el encajar el nuevo equipo dentro de la máxima categoría regional ya sea aumentando los equipos para la temporada o impidiendo alguna promoción de ascenso entre su segunda y su máxima categoría para evitar sobrepasar el número de equipos.</p>
+                          </div>
+                          <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                             onclick="mostrarTexto(this); return false;">Leer más</a>
                         </div>
                       </div>
@@ -414,7 +487,6 @@
             </div>
           </div>
         </div>
-      </div>
     </section><!--Fin Carrusel-->
     <footer class="container-fluid mt-auto footer-seccion">
       <div class="row align-items-center text-center">
@@ -440,6 +512,7 @@
     </script>
   <script src="/static/js/script.js"></script>
   <script src="/static/js/slide.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
   <script>
     function mostrarTexto(enlace) {
       // Obtener el elemento <li> padre del enlace
