@@ -126,6 +126,7 @@
         <li class="breadcrumb-item"><a href="/sistema_ligas/balonmano" class="text-white text-decoration-none">Balonmano</a>
         </li>
         <li class="breadcrumb-item active text-dark" aria-current="page">Fútbol</li>
+        <li class="breadcrumb-item"><a href="/sistema_ligas/futbol_sala" class="text-white text-decoration-none">Fútbol-Sala</a>
         <li class="breadcrumb-item"><a href="/sistema_ligas/hockey" class="text-white text-decoration-none">Hockey</a>
         </li>
         <li class="breadcrumb-item"><a href="/sistema_ligas/rugby" class="text-white text-decoration-none">Rugby</a>
@@ -215,80 +216,86 @@
       </div>
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <a href="#slide-femenino" class="btn btn-outline-dark" data-slide="0">Femenino</a>
-        <a href="#slide-masculino" class="btn btn-outline-dark" data-slide="1">Masculino</a>
+        <button class="btn btn-outline-light tab-btn active" data-tab="femenino">Femenino</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="masculino">Masculino</button>
       </div>
-      <div id="carouselExampleControls" class="carousel slide" data-bs-ride="false">
-        <div class="carousel-inner">
-          <div class="carousel-item active" id="slide-femenino"><!-- Sistema liga - Fútbol Femenino -->
+        <div class="tab-container">
+          <div class="tab-pane active" id="femenino"><!-- Sistema liga - Fútbol Femenino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
                   <h2 class="tipo_sistema text-analisis">Fútbol Femenino</h2>
                   <div class="row d-flex justify-content-center">
-                    <div class="col-lg-12"><!-- Profesional -->
+                    <div class="col-lg-12"><!-- Liga F -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1 text-analisis">Profesional</h3>
-                          <p class="fw-bold text-analisis fs-5">Ámbito Nacional</p>
+                          <h3 class="fw-bold fs-1 text-analisis">Liga F</h3>
+                          <p class="fw-bold text-analisis fs-4">1º Nivel</p>
                           <ul class="horizontal-list">
                             <li class="federacion">
-                              <p class="encabezados">1ª DIVISIÓN NACIONAL DEL FÚTBOL FEMENINO (1º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>La competición la disputan anualmente 16 equipos que juegan en un único grupo
+                                <strong class="text-analisis fs-4 text-dark">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">La competición la disputan anualmente 16 equipos que juegan en un único grupo
                                   enfrentándose todos contra todos a doble partido.</p>
-                                <strong>Campeón de liga</strong>
-                                <p>El club que suma más puntos al término del campeonato se proclama campeón de liga</p>
-                                <strong>Liga de Campeones de la UEFA</strong>
-                                <p>El primer y segundo clasificado juegán la Liga de Campeones de la UEFA.</p>
-                                <strong>Copa de la Reina</strong>
-                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                <strong class="text-analisis fs-4 text-dark">Campeón de liga</strong>
+                                <p class="text-analisis fs-5">El club que suma más puntos al término del campeonato se proclama campeón de liga</p>
+                                <strong class="text-analisis fs-4 text-dark">Liga de Campeones de la UEFA</strong>
+                                <p class="text-analisis fs-5">El primer y segundo clasificado juegán la Liga de Campeones de la UEFA.</p>
+                                <strong class="text-analisis fs-4 text-dark">Copa de la Reina</strong>
+                                <p class="text-analisis fs-5">Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
                                   Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
                                   los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
                                   las semifinales.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Los dos últimos equipos descienden a 1ª Federación Femenina.</p>
+                                <strong class="text-analisis fs-4 text-dark">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Los dos últimos equipos descienden a 1ª Federación Femenina.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
                           </ul>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-12"><!-- Semiprofesional -->
+                    <div class="col-lg-12"><!-- 1ª FEDERACIÓN FEMENINA -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1 text-analisis">Semiprofesional</h3>
-                          <p class="fw-bold text-analisis fs-5">Ámbito Nacional</p>
+                          <h3 class="fw-bold fs-1 text-analisis">1ª Federación Femenina</h3>
+                          <p class="fw-bold text-analisis fs-5">2º Nivel</p>
                           <ul class="horizontal-list">
                             <li class="federacion"><!-- 1ª FEDERACIÓN FEMENINA -->
-                              <p class="encabezados">1ª FEDERACIÓN FEMENINA (2º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>El formato esta formado por dos grupos, norte y sur, con 16 equipos cada uno.
+                                <strong class="text-analisis fs-4 text-dark">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">El formato esta formado por dos grupos, norte y sur, con 16 equipos cada uno.
                                 </p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>El primer clasificado de los grupos norte y sur ascenderá directamente a 1ª División
+                                <strong class="text-analisis fs-4 text-dark">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">El primer clasificado de los grupos norte y sur ascenderá directamente a 1ª División
                                 </p>
-                                <strong>Play-Offs ascenso</strong>
-                                <p>La tercera plaza de ascenso surgirá de un play-off en el que el 2º de cada grupo se
+                                <strong class="text-analisis fs-4 text-dark">Play-Offs ascenso</strong>
+                                <p class="text-analisis fs-5">La tercera plaza de ascenso surgirá de un play-off en el que el 2º de cada grupo se
                                   enfrentará al 3º del otro en unas semifinales y el campeón de esa serie jugará una
                                   final con el antepenúltimo de la 1ª División Femenina.</p>
-                                <strong>Copa de la Reina</strong>
-                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                <strong class="text-analisis fs-4 text-dark">Copa de la Reina</strong>
+                                <p class="text-analisis fs-5">Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
                                   Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
                                   los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
                                   las semifinales.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Los descensos, serán para los 4 últimos equipos clasificados, 2 de cada grupo.</p>
+                                <strong class="text-analisis fs-4 text-dark">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Los descensos, serán para los 4 últimos equipos clasificados, 2 de cada grupo.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <diV class="col-lg-12"><!-- 2ª FEDERACIÓN FEMENINA -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">2ª Federación Femenina</h3>
+                          <p class="fw-bold text-analisis fs-4">3º Nivel</p>
+                          <ul class="horizontal-list">
                             <li class="federacion"><!-- 2º FEDERACIÓN FEMENINA -->
-                              <p class="encabezados">2ª FEDERACIÓN FEMENINA (3º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
                                 <strong>Organización de la Categoría</strong>
                                 <p>Un total de 32 equipos disputan la competición. Están divididos en dos grupos de 16
@@ -307,17 +314,26 @@
                                 <strong>Descenso de categoría</strong>
                                 <p>Descenderán de categoría los 3 últimos clasificados de cada grupo.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </diV>
+                    <div class="col-lg-12"><!-- 3ª FEDERACIÓN FEMENINA -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">3ª Federación Femenina</h3>
+                          <p class="fw-bold text-analisis fs-4">4º Nivel</p>
+                          <ul class="horizontal-list">
                             <li class="federacion"><!-- 3ª FEDERACIÓN FEMENINA -->
-                              <p class="encabezados">3ª FEDERACIÓN FEMENINA (4º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>Toman parte en el campeonato 96 equipos repartidos, por criterios de proximidad
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">Toman parte en el campeonato 96 equipos repartidos, por criterios de proximidad
                                   geográfica, en 6 grupos de 16 equipos cada uno.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Los equipos campeones y 2º clasificados de cada uno de los seis
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Los equipos campeones y 2º clasificados de cada uno de los seis
                                   grupos ascenderán directamente a 2ª Federación de Fútbol
                                   Femenino.
                                   Los PlayOff se desarrollará mediante el sistema de eliminatorias, a doble partido,
@@ -328,64 +344,72 @@
                                   los dos mejores coeficientes restantes de 3ª posición contra los dos equipos
                                   de peor coeficiente en 3ª posición. El orden de enfrentamiento será entre los
                                   equipos de mejor coeficiente contra los equipos de peor coeficiente.</p>
-                                <strong>Copa de la Reina</strong>
-                                <p>Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
+                                <strong class="text-analisis text-dark fs-4">Copa de la Reina</strong>
+                                <p class="text-analisis fs-5">Participan 32 equipos que conformaron la temporada anterior la 1ª Federación, 2ª
                                   Federación y 3ª Federación. A partir de la tercera eliminatoria se irán incorporando
                                   los 16 equipos restantes de 1ª División. Los partidos serán a partido único excepto
                                   las semifinales.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p> Por su parte, los clubes que ocupen los puestos del 14º al 16º de cada uno de los 6
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5"> Por su parte, los clubes que ocupen los puestos del 14º al 16º de cada uno de los 6
                                   grupos, así como los 2 equipos con peor coeficiente de los clasificados en el puesto
                                   13º, descenderán a categoría regional.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
                           </ul>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-12"><!-- Amateur -->
+                    <div class="col-lg-12"><!-- Liga Gonalpi -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1 text-analisis">Amateur</h3>
-                          <p class="fw-bold text-analisis fs-5">Ámbito Autónomico</p>
+                          <h3 class="fw-bold fs-1 text-analisis">Liga Gonalpi</h3>
+                          <p class="fw-bold text-analisis fs-5">5º Nivel</p>
                           <ul class="horizontal-list">
                             <li class="federacion">
-                              <p class="encabezados">LIGA GONALPI (5º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>La competición se disputará, en un solo grupo entre 14-16 equipos siendo ajustado cada temporada, por el sistema de liga a doble vuelta.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Ascenderá a la 3ª Federación Femenina el primer clasificado de la competición y, si
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">La competición se disputará, en un solo grupo entre 14-16 equipos siendo ajustado cada temporada, por el sistema de liga a doble vuelta.</p>
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Ascenderá a la 3ª Federación Femenina el primer clasificado de la competición y, si
                                   por cualquier circunstancia por parte de la R.F.E.F., se requiriese a la R.F.C. y L.F.
                                   una segunda plaza de ascenso, recaería en el 2º clasificado y así sucesivamente.</p>
-                                <strong>Descenso de categoría</strong>
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
                                 <p>Descenderán a la 2ª División Regional Femenina – “Liga Doble G”, el equipo
                                   clasificado en la última posición.
                                 </p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- Liga Doble G -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">Liga Doble G</h3>
+                          <p class="fw-bold text-analisis fs-4">6º Nivel</p>
+                          <ul class="horizontal-list">
                             <li class="federacion">
-                              <p class="encabezados">LIGA DOBLE G (6º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>La competición se disputará en dos grupos, “A” y “B”, de 14 equipos, de acuerdo a la
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">La competición se disputará en dos grupos, “A” y “B”, de 14 equipos, de acuerdo a la
                                   siguiente distribución geográfica.
                                 </p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Ascenderán a 1ª División Regional Femenina – “Liga Gonalpi”, el primer clasificado de
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Ascenderán a 1ª División Regional Femenina – “Liga Gonalpi”, el primer clasificado de
                                   cada uno de los grupos “A” y “B” al término de la primera fase</p>
-                                <strong>Play-Offs ascenso</strong>
-                                <p>La disputarán los equipos clasificados en los puestos 2º y 3º de cada uno de los
+                                <strong class="text-analisis text-dark fs-4">Play-Offs ascenso</strong>
+                                <p class="text-analisis fs-5">La disputarán los equipos clasificados en los puestos 2º y 3º de cada uno de los
                                   grupos “A” y “B” al término de la primera fase y que se compondrá por dos
                                   eliminatorias; la de semifinales y la final</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>No descenderá ningún club de Liga Doble G.</p>
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">No descenderá ningún club de Liga Doble G.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
                           </ul>
@@ -397,150 +421,172 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item" id="slide-masculino"><!-- Sistema liga - Fútbol Masculino -->
+          <div class="tab-pane" id="masculino"><!-- Sistema liga - Fútbol Masculino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
                 <div class="card-body">
                   <h2 class="tipo_sistema text-analisis">Fútbol Masculino</h2>
                   <div class="row d-flex justify-content-center">
-                    <div class="col-lg-12"><!-- Profesional -->
+                    <div class="col-lg-12"><!-- Liga EA Sport -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1 text-analisis">Profesional</h3>
-                          <p class="fw-bold text-analisis fs-5">Ámbito Nacional</p>
+                          <h3 class="fw-bold fs-1 text-analisis">Liga EA Sport</h3>
+                          <p class="fw-bold text-analisis fs-4">1º Nivel</p>
                           <ul class="horizontal-list">
                             <li class="federacion"><!-- LA LIGA EA SPORTS -->
-                              <p class="encabezados">LA LIGA EA SPORTS (1º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>La 1ª División consta de un grupo único integrado por 20 equipos, pertenecientes a
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">La 1ª División consta de un grupo único integrado por 20 equipos, pertenecientes a
                                   clubes de fútbol o sociedades anónimas deportivas (SAD). Siguiendo un sistema de liga,
                                   los 20 equipos se enfrentan todos contra todos en 2 ocasiones, una en campo propio y
                                   otra en campo contrario, sumando un total de 38 jornadas. El orden de los encuentros
                                   se decide por sorteo antes de empezar la competición.</p>
-                                <strong>Campeón</strong>
-                                <p>El equipo que más puntos sume al final del campeonato será proclamado campeón de Liga
+                                <strong class="text-analisis text-dark fs-4">Campeón</strong>
+                                <p class="text-analisis fs-5">El equipo que más puntos sume al final del campeonato será proclamado campeón de Liga
                                 </p>
-                                <strong>Participación Europea</strong>
-                                <p>Obtendrá el derecho automático a participar en la fase de grupos de la siguiente
+                                <strong class="text-analisis text-dark fs-4">Participación Europea</strong>
+                                <p class="text-analisis fs-5">Obtendrá el derecho automático a participar en la fase de grupos de la siguiente
                                   edición de la Liga de Campeones de la UEFA,el 1º, el 2º, el 3º y el 4º clasificado. El
                                   5º clasificado obtendrá el derecho a participar en la ronda de play-off de la próxima
                                   Liga Europa de la UEFA y, el 6º, en la tercera eliminatoria de la misma. Si en la Copa
                                   del Rey el campeón está entre los 6 mejores clasificados, el 7º clasificado obtendrá
                                   el derecho a jugar la tercera ronda previa de la siguiente edición de la Liga Europa.
                                 </p>
-                                <strong>Supercopa España</strong>
-                                <p>El campeón y el subcampeón disputan la Supercopa de España, enfrentándose a los
+                                <strong class="text-analisis text-dark fs-4">Supercopa España</strong>
+                                <p class="text-analisis fs-5">El campeón y el subcampeón disputan la Supercopa de España, enfrentándose a los
                                   finalistas de la Copa del Rey de esa misma temporada.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Los tres últimos equipos descenderán a la 2ª División.</p>
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Los tres últimos equipos descenderán a la 2ª División.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
-                                onclick="mostrarTexto(this); return false;">Leer más</a>
-                            </li>
-                            <li class="federacion"><!-- LIGA HYPERMOTION -->
-                              <p class="encabezados">LA LIGA HYPERMOTION (2º Nivel)</p>
-                              <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>Siguiendo un sistema de liga, consta de un grupo único integrado de veintidós equipos
-                                  que se enfrentan todos contra todos en dos ocasiones una en campo propio y otra en
-                                  campo contrario sumando un total de cuarenta y dos jornadas. El orden de los
-                                  encuentros se decide por sorteo antes de empezar la competición.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Al término de la temporada, el equipo que más puntos obtenga se proclama campeón de
-                                  2ª División y es ascendido, junto con el subcampeón, a 1ª División.</p>
-                                <strong>Promoción Ascenso</strong>
-                                <p>También asciende el ganador de una promoción disputada entre el 3º, 4º, 5º y 6º
-                                  clasificados. El sistema de esta promoción es de eliminación directa a doble partido,
-                                  enfrentándose el 3º con el 6º, así como el 4º con el 5º; los 2 vencedores pasarán a
-                                  disputar una nueva eliminatoria a ida y vuelta, de la cual saldrá el 3º equipo que
-                                  asciende a 1ª División.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p> Por su parte, los 4 últimos clasificados de 2ª División al término de la temporada
-                                  son relegados a 1ª Federación, siendo sustituidos por los 2 campeones de grupo y los 2
-                                  ganadores de la promoción de ascenso de esa categoría.</p>
-                              </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
                           </ul>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-12"><!-- Semiprofesional -->
+                    <div class="col-lg-12"><!-- Liga Hypermotion -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1 text-analisis">Semiprofesional</h3>
-                          <p class="fw-bold text-analisis fs-5">Ámbito Nacional</p>
+                            <li class="federacion"><!-- LIGA HYPERMOTION -->
+                              <h3 class="text-analisis fs-1">Liga Hypermotion</h3>
+                              <p class="fw-bold text-analisis fs-4">2º Nivel</p>
+                              <div class="texto-adicional text-analisis fs-5">
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">Siguiendo un sistema de liga, consta de un grupo único integrado de veintidós equipos
+                                  que se enfrentan todos contra todos en dos ocasiones una en campo propio y otra en
+                                  campo contrario sumando un total de cuarenta y dos jornadas. El orden de los
+                                  encuentros se decide por sorteo antes de empezar la competición.</p>
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Al término de la temporada, el equipo que más puntos obtenga se proclama campeón de
+                                  2ª División y es ascendido, junto con el subcampeón, a 1ª División.</p>
+                                <strong class="text-analisis text-dark fs-4">Promoción Ascenso</strong>
+                                <p class="text-analisis fs-5">También asciende el ganador de una promoción disputada entre el 3º, 4º, 5º y 6º
+                                  clasificados. El sistema de esta promoción es de eliminación directa a doble partido,
+                                  enfrentándose el 3º con el 6º, así como el 4º con el 5º; los 2 vencedores pasarán a
+                                  disputar una nueva eliminatoria a ida y vuelta, de la cual saldrá el 3º equipo que
+                                  asciende a 1ª División.</p>
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5"> Por su parte, los 4 últimos clasificados de 2ª División al término de la temporada
+                                  son relegados a 1ª Federación, siendo sustituidos por los 2 campeones de grupo y los 2
+                                  ganadores de la promoción de ascenso de esa categoría.</p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 1ª Federación -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">1ª Federación</h3>
+                          <p class="fw-bold text-analisis fs-4">3º Nivel</p>
                           <ul class="horizontal-list">
                             <li class="federacion"><!-- 1ª FEDERACIÓN -->
-                              <p class="encabezados">1ª FEDERACIÓN (3º Nivel)</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>Estos 40 equipos se dividen en dos grupos de 20 equipos distribuidos por proximidad
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">Estos 40 equipos se dividen en dos grupos de 20 equipos distribuidos por proximidad
                                   geográfica. El sistema de competición es el mismo que en el resto de categorías de la
                                   Liga. Al término de la temporada, un número de equipos por determinar, de entre los
                                   que acumulan más puntos en cada grupo, excepto los equipos filiales, se clasifican
                                   para disputar la siguiente edición de la Copa del Rey.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Ascenderán a 2ª División 4 equipos. Dos de ellos serán los campeones de cada grupo.
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Ascenderán a 2ª División 4 equipos. Dos de ellos serán los campeones de cada grupo.
                                   Los otros 2 serán los ganadores de dos eliminatorias que disputarán los equipos
                                   clasificados del 2º al 5º puesto de cada grupo. Las posiciones obtenidas durante la
                                   fase regular determinarán los emparejamientos. Las eliminatorias serán a partido
                                   único. En caso de empate, habrá prórroga; si después de ella persiste el empate, se
                                   clasificará el que mejor puesto haya obtenido en la primera fase, y si ambos
                                   terminaron en el mismo puesto, habrá tandas de penaltis.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Descenderán a Segunda Federación los cinco últimos equipos de cada grupo (del 16º al
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Descenderán a Segunda Federación los cinco últimos equipos de cada grupo (del 16º al
                                   20º).</p>
-                                <strong>Final de campeones</strong>
-                                <p>Los equipos clasificados en 1º lugar en cada uno de los 2 grupos se enfrentan entre
+                                <strong class="text-analisis text-dark fs-4">Final de campeones</strong>
+                                <p class="text-analisis fs-5">Los equipos clasificados en 1º lugar en cada uno de los 2 grupos se enfrentan entre
                                   sí para determinar quien resulta campeón de la 1ª Federación. El ganador obtiene la
                                   clasificación directa a la 2ª ronda de la Copa del Rey, así como el trofeo que le
                                   acredita como Campeón de 1ª Federación.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
-                            <li class="federacion"><!-- 2ª FEDERACIÓN -->
-                              <p class="encabezados">2ª FEDERACIÓN (4º Nivel)</p>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 2ª Federación -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                            <li class="federacion">
+                              <h3 class="fw-bold fs-1 text-analisis">2ª Federación</h3>
+                              <p class="fw-bold text-analisis fs-4">4º Nivel</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>La 2ª Federación está integrada por un total de 90 clubes divididos en 5 grupos de 18
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">La 2ª Federación está integrada por un total de 90 clubes divididos en 5 grupos de 18
                                   equipos cada uno distribuidos por proximidad geográfica, en la nueva reestructuración
                                   del fútbol español tras la supresión en la temporada 2019-20 de los descensos de
                                   categoría, provocada por la pandemia de COVID-19 en España, y que provocó que las
                                   categorías tuvieran un exceso de clubes en la temporada 2020-21.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Ascenderán a la 1ª Federación 10 equipos. Los campeones de cada uno de los 5 grupos
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Ascenderán a la 1ª Federación 10 equipos. Los campeones de cada uno de los 5 grupos
                                   subirán directamente. Los clasificados del 2º al 5º de cada grupo (20 equipos)
                                   disputarán 2 eliminatorias en sede neutral, mezclándose entre los grupos, para
                                   determinar las 5 plazas de ascenso restantes.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Descenderán los 5 últimos de cada grupo (del 14º al 18º). Los 4 peores 13º disputarán
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Descenderán los 5 últimos de cada grupo (del 14º al 18º). Los 4 peores 13º disputarán
                                   una eliminatoria en sede neutral de la que saldrán 2 equipos que también descenderán a
                                   la 3ª Federación.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
-                            <li class="federacion"><!-- 3ª FEDERACIÓN -->
-                              <p class="encabezados">3ª FEDERACIÓN (5º Nivel)</p>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 3ª FEDERACIÓN -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                            <li class="federacion">
+                              <h3 class="fw-bold fs-1 text-analisis">3ª Federación</h3>
+                              <p class="fw-bold text-analisis fs-4">5º Nivel</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>El Grupo VIII de la 3ª Federación española de fútbol es el grupo autonómico
+                                <strong class="text-analisis text-dark fs-5">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">El Grupo VIII de la 3ª Federación española de fútbol es el grupo autonómico
                                   castellano y leonés de dicha categoría; constituye el 5º nivel de competición del
                                   sistema de liga en Castilla y León, suele estar integrado por 17 clubes. Al término de
                                   la temporada, el 1º clasificado (excluyendo a los equipos filiales) se clasifica para
                                   disputar la siguiente edición de la Copa del Rey.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Una vez finalizada la temporada regular, el primer clasificado se proclama campeón y
+                                <strong class="text-analisis text-dark fs-5">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Una vez finalizada la temporada regular, el primer clasificado se proclama campeón y
                                   asciende directamente a Segunda División RFEF, mientras que los clasificados entre el
                                   2º y el 5º lugar disputan un playoff territorial para decidir una plaza que da acceso
                                   a la Promoción de ascenso a Segunda División RFEF. Esta promoción consta de una ronda
                                   de eliminación directa en la que el vencedor asciende de categoría.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Al término de la temporada los 3 últimos clasificados descienden directamente a
+                                <strong class="text-analisis text-dark fs-5">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Al término de la temporada los 3 últimos clasificados descienden directamente a
                                   Primera División Regional Aficionados de Castilla y León. Existe la posibilidad de que
                                   desciendan además tantos equipos a 1ª División Regional Aficionados de Castilla y
                                   León, como equipos de Castilla y León que desciendan de la 2ª División RFEF a 3ª
@@ -549,91 +595,114 @@
                                   División RFEF tantos conjuntos de 1ª División Regional Aficionados de Castilla y León
                                   como clubes hayan logrado el ascenso a 2ª División RFEF.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
                           </ul>
                         </div>
                       </div>
                     </div>
-                    <div class="col-lg-12"><!-- Amateur -->
+                    <div class="col-lg-12"><!-- 1ª Div. Regional Aficionados -->
                       <div class="contenedor">
                         <div class="categoria shadow">
-                          <h3 class="fw-bold fs-1 text-analisis">Amateur - CyL</h3>
-                          <p class="fw-bold text-analisis fs-5">Ámbito Regional</p>
+                          <h3 class="fw-bold fs-1 text-analisis">1ª Div. Regional Aficionados </h3>
+                          <p class="fw-bold text-analisis fs-4">6º Nivel</p>
                           <ul class="horizontal-list">
-                            <li class="federacion"><!-- 1ª DIV. REGIONAL AFICIONADOS -->
-                              <p class="encabezados">1ª Div. Regional Aficionados (6º Nivel)</p>
+                            <li class="federacion">
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>Reúne a 32 equipos divididos en dos grupos de 16 equipos cada uno, entre los que se
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">Reúne a 32 equipos divididos en dos grupos de 16 equipos cada uno, entre los que se
                                   distribuyen por proximidad geográfica las 9 provincias de la comunidad. Su
                                   organización corre a cargo de la Real Federación de Castilla y León de Fútbol.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>El primer clasificado de cada grupo ascenderá de forma directa a la categoría
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">El primer clasificado de cada grupo ascenderá de forma directa a la categoría
                                   superior, siendo la Tercera División RFEF. </p>
-                                <strong>Play-Offs de Ascenso</strong>
-                                <p>El segundo y el tercer clasificado de cada grupo disputarán un Play-Off formado por
+                                <strong class="text-analisis text-dark fs-4">Play-Offs de Ascenso</strong>
+                                <p class="text-analisis fs-5">El segundo y el tercer clasificado de cada grupo disputarán un Play-Off formado por
                                   dos rondas de eliminatorias a doble partido. El equipo que supere ambas rondas
                                   obtendrá el ascenso a la Tercera Federación.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Descienden 7 equipos, 4 del grupo A y 3 del grupo B </p>
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Descienden 7 equipos, 4 del grupo A y 3 del grupo B </p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
-                            <li class="federacion"><!-- 1ª DIV. PROVINCIAL AFICIONADOS -->
-                              <p class="encabezados">1ª Div. Provincial Aficionados (7º Nivel)</p>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 1ª Div. Provincial Aficionados -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                            <li class="federacion">
+                              <h3 class="fw-bold fs-1 text-analisis">1ª Div. Provincial Aficionados </h3>
+                              <p class="text-analisis fs-4">7º Nivel</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p> Está compuesta por 9 grupos. Cada grupo está compuesto por un número de equipos
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5"> Está compuesta por 9 grupos. Cada grupo está compuesto por un número de equipos
                                   variable, según la provincia. Pero a la hora del ascenso solo suben 7 equipos, porque
                                   los grupos de Segovia y Soria han rechazado plaza en la 1ª Div. Regional Aficionados.
                                 </p>
-                                <strong>Ascenso de categoría</strong>
-                                <p> Al finalizar la temporada ascienden a Primera División Regional Aficionados el
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5"> Al finalizar la temporada ascienden a Primera División Regional Aficionados el
                                   primero de cada grupo.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>Como Valladolid si que tiene 2ª Div. Provincial Aficionados, descenderían 3 del grupo
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">Como Valladolid si que tiene 2ª Div. Provincial Aficionados, descenderían 3 del grupo
                                   que pertenezca a Valladolid en la 1ª Div. Provincial Aficionados.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
-                            <li class="federacion"><!-- 2ª DIV. PROVINCIAL AFICIONADOS -->
-                              <p class="encabezados">2ª Div. Provincial Aficiondos (8º Nivel)</p>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 2ª Div. Provincial Aficionados -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                            <li class="federacion">
+                              <h3 class="fw-bold fs-1 text-analisis">2ª Div. Provincial Aficionados </h3>
+                              <p class="text-analisis fs-4">8º Nivel</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p>Está compuesto por tres grupos, uno por cada provincia que posee esta categoría que
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">Está compuesto por tres grupos, uno por cada provincia que posee esta categoría que
                                   Valladolid es una de las tres provincias que si la posee, y es de un número de equipos
                                   variable.</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Al finalizar la temporada ascienden a Primera División Provincial Aficionados el
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Al finalizar la temporada ascienden a Primera División Provincial Aficionados el
                                   número de equipos que la delegación provincial correspondiente estime oportuno,
                                   prefijado antes del inicio de temporada y que también depende de las renuncias que
                                   haya en esta y en otras categorías.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p>En esta categoría no existen los descensos, salvo en el grupo de Valladolid, que es
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5">En esta categoría no existen los descensos, salvo en el grupo de Valladolid, que es
                                   la única provincia de la comunidad que posee una categoría más baja, la Tercera
                                   División Provincial Aficionados.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12"><!-- 3ª Div. Provincial Aficionados -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
                             <li class="federacion"><!-- 3ª DIV. PROVINCIAL AFICIONADOS -->
-                              <p class="encabezados">3ª Div. Provincial Aficionados (9º Nivel)</p>
+                              <h3 class="fw-bold fs-1 text-analisis">3ª Div. Provincial Aficionados </h3>
+                              <p class="text-analisis fs-4">9º Nivel</p>
                               <div class="texto-adicional text-analisis fs-5">
-                                <strong>Organización de la Categoría</strong>
-                                <p> Está compuesto por dos grupos (solo Valladolid dispone de esta categoría).</p>
-                                <strong>Ascenso de categoría</strong>
-                                <p>Al finalizar la temporada ascienden a Segunda División Provincial Aficionados el
+                                <strong class="text-analisis text-dark fs-4">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5"> Está compuesto por dos grupos (solo Valladolid dispone de esta categoría).</p>
+                                <strong class="text-analisis text-dark fs-4">Ascenso de categoría</strong>
+                                <p class="text-analisis fs-5">Al finalizar la temporada ascienden a Segunda División Provincial Aficionados el
                                   número de equipos que la delegación Vallisoletana estime oportuno, prefijado antes del
                                   inicio de temporada y que también depende de las renuncias que haya en esta y en otras
                                   categorías.</p>
-                                <strong>Descenso de categoría</strong>
-                                <p> En esta categoría no existen los descensos.</p>
+                                <strong class="text-analisis text-dark fs-4">Descenso de categoría</strong>
+                                <p class="text-analisis fs-5"> En esta categoría no existen los descensos.</p>
                               </div>
-                              <a href="#" class="mostrar-enlace text-decoration-none"
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
                                 onclick="mostrarTexto(this); return false;">Leer más</a>
                             </li>
                           </ul>
@@ -646,7 +715,6 @@
             </div>
           </div>
         </div>
-      </div>
     </section><!--Fin Carrusel-->
     <footer class="container-fluid mt-auto footer-seccion">
       <div class="row align-items-center text-center">
@@ -673,6 +741,7 @@
   <script src="/static/js/script.js"></script>
   <script src="/static/js/slide.js"></script>
   <script src="/static/js/proteccion-datos.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
   <script>
     function mostrarTexto(enlace) {
       // Obtener el elemento <li> padre del enlace
