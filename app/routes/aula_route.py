@@ -1137,8 +1137,6 @@ def aula_permanencia():
         nuevos_datos_aula=data_permanencia
     )
 
-
-
 # COPA AULA VALLADOLID
 # Crear formulario para la copa
 @aula_route_bp.route('/crear_copa_aula', methods=['GET', 'POST'])

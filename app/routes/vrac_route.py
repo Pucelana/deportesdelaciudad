@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
@@ -20,30 +21,34 @@ def ingresar_resultado_vrac():
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
+
             local = request.form.get(f'local{i}')
-            bonusA = request.form.get(f'bonusA{i}')
+            visitante = request.form.get(f'visitante{i}')
+
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
-            bonusB = request.form.get(f'bonusB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
+            # 🔥 CLAVE: ignorar partidos vacíos
+            if not local or not visitante:
+                continue
+
             partido = VracPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
                 local=local,
-                bonusA = bonusA,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                bonusB = bonusB,
                 visitante=visitante,
+                resultadoA=resultadoA or "",
+                resultadoB=resultadoB or "",
+                bonusA=request.form.get(f'bonusA{i}') or 0,
+                bonusB=request.form.get(f'bonusB{i}') or 0,
                 orden=i
             )
+
             db.session.add(partido)
-        # Confirmar todos los cambios en la base de datos
+            # Confirmar todos los cambios en la base de datos
         db.session.commit()
+        print("JORNADA:", jornada.nombre)
+        print("PARTIDOS GUARDADOS:", len(jornada.partidos))
         # Redirigir al calendario después de crear la jornada
         return redirect(url_for('vrac_route_bp.calendarios_vrac'))
     # Si es un GET, renderizamos el formulario de creación
@@ -127,14 +132,28 @@ def obtener_datos_vrac():
         }       
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
-total_partidos_temporada_vrac = 11
+total_partidos_temporada_vrac = 10
 total_partidos_temporada_grupos_vrac = 5
+# Función para separar fases de la temporada
+def separar_fases(data):
+    fase_regular = []
+    fase_liguilla = []
+
+    for jornada in data:
+        nombre = jornada['nombre'].lower()
+
+        if "grupo a" in nombre or "grupo b" in nombre or "liguilla" in nombre:
+            fase_liguilla.append(jornada)
+        else:
+            fase_regular.append(jornada)
+
+    return fase_regular, fase_liguilla
 # Calendario Vrac
 @vrac_route_bp.route('/equipos_rugby/calendario_vrac')
 def calendario_vrac():
     datos = obtener_datos_vrac()
     nuevos_datos_vrac = [dato for dato in datos if dato]
-    equipo_vrac = 'DH VRAC'
+    equipo_vrac = 'VRAC'
     tabla_partidos_vrac = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -217,134 +236,224 @@ def eliminar_club_vrac(club_id):
         db.session.commit()
     return redirect(url_for('vrac_route_bp.jornada0_vrac'))
 # Crear la clasificación CPLV Caja
-def generar_clasificacion_analisis_rugby_vrac(data,total_partidos):
-    default_dict = defaultdict(lambda: {})
-    clasificacion = defaultdict(lambda: {'puntos': 0,'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'favor': 0, 'contra': 0, 'diferencia_goles': 0, 'bonus': 0})
-    for jornada in data[:total_partidos]:
+def generar_clasificacion_analisis_rugby_vrac(data):
+    clasificacion = defaultdict(lambda: {
+        'puntos': 0,
+        'jugados': 0,
+        'ganados': 0,
+        'empatados': 0,
+        'perdidos': 0,
+        'favor': 0,
+        'contra': 0,
+        'diferencia_goles': 0,
+        'bonus': 0
+    })
+
+    for jornada in data:
         for partido in jornada['partidos']:
-            equipo_local = partido.local
-            equipo_visitante = partido.visitante
-            try:
-                bonus_local = int(partido.bonusA)
-                resultado_local = int(partido.resultadoA)
-                resultado_visitante = int(partido.resultadoB)
-                bonus_visitante = int(partido.bonusB)
-            except ValueError:
-                print(f"Error al convertir resultados a enteros en el partido {partido}")
+            if (
+                partido.resultadoA in (None, '')
+                or partido.resultadoB in (None, '')
+            ):
                 continue
-            if clasificacion[equipo_local]['jugados'] > 0:
-                promedio_favor_local = clasificacion[equipo_local]['favor'] / clasificacion[equipo_local]['jugados']
-            else:
-                promedio_favor_local = 0
-            # Ajusta la lógica según tus reglas para asignar puntos y calcular estadísticas en baloncesto
-            if resultado_local > resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 4 + bonus_local
-                clasificacion[equipo_local]['ganados'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 0 + bonus_visitante
-                clasificacion[equipo_visitante]['perdidos'] += 1
-            elif resultado_local < resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 0 + bonus_local
-                clasificacion[equipo_local]['perdidos'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 4 + bonus_visitante
-                clasificacion[equipo_visitante]['ganados'] += 1
-            else:
-                clasificacion[equipo_local]['puntos'] += 2 + bonus_local
-                clasificacion[equipo_local]['empatados'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 2 + bonus_visitante
-                clasificacion[equipo_visitante]['empatados'] += 1                    
-            # Calcula los bonus
-            clasificacion[equipo_local]['bonus'] += bonus_local
-            clasificacion[equipo_visitante]['bonus'] += bonus_visitante    
-            clasificacion[equipo_local]['jugados'] += 1
-            clasificacion[equipo_visitante]['jugados'] += 1
-            clasificacion[equipo_local]['favor'] += resultado_local
-            clasificacion[equipo_local]['contra'] += resultado_visitante
-            clasificacion[equipo_visitante]['favor'] += resultado_visitante
-            clasificacion[equipo_visitante]['contra'] += resultado_local
-            clasificacion[equipo_local]['diferencia_goles'] += resultado_local - resultado_visitante
-            clasificacion[equipo_visitante]['diferencia_goles'] += resultado_visitante - resultado_local
-    # Ordena la clasificación por puntos y diferencia de canastas
-    clasificacion_ordenada = [{'equipo': equipo, 'datos': datos} for equipo, datos in sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_goles']), reverse=True)]
-    return clasificacion_ordenada
-# Crear la clasificación para el GrupoA2 y GrupoB2 del VRAC
-def generar_clasificacion_grupoA2_grupoB2(data, total_partidos):
-    clasificacion = defaultdict(lambda: {'puntos': 0, 'jugados': 0, 'ganados': 0, 'empatados': 0, 'perdidos': 0, 'favor': 0, 'contra': 0, 'diferencia_goles': 0, 'bonus': 0})
-    for jornada in data[:total_partidos]:
-        for partido in jornada['partidos']:
-            equipo_local = partido.local
-            equipo_visitante = partido.visitante
+
             try:
-                bonus_local = int(partido.bonusA)
-                resultado_local = int(partido.resultadoA)
-                resultado_visitante = int(partido.resultadoB)
-                bonus_visitante = int(partido.bonusB)
-            except ValueError:
-                print(f"Error al convertir resultados a enteros en el partido {partido}")
+                a = int(partido.resultadoA)
+                b = int(partido.resultadoB)
+                ba = int(partido.bonusA or 0)
+                bb = int(partido.bonusB or 0)
+            except:
                 continue
-            if resultado_local > resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 4 + bonus_local
-                clasificacion[equipo_local]['ganados'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 0 + bonus_visitante
-                clasificacion[equipo_visitante]['perdidos'] += 1
-            elif resultado_local < resultado_visitante:
-                clasificacion[equipo_local]['puntos'] += 0 + bonus_local
-                clasificacion[equipo_local]['perdidos'] += 1
-                clasificacion[equipo_visitante]['puntos'] += 4 + bonus_visitante
-                clasificacion[equipo_visitante]['ganados'] += 1
+
+            local = partido.local
+            visitante = partido.visitante
+
+            # RESULTADO BASE
+            if a > b:
+                clasificacion[local]['puntos'] += 4
+                clasificacion[local]['ganados'] += 1
+                clasificacion[visitante]['perdidos'] += 1
+
+            elif a < b:
+                clasificacion[visitante]['puntos'] += 4
+                clasificacion[visitante]['ganados'] += 1
+                clasificacion[local]['perdidos'] += 1
+
             else:
-                clasificacion[equipo_local]['puntos'] += 2 + bonus_local
-                clasificacion[equipo_visitante]['puntos'] += 2 + bonus_visitante
-                clasificacion[equipo_local]['empatados'] += 1
-                clasificacion[equipo_visitante]['empatados'] += 1
-            clasificacion[equipo_local]['bonus'] += bonus_local
-            clasificacion[equipo_visitante]['bonus'] += bonus_visitante
-            clasificacion[equipo_local]['jugados'] += 1
-            clasificacion[equipo_visitante]['jugados'] += 1
-            clasificacion[equipo_local]['favor'] += resultado_local
-            clasificacion[equipo_local]['contra'] += resultado_visitante
-            clasificacion[equipo_visitante]['favor'] += resultado_visitante
-            clasificacion[equipo_visitante]['contra'] += resultado_local
-            clasificacion[equipo_local]['diferencia_goles'] += resultado_local - resultado_visitante
-            clasificacion[equipo_visitante]['diferencia_goles'] += resultado_visitante - resultado_local
-    # Ordena la clasificación por puntos y diferencia de goles
-    clasificacion_ordenada = [{'equipo': equipo, 'datos': datos} for equipo, datos in sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['diferencia_goles']), reverse=True)]
-    # Divide la clasificación en Grupo A y Grupo B
-    grupoA2 = clasificacion_ordenada[:6]
-    grupoB2 = clasificacion_ordenada[6:12]
-    return grupoA2, grupoB2
+                clasificacion[local]['puntos'] += 2
+                clasificacion[visitante]['puntos'] += 2
+                clasificacion[local]['empatados'] += 1
+                clasificacion[visitante]['empatados'] += 1
+
+            # 🔥 BONUS SOLO SI ES 1
+            if ba == 1:
+                clasificacion[local]['bonus'] += 1
+                clasificacion[local]['puntos'] += 1   # si bonus suma a puntos
+
+            if bb == 1:
+                clasificacion[visitante]['bonus'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
+            # stats
+            clasificacion[local]['jugados'] += 1
+            clasificacion[visitante]['jugados'] += 1
+
+            clasificacion[local]['favor'] += a
+            clasificacion[local]['contra'] += b
+            clasificacion[visitante]['favor'] += b
+            clasificacion[visitante]['contra'] += a
+
+            clasificacion[local]['diferencia_goles'] += (a - b)
+            clasificacion[visitante]['diferencia_goles'] += (b - a)
+
+    return [
+        {'equipo': k, 'datos': v}
+        for k, v in clasificacion.items()
+    ]  
+# Deshacer desempates
+def aplicar_h2h_en_empates(clasificacion, data):
+
+    for i in range(len(clasificacion)-1):
+
+        equipo1 = clasificacion[i]
+        equipo2 = clasificacion[i+1]
+
+        if equipo1['datos']['puntos'] == equipo2['datos']['puntos']:
+
+            ganador = None
+
+            for jornada in data:
+                for partido in jornada['partidos']:
+
+                    local = partido.local
+                    visitante = partido.visitante
+
+                    if (
+                        (local == equipo1['equipo'] and visitante == equipo2['equipo']) or
+                        (local == equipo2['equipo'] and visitante == equipo1['equipo'])
+                    ):
+
+                        try:
+                            a = int(partido.resultadoA)
+                            b = int(partido.resultadoB)
+                        except:
+                            continue
+
+                        if local == equipo1['equipo']:
+                            if a > b:
+                                ganador = equipo1['equipo']
+                            elif b > a:
+                                ganador = equipo2['equipo']
+                        else:
+                            if a > b:
+                                ganador = equipo2['equipo']
+                            elif b > a:
+                                ganador = equipo1['equipo']
+
+            if ganador == equipo2['equipo']:
+                clasificacion[i], clasificacion[i+1] = clasificacion[i+1], clasificacion[i]
+
+    return clasificacion
 # Ruta para mostrar la clasificación y análisis del Vrac
 @vrac_route_bp.route('/equipos_rugby/clasif_analisis_vrac')
 def clasif_analisis_vrac():
     data = obtener_datos_vrac()
-    # Genera la clasificación y análisis actual
-    clasificacion_analisis_vrac = generar_clasificacion_analisis_rugby_vrac(data,total_partidos_temporada_vrac)    
-    # Obtén los equipos desde la base de datos PostgreSQL
-    clubs_vrac = VracClub.query.all()
-    # Inicializa las estadísticas de los equipos que aún no están en la clasificación
-    for club in clubs_vrac:
-        if not any(equipo['equipo'] == club.nombre for equipo in clasificacion_analisis_vrac):
-            equipo = {
-                'equipo': club.nombre,
-                'datos': {
-                    'puntos': 0,
-                    'jugados': 0,
-                    'ganados': 0,
-                    'empatados': 0,
-                    'perdidos': 0,
-                    'favor': 0,
-                    'contra': 0,
-                    'diferencia_goles': 0,
-                    'bonus': 0
-                }
+    fase_regular, fase_liguilla = separar_fases(data)
+
+    # 🔥 1. CLASIFICACIÓN BASE (GENERAL)
+    base = generar_clasificacion_analisis_rugby_vrac(fase_regular)
+    base_dict = {e['equipo']: e['datos'] for e in base}
+
+    # 🔥 2. FUNCIÓN ARRASTRE LIGUILLA
+    def sumar_liguilla(grupo_data):
+        liga = generar_clasificacion_analisis_rugby_vrac(grupo_data)
+
+        resultado = {}
+
+        for e in liga:
+            equipo = e['equipo']
+
+            datos_base = base_dict.get(equipo, {
+                'puntos': 0,
+                'jugados': 0,
+                'ganados': 0,
+                'empatados': 0,
+                'perdidos': 0,
+                'favor': 0,
+                'contra': 0,
+                'diferencia_goles': 0,
+                'bonus': 0
+            })
+
+            d = e['datos']
+
+            resultado[equipo] = {
+                'puntos': datos_base['puntos'] + d['puntos'],
+                'jugados': datos_base['jugados'] + d['jugados'],
+                'ganados': datos_base['ganados'] + d['ganados'],
+                'empatados': datos_base['empatados'] + d['empatados'],
+                'perdidos': datos_base['perdidos'] + d['perdidos'],
+                'favor': datos_base['favor'] + d['favor'],
+                'contra': datos_base['contra'] + d['contra'],
+                'diferencia_goles': datos_base['diferencia_goles'] + d['diferencia_goles'],
+                'bonus': datos_base['bonus'] + d['bonus']
             }
-            clasificacion_analisis_vrac.append(equipo)
-    clasificacion_analisis_vrac = sorted(clasificacion_analisis_vrac, key=lambda x: (x['datos']['puntos'], x['datos']['diferencia_goles']), reverse=True)
-    clasificacion_analisis_vrac_indexed = [{'index': i + 1, 'equipo': equipo['equipo'], 'datos': equipo['datos']} for i, equipo in enumerate(clasificacion_analisis_vrac)]
-    data13 = obtener_datos_vrac()  # Asumiendo que usas la misma función para obtener los datos de los grupos
-    grupoA2, grupoB2 = generar_clasificacion_grupoA2_grupoB2(data13, total_partidos_temporada_grupos_vrac)
-    grupoA2_indexed = [{'index': i + 1, 'equipo': equipo['equipo'], 'datos': equipo['datos']} for i, equipo in enumerate(grupoA2)]
-    grupoB2_indexed = [{'index': i + 7, 'equipo': equipo['equipo'], 'datos': equipo['datos']} for i, equipo in enumerate(grupoB2)]
-    return render_template('equipos_rugby/clasif_analisis_vrac.html', clasificacion_analisis_vrac=clasificacion_analisis_vrac_indexed, grupoA2=grupoA2_indexed, grupoB2=grupoB2_indexed)
+
+        return [{'equipo': k, 'datos': v} for k, v in resultado.items()]
+
+    # 🔥 3. GRUPOS
+    grupoA_data = [j for j in fase_liguilla if "grupo a" in j['nombre'].lower()]
+    grupoB_data = [j for j in fase_liguilla if "grupo b" in j['nombre'].lower()]
+
+    grupoA = sumar_liguilla(grupoA_data)
+    grupoB = sumar_liguilla(grupoB_data)
+
+    # 🔥 4. ORDEN GENERAL
+    clasificacion_general = sorted(
+        base,
+        key=lambda x: (
+            x['datos']['puntos'],
+            x['datos']['diferencia_goles'],
+            x['datos']['favor']
+        ),
+        reverse=True
+    )
+
+    # 🔥 5. ORDEN GRUPOS
+    grupoA = sorted(grupoA, key=lambda x: (
+        x['datos']['puntos'],
+        x['datos']['diferencia_goles'],
+        x['datos']['favor']
+    ), reverse=True)
+
+    grupoB = sorted(grupoB, key=lambda x: (
+        x['datos']['puntos'],
+        x['datos']['diferencia_goles'],
+        x['datos']['favor']
+    ), reverse=True)
+
+    # 🔥 6. INDEXADO
+    clasificacion_general_indexed = [
+        {'index': i + 1, **e}
+        for i, e in enumerate(clasificacion_general)
+    ]
+
+    grupoA_indexed = [
+        {'index': i + 1, **e}
+        for i, e in enumerate(grupoA)
+    ]
+
+    grupoB_indexed = [
+        {'index': i + 7, **e}
+        for i, e in enumerate(grupoB)
+    ]
+
+    return render_template(
+        'equipos_rugby/clasif_analisis_vrac.html',
+        clasificacion_general_indexed=clasificacion_general_indexed,
+        grupoA2=grupoA_indexed,
+        grupoB2=grupoB_indexed
+    )
 
 # PLAYOFF DH VRAC
 # Crear formulario para los playoff

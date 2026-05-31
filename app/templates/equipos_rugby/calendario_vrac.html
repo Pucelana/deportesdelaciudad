@@ -128,18 +128,18 @@
                               <tbody style="display:none">
                                 {% for partido in goles.partidos %}
                                 <tr class="text-center">
-                                  <td class="text-center text-white">{{ partido.fecha }} {{ partido.hora }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.local }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoA }}</td>
-                                  <td class="text-center text-white">{{ partido.resultadoB }}</td>
-                                  <td class="text-center fw-bold size_equipos">{{ partido.visitante }}</td>
+                                  <td class="text-center fw-bold text-dark">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-center fw-bold size_equipos text-white">{{ partido.local }}</td>
+                                  <td class="text-center text-dark fw-bold">{{ partido.resultadoA }}</td>
+                                  <td class="text-center text-dark fw-bold">{{ partido.resultadoB }}</td>
+                                  <td class="text-center fw-bold size_equipos text-white">{{ partido.visitante }}</td>
                                 </tr>
                                 {% endfor %}
                               </tbody>
                             </table>
                             <div class="d-flex ms-1 my-1">
                               <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
-                                class="text-decoration-none ps-3 text-white">Ver</a>
+                                class="text-decoration-none ps-3 text-white text-analisis fs-5">Ver</a>
                             </div>
                           </div>
                         </div>
