@@ -57,21 +57,21 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
-            <a href="/" class="text-white text-decoration-none">Inicio</a>
+            <a href="/seccion/vrac" class="text-white text-decoration-none text-analisis fs-6">VRAC</a>
           </li>
-          <li class="breadcrumb-item active text-info" aria-current="page">
-            Copa DH VRAC
+          <li class="breadcrumb-item active text-dark" aria-current="page">
+            Copa del Rey
           </li>
         </ol>
       </nav>
-      <h1 class="text-playoff">Copa del Rey 25/26</h1>
-      <span class="equipo_copa">DH VRAC</span>
+      <h1 class="text-playoff">VRAC</h1>
+      <span class="equipo_copa"></span>
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
         {% for grupo in clasificaciones.keys() %}
         <a
           href="#"
-          class="btn btn-outline-info btn-slide {% if loop.first %}active{% endif %}"
+          class="btn btn-outline-dark btn-slide {% if loop.first %}active{% endif %}"
           data-target="grupo{{ loop.index0 }}"
         >
           {{ grupo }}
@@ -79,7 +79,7 @@
         {% endfor %} {% for ronda in eliminatorias.keys() %}
         <a
           href="#"
-          class="btn btn-outline-info btn-slide"
+          class="btn btn-outline-dark btn-slide"
           data-target="ronda{{ loop.index0 }}"
         >
           {{ ronda|capitalize }}
@@ -170,7 +170,7 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text-center text-white text-capitalize">
+                  <h3 class="text-center text-white text-capitalize text-analisis fw-bold">
                     {{ ronda }}
                   </h3>
                   <div class="row table-responsive">

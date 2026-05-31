@@ -246,9 +246,14 @@ equipos3.forEach((equipo3Data) => {
     } else if (equipo3Data.index3 <=22) {
         claseColor3 = 'pos-nada';
     }
+    let claseEquipo3 = "fw-bold text-center size_equipos2 text-white";
+
+    if (equipo3Data.equipo3 === "Valladolid") {
+        claseEquipo3 += " equipo-valladolid";
+    }
     nuevaFila3.innerHTML = `
     <td class="fw-bold text-center ${claseColor3}">${equipo3Data.index3}</td>
-    <td class="fw-bold text-center size_equipos2 text-white">${equipo3Data.equipo3}</td>
+    <td class="${claseEquipo3}">${equipo3Data.equipo3}</td>
     <td class="cham-jug fw-bold text-center">${equipo3Data.partidosJugados3}</td>
     <td class="cham-act fw-bold text-center">${equipo3Data.puntosActuales3}</td>
     <td class="cham-proxi fw-bold text-center">${equipo3Data.proximidadDeChampions}%</td>

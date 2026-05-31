@@ -2,7 +2,7 @@
 <html lang="es">
 
 <head>
-  <title>Calendario - DH VRAC</title>
+  <title>Calendario - El Salvador</title>
   <!-- Required meta tags -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -40,8 +40,8 @@
   <div class="d-flex flex-column min-vh-100">
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/vrac" class="text-white text-decoration-none text-analisis fs-6">VRAC</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario VRAC</li>
+        <li class="breadcrumb-item"><a href="/seccion/salvador" class="text-white text-decoration-none text-analisis fs-6">El Salvador</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario El Salvador</li>
       </ol>
     </nav>
     <section class="container-lg mb-5 flex-fill copa">
@@ -77,29 +77,29 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_vrac.items() %}
+                        {% for equipo, datos_equipo in tabla_partidos_salvador.items() %}
                         <tr class="text-center">
                           <th class="text-white size_equipos">{{ equipo }}</th>
                           <td class="jorn_ida fw-bold">
                             {% if datos_equipo.get('primer_enfrentamiento') %}
                             J-{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vrac'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vrac'] }})
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_salvador'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_salvador'] }})
                             {% endif %}
                             {% endif %}
                           </td>
                           <td class="jorn_vuelta fw-bold">
                             {% if datos_equipo.get('segundo_enfrentamiento') %}
                             J-{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vrac'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vrac'] }})
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_salvador'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_salvador'] }})
                             {% endif %}
                             {% endif %}
                           </td>
-                          <td class="resultadoA fw-bold">{{ tabla_partidos_vrac[equipo]['resultadoA'] }}</td>
-                          <td class="resultadoB fw-bold">{{ tabla_partidos_vrac[equipo]['resultadoB'] }}</td>
-                          <td class="resultadoAA fw-bold">{{ tabla_partidos_vrac[equipo]['resultadoAA'] }}</td>
-                          <td class="resultadoBB fw-bold">{{ tabla_partidos_vrac[equipo]['resultadoBB'] }}</td>
+                          <td class="resultadoA fw-bold">{{ tabla_partidos_salvador[equipo]['resultadoA'] }}</td>
+                          <td class="resultadoB fw-bold">{{ tabla_partidos_salvador[equipo]['resultadoB'] }}</td>
+                          <td class="resultadoAA fw-bold">{{ tabla_partidos_salvador[equipo]['resultadoAA'] }}</td>
+                          <td class="resultadoBB fw-bold">{{ tabla_partidos_salvador[equipo]['resultadoBB'] }}</td>
                           <td class="part1"></td>
                           <td class="average"></td>
                         </tr>
@@ -118,7 +118,7 @@
                 <div class="card-body">
                   <div class="container-fluid">
                     <div class="row">
-                      {% for goles in nuevos_datos_vrac %}
+                      {% for goles in nuevos_datos_salvador %}
                       <div class="col-lg-4">
                         <div class="card card_calendario mb-3">
                           <div class="table-responsive">

@@ -124,7 +124,7 @@
                           {% for equipo in clasificacion_analisis_valladolid %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos2 text-white {% if 'Valladolid' in equipo['equipo'] %}equipo-valladolid{% endif %}">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold text-center size_equipos2 text-white">{{ equipo['equipo'] }}</td>
                             <td class="camp-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
                             <td class="camp-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="camp-proxi fw-bold"></td>

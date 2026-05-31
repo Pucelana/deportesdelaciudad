@@ -97,6 +97,15 @@
     -1px  1px 0 #5b1f94 ,
      1px  1px 0 #5b1f94 ;
 }
+.equipo-salvador {
+  color: #ffffff !important;
+  font-size: 1.40em;
+  text-shadow:
+    -1px -1px 0 #5b1f94 ,
+     1px -1px 0 #5b1f94 ,
+    -1px  1px 0 #5b1f94 ,
+     1px  1px 0 #5b1f94 ;
+}
 .equipo-aula {
   color: #ffffff !important;
   font-size: 1.40em;

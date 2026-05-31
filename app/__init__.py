@@ -19,6 +19,7 @@ from .routes.caja_route import caja_route_bp
 from .routes.panteras_route import panteras_route_bp
 from .routes.vrac_route import vrac_route_bp
 from .routes.galvan_route import galvan_route_bp
+from .routes.salvador_route import salvador_route_bp
 from .routes.usuarios_route import usuarios_route_bp
 
 def create_app():
@@ -45,6 +46,7 @@ def create_app():
     app.register_blueprint(panteras_route_bp, url_prefix='/admin')
     app.register_blueprint(vrac_route_bp, url_prefix='/admin')
     app.register_blueprint(galvan_route_bp, url_prefix='/admin')
+    app.register_blueprint(salvador_route_bp, url_prefix='/admin')
     app.register_blueprint(usuarios_route_bp)
     
     return app 
