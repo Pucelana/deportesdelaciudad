@@ -44,7 +44,7 @@
   <div class="d-flex flex-column min-vh-100">
     <header class="container-fluid d-none d-lg-block sticky-top">
       <section id="cabecera1" class="align-items-center ">
-        <div class="row bg_menu_seccion shadow-lg">
+        <div class="row mx-0 bg_menu_seccion shadow-lg">
           <div class="col-lg-9 col-md-9">
             <nav class="navbar navbar-expand navbar-light">
               <div class="container-fluid">
@@ -129,7 +129,6 @@
               </div>
             </nav>
           </div>
-          
         </div>
       </section>
     </header><!--Fin header1-->
@@ -194,9 +193,9 @@
                       <a class="dropdown-item" href="/sistema_ligas/hockey">Info</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active fw-bold fs-5 text-white text-menu-seccion" href="/seccion/rugby"
-                    aria-current="page">Rugby</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion" href="#" id="dropdownId"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Rugby</a>
                     <div class="dropdown-menu menu-desple" aria-labelledby="dropdownId">
                       <a class="dropdown-item" href="/seccion/vrac">VRAC</a>
                       <a class="dropdown-item" href="/seccion/salvador">El Salvador</a>
@@ -204,9 +203,9 @@
                       <a class="dropdown-item" href="/sistema_ligas/rugby">Info</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link active fw-bold fs-5 text-white text-menu-seccion" href="/seccion/voleibol"
-                    aria-current="page">Voleibol</a>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion" href="#" id="dropdownId"
+                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Voleibol</a>
                     <div class="dropdown-menu menu-desple" aria-labelledby="dropdownId">
                       <a class="dropdown-item" href="/seccion/univ">Univ. Valladolid</a>
                       <a class="dropdown-item" href="/sistema_ligas/voleibol">Info</a>
@@ -217,7 +216,7 @@
           </div>
         </nav>
         <div>
-          <img src="../static/img/logo-deportes2.png" class="img-fluid logo-movil" alt="eldeportedelaciudad">
+          <img src="{{ url_for('static', filename='img/logo-deportes2.png') }}" class="img-fluid logo-movil" alt="eldeportedelaciudad">
         </div>
       </section>
     </header>
