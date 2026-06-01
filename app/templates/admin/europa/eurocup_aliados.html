@@ -111,7 +111,7 @@
     <!-- Modificar partido -->
       <button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#modal-{{ fase }}">Modificar</button>
     <!-- Borrar partido -->
-      <form method="POST" action="{{ url_for('aliados_route_bp.eliminar_eurocup_aliados', identificador=fase) }}">
+      <form method="POST" action="{{ url_for('aliados_route_bp.eliminar_eurocup_aliados', identificador=jornada) }}">
         <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
       </form>
     </div>
@@ -130,6 +130,62 @@
         </div>
         <div class="modal-body">
           <form method="POST" action="{{ url_for('aliados_route_bp.modificar_eurocup_aliados', encuentros=jornada) }}">
+            <!-- Número de partidos (crucial para la ruta) -->
+            <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
+            {% for partido in partidos %}
+            <!-- Campo oculto para el ID del partido -->
+            <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
+            <!-- Campos de entrada para editar el partido -->
+            <div class="form-group">
+              <label for="fecha{{ loop.index0 }}">Fecha:</label>
+              <input type="text" class="form-control" id="fecha{{ loop.index0 }}" name="fecha{{ loop.index0 }}"
+                value="{{ partido.fecha }}">
+            </div>
+            <div class="form-group">
+              <label for="hora{{ loop.index0 }}">Hora:</label>
+              <input type="text" class="form-control" id="hora{{ loop.index0 }}" name="hora{{ loop.index0 }}"
+                value="{{ partido.hora }}">
+            </div>
+            <div class="form-group">
+              <label for="local{{ loop.index0 }}">Local:</label>
+              <input type="text" class="form-control" id="local{{ loop.index0 }}" name="local{{ loop.index0 }}"
+                value="{{ partido.local }}">
+            </div>
+            <div class="form-group">
+              <label for="resultadoA{{ loop.index0 }}">Resultado A:</label>
+              <input type="text" class="form-control" id="resultadoA{{ loop.index0 }}"
+                name="resultadoA{{ loop.index0 }}" value="{{ partido.resultadoA }}">
+            </div>
+            <div class="form-group">
+              <label for="resultadoB{{ loop.index0 }}">Resultado B:</label>
+              <input type="text" class="form-control" id="resultadoB{{ loop.index0 }}"
+                name="resultadoB{{ loop.index0 }}" value="{{ partido.resultadoB }}">
+            </div>
+            <div class="form-group">
+              <label for="visitante{{ loop.index0 }}">Visitante:</label>
+              <input type="text" class="form-control" id="visitante{{ loop.index0 }}" name="visitante{{ loop.index0 }}"
+                value="{{ partido.visitante }}">
+            </div>
+            {% endfor %}
+            <!-- Botón de enviar para enviar los datos modificados -->
+            <button type="submit" class="btn btn-primary">Guardar</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  {% for fase, partidos in datos_eliminatorias.items() %}
+  <div class="modal fade" id="modal-{{ fase }}" tabindex="-1" role="dialog" aria-labelledby="modificarModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modificar {{ fase|replace('_',' ')|title }}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="{{ url_for('aliados_route_bp.modificar_eurocup_aliados', encuentros=fase) }}">
             <!-- Número de partidos (crucial para la ruta) -->
             <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
             {% for partido in partidos %}

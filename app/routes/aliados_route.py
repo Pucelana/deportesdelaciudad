@@ -123,7 +123,7 @@ def obtener_datos_aliados():
 def calendario_aliados():
     datos = obtener_datos_aliados()
     nuevos_datos_aliados = [dato for dato in datos if dato]
-    equipo_aliados = 'Fundación Aliados'
+    equipo_aliados = 'BSR Valladolid'
     tabla_partidos_aliados = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -454,8 +454,7 @@ def generar_clasificacion_analisis_baloncesto_aliados(data):
             'datos': datos
         }
         for equipo, datos in equipos
-    ]
-    
+    ]  
 # Ruta para mostrar la clasificación y análisis del UEMC
 @aliados_route_bp.route('/equipos_basket/clasif_analisis_aliados')
 def clasif_analisis_aliados():
