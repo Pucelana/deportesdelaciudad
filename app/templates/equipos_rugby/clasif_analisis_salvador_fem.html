@@ -79,7 +79,7 @@
                           {% for equipo in clasificacion_general_indexed %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if equipo.index <= 6 %}pos-ascen{% elif equipo.index <= 11 %}pos-desc{% endif %}">
+                              class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 8 %}pos-desc{% endif %}">
                               {{ equipo.index }}</td>
                             <td class="fw-bold text-white size_equipos {% if 'Salvador Fem.' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
@@ -99,8 +99,8 @@
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
                   (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); B (Bonus)</p>
-                <p class="ms-4">Grupo A<span class="badge bg-success ms-2">1-6</span> ; Grupo B<span
-                    class="badge bg-secondary ms-2">7-12</span></p>
+                <p class="ms-4">Grupo A<span class="badge bg-success ms-2">1-4</span> ; Grupo B<span
+                    class="badge bg-secondary ms-2">5-8</span></p>
               </div>
             </div>
           </div>
@@ -129,8 +129,8 @@
                         <tbody>
                           {% for equipo in grupoA2 %}
                           <tr class="text-center">
-                            <td class="fw-bold {% if equipo.index <= 6 %}pos-ascen {% elif equipo.index <= 11 %}pos-desc {% endif %}">{{ equipo.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'Salvador' in equipo.equipo %}equipo-salvador{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold {% if equipo.index <= 4 %}pos-ascen {% elif equipo.index <= 8 %}pos-desc {% endif %}">{{ equipo.index }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'Salvador Fem.' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
@@ -148,7 +148,7 @@
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
                   (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); BNS (Bonus)</p>
-                <p class="ms-4">Grupo A (Ganadores)<span class="badge bg-success ms-2">1-6</span> ; Grupo B (Perdedores)<span class="badge bg-danger ms-2">7-11</span></p>
+                <p class="ms-4">Grupo A (Ganadores)<span class="badge bg-success ms-2">1-4</span> ; Grupo B (Perdedores)<span class="badge bg-danger ms-2">5-8</span></p>
               </div>
             </div>
           </div>
@@ -178,9 +178,9 @@
                           {% for equipo in grupoB2 %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if equipo.index <= 8 %}pos-ascen{% elif equipo.index <= 9 %}pos-nada{% elif equipo.index <= 11 %}pos-desc{% endif %}">
+                              class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 8 %}pos-nada{% elif equipo.index <= 11 %}pos-desc{% endif %}">
                               {{ equipo.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'Salvador' in equipo.equipo %}equipo-salvador{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'Salvador Fem.' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
@@ -198,9 +198,9 @@
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
                   (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); BNS (Bonus)</p>
-                <p class="ms-4">PlayOff (Cuartos de final)<span class="badge bg-success ms-2">7-8</span> ; Promoción
+                <p class="ms-4">PlayOff (Cuartos de final)<span class="badge bg-success ms-2">5-6</span> ; Promoción
                   Descenso<span class="badge ms-2" style="background-color: #d86f6f;">11</span> ; Descenso<span
-                    class="badge bg-danger ms-2">12</span></p>
+                    class="badge bg-danger ms-2">8</span></p>
               </div>
             </div>
           </div>

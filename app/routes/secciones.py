@@ -11,6 +11,10 @@ def seccion_uemc():
 def seccion_ponce():
     return render_template('secciones/ponce.html')
 
+@secciones_bp.route('/seccion/cdsi_vall')
+def seccion_cdsi_vall():
+    return render_template('secciones/cdsi_vall.html')
+
 @secciones_bp.route('/seccion/aliados')
 def seccion_aliados():
     return render_template('secciones/aliados.html')

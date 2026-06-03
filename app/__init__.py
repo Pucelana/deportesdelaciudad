@@ -13,6 +13,7 @@ from .routes.promesas_route import promesas_route_bp
 from .routes.simancas_route import simancas_route_bp
 from .routes.parquesol_route import parquesol_route_bp
 from .routes.ponce_route import ponce_route_bp
+from .routes.cdsi_vall_route import cdsi_vall_route_bp
 from .routes.aliados_route import aliados_route_bp
 from .routes.aula_route import aula_route_bp
 from .routes.recoletas_route import recoletas_route_bp
@@ -42,6 +43,7 @@ def create_app():
     app.register_blueprint(simancas_route_bp, url_prefix='/admin')
     app.register_blueprint(parquesol_route_bp, url_prefix='/admin')
     app.register_blueprint(ponce_route_bp, url_prefix='/admin')
+    app.register_blueprint(cdsi_vall_route_bp, url_prefix='/admin')
     app.register_blueprint(aliados_route_bp, url_prefix='/admin')
     app.register_blueprint(aula_route_bp, url_prefix='/admin')
     app.register_blueprint(recoletas_route_bp, url_prefix='/admin')

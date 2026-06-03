@@ -32,6 +32,9 @@
 function mostrarFormularioPonce(){
   document.getElementById('form_partidos_ponce').style.display='block';
 }
+function mostrarFormularioCDSIVall(){
+  document.getElementById('form_partidos_cdsi_vall').style.display='block';
+}
 function mostrarFormularioAliados(){
   document.getElementById('form_partidos_aliados').style.display='block';
 }
