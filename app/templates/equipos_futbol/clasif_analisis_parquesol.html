@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <title>Clasificación y Ánalisis</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga.">
+  <meta name="keywords"
+    content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
+  <meta name="author" content="eldeportedelaciudad">
+  <!-- Twitter meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Página deportiva de Valladolid">
+  <meta name="twitter:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:image" content="URL_de_la_imagen">
+  <meta name="twitter:site" content="@tu_cuenta_de_twitter">
+  <meta name="twitter:creator" content="@cuenta_del_autor">
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Página deportiva de Valladolid">
+  <meta property="og:description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:image" content="URL_de_la_imagen">
+  <meta property="og:url" content="URL_de_tu_página">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="eldeportedelaciudad">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#000000">
+</head>
+
+<body class="calend_deportes">
+  <div class="d-flex flex-column min-vh-100 sticky-top">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb ms-1">
+        <li class="breadcrumb-item"><a href="/seccion/parquesol" class="text-white text-decoration-none text-analisis fs-6">CD Parquesol</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Clasificación y Ánalisis</li>
+      </ol>
+    </nav>
+    <h2 class="text-white text-center text-analisis">CD Parquesol</h2>
+    <section class="container-lg mb-5 flex-fill copa">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-2 gap-2">
+        <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="ascenso">Ascenso</button>
+        <!--<button class="btn btn-outline-light tab-btn" data-tab="playoff">PlayOff</button>-->
+        <button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>
+      </div>
+      <div class="tab-container">
+          <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga 3ª Federación(Grp-8)</h3>
+                      <table id="tablaClasifParquesol" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PTS</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DG</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_parquesol %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 12 %}pos-desc{% endif %}">
+                              {{ loop.index }}</td>
+                            <td class="fw-bold size_equipos text-white {% if 'CD Parquesol' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
+                            <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
+                            <td class="empatados fw-bold">{{ equipo['datos']['empatados'] }}</td>
+                            <td class="perdidos fw-bold">{{ equipo['datos']['perdidos'] }}</td>
+                            <td class="favor fw-bold">{{ equipo['datos']['favor'] }}</td>
+                            <td class="contra fw-bold">{{ equipo['datos']['contra']}}</td>
+                            <td class="diferencia_goles fw-bold">{{ equipo['datos']['diferencia_goles'] }}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4 text-analisis fs-6"> PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
+                  (Partidos Perdidos); GF (Goles Favor); GC(Goles Contra); DG (Diferencia Goles)</p>
+                <p class="ms-4 text-analisis fs-6">Campeón<span class="badge bg-success ms-2">1</span> ; Descenso<span class="badge bg-danger ms-2">11-12</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="ascenso"><!--Tabla Ascenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga 2ª Federación</h3>
+                      <table id="tablaAscensoParquesol" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_parquesol %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="jugados1 fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="pts-act1 fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="proxi1 fw-bold"></td>
+                            <td class="pts-mate1 fw-bold"></td>
+                            <td class="pts-opti1 fw-bold"></td>
+                            <td class="pts-pesi1 fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <!--<div class="tab-pane" id="playoff"><--Tabla PlayOff->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">PlayOff Ascenso</h3>
+                      <table id="tablaPlayParquesol" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_parquesol %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="play-prox fw-bold"></td>
+                            <td class="play-mate fw-bold"></td>
+                            <td class="play-opti fw-bold"></td>
+                            <td class="play-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>-->
+          <div class="tab-pane" id="descenso"><!--Tabla Descenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Liga Gonalpi</h3>
+                      <table id="tablaDescParquesol" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_parquesol %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="desc-prox fw-bold"></td>
+                            <td class="desc-mate fw-bold"></td>
+                            <td class="desc-opti fw-bold"></td>
+                            <td class="desc-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+      </div>
+    </section>
+    <footer class="container-fluid mt-auto footer-seccion">
+      <div class="row align-items-center text-center">
+        <div class="col-12 col-md-6 mb-2 mb-md-0">
+          <a>
+            <h5 class="text-white fw-bold text-analisis mb-0 fs-4">deportesdeslaciudad &copy; 2026</h5>
+          </a>
+        </div>
+        <div class="col-12 col-md-6">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
+        </div>
+      </div>
+    </footer>
+  </div>
+  <!--Fin Carrusel-->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+  <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
+  <script src="/static/js/analisis-parquesol.js"></script>
+  <script src="/static/js/num_caracteres.js"></script>
+  <script src="/static/js/carrusel_equipos.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
+</body>
+
+</html>

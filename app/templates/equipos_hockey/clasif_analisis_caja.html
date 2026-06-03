@@ -77,7 +77,7 @@
                         {% for equipo in clasificacion_analisis_caja %}
                         <tr class="text-center">
                           <td class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 8 %}pos-nada{% elif loop.index <= 10 %}pos-desc{% endif %}">{{ loop.index }}</td>
-                          <td class="text-white fw-bold size_equipos2 {% if 'Caja Rural' in equipo.equipo %}equipo-caja{% endif %}">{{ equipo.equipo }}</td>
+                          <td class="text-white fw-bold size_equipos2 {% if 'Caja Rural' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                           <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
                           <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
                           <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>

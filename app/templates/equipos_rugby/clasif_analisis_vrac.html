@@ -81,7 +81,7 @@
                             <td
                               class="fw-bold {% if equipo.index <= 6 %}pos-ascen{% elif equipo.index <= 11 %}pos-desc{% endif %}">
                               {{ equipo.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'VRAC' in equipo['equipo'] %}equipo-vrac{% endif %}">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'VRAC' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
@@ -198,9 +198,8 @@
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
                   (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); BNS (Bonus)</p>
-                <p class="ms-4">PlayOff (Cuartos de final)<span class="badge bg-success ms-2">7-8</span> ; Promoción
-                  Descenso<span class="badge ms-2" style="background-color: #d86f6f;">11</span> ; Descenso<span
-                    class="badge bg-danger ms-2">12</span></p>
+                <p class="ms-4">PlayOff (Cuartos de final)<span class="badge bg-success ms-2">7-8</span>  Descenso<span
+                    class="badge bg-danger ms-2">10-11</span></p>
               </div>
             </div>
           </div>

@@ -79,6 +79,9 @@ function mostrarFormularioPanteras(){
 function mostrarFormularioSalvador(){
   document.getElementById('form_partidos_salvador').style.display='block';
 }
+function mostrarFormularioSalvadorFem(){
+  document.getElementById('form_partidos_salvador_fem').style.display='block';
+}
 function mostrarFormularioVrac(){
   document.getElementById('form_partidos_vrac').style.display='block';
 }

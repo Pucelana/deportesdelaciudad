@@ -1,0 +1,50 @@
+{% extends 'secciones/base.html' %}
+{% block titulo %} El Salvador Fem. {% endblock %}
+{% block contenido %}
+<div class="team-header">
+  <h1 class="h1_seccion">El Salvador Fem.</h1>
+  <img src="/static/img/salvador_fem1.png" alt="El Salvador Fem." class="team-logo">
+</div>
+<section class="container-lg seccion_deportes flex-fill">
+  <div class="calend_deportes">
+    <div class="shadow-lg p-3">
+      <div class="row mb-4">
+        <div class="col-12">
+          <h3 class="text_uemc">DIVISIÓN DE HONOR</h3>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/equipos_rugby/calendario_salvador_fem" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Calendario y Resultados</h5></a>
+        </div>
+        <div class="col-6 text-center">
+          <a href="/admin/equipos_rugby/clasif_analisis_salvador_fem" class="text-decoration-none"><h5 class="text_uemc fs-2 pb-2">Clasificación y Objetivos</h5></a>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-lg">
+      <div class="row mb-4">
+        <div class="col-12">
+          <a href="/admin/salvador_fem_copa" class="text-decoration-none"><h3 class="text_uemc pt-3">COPA DE LA REINA</h3></a>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-lg">
+      <div class="row mb-4">
+        <div class="col-12">
+          <a href="/admin/playoffs_salvador_fem" class="text-decoration-none"><h3 class="text_uemc pt-3">PLAYOFFS TÍTULO</h3></a>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+      </div>
+    </div>
+    <div class="shadow-lg">
+      <div class="row mb-4">
+        <div class="col-12">
+          <a href="/admin/salvador_fem_copa_iberica" class="text-decoration-none"><h3 class="text_uemc pt-3">COPA IBÉRICA</h3></a>
+          <h4 class="text-center text-white fw-bold"></h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -79,7 +79,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 6 %}pos-playoff{% elif loop.index <= 18 %}pos-nada{% elif loop.index <= 22 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'Valladolid' in equipo['equipo'] %}equipo-valladolid{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
                             <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
                             <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>

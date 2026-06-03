@@ -47,6 +47,10 @@ def seccion_vrac():
 def seccion_salvador():
     return render_template('secciones/salvador.html')
 
+@secciones_bp.route('/seccion/salvador_fem')
+def seccion_salvador_fem():
+    return render_template('secciones/salvador_fem.html')
+
 @secciones_bp.route('/seccion/univ')
 def seccion_univ():
     return render_template('secciones/univ.html')
@@ -54,6 +58,10 @@ def seccion_univ():
 @secciones_bp.route('/seccion/rv_femenino')
 def seccion_rv_femenino():
     return render_template('secciones/rv_femenino.html')
+
+@secciones_bp.route('/seccion/parquesol')
+def seccion_parquesol():
+    return render_template('secciones/parquesol.html')
 
 @secciones_bp.route('/seccion/galvan')
 def seccion_galvan():

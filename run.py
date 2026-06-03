@@ -5,6 +5,7 @@ from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasif
 from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas
+from app.models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol,  PlayoffParquesol
 from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce, Clasificacion
 from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup
 from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula, PermanenciaAula, JornadaPermanenciaAula
@@ -13,6 +14,7 @@ from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, Co
 from app.models.panteras import JornadaPanteras, PanterasPartido, PanterasClub,  PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion
 from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
 from app.models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub,  PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion
+from app.models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub,  PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion
 from app.models.galvan import JornadaGalvan, GalvanPartido, GalvanClub,  PlayoffGalvan, CopaGalvan
 from app.models.usuarios import Usuario
 

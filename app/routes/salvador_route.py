@@ -132,8 +132,8 @@ def obtener_datos_salvador():
         }       
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
-total_partidos_temporada_vrac = 10
-total_partidos_temporada_grupos_vrac = 5
+total_partidos_temporada_salvador = 10
+total_partidos_temporada_grupos_salvador = 5
 # Función para separar fases de la temporada
 def separar_fases(data):
     fase_regular = []
@@ -169,12 +169,12 @@ def calendario_salvador():
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vrac = 'C'
+                    rol_salvador = 'C'
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vrac = 'F'                
+                    rol_salvador = 'F'                
                 # Verificamos si el equipo contrario no está en la tabla
                 if equipo_contrario not in tabla_partidos_salvador:
                     tabla_partidos_salvador[equipo_contrario] = {'jornadas': {}}                                       
@@ -192,27 +192,27 @@ def calendario_salvador():
                     tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']] = {
                         'resultadoA': resultado_a,
                         'resultadoB': resultado_b,
-                        'rol_vrac': rol_vrac
+                        'rol_salvador': rol_salvador
                     }               
-                # Asignamos los resultados según el rol del Vrac
+                # Asignamos los resultados según el rol del Salvador
                 if equipo_local == equipo_contrario or equipo_visitante == equipo_contrario:
                     if not tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
-                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vrac'] = rol_vrac
+                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador'] = rol_salvador
                     else:
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vrac'] = rol_vrac
+                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador'] = rol_salvador
                 else:
                     if not tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vrac'] = rol_vrac
+                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador'] = rol_salvador
                     else:
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vrac'] = rol_vrac
+                        tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador'] = rol_salvador
     return render_template('equipos_rugby/calendario_salvador.html', tabla_partidos_salvador=tabla_partidos_salvador, nuevos_datos_salvador=nuevos_datos_salvador)
 # Jornada 0 Vrac
 @salvador_route_bp.route('/jornada0_salvador', methods=['GET', 'POST'])

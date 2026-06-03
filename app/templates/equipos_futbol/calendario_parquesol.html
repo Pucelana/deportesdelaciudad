@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <title>Calendario y Resultados</title>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description"
+    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la liga local, la Copa del Rey/Reina, competiciones europeas, y explicaciones de los sistemas de liga.">
+  <meta name="keywords"
+    content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
+  <meta name="author" content="eldeportedelaciudad">
+  <!-- Twitter meta tags -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Página deportiva de Valladolid">
+  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta name="twitter:image" content="URL_de_la_imagen">
+  <meta name="twitter:site" content="@tu_cuenta_de_twitter">
+  <meta name="twitter:creator" content="@cuenta_del_autor">
+  <!-- Open Graph meta tags -->
+  <meta property="og:title" content="Página deportiva de Valladolid">
+  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
+  <meta property="og:image" content="URL_de_la_imagen">
+  <meta property="og:url" content="URL_de_tu_página">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="eldeportedelaciudad">
+  <!-- Bootstrap CSS v5.2.1 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
+  <!-- Favicon -->
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+  <meta name="theme-color" content="#000000">
+</head>
+<body class="calend_deportes">
+  <div class="d-flex flex-column min-vh-100 sticky-top">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb ms-1">
+        <li class="breadcrumb-item"><a href="/seccion/parquesol" class="text-white text-decoration-none text-analisis fs-6">CD Parquesol</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Calendario y Resultados</li>
+      </ol>
+    </nav>
+    <section class="container-lg mb-5 flex-fill copa">
+      <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-2 gap-2">
+        <button class="btn btn-outline-light tab-btn active" data-tab="calendario">Calendario</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="resultados">Resultados</button>
+      </div>
+        <div class="tab-container">
+          <div class="tab-pane active" id="calendario"><!--Tabla Calendario CD Parquesol-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Calendario Individual 25/26</h3>
+                    <table class="table table-bordered tabla_equipos tabla_simancas">
+                      <thead>
+                        <tr class="text-center text-dark">
+                          <th></th>
+                          <th colspan="2">Jornadas</th>
+                          <th colspan="4">Resultados</th>
+                          <!--<th colspan=""></th>-->
+                        </tr>
+                        <tr class="text-center text-dark">
+                          <th scope="col">Equipos</th>
+                          <th>Ida</th>
+                          <th>Vlt</th>
+                          <th colspan="2">Ida</th>
+                          <th colspan="2">Vlt</th>
+                          <th>Puntos</th>
+                          <!--<th>Vlt</th>-->
+                          <th>Golaverage</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for equipo, datos_equipo in tabla_partidos_parquesol.items() %}
+                        <tr class="text-center">
+                          <th class="text-white size_equipos">{{ equipo }}</th>
+                          <td class="jorn_ida fw-bold">
+                            {% if datos_equipo.get('primer_enfrentamiento') %}
+                            J -{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_parquesol'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_parquesol'] }})
+                            {% endif %}
+                            {% endif %}
+                          </td>
+                          <td class="jorn_vuelta fw-bold">
+                            {% if datos_equipo.get('segundo_enfrentamiento') %}
+                            J -{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_parquesol'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_parquesol'] }})
+                            {% endif %}
+                            {% endif %}
+                          </td>
+                          <td class="resultadoA fw-bold">{{ tabla_partidos_parquesol[equipo]['resultadoA'] }}</td>
+                          <td class="resultadoB fw-bold">{{ tabla_partidos_parquesol[equipo]['resultadoB'] }}</td>
+                          <td class="resultadoAA fw-bold">{{ tabla_partidos_parquesol[equipo]['resultadoAA'] }}</td>
+                          <td class="resultadoBB fw-bold">{{ tabla_partidos_parquesol[equipo]['resultadoBB'] }}</td>
+                          <td class="part1"></td>
+                          <td class="average"></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="resultados"><!-- Resultados temporada 23/24 -->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <h3 class="text-center text-white fw-bold my-3 text-analisis">Resultados 25/26</h3>
+                <div class="card-body">
+                  <div class="container-fluid">
+                    <div class="row">
+                      {% for goles in nuevos_datos_parquesol %}
+                      <div class="col-lg-4">
+                        <div class="card card_calendario mb-3">
+                          <div class="table-responsive">
+                            <table class="table table-bordered card_calendario tabla_jornadas">
+                              <thead class="fondo_jornadas">
+                                <tr class="text-center">
+                                  <td colspan="5" class="text-center text-white fw-bold">{{ goles.nombre }}</td>
+                                </tr>
+                              </thead>
+                              <tbody style="display:none">
+                                {% for partido in goles.partidos %}
+                                <tr class="text-center">
+                                  <td class="text-dark text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
+                                  <td class="text-center fw-bold size_equipos text-white">{{ partido.local }}</td>
+                                  <td class="text-center text-dark fw-bold">{{ partido.resultadoA }}</td>
+                                  <td class="text-center text-dark fw-bold">{{ partido.resultadoB }}</td>
+                                  <td class="text-center fw-bold size_equipos text-white">{{ partido.visitante }}</td>
+                                </tr>
+                                {% endfor %}
+                              </tbody>
+                            </table>
+                            <div class="d-flex ms-1 my-1">
+                              <a href="#" onclick="toggleTabla(this, `{{ goles.nombre }}` ) "
+                                class="text-decoration-none ps-3 text-white text-analisis fs-5">Ver</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+    <footer class="container-fluid mt-auto footer-seccion">
+      <div class="row align-items-center text-center">
+        <div class="col-12 col-md-6 mb-2 mb-md-0">
+          <a>
+            <h5 class="text-white fw-bold text-analisis mb-0 fs-4">deportesdeslaciudad &copy; 2026</h5>
+          </a>
+        </div>
+        <div class="col-12 col-md-6">
+          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
+        </div>
+      </div>
+    </footer>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <!-- Bootstrap JavaScript Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
+    </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
+    </script>
+  <script src="/static/js/script.js"></script>
+  <script src="/static/js/slide.js"></script>
+  <script src="/static/js/leer_mas.js"></script>
+  <script src="/static/js/num_caracteres.js"></script>
+  <script src="/static/js/carrusel_equipos.js"></script>
+  <script src="/static/js/tab-pane.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Seleccionar todas las filas de la tabla
+      var filas = document.querySelectorAll('.tabla_parquesol tbody tr');
+      // Iterar sobre cada fila
+      filas.forEach(function (fila) {
+        // Obtener el nombre del equipo de la fila actual
+        var equipo = fila.querySelector('th').textContent.trim();
+        console.log(equipo)
+        // Obtener la jornada y determinar si el Promesas juega en casa o como visitante
+        var jornadaElement = fila.querySelector('.jorn_ida');
+        var esLocal = false; // Por defecto, asumimos que el Promesas juega como visitante
+        if (jornadaElement) {
+          var jornada = jornadaElement.textContent.trim();
+          if (jornada.includes('C')) {
+            esLocal = true;
+          }
+        }
+        // Obtener los valores de los resultados de la fila
+        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
+        console.log(resultadoA)
+        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
+        console.log(resultadoB)
+        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
+        console.log(resultadoAA)
+        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
+        console.log(resultadoBB)
+        // Comparar los resultados y actualizar el estilo de las celdas correspondientes
+        var part1 = fila.querySelector('.part1');
+        var average = fila.querySelector('.average');
+        if (esLocal) {
+          if (resultadoA > resultadoB) {
+            part1.textContent = '3';
+            part1.style.color = 'blue';
+          } else if (resultadoA === resultadoB) {
+            part1.textContent = '1';
+            part1.style.color = 'blue';
+          } else if (resultadoA < resultadoB) {
+            part1.textContent = '0';
+            part1.style.color = 'blue';
+          } else if (resultadoAA > resultadoBB) {
+            part1.textContent = '3';
+            part1.style.color = 'blue';
+          } else if (resultadoAA === resultadoBB) {
+            part1.textContent = '1';
+            part1.style.color = 'blue';
+          } else if (resultadoAA < resultadoBB) {
+            part1.textContent = '0';
+            part1.style.color = 'blue';
+          }
+        } else {
+          if (resultadoB > resultadoA) {
+            part1.textContent = '3';
+            part1.style.color = 'blue';
+          } else if (resultadoB === resultadoA) {
+            part1.textContent = '1';
+            part1.style.color = 'blue';
+          } else if (resultadoB < resultadoA) {
+            part1.textContent = '0';
+            part1.style.color = 'blue';
+          } else if (resultadoBB > resultadoAA) {
+            part1.textContent = '3';
+            part1.style.color = 'blue';
+          } else if (resultadoBB === resultadoAA) {
+            part1.textContent = '1';
+            part1.style.color = 'blue';
+          } else if (resultadoBB < resultadoAA) {
+            part1.textContent = '0';
+            part1.style.color = 'blue';
+          }
+        }
+        // Verificar si se tienen los resultados del segundo enfrentamiento
+        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
+          // Calcular el puntaje del segundo enfrentamiento
+          var puntajeSegundoEnfrentamiento = 0;
+          // Determinar si el equipo juega como local o visitante en el segundo enfrentamiento
+          if (resultadoAA > resultadoBB) {
+            // "AA" gana como local
+            if (!esLocal) {
+              puntajeSegundoEnfrentamiento = 3;
+            }
+          } else if (resultadoAA < resultadoBB) {
+            // "AA" gana como visitante
+            if (esLocal) {
+              puntajeSegundoEnfrentamiento = 3;
+            }
+          } else {
+            // Empate en el segundo enfrentamiento
+            puntajeSegundoEnfrentamiento = 1;
+          }
+          // Actualizar el puntaje total sumando el del segundo enfrentamiento
+          if (part1.textContent === '-') {
+            part1.textContent = puntajeSegundoEnfrentamiento.toString();
+          } else {
+            part1.textContent = (parseInt(part1.textContent) + puntajeSegundoEnfrentamiento).toString();
+          }
+        }
+      });
+      // Iterar sobre cada fila
+      filas.forEach(function (fila) {
+        // Obtener los valores de resultadoA y resultadoB de la fila actual
+        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
+        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
+        // Obtener los valores de resultadoAA y resultadoBB de la fila actual para la jornada de vuelta
+        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
+        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
+        // Obtener la celda 'average'
+        var average = fila.querySelector('.average');
+        // Calcular la diferencia de goles dependiendo si resultadoA juega como local o visitante
+        var diferenciaGolesIda;
+        if (fila.querySelector('.jorn_ida').textContent.includes('C')) {
+          // resultadoA juega en casa
+          diferenciaGolesIda = resultadoA - resultadoB;
+        } else {
+          // resultadoA juega como visitante
+          diferenciaGolesIda = resultadoB - resultadoA;
+        }
+        // Calcular la diferencia de goles para la jornada de vuelta
+        var diferenciaGolesVuelta;
+        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
+          if (fila.querySelector('.jorn_ida').textContent.includes('C')) {
+            // resultadoAA juega como visitante en la jornada de vuelta
+            diferenciaGolesVuelta = resultadoBB - resultadoAA;
+          } else {
+            // resultadoAA juega en casa en la jornada de vuelta
+            diferenciaGolesVuelta = resultadoAA - resultadoBB;
+          }
+        } else {
+          diferenciaGolesVuelta = 0;
+        }
+        var averageTotal = diferenciaGolesIda + diferenciaGolesVuelta;
+        if (!isNaN(averageTotal)) {
+          // Asignar el valor del average total a la celda 'average'
+          average.textContent = averageTotal;
+          // Determinar el color de la celda 'average' según la diferencia de goles
+          if (averageTotal > 0) {
+            average.style.color = 'green'; // Equipo A ganó
+          } else if (averageTotal < 0) {
+            average.style.color = 'red'; // Equipo A perdió
+          } else {
+            average.style.color = 'black'; // Empate
+          }
+        } else {
+          // Si averageTotal es NaN, dejar la celda vacía
+          average.textContent = '';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -45,13 +45,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Segunda función para calcular el porcentaje al ascenso
 const filas = document.querySelectorAll("#tablaAscensoParquesol tbody tr");
-const partidosTotales = 30; // Cambiado a 30 partidos en la temporada
+const partidosTotales = 22; // Cambiado a 22 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFija = 88; // Ajusta este valor según tus necesidades
+const proximidadFija = 96; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.jugados1`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.pts-act1`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -62,8 +62,8 @@ filas.forEach((fila) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso = partidosTotales - partidosJugados;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * puntosPorGanar, puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 7, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -11, puntosParaAscenso);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 3, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -6, puntosParaAscenso);
     equipos.push({
         index: index,
         equipo,
@@ -84,14 +84,14 @@ tabla.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equipos.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor = '';
-    if (equipoData.index <= 2) {
+    if (equipoData.index <= 1) {
         claseColor = 'pos-ascen';
-    } else if (equipoData.index <=16) {
+    } else if (equipoData.index <=12) {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
     <td class="jugados1 fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="pts-act1 fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="proxi1 fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
@@ -157,13 +157,13 @@ equipo1s1.forEach((equipo1Data) => {
 
 // Cuarta función para calcular la permanencia
 const filas2 = document.querySelectorAll("#tablaDescParquesol tbody tr");
-const partidosTotales2 = 30; // Cambiado a 42 partidos en la temporada
+const partidosTotales2 = 22; // Cambiado a 22 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 60; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 25; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila) => {
-    const equipo2 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo2 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados2 = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales2 = parseInt(fila.querySelector(`.desc-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -174,8 +174,8 @@ filas2.forEach((fila) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesPermanencia = partidosTotales2 - partidosJugados2;
     const partidosGanadosMatematicos2 = Math.min(puntosActuales2 + partidosRestantesPermanencia * puntosPorGanar2, puntosPermanencia2);
-    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 13, puntosPermanencia2);
-    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -20, puntosPermanencia2);
+    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 3, puntosPermanencia2);
+    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -5, puntosPermanencia2);
     equipos2.push({
         index2: index2,
         equipo2,
@@ -196,14 +196,14 @@ tabla2.innerHTML = ""; // Limpiar la tabla2 antes de actualizar
 equipos2.forEach((equipo2Data) => {
     const nuevaFila2 = document.createElement("tr");
     let claseColor2 = '';
-    if (equipo2Data.index2 <= 15) {
+    if (equipo2Data.index2 <= 10) {
         claseColor2 = 'pos-nada';
-    } else if (equipo2Data.index2 <=16) {
+    } else if (equipo2Data.index2 <=12) {
         claseColor2 = 'pos-desc';
     }
     nuevaFila2.innerHTML = `
     <td class="fw-bold text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="fw-bold text-center">${equipo2Data.equipo2}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipo2Data.equipo2}</td>
     <td class="desc-jug fw-bold text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act fw-bold text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox fw-bold text-center">${equipo2Data.proxiPermanencia}%</td>
