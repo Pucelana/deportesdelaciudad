@@ -1,11 +1,4 @@
-.container-fluid .row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: stretch;
-}
-.col-lg-4 {
-    display: flex;
-}
+
 .card_admin {
     width: 100%;
     display: flex;
