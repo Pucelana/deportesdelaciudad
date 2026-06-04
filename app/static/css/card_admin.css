@@ -1,0 +1,38 @@
+.container-fluid .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
+.col-lg-4 {
+    display: flex;
+}
+.card_admin {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* CLAVE: evita que crezca mal */
+    height: auto;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: rgba(217, 230, 255, 0.8); 
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+}
+
+.card_admin .table-responsive {
+    flex: 0 0 auto;
+    overflow-x: auto;
+}
+.card_admin .d-flex {
+    margin-top: auto;
+    padding: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
