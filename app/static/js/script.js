@@ -1,53 +1,67 @@
 document.addEventListener("DOMContentLoaded", () => {
 
-  const carouselInner = document.querySelector(
-    '#carouselExampleControls .carousel-inner'
-  );
+    const track = document.querySelector('.netflix-track');
 
-  if (!carouselInner) return;
+    if (!track) return;
 
-  // ampliar rango tablets
-  if (!window.matchMedia("(max-width: 1200px)").matches) return;
+    /* =========================
+       1. CLONAR PARA INFINITO
+    ========================== */
+    const items = Array.from(track.children);
 
-  // duplicar contenido
-  carouselInner.innerHTML += carouselInner.innerHTML;
+    items.forEach(item => {
+        const clone = item.cloneNode(true);
+        track.appendChild(clone);
+    });
 
-  let speed = 0.35;
-  let paused = false;
+    let scrollWidth = track.scrollWidth / 2;
 
-  function loop() {
+    /* =========================
+       2. SCROLL LOOP
+    ========================== */
+    track.addEventListener('scroll', () => {
+        if (track.scrollLeft >= scrollWidth) {
+            track.scrollLeft = 1; // evita salto brusco
+        }
 
-    if (!paused) {
+        if (track.scrollLeft <= 0) {
+            track.scrollLeft = scrollWidth - 1;
+        }
+    });
 
-      carouselInner.scrollLeft += speed;
+    /* =========================
+       3. DRAG MOUSE (NETFLIX)
+    ========================== */
+    let isDown = false;
+    let startX;
+    let scrollLeft;
 
-      if (
-        carouselInner.scrollLeft >=
-        carouselInner.scrollWidth / 2
-      ) {
-        carouselInner.scrollLeft = 0;
-      }
-    }
+    track.addEventListener('mousedown', (e) => {
+        isDown = true;
+        track.classList.add('active');
 
-    requestAnimationFrame(loop);
-  }
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+    });
 
-  // comprobar overflow real
-  if (
-    carouselInner.scrollWidth >
-    carouselInner.clientWidth
-  ) {
-    loop();
-  }
+    track.addEventListener('mouseleave', () => {
+        isDown = false;
+        track.classList.remove('active');
+    });
 
-  carouselInner.addEventListener(
-    'touchstart',
-    () => paused = true
-  );
+    track.addEventListener('mouseup', () => {
+        isDown = false;
+        track.classList.remove('active');
+    });
 
-  carouselInner.addEventListener(
-    'touchend',
-    () => paused = false
-  );
+    track.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+
+        const x = e.pageX - track.offsetLeft;
+        const walk = (x - startX) * 2;
+
+        track.scrollLeft = scrollLeft - walk;
+    });
 
 });
