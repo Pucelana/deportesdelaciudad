@@ -173,7 +173,7 @@
 /* tarjetas */
 .card {
     box-shadow: 2px 6px 8px rgba(22, 22, 26, .18);
-    width: 230px;
+    width: 210px;
     background-color: transparent;
     backdrop-filter: blur(18px);
     border-radius: 8px;
@@ -184,7 +184,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 35px;
+    width: 30px;
     box-shadow: 2px 6px 8px rgba(22, 22, 26, .18);
     background-color: #c2dafd;
     backdrop-filter: blur(10px);

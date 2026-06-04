@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
 
     const track = document.querySelector('.netflix-track');
-
     if (!track) return;
 
     /* =========================
@@ -17,20 +16,35 @@ document.addEventListener("DOMContentLoaded", () => {
     let scrollWidth = track.scrollWidth / 2;
 
     /* =========================
-       2. SCROLL LOOP
+       2. LOOP INFINITO (SIN SALTOS)
     ========================== */
     track.addEventListener('scroll', () => {
         if (track.scrollLeft >= scrollWidth) {
-            track.scrollLeft = 1; // evita salto brusco
+            track.scrollLeft -= scrollWidth;
         }
 
         if (track.scrollLeft <= 0) {
-            track.scrollLeft = scrollWidth - 1;
+            track.scrollLeft += scrollWidth;
         }
     });
 
     /* =========================
-       3. DRAG MOUSE (NETFLIX)
+       3. AUTO SCROLL (NETFLIX STYLE)
+    ========================== */
+    let speed = 0.6;
+    let isPaused = false;
+
+    function autoScroll() {
+        if (!isPaused) {
+            track.scrollLeft += speed;
+        }
+        requestAnimationFrame(autoScroll);
+    }
+
+    autoScroll();
+
+    /* =========================
+       4. DRAG MOUSE (MANUAL CONTROL)
     ========================== */
     let isDown = false;
     let startX;
@@ -38,6 +52,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     track.addEventListener('mousedown', (e) => {
         isDown = true;
+        isPaused = true; // pausa autoplay
+
         track.classList.add('active');
 
         startX = e.pageX - track.offsetLeft;
@@ -46,11 +62,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     track.addEventListener('mouseleave', () => {
         isDown = false;
+        isPaused = false;
         track.classList.remove('active');
     });
 
     track.addEventListener('mouseup', () => {
         isDown = false;
+        isPaused = false;
         track.classList.remove('active');
     });
 
