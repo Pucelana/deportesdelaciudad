@@ -49,8 +49,8 @@
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-2 gap-2">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
-        <button class="btn btn-outline-light tab-btn" data-tab="grupo-a">Grupo A</button>
-        <button class="btn btn-outline-light tab-btn" data-tab="grupo-b">Grupo B</button>
+        <!--<button class="btn btn-outline-light tab-btn" data-tab="grupo-a">Grupo A</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="grupo-b">Grupo B</button>-->
       </div>
       <div class="tab-container">
         <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->
@@ -79,7 +79,7 @@
                           {% for equipo in clasificacion_general_indexed %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 8 %}pos-desc{% endif %}">
+                              class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 8 %}pos-nada{% endif %}">
                               {{ equipo.index }}</td>
                             <td class="fw-bold text-white size_equipos {% if 'Salvador Fem.' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
@@ -99,7 +99,7 @@
                 </div>
                 <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
                   (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); B (Bonus)</p>
-                <p class="ms-4">Grupo A<span class="badge bg-success ms-2">1-4</span> ; Grupo B<span
+                <p class="ms-4">PlayOff Título<span class="badge bg-success ms-2">1-4</span> ; Nada<span
                     class="badge bg-secondary ms-2">5-8</span></p>
               </div>
             </div>

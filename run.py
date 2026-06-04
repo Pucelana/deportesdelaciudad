@@ -17,6 +17,7 @@ from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, Co
 from app.models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub,  PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion
 from app.models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub,  PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion
 from app.models.galvan import JornadaGalvan, GalvanPartido, GalvanClub,  PlayoffGalvan, CopaGalvan
+from app.models.vcv import JornadaVCV, VCVPartido, VCVClub,  PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion
 from app.models.usuarios import Usuario
 
 from flask_login import LoginManager

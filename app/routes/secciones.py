@@ -15,6 +15,10 @@ def seccion_ponce():
 def seccion_cdsi_vall():
     return render_template('secciones/cdsi_vall.html')
 
+@secciones_bp.route('/seccion/vcv')
+def seccion_vcv():
+    return render_template('secciones/vcv.html')
+
 @secciones_bp.route('/seccion/aliados')
 def seccion_aliados():
     return render_template('secciones/aliados.html')
@@ -54,10 +58,6 @@ def seccion_salvador():
 @secciones_bp.route('/seccion/salvador_fem')
 def seccion_salvador_fem():
     return render_template('secciones/salvador_fem.html')
-
-@secciones_bp.route('/seccion/univ')
-def seccion_univ():
-    return render_template('secciones/univ.html')
 
 @secciones_bp.route('/seccion/rv_femenino')
 def seccion_rv_femenino():

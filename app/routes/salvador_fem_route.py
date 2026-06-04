@@ -132,7 +132,7 @@ def obtener_datos_salvador_fem():
         }       
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
-total_partidos_temporada_salvador_fem = 10
+total_partidos_temporada_salvador_fem = 14
 total_partidos_temporada_grupos_salvador_fem = 5
 # Función para separar fases de la temporada
 def separar_fases(data):
@@ -169,7 +169,7 @@ def calendario_salvador_fem():
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vrac = 'C'
+                    rol_salvador_fem = 'C'
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
@@ -199,20 +199,20 @@ def calendario_salvador_fem():
                     if not tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
-                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_vrac
+                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_salvador_fem
                     else:
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_vrac
+                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_salvador_fem
                 else:
                     if not tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_vrac
+                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_salvador_fem
                     else:
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_vrac
+                        tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_salvador_fem
     return render_template('equipos_rugby/calendario_salvador_fem.html', tabla_partidos_salvador_fem=tabla_partidos_salvador_fem, nuevos_datos_salvador_fem=nuevos_datos_salvador_fem)
 # Jornada 0 Vrac
 @salvador_fem_route_bp.route('/jornada0_salvador_fem', methods=['GET', 'POST'])
@@ -462,7 +462,7 @@ def clasif_analisis_salvador_fem():
     ]
 
     grupoB_indexed = [
-        {'index': i + 7, **e}
+        {'index': i + 5, **e}
         for i, e in enumerate(grupoB)
     ]
 

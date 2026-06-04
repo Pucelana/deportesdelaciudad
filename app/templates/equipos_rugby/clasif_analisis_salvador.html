@@ -130,7 +130,7 @@
                           {% for equipo in grupoA2 %}
                           <tr class="text-center">
                             <td class="fw-bold {% if equipo.index <= 6 %}pos-ascen {% elif equipo.index <= 11 %}pos-desc {% endif %}">{{ equipo.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'Salvador' in equipo.equipo %}equipo-salvador{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'Salvador' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
@@ -180,7 +180,7 @@
                             <td
                               class="fw-bold {% if equipo.index <= 8 %}pos-ascen{% elif equipo.index <= 9 %}pos-nada{% elif equipo.index <= 11 %}pos-desc{% endif %}">
                               {{ equipo.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'Salvador' in equipo.equipo %}equipo-salvador{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'Salvador' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
