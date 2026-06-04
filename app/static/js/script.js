@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     /* =========================
        3. AUTO SCROLL (NETFLIX STYLE)
     ========================== */
-    let speed = 0.6;
+    let speed = 0.8;
     let isPaused = false;
 
     function autoScroll() {
