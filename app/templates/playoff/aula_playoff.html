@@ -44,7 +44,7 @@
     <span class="equipo_copa">Aula Valladolid</span>
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem;">
+        <div class="card tabla_copa mt-4" style="width: 80rem;">
           <div class="card-body">
             <div class="row table-responsive">
               <div class="col-12">
@@ -58,12 +58,12 @@
                         <td class="text-center text-white">{{ partido.fecha }}</td>
                         <td class="text-center text-white">{{ partido.hora }}</td>
                         <td
-                          class="text-center text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                          class="text-center text-copa fs-6 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
                           {{ partido.local }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
+                        <td class="text-center text-white fw-bold fs-6">{{ partido.resultadoA }}</td>
+                        <td class="text-center text-white fw-bold fs-6">{{ partido.resultadoB }}</td>
                         <td
-                          class="text-center text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                          class="text-center text-copa fs-6 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
                           {{ partido.visitante }}</td>
                       </tr>
                       {% endfor %}

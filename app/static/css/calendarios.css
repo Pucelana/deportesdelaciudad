@@ -7,7 +7,8 @@
 .card_calendario{
     background-color: transparent;
     border: 1px solid #672e8d;
-    font-size: 0.9em;
+    font-size: 0.81em;
+    width: 100%;
 }
 .fondo_jornadas{
     background-color: #672e8d;
@@ -50,11 +51,6 @@
     padding-top: 8px;
     font-weight: bold;
 }
-/*.vertical {
-    writing-mode: vertical-lr; /* Para texto vertical de izquierda a derecha 
-    transform: rotate(180deg); /* Ajustar la orientación del texto 
-    white-space: nowrap; /* Evita que el texto se ajuste automáticamente 
-}*/
 /*Seccion del Fútbol*/
 .calend_deportes{
     /*min-height: 100vh;
@@ -100,4 +96,76 @@
     background-color: transparent;
     backdrop-filter: blur(12px);
     border: 1px solid #672e8d;
+}
+/* Tamaño letras card resultados */
+@media (max-width: 768px) and (orientation: landscape){
+
+    .tabla_jornadas{
+        font-size:0.85rem;
+    }
+
+    .size_equipos2{
+        font-size:0.8rem;
+    }
+}
+/* Tamaño letras en tablas reducido en moviles */
+.partido-mobile{
+    width: 100%;
+    max-width: 500px;
+    border: 0;
+    border-radius: 12px;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.08);
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+
+.equipo-mobile{
+    font-size: 1rem;
+    font-weight: 800;
+    color: white;
+    margin: .4rem 0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
+}
+
+.resultado-mobile{
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: #83aeff;
+    margin: .5rem 0;
+}
+
+.ganador{
+    color: #111 !important;
+}
+
+@media (max-width: 576px){
+
+    .equipo-mobile{
+        font-size: .95rem;
+    }
+
+    .resultado-mobile{
+        font-size: 1.2rem;
+    }
+
+}
+.cards-mobile{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1rem;
+}
+
+@media (max-width:768px) and (orientation:landscape){
+
+    .cards-mobile{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .partido-mobile{
+        max-width:none;
+    }
+}
+
+.nombre_equipos{
+    color: #747474;
 }

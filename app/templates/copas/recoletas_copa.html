@@ -93,54 +93,104 @@
         <!-- Contenedor de rondas -->
         <div id="contenedor-rondas">
           {% for ronda, partidos in datos_copa.items() %}
+
           <div
             class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
             id="ronda{{ loop.index0 }}"
           >
             <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
+              <div class="card tabla_copa mt-4 w-100" style="max-width: 70rem">
                 <div class="card-body">
                   <h3
-                    class="text-center text-white text-capitalize text-analisis"
+                    class="text-center text-white text-capitalize text-analisis mb-4"
                   >
                     {{ ronda }}
                   </h3>
-                  <div class="row table-responsive">
-                    <div class="col-12">
-                      <table class="table border-secondary">
+
+                  <!-- TABLA TABLET Y PC -->
+                  <div class="table-responsive d-none d-md-block">
+                    <table class="table border-secondary">
+                      <tbody>
                         {% for partido in partidos %}
+
                         <tr class="text-center">
-                          <td class="text_uemc text-white fs-5">
+                          <td class="text-copa fw-bold fs-4">
                             {{ partido.fecha }}
                           </td>
-                          <td class="text_uemc text-white fs-5">
+
+                          <td class="text-copa fw-bold fs-4">
                             {{ partido.hora }}
                           </td>
+
                           <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                            class="text-copa fs-4 fw-bold{% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
                           >
                             {{ partido.local }}
                           </td>
-                          <td class="text_uemc text-white fw-bold fs-4">
+
+                          <td class="text-copa fw-bold fs-4">
                             {{ partido.resultadoA }}
                           </td>
-                          <td class="text_uemc text-white fw-bold fs-4">
+
+                          <td class="text-copa fw-bold fs-4">
                             {{ partido.resultadoB }}
                           </td>
+
                           <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                            class="text-copa fs-4 fw-bold {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
                           >
                             {{ partido.visitante }}
                           </td>
                         </tr>
+
                         {% endfor %}
-                      </table>
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <!-- CARDS MÓVIL -->
+                  <div class="d-md-none cards-mobile">
+                    {% for partido in partidos %}
+
+                    <div class="card partido-mobile">
+                      <div class="card-body">
+                        <div class="text-center mb-2">
+                          <small class="text-muted fw-bold">
+                            {{ partido.fecha }} {% if partido.hora %} · {{
+                            partido.hora }} {% endif %}
+                          </small>
+                        </div>
+
+                        <div class="text-center">
+                          <div
+                            class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
+                          >
+                            {{ partido.local }}
+                          </div>
+
+                          <div class="resultado-mobile">
+                            {% if partido.resultadoA is not none and
+                            partido.resultadoB is not none %} {{
+                            partido.resultadoA }} - {{ partido.resultadoB }} {%
+                            else %} - {% endif %}
+                          </div>
+
+                          <div
+                            class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
+                          >
+                            {{ partido.visitante }}
+                          </div>
+                        </div>
+                      </div>
                     </div>
+
+                    {% endfor %}
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
           {% endfor %}
         </div>
       </section>

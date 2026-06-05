@@ -46,10 +46,19 @@
     />
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
     <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#000000">
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
+    <meta name="theme-color" content="#000000" />
   </head>
 
   <body class="calend_deportes">
@@ -57,7 +66,9 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
-            <a href="/seccion/aula" class="text-white text-decoration-none text-analisis fs-6"
+            <a
+              href="/seccion/aula"
+              class="text-white text-decoration-none text-analisis fs-6"
               >Aula Valladolid</a
             >
           </li>
@@ -93,40 +104,67 @@
         <div id="contenedor-secciones">
           <div class="seccion-slide d-block" id="clasificacion">
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+              <div
+                class="card tabla_equipos_aula w-100"
+                style="max-width: 80rem"
+              >
                 <div class="card-body">
                   <div class="table-responsive">
-                   <h3 class="text_uemc text-center text-white">Clasificación General</h3>
-                   <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th class="text-dark fs-4">Equipos</th>
-                        <th class="text-dark fs-4">PTOS</th>
-                        <th class="text-dark fs-4">P.J</th>
-                        <th class="text-dark fs-4">Gan</th>
-                        <th class="text-dark fs-4">Em</th>
-                        <th class="text-dark fs-4">Pe</th>
-                        <th class="text-dark fs-4">GF</th>
-                        <th class="text-dark fs-4">GC</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for equipo in clasificacion_permanencia_aula %}
-                      <tr>
-                        <td class="text_uemc fs-4 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}">{{ loop.index }}</td>
-                        <td class="fw-bold text_uemc fs-4">{{ equipo.equipo }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.puntos }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.jugados }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.ganados }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.empatados }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.perdidos }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.favor }}</td>
-                        <td class="text_uemc fs-4">{{ equipo.datos.contra }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                   </table>
+                    <h3 class="text_uemc text-center text-white">
+                      Clasificación General
+                    </h3>
+                    <table
+                      class="table border-secondary text-white text-center"
+                    >
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th class="text-dark fs-5">Equipos</th>
+                          <th class="text-dark fs-5">PTS</th>
+                          <th class="text-dark fs-5">J</th>
+                          <th class="text-dark fs-5">G</th>
+                          <th class="text-dark fs-5">E</th>
+                          <th class="text-dark fs-5">P</th>
+                          <th class="text-dark fs-5">GF</th>
+                          <th class="text-dark fs-5">GC</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for equipo in clasificacion_permanencia_aula %}
+                        <tr>
+                          <td
+                            class="text_uemc fs-5 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}"
+                          >
+                            {{ loop.index }}
+                          </td>
+                          <td class="fw-bold text_uemc fs-4 size_equuipos">
+                            {{ equipo.equipo }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.puntos }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.jugados }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.ganados }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.empatados }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.perdidos }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.favor }}
+                          </td>
+                          <td class="text_uemc fs-5">
+                            {{ equipo.datos.contra }}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -135,40 +173,90 @@
           {% for jornada in nuevos_datos_aula %}
           <div class="seccion-slide d-none" id="{{ jornada.nombre }}">
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+              <div
+                class="card tabla_equipos_aula w-100"
+                style="max-width: 80rem"
+              >
                 <div class="card-body">
-                  <div class="table-responsive">
-                   <h3 class="text_uemc fs-4 text-center text-white">
-                    {{ jornada.nombre}}
-                   </h3>
-                   <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th class="text-dark fs-5">Fecha</th>
-                        <th class="text-dark fs-5">Hora</th>
-                        <th class="text-dark fs-5">Local</th>
-                        <th class="text-dark fs-5">Resultado</th>
-                        <th class="text-dark fs-5">Visitante</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for partido in jornada.partidos %}
-                      <tr>
-                        <td class="text_uemc fs-5">{{ partido.fecha }}</td>
-                        <td class="text_uemc fs-5">{{ partido.hora }}</td>
-                        <td class="text-copa fw-bold fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">{{ partido.local }}</td>
-                        <td class="text_uemc fs-4">
-                          {% if partido.resultadoA and partido.resultadoB %}
+                  <h3 class="text_uemc fs-4 text-center text-white mb-3">
+                    {{ jornada.nombre }}
+                  </h3>
+
+                  <!-- TABLA TABLET Y PC -->
+                  <div class="table-responsive d-none d-md-block">
+                    <table
+                      class="table border-secondary text-white text-center"
+                    >
+                      <thead>
+                        <tr>
+                          <th class="text-dark">Fecha</th>
+                          <th class="text-dark">Hora</th>
+                          <th class="text-dark">Local</th>
+                          <th class="text-dark">Resultado</th>
+                          <th class="text-dark">Visitante</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for partido in jornada.partidos %}
+                        <tr>
+                          <td class="fs-5 fw-bold text-dark">{{ partido.fecha }}</td>
+                          <td class="fs-5 fw-bold text-dark">{{ partido.hora }}</td>
+
+                          <td
+                            class="fs-5 fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
+                          >
+                            {{ partido.local }}
+                          </td>
+
+                          <td class="fs-5 fw-bold text-primary">
+                            {% if partido.resultadoA and partido.resultadoB %}
                             {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                          {% else %}
-                            -
-                          {% endif %}
-                        </td>
-                        <td class="text-copa fw-bold fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">{{ partido.visitante }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                   </table>
+                            {% else %} - {% endif %}
+                          </td>
+
+                          <td
+                            class="fs-5 fw-bold {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
+                          >
+                            {{ partido.visitante }}
+                          </td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- CARDS MÓVIL -->
+                  <div class="d-md-none cards-mobile">
+                    {% for partido in jornada.partidos %}
+                    <div class="card partido-mobile">
+                      <div class="card-body">
+                        <div class="text-center mb-2">
+                          <small class="text-muted fw-bold">
+                            {{ partido.fecha }} · {{ partido.hora }}
+                          </small>
+                        </div>
+
+                        <div class="text-center">
+                          <div
+                            class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
+                          >
+                            {{ partido.local }}
+                          </div>
+
+                          <div class="resultado-mobile">
+                            {% if partido.resultadoA and partido.resultadoB %}
+                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                            {% else %} - {% endif %}
+                          </div>
+
+                          <div
+                            class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
+                          >
+                            {{ partido.visitante }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
                   </div>
                 </div>
               </div>
@@ -191,7 +279,11 @@
           <div
             class="col-lg-6 col-md-6 d-flex justify-content-center align-items-center"
           >
-            <img src="/static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer" alt="deportesdelaciudad">
+            <img
+              src="/static/img/logo-deportes2.png"
+              class="img-fluid me-2 p-1 logo-footer"
+              alt="deportesdelaciudad"
+            />
           </div>
         </div>
       </footer>
@@ -212,8 +304,8 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
-    <script src="/static/js/proteccion-datos.js"></script>
     <script src="/static/js/slide.js"></script>
+    <script src="/static/js/num_caracteres.js"></script>
     <!--<script src="/static/js/script.js"></script>-->
     <script>
       document.querySelectorAll(".btn-slide").forEach((button) => {
