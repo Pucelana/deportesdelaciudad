@@ -1,16 +1,42 @@
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
+document.addEventListener("DOMContentLoaded", () => {
 
-    // quitar activos
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  const botones = document.querySelectorAll(".tab-btn");
+  const secciones = document.querySelectorAll(".tab-section");
 
-    // activar botón
-    btn.classList.add('active');
+  function activarTab(tabId, botonActivo) {
 
-    // activar contenido
-    const tab = document.getElementById(btn.dataset.tab);
-    tab.classList.add('active');
+    // ocultar todo
+    secciones.forEach(sec => {
+      sec.classList.add("d-none");
+      sec.classList.remove("active");
+    });
+
+    // mostrar solo el correcto
+    const target = document.getElementById(tabId);
+
+    if (target) {
+      target.classList.remove("d-none");
+      target.classList.add("active");
+    }
+
+    // estado botones
+    botones.forEach(b => b.classList.remove("active"));
+    botonActivo.classList.add("active");
+  }
+
+  botones.forEach(btn => {
+
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      activarTab(btn.dataset.tab, btn);
+    });
 
   });
+
+  // 👉 activar primero por defecto (MUY IMPORTANTE)
+  const first = document.querySelector(".tab-btn");
+  if (first) {
+    activarTab(first.dataset.tab, first);
+  }
+
 });

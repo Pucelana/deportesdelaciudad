@@ -24,27 +24,7 @@ body{
     color: white;
     overflow-x: hidden;
 }
-/*.fondo{
-    position: fixed;
-    inset: 0;
-    background-image:
-        linear-gradient(rgba(211,211,211,.6), rgba(0,0,0,.4)),
-        url('/static/img/deporteciudad.png');
 
-    background-size: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    min-height: 100vh;
-
-    z-index: -1;
-}*/
-
-/*@media (min-width: 992px) {
-  body {
-    background-attachment: fixed;
-  }
-}*/
 #body_secciones{
     /*background-color: #ffefef;*/
     background: linear-gradient(135deg,

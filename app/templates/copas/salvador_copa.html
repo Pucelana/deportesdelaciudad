@@ -46,10 +46,19 @@
     />
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
     <!-- Favicon -->
-    <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.png') }}" />
-    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
-    <meta name="theme-color" content="#000000">
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
+    <meta name="theme-color" content="#000000" />
   </head>
 
   <body class="calend_deportes">
@@ -57,7 +66,11 @@
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
-            <a href="/seccion/salvador" class="text-white text-decoration-none text-analisis fs-6">El Salvador</a>
+            <a
+              href="/seccion/salvador"
+              class="text-white text-decoration-none text-analisis fs-6"
+              >El Salvador</a
+            >
           </li>
           <li class="breadcrumb-item active text-dark" aria-current="page">
             Copa del Rey
@@ -93,33 +106,34 @@
           {% for grupo in clasificaciones.keys() %}
           <div
             class="seccion-slide {% if loop.first %}d-block{% else %}d-none{% endif %}"
-            id="grupo{{ loop.index0 }}">
+            id="grupo{{ loop.index0 }}"
+          >
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
                   <h3 class="text-center text-white">
                     Clasificación {{ grupo }}
                   </h3>
-                  <table class="table border-secondary text-white text-center">
+                  <table class="table border-secondary text-white text-center tabla-clasificacion">
                     <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Equipo</th>
-                        <th>PJ</th>
-                        <th>PG</th>
-                        <th>PP</th>
-                        <th>PTS</th>
+                      <tr class="text-center">
+                        <th></th>
+                        <th class="text-copa fw-bold fs-5 text-center">Equipo</th>
+                        <th class="text-copa fw-bold fs-5 text-center">J</th>
+                        <th class="text-copa fw-bold fs-5 text-center">G</th>
+                        <th class="text-copa fw-bold fs-5 text-center">P</th>
+                        <th class="text-copa fw-bold fs-5 text-center">PTS</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for equipo, stats in equipos %}
                       <tr>
-                        <td>{{ loop.index }}</td>
-                        <td class="fw-bold">{{ equipo }}</td>
-                        <td>{{ stats.jugados }}</td>
-                        <td>{{ stats.ganados }}</td>
-                        <td>{{ stats.perdidos }}</td>
-                        <td>{{ stats.puntos }}</td>
+                        <td  class="text-copa fw-bold fs-5 text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 3 %}pos-nada{% endif %}">{{ loop.index }}</td>
+                        <td class="fw-bold fs-5 text-white text-center equipo-nombre">{{ equipo }}</td>
+                        <td class="text-copa fw-bold fs-5 text-center">{{ stats.jugados }}</td>
+                        <td class="text-copa fw-bold fs-5 text-center">{{ stats.ganados }}</td>
+                        <td class="text-copa fw-bold fs-5 text-center">{{ stats.perdidos }}</td>
+                        <td class="text-copa fw-bold fs-5 text-center">{{ stats.puntos }}</td>
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -127,15 +141,6 @@
                 </div>
                 <h4 class="text-white mt-4">Partidos {{ grupo }}</h4>
                 <table class="table border-secondary text-white text-center">
-                  <thead>
-                    <tr>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                      <th>Local</th>
-                      <th>Resultado</th>
-                      <th>Visitante</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     {% for partido in equipos_por_encuentros[grupo].partidos %}
                     <tr>
@@ -170,38 +175,40 @@
             <div class="d-flex justify-content-center">
               <div class="card tabla_copa mt-4" style="width: 70rem">
                 <div class="card-body">
-                  <h3 class="text-center text-white text-capitalize text-analisis fw-bold">
+                  <h3
+                    class="text-center text-white text-capitalize text-analisis fw-bold"
+                  >
                     {{ ronda }}
                   </h3>
-                  <div class="row table-responsive">
-                    <div class="col-12">
-                      <table
-                        class="table border-secondary text-white text-center"
-                      >
+                  <div class="table-responsive d-none d-md-block">
+                    <table
+                      class="table border-secondary text-center text-white"
+                    >
+                      <tbody>
                         {% for partido in partidos %}
-                        <tr class="text-center">
-                          <td class="text-white">{{ partido.fecha }}</td>
-                          <td class="text-white">{{ partido.hora }}</td>
+                        <tr>
+                          <td>{{ partido.fecha }}</td>
+                          <td>{{ partido.hora }}</td>
+
                           <td
-                            class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
+                            class="fw-bold {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
                           >
                             {{ partido.local }}
                           </td>
-                          <td class="text-white fw-bold fs-5">
-                            {{ partido.resultadoA }}
+
+                          <td>
+                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
                           </td>
-                          <td class="text-white fw-bold fs-5">
-                            {{ partido.resultadoB }}
-                          </td>
+
                           <td
-                            class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
+                            class="fw-bold {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
                           >
                             {{ partido.visitante }}
                           </td>
                         </tr>
                         {% endfor %}
-                      </table>
-                    </div>
+                      </tbody>
+                    </table>
                   </div>
                 </div>
               </div>
@@ -211,17 +218,23 @@
         </div>
       </section>
       <footer class="container-fluid mt-auto footer-seccion">
-      <div class="row align-items-center text-center">
-        <div class="col-12 col-md-6 mb-2 mb-md-0">
-          <a>
-            <h5 class="text-white fw-bold text-analisis mb-0 fs-4">deportesdeslaciudad &copy; 2026</h5>
-          </a>
+        <div class="row align-items-center text-center">
+          <div class="col-12 col-md-6 mb-2 mb-md-0">
+            <a>
+              <h5 class="text-white fw-bold text-analisis mb-0 fs-4">
+                deportesdeslaciudad &copy; 2026
+              </h5>
+            </a>
+          </div>
+          <div class="col-12 col-md-6">
+            <img
+              src="/static/img/logo-deportes2.png"
+              class="img-fluid logo-footer"
+              alt="deportesdelaciudad"
+            />
+          </div>
         </div>
-        <div class="col-12 col-md-6">
-          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
-        </div>
-      </div>
-    </footer>
+      </footer>
     </div>
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
@@ -239,7 +252,7 @@
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"
     ></script>
-    <script src="/static/js/proteccion-datos.js"></script>
+
     <script src="/static/js/slide.js"></script>
     <!--<script src="/static/js/script.js"></script>-->
     <script>

@@ -10,4 +10,86 @@
     padding: 3%;
 }
 
+/* HEADER */
+.team-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+/* H1 RESPONSIVE */
+.responsive-title{
+    font-weight: 900;
+    margin-top: 15px;
+    /* clave: escala fluida */
+    font-size: clamp(2rem, 6vw, 8rem);
+    line-height: 1.1;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
+    color: white;
+    font-family: 'Caveat', cursive;
+}
+
+/* LOGO RESPONSIVE */
+.responsive-logo{
+    width: clamp(40px, 8vw, 100px);
+    height: auto;
+    margin-top: 12px;
+}
+/* CONTENEDOR */
+.tu-contenedor-h5{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* OPCIÓN TEXTO */
+.small-option{
+    font-size: clamp(1.50rem, 2.75vw, 2.25rem);
+    margin: 0;
+    text-align: center;
+    white-space: nowrap;
+}
+/* SOLO AJUSTE DE ESPACIADO (NO TAMAÑOS) */
+@media (max-width: 576px){
+    .team-header{
+        gap: 8px;
+    }
+}
+@media (max-width: 576px){
+
+    .tu-contenedor-h5{
+        flex-direction: row;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+    }
+
+    .small-option{
+        font-size: 0.85rem;
+    }
+}
+/* BLOQUES */
+.calend_deportes .shadow-lg{
+    border-radius: 12px;
+}
+.text_uemc{
+    text-align: center;
+    font-size: 3em;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
+}
+@media (max-width: 576px){
+    .text_uemc{
+        font-size: 1em;
+    }
+}
+@media (max-width: 768px){
+    .text_uemc{
+        font-size: 1.8em;
+    }
+}
 
