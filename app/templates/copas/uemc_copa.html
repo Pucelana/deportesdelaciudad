@@ -143,9 +143,14 @@ Valladolid{% endblock %} {% block breadcrumb %}
             </div>
             <!-- MÓVIL -->
             <div class="d-md-none cards-mobile">
+              <h3 class="text_uemc fs-4 text-center text-white">
+                {{ jornada|replace('_',' ')|title }}
+              </h3>
               {% for partido in partidos %}
               <div class="card partido-mobile mb-2">
+                
                 <div class="card-body text-center">
+                  
                   <small class="text-muted fw-bold">
                     {{ partido.fecha }} {% if partido.hora %}· {{ partido.hora
                     }}{% endif %}
