@@ -123,7 +123,6 @@ def obtener_datos_aula():
 @aula_route_bp.route('/equipos_balonmano/calendario_aula')
 def calendario_aula():
     datos = obtener_datos_aula()
-    nuevos_datos_aula = [dato for dato in datos if dato]
     equipo_aula = 'Aula Valladolid'
     tabla_partidos_aula = {}
     # Iteramos sobre cada jornada y partido
@@ -184,7 +183,25 @@ def calendario_aula():
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
-    return render_template('equipos_balonmano/calendario_aula.html', tabla_partidos_aula=tabla_partidos_aula, nuevos_datos_aula=nuevos_datos_aula)
+    return render_template('equipos_vall/calendario_aula.html', tabla_partidos_aula=tabla_partidos_aula)
+# Jornadas Aula
+@aula_route_bp.route('/equipos_balonmano/resultados_aula')
+def resultados_aula():
+    datos = obtener_datos_aula()
+    nuevos_datos_aula = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_aula):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_aula.html',
+        nuevos_datos_aula=nuevos_datos_aula, jornada_activa=jornada_activa
+    )
 # Jornada 0 Aula
 @aula_route_bp.route('/jornada0_aula', methods=['GET', 'POST'])
 def jornada0_aula():
@@ -392,7 +409,7 @@ def generar_clasificacion_analisis_balonmano_aula(data):
         for e, d in equipos
     ]   
 # Ruta para mostrar la clasificación y análisis del Aula
-@aula_route_bp.route('/equipos_balonmano/clasif_analisis_aula')
+@aula_route_bp.route('/equipos_balonmano/clasif_aula')
 def clasif_analisis_aula():
     data = obtener_datos_aula()
     # Genera la clasificación y análisis actual
@@ -424,7 +441,7 @@ def clasif_analisis_aula():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_balonmano/clasif_analisis_aula.html',
+    return render_template('equipos_vall/clasif_aula.html',
         clasificacion_analisis_aula=clasificacion_analisis_aula)
 
 # PLAYOFF AULA VALLADOLID

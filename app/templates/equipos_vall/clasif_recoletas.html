@@ -1,0 +1,345 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} 
+{% block title%}Clasificaciones - Atl. Valladolid{% endblock %} 
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/recoletas"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Atl. Valladolid</a
+      >
+    </li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">
+      Clasificaciones
+    </li>
+  </ol>
+</nav>
+{% endblock %} {% block contenido %}
+<h2 class="text-white text-center text-analisis">Atl. Valladolid</h2>
+<section class="container-lg mb-5 flex-fill">
+  <!-- Navegador personalizado -->
+  <div class="d-flex justify-content-center my-2 gap-2">
+    <button
+      class="btn btn-outline-light tab-btn active"
+      data-tab="clasificacion"
+    >
+      Clasificación
+    </button>
+    <button class="btn btn-outline-light tab-btn" data-tab="champion">
+      Champión
+    </button>
+    <button class="btn btn-outline-light tab-btn" data-tab="europa">
+      European League
+    </button>
+    <button class="btn btn-outline-light tab-btn" data-tab="promocion">
+      Promoción Descenso
+    </button>
+    <button class="btn btn-outline-light tab-btn" data-tab="descenso">
+      Descenso
+    </button>
+  </div>
+  <div class="tab-container">
+    <div class="tab-pane active" id="clasificacion">
+      <!--Tabla Clasificación-->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis">
+                Liga Asobal
+              </h3>
+              <table id="tablaClasificacion" class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th></th>
+                    <th>Equipos</th>
+                    <th>PTS</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>GF</th>
+                    <th>GC</th>
+                    <th>DG</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo in clasificacion_analisis_recoletas %}
+                  <tr class="text-center">
+                    <td
+                      class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 5 %}pos-ehfec{% elif loop.index <=13 %}pos-nada{% elif loop.index <=14 %}pos-promo{% elif loop.index <= 16 %}pos-desc{% endif %}"
+                    >
+                      {{ loop.index }}
+                    </td>
+                    <td
+                      class="text-white fw-bold size_equipos2 {% if 'Atl. Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                    >
+                      {{ equipo['equipo'] }}
+                    </td>
+                    <td class="puntos fw-bold">
+                      {{ equipo['datos']['puntos'] }}
+                    </td>
+                    <td class="jugados fw-bold">
+                      {{ equipo['datos']['jugados'] }}
+                    </td>
+                    <td class="ganados fw-bold">
+                      {{ equipo['datos']['ganados'] }}
+                    </td>
+                    <td class="empatados fw-bold">
+                      {{ equipo['datos']['empatados'] }}
+                    </td>
+                    <td class="perdidos fw-bold">
+                      {{ equipo['datos']['perdidos'] }}
+                    </td>
+                    <td class="favor fw-bold">
+                      {{ equipo['datos']['favor'] }}
+                    </td>
+                    <td class="contra fw-bold">
+                      {{ equipo['datos']['contra']}}
+                    </td>
+                    <td class="diferencia_goles fw-bold">
+                      {{ equipo['datos']['diferencia_goles'] }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="ms-4 text-analisis fs-6">
+            PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE
+            (Partidos Empatados); PP (Partidos Perdidos); GF (Goles Favor);
+            GC(Goles Contra); DG (Diferencia Goles)
+          </p>
+          <p class="ms-4 text-analisis fs-6">
+            Campeón (Champions League)<span class="badge bg-success ms-2"
+              >1</span
+            >
+            ; European League<span class="badge bg-warning ms-2">2-5</span> ;
+            Promoción (Descenso)<span
+              class="badge ms-2"
+              style="background-color: #d86f6f"
+              >14</span
+            >
+            ; Descenso<span class="badge bg-danger ms-2">15-16</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="champion">
+      <!--Tabla Campeón y Champions League-->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis">
+                Campeón y Champions League
+              </h3>
+              <table id="tablaChampionRecoletas" class="table">
+                <!--Tabla Campeón y Champions League-->
+                <thead>
+                  <tr class="text-center">
+                    <th></th>
+                    <th>Equipos</th>
+                    <th>PJ</th>
+                    <th>PA</th>
+                    <th>Prox</th>
+                    <th>PM</th>
+                    <th>PO</th>
+                    <th>PPes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo in clasificacion_analisis_recoletas %}
+                  <tr class="text-center">
+                    <td class="fw-bold">{{ equipo.index }}</td>
+                    <td class="fw-bold size_equipos2 text-white">
+                      {{ equipo['equipo'] }}
+                    </td>
+                    <td class="champ-jug fw-bold">
+                      {{ equipo['datos']['jugados'] }}
+                    </td>
+                    <td class="champ-act fw-bold">
+                      {{ equipo['datos']['puntos'] }}
+                    </td>
+                    <td class="champ-prox fw-bold"></td>
+                    <td class="champ-mate fw-bold"></td>
+                    <td class="champ-opti fw-bold"></td>
+                    <td class="champ-pesi fw-bold"></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="ms-4 text-analisis fs-6">
+            PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM
+            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="europa">
+      <!--Tabla Europa League-->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis">
+                Europa League
+              </h3>
+              <table id="tablaEuropaRecoletas" class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th></th>
+                    <th>Equipos</th>
+                    <th>PJ</th>
+                    <th>PA</th>
+                    <th>Prox</th>
+                    <th>PM</th>
+                    <th>PO</th>
+                    <th>PPes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo in clasificacion_analisis_recoletas %}
+                  <tr class="text-center">
+                    <td class="fw-bold">{{ equipo.index }}</td>
+                    <td class="fw-bold size_equipos2 text-white play-equipo">
+                      {{ equipo['equipo'] }}
+                    </td>
+                    <td class="euro-jug fw-bold">
+                      {{ equipo['datos']['jugados'] }}
+                    </td>
+                    <td class="euro-act fw-bold">
+                      {{ equipo['datos']['puntos'] }}
+                    </td>
+                    <td class="euro-prox fw-bold"></td>
+                    <td class="euro-mate fw-bold"></td>
+                    <td class="euro-opti fw-bold"></td>
+                    <td class="euro-pesi fw-bold"></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="ms-4 text-analisis fs-6">
+            PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM
+            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="promocion">
+      <!--Tabla Promoción Descenso-->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis">
+                Promoción Descenso
+              </h3>
+              <table id="tablaPromoRecoletas" class="table">
+                <thead>
+                  <tr class="text-center">
+                    <th></th>
+                    <th>Equipos</th>
+                    <th>PJ</th>
+                    <th>PA</th>
+                    <th>Prox</th>
+                    <th>PM</th>
+                    <th>PO</th>
+                    <th>PPes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo in clasificacion_analisis_recoletas %}
+                  <tr class="text-center">
+                    <td class="fw-bold">{{ equipo.index }}</td>
+                    <td class="fw-bold size_equipos2 text-white play-equipo">
+                      {{ equipo['equipo'] }}
+                    </td>
+                    <td class="promo-jug fw-bold">
+                      {{ equipo['datos']['jugados'] }}
+                    </td>
+                    <td class="promo-act fw-bold">
+                      {{ equipo['datos']['puntos'] }}
+                    </td>
+                    <td class="promo-prox fw-bold"></td>
+                    <td class="promo-mate fw-bold"></td>
+                    <td class="promo-opti fw-bold"></td>
+                    <td class="promo-pesi fw-bold"></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="ms-4 text-analisis fs-6">
+            PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM
+            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane" id="descenso">
+      <!--Tabla Descenso-->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis">
+                División Honor Plata
+              </h3>
+              <table id="tablaDescRecoletas" class="table">
+                <!--Tabla Descenso-->
+                <thead>
+                  <tr class="text-center">
+                    <th></th>
+                    <th>Equipos</th>
+                    <th>PJ</th>
+                    <th>PA</th>
+                    <th>Prox</th>
+                    <th>PM</th>
+                    <th>PO</th>
+                    <th>PPes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo in clasificacion_analisis_recoletas %}
+                  <tr class="text-center">
+                    <td class="fw-bold">{{ equipo.index }}</td>
+                    <td class="fw-bold size_equipos2 text-white play-equipo">
+                      {{ equipo['equipo'] }}
+                    </td>
+                    <td class="desc-jug fw-bold">
+                      {{ equipo['datos']['jugados'] }}
+                    </td>
+                    <td class="desc-act fw-bold">
+                      {{ equipo['datos']['puntos'] }}
+                    </td>
+                    <td class="desc-prox fw-bold"></td>
+                    <td class="desc-mate fw-bold"></td>
+                    <td class="desc-opti fw-bold"></td>
+                    <td class="desc-pesi fw-bold"></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <p class="ms-4 text-analisis fs-6">
+            PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM
+            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block scripts %}
+ <script src="/static/js/analisis-recoletas.js"></script>
+{% endblock %} 

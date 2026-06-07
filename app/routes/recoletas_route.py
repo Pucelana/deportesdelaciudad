@@ -124,7 +124,6 @@ def obtener_datos_recoletas():
 @recoletas_route_bp.route('/equipos_balonmano/calendario_recoletas')
 def calendario_recoletas():
     datos = obtener_datos_recoletas()
-    nuevos_datos_recoletas = [dato for dato in datos if dato]
     equipo_recoletas = 'Atl. Valladolid'
     tabla_partidos_recoletas = {}
     # Iteramos sobre cada jornada y partido
@@ -185,7 +184,25 @@ def calendario_recoletas():
                         tabla_partidos_recoletas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_recoletas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_recoletas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_recoletas'] = rol_recoletas
-    return render_template('equipos_balonmano/calendario_recoletas.html', tabla_partidos_recoletas=tabla_partidos_recoletas, nuevos_datos_recoletas=nuevos_datos_recoletas)
+    return render_template('equipos_vall/calendario_recoletas.html', tabla_partidos_recoletas=tabla_partidos_recoletas)
+# Jornadas Atl. Valladolid
+@recoletas_route_bp.route('/equipos_balonmano/resultados_recoletas')
+def resultados_recoletas():
+    datos = obtener_datos_recoletas()
+    nuevos_datos_recoletas = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_recoletas):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_recoletas.html',
+        nuevos_datos_recoletas=nuevos_datos_recoletas, jornada_activa=jornada_activa
+    )
 # Jornada 0 Atl.Valladolid
 @recoletas_route_bp.route('/jornada0_recoletas', methods=['GET', 'POST'])
 def jornada0_recoletas():
@@ -391,11 +408,10 @@ def generar_clasificacion_analisis_balonmano_recoletas(data):
     return [
         {'equipo': e, 'datos': d}
         for e, d in equipos
-    ]
-    
+    ] 
 # Ruta para mostrar la clasificación y análisis del Atl.Valladolid
-@recoletas_route_bp.route('/equipos_balonmano/clasif_analisis_recoletas')
-def clasif_analisis_recoletas():
+@recoletas_route_bp.route('/equipos_balonmano/clasif_recoletas')
+def clasif_recoletas():
     data = obtener_datos_recoletas()
     # Genera la clasificación y análisis actual
     clasificacion_analisis_recoletas = generar_clasificacion_analisis_balonmano_recoletas(data)    
@@ -426,7 +442,7 @@ def clasif_analisis_recoletas():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_balonmano/clasif_analisis_recoletas.html',
+    return render_template('equipos_vall/clasif_recoletas.html',
         clasificacion_analisis_recoletas=clasificacion_analisis_recoletas)
     
 # PLAYOFF ATL.VALLADOLID

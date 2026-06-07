@@ -21,3 +21,8 @@
   color: white;
   border: none;
 }
+.btn-tab.active {
+  background: linear-gradient(90deg, #7f00ff, #ff005d);
+  color: white;
+  border: none;
+}

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   const botones = document.querySelectorAll(".tab-btn");
-  const secciones = document.querySelectorAll(".tab-section");
+  const secciones = document.querySelectorAll(".tab-pane");
 
   function activarTab(tabId, botonActivo) {
 
@@ -25,15 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   botones.forEach(btn => {
-
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       activarTab(btn.dataset.tab, btn);
     });
-
   });
 
-  // 👉 activar primero por defecto (MUY IMPORTANTE)
+  // activar primero por defecto
   const first = document.querySelector(".tab-btn");
   if (first) {
     activarTab(first.dataset.tab, first);
