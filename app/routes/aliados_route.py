@@ -122,7 +122,6 @@ def obtener_datos_aliados():
 @aliados_route_bp.route('/equipos_basket/calendario_aliados')
 def calendario_aliados():
     datos = obtener_datos_aliados()
-    nuevos_datos_aliados = [dato for dato in datos if dato]
     equipo_aliados = 'BSR Valladolid'
     tabla_partidos_aliados = {}
     # Iteramos sobre cada jornada y partido
@@ -183,7 +182,25 @@ def calendario_aliados():
                         tabla_partidos_aliados[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_aliados[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_aliados[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aliados'] = rol_aliados
-    return render_template('equipos_basket/calendario_aliados.html', tabla_partidos_aliados=tabla_partidos_aliados, nuevos_datos_aliados=nuevos_datos_aliados)
+    return render_template('equipos_vall/calendario_aliados.html', tabla_partidos_aliados=tabla_partidos_aliados)
+# Jornadas Alidos
+@aliados_route_bp.route('/equipos_basket/resultados_aliados')
+def resultados_aliados():
+    datos = obtener_datos_aliados()
+    nuevos_datos_aliados = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_aliados):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_aliados.html',
+        nuevos_datos_aliados=nuevos_datos_aliados, jornada_activa=jornada_activa
+    )
 # Jornada 0 Aliados
 @aliados_route_bp.route('/jornada0_aliados', methods=['GET', 'POST'])
 def jornada0_aliados():
@@ -456,7 +473,7 @@ def generar_clasificacion_analisis_baloncesto_aliados(data):
         for equipo, datos in equipos
     ]  
 # Ruta para mostrar la clasificación y análisis del UEMC
-@aliados_route_bp.route('/equipos_basket/clasif_analisis_aliados')
+@aliados_route_bp.route('/equipos_basket/clasif_aliados')
 def clasif_analisis_aliados():
     data = obtener_datos_aliados()
     # Genera la clasificación y análisis actual
@@ -488,7 +505,7 @@ def clasif_analisis_aliados():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_basket/clasif_analisis_aliados.html',
+    return render_template('equipos_vall/clasif_aliados.html',
         clasificacion_analisis_aliados=clasificacion_analisis_aliados)
 
 # PLAYOFF ALIADOS

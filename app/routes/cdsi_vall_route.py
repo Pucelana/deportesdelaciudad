@@ -8,7 +8,7 @@ from ..models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub, P
 
 cdsi_vall_route_bp = Blueprint('cdsi_vall_route_bp', __name__)
 
-# LIGA PONCE
+# LIGA CDSI
 #Todo el proceso de calendario y clasificación del PONCE
 # Ingresar los resultados de los partidos PONCE
 @cdsi_vall_route_bp.route('/crear_calendario_cdsi_vall', methods=['GET', 'POST'])
@@ -121,7 +121,6 @@ def obtener_datos_cdsi_vall():
 @cdsi_vall_route_bp.route('/equipos_basket/calendario_cdsi_vall')
 def calendario_cdsi_vall():
     datos = obtener_datos_cdsi_vall()
-    nuevos_datos_cdsi_vall = [dato for dato in datos if dato]
     equipo_cdsi_vall = 'CDSI Valladolid'
     tabla_partidos_cdsi_vall = {}
     # Iteramos sobre cada jornada y partido
@@ -182,7 +181,25 @@ def calendario_cdsi_vall():
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['rol_cdsi_vall'] = rol_cdsi_vall
-    return render_template('equipos_basket/calendario_cdsi_vall.html', tabla_partidos_cdsi_vall=tabla_partidos_cdsi_vall, nuevos_datos_cdsi_vall=nuevos_datos_cdsi_vall)
+    return render_template('equipos_vall/calendario_cdsi.html', tabla_partidos_cdsi_vall=tabla_partidos_cdsi_vall)
+# Jornadas CDSI
+@cdsi_vall_route_bp.route('/equipos_basket/resultados_cdsi')
+def resultados_cdsi():
+    datos = obtener_datos_cdsi_vall()
+    nuevos_datos_cdsi_vall = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_cdsi_vall):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_cdsi.html',
+        nuevos_datos_cdsi_vall=nuevos_datos_cdsi_vall, jornada_activa=jornada_activa
+    )
 # Jornada 0 CDSI VALL
 @cdsi_vall_route_bp.route('/jornada0_cdsi_vall', methods=['GET', 'POST'])
 def jornada0_cdsi_vall():
@@ -455,7 +472,7 @@ def generar_clasificacion_analisis_baloncesto_cdsi_vall(data):
         for equipo, datos in equipos
     ]
 # Ruta para mostrar la clasificación y análisis del UEMC
-@cdsi_vall_route_bp.route('/equipos_basket/clasif_analisis_cdsi_vall')
+@cdsi_vall_route_bp.route('/equipos_basket/clasif_cdsi_vall')
 def clasif_analisis_cdsi_vall():
     data = obtener_datos_cdsi_vall()
     # Genera la clasificación y análisis actual
@@ -487,7 +504,7 @@ def clasif_analisis_cdsi_vall():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_basket/clasif_analisis_cdsi_vall.html',
+    return render_template('equipos_vall/clasif_cdsi.html',
         clasificacion_analisis_cdsi_vall=clasificacion_analisis_cdsi_vall)
     
 # PLAYOFF CDSI VALL

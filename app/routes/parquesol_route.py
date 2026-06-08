@@ -123,7 +123,6 @@ def obtener_datos_parquesol():
 @parquesol_route_bp.route('/equipos_futbol/calendario_parquesol')
 def calendario_parquesol():
     datos = obtener_datos_parquesol()
-    nuevos_datos_parquesol = [dato for dato in datos if dato]
     equipo_parquesol = 'CD Parquesol'
     tabla_partidos_parquesol = {}
     # Iteramos sobre cada jornada y partido
@@ -184,7 +183,25 @@ def calendario_parquesol():
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
-    return render_template('equipos_futbol/calendario_parquesol.html', tabla_partidos_parquesol=tabla_partidos_parquesol, nuevos_datos_parquesol=nuevos_datos_parquesol)
+    return render_template('equipos_vall/calendario_parquesol.html', tabla_partidos_parquesol=tabla_partidos_parquesol)
+# Jornadas Parquesol
+@parquesol_route_bp.route('/equipos_futbol/resultados_parquesol')
+def resultados_parquesol():
+    datos = obtener_datos_parquesol()
+    nuevos_datos_parquesol = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_parquesol):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_parquesol.html',
+        nuevos_datos_parquesol=nuevos_datos_parquesol, jornada_activa=jornada_activa
+    )
 # Jornada 0 Parquesol
 @parquesol_route_bp.route('/jornada0_parquesol', methods=['GET', 'POST'])
 def jornada0_parquesol():
@@ -390,10 +407,9 @@ def generar_clasificacion_analisis_futbol_parquesol(data):
     return [
         {'equipo': e, 'datos': d}
         for e, d in equipos
-    ]
-    
+    ]  
 # Ruta para mostrar la clasificación y análisis del UEMC
-@parquesol_route_bp.route('/equipos_futbol/clasif_analisis_parquesol')
+@parquesol_route_bp.route('/equipos_futbol/clasif_parquesol')
 def clasif_analisis_parquesol():
     data = obtener_datos_parquesol()
     # Genera la clasificación y análisis actual
@@ -426,7 +442,7 @@ def clasif_analisis_parquesol():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_futbol/clasif_analisis_parquesol.html',
+    return render_template('equipos_vall/clasif_parquesol.html',
         clasificacion_analisis_parquesol=clasificacion_analisis_parquesol)
 
 # COPA DEL REY Parquesol

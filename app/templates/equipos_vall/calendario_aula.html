@@ -12,90 +12,103 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
     <li class="breadcrumb-item active text-dark" aria-current="page">
       Calendario Individual
     </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_balonmano/calendario_aula"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Resultados</a
+      >
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_balonmano/clasif_aula"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Clasificaciones</a
+      >
+    </li>
   </ol>
 </nav>
-{% endblock %} 
-{% block contenido %}
-<!-- Navegador personalizado -->
-<div class="d-flex justify-content-center my-2 gap-2">
-  <a href="{{ url_for('aula_route_bp.calendario_aula') }}" class="btn btn-outline-light btn-tab active">
+{% endblock %} {% block contenido %}
+<!--<div class="d-flex justify-content-center my-2 gap-2">
+  <a
+    href="{{ url_for('aula_route_bp.calendario_aula') }}"
+    class="btn btn-outline-light btn-tab active"
+  >
     Calendario
   </a>
-  <a href="{{ url_for('aula_route_bp.resultados_aula') }}" class="btn btn-outline-light btn-tab">
+  <a
+    href="{{ url_for('aula_route_bp.resultados_aula') }}"
+    class="btn btn-outline-light btn-tab"
+  >
     Resultados
   </a>
-</div>
-<div class="">
-  <div class="">
-    <div class="d-flex justify-content-center">
-      <!--Tabla Calendario-->
-      <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
-        <div class="card-body">
-          <div class="table-responsive">
-            <h3 class="text-center text-white fw-bold text-analisis">
-              Calendario Individual 25/26
-            </h3>
-            <table class="table table-bordered tabla_equipos tabla_aula">
-              <thead>
-                <tr class="text-center text-dark">
-                  <th></th>
-                  <th colspan="2">Jornadas</th>
-                  <th colspan="4">Resultados</th>
-                  <!--<th colspan="2">Partidos</th>-->
-                </tr>
-                <tr class="text-center text-dark">
-                  <th scope="col">Equipos</th>
-                  <th>Ida</th>
-                  <th>Vlt</th>
-                  <th colspan="2">Ida</th>
-                  <th colspan="2">Vlt</th>
-                  <th>Puntos</th>
-                  <!--<th>PP</th>-->
-                  <th>Average</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for equipo, datos_equipo in tabla_partidos_aula.items() %}
-                <tr class="text-center">
-                  <th class="text-white size_equipos">{{ equipo }}</th>
-                  <td class="jorn_ida fw-bold">
-                    {% if datos_equipo.get('primer_enfrentamiento') %} J -{{
-                    datos_equipo['primer_enfrentamiento']|replace('Jornada','')
-                    }} {% if
-                    datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aula']
-                    %} ({{
-                    datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aula']
-                    }}) {% endif %} {% endif %}
-                  </td>
-                  <td class="jorn_vuelta fw-bold">
-                    {% if datos_equipo.get('segundo_enfrentamiento') %} J -{{
-                    datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
-                    }} {% if
-                    datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aula']
-                    %} ({{
-                    datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aula']
-                    }}) {% endif %} {% endif %}
-                  </td>
-                  <td class="resultadoA fw-bold">
-                    {{ tabla_partidos_aula[equipo]['resultadoA'] }}
-                  </td>
-                  <td class="resultadoB fw-bold">
-                    {{ tabla_partidos_aula[equipo]['resultadoB'] }}
-                  </td>
-                  <td class="resultadoAA fw-bold">
-                    {{ tabla_partidos_aula[equipo]['resultadoAA'] }}
-                  </td>
-                  <td class="resultadoBB fw-bold">
-                    {{ tabla_partidos_aula[equipo]['resultadoBB'] }}
-                  </td>
-                  <td class="part1"></td>
-                  <td class="average"></td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-        </div>
+</div>-->
+<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
+<div class="d-flex justify-content-center">
+  <!--Tabla Calendario-->
+  <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+    <div class="card-body">
+      <div class="table-responsive">
+        
+        <table class="table table-bordered tabla_equipos tabla_aula">
+          <thead>
+            <tr class="text-center text-dark">
+              <th></th>
+              <th colspan="2">Jornadas</th>
+              <th colspan="4">Resultados</th>
+              <!--<th colspan="2">Partidos</th>-->
+            </tr>
+            <tr class="text-center text-dark">
+              <th scope="col">Equipos</th>
+              <th>Ida</th>
+              <th>Vlt</th>
+              <th colspan="2">Ida</th>
+              <th colspan="2">Vlt</th>
+              <th>Puntos</th>
+              <!--<th>PP</th>-->
+              <th>Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for equipo, datos_equipo in tabla_partidos_aula.items() %}
+            <tr class="text-center">
+              <th class="text-white size_equipos">{{ equipo }}</th>
+              <td class="jorn_ida fw-bold">
+                {% if datos_equipo.get('primer_enfrentamiento') %} J -{{
+                datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                {% if
+                datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aula']
+                %} ({{
+                datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aula']
+                }}) {% endif %} {% endif %}
+              </td>
+              <td class="jorn_vuelta fw-bold">
+                {% if datos_equipo.get('segundo_enfrentamiento') %} J -{{
+                datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                {% if
+                datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aula']
+                %} ({{
+                datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aula']
+                }}) {% endif %} {% endif %}
+              </td>
+              <td class="resultadoA fw-bold">
+                {{ tabla_partidos_aula[equipo]['resultadoA'] }}
+              </td>
+              <td class="resultadoB fw-bold">
+                {{ tabla_partidos_aula[equipo]['resultadoB'] }}
+              </td>
+              <td class="resultadoAA fw-bold">
+                {{ tabla_partidos_aula[equipo]['resultadoAA'] }}
+              </td>
+              <td class="resultadoBB fw-bold">
+                {{ tabla_partidos_aula[equipo]['resultadoBB'] }}
+              </td>
+              <td class="part1"></td>
+              <td class="average"></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

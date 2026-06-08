@@ -1,17 +1,17 @@
-{% extends "equipos_vall/base_equipos_vall.html" %} {% block title %}Resultados-
-Aula Valladolid{% endblock %} {% block breadcrumb %}
+{% extends "equipos_vall/base_equipos_vall.html" %} {% block title %}Resultados
+- CDSI Valladolid{% endblock %} {% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a
-        href="/seccion/aula"
+        href="/seccion/cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6"
-        >Aula Valladolid</a
+        >CDSI Valladolid</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_balonmano/calendario_aula"
+        href="/admin/equipos_basket/calendario_cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6"
         >Calendario Ind.</a
       >
@@ -21,7 +21,7 @@ Aula Valladolid{% endblock %} {% block breadcrumb %}
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_balonmano/clasif_aula"
+        href="/admin/equipos_basket/clasif_cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6"
         >Clasificaciones</a
       >
@@ -44,9 +44,9 @@ Aula Valladolid{% endblock %} {% block breadcrumb %}
   </a>
 </div>-->
 <!-- BOTONES JORNADAS -->
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Resultados</h3>
+ <h3 class="text-center text-white fw-bold equipo-mobile fs-3">Resultados</h3>
 <div class="d-flex justify-content-center flex-wrap gap-2 my-3">
-  {% for goles in nuevos_datos_aula %}
+  {% for goles in nuevos_datos_cdsi_vall %}
   <a
     href="#"
     class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
@@ -59,7 +59,7 @@ Aula Valladolid{% endblock %} {% block breadcrumb %}
 
 <!-- CONTENEDOR JORNADAS -->
 <div id="contenedor-jornadas">
-  {% for goles in nuevos_datos_aula %}
+  {% for goles in nuevos_datos_cdsi_vall %}
 
   <div
     id="jornada{{ loop.index }}"
@@ -115,37 +115,37 @@ Aula Valladolid{% endblock %} {% block breadcrumb %}
       </div>
     </div>
   </div>
-
   {% endfor %}
 </div>
-{% endblock %} {% block scripts %}
+{% endblock %} 
+{% block scripts %} 
 <script>
-  document.querySelectorAll(".btn-jornada").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
+    document.querySelectorAll(".btn-jornada").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
 
-      const targetId = this.dataset.target;
+        const targetId = this.dataset.target;
 
-      // 🔵 botones activos
-      document.querySelectorAll(".btn-jornada").forEach((b) => {
-        b.classList.remove("active");
+        // 🔵 botones activos
+        document.querySelectorAll(".btn-jornada").forEach((b) => {
+          b.classList.remove("active");
+        });
+        this.classList.add("active");
+
+        // 🔴 ocultar todas las jornadas
+        document.querySelectorAll(".jornada-contenido").forEach((j) => {
+          j.classList.add("d-none");
+          j.classList.remove("active");
+        });
+
+        // 🟢 mostrar seleccionada
+        const target = document.getElementById(targetId);
+
+        if (target) {
+          target.classList.remove("d-none");
+          target.classList.add("active");
+        }
       });
-      this.classList.add("active");
-
-      // 🔴 ocultar todas las jornadas
-      document.querySelectorAll(".jornada-contenido").forEach((j) => {
-        j.classList.add("d-none");
-        j.classList.remove("active");
-      });
-
-      // 🟢 mostrar seleccionada
-      const target = document.getElementById(targetId);
-
-      if (target) {
-        target.classList.remove("d-none");
-        target.classList.add("active");
-      }
     });
-  });
-</script>
+  </script>
 {% endblock %}

@@ -121,7 +121,6 @@ def obtener_datos_uemc():
 @uemc_route_bp.route('/equipos_basket/calendario_uemc')
 def calendario_uemc():
     datos = obtener_datos_uemc()
-    nuevos_datos_uemc = [dato for dato in datos if dato]
     equipo_uemc = 'CBC Valladolid'
     tabla_partidos_uemc = {}
     # Iteramos sobre cada jornada y partido
@@ -182,7 +181,25 @@ def calendario_uemc():
                         tabla_partidos_uemc[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_uemc[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_uemc[equipo_contrario]['jornadas'][jornada['nombre']]['rol_uemc'] = rol_uemc
-    return render_template('equipos_basket/calendario_uemc.html', tabla_partidos_uemc=tabla_partidos_uemc, nuevos_datos_uemc=nuevos_datos_uemc)
+    return render_template('equipos_vall/calendario_uemc.html', tabla_partidos_uemc=tabla_partidos_uemc)
+# Jornadas UEMC
+@uemc_route_bp.route('/equipos_basket/resultados_uemc')
+def resultados_ponce():
+    datos = obtener_datos_uemc()
+    nuevos_datos_uemc = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_uemc):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_uemc.html',
+        nuevos_datos_uemc=nuevos_datos_uemc, jornada_activa=jornada_activa
+    )
 # Jornada 0 UEMC
 @uemc_route_bp.route('/jornada0_uemc', methods=['GET', 'POST'])
 def jornada0_uemc():
@@ -456,7 +473,7 @@ def generar_clasificacion_analisis_baloncesto_uemc(data):
         for equipo, datos in equipos
     ]   
 # Ruta para mostrar la clasificación y análisis del UEMC
-@uemc_route_bp.route('/equipos_basket/clasif_analisis_uemc')
+@uemc_route_bp.route('/equipos_basket/clasif_uemc')
 def clasif_analisis_uemc():
     data = obtener_datos_uemc()
     # Genera la clasificación y análisis actual
@@ -489,7 +506,7 @@ def clasif_analisis_uemc():
         reverse=True
     )
     return render_template(
-        'equipos_basket/clasif_analisis_uemc.html',
+        'equipos_vall/clasif_uemc.html',
         clasificacion_analisis_uemc=clasificacion_analisis_uemc
     )
 

@@ -121,7 +121,6 @@ def obtener_datos_ponce():
 @ponce_route_bp.route('/equipos_basket/calendario_ponce')
 def calendario_ponce():
     datos = obtener_datos_ponce()
-    nuevos_datos_ponce = [dato for dato in datos if dato]
     equipo_ponce = 'Ponce Valladolid CB'
     tabla_partidos_ponce = {}
     # Iteramos sobre cada jornada y partido
@@ -182,7 +181,25 @@ def calendario_ponce():
                         tabla_partidos_ponce[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_ponce[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_ponce[equipo_contrario]['jornadas'][jornada['nombre']]['rol_ponce'] = rol_ponce
-    return render_template('equipos_basket/calendario_ponce.html', tabla_partidos_ponce=tabla_partidos_ponce, nuevos_datos_ponce=nuevos_datos_ponce)
+    return render_template('equipos_vall/calendario_ponce.html', tabla_partidos_ponce=tabla_partidos_ponce)
+# Jornadas Ponce
+@ponce_route_bp.route('/equipos_basket/resultados_ponce')
+def resultados_ponce():
+    datos = obtener_datos_ponce()
+    nuevos_datos_ponce = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_ponce):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_ponce.html',
+        nuevos_datos_ponce=nuevos_datos_ponce, jornada_activa=jornada_activa
+    )
 # Jornada 0 Ponce
 @ponce_route_bp.route('/jornada0_ponce', methods=['GET', 'POST'])
 def jornada0_ponce():
@@ -453,10 +470,9 @@ def generar_clasificacion_analisis_baloncesto_ponce(data):
             'datos': datos
         }
         for equipo, datos in equipos
-    ]
-    
+    ]  
 # Ruta para mostrar la clasificación y análisis del UEMC
-@ponce_route_bp.route('/equipos_basket/clasif_analisis_ponce')
+@ponce_route_bp.route('/equipos_basket/clasif_ponce')
 def clasif_analisis_ponce():
     data = obtener_datos_ponce()
     # Genera la clasificación y análisis actual
@@ -488,7 +504,7 @@ def clasif_analisis_ponce():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_basket/clasif_analisis_ponce.html',
+    return render_template('equipos_vall/clasif_ponce.html',
         clasificacion_analisis_ponce=clasificacion_analisis_ponce)
     
 # PLAYOFF PONCE
