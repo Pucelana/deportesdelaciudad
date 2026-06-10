@@ -71,6 +71,10 @@ def seccion_parquesol():
 def seccion_galvan():
     return render_template('secciones/galvan.html')
 
+@secciones_bp.route('/seccion/vall_sala')
+def seccion_vall_sala():
+    return render_template('secciones/vall_sala.html')
+
 # Rutas de sistemas de ligas
 @secciones_bp.route('/sistema_ligas/futbol')
 def sistema_ligas_futbol():

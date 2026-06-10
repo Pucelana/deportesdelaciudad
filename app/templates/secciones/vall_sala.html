@@ -1,0 +1,25 @@
+{% extends 'secciones/base.html' %}
+{% block titulo %} Valladolid S.S {% endblock %}
+{% block contenido %}
+<div class="team-header">
+  <h1 class="responsive-title">Valladolid S.S</h1>
+  <img src="/static/img/vall_sala_sf.png" alt="Valladolid S.S" class="responsive-logo" />
+</div>
+<section class="container-lg seccion_deportes">
+  <diV class="calend_deportes">
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center">
+          <h2 class="text_uemc">1ª Regional</h2>
+        </div>
+        <div class="tu-contenedor-h5">
+          <a href="/admin/equipos_futsal/calendario_vall_sala" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Calendario Ind.</h5></a>
+           <a href="/admin/equipos_futsal/resultados_vall_sala" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Resultados</h5></a>
+          <a href="/admin/equipos_futsal/clasif_vall_sala" class="text-decoration-none text-white">
+          <h5 class="small-option fw-bold">Clasificaciones</h5></a>
+        </div>
+      </div>
+    </div>
+  </diV>
+</section>
+{% endblock %}
