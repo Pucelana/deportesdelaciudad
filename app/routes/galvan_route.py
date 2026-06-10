@@ -123,8 +123,7 @@ def obtener_datos_galvan():
 @galvan_route_bp.route('/equipos_futsal/calendario_galvan')
 def calendario_galvan():
     datos = obtener_datos_galvan()
-    nuevos_datos_galvan = [dato for dato in datos if dato]
-    equipo_galvan = 'Tierno Galván'
+    equipo_galvan = 'C.D Tierno Galván'
     tabla_partidos_galvan = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -184,7 +183,25 @@ def calendario_galvan():
                         tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAAA'] = resultado_a
                         tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBBB'] = resultado_b
                         tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['rol_galvan'] = rol_galvan
-    return render_template('equipos_futsal/calendario_galvan.html', tabla_partidos_galvan=tabla_partidos_galvan, nuevos_datos_galvan=nuevos_datos_galvan)
+    return render_template('equipos_vall/calendario_galvan.html', tabla_partidos_galvan=tabla_partidos_galvan)
+# Jornadas Tierno Galvan
+@galvan_route_bp.route('/equipos_futsal/resultados_galvan')
+def resultados_galvan():
+    datos = obtener_datos_galvan()
+    nuevos_datos_galvan = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_galvan):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_galvan.html',
+        nuevos_datos_galvan=nuevos_datos_galvan, jornada_activa=jornada_activa
+    )
 # Jornada 0 Tierno Galvan
 @galvan_route_bp.route('/jornada0_galvan', methods=['GET', 'POST'])
 def jornada0_galvan():
@@ -391,9 +408,8 @@ def generar_clasificacion_analisis_futbol_galvan(data):
         {'equipo': e, 'datos': d}
         for e, d in equipos
     ]
-    
 # Ruta para mostrar la clasificación y análisis del UEMC
-@galvan_route_bp.route('/equipos_futsal/clasif_analisis_galvan')
+@galvan_route_bp.route('/equipos_futsal/clasif_galvan')
 def clasif_analisis_galvan():
     data = obtener_datos_galvan()
     # Genera la clasificación y análisis actual
@@ -425,7 +441,7 @@ def clasif_analisis_galvan():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_futsal/clasif_analisis_galvan.html',
+    return render_template('equipos_vall/clasif_galvan.html',
         clasificacion_analisis_galvan=clasificacion_analisis_galvan)
 
 # COPA DEL REY Tierno Galvan

@@ -152,7 +152,6 @@ def separar_fases(data):
 @salvador_fem_route_bp.route('/equipos_rugby/calendario_salvador_fem')
 def calendario_salvador_fem():
     datos = obtener_datos_salvador_fem()
-    nuevos_datos_salvador_fem = [dato for dato in datos if dato]
     equipo_salvador_fem = 'El Salvador Fem.'
     tabla_partidos_salvador_fem = {}
     # Iteramos sobre cada jornada y partido
@@ -213,8 +212,26 @@ def calendario_salvador_fem():
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_salvador_fem
-    return render_template('equipos_rugby/calendario_salvador_fem.html', tabla_partidos_salvador_fem=tabla_partidos_salvador_fem, nuevos_datos_salvador_fem=nuevos_datos_salvador_fem)
-# Jornada 0 Vrac
+    return render_template('equipos_vall/calendario_salvador_fem.html', tabla_partidos_salvador_fem=tabla_partidos_salvador_fem)
+# Jornadas El Salvador
+@salvador_fem_route_bp.route('/equipos_rugby/resultados_salvador_fem')
+def resultados_salvador_fem():
+    datos = obtener_datos_salvador_fem()
+    nuevos_datos_salvador_fem = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_salvador_fem):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_salvador_fem.html',
+        nuevos_datos_salvador_fem=nuevos_datos_salvador_fem, jornada_activa=jornada_activa
+    )
+# Jornada 0 El Salvador
 @salvador_fem_route_bp.route('/jornada0_salvador_fem', methods=['GET', 'POST'])
 def jornada0_salvador_fem():
     if request.method == 'POST':
@@ -355,7 +372,7 @@ def aplicar_h2h_en_empates(clasificacion, data):
 
     return clasificacion
 # Ruta para mostrar la clasificación y análisis del Vrac
-@salvador_fem_route_bp.route('/equipos_rugby/clasif_analisis_salvador_fem')
+@salvador_fem_route_bp.route('/equipos_rugby/clasif_salvador_fem')
 def clasif_analisis_salvador_fem():
     data = obtener_datos_salvador_fem()
     fase_regular, fase_liguilla = separar_fases(data)
@@ -467,7 +484,7 @@ def clasif_analisis_salvador_fem():
     ]
 
     return render_template(
-        'equipos_rugby/clasif_analisis_salvador_fem.html',
+        'equipos_vall/clasif_salvador_fem.html',
         clasificacion_general_indexed=clasificacion_general_indexed,
         grupoA2=grupoA_indexed,
         grupoB2=grupoB_indexed

@@ -168,14 +168,14 @@ equipo1s1.forEach((equipo1Data) => {
 });
 
 // Cuarta función para calcular la permanencia
-/*const filas2 = document.querySelectorAll("#tablaDescSimancas tbody tr");
+const filas2 = document.querySelectorAll("#tablaDescSimancas tbody tr");
 const partidosTotales2 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFijar2 = 32; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
-    const equipo2 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo2 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados2 = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales2 = parseInt(fila.querySelector(`.desc-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -224,7 +224,7 @@ equipos2.forEach((equipo2Data) => {
     <td class="desc-pesi fw-bold text-center">${equipo2Data.partidosGanadosPesimistas2}</td>
     `;
     tabla2.appendChild(nuevaFila2);
-});*/
+});
 
 // Quinta función para calcular el porcentaje al ascenso
 /*const filas3 = document.querySelectorAll("#tablaAsceSimancas tbody tr");

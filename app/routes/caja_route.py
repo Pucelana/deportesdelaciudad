@@ -21,34 +21,36 @@ def ingresar_resultado_caja():
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
+
             local = request.form.get(f'local{i}')
-            bonusA= request.form.get(f'bonusA{i}')
+            visitante = request.form.get(f'visitante{i}')
+
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
-            bonusB= request.form.get(f'bonusB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
+            # 🔥 CLAVE: ignorar partidos vacíos
+            if not local or not visitante:
+                continue
+
             partido = CajaPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
                 local=local,
-                bonusA=bonusA,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                bonusB=bonusB,
                 visitante=visitante,
+                resultadoA=resultadoA or "",
+                resultadoB=resultadoB or "",
+                bonusA=request.form.get(f'bonusA{i}') or 0,
+                bonusB=request.form.get(f'bonusB{i}') or 0,
                 orden=i
             )
+
             db.session.add(partido)
-        # Confirmar todos los cambios en la base de datos
+            # Confirmar todos los cambios en la base de datos
         db.session.commit()
+        print("JORNADA:", jornada.nombre)
+        print("PARTIDOS GUARDADOS:", len(jornada.partidos))
         # Redirigir al calendario después de crear la jornada
         return redirect(url_for('caja_route_bp.calendarios_caja'))
-    # Si es un GET, renderizamos el formulario de creación
-    return render_template('admin/calendarios/calend_caja.html')
 # Ver calendario CPLV Caja en Admin
 @caja_route_bp.route('/calendario_caja')
 def calendarios_caja():
@@ -132,7 +134,6 @@ def obtener_datos_caja():
 @caja_route_bp.route('/equipos_hockey/calendario_caja')
 def calendario_caja():
     datos = obtener_datos_caja()
-    nuevos_datos_caja = [dato for dato in datos if dato]
     equipo_caja = 'CPLV Caja Rural'
     tabla_partidos_caja = {}
     # Iteramos sobre cada jornada y partido
@@ -193,7 +194,25 @@ def calendario_caja():
                         tabla_partidos_caja[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_caja[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_caja[equipo_contrario]['jornadas'][jornada['nombre']]['rol_caja'] = rol_caja
-    return render_template('equipos_hockey/calendario_caja.html', tabla_partidos_caja=tabla_partidos_caja, nuevos_datos_caja=nuevos_datos_caja)
+    return render_template('equipos_vall/calendario_caja.html', tabla_partidos_caja=tabla_partidos_caja)
+# Jornadas CPLV Caja
+@caja_route_bp.route('/equipos_hockey/resultados_caja')
+def resultados_caja():
+    datos = obtener_datos_caja()
+    nuevos_datos_caja = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_caja):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_caja.html',
+        nuevos_datos_caja=nuevos_datos_caja, jornada_activa=jornada_activa
+    )
 # Jornada 0 CPLV Caja
 @caja_route_bp.route('/jornada0_caja', methods=['GET', 'POST'])
 def jornada0_caja():
@@ -218,6 +237,7 @@ def eliminar_club_caja(club_id):
 # Crear la clasificación CPLV Caja
 def generar_clasificacion_analisis_hockey_caja(data):
     clasificacion = defaultdict(lambda: {
+        'puntos': 0,
         'jugados': 0,
         'ganados': 0,
         'empatados': 0,
@@ -225,189 +245,116 @@ def generar_clasificacion_analisis_hockey_caja(data):
         'favor': 0,
         'contra': 0,
         'diferencia_goles': 0,
-        'puntos': 0,
         'bonus': 0
     })
 
-    # ================================
-    # ENFRENTAMIENTOS DIRECTOS
-    # ================================
-    enfrentamientos = defaultdict(list)
-
-    # ================================
-    # RECORRER PARTIDOS
-    # ================================
     for jornada in data:
-
         for partido in jornada['partidos']:
-
-            local = partido.local
-            visitante = partido.visitante
-
-            r1 = partido.resultadoA
-            r2 = partido.resultadoB
-
             if (
-                r1 is None or r2 is None or
-                r1 == '' or r2 == ''
+                partido.resultadoA in (None, '')
+                or partido.resultadoB in (None, '')
             ):
                 continue
 
             try:
-                r1 = int(r1)
-                r2 = int(r2)
-                bonus_local = int(bonus_local or 0)
-                bonus_visitante = int(bonus_visitante or 0)
-            except ValueError:
+                a = int(partido.resultadoA)
+                b = int(partido.resultadoB)
+                ba = int(partido.bonusA or 0)
+                bb = int(partido.bonusB or 0)
+            except:
                 continue
 
-            # ================================
-            # PUNTOS LIGA
-            # ================================
-            if r1 > r2:
+            local = partido.local
+            visitante = partido.visitante
 
+            # RESULTADO BASE
+            if a > b:
                 clasificacion[local]['puntos'] += 3
                 clasificacion[local]['ganados'] += 1
                 clasificacion[visitante]['perdidos'] += 1
 
-            elif r1 < r2:
-
+            elif a < b:
                 clasificacion[visitante]['puntos'] += 3
                 clasificacion[visitante]['ganados'] += 1
                 clasificacion[local]['perdidos'] += 1
 
             else:
-
-                clasificacion[local]['puntos'] += 1 + bonus_local
-                clasificacion[visitante]['puntos'] += 1 + bonus_visitante
-
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
                 clasificacion[local]['empatados'] += 1
                 clasificacion[visitante]['empatados'] += 1
 
-            # ================================
-            # JUGADOS
-            # ================================
-            clasificacion[local]['bonus'] += bonus_local
-            clasificacion[visitante]['bonus'] += bonus_visitante
+            # 🔥 BONUS SOLO SI ES 1
+            if ba == 1:
+                clasificacion[local]['bonus'] += 1
+                clasificacion[local]['puntos'] += 1   # si bonus suma a puntos
+
+            if bb == 1:
+                clasificacion[visitante]['bonus'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
+            # stats
             clasificacion[local]['jugados'] += 1
             clasificacion[visitante]['jugados'] += 1
 
-            # ================================
-            # GOLES
-            # ================================
-            clasificacion[local]['favor'] += r1
-            clasificacion[local]['contra'] += r2
+            clasificacion[local]['favor'] += a
+            clasificacion[local]['contra'] += b
+            clasificacion[visitante]['favor'] += b
+            clasificacion[visitante]['contra'] += a
 
-            clasificacion[visitante]['favor'] += r2
-            clasificacion[visitante]['contra'] += r1
-
-            clasificacion[local]['diferencia_goles'] += (r1 - r2)
-            clasificacion[visitante]['diferencia_goles'] += (r2 - r1)
-
-            # ================================
-            # ENFRENTAMIENTOS DIRECTOS
-            # ================================
-            enfrentamientos[frozenset([local, visitante])].append({
-                'local': local,
-                'visitante': visitante,
-                'goles_local': r1,
-                'goles_visitante': r2
-            })
-
-    # ================================
-    # AVERAGE PARTICULAR
-    # ================================
-    def average_particular(a, b):
-
-        partidos = enfrentamientos.get(frozenset([a, b]), [])
-
-        if len(partidos) < 2:
-            return None
-
-        puntos_a = 0
-        puntos_b = 0
-        goles_a = 0
-        goles_b = 0
-
-        for p in partidos:
-
-            l = p['local']
-            v = p['visitante']
-            gl = p['goles_local']
-            gv = p['goles_visitante']
-
-            if l == a:
-                goles_a += gl
-                goles_b += gv
-            else:
-                goles_a += gv
-                goles_b += gl
-
-            if gl > gv:
-                ganador = l
-            elif gv > gl:
-                ganador = v
-            else:
-                ganador = None
-
-            if ganador == a:
-                puntos_a += 3
-            elif ganador == b:
-                puntos_b += 3
-            else:
-                puntos_a += 1
-                puntos_b += 1
-
-        return {
-            'puntos_a': puntos_a,
-            'puntos_b': puntos_b,
-            'diff_a': goles_a - goles_b,
-            'diff_b': goles_b - goles_a
-        }
-
-    # ================================
-    # COMPARADOR PRO OFICIAL
-    # ================================
-    def comparar(a, b):
-
-        na, da = a
-        nb, db = b
-
-        # 1. puntos
-        if da['puntos'] != db['puntos']:
-            return db['puntos'] - da['puntos']
-
-        # 2. enfrentamiento directo
-        av = average_particular(na, nb)
-
-        if av:
-
-            if av['puntos_a'] != av['puntos_b']:
-                return av['puntos_b'] - av['puntos_a']
-
-            if av['diff_a'] != av['diff_b']:
-                return av['diff_b'] - av['diff_a']
-
-        # 3. diferencia goles
-        if da['diferencia_goles'] != db['diferencia_goles']:
-            return db['diferencia_goles'] - da['diferencia_goles']
-
-        # 4. goles a favor
-        return db['favor'] - da['favor']
-
-    # ================================
-    # ORDEN FINAL
-    # ================================
-    equipos = list(clasificacion.items())
-    equipos.sort(key=cmp_to_key(comparar))
+            clasificacion[local]['diferencia_goles'] += (a - b)
+            clasificacion[visitante]['diferencia_goles'] += (b - a)
 
     return [
-        {'equipo': e, 'datos': d}
-        for e, d in equipos
-    ]
-    
+        {'equipo': k, 'datos': v}
+        for k, v in clasificacion.items()
+    ]  
+# Deshacer desempates
+def aplicar_h2h_en_empates(clasificacion, data):
+
+    for i in range(len(clasificacion)-1):
+
+        equipo1 = clasificacion[i]
+        equipo2 = clasificacion[i+1]
+
+        if equipo1['datos']['puntos'] == equipo2['datos']['puntos']:
+
+            ganador = None
+
+            for jornada in data:
+                for partido in jornada['partidos']:
+
+                    local = partido.local
+                    visitante = partido.visitante
+
+                    if (
+                        (local == equipo1['equipo'] and visitante == equipo2['equipo']) or
+                        (local == equipo2['equipo'] and visitante == equipo1['equipo'])
+                    ):
+
+                        try:
+                            a = int(partido.resultadoA)
+                            b = int(partido.resultadoB)
+                        except:
+                            continue
+
+                        if local == equipo1['equipo']:
+                            if a > b:
+                                ganador = equipo1['equipo']
+                            elif b > a:
+                                ganador = equipo2['equipo']
+                        else:
+                            if a > b:
+                                ganador = equipo2['equipo']
+                            elif b > a:
+                                ganador = equipo1['equipo']
+
+            if ganador == equipo2['equipo']:
+                clasificacion[i], clasificacion[i+1] = clasificacion[i+1], clasificacion[i]
+
+    return clasificacion 
 # Ruta para mostrar la clasificación y análisis del CPLV Caja
-@caja_route_bp.route('/equipos_hockey/clasif_analisis_caja')
+@caja_route_bp.route('/equipos_hockey/clasif_caja')
 def clasif_analisis_caja():
     data = obtener_datos_caja()
     # Genera la clasificación y análisis actual
@@ -440,7 +387,7 @@ def clasif_analisis_caja():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_hockey/clasif_analisis_caja.html',
+    return render_template('equipos_vall/clasif_caja.html',
         clasificacion_analisis_caja=clasificacion_analisis_caja)
 
 # PLAYOFF CPLV CAJA RURAL

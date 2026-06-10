@@ -120,10 +120,9 @@ def obtener_datos_simancas():
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
 # Calendario Real Valladolid
-@simancas_route_bp.route('/equipos_futbol/calendario_simancas')
+@simancas_route_bp.route('/equipos_futbol/calendario_rv_fem')
 def calendario_simancas():
     datos = obtener_datos_simancas()
-    nuevos_datos_simancas = [dato for dato in datos if dato]
     equipo_simancas = 'RV Femenino'
     tabla_partidos_simancas = {}
     # Iteramos sobre cada jornada y partido
@@ -184,7 +183,25 @@ def calendario_simancas():
                         tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_simancas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
-    return render_template('equipos_futbol/calendario_simancas.html', tabla_partidos_simancas=tabla_partidos_simancas, nuevos_datos_simancas=nuevos_datos_simancas)
+    return render_template('equipos_vall/calendario_rv_fem.html', tabla_partidos_simancas=tabla_partidos_simancas)
+# Jornadas Simancas
+@simancas_route_bp.route('/equipos_futbol/resultados_rv_fem')
+def resultados_simancas():
+    datos = obtener_datos_simancas()
+    nuevos_datos_simancas = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_simancas):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_rv_fem.html',
+        nuevos_datos_simancas=nuevos_datos_simancas, jornada_activa=jornada_activa
+    )
 # Jornada 0 RV Simancas
 @simancas_route_bp.route('/jornada0_simancas', methods=['GET', 'POST'])
 def jornada0_simancas():
@@ -391,9 +408,8 @@ def generar_clasificacion_analisis_futbol_simancas(data):
         {'equipo': e, 'datos': d}
         for e, d in equipos
     ]
-    
 # Ruta para mostrar la clasificación y análisis del UEMC
-@simancas_route_bp.route('/equipos_futbol/clasif_analisis_simancas')
+@simancas_route_bp.route('/equipos_futbol/clasif_rv_fem')
 def clasif_analisis_simancas():
     data = obtener_datos_simancas()
     # Genera la clasificación y análisis actual
@@ -426,7 +442,7 @@ def clasif_analisis_simancas():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_futbol/clasif_analisis_simancas.html',
+    return render_template('equipos_vall/clasif_rv_fem.html',
         clasificacion_analisis_simancas=clasificacion_analisis_simancas)
 
 # COPA DEL REY RV Simancas

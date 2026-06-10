@@ -127,7 +127,6 @@ def obtener_datos_promesas():
 @promesas_route_bp.route('/equipos_futbol/calendario_promesas')
 def calendario_promesas():
     datos = obtener_datos_promesas()
-    nuevos_datos_promesas = [dato for dato in datos if dato]
     equipo_promesas = 'RV Promesas'
     tabla_partidos_promesas = {}
     # Iteramos sobre cada jornada y partido
@@ -187,7 +186,25 @@ def calendario_promesas():
                         tabla_partidos_promesas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_promesas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_promesas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_valladolid'] = rol_promesas
-    return render_template('equipos_futbol/calendario_promesas.html', tabla_partidos_promesas=tabla_partidos_promesas, nuevos_datos_promesas=nuevos_datos_promesas)
+    return render_template('equipos_vall/calendario_promesas.html', tabla_partidos_promesas=tabla_partidos_promesas)
+# Jornadas RV Promesas
+@promesas_route_bp.route('/equipos_futbol/resultados_promesas')
+def resultados_promesas():
+    datos = obtener_datos_promesas()
+    nuevos_datos_promesas = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_promesas):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_promesas.html',
+        nuevos_datos_promesas=nuevos_datos_promesas, jornada_activa=jornada_activa
+    )
 # Jornada 0 Real Valladolid Promesas
 @promesas_route_bp.route('/jornada0_promesas', methods=['GET', 'POST'])
 def jornada0_promesas():
@@ -394,9 +411,8 @@ def generar_clasificacion_analisis_futbol_promesas(data):
         {'equipo': e, 'datos': d}
         for e, d in equipos
     ]
-    
 # Ruta para mostrar la clasificación y análisis del Promesas
-@promesas_route_bp.route('/equipos_futbol/clasif_analisis_promesas')
+@promesas_route_bp.route('/equipos_futbol/clasif_promesas')
 def clasif_analisis_promesas():
     data = obtener_datos_promesas()
     # Genera la clasificación y análisis actual
@@ -429,7 +445,7 @@ def clasif_analisis_promesas():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_futbol/clasif_analisis_promesas.html',
+    return render_template('equipos_vall/clasif_promesas.html',
         clasificacion_analisis_promesas=clasificacion_analisis_promesas)
 
 # PLAYOFF ASCENSO REAL VALLADOLID PROMESAS

@@ -52,6 +52,7 @@
     margin: 0;
     text-align: center;
     white-space: nowrap;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 /* SOLO AJUSTE DE ESPACIADO (NO TAMAÑOS) */
 @media (max-width: 576px){

@@ -26,7 +26,7 @@
 {% block contenido %}
 <h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
 <div class="d-flex justify-content-center">
-    <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+    <div class="card tabla_equipos_aula w-100" style="max-width: 60rem">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered tabla_equipos tabla_cdsi">
@@ -44,9 +44,9 @@
                             <th class="text-center">Vlt</th>
                             <th class="text-center" colspan="2">Ida</th>
                             <th class="text-center" colspan="2">Vlt</th>
-                            <th>PG</th>
-                            <th>PP</th>
-                            <th>Aver.</th>
+                            <th>G</th>
+                            <th>P</th>
+                            <th>Avrg</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -58,7 +58,7 @@
                             </th>
                             <td class="jorn_ida text-muted">
                               {% if datos_equipo.get('primer_enfrentamiento') %}
-                              J -{{
+                              {{
                               datos_equipo['primer_enfrentamiento']|replace('Jornada','')
                               }} {% if
                               datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_cdsi_vall']
@@ -68,7 +68,7 @@
                             </td>
                             <td class="jorn_vuelta text-muted">
                               {% if datos_equipo.get('segundo_enfrentamiento')
-                              %} J -{{
+                              %} {{
                               datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
                               }} {% if
                               datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_cdsi_vall']

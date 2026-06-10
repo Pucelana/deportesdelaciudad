@@ -139,12 +139,12 @@ def calendario_parquesol():
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_simancas = 'C'
+                    rol_parquesol = 'C'
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_simancas = 'F'                
+                    rol_parquesol = 'F'                
                 # Verificamos si el equipo contrario no está en la tabla
                 if equipo_contrario not in tabla_partidos_parquesol:
                     tabla_partidos_parquesol[equipo_contrario] = {'jornadas': {}}                                       
@@ -162,27 +162,27 @@ def calendario_parquesol():
                     tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']] = {
                         'resultadoA': resultado_a,
                         'resultadoB': resultado_b,
-                        'rol_simancas': rol_simancas
+                        'rol_parquesol': rol_parquesol
                     }               
                 # Asignamos los resultados según el rol del Parquesol
                 if equipo_local == equipo_contrario or equipo_visitante == equipo_contrario:
                     if not tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
-                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
+                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_parquesol'] = rol_parquesol
                     else:
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
+                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_parquesol'] = rol_parquesol
                 else:
                     if not tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
+                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_parquesol'] = rol_parquesol
                     else:
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_simancas'] = rol_simancas
+                        tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_parquesol'] = rol_parquesol
     return render_template('equipos_vall/calendario_parquesol.html', tabla_partidos_parquesol=tabla_partidos_parquesol)
 # Jornadas Parquesol
 @parquesol_route_bp.route('/equipos_futbol/resultados_parquesol')

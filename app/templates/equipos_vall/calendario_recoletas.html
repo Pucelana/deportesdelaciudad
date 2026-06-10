@@ -11,14 +11,27 @@
       >
     </li>
     <li class="breadcrumb-item active text-dark" aria-current="page">
-      Calendario Ind.
+      Calendario Individual
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_balonmano/calendario_recoletas"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Resultados</a
+      >
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_balonmano/clasif_recoletas"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Clasificaciones</a
+      >
     </li>
   </ol>
 </nav>
 {% endblock %} 
 {% block contenido %}
-<!-- Navegador personalizado -->
-<div class="d-flex justify-content-center my-2 gap-2">
+<!--<div class="d-flex justify-content-center my-2 gap-2">
   <a
     href="{{ url_for('recoletas_route_bp.calendario_recoletas') }}"
     class="btn btn-outline-light btn-tab active">
@@ -29,15 +42,13 @@
     class="btn btn-outline-light btn-tab">
     Resultados
   </a>
-</div>
+</div>-->
+<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
 <div class="d-flex justify-content-center">
   <!--Tabla Calendario-->
-  <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+  <div class="card tabla_equipos_aula w-100" style="max-width: 60rem">
     <div class="card-body">
       <div class="table-responsive">
-        <h3 class="text-center text-white fw-bold text-analisis">
-          Calendario Individual 25/26
-        </h3>
         <table class="table table-bordered tabla_equipos tabla_recoletas">
           <thead>
             <tr class="text-center text-dark">
@@ -52,9 +63,9 @@
               <th>Vlt</th>
               <th colspan="2">Ida</th>
               <th colspan="2">Vlt</th>
-              <th>Puntos</th>
+              <th>Pts</th>
               <!--<th>PP</th>-->
-              <th>Average</th>
+              <th>Avrg</th>
             </tr>
           </thead>
           <tbody>
@@ -62,7 +73,7 @@
             <tr class="text-center">
               <th class="text-white size_equipos">{{ equipo }}</th>
               <td class="jorn_ida fw-bold">
-                {% if datos_equipo.get('primer_enfrentamiento') %} J -{{
+                {% if datos_equipo.get('primer_enfrentamiento') %} {{
                 datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
                 {% if
                 datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_recoletas']
@@ -71,7 +82,7 @@
                 }}) {% endif %} {% endif %}
               </td>
               <td class="jorn_vuelta fw-bold">
-                {% if datos_equipo.get('segundo_enfrentamiento') %} J -{{
+                {% if datos_equipo.get('segundo_enfrentamiento') %} {{
                 datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
                 {% if
                 datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_recoletas']

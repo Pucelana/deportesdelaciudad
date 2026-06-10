@@ -127,7 +127,6 @@ def obtener_datos_valladolid():
 @valladolid_route_bp.route('/equipos_futbol/calendario_valladolid')
 def calendario_valladolid():
     datos = obtener_datos_valladolid()
-    nuevos_datos_valladolid = [dato for dato in datos if dato]
     equipo_valladolid = 'Real Valladolid'
     tabla_partidos_valladolid = {}
     # Iteramos sobre cada jornada y partido
@@ -188,7 +187,25 @@ def calendario_valladolid():
                         tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_valladolid[equipo_contrario]['jornadas'][jornada['nombre']]['rol_valladolid'] = rol_valladolid
-    return render_template('equipos_futbol/calendario_valladolid.html', tabla_partidos_valladolid=tabla_partidos_valladolid, nuevos_datos_valladolid=nuevos_datos_valladolid)
+    return render_template('equipos_vall/calendario_valladolid.html', tabla_partidos_valladolid=tabla_partidos_valladolid)
+# Jornadas Real Valladolid
+@valladolid_route_bp.route('/equipos_futbol/resultados_valladolid')
+def resultados_valladolid():
+    datos = obtener_datos_valladolid()
+    nuevos_datos_valladolid = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_valladolid):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_valladolid.html',
+        nuevos_datos_valladolid=nuevos_datos_valladolid, jornada_activa=jornada_activa
+    )
 # Jornada 0 Real Valladolid
 @valladolid_route_bp.route('/jornada0_valladolid', methods=['GET', 'POST'])
 def jornada0_valladolid():
@@ -396,7 +413,7 @@ def generar_clasificacion_analisis_futbol_valladolid(data):
         for e, d in equipos
     ]
 # Ruta para mostrar la clasificación y análisis del Real Valladolid
-@valladolid_route_bp.route('/equipos_futbol/clasif_analisis_valladolid')
+@valladolid_route_bp.route('/equipos_futbol/clasif_valladolid')
 def clasif_analisis_valladolid():
     data = obtener_datos_valladolid()
     # Genera la clasificación y análisis actual
@@ -429,7 +446,7 @@ def clasif_analisis_valladolid():
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_futbol/clasif_analisis_valladolid.html',
+    return render_template('equipos_vall/clasif_valladolid.html',
         clasificacion_analisis_valladolid=clasificacion_analisis_valladolid)
 
 # COPA DEL REY REAL VALLADOLID

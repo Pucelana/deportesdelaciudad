@@ -1,0 +1,145 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} {% block title %}Resultados
+- Panteras Caja Rural{% endblock %} {% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/panteras"
+        class="text-white text-decoration-none text-analisis fs-6">C.D Tierno Galván</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_hockey/calendario_panteras"
+        class="text-white text-decoration-none text-analisis fs-6">Calendario Ind.</a>
+    </li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">
+      Resultados
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_hockey/clasif_panteras"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+    </li>
+  </ol>
+</nav>
+{% endblock %} {% block contenido %}
+<!--<div class="d-flex justify-content-center my-2 gap-2">
+  <a
+    href="{{ url_for('aula_route_bp.calendario_aula') }}"
+    class="btn btn-outline-light btn-tab"
+  >
+    Calendario
+  </a>
+  <a
+    href="{{ url_for('aula_route_bp.resultados_aula') }}"
+    class="btn btn-outline-light btn-tab active"
+  >
+    Resultados
+  </a>
+</div>-->
+<!-- BOTONES JORNADAS -->
+ <h3 class="text-center text-white fw-bold equipo-mobile fs-3">Resultados</h3>
+<div class="d-flex justify-content-center flex-wrap gap-2 my-3">
+  {% for goles in nuevos_datos_panteras %}
+  <a
+    href="#"
+    class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
+    data-target="jornada{{ loop.index }}"
+  >
+    {{ loop.index }}
+  </a>
+  {% endfor %}
+</div>
+
+<!-- CONTENEDOR JORNADAS -->
+<div id="contenedor-jornadas">
+  {% for goles in nuevos_datos_panteras %}
+
+  <div
+    id="jornada{{ loop.index }}"
+    class="jornada-contenido {% if goles.nombre != jornada_activa %}d-none{% endif %}"
+  >
+    <div class="card tabla_equipos_aula w-100">
+      <div class="card-body">
+        <h3 class="text-center text-white mb-3 fondo_jornadas">
+          {{ goles.nombre }}
+        </h3>
+
+        <!-- TABLET / PC -->
+        <div
+          class="table-responsive d-flex justify-content-center d-none d-md-block"
+        >
+          <table class="table table-bordered tabla_equipos">
+            <tbody>
+              {% for partido in goles.partidos %}
+              <tr class="text-center">
+                <td class="text-muted fw-bold">
+                  {{ partido.fecha }} {{ partido.hora }}
+                </td>
+                <td class="equipo-mobile fs-5">{{ partido.local }}</td>
+                <td class="resultado-mobile fs-5">{{ partido.resultadoA }}</td>
+                <td class="resultado-mobile fs-5">{{ partido.resultadoB }}</td>
+                <td class="equipo-mobile fs-5">{{ partido.visitante }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- MÓVIL -->
+        <div class="d-block d-md-none cards-mobile">
+          {% for partido in goles.partidos %}
+          <div class="card partido-mobile">
+            <div class="card-body text-center">
+              <small class="text-muted fw-bold">
+                {{ partido.fecha }} {{ partido.hora }}
+              </small>
+
+              <div class="equipo-mobile">{{ partido.local }}</div>
+
+              <div class="resultado-mobile">
+                {{ partido.resultadoA }} - {{ partido.resultadoB }}
+              </div>
+
+              <div class="equipo-mobile">{{ partido.visitante }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %} 
+{% block scripts %} 
+<script>
+    document.querySelectorAll(".btn-jornada").forEach((btn) => {
+      btn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const targetId = this.dataset.target;
+
+        // 🔵 botones activos
+        document.querySelectorAll(".btn-jornada").forEach((b) => {
+          b.classList.remove("active");
+        });
+        this.classList.add("active");
+
+        // 🔴 ocultar todas las jornadas
+        document.querySelectorAll(".jornada-contenido").forEach((j) => {
+          j.classList.add("d-none");
+          j.classList.remove("active");
+        });
+
+        // 🟢 mostrar seleccionada
+        const target = document.getElementById(targetId);
+
+        if (target) {
+          target.classList.remove("d-none");
+          target.classList.add("active");
+        }
+      });
+    });
+  </script>
+{% endblock %}

@@ -1,12 +1,12 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} {% block title %}Calendario
-Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
+Ind. - Panteras Caja Rural{% endblock %} {% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a
-        href="/seccion/aula"
+        href="/seccion/panteras"
         class="text-white text-decoration-none text-analisis fs-6"
-        >Aula Valladolid</a
+        >Panteras Caja Rural</a
       >
     </li>
     <li class="breadcrumb-item active text-dark" aria-current="page">
@@ -14,105 +14,118 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_balonmano/calendario_aula"
-        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
+        href="/admin/equipos_hockey/resultados_panteras"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Resultados</a
+      >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_balonmano/clasif_aula"
-        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+        href="/admin/equipos_hockey/clasif_panteras"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Clasificaciones</a
+      >
     </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-<!--<div class="d-flex justify-content-center my-2 gap-2">
-  <a
-    href="{{ url_for('aula_route_bp.calendario_aula') }}"
-    class="btn btn-outline-light btn-tab active"
-  >
-    Calendario
-  </a>
-  <a
-    href="{{ url_for('aula_route_bp.resultados_aula') }}"
-    class="btn btn-outline-light btn-tab"
-  >
-    Resultados
-  </a>
+<!--<div class="d-flex justify-content-center my-3 gap-2">
+    <a href="{{ url_for('aliados_route_bp.calendario_aliados') }}" class="btn btn-outline-light btn-tab active">
+        Calendario</a>
+    <a href="{{ url_for('aliados_route_bp.resultados_aliados') }}" class="btn btn-outline-light btn-tab">
+        Resultados</a>
 </div>-->
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
-<div class="d-flex justify-content-center">
-  <!--Tabla Calendario-->
-  <div class="card tabla_equipos_aula w-100" style="max-width: 60rem">
-    <div class="card-body">
-      <div class="table-responsive">
-        <table class="table table-bordered tabla_equipos tabla_aula">
-          <thead>
-            <tr class="text-center text-dark">
-              <th></th>
-              <th colspan="2">Jornadas</th>
-              <th colspan="4">Resultados</th>
-              <!--<th colspan="2">Partidos</th>-->
-            </tr>
-            <tr class="text-center text-dark">
-              <th scope="col">Equipos</th>
-              <th>Ida</th>
-              <th>Vlt</th>
-              <th colspan="2">Ida</th>
-              <th colspan="2">Vlt</th>
-              <th>Pts</th>
-              <!--<th>PP</th>-->
-              <th>Avrg</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for equipo, datos_equipo in tabla_partidos_aula.items() %}
-            <tr class="text-center">
-              <th class="text-white size_equipos">{{ equipo }}</th>
-              <td class="jorn_ida fw-bold">
-                {% if datos_equipo.get('primer_enfrentamiento') %} {{
-                datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                {% if
-                datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aula']
-                %} ({{
-                datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_aula']
-                }}) {% endif %} {% endif %}
-              </td>
-              <td class="jorn_vuelta fw-bold">
-                {% if datos_equipo.get('segundo_enfrentamiento') %} {{
-                datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                {% if
-                datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aula']
-                %} ({{
-                datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_aula']
-                }}) {% endif %} {% endif %}
-              </td>
-              <td class="resultadoA fw-bold">
-                {{ tabla_partidos_aula[equipo]['resultadoA'] }}
-              </td>
-              <td class="resultadoB fw-bold">
-                {{ tabla_partidos_aula[equipo]['resultadoB'] }}
-              </td>
-              <td class="resultadoAA fw-bold">
-                {{ tabla_partidos_aula[equipo]['resultadoAA'] }}
-              </td>
-              <td class="resultadoBB fw-bold">
-                {{ tabla_partidos_aula[equipo]['resultadoBB'] }}
-              </td>
-              <td class="part1"></td>
-              <td class="average"></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+<h3 class="text-center text-white fw-bold equipo-mobile fs-3">
+  Calendario Individual
+</h3>
+<section class="container-lg mb-5 flex-fill copa">
+  <!-- Navegador personalizado -->
+  <div class="d-flex justify-content-center my-2 gap-2">
+    <button class="btn btn-outline-light tab-btn active" data-tab="calendario">
+      Clasificación
+    </button>
+    <button class="btn btn-outline-light tab-btn" data-tab="resultados">
+      Resultados
+    </button>
+  </div>
+  <div class="tab-container">
+    <div class="tab-pane active" id="calendario">
+      <!--Tabla Calendario CPLV Caja Rural-->
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula" style="width: 80rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-bordered tabla_equipos tabla_panteras">
+                <thead>
+                  <tr class="text-center text-dark">
+                    <th></th>
+                    <th colspan="2">Jornadas</th>
+                    <th colspan="4">Resultados</th>
+                    <!--<th colspan="2">Partidos</th>-->
+                  </tr>
+                  <tr class="text-center text-dark">
+                    <th scope="col">Equipos</th>
+                    <th>Ida</th>
+                    <th>Vlt</th>
+                    <th colspan="2">Ida</th>
+                    <th colspan="2">Vlt</th>
+                    <th>Pts</th>
+                    <!--<th>PP</th>-->
+                    <th>Avrg</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo, datos_equipo in tabla_partidos_panteras.items() %}
+                  <tr class="text-center">
+                    <th class="text-white size_equipos">{{ equipo }}</th>
+                    <td class="jorn_ida fw-bold">
+                      {% if datos_equipo.get('primer_enfrentamiento') %} J-{{
+                      datos_equipo['primer_enfrentamiento']|replace('Jornada','')
+                      }} {% if
+                      datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_panteras']
+                      %} ({{
+                      datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_panteras']
+                      }}) {% endif %} {% endif %}
+                    </td>
+                    <td class="jorn_vuelta fw-bold">
+                      {% if datos_equipo.get('segundo_enfrentamiento') %} J-{{
+                      datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
+                      }} {% if
+                      datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_panteras']
+                      %} ({{
+                      datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_panteras']
+                      }}) {% endif %} {% endif %}
+                    </td>
+                    <td class="resultadoA fw-bold">
+                      {{ tabla_partidos_panteras[equipo]['resultadoA'] }}
+                    </td>
+                    <td class="resultadoB fw-bold">
+                      {{ tabla_partidos_panteras[equipo]['resultadoB'] }}
+                    </td>
+                    <td class="resultadoAA fw-bold">
+                      {{ tabla_partidos_panteras[equipo]['resultadoAA'] }}
+                    </td>
+                    <td class="resultadoBB fw-bold">
+                      {{ tabla_partidos_panteras[equipo]['resultadoBB'] }}
+                    </td>
+                    <td class="part1"></td>
+                    <td class="average"></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock %} {% block scripts %}
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     // Seleccionar todas las filas de la tabla
-    var filas = document.querySelectorAll(".tabla_aula tbody tr");
+    var filas = document.querySelectorAll(".tabla_panteras tbody tr");
     // Iterar sobre cada fila
     filas.forEach(function (fila) {
       // Obtener el nombre del equipo de la fila actual
@@ -145,7 +158,7 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
       var average = fila.querySelector(".average");
       if (esLocal) {
         if (resultadoA > resultadoB) {
-          part1.textContent = "2";
+          part1.textContent = "3";
           part1.style.color = "blue";
         } else if (resultadoA === resultadoB) {
           part1.textContent = "1";
@@ -154,7 +167,7 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
           part1.textContent = "0";
           part1.style.color = "blue";
         } else if (resultadoAA > resultadoBB) {
-          part1.textContent = "2";
+          part1.textContent = "3";
           part1.style.color = "blue";
         } else if (resultadoAA === resultadoBB) {
           part1.textContent = "1";
@@ -165,7 +178,7 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
         }
       } else {
         if (resultadoB > resultadoA) {
-          part1.textContent = "2";
+          part1.textContent = "3";
           part1.style.color = "blue";
         } else if (resultadoB === resultadoA) {
           part1.textContent = "1";
@@ -174,7 +187,7 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
           part1.textContent = "0";
           part1.style.color = "blue";
         } else if (resultadoBB > resultadoAA) {
-          part1.textContent = "2";
+          part1.textContent = "3";
           part1.style.color = "blue";
         } else if (resultadoBB === resultadoAA) {
           part1.textContent = "1";
@@ -192,12 +205,12 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
         if (resultadoAA > resultadoBB) {
           // "AA" gana como local
           if (!esLocal) {
-            puntajeSegundoEnfrentamiento = 2;
+            puntajeSegundoEnfrentamiento = 3;
           }
         } else if (resultadoAA < resultadoBB) {
           // "AA" gana como visitante
           if (esLocal) {
-            puntajeSegundoEnfrentamiento = 2;
+            puntajeSegundoEnfrentamiento = 3;
           }
         } else {
           // Empate en el segundo enfrentamiento
