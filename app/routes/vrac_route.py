@@ -152,7 +152,6 @@ def separar_fases(data):
 @vrac_route_bp.route('/equipos_rugby/calendario_vrac')
 def calendario_vrac():
     datos = obtener_datos_vrac()
-    nuevos_datos_vrac = [dato for dato in datos if dato]
     equipo_vrac = 'VRAC'
     tabla_partidos_vrac = {}
     # Iteramos sobre cada jornada y partido
@@ -213,7 +212,25 @@ def calendario_vrac():
                         tabla_partidos_vrac[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_vrac[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_vrac[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vrac'] = rol_vrac
-    return render_template('equipos_rugby/calendario_vrac.html', tabla_partidos_vrac=tabla_partidos_vrac, nuevos_datos_vrac=nuevos_datos_vrac)
+    return render_template('equipos_vall/calendario_vrac.html', tabla_partidos_vrac=tabla_partidos_vrac)
+# Jornadas VRAC
+@vrac_route_bp.route('/equipos_rugby/resultados_vrac')
+def resultados_vrac():
+    datos = obtener_datos_vrac()
+    nuevos_datos_vrac = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_vrac):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_vrac.html',
+        nuevos_datos_vrac=nuevos_datos_vrac, jornada_activa=jornada_activa
+    )
 # Jornada 0 Vrac
 @vrac_route_bp.route('/jornada0_vrac', methods=['GET', 'POST'])
 def jornada0_vrac():
@@ -355,7 +372,7 @@ def aplicar_h2h_en_empates(clasificacion, data):
 
     return clasificacion
 # Ruta para mostrar la clasificación y análisis del Vrac
-@vrac_route_bp.route('/equipos_rugby/clasif_analisis_vrac')
+@vrac_route_bp.route('/equipos_rugby/clasif_vrac')
 def clasif_analisis_vrac():
     data = obtener_datos_vrac()
     fase_regular, fase_liguilla = separar_fases(data)
@@ -449,7 +466,7 @@ def clasif_analisis_vrac():
     ]
 
     return render_template(
-        'equipos_rugby/clasif_analisis_vrac.html',
+        'equipos_vall/clasif_vrac.html',
         clasificacion_general_indexed=clasificacion_general_indexed,
         grupoA2=grupoA_indexed,
         grupoB2=grupoB_indexed

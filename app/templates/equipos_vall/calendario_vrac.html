@@ -1,30 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} {% block title %}Calendario
-Ind. - El Salvador Fem.{% endblock %} {% block breadcrumb %}
+Ind. - VRAC{% endblock %} {% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a
-        href="/seccion/salvador_fem"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >El Salvador Fem.</a
-      >
+        href="/seccion/vrac"
+        class="text-white text-decoration-none text-analisis fs-6">VRAC</a>
     </li>
     <li class="breadcrumb-item active text-dark" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_rugby/resultados_salvador_fem"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Resultados</a
-      >
+        href="/admin/equipos_rugby/resultados_vrac"
+        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_rugby/clasif_salvador_fem"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Clasificaciones</a
-      >
+        href="/admin/equipos_rugby/clasif_vrac"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
     </li>
   </ol>
 </nav>
@@ -39,7 +33,6 @@ Ind. - El Salvador Fem.{% endblock %} {% block breadcrumb %}
   Calendario Individual
 </h3>
 <section class="container-lg mb-5 flex-fill copa">
-  <!-- Navegador personalizado -->
   <!--<div class="d-flex justify-content-center my-2 gap-2">
     <button class="btn btn-outline-light tab-btn active" data-tab="calendario">
       Clasificación
@@ -54,7 +47,7 @@ Ind. - El Salvador Fem.{% endblock %} {% block breadcrumb %}
           <div class="card-body">
             <div class="table-responsive">
               <table
-                class="table table-bordered tabla_equipos tabla_salvador_fem"
+                class="table table-bordered tabla_equipos tabla_vrac"
               >
                 <thead>
                   <tr class="text-center text-dark">
@@ -76,38 +69,38 @@ Ind. - El Salvador Fem.{% endblock %} {% block breadcrumb %}
                 </thead>
                 <tbody>
                   {% for equipo, datos_equipo in
-                  tabla_partidos_salvador_fem.items() %}
+                  tabla_partidos_vrac.items() %}
                   <tr class="text-center">
                     <th class="text-white size_equipos">{{ equipo }}</th>
                     <td class="jorn_ida fw-bold">
                       {% if datos_equipo.get('primer_enfrentamiento') %} {{
                       datos_equipo['primer_enfrentamiento']|replace('Jornada','')
                       }} {% if
-                      datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_salvador_fem']
+                      datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vrac']
                       %} ({{
-                      datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_salvador_fem']
+                      datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vrac']
                       }}) {% endif %} {% endif %}
                     </td>
                     <td class="jorn_vuelta fw-bold">
                       {% if datos_equipo.get('segundo_enfrentamiento') %} {{
                       datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
                       }} {% if
-                      datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_salvador_fem']
+                      datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vrac']
                       %} ({{
-                      datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_salvador_fem']
+                      datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vrac']
                       }}) {% endif %} {% endif %}
                     </td>
                     <td class="resultadoA fw-bold">
-                      {{ tabla_partidos_salvador_fem[equipo]['resultadoA'] }}
+                      {{ tabla_partidos_vrac[equipo]['resultadoA'] }}
                     </td>
                     <td class="resultadoB fw-bold">
-                      {{ tabla_partidos_salvador_fem[equipo]['resultadoB'] }}
+                      {{ tabla_partidos_vrac[equipo]['resultadoB'] }}
                     </td>
                     <td class="resultadoAA fw-bold">
-                      {{ tabla_partidos_salvador_fem[equipo]['resultadoAA'] }}
+                      {{ tabla_partidos_vrac[equipo]['resultadoAA'] }}
                     </td>
                     <td class="resultadoBB fw-bold">
-                      {{ tabla_partidos_salvador_fem[equipo]['resultadoBB'] }}
+                      {{ tabla_partidos_vrac[equipo]['resultadoBB'] }}
                     </td>
                     <td class="part1"></td>
                     <td class="average"></td>
@@ -119,13 +112,12 @@ Ind. - El Salvador Fem.{% endblock %} {% block breadcrumb %}
           </div>
         </div>
       </div>
-    
 </section>
     {% endblock %} {% block scripts %}
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         // Seleccionar todas las filas de la tabla
-        var filas = document.querySelectorAll(".tabla_salvador_fem tbody tr");
+        var filas = document.querySelectorAll(".tabla_vrac tbody tr");
         // Iterar sobre cada fila
         filas.forEach(function (fila) {
           // Obtener el nombre del equipo de la fila actual

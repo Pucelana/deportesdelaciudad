@@ -152,7 +152,6 @@ def separar_fases(data):
 @salvador_route_bp.route('/equipos_rugby/calendario_salvador')
 def calendario_salvador():
     datos = obtener_datos_salvador()
-    nuevos_datos_salvador = [dato for dato in datos if dato]
     equipo_salvador = 'El Salvador'
     tabla_partidos_salvador = {}
     # Iteramos sobre cada jornada y partido
@@ -213,8 +212,26 @@ def calendario_salvador():
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador'] = rol_salvador
-    return render_template('equipos_rugby/calendario_salvador.html', tabla_partidos_salvador=tabla_partidos_salvador, nuevos_datos_salvador=nuevos_datos_salvador)
-# Jornada 0 Vrac
+    return render_template('equipos_vall/calendario_salvador.html', tabla_partidos_salvador=tabla_partidos_salvador)
+# Jornadas Salvador
+@salvador_route_bp.route('/equipos_rugby/resultados_salvador')
+def resultados_salvador():
+    datos = obtener_datos_salvador()
+    nuevos_datos_salvador = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_salvador):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_salvador.html',
+        nuevos_datos_salvador=nuevos_datos_salvador, jornada_activa=jornada_activa
+    )
+# Jornada 0 Salvador
 @salvador_route_bp.route('/jornada0_salvador', methods=['GET', 'POST'])
 def jornada0_salvador():
     if request.method == 'POST':
@@ -355,7 +372,7 @@ def aplicar_h2h_en_empates(clasificacion, data):
 
     return clasificacion
 # Ruta para mostrar la clasificación y análisis del Vrac
-@salvador_route_bp.route('/equipos_rugby/clasif_analisis_salvador')
+@salvador_route_bp.route('/equipos_rugby/clasif_salvador')
 def clasif_analisis_salvador():
     data = obtener_datos_salvador()
     fase_regular, fase_liguilla = separar_fases(data)
@@ -467,7 +484,7 @@ def clasif_analisis_salvador():
     ]
 
     return render_template(
-        'equipos_rugby/clasif_analisis_salvador.html',
+        'equipos_vall/clasif_salvador.html',
         clasificacion_general_indexed=clasificacion_general_indexed,
         grupoA2=grupoA_indexed,
         grupoB2=grupoB_indexed
