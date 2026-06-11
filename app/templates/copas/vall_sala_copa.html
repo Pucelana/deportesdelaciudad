@@ -1,0 +1,118 @@
+{% extends "copas/base_copa.html" %}
+{% block title %}Copa del Rey - FS Valladolid{% endblock %}
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item">
+      <a href="/seccion/vall_sala" class="text-white text-decoration-none text-analisis fs-6">
+        FS Valladolid
+      </a>
+    </li>
+    <li class="breadcrumb-item active text-dark">
+      Copa del Rey 25/26
+    </li>
+  </ol>
+</nav>
+{% endblock %}
+{% block h1 %}
+<h1 class="text-playoff text-center">FS Valladolid</h1>
+{% endblock %}
+{% block contenido %}
+<!-- Botones de rondas -->
+<div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+  {% for ronda in datos_copa.keys() %}
+  <a href="#"
+     class="btn btn-outline-dark btn-ronda"
+     data-target="ronda{{ loop.index0 }}">
+    {{ ronda|capitalize }}
+  </a>
+  {% endfor %}
+</div>
+<!-- RONDAS -->
+<div id="contenedor-rondas">
+  {% for ronda, partidos in datos_copa.items() %}
+  <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+       id="ronda{{ loop.index0 }}">
+    <div class="d-flex justify-content-center">
+      <div class="card tabla_copa mt-4 w-100" style="max-width: 70rem">
+        <div class="card-body">
+          <h3 class="text-center text-white text-capitalize text-analisis mb-4">
+            {{ ronda }}
+          </h3>
+          <!-- TABLET / PC -->
+          <div class="table-responsive d-none d-md-block">
+            <table class="table border-secondary">
+              <tbody>
+                {% for partido in partidos %}
+                <tr class="text-center">
+                  <td class="text-copa fw-bold fs-4">{{ partido.fecha }}</td>
+                  <td class="text-copa fw-bold fs-4">{{ partido.hora }}</td>
+                  <td class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">{{ partido.local }}</td>
+                  <td class="text-copa fw-bold fs-4">{{ partido.resultadoA }}</td>
+                  <td class="text-copa fw-bold fs-4">{{ partido.resultadoB }}</td>
+                  <td class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">{{ partido.visitante }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- MÓVIL -->
+          <div class="d-md-none cards-mobile">
+            {% for partido in partidos %}
+            <div class="card partido-mobile mb-2">
+              <div class="card-body text-center">
+
+                <small class="text-muted fw-bold">
+                  {{ partido.fecha }} {% if partido.hora %}· {{ partido.hora }}{% endif %}
+                </small>
+
+                <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                  {{ partido.local }}
+                </div>
+
+                <div class="resultado-mobile">
+                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                </div>
+
+                <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                  {{ partido.visitante }}
+                </div>
+
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const botones = document.querySelectorAll(".btn-ronda");
+  const rondas = document.querySelectorAll(".ronda-item");
+
+  botones.forEach(boton => {
+    boton.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      rondas.forEach(r => r.classList.add("d-none"));
+      rondas.forEach(r => r.classList.remove("d-block"));
+
+      const target = document.getElementById(this.dataset.target);
+      if (target) {
+        target.classList.remove("d-none");
+        target.classList.add("d-block");
+      }
+    });
+  });
+
+});
+</script>
+{% endblock %}

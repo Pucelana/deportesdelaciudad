@@ -52,9 +52,9 @@ function mostrarFormularioParquesol(){
   document.getElementById('form_partidos_parquesol').style.display='block';
 }
 // FÚTBOL SALA
-/*function mostrarFormularioValladolidFs(){
-  document.getElementById('form_partidos_valladolid_fs').style.display='block';
-}*/
+function mostrarFormularioVallSala(){
+  document.getElementById('form_partidos_vall_sala').style.display='block';
+}
 function mostrarFormularioGalvan(){
   document.getElementById('form_partidos_galvan').style.display='block';
 }

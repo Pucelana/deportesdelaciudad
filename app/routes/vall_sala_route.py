@@ -4,19 +4,19 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.galvan import JornadaGalvan, GalvanPartido, GalvanClub, CopaGalvan, PlayoffGalvan
+from ..models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub, CopaVallSala, PlayoffVallSala
 
-galvan_route_bp = Blueprint('galvan_route_bp', __name__)
+vall_sala_route_bp = Blueprint('vall_sala_route_bp', __name__)
 
-# LIGA RV GALVAN
-# Crear el calendario RV Galván
-@galvan_route_bp.route('/crear_calendario_galvan', methods=['GET', 'POST'])
-def ingresar_resultado_galvan():
+# LIGA VALLADOLID S.S
+# Crear el calendario Valladolid S.S
+@vall_sala_route_bp.route('/crear_calendario_vall_sala', methods=['GET', 'POST'])
+def ingresar_resultado_vall_sala():
     if request.method == 'POST':
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaGalvan(nombre=nombre_jornada)
+        jornada = JornadaVallSala(nombre=nombre_jornada)
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
@@ -28,7 +28,7 @@ def ingresar_resultado_galvan():
             resultadoB = request.form.get(f'resultadoB{i}')
             visitante = request.form.get(f'visitante{i}')            
             # Crear el objeto partido y agregarlo a la sesión
-            partido = GalvanPartido(
+            partido = VallSalaPartido(
                 jornada_id=jornada.id,
                 fecha=fecha,
                 hora=hora,
@@ -42,24 +42,24 @@ def ingresar_resultado_galvan():
         # Confirmar todos los cambios en la base de datos
         db.session.commit()
         # Redirigir al calendario después de crear la jornada
-        return redirect(url_for('galvan_route_bp.calendarios_galvan'))
+        return redirect(url_for('vall_sala_route_bp.calendarios_vall_sala'))
     # Si es un GET, renderizamos el formulario de creación
-    return render_template('admin/calendarios/calend_galvan.html')
-# Ver calendario Real Valladolid en Admin
-@galvan_route_bp.route('/calendarios_galvan')
-def calendarios_galvan():
-    jornadas = JornadaGalvan.query.order_by(JornadaGalvan.id.asc()).all()
+    return render_template('admin/calendarios/calend_vall_sala.html')
+# Ver calendario Valladolid S.S en Admin
+@vall_sala_route_bp.route('/calendarios_vall_sala')
+def calendarios_vall_sala():
+    jornadas = JornadaVallSala.query.order_by(JornadaVallSala.id.asc()).all()
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
-        jornada.partidos = db.session.query(GalvanPartido)\
+        jornada.partidos = db.session.query(VallSalaPartido)\
             .filter_by(jornada_id=jornada.id)\
-            .order_by(GalvanPartido.orden.asc())\
+            .order_by(VallSalaPartido.orden.asc())\
             .all()
-    return render_template('admin/calendarios/calend_galvan.html', jornadas=jornadas)
+    return render_template('admin/calendarios/calend_vall_sala.html', jornadas=jornadas)
 # Modificar jornada
-@galvan_route_bp.route('/modificar_jornada_galvan/<int:id>', methods=['GET', 'POST'])
-def modificar_jornada_galvan(id):
-    jornada = db.session.query(JornadaGalvan).filter(JornadaGalvan.id == id).first()
+@vall_sala_route_bp.route('/modificar_jornada_vall_sala/<int:id>', methods=['GET', 'POST'])
+def modificar_jornada_vall_sala(id):
+    jornada = db.session.query(JornadaVallSala).filter(JornadaVallSala.id == id).first()
     if jornada:
         if request.method == 'POST':
             nombre_jornada = request.form['nombre']
@@ -75,7 +75,7 @@ def modificar_jornada_galvan(id):
                 resultadoB = request.form[f'resultadoB{i}']
                 visitante = request.form[f'visitante{i}']                
                 # Obtener el partido correspondiente por ID
-                partido = db.session.query(GalvanPartido).filter(GalvanPartido.id == partido_id).first()
+                partido = db.session.query(VallSalaPartido).filter(VallSalaPartido.id == partido_id).first()
                 if partido:
                     partido.hora = hora
                     partido.local = local
@@ -86,32 +86,32 @@ def modificar_jornada_galvan(id):
                     partido.orden = orden
             # Guardar cambios en la base de datos
             db.session.commit()
-            return redirect(url_for('galvan_route_bp.calendarios_galvan'))
-    return render_template('admin/calendarios/calend_galvan.html', jornada=jornada)
+            return redirect(url_for('vall_sala_route_bp.calendarios_vall_sala'))
+    return render_template('admin/calendarios/calend_vall_sala.html', jornada=jornada)
 # Eliminar jornada
-@galvan_route_bp.route('/eliminar_jornada_galvan/<int:id>', methods=['GET','POST'])
-def eliminar_jornada_galvan(id):
+@vall_sala_route_bp.route('/eliminar_jornada_vall_sala/<int:id>', methods=['GET','POST'])
+def eliminar_jornada_vall_sala(id):
     # Obtener la jornada
-    jornada = db.session.query(JornadaGalvan).filter(JornadaGalvan.id == id).first()   
+    jornada = db.session.query(JornadaVallSala).filter(JornadaVallSala.id == id).first()   
     if jornada:
         # Eliminar los partidos asociados a la jornada
-        db.session.query(GalvanPartido).filter(GalvanPartido.jornada_id == id).delete()
+        db.session.query(VallSalaPartido).filter(VallSalaPartido.jornada_id == id).delete()
         # Eliminar la jornada
         db.session.delete(jornada)       
         # Confirmar los cambios en la base de datos
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
-    return redirect(url_for('galvan_route_bp.calendarios_galvan'))    
+    return redirect(url_for('vall_sala_route_bp.calendarios_vall_sala'))    
 # Obtener datos Tierno Galvan
-def obtener_datos_galvan():
-    # Obtener todas las jornadas Tierno Galvan
-    jornadas = JornadaGalvan.query.all()
+def obtener_datos_vall_sala():
+    # Obtener todas las jornadas Valladolid S.S
+    jornadas = JornadaVallSala.query.all()
     jornadas_con_partidos = []
     for jornada in jornadas:
         # Obtener los partidos de esta jornada
-        partidos = db.session.query(GalvanPartido)\
+        partidos = db.session.query(VallSalaPartido)\
             .filter_by(jornada_id=jornada.id)\
-            .order_by(GalvanPartido.orden.asc())\
+            .order_by(VallSalaPartido.orden.asc())\
             .all()       
         jornada_con_partidos = {
             'nombre': jornada.nombre,
@@ -119,12 +119,12 @@ def obtener_datos_galvan():
         }       
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
-# Calendario Tierno Galvan
-@galvan_route_bp.route('/equipos_futsal/calendario_galvan')
-def calendario_galvan():
-    datos = obtener_datos_galvan()
-    equipo_galvan = 'C.D Tierno Galván'
-    tabla_partidos_galvan = {}
+# Calendario Valladolid S.S
+@vall_sala_route_bp.route('/equipos_futsal/calendario_vall_sala')
+def calendario_vall_sala():
+    datos = obtener_datos_vall_sala()
+    equipo_vall_sala = 'FS Valladolid'
+    tabla_partidos_vall_sala = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
         for partido in jornada['partidos']:
@@ -132,64 +132,64 @@ def calendario_galvan():
             equipo_visitante = partido.visitante
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
-            # Verificamos si el UEMC está jugando
-            if equipo_local == equipo_galvan or equipo_visitante == equipo_galvan:
+            # Verificamos si el Valladolid S.S está jugando
+            if equipo_local == equipo_vall_sala or equipo_visitante == equipo_vall_sala:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_galvan:
+                if equipo_local == equipo_vall_sala:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_galvan = 'C'
+                    rol_vall_sala = 'C'
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_galvan = 'F'                
+                    rol_vall_sala = 'F'                
                 # Verificamos si el equipo contrario no está en la tabla
-                if equipo_contrario not in tabla_partidos_galvan:
-                    tabla_partidos_galvan[equipo_contrario] = {'jornadas': {}}                                       
+                if equipo_contrario not in tabla_partidos_vall_sala:
+                    tabla_partidos_vall_sala[equipo_contrario] = {'jornadas': {}}                                       
                 # Verificamos si es el primer o segundo enfrentamiento
-                if 'primer_enfrentamiento' not in tabla_partidos_galvan[equipo_contrario]:
-                    tabla_partidos_galvan[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
-                    tabla_partidos_galvan[equipo_contrario]['resultadoA'] = resultado_a
-                    tabla_partidos_galvan[equipo_contrario]['resultadoB'] = resultado_b
-                elif 'segundo_enfrentamiento' not in tabla_partidos_galvan[equipo_contrario]:
-                    tabla_partidos_galvan[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
-                    tabla_partidos_galvan[equipo_contrario]['resultadoAA'] = resultado_a
-                    tabla_partidos_galvan[equipo_contrario]['resultadoBB'] = resultado_b                 
+                if 'primer_enfrentamiento' not in tabla_partidos_vall_sala[equipo_contrario]:
+                    tabla_partidos_vall_sala[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_vall_sala[equipo_contrario]['resultadoA'] = resultado_a
+                    tabla_partidos_vall_sala[equipo_contrario]['resultadoB'] = resultado_b
+                elif 'segundo_enfrentamiento' not in tabla_partidos_vall_sala[equipo_contrario]:
+                    tabla_partidos_vall_sala[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_vall_sala[equipo_contrario]['resultadoAA'] = resultado_a
+                    tabla_partidos_vall_sala[equipo_contrario]['resultadoBB'] = resultado_b                 
                 # Agregamos la jornada y resultados
-                if jornada['nombre'] not in tabla_partidos_galvan[equipo_contrario]['jornadas']:
-                    tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']] = {
+                if jornada['nombre'] not in tabla_partidos_vall_sala[equipo_contrario]['jornadas']:
+                    tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']] = {
                         'resultadoA': resultado_a,
                         'resultadoB': resultado_b,
-                        'rol_galvan': rol_galvan
+                        'rol_vall_sala': rol_vall_sala
                     }               
-                # Asignamos los resultados según el rol del Tierno Galvan
+                # Asignamos los resultados según el rol del Valladolid S.S
                 if equipo_local == equipo_contrario or equipo_visitante == equipo_contrario:
-                    if not tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['rol_galvan'] = rol_galvan
+                    if not tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vall_sala'] = rol_vall_sala
                     else:
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['rol_galvan'] = rol_galvan
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vall_sala'] = rol_vall_sala
                 else:
-                    if not tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['rol_galvan'] = rol_galvan
+                    if not tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vall_sala'] = rol_vall_sala
                     else:
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAAA'] = resultado_a
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBBB'] = resultado_b
-                        tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['rol_galvan'] = rol_galvan
-    return render_template('equipos_vall/calendario_galvan.html', tabla_partidos_galvan=tabla_partidos_galvan)
-# Jornadas Tierno Galvan
-@galvan_route_bp.route('/equipos_futsal/resultados_galvan')
-def resultados_galvan():
-    datos = obtener_datos_galvan()
-    nuevos_datos_galvan = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_galvan):
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAAA'] = resultado_a
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBBB'] = resultado_b
+                        tabla_partidos_vall_sala[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vall_sala'] = rol_vall_sala
+    return render_template('equipos_vall/calendario_vall_sala.html', tabla_partidos_vall_sala=tabla_partidos_vall_sala)
+# Jornadas Valladolid S.S
+@vall_sala_route_bp.route('/equipos_futsal/resultados_vall_sala')
+def resultados_vall_sala():
+    datos = obtener_datos_vall_sala()
+    nuevos_datos_vall_sala = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_vall_sala):
         if any(
             p.resultadoA is not None and p.resultadoA != "" and
             p.resultadoB is not None and p.resultadoB != ""
@@ -199,32 +199,32 @@ def resultados_galvan():
             break
 
     return render_template(
-        'equipos_vall/jornadas_galvan.html',
-        nuevos_datos_galvan=nuevos_datos_galvan, jornada_activa=jornada_activa
+        'equipos_vall/jornadas_vall_sala.html',
+        nuevos_datos_vall_sala=nuevos_datos_vall_sala, jornada_activa=jornada_activa
     )
-# Jornada 0 Tierno Galvan
-@galvan_route_bp.route('/jornada0_galvan', methods=['GET', 'POST'])
-def jornada0_galvan():
+# Jornada 0 Valladolid S.S
+@vall_sala_route_bp.route('/jornada0_vall_sala', methods=['GET', 'POST'])
+def jornada0_vall_sala():
     if request.method == 'POST':
         if 'equipo' in request.form:
             club = request.form['equipo']
             if club:
-                nuevo_club = GalvanClub(nombre=club)
+                nuevo_club = VallSalaClub(nombre=club)
                 db.session.add(nuevo_club)
                 db.session.commit()
-            return redirect(url_for('galvan_route_bp.jornada0_galvan'))
-    clubs = GalvanClub.query.all()  # Obtener todos los clubes de PostgreSQL
-    return render_template('admin/clubs/clubs_galvan.html', clubs=clubs)
+            return redirect(url_for('vall_sala_route_bp.jornada0_vall_sala'))
+    clubs = VallSalaClub.query.all()  # Obtener todos los clubes de PostgreSQL
+    return render_template('admin/clubs/clubs_vall_sala.html', clubs=clubs)
 # Eliminar clubs jornada 0
-@galvan_route_bp.route('/eliminar_club_galvan/<int:club_id>', methods=['POST'])
-def eliminar_club_galvan(club_id):
-    club = GalvanClub.query.get(club_id)
+@vall_sala_route_bp.route('/eliminar_club_vall_sala/<int:club_id>', methods=['POST'])
+def eliminar_club_vall_sala(club_id):
+    club = VallSalaClub.query.get(club_id)
     if club:
         db.session.delete(club)
         db.session.commit()
-    return redirect(url_for('galvan_route_bp.jornada0_galvan'))
+    return redirect(url_for('vall_sala_route_bp.jornada0_vall_sala'))
 # Crear la clasificación RV Galvan
-def generar_clasificacion_analisis_futsal_galvan(data):
+def generar_clasificacion_analisis_futsal_vall_sala(data):
     clasificacion = defaultdict(lambda: {
         'jugados': 0,
         'ganados': 0,
@@ -408,22 +408,22 @@ def generar_clasificacion_analisis_futsal_galvan(data):
         {'equipo': e, 'datos': d}
         for e, d in equipos
     ]
-# Ruta para mostrar la clasificación y análisis del UEMC
-@galvan_route_bp.route('/equipos_futsal/clasif_galvan')
-def clasif_analisis_galvan():
-    data = obtener_datos_galvan()
+# Ruta para mostrar la clasificación y análisis del Valladolid S.S
+@vall_sala_route_bp.route('/equipos_futsal/clasif_vall_sala')
+def clasif_analisis_vall_sala():
+    data = obtener_datos_vall_sala()
     # Genera la clasificación y análisis actual
-    clasificacion_analisis_galvan = generar_clasificacion_analisis_futsal_galvan(data)    
+    clasificacion_analisis_vall_sala = generar_clasificacion_analisis_futsal_vall_sala(data)    
     # Obtén los equipos desde la base de datos PostgreSQL
-    clubs_galvan = GalvanClub.query.all()
+    clubs_vall_sala = VallSalaClub.query.all()
     # Inicializa las estadísticas de los equipos que aún no están en la clasificación
-    for club in clubs_galvan:
+    for club in clubs_vall_sala:
         if not any(
             equipo['equipo'] == club.nombre
-            for equipo in clasificacion_analisis_galvan
+            for equipo in clasificacion_analisis_vall_sala
         ):
 
-            clasificacion_analisis_galvan.append({
+            clasificacion_analisis_vall_sala.append({
                 'equipo': club.nombre,
                 'datos': {
                     'puntos': 0,
@@ -437,17 +437,17 @@ def clasif_analisis_galvan():
                 }
             })
 
-    clasificacion_analisis_galvan.sort(
+    clasificacion_analisis_vall_sala.sort(
         key=lambda x: x['datos']['puntos'],
         reverse=True
     )
-    return render_template('equipos_vall/clasif_galvan.html',
-        clasificacion_analisis_galvan=clasificacion_analisis_galvan)
+    return render_template('equipos_vall/clasif_vall_sala.html',
+        clasificacion_analisis_vall_sala=clasificacion_analisis_vall_sala)
 
-# COPA DEL REY Tierno Galvan
+# COPA DEL REY Valladolid S.S
 # Creación de las eliminatorias de copa
-@galvan_route_bp.route('/crear_copa_galvan', methods=['GET', 'POST'])
-def crear_copa_galvan():
+@vall_sala_route_bp.route('/crear_copa_vall_sala', methods=['GET', 'POST'])
+def crear_copa_vall_sala():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')
         max_partidos = {
@@ -463,7 +463,7 @@ def crear_copa_galvan():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         for i in range(num_partidos):
-            partido = CopaGalvan(
+            partido = CopaVallSala(
                 eliminatoria=eliminatoria,
                 fecha=request.form.get(f'fecha{i}', ''),
                 hora=request.form.get(f'hora{i}', ''),
@@ -474,25 +474,25 @@ def crear_copa_galvan():
             )
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for('galvan_route_bp.ver_copa_galvan'))
-    return render_template('admin/copa/copa_galvan.html')   
+        return redirect(url_for('vall_sala_route_bp.ver_copa_vall_sala'))
+    return render_template('admin/copa/copa_vall_sala.html')   
 # Ver las eliminatorias en Admin
-@galvan_route_bp.route('/copa_galvan/')
-def ver_copa_galvan():
+@vall_sala_route_bp.route('/copa_vall_sala/')
+def ver_copa_vall_sala():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {
-        e: CopaGalvan.query.filter_by(eliminatoria=e).all()
+        e: CopaVallSala.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
     }
-    return render_template('admin/copa/copa_galvan.html', datos_eliminatorias=datos_eliminatorias)
+    return render_template('admin/copa/copa_vall_sala.html', datos_eliminatorias=datos_eliminatorias)
 # Modificar las eliminatorias
-@galvan_route_bp.route('/modificar_copa_galvan_post', methods=['POST'])
-def modificar_copa_galvan_post():
+@vall_sala_route_bp.route('/modificar_copa_vall_sala_post', methods=['POST'])
+def modificar_copa_vall_sala_post():
     eliminatoria = request.form['eliminatoria']
     num_partidos = int(request.form['num_partidos'])
     for i in range(num_partidos):
         partido_id = request.form.get(f'partido_id{i}')
-        partido = CopaGalvan.query.get(partido_id)
+        partido = CopaVallSala.query.get(partido_id)
         if partido:
             partido.eliminatoria = eliminatoria  # Opcional: si quieres actualizarla por partido
             partido.fecha = request.form.get(f'fecha{i}', '')
@@ -502,27 +502,27 @@ def modificar_copa_galvan_post():
             partido.resultadoB = request.form.get(f'resultadoB{i}', '')
             partido.visitante = request.form.get(f'visitante{i}', '')
     db.session.commit()
-    return redirect(url_for('galvan_route_bp.ver_copa_galvan'))
+    return redirect(url_for('vall_sala_route_bp.ver_copa_vall_sala'))
 # Eliminar las eliminatorias en Admin
-@galvan_route_bp.route('/eliminar_copa_galvan/<string:eliminatoria>', methods=['POST'])
-def eliminar_copa_galvan(eliminatoria):
-    CopaGalvan.query.filter_by(eliminatoria=eliminatoria).delete()
+@vall_sala_route_bp.route('/eliminar_copa_vall_sala/<string:eliminatoria>', methods=['POST'])
+def eliminar_copa_vall_sala(eliminatoria):
+    CopaVallSala.query.filter_by(eliminatoria=eliminatoria).delete()
     db.session.commit()
-    return redirect(url_for('galvan_route_bp.ver_copa_galvan'))
+    return redirect(url_for('vall_sala_route_bp.ver_copa_vall_sala'))
 # Ver las eliminatorias en la página principal Copa
-@galvan_route_bp.route('/galvan_copa/')
-def copas_galvan():
+@vall_sala_route_bp.route('/vall_sala_copa/')
+def copas_vall_sala():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_copa = {
-        e: CopaGalvan.query.filter_by(eliminatoria=e).all()
+        e: CopaVallSala.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
     }
-    return render_template('copas/galvan_copa.html', datos_copa=datos_copa)
+    return render_template('copas/vall_sala_copa.html', datos_copa=datos_copa)
 
-# PLAYOFF ASCENSO Tierno Galvan
+# PLAYOFF ASCENSO Valladolid S.S
 # Crear formulario para los playoff
-@galvan_route_bp.route('/crear_playoff_galvan', methods=['GET', 'POST'])
-def crear_playoff_galvan():
+@vall_sala_route_bp.route('/crear_playoff_vall_sala', methods=['GET', 'POST'])
+def crear_playoff_vall_sala():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
@@ -535,10 +535,10 @@ def crear_playoff_galvan():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         # 🧹 Eliminar partidos ANTES de agregar nuevos
-        PlayoffGalvan.query.filter_by(eliminatoria=eliminatoria).delete()
+        PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).delete()
         
         for i in range(num_partidos):
-            partido = PlayoffGalvan(
+            partido = PlayoffVallSala(
                 eliminatoria = eliminatoria,
                 fecha = request.form.get(f'fecha{i}', ''),
                 hora = request.form.get(f'hora{i}', ''),
@@ -549,27 +549,27 @@ def crear_playoff_galvan():
             )
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for('galvan_route_bp.ver_playoff_galvan'))
-    return render_template('admin/playoffs/playoff_galvan.html')
+        return redirect(url_for('vall_sala_route_bp.ver_playoff_vall_sala'))
+    return render_template('admin/playoffs/playoff_vall_sala.html')
 # Ver encuentros playoff en Admin
-@galvan_route_bp.route('/playoff_galvan/')
-def ver_playoff_galvan():
+@vall_sala_route_bp.route('/playoff_vall_sala/')
+def ver_playoff_vall_sala():
     eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}
     for eliminatoria in eliminatorias:
-        partidos = PlayoffGalvan.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffGalvan.orden).all()
+        partidos = PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffVallSala.orden).all()
         datos_playoff[eliminatoria] = partidos
-    return render_template('admin/playoffs/playoff_galvan.html', datos_playoff=datos_playoff)
+    return render_template('admin/playoffs/playoff_vall_sala.html', datos_playoff=datos_playoff)
 # Modificar los partidos de los playoff
-@galvan_route_bp.route('/modificar_playoff_galvan/<string:eliminatoria>', methods=['GET', 'POST'])
-def modificar_playoff_galvan(eliminatoria):
+@vall_sala_route_bp.route('/modificar_playoff_vall_sala/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_playoff_vall_sala(eliminatoria):
     if request.method == 'POST':
         num_partidos = int(request.form.get('num_partidos', 0))
         for i in range(num_partidos):
             partido_id = request.form.get(f'partido_id{i}')
             if not partido_id:
                 continue
-            partido_obj = PlayoffGalvan.query.get(int(partido_id))
+            partido_obj = PlayoffVallSala.query.get(int(partido_id))
             if not partido_obj:
                 continue
             partido_obj.fecha = request.form.get(f'fecha{i}', '')
@@ -582,24 +582,24 @@ def modificar_playoff_galvan(eliminatoria):
         # Commit para guardar los cambios
         db.session.commit()
         flash('Playoff actualizado correctamente', 'success')
-        return redirect(url_for('galvan_route_bp.ver_playoff_galvan'))
+        return redirect(url_for('vall_sala_route_bp.ver_playoff_vall_sala'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
-    return redirect(url_for('galvan_route_bp.ver_playoff_galvan'))
+    return redirect(url_for('vall_sala_route_bp.ver_playoff_vall_sala'))
 # Eliminar los partidos de los playoff
-@galvan_route_bp.route('/eliminar_playoff_galvan/<string:eliminatoria>', methods=['POST'])
-def eliminar_playoff_galvan(eliminatoria):
-    partidos = PlayoffGalvan.query.filter_by(eliminatoria=eliminatoria).all()
+@vall_sala_route_bp.route('/eliminar_playoff_vall_sala/<string:eliminatoria>', methods=['POST'])
+def eliminar_playoff_vall_sala(eliminatoria):
+    partidos = PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).all()
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
     flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
-    return redirect(url_for('galvan_route_bp.ver_playoff_galvan'))
-# Mostrar los playoffs del RV Simancas
-@galvan_route_bp.route('/playoffs_galvan/')
-def playoffs_galvan():
+    return redirect(url_for('vall_sala_route_bp.ver_playoff_vall_sala'))
+# Mostrar los playoffs del Valladolid S.S
+@vall_sala_route_bp.route('/playoffs_vall_sala/')
+def playoffs_vall_sala():
     eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}
     for eliminatoria in eliminatorias:
-        partidos = PlayoffGalvan.query.filter_by(eliminatoria=eliminatoria).all()
+        partidos = PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos
-    return render_template('playoff/galvan_playoff.html', datos_playoff=datos_playoff)
+    return render_template('playoff/vall_sala_playoff.html', datos_playoff=datos_playoff)

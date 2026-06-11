@@ -114,7 +114,6 @@ def obtener_datos_vcv():
 @vcv_route_bp.route('/equipos_voley/calendario_vcv')
 def calendario_vcv():
     datos = obtener_datos_vcv()
-    nuevos_datos_vcv = [dato for dato in datos if dato]
     equipo_vcv = 'Universidad VCV'
     tabla_partidos_vcv = {}
     # Iteramos sobre cada jornada y partido
@@ -175,7 +174,25 @@ def calendario_vcv():
                         tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vcv'] = rol_vcv
-    return render_template('equipos_voley/calendario_vcv.html', tabla_partidos_vcv=tabla_partidos_vcv, nuevos_datos_vcv=nuevos_datos_vcv)
+    return render_template('equipos_vall/calendario_vcv.html', tabla_partidos_vcv=tabla_partidos_vcv)
+# Jornadas VCV
+@vcv_route_bp.route('/equipos_voley/resultados_vcv')
+def resultados_vcv():
+    datos = obtener_datos_vcv()
+    nuevos_datos_vcv = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_vcv):
+        if any(
+            p.resultadoA is not None and p.resultadoA != "" and
+            p.resultadoB is not None and p.resultadoB != ""
+            for p in jornada['partidos']
+        ):
+            jornada_activa = jornada['nombre']
+            break
+
+    return render_template(
+        'equipos_vall/jornadas_vcv.html',
+        nuevos_datos_vcv=nuevos_datos_vcv, jornada_activa=jornada_activa
+    )
 # Crear la clasificación de Univ. Valladolid VCV
 def generar_clasificacion_analisis_voley_vcv(data):
     clasificacion = defaultdict(lambda: {'puntos': 0, 'jugados': 0, 'ganados3': 0, 'ganados2': 0, 'perdidos1': 0, 'perdidos0': 0, 'favor': 0, 'contra': 0, 'diferencia_sets': 0})
@@ -221,7 +238,7 @@ def generar_clasificacion_analisis_voley_vcv(data):
     clasificacion_ordenada = [{'equipo': equipo, 'datos': datos} for equipo, datos in sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['favor'] - x[1]['contra']), reverse=True)]
     return clasificacion_ordenada
 # Ruta para mostrar la clasificación y analisis del Univ. Valladolid VCV
-@vcv_route_bp.route('/equipos_voley/clasif_analisis_vcv/')
+@vcv_route_bp.route('/equipos_voley/clasif_vcv')
 def clasif_analisis_vcv():
     data = obtener_datos_vcv()
     # Genera la clasificación y análisis actual
@@ -245,7 +262,7 @@ def clasif_analisis_vcv():
                 }
             }
             clasificacion_analisis_vcv.append(equipo)
-    return render_template('equipos_voley/clasif_analisis_vcv.html', clasificacion_analisis_vcv=clasificacion_analisis_vcv)
+    return render_template('equipos_vall/clasif_vcv.html', clasificacion_analisis_vcv=clasificacion_analisis_vcv)
 @vcv_route_bp.route('/admin/jornada0_vcv', methods=['GET', 'POST'])
 def jornada0_vcv():
     if request.method == 'POST':
