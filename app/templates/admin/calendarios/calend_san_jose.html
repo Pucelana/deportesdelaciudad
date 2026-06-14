@@ -1,19 +1,19 @@
 {% extends 'admin/calendarios/base_calend.html' %} 
-{% block title %} Calendario - Ponce Valladolid {% endblock %} 
+{% block title %} Calendario - VD San Jose {% endblock %} 
 {% block nav %}
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 23/24 Ponce</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 26/27 CD San Jose</li>
     </ol>
 {% endblock %}
 {% block contenido %}
     <section class="container-lg">
       <div class="d-flex justify-content-center mb-4">
-        <button onclick="mostrarFormularioPonce()" class="btn btn-success text-center fs-3">Crear Resultados</button>
+        <button onclick="mostrarFormularioJose()" class="btn btn-success text-center fs-3">Crear Resultados</button>
       </div>
       <!-- Formulario para los resultados de los partidos -->
-      <div class="container-lg" id="form_partidos_ponce">
-        <form method="POST" action="/admin/crear_calendario_ponce" class="row mb-3">
+      <div class="container-lg" id="form_partidos_san_jose">
+        <form method="POST" action="/admin/crear_calendario_san_jose" class="row mb-3">
           <div class="col-md-12">
             <label for="nombre">Jornada</label>
             <input type="text" class="form-control" id="nombre" name="nombre">
@@ -22,7 +22,7 @@
             <label for="num_partidos">Número de partidos</label>
             <input type="text" class="form-control" id="num_partidos" name="num_partidos">
           </div>
-          {% for i in range(7) %}
+          {% for i in range(6) %}
           <div class="col-md-5">
             <label for="fecha{{i}}">Fecha</label>
             <input type="text" class="form-control" id="fecha{{i}}" name="fecha{{i}}">
@@ -31,7 +31,7 @@
             <label for="hora{{i}}">Hora</label>
             <input type="text" class="form-control" id="hora{{i}}" name="hora{{i}}">
           </div>
-          <div class="col-md-5">
+          <div class="col-md-4">
             <label for="local{{i}}">Equipo Local</label>
             <input type="text" class="form-control" id="local{{i}}" name="local{{i}}">
           </div>
@@ -43,7 +43,7 @@
             <label for="resultadoB{{i}}"></label>
             <input type="text" class="form-control" id="resultadoB{{i}}" name="resultadoB{{i}}">
           </div>
-          <div class="col-md-5">
+          <div class="col-md-4">
             <label for="visitante{{i}}">Equipo Visitante</label>
             <input type="text" class="form-control" id="visitante{{i}}" name="visitante{{i}}">
           </div>
@@ -88,9 +88,10 @@
                   </form>-->
                   <button type="submit" id="btn-modificar{{ jornada.id }}" class="bg-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal" data-bs-target="#modal{{ jornada.id }}">Modificar</button>
                   <a href="#" onclick="toggleTabla(this, '{{ jornada.nombre }}') " class="text-decoration-none btn btn-primary text-white">Ver Tabla</a>
-                  <form action="{{ url_for('ponce_route_bp.eliminar_jornada_ponce', id=jornada.id) }}" method="POST">
+                  <form action="{{ url_for('san_jose_route_bp.eliminar_jornada_san_jose', id=jornada.id) }}" method="POST">
                     <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 ms-5">Eliminar</button>
-                  </form>        
+                  </form>
+                  
                 </div>
               </div> 
             </div>
@@ -102,13 +103,13 @@
     {% for jornada in jornadas %}
     <div class="modal fade" id="modal{{ jornada.id }}" tabindex="-1" role="dialog" aria-labelledby="modificarModalLabel" aria-hidden="true">
       <div class="modal-dialog" role="document">
-        <div class="modal-content">
+        <div class="modal-content" style="width: 45rem;">
           <div class="modal-header">
             <h5 class="modal-title" id="modificarModalLabel">Modificar Jornada</h5>
           </div>
           <div class="modal-body">
           <!-- Contenido del formulario para modificar la jornada -->
-          <form method="post" action="{{ url_for('ponce_route_bp.modificar_jornada_ponce', id=jornada.id) }}" class="row">
+          <form method="POST" action="{{ url_for('san_jose_route_bp.modificar_jornada_san_jose', id=jornada.id) }}" class="row">
             <div class="col-md-12 mb-2"> 
               <label for="nombre">Jornada</label>
               <input type="text" name="nombre" id="nombre" class="form-control" value="{{ jornada.nombre }}">
@@ -121,13 +122,13 @@
             <div class="col-md-5 mb-2">
               <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
               <label for="fecha{{ loop.index0 }}">Fecha</label>
-              <input type="text" name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
+              <input name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
             </div>
             <div class="col-md-5 mb-2">
               <label for="hora{{ loop.index0 }}">Hora</label>
               <input type="text" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
             </div>
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
               <label for="local{{ loop.index0 }}">Equipo A</label>
               <input name="local{{ loop.index0 }}" id="local{{ loop.index0 }}" class="form-control" value="{{ partido.local }}">
             </div>
@@ -139,7 +140,7 @@
               <label for="resultadoB{{ loop.index0 }}"></label>
               <input type="text" name="resultadoB{{ loop.index0 }}" id="resultadoB{{ loop.index0 }}" class="form-control" value="{{ partido.resultadoB }}">
             </div>
-            <div class="col-md-4 mb-2">
+            <div class="col-md-3 mb-2">
               <label for="visitante{{ loop.index0 }}">Equipo B</label>
               <input type="text" name="visitante{{ loop.index0 }}" id="visitante{{ loop.index0 }}" class="form-control" value="{{ partido.visitante }}">
             </div>
@@ -159,7 +160,6 @@
     </div>
     {% endfor %}
 {% endblock %}    
-{% block scripts %}
     <script>
         function toggleTabla(element, nombreTabla) {
           event.preventDefault();

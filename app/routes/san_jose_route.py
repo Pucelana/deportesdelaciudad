@@ -4,18 +4,18 @@ from collections import defaultdict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.vcv import JornadaVCV, VCVPartido, VCVClub, PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion
+from ..models.san_jose import JornadaJose, JosePartido, JoseClub, PlayoffJose, CopaJose, EuropaJose, Clasificacion
 
-vcv_route_bp = Blueprint('vcv_route_bp', __name__)
+san_jose_route_bp = Blueprint('san_jose_route_bp', __name__)
 #EQUIPOS VOLEIBOL
-#Todo el proceso de calendario y clasificación del Univ. Valladolid VCV
-# Ingresar los resultados de los partidos de Univ. Valladolid VCV
-@vcv_route_bp.route('/admin/crear_calendario_vcv', methods=['POST'])
-def ingresar_resultado_vcv():
+#Todo el proceso de calendario y clasificación del CD San Jose
+# Ingresar los resultados de los partidos de CD San Jose
+@san_jose_route_bp.route('/admin/crear_calendario_san_jose', methods=['POST'])
+def ingresar_resultado_san_jose():
     if request.method == 'POST':
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])
-        jornada = JornadaVCV(nombre=nombre_jornada)       
+        jornada = JornadaJose(nombre=nombre_jornada)       
         db.session.add(jornada)
         db.session.flush()       
         for i in range(num_partidos):
@@ -25,28 +25,28 @@ def ingresar_resultado_vcv():
             resultadoA = request.form[f'resultadoA{i}']
             resultadoB = request.form[f'resultadoB{i}']
             visitante = request.form[f'visitante{i}']          
-            partido = VCVPartido(jornada_id=jornada.id, fecha=fecha, hora=hora, local=local, resultadoA=resultadoA, resultadoB=resultadoB, visitante=visitante)
+            partido = JosePartido(jornada_id=jornada.id, fecha=fecha, hora=hora, local=local, resultadoA=resultadoA, resultadoB=resultadoB, visitante=visitante)
             db.session.add(partido)
         db.session.commit()
      # Redirigir al calendario después de crear la jornada
-        return redirect(url_for('vcv_route_bp.calendarios_vcv'))
+        return redirect(url_for('san_jose_route_bp.calendarios_san_jose'))
     # Si es un GET, renderizamos el formulario de creación
-    return render_template('admin/calendarios/calend_vcv.html')
+    return render_template('admin/calendarios/calend_san_jose.html')
 # Partidos Univ. Valladolid VCV
-@vcv_route_bp.route('/calendario_vcv')
-def calendarios_vcv():
-    jornadas = JornadaVCV.query.order_by(JornadaVCV.id.asc()).all()
+@san_jose_route_bp.route('/calendario_san_jose')
+def calendarios_san_jose():
+    jornadas = JornadaJose.query.order_by(JornadaJose.id.asc()).all()
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
-        jornada.partidos = db.session.query(VCVPartido)\
+        jornada.partidos = db.session.query(JosePartido)\
             .filter_by(jornada_id=jornada.id)\
-            .order_by(VCVPartido.orden.asc())\
+            .order_by(JosePartido.orden.asc())\
             .all()
-    return render_template('admin/calendarios/calend_vcv.html', jornadas=jornadas)
+    return render_template('admin/calendarios/calend_san_jose.html', jornadas=jornadas)
 # Modificar los partidos de cada jornada
-@vcv_route_bp.route('/modificar_jornada_vcv/<string:id>', methods=['POST'])
-def modificar_jornada_vcv(id):
-    jornada = db.session.query(JornadaVCV).filter(JornadaVCV.id == id).first()
+@san_jose_route_bp.route('/modificar_jornada_san_jose/<string:id>', methods=['POST'])
+def modificar_jornada_san_jose(id):
+    jornada = db.session.query(JornadaJose).filter(JornadaJose.id == id).first()
     if jornada:
         if request.method == 'POST':
             nombre_jornada = request.form['nombre']
@@ -64,7 +64,7 @@ def modificar_jornada_vcv(id):
                 bonusB = request.form[f'bonusB{i}']
                 visitante = request.form[f'visitante{i}']                
                 # Obtener el partido correspondiente por ID
-                partido = db.session.query(VCVPartido).filter(VCVPartido.id == partido_id).first()
+                partido = db.session.query(JosePartido).filter(JosePartido.id == partido_id).first()
                 if partido:
                     partido.fecha = fecha
                     partido.hora = hora
@@ -78,31 +78,31 @@ def modificar_jornada_vcv(id):
                     partido.orden = orden
             # Guardar cambios en la base de datos
             db.session.commit()
-            return redirect(url_for('vcv_route_bp.calendarios_vcv'))
-    return render_template('admin/calendarios/calend_vcv.html', jornada=jornada)
+            return redirect(url_for('san_jose_route_bp.calendarios_san_jose'))
+    return render_template('admin/calendarios/calend_san_jose.html', jornada=jornada)
 # Ruta para borrar jornadas
-@vcv_route_bp.route('/eliminar_jorn_vcv/<string:id>', methods=['POST'])
-def eliminar_jornada_vcv(id):
+@san_jose_route_bp.route('/eliminar_jorn_san_jose/<string:id>', methods=['POST'])
+def eliminar_jornada_san_jose(id):
     # Obtener la jornada
-    jornada = db.session.query(JornadaVCV).filter(JornadaVCV.id == id).first()   
+    jornada = db.session.query(JornadaJose).filter(JornadaJose.id == id).first()   
     if jornada:
         # Eliminar los partidos asociados a la jornada
-        db.session.query(VCVPartido).filter(VCVPartido.jornada_id == id).delete()
+        db.session.query(JosePartido).filter(JosePartido.jornada_id == id).delete()
         # Eliminar la jornada
         db.session.delete(jornada)       
         # Confirmar los cambios en la base de datos
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
-    return redirect(url_for('vcv_route_bp.calendarios_vcv'))
-def obtener_datos_vcv():
+    return redirect(url_for('san_jose_route_bp.calendarios_san_jose'))
+def obtener_datos_san_jose():
     # Obtener todas las jornadas VCV
-    jornadas = JornadaVCV.query.all()
+    jornadas = JornadaJose.query.all()
     jornadas_con_partidos = []
     for jornada in jornadas:
         # Obtener los partidos de esta jornada
-        partidos = db.session.query(VCVPartido)\
+        partidos = db.session.query(JosePartido)\
             .filter_by(jornada_id=jornada.id)\
-            .order_by(VCVPartido.orden.asc())\
+            .order_by(JosePartido.orden.asc())\
             .all()       
         jornada_con_partidos = {
             'nombre': jornada.nombre,
@@ -111,11 +111,11 @@ def obtener_datos_vcv():
         jornadas_con_partidos.append(jornada_con_partidos)     
     return jornadas_con_partidos
 # Ruta y creación del calendario individual del Univ. Valladolid VCV
-@vcv_route_bp.route('/equipos_voley/calendario_vcv')
-def calendario_vcv():
-    datos = obtener_datos_vcv()
-    equipo_vcv = 'Universidad VCV'
-    tabla_partidos_vcv = {}
+@san_jose_route_bp.route('/equipos_voley/calendario_san_jose')
+def calendario_san_jose():
+    datos = obtener_datos_san_jose()
+    equipo_san_jose = 'CD San Jose'
+    tabla_partidos_san_jose = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
         for partido in jornada['partidos']:
@@ -124,63 +124,63 @@ def calendario_vcv():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
             # Verificamos si el Caja está jugando
-            if equipo_local == equipo_vcv or equipo_visitante == equipo_vcv:
+            if equipo_local == equipo_san_jose or equipo_visitante == equipo_san_jose:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_vcv:
+                if equipo_local == equipo_san_jose:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vcv = 'C'
+                    rol_san_jose = 'C'
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vcv = 'F'                
+                    rol_san_jose = 'F'                
                 # Verificamos si el equipo contrario no está en la tabla
-                if equipo_contrario not in tabla_partidos_vcv:
-                    tabla_partidos_vcv[equipo_contrario] = {'jornadas': {}}                                       
+                if equipo_contrario not in tabla_partidos_san_jose:
+                    tabla_partidos_san_jose[equipo_contrario] = {'jornadas': {}}                                       
                 # Verificamos si es el primer o segundo enfrentamiento
-                if 'primer_enfrentamiento' not in tabla_partidos_vcv[equipo_contrario]:
-                    tabla_partidos_vcv[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
-                    tabla_partidos_vcv[equipo_contrario]['resultadoA'] = resultado_a
-                    tabla_partidos_vcv[equipo_contrario]['resultadoB'] = resultado_b
-                elif 'segundo_enfrentamiento' not in tabla_partidos_vcv[equipo_contrario]:
-                    tabla_partidos_vcv[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
-                    tabla_partidos_vcv[equipo_contrario]['resultadoAA'] = resultado_a
-                    tabla_partidos_vcv[equipo_contrario]['resultadoBB'] = resultado_b                 
+                if 'primer_enfrentamiento' not in tabla_partidos_san_jose[equipo_contrario]:
+                    tabla_partidos_san_jose[equipo_contrario]['primer_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_san_jose[equipo_contrario]['resultadoA'] = resultado_a
+                    tabla_partidos_san_jose[equipo_contrario]['resultadoB'] = resultado_b
+                elif 'segundo_enfrentamiento' not in tabla_partidos_san_jose[equipo_contrario]:
+                    tabla_partidos_san_jose[equipo_contrario]['segundo_enfrentamiento'] = jornada['nombre']
+                    tabla_partidos_san_jose[equipo_contrario]['resultadoAA'] = resultado_a
+                    tabla_partidos_san_jose[equipo_contrario]['resultadoBB'] = resultado_b                 
                 # Agregamos la jornada y resultados
-                if jornada['nombre'] not in tabla_partidos_vcv[equipo_contrario]['jornadas']:
-                    tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']] = {
+                if jornada['nombre'] not in tabla_partidos_san_jose[equipo_contrario]['jornadas']:
+                    tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']] = {
                         'resultadoA': resultado_a,
                         'resultadoB': resultado_b,
-                        'rol_vcv': rol_vcv
+                        'rol_san_jose': rol_san_jose
                     }               
                 # Asignamos los resultados según el rol del Vcv
                 if equipo_local == equipo_contrario or equipo_visitante == equipo_contrario:
-                    if not tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vcv'] = rol_vcv
+                    if not tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA']:
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoA'] = resultado_a
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoB'] = resultado_b
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['rol_san_jose'] = rol_san_jose
                     else:
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vcv'] = rol_vcv
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['rol_san_jose'] = rol_san_jose
                 else:
-                    if not tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vcv'] = rol_vcv
+                    if not tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA']:
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['rol_san_jose'] = rol_san_jose
                     else:
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
-                        tabla_partidos_vcv[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vcv'] = rol_vcv
-    return render_template('equipos_vall/calendario_vcv.html', tabla_partidos_vcv=tabla_partidos_vcv)
-# Jornadas VCV
-@vcv_route_bp.route('/equipos_voley/resultados_vcv')
-def resultados_vcv():
-    datos = obtener_datos_vcv()
-    nuevos_datos_vcv = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_vcv):
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
+                        tabla_partidos_san_jose[equipo_contrario]['jornadas'][jornada['nombre']]['rol_san_jose'] = rol_san_jose
+    return render_template('equipos_vall/calendario_san_jose.html', tabla_partidos_san_jose=tabla_partidos_san_jose)
+# Jornadas CD San Jose
+@san_jose_route_bp.route('/equipos_voley/resultados_san_jose')
+def resultados_san_jose():
+    datos = obtener_datos_san_jose()
+    nuevos_datos_san_jose = [dato for dato in datos if dato]
+    for jornada in reversed(nuevos_datos_san_jose):
         if any(
             p.resultadoA is not None and p.resultadoA != "" and
             p.resultadoB is not None and p.resultadoB != ""
@@ -190,11 +190,11 @@ def resultados_vcv():
             break
 
     return render_template(
-        'equipos_vall/jornadas_vcv.html',
-        nuevos_datos_vcv=nuevos_datos_vcv, jornada_activa=jornada_activa
+        'equipos_vall/jornadas_san_jose.html',
+        nuevos_datos_san_jose=nuevos_datos_san_jose, jornada_activa=jornada_activa
     )
-# Crear la clasificación de Univ. Valladolid VCV
-def generar_clasificacion_analisis_voley_vcv(data):
+# Crear la clasificación de CD San Jose
+def generar_clasificacion_analisis_voley_san_jose(data):
     clasificacion = defaultdict(lambda: {'puntos': 0, 'jugados': 0, 'ganados3': 0, 'ganados2': 0, 'perdidos1': 0, 'perdidos0': 0, 'favor': 0, 'contra': 0, 'diferencia_sets': 0})
     for jornada in data:
         for partido in jornada['partidos']:
@@ -237,16 +237,16 @@ def generar_clasificacion_analisis_voley_vcv(data):
     # Ordena la clasificación por puntos y diferencia de goles
     clasificacion_ordenada = [{'equipo': equipo, 'datos': datos} for equipo, datos in sorted(clasificacion.items(), key=lambda x: (x[1]['puntos'], x[1]['favor'] - x[1]['contra']), reverse=True)]
     return clasificacion_ordenada
-# Ruta para mostrar la clasificación y analisis del Univ. Valladolid VCV
-@vcv_route_bp.route('/equipos_voley/clasif_vcv')
-def clasif_analisis_vcv():
-    data = obtener_datos_vcv()
+# Ruta para mostrar la clasificación y analisis del CD San Jose
+@san_jose_route_bp.route('/equipos_voley/clasif_san_jose')
+def clasif_analisis_san_jose():
+    data = obtener_datos_san_jose()
     # Genera la clasificación y análisis actual
-    clasificacion_analisis_vcv = generar_clasificacion_analisis_voley_vcv(data)
-    clubs_vcv = VCVClub.query.all()    
+    clasificacion_analisis_san_jose = generar_clasificacion_analisis_voley_san_jose(data)
+    clubs_san_jose = JoseClub.query.all()    
     # Inicializa las estadísticas de los equipos de la jornada 0 si no están ya en la clasificación
-    for club in clubs_vcv:
-        if not any(equipo['equipo'] == club['nombre'] for equipo in clasificacion_analisis_vcv):
+    for club in clubs_san_jose:
+        if not any(equipo['equipo'] == club['nombre'] for equipo in clasificacion_analisis_san_jose):
             equipo = {
                 'equipo': club['nombre'],
                 'datos': {
@@ -261,25 +261,25 @@ def clasif_analisis_vcv():
                     'diferencia_sets': 0,
                 }
             }
-            clasificacion_analisis_vcv.append(equipo)
-    return render_template('equipos_vall/clasif_vcv.html', clasificacion_analisis_vcv=clasificacion_analisis_vcv)
-@vcv_route_bp.route('/jornada0_vcv', methods=['GET', 'POST'])
-def jornada0_vcv():
+            clasificacion_analisis_san_jose.append(equipo)
+    return render_template('equipos_vall/clasif_san_jose.html', clasificacion_analisis_san_jose=clasificacion_analisis_san_jose)
+@san_jose_route_bp.route('/jornada0_san_jose', methods=['GET', 'POST'])
+def jornada0_san_jose():
     if request.method == 'POST':
         if 'equipo' in request.form:
             club = request.form['equipo']
             if club:
-                nuevo_club = VCVClub(nombre=club)
+                nuevo_club = JoseClub(nombre=club)
                 db.session.add(nuevo_club)
                 db.session.commit()
-            return redirect(url_for('vcv_route_bp.jornada0_vcv'))
-    clubs = VCVClub.query.all()  # Obtener todos los clubes de PostgreSQL
-    return render_template('admin/clubs/clubs_vcv.html', clubs=clubs)
-@vcv_route_bp.route('/admin/eliminar_club_vcv/<string:club_id>', methods=['POST'])
+            return redirect(url_for('san_jose_route_bp.jornada0_san_jose'))
+    clubs = JoseClub.query.all()  # Obtener todos los clubes de PostgreSQL
+    return render_template('admin/clubs/clubs_san_jose.html', clubs=clubs)
+@san_jose_route_bp.route('/admin/eliminar_club_san_jose/<string:club_id>', methods=['POST'])
 def eliminar_club_vcv(club_id):
-    club = VCVClub.query.get(club_id)
+    club = JoseClub.query.get(club_id)
     if club:
         db.session.delete(club)
         db.session.commit()
-    return redirect(url_for('vcv_route_bp.jornada0_vcv'))
+    return redirect(url_for('san_jose_route_bp.jornada0_san_jose'))
 #Fin proceso Univ. Valladolid VCV

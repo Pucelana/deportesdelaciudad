@@ -19,6 +19,10 @@ def seccion_cdsi_vall():
 def seccion_vcv():
     return render_template('secciones/vcv.html')
 
+@secciones_bp.route('/seccion/san_jose')
+def seccion_san_jose():
+    return render_template('secciones/san_jose.html')
+
 @secciones_bp.route('/seccion/aliados')
 def seccion_aliados():
     return render_template('secciones/aliados.html')

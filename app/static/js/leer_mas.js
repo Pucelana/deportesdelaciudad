@@ -95,6 +95,9 @@ function mostrarFormularioSalvadorFem(){
 function mostrarFormularioVcv(){
   document.getElementById('form_partidos_vcv').style.display='block';
 }
+function mostrarFormularioJose(){
+  document.getElementById('form_partidos_san_jose').style.display='block';
+}
 
 // Abrir y cerrar las jornadas de calendario_uemc
 function toggleTabla(element, nombre) {

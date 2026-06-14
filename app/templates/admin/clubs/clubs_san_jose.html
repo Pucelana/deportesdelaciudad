@@ -1,18 +1,18 @@
 {% extends 'admin/clubs/base_clubs.html' %}
-{% block title %} Clubs - RV Femenino {% endblock %}
+{% block titulo %} Clubs - CD San Jose {% endblock %}
 {% block nav %}
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">RV Femenino</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">CD San Jose</li>
     </ol>
 {% endblock %}
 {% block h1 %}
-    <h1 class="text-center">Equipos Liga 3ª Federación Fem.</h1>
+    <h1 class="text-center">Equipos 1ª División Fem.</h1>
 {% endblock %}
 {% block section %}
       <!-- Formulario para los resultados de los partidos -->
       <div class="container-lg">
-        <form method="POST" action="/admin/jornada0_simancas" class="row mb-3">
+        <form method="POST" action="/admin/jornada0_san_jose" class="row mb-3">
           <div class="col-md-12">
             <label for="equipo">Nombre Equipos</label>
             <input type="text" class="form-control" id="equipo" name="equipo">
@@ -23,6 +23,7 @@
         </form>
       </div>
 {% endblock %}
+{% block contenido %}
     <!--Visibilidad de los Equipos-->
       <h2 class="text-center">Clubs:</h2>
       <div class="container-fluid">
@@ -42,10 +43,10 @@
                     <td class="text-center fw-bold">{{ club['nombre'] }}</td>
                     <td>
                       <!-- Botón para cada equipo -->
-                      <form action="{{ url_for('simancas_route_bp.eliminar_club_simancas', club_id=club.id) }}" method="POST">
-                        <input type="hidden" name="index" value="{{ index }}">
-                        <button type="submit" class="btn btn-danger">Borrar</button>
-                       </form>
+                      <form action="{{ url_for('san_jose_route_bp.eliminar_club_san_jose', club_id=club['id']) }}" method="POST">
+                          <input type="hidden" name="index" value="{{ index }}">
+                          <button type="submit" class="btn btn-danger">Borrar</button>
+                      </form>
                     </td>
                   </tr>
                   {% endfor %}
@@ -56,4 +57,4 @@
           </div>
         </div>
       </div>
-{% endblock %}      
+{% endblock %}
