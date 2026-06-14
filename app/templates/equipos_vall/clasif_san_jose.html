@@ -1,0 +1,219 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} {% block title
+%}Clasificaciones - CD San Jose{% endblock %} {% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/san_jose"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >CD San Jose</a
+      >
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_voley/calendario_san_jose"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Calendario Ind.</a
+      >
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_voley/resultados_san_jose"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Resultados</a
+      >
+    </li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">
+      Clasificaciones
+    </li>
+  </ol>
+</nav>
+{% endblock %} {% block contenido %}
+<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3>
+<section class="container-lg mb-5 flex-fill copa">
+        <!-- Navegador personalizado -->
+      <div class="d-flex justify-content-center my-2 gap-2">
+        <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
+        <!--<button class="btn btn-outline-light tab-btn" data-tab="ascenso">Ascenso</button>-->
+        <button class="btn btn-outline-light tab-btn" data-tab="playoff">PlayOff</button>
+        <!--<button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>-->
+      </div>
+        <div class="tab-container">
+          <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">2ª División Fem. (Grp-A)</h3>
+                      <table id="tablaClasifJose" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PTS</th>
+                            <th>PJ</th>
+                            <th>G3</th>
+                            <th>G2</th>
+                            <th>P1</th>
+                            <th>P0</th>
+                            <th>SF</th>
+                            <th>SC</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_san_jose %}
+                          <tr class="text-center">
+                            <td
+                              class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 7 %}pos-nada{% endif %}">
+                              {{ loop.index }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'CD San Jose' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
+                            <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
+                            <td class="ganados3 fw-bold">{{ equipo.datos.ganados3 }}</td>
+                            <td class="ganados2 fw-bold">{{ equipo.datos.ganados2 }}</td>
+                            <td class="perdidos1 fw-bold">{{ equipo.datos.perdidos1 }}</td>
+                            <td class="perdidos0 fw-bold">{{ equipo.datos.perdidos0 }}</td>
+                            <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
+                            <td class="contra fw-bold">{{ equipo.datos.contra}}</td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4">PTS (Puntos);PJ (Partidos Jugados); G3 (Ganados +3); G2 (Ganados +2); P1 (Perdidos +1);
+                  P0 (Perdidos +0); SF (Set Facor); SC (Set Contra)</p>
+                <p class="ms-4">PlayOffs (Ascenso)<span class="badge bg-success ms-2">1-4</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="ascenso"><!--Tabla Ascenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2</h3>
+                      <table id="tablaAscensoJose" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_san_jose %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold text-center size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="jugados1 fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="pts-act1 fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="proxi1 fw-bold"></td>
+                            <td class="pts-mate1 fw-bold"></td>
+                            <td class="pts-opti1 fw-bold"></td>
+                            <td class="pts-pesi1 fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                    
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="playoff"><!--Tabla PlayOff Ascenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="row table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">1º División Femenina</h3>
+                      <table id="tablaPlayoffJOse" class="table">
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>POp</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_san_jose %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="cham-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="cham-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="cham-proxi fw-bold"></td>
+                            <td class="cham-mate fw-bold"></td>
+                            <td class="cham-opti fw-bold"></td>
+                            <td class="cham-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="descenso"><!--Tabla Permanencia-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Descenso</h3>
+                      <table id="tablaDescJose" class="table"><!--Tabla Permanencia-->
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th>Equipos</th>
+                            <th>PJ</th>
+                            <th>PA</th>
+                            <th>Prox</th>
+                            <th>PM</th>
+                            <th>PO</th>
+                            <th>PPes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_san_jose %}
+                          <tr class="text-center">
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="desc-prox fw-bold"></td>
+                            <td class="desc-mate fw-bold"></td>
+                            <td class="desc-opti fw-bold"></td>
+                            <td class="desc-pesi fw-bold"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                  PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+    </section>
+{% endblock %}
+{% block scripts %}
+<script src="/static/js/analisis-san-jose.js"></script>
+{% endblock %}

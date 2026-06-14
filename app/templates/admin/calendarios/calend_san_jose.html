@@ -1,9 +1,9 @@
 {% extends 'admin/calendarios/base_calend.html' %} 
-{% block title %} Calendario - VD San Jose {% endblock %} 
+{% block title %} Calendario - CD San Jose {% endblock %} 
 {% block nav %}
     <ol class="breadcrumb ms-1">
       <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">Temporada 26/27 CD San Jose</li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">CD San Jose</li>
     </ol>
 {% endblock %}
 {% block contenido %}
@@ -159,7 +159,8 @@
       </div>
     </div>
     {% endfor %}
-{% endblock %}    
+{% endblock %}
+{% block scripts %}    
     <script>
         function toggleTabla(element, nombreTabla) {
           event.preventDefault();

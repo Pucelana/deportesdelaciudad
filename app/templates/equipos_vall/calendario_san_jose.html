@@ -1,23 +1,23 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title %}Calendario Ind. - Universidad VCV{% endblock %} {% block breadcrumb %}
+{% block title %}Calendario Ind. - CD San jose{% endblock %} {% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a
-        href="/seccion/vcv"
-        class="text-white text-decoration-none text-analisis fs-6">Universidad VCV</a>
+        href="/seccion/san_jose"
+        class="text-white text-decoration-none text-analisis fs-6">CD San Jose</a>
     </li>
     <li class="breadcrumb-item active text-dark" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_voley/resultados_vcv"
+        href="/admin/equipos_voley/resultados_san_jose"
         class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_voley/clasif_vcv"
+        href="/admin/equipos_voley/clasif_san_jose"
         class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
     </li>
   </ol>
@@ -35,7 +35,7 @@
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <table class="table table-bordered tabla_equipos tabla_vcv">
+                    <table class="table table-bordered tabla_equipos tabla_san_jose">
                       <thead>
                         <tr class="text-center text-dark">
                           <th></th>
@@ -55,29 +55,29 @@
                         </tr>
                       </thead>
                       <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_vcv.items() %}
+                        {% for equipo, datos_equipo in tabla_partidos_san_jose.items() %}
                         <tr class="text-center">
                           <th class="text-white size_equipos">{{ equipo }}</th>
                           <td class="jorn_ida fw-bold">
                             {% if datos_equipo.get('primer_enfrentamiento') %}
                             J-{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vcv'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vcv'] }})
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_san_jose'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_san_jose'] }})
                             {% endif %}
                             {% endif %}
                           </td>
                           <td class="jorn_vuelta fw-bold">
                             {% if datos_equipo.get('segundo_enfrentamiento') %}
                             J-{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vcv'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vcv'] }})
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_san_jose'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_san_jose'] }})
                             {% endif %}
                             {% endif %}
                           </td>
-                          <td class="resultadoA fw-bold">{{ tabla_partidos_vcv[equipo]['resultadoA'] }}</td>
-                          <td class="resultadoB fw-bold">{{ tabla_partidos_vcv[equipo]['resultadoB'] }}</td>
-                          <td class="resultadoAA fw-bold">{{ tabla_partidos_vcv[equipo]['resultadoAA'] }}</td>
-                          <td class="resultadoBB fw-bold">{{ tabla_partidos_vcv[equipo]['resultadoBB'] }}</td>
+                          <td class="resultadoA fw-bold">{{ tabla_partidos_san_jose[equipo]['resultadoA'] }}</td>
+                          <td class="resultadoB fw-bold">{{ tabla_partidos_san_jose[equipo]['resultadoB'] }}</td>
+                          <td class="resultadoAA fw-bold">{{ tabla_partidos_san_jose[equipo]['resultadoAA'] }}</td>
+                          <td class="resultadoBB fw-bold">{{ tabla_partidos_san_jose[equipo]['resultadoBB'] }}</td>
                           <td class="part1"></td>
                           <td class="average"></td>
                         </tr>
@@ -94,7 +94,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Seleccionar todas las filas de la tabla
-      var filas = document.querySelectorAll('.tabla_vcv tbody tr');
+      var filas = document.querySelectorAll('.tabla_san_jose tbody tr');
       // Iterar sobre cada fila
       filas.forEach(function (fila) {
         // Obtener el nombre del equipo de la fila actual
