@@ -1,38 +1,6 @@
-<!doctype html>
-<html lang="es">
-<head>
-  <title>Supercopa Ibérica - Aula Valladolid</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description"
-    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
-  <meta name="keywords"
-    content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
-  <meta name="author" content="eldeportedelaciudad">
-  <!-- Twitter meta tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
-  <meta name="twitter:image" content="URL_de_la_imagen">
-  <meta name="twitter:site" content="@tu_cuenta_de_twitter">
-  <meta name="twitter:creator" content="@cuenta_del_autor">
-  <!-- Open Graph meta tags -->
-  <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
-  <meta property="og:image" content="URL_de_la_imagen">
-  <meta property="og:url" content="URL_de_tu_página">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="eldeportedelaciudad">
-  <!-- Bootstrap CSS v5.2.1 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
-  <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
-</head>
-<body class="fondos_playoffs">
-  <div class="d-flex flex-column min-vh-100">
+{% extends "supercopas/base_supercopa.html" %} 
+{% block title %}SuperCopaIberica - Aula Valladolid{% endblock %}
+{% block contenido %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
@@ -78,33 +46,8 @@
         </div>
       </div>
     </section>
-    <footer class="container-fluid mt-auto footer-seccion">
-      <div class="row align-items-center text-center">
-        <div class="col-12 col-md-6 mb-2 mb-md-0">
-          <a>
-            <h5 class="text-white fw-bold text-analisis mb-0 fs-4">deportesdeslaciudad &copy; 2026</h5>
-          </a>
-        </div>
-        <div class="col-12 col-md-6">
-          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
-        </div>
-      </div>
-    </footer>
-  </div>
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <!-- Bootstrap JavaScript Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
-  <script src="/static/js/proteccion-datos.js"></script>
-  <!--<script src="/static/js/script.js"></script>-->
-  <script src="/static/js/proteccion-datos.js"></script>
-  <script src="/static/js/num_caracteres.js"></script>
+{% endblock %}
+{% block scripts %}    
   <script>
     $(document).ready(function() {
       $('.mostrar-enlace').click(function(e) {
@@ -127,5 +70,4 @@
       });
     });
   </script>
-</body>
-</html>
+{% endblock %}
