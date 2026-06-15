@@ -43,9 +43,9 @@
       Ascenso
     </button>
     <!--<button class="btn btn-outline-light tab-btn" data-tab="playoff">PlayOffs</button>-->
-    <button class="btn btn-outline-light tab-btn" data-tab="descenso">
+    <!--<button class="btn btn-outline-light tab-btn" data-tab="descenso">
       Descenso
-    </button>
+    </button>-->
   </div>
   <div class="tab-container">
     <div class="tab-pane active" id="clasificacion">
@@ -61,12 +61,12 @@
                     <th></th>
                     <th>Equipos</th>
                     <th>PTS</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PE</th>
-                    <th>PP</th>
-                    <th>GF</th>
-                    <th>GC</th>
+                    <th>J</th>
+                    <th>G</th>
+                    <th>E</th>
+                    <th>P</th>
+                    <th>F</th>
+                    <th>C</th>
                     <th>DG</th>
                   </tr>
                 </thead>
@@ -74,7 +74,7 @@
                   {% for equipo in clasificacion_analisis_vall_sala %}
                   <tr class="text-center">
                     <td
-                      class="fw-bold {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}"
+                      class="fw-bold {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 14 %}pos-nada{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
@@ -119,8 +119,7 @@
             GC(Goles Contra); DG (Diferencia Goles)
           </p>
           <p class="ms-4 text-analisis fs-6">
-            Playoff (Ascenso)<span class="badge bg-success ms-2">1-4</span> ;
-            Descenso<span class="badge bg-danger ms-2">13-16</span>
+            Playoff (Ascenso)<span class="badge bg-success ms-2">1-4</span>
           </p>
         </div>
       </div>
@@ -134,7 +133,7 @@
               <h3 class="text-center text-white fw-bold text-analisis">
                 2ª División
               </h3>
-              <table id="tablaAscensoGalvan" class="table">
+              <table id="tablaAscensoVallSala" class="table">
                 <thead>
                   <tr class="text-center">
                     <th></th>
@@ -229,7 +228,7 @@
               <h3 class="text-center mb-4 text-white fw-bold text-analisis">
                 3ª División Nacional
               </h3>
-              <table id="tablaDescGalvan" class="table">
+              <table id="tablaDescVallSala" class="table">
                 <thead>
                   <tr class="text-center">
                     <th></th>
