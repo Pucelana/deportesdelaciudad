@@ -33,7 +33,7 @@
 {% endblock %} 
 {% block contenido %}
 <!-- Navegador personalizado -->
-<div class="d-flex justify-content-center my-2 gap-2">
+<!--<div class="d-flex justify-content-center my-2 gap-2">
   <a
     href="{{ url_for('recoletas_route_bp.calendario_recoletas') }}"
     class="btn btn-outline-light btn-tab"
@@ -46,10 +46,9 @@
   >
     Resultados
   </a>
-</div>
-<div class="">
-  <div class="">
+</div>-->
     <!-- BOTONES JORNADAS -->
+     <h3 class="text-center text-white fw-bold equipo-mobile fs-3">Resultados</h3>
     <div class="d-flex justify-content-center flex-wrap gap-2 my-3">
       {% for goles in nuevos_datos_recoletas %}
       <a
@@ -127,8 +126,6 @@
 
       {% endfor %}
     </div>
-  </div>
-</div>
   {% endblock %} 
   {% block scripts %}
   <script>

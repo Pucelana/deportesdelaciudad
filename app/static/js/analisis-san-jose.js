@@ -44,16 +44,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });*/
 
 // Segunda función para calcular el porcentaje al ascenso
-const filas = document.querySelectorAll("#tablaAscensoJose tbody tr");
+const filas = document.querySelectorAll("#tablaPlayJose tbody tr");
 const partidosTotales = 22; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFija =66; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila) => {
-    const equipo = fila.querySelector(`.size_equipos`).textContent;
-    const partidosJugados = parseInt(fila.querySelector(`.jugados1`).textContent);
-    const puntosActuales = parseInt(fila.querySelector(`.pts-act1`).textContent);
+    const equipo = fila.querySelector(`.size_equipos2`).textContent;
+    const partidosJugados = parseInt(fila.querySelector(`.play-jug`).textContent);
+    const puntosActuales = parseInt(fila.querySelector(`.play-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
     const puntosParaAscenso = Math.round((proximidadFija / 100) * partidosTotales * puntosPorGanar);
     // Calcular la proximidad de ascenso
@@ -79,25 +79,25 @@ filas.forEach((fila) => {
 // Ordenar los equipos por proximidad descendente
 equipos.sort((a, b) => b.proximidadDeAscenso - a.proximidadDeAscenso);
 // Actualizar la tabla con los datos ordenados
-const tabla = document.querySelector("#tablaAscensoJose tbody");
+const tabla = document.querySelector("#tablaPlayJose tbody");
 tabla.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equipos.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor = '';
-    if (equipoData.index <= 2) {
+    if (equipoData.index <= 4) {
         claseColor = 'pos-ascen';
-    } else if (equipoData.index <=12) {
+    } else if (equipoData.index <=7) {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center">${equipoData.equipo}</td>
-    <td class="jugados1 fw-bold text-center">${equipoData.partidosJugados}</td>
-    <td class="pts-act1 fw-bold text-center">${equipoData.puntosActuales}</td>
-    <td class="proxi1 fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
-    <td class="pts-mate1 fw-bold text-center">${equipoData.partidosGanadosMatematicos}</td>
-    <td class="pts-opti1 fw-bold text-center">${equipoData.partidosGanadosOptimistas}</td>
-    <td class="pts-pesi1 fw-bold text-center">${equipoData.partidosGanadosPesimistas}</td>
+    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
+    <td class="play-jug fw-bold text-center">${equipoData.partidosJugados}</td>
+    <td class="play-pts fw-bold text-center">${equipoData.puntosActuales}</td>
+    <td class="play-proxi fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
+    <td class="play-mate fw-bold text-center">${equipoData.partidosGanadosMatematicos}</td>
+    <td class="play-opti fw-bold text-center">${equipoData.partidosGanadosOptimistas}</td>
+    <td class="play-pesi fw-bold text-center">${equipoData.partidosGanadosPesimistas}</td>
     `;
     tabla.appendChild(nuevaFila);
 });

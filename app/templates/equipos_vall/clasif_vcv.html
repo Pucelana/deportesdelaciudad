@@ -44,7 +44,7 @@
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">1ª División (Grp-A)</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2 (Grp-A)</h3>
                       <table id="tablaClasifVcv" class="table">
                         <thead>
                           <tr class="text-center">
@@ -58,15 +58,17 @@
                             <th>P0</th>
                             <th>SF</th>
                             <th>SC</th>
+                            <th>PF</th>
+                            <th>PC</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for equipo in clasificacion_analisis_vcv %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 12 %}pos-desc{% endif %}">
+                              class="fw-bold {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 11 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'Universidad VCV' in equipo['equipo'] %}equipo-pucela{% endif %}>{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos2 {% if 'Universidad VCV' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
                             <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
                             <td class="ganados3 fw-bold">{{ equipo.datos.ganados3 }}</td>
@@ -75,6 +77,9 @@
                             <td class="perdidos0 fw-bold">{{ equipo.datos.perdidos0 }}</td>
                             <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
                             <td class="contra fw-bold">{{ equipo.datos.contra}}</td>
+                            <td class="pf fw-bold">{{ equipo.datos.pf }}</td>
+                            <td class="pc fw-bold">{{ equipo.datos.pc }}</td>
+                            <!--<td class="diferencia_puntos fw-bold">{{ equipo.datos.diferencia_puntos }}</td>-->
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -84,7 +89,7 @@
                 <p class="ms-4">PTS (Puntos);PJ (Partidos Jugados); G3 (Ganados +3); G2 (Ganados +2); P1 (Perdidos +1);
                   P0 (Perdidos +0); SF (Set Facor); SC (Set Contra)</p>
                 <p class="ms-4">PlayOffs (Ascenso)<span class="badge bg-success ms-2">1-2</span> ; Descenso<span
-                    class="badge bg-danger ms-2">11-12</span></p>
+                    class="badge bg-danger ms-2">11</span></p>
               </div>
             </div>
           </div>
@@ -93,7 +98,7 @@
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">Superliga</h3>
                       <table id="tablaAscensoVcv" class="table">
                         <thead>
                           <tr class="text-center">
@@ -130,13 +135,13 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane" id="playoff"><!--Tabla PlayOff Ascenso-->
+          <div class="tab-pane" id="playoff"><!--Tabla PlayOff-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
-                  <div class="row table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2</h3>
-                      <table id="tablaPlayoffVcv" class="table">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis">Superliga</h3>
+                      <table id="tablaPlayVcv" class="table">
                         <thead>
                           <tr class="text-center">
                             <th></th>
@@ -145,28 +150,29 @@
                             <th>PA</th>
                             <th>Prox</th>
                             <th>PM</th>
-                            <th>POp</th>
+                            <th>PO</th>
                             <th>PPes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for equipo in clasificacion_analisis_vcv %}
                           <tr class="text-center">
-                            <td class="fw-bold">{{ equipo }}</td>
-                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
-                            <td class="cham-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="cham-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                            <td class="cham-proxi fw-bold"></td>
-                            <td class="cham-mate fw-bold"></td>
-                            <td class="cham-opti fw-bold"></td>
-                            <td class="cham-pesi fw-bold"></td>
+                            <td class="fw-bold">{{ equipo.index }}</td>
+                            <td class="fw-bold text-center size_equipos2 text-white">{{ equipo['equipo'] }}</td>
+                            <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="play-proxi fw-bold"></td>
+                            <td class="play-mate fw-bold"></td>
+                            <td class="play-opti fw-bold"></td>
+                            <td class="play-pesi fw-bold"></td>
                           </tr>
                           {% endfor %}
                         </tbody>
                       </table>
+                    
                   </div>
                 </div>
-                <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
+                <p class="ms-4">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos);
                   PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
               </div>
             </div>
@@ -176,7 +182,7 @@
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">Descenso</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">1ª División</h3>
                       <table id="tablaDescVcv" class="table"><!--Tabla Permanencia-->
                         <thead>
                           <tr class="text-center">
@@ -194,7 +200,7 @@
                           {% for equipo in clasificacion_analisis_vcv %}
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos">{{ equipo['equipo'] }}</td>
+                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
                             <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
                             <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
                             <td class="desc-prox fw-bold"></td>

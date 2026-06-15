@@ -1,30 +1,13 @@
-<!doctype html>
-<html lang="es">
-<head>
-    <title>Europa - Aula Valladolid</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Área de administración del sitio web.">
-    <meta name="robots" content="noindex, nofollow">
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
-</head>
-<body class="body_admin">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ps-2 pt-2">
-            <li class="breadcrumb-item"><a href="/admin/pub_marcadores"
-                    class="text-white text-decoration-none">Inicio</a></li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">Europa Aula</li>
-        </ol>
-    </nav>
-    <header>
-        <h1 class="text-center mb-5">Europa Aula 25/26</h1>
-    </header>
+{% extends 'admin/europa/base_euro.html' %}
+{% block title %} Europa - Aula Valladolid {% endblock %}
+{% block nav %}
+<ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item"><a href="/admin/pub_marcadores"
+        class="text-white text-decoration-none">Inicio</a></li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">Europa Aula</li>
+</ol>
+{% endblock %}
+{% block contenido %}
     <section class="container-lg">
         <!-- Formulario para los resultados de los partidos -->
         <div class="container-lg d-flex justify-content-center">
@@ -141,16 +124,8 @@
         </div>
     </div>
     {% endfor %}
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-    <!-- Bootstrap JavaScript Libraries -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-        </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-        </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+{% block scripts %}    
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const numPartidosInput = document.getElementById('num_partidos');
@@ -194,5 +169,4 @@
             });
         });
     </script>
-</body>
-</html>
+{% endblock %}

@@ -13,10 +13,10 @@ class JosePartido(db.Model):
     fecha = db.Column(db.String(20))
     hora = db.Column(db.String(20))
     local = db.Column(db.String(255))
-    bonusA = db.Column(db.String(120))
     resultadoA = db.Column(db.String(120))
+    puntosA = db.Column(db.String(225))
+    puntosB = db.Column(db.String(225))
     resultadoB = db.Column(db.String(120))
-    bonusB = db.Column(db.String(120))
     visitante = db.Column(db.String(255))
     orden = db.Column(db.Integer)
       

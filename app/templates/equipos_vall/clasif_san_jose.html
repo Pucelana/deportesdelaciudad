@@ -58,6 +58,8 @@
                             <th>P0</th>
                             <th>SF</th>
                             <th>SC</th>
+                            <th>PF</th>
+                            <th>PC</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -66,7 +68,7 @@
                             <td
                               class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 7 %}pos-nada{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'CD San Jose' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'CD San Jose Rojo' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
                             <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
                             <td class="ganados3 fw-bold">{{ equipo.datos.ganados3 }}</td>
@@ -75,6 +77,9 @@
                             <td class="perdidos0 fw-bold">{{ equipo.datos.perdidos0 }}</td>
                             <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
                             <td class="contra fw-bold">{{ equipo.datos.contra}}</td>
+                            <td class="pf fw-bold">{{ equipo.datos.pf }}</td>
+                            <td class="pc fw-bold">{{ equipo.datos.pc }}</td>
+                            <!--<td class="diferencia_puntos fw-bold">{{ equipo.datos.diferencia_puntos }}</td>-->
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -87,13 +92,13 @@
               </div>
             </div>
           </div>
-          <div class="tab-pane" id="ascenso"><!--Tabla Ascenso-->
+          <div class="tab-pane" id="playoff"><!--Tabla PlayOff-->
             <div class="d-flex justify-content-center">
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2</h3>
-                      <table id="tablaAscensoJose" class="table">
+                    <h3 class="text-center text-white fw-bold text-analisis">1ª División Femenina</h3>
+                      <table id="tablaPlayJose" class="table">
                         <thead>
                           <tr class="text-center">
                             <th></th>
@@ -111,12 +116,12 @@
                           <tr class="text-center">
                             <td class="fw-bold">{{ equipo.index }}</td>
                             <td class="fw-bold text-center size_equipos2 text-white">{{ equipo['equipo'] }}</td>
-                            <td class="jugados1 fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="pts-act1 fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                            <td class="proxi1 fw-bold"></td>
-                            <td class="pts-mate1 fw-bold"></td>
-                            <td class="pts-opti1 fw-bold"></td>
-                            <td class="pts-pesi1 fw-bold"></td>
+                            <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="play-proxi fw-bold"></td>
+                            <td class="play-mate fw-bold"></td>
+                            <td class="play-opti fw-bold"></td>
+                            <td class="play-pesi fw-bold"></td>
                           </tr>
                           {% endfor %}
                         </tbody>
