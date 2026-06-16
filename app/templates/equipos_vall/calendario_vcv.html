@@ -5,26 +5,25 @@
     <li class="breadcrumb-item">
       <a
         href="/seccion/vcv"
-        class="text-white text-decoration-none text-analisis fs-6">Universidad VCV</a>
+        class="text-white text-decoration-none text-analisis">Universidad VCV</a>
     </li>
     <li class="breadcrumb-item active text-dark" aria-current="page">
-      Calendario Individual
+      Calendario Ind.
     </li>
     <li class="breadcrumb-item">
       <a
         href="/admin/equipos_voley/resultados_vcv"
-        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
+        class="text-white text-decoration-none text-analisis">Resultados</a>
     </li>
     <li class="breadcrumb-item">
       <a
         href="/admin/equipos_voley/clasif_vcv"
-        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+        class="text-white text-decoration-none text-analisis">Clasificaciones</a>
     </li>
   </ol>
 </nav>
 {% endblock %}
 {% block contenido %}
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
 <section class="container-lg mb-5 flex-fill copa">
       <!--<div class="d-flex justify-content-center my-2 gap-2">
         <button class="btn btn-outline-light tab-btn active" data-tab="calendario">Calendario</button>
@@ -32,7 +31,7 @@
       </div>-->
             <!--Tabla Calendario El Salvador Fem-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 60rem;">
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table table-bordered tabla_equipos tabla_vcv">
@@ -60,7 +59,7 @@
                           <th class="text-white size_equipos">{{ equipo }}</th>
                           <td class="jorn_ida fw-bold">
                             {% if datos_equipo.get('primer_enfrentamiento') %}
-                            J-{{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                            {{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
                             {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vcv'] %}
                             ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vcv'] }})
                             {% endif %}
@@ -68,7 +67,7 @@
                           </td>
                           <td class="jorn_vuelta fw-bold">
                             {% if datos_equipo.get('segundo_enfrentamiento') %}
-                            J-{{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                            {{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
                             {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vcv'] %}
                             ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vcv'] }})
                             {% endif %}
@@ -162,7 +161,7 @@
 
         // Actualizar el puntaje en la tabla
         part1.textContent = puntajeTotal;
-        part1.style.color = 'deepskyblue'; // Color del puntaje
+        part1.style.color = 'blue'; // Color del puntaje
 
         // Lógica para calcular las diferencias de goles de ambas jornadas
         var diferenciaGolesIda = 0;
@@ -185,11 +184,11 @@
           average.textContent = averageTotal;
           // Determinar el color de la celda 'average' según la diferencia de goles
           if (averageTotal > 0) {
-            average.style.color = 'lime'; // Equipo A ganó
+            average.style.color = 'green'; // Equipo A ganó
           } else if (averageTotal < 0) {
-            average.style.color = 'darkred'; // Equipo A perdió
+            average.style.color = 'red'; // Equipo A perdió
           } else {
-            average.style.color = 'deepskyblue'; // Empate
+            average.style.color = 'black'; // Empate
           }
         } else {
           // Si averageTotal es NaN, dejar la celda vacía

@@ -9,6 +9,18 @@
   
 }
 
+.btns-ronda {
+  font-size: 1.2em;
+  color: white;
+  border-color: rgb(163, 163, 163);
+  text-decoration: none;
+  position: relative;
+}
+.btns-ronda.active {
+  color: #6ba6ff !important;
+  background-color: white !important;
+  border-color: white !important;
+}
 
 .btn-jornada {
   font-size: 1.5em;
@@ -16,6 +28,7 @@
   text-decoration: none;
   position: relative;
 }
+
 
 /* activo: azul texto */
 .btn-jornada.active {
@@ -43,6 +56,9 @@
   .btn-jornada {
     font-size: 0.9em;
   }
+  .btns-ronda {
+    font-size: 0.8em;
+  }
 }
 
 @media (max-width: 576px) {
@@ -54,6 +70,9 @@
 
   .btn-jornada {
     font-size: 0.70em;
+  }
+  .btns-ronda {
+    font-size: 0.6em;
   }
 }
 

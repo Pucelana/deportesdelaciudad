@@ -14,14 +14,13 @@ Valladolid{% endblock %} {% block breadcrumb %}
     </li>
   </ol>
 </nav>
-{% endblock %} {% block h1 %}
-<h1 class="text-playoff">CBC Valladolid</h1>
-{% endblock %} {% block contenido %}
+{% endblock %}
+{% block contenido %}
 <!-- Navegación -->
-<div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+<div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
   <a
     href="#"
-    class="btn btn-outline-dark btn-slide active"
+    class="btn btn-slide btns-ronda active"
     data-target="clasificacion"
   >
     Clasificación
@@ -30,7 +29,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
   {% for jornada in jornadas.keys() %}
   <a
     href="#"
-    class="btn btn-outline-dark btn-slide"
+    class="btn btn-slide btns-ronda"
     data-target="{{ jornada }}"
   >
     {{ jornada|replace('_',' ')|title }}
@@ -39,7 +38,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
 
   <!-- Eliminatorias -->
   {% for ronda in eliminatorias.keys() %}
-  <a href="#" class="btn btn-outline-dark btn-slide" data-target="{{ ronda }}">
+  <a href="#" class="btn btn-slide btns-ronda" data-target="{{ ronda }}">
     {{ ronda|capitalize }}
   </a>
   {% endfor %}
@@ -49,52 +48,52 @@ Valladolid{% endblock %} {% block breadcrumb %}
   <div id="contenedor-secciones">
     <div class="seccion-slide d-block" id="clasificacion">
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem">
+        <div class="card tabla_copa mt-2" style="width: 50rem">
           <div class="card-body">
             <div class="table-responsive">
-              <h4 class="text-analisis fs-6 text-center text-white">
+              <h4 class="text-analisis fs-5 text-center text-white">
                 Clasificación General
               </h4>
               <table
                 class="table border-secondary text-white text-center tabla-clasificacion"
               >
                 <thead>
-                  <tr class="text-center">
+                  <tr>
                     <th></th>
-                    <th class="text-copa fw-bold fs-5 text-center">Equipos</th>
-                    <th class="text-copa fw-bold fs-5 text-center">J</th>
-                    <th class="text-copa fw-bold fs-5 text-center">G</th>
-                    <th class="text-copa fw-bold fs-5 text-center">P</th>
-                    <th class="text-copa fw-bold fs-5 text-center">F</th>
-                    <th class="text-copa fw-bold fs-5 text-center">C</th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-start">J</th>
+                    <th class="equipo-mobile text-start">G</th>
+                    <th class="equipo-mobile text-start">P</th>
+                    <th class="equipo-mobile text-start d-none d-md-table-cell">PF</th>
+                    <th class="equipo-mobile text-start d-none d-md-table-cell">PC</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo, stats in clasificacion %}
                   <tr>
                     <td
-                      class="text-copa fw-bold fs-5 text-center {% if loop.index <= 15 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}"
+                      class="equipo-mobile fw-bold fs-5 text-center {% if loop.index <= 15 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
                     <td
-                      class="fw-bold fs-5 text-white text-center equipo-nombre"
+                      class="equipo-mobile text-start"
                     >
                       {{ equipo }}
                     </td>
-                    <td class="text-copa fw-bold fs-5 text-center">
+                    <td class="equipo-mobile text-start">
                       {{ stats.jugados }}
                     </td>
-                    <td class="text-copa fw-bold fs-5 text-center">
+                    <td class="equipo-mobile text-start">
                       {{ stats.ganados }}
                     </td>
-                    <td class="text-copa fw-bold fs-5 text-center">
+                    <td class="equipo-mobile text-start">
                       {{ stats.perdidos }}
                     </td>
-                    <td class="text-copa fw-bold fs-5 text-center">
+                    <td class="equipo-mobile text-start d-none d-md-table-cell">
                       {{ stats.favor }}
                     </td>
-                    <td class="text-copa fw-bold fs-5 text-center">
+                    <td class="equipo-mobile text-start d-none d-md-table-cell">
                       {{ stats.contra }}
                     </td>
                   </tr>
@@ -111,28 +110,27 @@ Valladolid{% endblock %} {% block breadcrumb %}
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 70rem">
           <div class="card-body">
-            <div class="table-responsive d-none d-md-block">
               <h3 class="text_uemc fs-4 text-center text-white">
                 {{ jornada|replace('_',' ')|title }}
               </h3>
+            <div class="table-responsive d-none d-md-block">
               <table class="table border-secondary">
                 <tbody>
                   {% for partido in partidos %}
                   <tr>
-                    <td class="text-copa fw-bold fs-4">{{ partido.fecha }}</td>
-                    <td class="text-copa fw-bold fs-4">{{ partido.hora }}</td>
+                    <td class="text-muted fw-bold fs-5">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                    }}{% endif %}</td>
                     <td
-                      class="text-copa fw-bold fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
-                    >
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.local }}
                     </td>
-                    <td class="text_uemc fs-4">
+                    <td class="resultado-mobile fs-5">
                       {% if partido.resultadoA and partido.resultadoB %} {{
                       partido.resultadoA }} - {{ partido.resultadoB }} {% else
                       %} - {% endif %}
                     </td>
                     <td
-                      class="text-copa fw-bold fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
                     >
                       {{ partido.visitante }}
                     </td>
@@ -143,16 +141,14 @@ Valladolid{% endblock %} {% block breadcrumb %}
             </div>
             <!-- MÓVIL -->
             <div class="d-md-none cards-mobile">
-              <h3 class="text_uemc fs-4 text-center text-white">
-                {{ jornada|replace('_',' ')|title }}
-              </h3>
+             
               {% for partido in partidos %}
               <div class="card partido-mobile mb-2">
                 
                 <div class="card-body text-center">
                   
                   <small class="text-muted fw-bold">
-                    {{ partido.fecha }} {% if partido.hora %}· {{ partido.hora
+                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
                     }}{% endif %}
                   </small>
 
@@ -184,10 +180,10 @@ Valladolid{% endblock %} {% block breadcrumb %}
     {% for ronda, partidos in eliminatorias.items() %}
     <div class="seccion-slide d-none" id="{{ ronda }}">
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem">
+        <div class="card tabla_copa mt-4" style="width: 50rem">
           <div class="card-body">
             <h3
-              class="text-center text-white text-capitalize text-analisis mb-4"
+              class="text-center fs-4 text-white text-capitalize text-analisis mb-4"
             >
               {{ ronda|capitalize }}
             </h3>
@@ -196,25 +192,23 @@ Valladolid{% endblock %} {% block breadcrumb %}
                 <tbody>
                   {% for partido in partidos %}
                   <tr class="text-center">
-                    <td class="text_uemc text-white fs-5">
-                      {{ partido.fecha }}
-                    </td>
-                    <td class="text_uemc text-white fs-5">
-                      {{ partido.hora }}
+                    <td class="text-muted fs-5">
+                      {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                      }}{% endif %}
                     </td>
                     <td
-                      class="text-copa fw-bold fs-4 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
                     >
                       {{ partido.local }}
                     </td>
-                    <td class="text_uemc fw-bold fs-4">
+                    <td class="resultado-mobile fw-bold fs-5">
                       {{ partido.resultadoA }}
                     </td>
-                    <td class="text_uemc fw-bold fs-4">
+                    <td class="resultado-mobile fw-bold fs-5">
                       {{ partido.resultadoB }}
                     </td>
                     <td
-                      class="text-copa fw-bold fs-4 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
                     >
                       {{ partido.visitante }}
                     </td>

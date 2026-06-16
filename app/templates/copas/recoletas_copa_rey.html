@@ -14,15 +14,12 @@
   </ol>
 </nav>
 {% endblock %}
-{% block h1 %}
-<h1 class="text-playoff text-center">Atl. Valladolid</h1>
-{% endblock %}
 {% block contenido %}
 <!-- Botones de rondas -->
-<div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-  {% for ronda in datos_copa.keys() %}
+<div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+  {% for ronda in datos_copa_rey.keys() %}
   <a href="#"
-     class="btn btn-outline-dark btn-ronda"
+     class="btn btn-slide btns-ronda"
      data-target="ronda{{ loop.index0 }}">
     {{ ronda|capitalize }}
   </a>
@@ -30,11 +27,11 @@
 </div>
 <!-- RONDAS -->
 <div id="contenedor-rondas">
-  {% for ronda, partidos in datos_copa.items() %}
+  {% for ronda, partidos in datos_copa_rey.items() %}
   <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
        id="ronda{{ loop.index0 }}">
     <div class="d-flex justify-content-center">
-      <div class="card tabla_copa mt-4 w-100" style="max-width: 70rem">
+      <div class="card tabla_copa mt-2 w-100" style="max-width: 70rem">
         <div class="card-body">
           <h3 class="text-center text-white text-capitalize text-analisis mb-4">
             {{ ronda }}
@@ -94,25 +91,30 @@
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-slide");
+    const rondas = document.querySelectorAll(".ronda-item");
 
-  const botones = document.querySelectorAll(".btn-ronda");
-  const rondas = document.querySelectorAll(".ronda-item");
+    botones.forEach((boton) => {
+      boton.addEventListener("click", function (e) {
+        e.preventDefault();
 
-  botones.forEach(boton => {
-    boton.addEventListener("click", function (e) {
-      e.preventDefault();
+        // Oculta todas las rondas
+        rondas.forEach((r) => r.classList.add("d-none"));
+        rondas.forEach((r) => r.classList.remove("d-block"));
 
-      rondas.forEach(r => r.classList.add("d-none"));
-      rondas.forEach(r => r.classList.remove("d-block"));
+        // Activa solo la seleccionada
+        const targetId = this.dataset.target;
+        const targetDiv = document.getElementById(targetId);
+        if (targetDiv) {
+          targetDiv.classList.remove("d-none");
+          targetDiv.classList.add("d-block");
+        }
 
-      const target = document.getElementById(this.dataset.target);
-      if (target) {
-        target.classList.remove("d-none");
-        target.classList.add("d-block");
-      }
+        // Opcional: marcar el botón activo
+        botones.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
+      });
     });
   });
-
-});
 </script>
 {% endblock %}

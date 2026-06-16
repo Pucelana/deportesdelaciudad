@@ -7,83 +7,106 @@
         <li class="breadcrumb-item active text-dark" aria-current="page">PlayOffs Título</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">VRAC </h1>
-    <span class="equipo_copa"></span>
-    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-        <!-- Navegación -->
-        <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-          {% for ronda in datos_playoff.keys() %}
-          <a
-            href="#"
-            class="btn btn-outline-dark fw-bold btn-ronda"
-            data-target="ronda{{ loop.index0 }}"
-            >{{ ronda|capitalize }}</a
-          >
-          {% endfor %}
-        </div>
-      <!-- Contenedor de rondas -->
-        <div id="contenedor-rondas">
-          {% for ronda, partidos in datos_playoff.items() %}
-          <div
-            class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
-            id="ronda{{ loop.index0 }}"
-          >
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text-center text-white text-analisis fw-bold text-capitalize">
-                    {{ ronda }}
-                  </h3>
-                  <div class="row table-responsive">
-                    <div class="col-12">
-                      <table class="table border-secondary">
-                        {% for partido in partidos %}
-                        <tr class="text-center">
-                          <td class="text-white fs-5">{{ partido.fecha }}</td>
-                          <td class="text-white fs-5">{{ partido.hora }}</td>
-                          <td
-                            class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
-                          >
-                            {{ partido.local }}
-                          </td>
-                          <td class="text-white fw-bold fs-4" colspan="2">
-                            {% if partido.resultadoA is not none and partido.resultadoB is not none %}
-                              {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                            {% else %}
-                              <span class="text-muted">-</span>
-                            {% endif %}
-                          </td>
-                          <td
-                            class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
-                          >
-                            {{ partido.visitante }}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
+    <section class="container-lg flex-fill copa">
+  <!-- Navegación -->
+  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+    {% for ronda in datos_playoff.keys() %}
+    <a
+      href="#"
+      class="btn fw-bold btn-slide btns-ronda"
+      data-target="ronda{{ loop.index0 }}"
+      >{{ ronda|capitalize }}</a
+    >
+    {% endfor %}
+  </div>
+  <!-- Contenedor de rondas -->
+  <div id="contenedor-rondas">
+    {% for ronda, partidos in datos_playoff.items() %}
+    <div
+      class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+      id="ronda{{ loop.index0 }}"
+    >
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-2" style="width: 70rem">
+          <div class="card-body">
+            <h3
+              class="text-center text-white text-analisis fw-bold text-capitalize"
+            >
+              {{ ronda }}
+            </h3>
+            <div class="table-responsive d-none d-md-block">
+              <table class="table border-secondary">
+                {% for partido in partidos %}
+                <tr class="text-center">
+                  <td class="text-white fs-5">{{ partido.fecha }}</td>
+                  <td class="text-white fs-5">{{ partido.hora }}</td>
+                  <td
+                    class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                  >
+                    {{ partido.local }}
+                  </td>
+                  <td class="text-white fw-bold fs-4" colspan="2">
+                    {% if partido.resultadoA is not none and partido.resultadoB
+                    is not none %} {{ partido.resultadoA }} - {{
+                    partido.resultadoB }} {% else %}
+                    <span class="text-muted">-</span>
+                    {% endif %}
+                  </td>
+                  <td
+                    class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                  >
+                    {{ partido.visitante }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- MÓVIL -->
+            <div class="d-md-none cards-mobile">
+              {% for partido in partidos %}
+              <div class="card partido-mobile mb-2">
+                <div class="card-body text-center">
+                  <small class="text-muted fw-bold">
+                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                    }}{% endif %}
+                  </small>
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
+                  >
+                    {{ partido.local }}
+                  </div>
+                  <div class="resultado-mobile">
+                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                  </div>
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
+                  >
+                    {{ partido.visitante }}
                   </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
           </div>
-          {% endfor %}
         </div>
-    </section>
-{% endblock %}
-{% block scripts %}    
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const botones = document.querySelectorAll(".btn-ronda");
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+   document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-slide");
     const rondas = document.querySelectorAll(".ronda-item");
 
-    botones.forEach(boton => {
+    botones.forEach((boton) => {
       boton.addEventListener("click", function (e) {
         e.preventDefault();
 
         // Oculta todas las rondas
-        rondas.forEach(r => r.classList.add("d-none"));
-        rondas.forEach(r => r.classList.remove("d-block"));
+        rondas.forEach((r) => r.classList.add("d-none"));
+        rondas.forEach((r) => r.classList.remove("d-block"));
 
         // Activa solo la seleccionada
         const targetId = this.dataset.target;
@@ -94,10 +117,10 @@
         }
 
         // Opcional: marcar el botón activo
-        botones.forEach(b => b.classList.remove("active"));
+        botones.forEach((b) => b.classList.remove("active"));
         this.classList.add("active");
       });
     });
   });
-  </script>
+</script>
 {% endblock %}

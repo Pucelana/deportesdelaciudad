@@ -18,10 +18,10 @@
       <h1 class="text-playoff">Aula Valladolid</h1>
       <span class="equipo_copa"></span>
       <!-- Navegación -->
-      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+      <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
         <a
           href="#"
-          class="btn btn-outline-dark btn-slide active"
+          class="btn btns-ronda btn-slide active"
           data-target="clasificacion"
         >
           Clasificación
@@ -30,7 +30,7 @@
         {% for jornada in nuevos_datos_aula %}
         <a
           href="#"
-          class="btn btn-outline-dark btn-slide"
+          class="btn btns-ronda btn-slide"
           data-target="{{ jornada.nombre }}"
         >
           {{ jornada.nombre }}

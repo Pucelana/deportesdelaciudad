@@ -19,10 +19,10 @@
 {% endblock %}
 {% block contenido %}
 <!-- Botones de rondas -->
-<div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+<div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
   {% for ronda in datos_copa.keys() %}
   <a href="#"
-     class="btn btn-outline-dark btn-ronda"
+     class="btn btn-slide btns-ronda"
      data-target="ronda{{ loop.index0 }}">
     {{ ronda|capitalize }}
   </a>
@@ -93,26 +93,30 @@
 {% endblock %}
 {% block scripts %}
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-  const botones = document.querySelectorAll(".btn-ronda");
-  const rondas = document.querySelectorAll(".ronda-item");
-
-  botones.forEach(boton => {
-    boton.addEventListener("click", function (e) {
+document.querySelectorAll(".btn-slide").forEach((button) => {
+    button.addEventListener("click", (e) => {
       e.preventDefault();
+      const targetId = button.dataset.target;
 
-      rondas.forEach(r => r.classList.add("d-none"));
-      rondas.forEach(r => r.classList.remove("d-block"));
+      // Ocultar todas las secciones
+      document.querySelectorAll(".seccion-slide").forEach((section) => {
+        section.classList.add("d-none");
+        section.classList.remove("d-block");
+      });
 
-      const target = document.getElementById(this.dataset.target);
-      if (target) {
-        target.classList.remove("d-none");
-        target.classList.add("d-block");
+      // Mostrar la sección deseada
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.classList.remove("d-none");
+        targetSection.classList.add("d-block");
       }
+
+      // Actualizar clase activa en los botones
+      document
+        .querySelectorAll(".btn-slide")
+        .forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
     });
   });
-
-});
 </script>
 {% endblock %}

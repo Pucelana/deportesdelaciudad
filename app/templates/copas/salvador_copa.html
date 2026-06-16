@@ -84,7 +84,7 @@
         {% for grupo in clasificaciones.keys() %}
         <a
           href="#"
-          class="btn btn-outline-dark btn-slide {% if loop.first %}active{% endif %}"
+          class="btn btns-ronda btn-slide {% if loop.first %}active{% endif %}"
           data-target="grupo{{ loop.index0 }}"
         >
           {{ grupo }}
@@ -92,7 +92,7 @@
         {% endfor %} {% for ronda in eliminatorias.keys() %}
         <a
           href="#"
-          class="btn btn-outline-dark btn-slide"
+          class="btn btns-ronda btn-slide"
           data-target="ronda{{ loop.index0 }}"
         >
           {{ ronda|capitalize }}

@@ -5,34 +5,33 @@
     <li class="breadcrumb-item">
       <a
         href="/seccion/valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
+        class="text-white text-decoration-none text-analisis"
         >Real Valladolid</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
         href="/admin/equipos_futbol/calendario_valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
+        class="text-white text-decoration-none text-analisis"
         >Calendario Ind.</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
         href="/admin/equipos_futbol/resultados_valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
+        class="text-white text-decoration-none text-analisis"
         >Resultados</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis" aria-current="page">
       Clasificaciones
     </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3>
 <section class="container-lg mb-5 flex-fill copa">
   <!-- Navegador personalizado -->
-  <div class="d-flex justify-content-center my-2 gap-2">
+  <div class="d-flex justify-content-center my-2 gap-1">
     <button
       class="btn btn-outline-light tab-btn active"
       data-tab="clasificacion"
@@ -63,42 +62,42 @@
                 <thead>
                   <tr class="text-center">
                     <th></th>
-                    <th>Equipos</th>
-                    <th>PTS</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PE</th>
-                    <th>PP</th>
-                    <th>GF</th>
-                    <th>GC</th>
-                    <th>DG</th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">PT</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">E</th>
+                    <th class="equipo-mobile text-center">P</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
+                    <th class="equipo-mobile text-center">DG</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_valladolid %}
                   <tr class="text-center">
                     <td
-                      class="fw-bold {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 6 %}pos-playoff{% elif loop.index <= 18 %}pos-nada{% elif loop.index <= 22 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center fw-bold {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 6 %}pos-playoff{% elif loop.index <= 18 %}pos-nada{% elif loop.index <= 22 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
                     <td
-                      class="fw-bold text-white size_equipos2 {% if 'Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start fw-bold text-white size_equipos2 {% if 'Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo.equipo }}
                     </td>
-                    <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
-                    <td class="jugados fw-bold">{{ equipo.datos.jugados }}</td>
-                    <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>
-                    <td class="empatados fw-bold">
+                    <td class="equipo-mobile fs-6 puntos fw-bold">{{ equipo.datos.puntos }}</td>
+                    <td class="equipo-mobile fs-6 jugados fw-bold">{{ equipo.datos.jugados }}</td>
+                    <td class="equipo-mobile fs-6 ganados fw-bold">{{ equipo.datos.ganados }}</td>
+                    <td class="equipo-mobile fs-6 empatados fw-bold">
                       {{ equipo.datos.empatados }}
                     </td>
-                    <td class="perdidos fw-bold">
+                    <td class="equipo-mobile fs-6 perdidos fw-bold">
                       {{ equipo.datos.perdidos }}
                     </td>
-                    <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
-                    <td class="contra fw-bold">{{ equipo.datos.contra }}</td>
-                    <td class="diferencia_goles fw-bold">
+                    <td class="equipo-mobile fs-6 favor fw-bold d-none d-md-table-cell">{{ equipo.datos.favor }}</td>
+                    <td class="equipo-mobile fs-6 contra fw-bold d-none d-md-table-cell">{{ equipo.datos.contra }}</td>
+                    <td class="equipo-mobile fs-6 text-center diferencia_goles fw-bold">
                       {{ equipo.datos.diferencia_goles }}
                     </td>
                   </tr>
@@ -134,22 +133,22 @@
               </h3>
               <table id="tablaCampeonVallad" class="table">
                 <thead>
-                  <tr class="text-center">
+                  <tr>
                     <th></th>
-                    <th>Equipos</th>
-                    <th>PJ</th>
-                    <th>PA</th>
-                    <th>Prox</th>
-                    <th>PM</th>
-                    <th>POp</th>
-                    <th>PPes</th>
+                    <th class='equipo-mobile text-start'>Equipos</th>
+                    <th class='equipo-mobile text-center'>J</th>
+                    <th class='equipo-mobile text-center'>PA</th>
+                    <th class='equipo-mobile text-center'>%</th>
+                    <th class='equipo-mobile text-center'>PM</th>
+                    <th class='equipo-mobile text-center'>Op</th>
+                    <th class='equipo-mobile text-center'>Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_valladolid %}
-                  <tr class="text-center">
-                    <td class="fw-bold">{{ equipo.index }}</td>
-                    <td class="fw-bold text-center size_equipos2 text-white">
+                  <tr>
+                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
+                    <td class="equipo-mobile fw-bold text-start size_equipos2 text-white">
                       {{ equipo['equipo'] }}
                     </td>
                     <td class="camp-jug fw-bold">

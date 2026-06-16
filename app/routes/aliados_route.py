@@ -516,6 +516,7 @@ def crear_playoff_aliados():
         eliminatoria = request.form.get('eliminatoria')       
         max_partidos = {
             'semifinales': 2,
+            '3º y 4º': 1,
             'final': 1
         }.get(eliminatoria, 0)
         num_partidos_str = request.form.get('num_partidos', '0').strip()
@@ -539,7 +540,7 @@ def crear_playoff_aliados():
 # Ver encuentros playoff en Admin
 @aliados_route_bp.route('/playoff_aliados/')
 def ver_playoff_aliados():
-    eliminatorias = ['semifinales', 'final']
+    eliminatorias = ['semifinales', '3º y 4º' ,'final']
     datos_eliminatorias = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffAliados.query.filter_by(eliminatoria=eliminatoria).order_by(PlayoffAliados.orden).all()
@@ -582,7 +583,7 @@ def eliminar_playoff_aliados(eliminatoria):
 # Mostrar los playoffs del Aliados
 @aliados_route_bp.route('/playoffs_aliados/')
 def playoffs_aliados():
-    eliminatorias = ['semifinales', 'final']
+    eliminatorias = ['semifinales', '3º y 4º' ,'final']
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffAliados.query.filter_by(eliminatoria=eliminatoria).all()

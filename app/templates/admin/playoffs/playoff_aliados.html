@@ -17,6 +17,7 @@
                 <label for="encuentros">Etapa del Torneo:</label>
                 <select id="eliminatoria" name="eliminatoria">
                     <option value="semifinales">Semifinales</option>
+                    <option value="3º y 4º">3º y 4º</option>
                     <option value="final">Final</option>
                 </select>
                 <div class="form-group col-md-6">
@@ -138,6 +139,8 @@
                 var numPartidos;
                 if (selectedOption.startsWith("semifinales")) {
                     numPartidos = 2;
+                } else if (selectedOption === "3º y 4º") {
+                        numPartidos = 1;
                 } else if (selectedOption === "final") {
                     numPartidos = 1;
                 }

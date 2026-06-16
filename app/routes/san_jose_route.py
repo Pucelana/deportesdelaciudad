@@ -551,8 +551,6 @@ def jornada0_san_jose():
             return redirect(url_for("san_jose_route_bp.jornada0_san_jose"))
     clubs = JoseClub.query.all()  # Obtener todos los clubes de PostgreSQL
     return render_template("admin/clubs/clubs_san_jose.html", clubs=clubs)
-
-
 @san_jose_route_bp.route("/admin/eliminar_club_san_jose/<string:club_id>", methods=["POST"])
 def eliminar_club_san_jose(club_id):
     club = JoseClub.query.get(club_id)

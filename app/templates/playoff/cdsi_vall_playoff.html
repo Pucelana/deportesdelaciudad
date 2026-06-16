@@ -1,222 +1,261 @@
-{% extends "playoff/base_playoff.html" %} 
-{% block title %}PlayOff - CDSI Valladolid{% endblock %}
-{% block contenido %}
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ps-2 pt-2">
-          <li class="breadcrumb-item">
-            <a href="/seccion/cdsi_vall" class="text-white text-decoration-none"
-              >CDSI Valladolid</a
-            >
-          </li>
-          <li class="breadcrumb-item active text-dark" aria-current="page">
-            Playoff Ascenso
-          </li>
-        </ol>
-      </nav>
-      <h1 class="text-playoff">CDSI Valladolid</h1>
-      <span class="equipo_copa"></span>
-      <!-- Navegación -->
-      <div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
-        <a
-          href="#"
-          class="btn btn-outline-dark btn-slide active"
-          data-target="clasificacion"
-        >
-          Clasificación
-        </a>
-        <!-- Jornadas -->
-        {% for jornada in jornadas.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-dark btn-slide"
-          data-target="{{ jornada }}"
-        >
-          {{ jornada|replace('_',' ')|title }}
-        </a>
-        {% endfor %}
+{% extends "playoff/base_playoff.html" %} {% block title %}PlayOff - CDSI
+Valladolid{% endblock %} {% block contenido %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item">
+      <a href="/seccion/cdsi_vall" class="text-white text-decoration-none"
+        >CDSI Valladolid</a
+      >
+    </li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">
+      Playoff
+    </li>
+  </ol>
+</nav>
+<!-- Navegación -->
+<div class="d-flex justify-content-center my-3 gap-3 flex-wrap">
+  <a
+    href="#"
+    class="btn btn-slide btns-ronda active"
+    data-target="clasificacion"
+  >
+    Clasificación
+  </a>
+  <!-- Jornadas -->
+  {% for jornada in jornadas.keys() %}
+  <a href="#" class="btn btns-ronda btn-slide" data-target="{{ jornada }}">
+    {{ jornada|replace('_',' ')|title }}
+  </a>
+  {% endfor %}
 
-        <!-- Eliminatorias -->
-        {% for ronda in eliminatorias.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-dark btn-slide"
-          data-target="{{ ronda }}"
-        >
-          {{ ronda|capitalize }}
-        </a>
-        {% endfor %}
+  <!-- Eliminatorias -->
+  {% for ronda in eliminatorias.keys() %}
+  <a href="#" class="btn btns-ronda btn-slide" data-target="{{ ronda }}">
+    {{ ronda|capitalize }}
+  </a>
+  {% endfor %}
+</div>
+<section class="container-lg flex-fill copa_uemc">
+  <!-- Contenido Clasificaciones y Eliminatorias -->
+  <div id="contenedor-secciones">
+    <div class="seccion-slide d-block" id="clasificacion">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+            <h3 class="text_uemc text-center text-white">
+              Clasificación General
+            </h3>
+            <table class="table border-secondary text-white text-center">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th class="text-dark fs-4">Equipos</th>
+                  <th class="text-dark fs-4">P.J</th>
+                  <th class="text-dark fs-4">P.G</th>
+                  <th class="text-dark fs-4">P.Perd</th>
+                  <th class="text-dark fs-4">PTOS</th>
+                  <th class="text-dark fs-4">P.F</th>
+                  <th class="text-dark fs-4">P.Cont</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for equipo, stats in clasificacion %}
+                <tr>
+                  <td
+                    class="text_uemc fs-4 {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 14 %}pos-nada{% endif %}"
+                  >
+                    {{ loop.index }}
+                  </td>
+                  <td class="fw-bold text_uemc fs-4">{{ equipo }}</td>
+                  <td class="text_uemc fs-4">{{ stats.jugados }}</td>
+                  <td class="text_uemc fs-4">{{ stats.ganados }}</td>
+                  <td class="text_uemc fs-4">{{ stats.perdidos }}</td>
+                  <td class="text_uemc fs-4">{{ stats.puntos }}</td>
+                  <td class="text_uemc fs-4">{{ stats.favor }}</td>
+                  <td class="text_uemc fs-4">{{ stats.contra }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      <section class="container-lg flex-fill copa_uemc">
-        <!-- Contenido Clasificaciones y Eliminatorias -->
-        <div id="contenedor-secciones">
-          <div class="seccion-slide d-block" id="clasificacion">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text_uemc text-center text-white">
-                    Clasificación General
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th></th>
-                        <th class="text-dark fs-4">Equipos</th>
-                        <th class="text-dark fs-4">P.J</th>
-                        <th class="text-dark fs-4">P.G</th>
-                        <th class="text-dark fs-4">P.Perd</th>
-                        <th class="text-dark fs-4">PTOS</th>
-                        <th class="text-dark fs-4">P.F</th>
-                        <th class="text-dark fs-4">P.Cont</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for equipo, stats in clasificacion %}
-                      <tr>
-                        <td
-                          class="text_uemc fs-4 {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 14 %}pos-nada{% endif %}"
-                        >
-                          {{ loop.index }}
-                        </td>
-                        <td class="fw-bold text_uemc fs-4">{{ equipo }}</td>
-                        <td class="text_uemc fs-4">{{ stats.jugados }}</td>
-                        <td class="text_uemc fs-4">{{ stats.ganados }}</td>
-                        <td class="text_uemc fs-4">{{ stats.perdidos }}</td>
-                        <td class="text_uemc fs-4">{{ stats.puntos }}</td>
-                        <td class="text_uemc fs-4">{{ stats.favor }}</td>
-                        <td class="text_uemc fs-4">{{ stats.contra }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+    </div>
+    {% for jornada, partidos in jornadas.items() %}
+    <div class="seccion-slide d-none" id="{{ jornada }}">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+            <h3 class="text_uemc fs-4 text-center text-white">
+              {{ jornada|replace('_',' ')|title }}
+            </h3>
+            <div class='table-responsive d-none d-md-block'> 
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th class="text-dark fs-5">Fecha</th>
+                    <th class="text-dark fs-5">Hora</th>
+                    <th class="text-dark fs-5">Local</th>
+                    <th class="text-dark fs-5">Resultado</th>
+                    <th class="text-dark fs-5">Visitante</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for partido in partidos %}
+                  <tr>
+                    <td class="text_uemc fs-5">{{ partido.fecha }}</td>
+                    <td class="text_uemc fs-5">{{ partido.hora }}</td>
+                    <td
+                      class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                    >
+                      {{ partido.local }}
+                    </td>
+                    <td class="text_uemc fs-4">
+                      {% if partido.resultadoA and partido.resultadoB %} {{
+                      partido.resultadoA }} - {{ partido.resultadoB }} {% else
+                      %} - {% endif %}
+                    </td>
+                    <td
+                      class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                    >
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
           </div>
-          {% for jornada, partidos in jornadas.items() %}
-          <div class="seccion-slide d-none" id="{{ jornada }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text_uemc fs-4 text-center text-white">
-                    {{ jornada|replace('_',' ')|title }}
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th class="text-dark fs-5">Fecha</th>
-                        <th class="text-dark fs-5">Hora</th>
-                        <th class="text-dark fs-5">Local</th>
-                        <th class="text-dark fs-5">Resultado</th>
-                        <th class="text-dark fs-5">Visitante</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for partido in partidos %}
-                      <tr>
-                        <td class="text_uemc fs-5">{{ partido.fecha }}</td>
-                        <td class="text_uemc fs-5">{{ partido.hora }}</td>
-                        <td
-                          class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                        >
-                          {{ partido.local }}
-                        </td>
-                        <td class="text_uemc fs-4">
-                          {% if partido.resultadoA and partido.resultadoB %} {{
-                          partido.resultadoA }} - {{ partido.resultadoB }} {%
-                          else %} - {% endif %}
-                        </td>
-                        <td
-                          class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                        >
-                          {{ partido.visitante }}
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
+          <div class="d-md-none cards-mobile">
+            {% for partido in partidos %}
+            <div class="card partido-mobile mb-2">
+              <div class="card-body text-center">
+                <small class="text-muted fw-bold">
+                  {{ partido.fecha }} {% if partido.hora %}· {{ partido.hora
+                  }}{% endif %}
+                </small>
 
-          <!-- Eliminatorias -->
-          {% for ronda, partidos in eliminatorias.items() %}
-          <div class="seccion-slide d-none" id="{{ ronda }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text_uemc text-center text-white fs-4 mb-3">
-                    {{ ronda|capitalize }}
-                  </h3>
-                  <div class="row table-responsive">
-                    <div class="col-12">
-                      <table
-                        class="table border-secondary text-white text-center"
-                      >
-                        {% for partido in partidos %}
-                        <tr class="text-center">
-                          <td class="text_uemc text-white fs-5">
-                            {{ partido.fecha }}
-                          </td>
-                          <td class="text_uemc text-white fs-5">
-                            {{ partido.hora }}
-                          </td>
-                          <td
-                            class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                          >
-                            {{ partido.local }}
-                          </td>
-                          <td class="text_uemc fw-bold fs-4">
-                            {{ partido.resultadoA }}
-                          </td>
-                          <td class="text_uemc fw-bold fs-4">
-                            {{ partido.resultadoB }}
-                          </td>
-                          <td
-                            class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                          >
-                            {{ partido.visitante }}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
+                <div
+                  class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
+                >
+                  {{ partido.local }}
+                </div>
+
+                <div class="resultado-mobile">
+                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                </div>
+
+                <div
+                  class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
+                >
+                  {{ partido.visitante }}
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    <!-- Eliminatorias -->
+    {% for ronda, partidos in eliminatorias.items() %}
+    <div class="seccion-slide d-none" id="{{ ronda }}">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+            <h3 class="text_uemc text-center text-white fs-4 mb-3">
+              {{ ronda|capitalize }}
+            </h3>
+            <div class="table-responsive d-none d-md-block">
+              <table class="table border-secondary text-white text-center">
+                {% for partido in partidos %}
+                <tr class="text-center">
+                  <td class="text_uemc text-white fs-5">{{ partido.fecha }}</td>
+                  <td class="text_uemc text-white fs-5">{{ partido.hora }}</td>
+                  <td
+                    class="text-copa fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                  >
+                    {{ partido.local }}
+                  </td>
+                  <td class="text_uemc fw-bold fs-4">
+                    {{ partido.resultadoA }}
+                  </td>
+                  <td class="text_uemc fw-bold fs-4">
+                    {{ partido.resultadoB }}
+                  </td>
+                  <td
+                    class="text-copa fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                  >
+                    {{ partido.visitante }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- MÓVIL -->
+            <div class="d-md-none cards-mobile">
+              {% for partido in partidos %}
+              <div class="card partido-mobile mb-2">
+                <div class="card-body text-center">
+                  <small class="text-muted fw-bold">
+                    {{ partido.fecha }} {% if partido.hora %}· {{ partido.hora
+                    }}{% endif %}
+                  </small>
+
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
+                  >
+                    {{ partido.local }}
+                  </div>
+
+                  <div class="resultado-mobile">
+                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                  </div>
+
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
+                  >
+                    {{ partido.visitante }}
                   </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
           </div>
-          {% endfor %}
         </div>
-      </section>
-{% endblock %}
-{% block scripts %}
-    <script>
-      document.querySelectorAll(".btn-slide").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.preventDefault();
-          const targetId = button.dataset.target;
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+  document.querySelectorAll(".btn-slide").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      const targetId = button.dataset.target;
 
-          // Ocultar todas las secciones
-          document.querySelectorAll(".seccion-slide").forEach((section) => {
-            section.classList.add("d-none");
-            section.classList.remove("d-block");
-          });
-
-          // Mostrar la sección deseada
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            targetSection.classList.remove("d-none");
-            targetSection.classList.add("d-block");
-          }
-
-          // Actualizar clase activa en los botones
-          document
-            .querySelectorAll(".btn-slide")
-            .forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-        });
+      // Ocultar todas las secciones
+      document.querySelectorAll(".seccion-slide").forEach((section) => {
+        section.classList.add("d-none");
+        section.classList.remove("d-block");
       });
-    </script>
+
+      // Mostrar la sección deseada
+      const targetSection = document.getElementById(targetId);
+      if (targetSection) {
+        targetSection.classList.remove("d-none");
+        targetSection.classList.add("d-block");
+      }
+
+      // Actualizar clase activa en los botones
+      document
+        .querySelectorAll(".btn-slide")
+        .forEach((btn) => btn.classList.remove("active"));
+      button.classList.add("active");
+    });
+  });
+</script>
 {% endblock %}

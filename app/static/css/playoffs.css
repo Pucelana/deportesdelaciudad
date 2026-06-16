@@ -6,13 +6,7 @@
     font-size: 1.75em;
     padding: 1.5%;
 }
-.fondos_playoffs{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('/static/img/fondo_playoff.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
+
 .tabla_playoff{
     background-color: transparent;
     backdrop-filter: blur(4px);
@@ -32,55 +26,7 @@
     background-position: center;
     box-shadow: 10px 5px 5px gray;
 }
-.fondo_copa_aliados{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_españa_basket.jpg');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
-.fondo_copa_basket{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_españa_basket.jpg');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
-.fondo_copa_rugby{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_rugby.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
-.fondos_copa_balonmano{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_rey_balonmano.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
-.fondo_copa_fem{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_reina.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
-.fondo_copa_rugby{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/app/static/img/copa_rugby.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
-.fondo_balonmano_fem{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/copa_reina_balonmano.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-}
+
 .tabla_copa{
     background-color: transparent;
     backdrop-filter: blur(5px);
@@ -120,39 +66,4 @@
     .text-playoff{
         font-size: 2.5em;
     }
-}
-.fondo_basket_playoff{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/playoffs_basket.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-    overflow: hidden;
-    box-shadow: 10px 5px 5px gray;
-}
-.fondo_futbol_playoff{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/static/img/playoff_futbol.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-    overflow: hidden;
-    box-shadow: 10px 5px 5px gray;
-}
-.fondo_rugby_playoff{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/rugby_playoff.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    overflow: hidden;
-    box-shadow: 10px 5px 5px gray;
-}
-.fondo_hockey_playoff{
-    position: relative;
-    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/static/img/hockey_playoff.png');
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-    overflow: hidden;
-    box-shadow: 10px 5px 5px gray;
 }

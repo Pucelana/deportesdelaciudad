@@ -1,73 +1,130 @@
-{% extends "playoff/base_playoff.html" %} 
-{% block title %}PlayOff - Aula Valladolid{% endblock %}
-{% block contenido %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">PlayOffs Aula Valladolid</li>
-      </ol>
-    </nav>
-    <h1 class="text-playoff">Fase Final Al Título</h1>
-    <span class="equipo_copa">Aula Valladolid</span>
-    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
+{% extends "playoff/base_playoff.html" %} {% block title %}PlayOff - Aula
+Valladolid{% endblock %} {% block contenido %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a href="/" class="text-white text-decoration-none">Inicio</a>
+    </li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">
+      PlayOff
+    </li>
+  </ol>
+</nav>
+<section class="container-lg flex-fill copa">
+  <!-- Eliminatorias -->
+  <!-- Navegación -->
+  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+    {% for ronda in datos_playoff.keys() %}
+    <a
+      href="#"
+      class="btn fw-bold btn-slide btns-ronda"
+      data-target="ronda{{ loop.index0 }}"
+      >{{ ronda|capitalize }}</a
+    >
+    {% endfor %}
+  </div>
+  <!-- Contenedor de rondas -->
+  <div id="contenedor-rondas">
+    {% for ronda, partidos in datos_playoff.items() %}
+    <div
+      class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+      id="ronda{{ loop.index0 }}"
+    >
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 80rem;">
+        <div class="card tabla_copa mt-2" style="width: 70rem">
           <div class="card-body">
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  {% for ronda, partidos in datos_playoff.items() %}
-                  <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
-                  <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
-                    <table class="table border-secondary">
-                      {% for partido in partidos %}
-                      <tr class="text-center">
-                        <td class="text-center text-white">{{ partido.fecha }}</td>
-                        <td class="text-center text-white">{{ partido.hora }}</td>
-                        <td
-                          class="text-center text-copa fs-6 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
-                          {{ partido.local }}</td>
-                        <td class="text-center text-white fw-bold fs-6">{{ partido.resultadoA }}</td>
-                        <td class="text-center text-white fw-bold fs-6">{{ partido.resultadoB }}</td>
-                        <td
-                          class="text-center text-copa fs-6 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
-                          {{ partido.visitante }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
+            <h3
+              class="text-center text-white text-analisis fw-bold text-capitalize"
+            >
+              {{ ronda }}
+            </h3>
+            <div class="table-responsive d-none d-md-block">
+              <table class="table border-secondary">
+                {% for partido in partidos %}
+                <tr class="text-center">
+                  <td class="text-white fs-5">{{ partido.fecha }}</td>
+                  <td class="text-white fs-5">{{ partido.hora }}</td>
+                  <td
+                    class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                  >
+                    {{ partido.local }}
+                  </td>
+                  <td class="text-white fw-bold fs-4" colspan="2">
+                    {% if partido.resultadoA is not none and partido.resultadoB
+                    is not none %} {{ partido.resultadoA }} - {{
+                    partido.resultadoB }} {% else %}
+                    <span class="text-muted">-</span>
+                    {% endif %}
+                  </td>
+                  <td
+                    class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                  >
+                    {{ partido.visitante }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- MÓVIL -->
+            <div class="d-md-none cards-mobile">
+              {% for partido in partidos %}
+              <div class="card partido-mobile mb-2">
+                <div class="card-body text-center">
+                  <small class="text-muted fw-bold">
+                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                    }}{% endif %}
+                  </small>
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
+                  >
+                    {{ partido.local }}
                   </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    data-ronda="{{ loop.index }}">Ver Partidos</a>
-                  {% endfor %}
+                  <div class="resultado-mobile">
+                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                  </div>
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
+                  >
+                    {{ partido.visitante }}
+                  </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
           </div>
         </div>
       </div>
-    </section>
-{% endblock %}
-{% block scripts %}
-  <script>
-    $(document).ready(function () {
-      $('.mostrar-enlace').click(function (e) {
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-slide");
+    const rondas = document.querySelectorAll(".ronda-item");
+
+    botones.forEach((boton) => {
+      boton.addEventListener("click", function (e) {
         e.preventDefault();
-        var enlace = $(this);
-        var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');
-        // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();
-        // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();
-        // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');
-        // Cambiar el texto del enlace actual
-        if (textoAdicional.is(':visible')) {
-          enlace.text('Ocultar');
-        } else {
-          enlace.text('Ver Partidos');
+
+        // Oculta todas las rondas
+        rondas.forEach((r) => r.classList.add("d-none"));
+        rondas.forEach((r) => r.classList.remove("d-block"));
+
+        // Activa solo la seleccionada
+        const targetId = this.dataset.target;
+        const targetDiv = document.getElementById(targetId);
+        if (targetDiv) {
+          targetDiv.classList.remove("d-none");
+          targetDiv.classList.add("d-block");
         }
+
+        // Opcional: marcar el botón activo
+        botones.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
       });
     });
-  </script>
+  });
+</script>
 {% endblock %}

@@ -5,34 +5,33 @@
     <li class="breadcrumb-item">
       <a
         href="/seccion/uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Ponce Valladolid CB</a
+        class="text-white text-decoration-none text-analisis"
+        >CBC Valladolid</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
         href="/admin/equipos_basket/calendario_uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
+        class="text-white text-decoration-none text-analisis"
         >Calendario Ind.</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
         href="/admin/equipos_basket/resultados_uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
+        class="text-white text-decoration-none text-analisis"
         >Resultados</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis" aria-current="page">
       Clasificaciones
     </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3>
 <section class="container-lg mb-5 flex-fill copa">
   <!-- Navegador personalizado -->
-  <div class="d-flex justify-content-center my-2 gap-2">
+  <div class="d-flex justify-content-center my-2 gap-1">
     <button
       class="btn btn-outline-light tab-btn active"
       data-tab="clasificacion"
@@ -61,48 +60,48 @@
               </h3>
               <table id="tablaClasificacion" class="table">
                 <thead>
-                  <tr class="text-center">
+                  <tr>
                     <th></th>
-                    <th>Equipos</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PP</th>
-                    <th>PF</th>
-                    <th>PC</th>
-                    <th>DP</th>
-                    <th>PTS</th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-start">PJ</th>
+                    <th class="equipo-mobile text-start">PG</th>
+                    <th class="equipo-mobile text-start">PP</th>
+                    <th class="equipo-mobile text-start d-none d-md-table-cell">PF</th>
+                    <th class="equipo-mobile text-start d-none d-md-table-cell">PC</th>
+                    <th class="equipo-mobile text-start d-none d-md-table-cell">DP</th>
+                    <th class="equipo-mobile text-start d-none d-md-table-cell">PTS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_uemc %}
-                  <tr class="text-center">
+                  <tr>
                     <td
-                      class="fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
                     <td
-                      class="fw-bold size_equipos2 text-white {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile fw-bold size_equipos2 text-white {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo.equipo }}
                     </td>
-                    <td class="jugados fw-bold fs-5">
+                    <td class="equipo-mobile jugados fw-bold fs-5">
                       {{ equipo.datos.jugados }}
                     </td>
-                    <td class="ganados fw-bold fs-5">
+                    <td class="equipo-mobile ganados fw-bold fs-5">
                       {{ equipo.datos.ganados }}
                     </td>
-                    <td class="perdidos fw-bold fs-5">
+                    <td class="equipo-mobile perdidos fw-bold fs-5">
                       {{ equipo.datos.perdidos }}
                     </td>
-                    <td class="favor fw-bold fs-5">{{ equipo.datos.favor }}</td>
-                    <td class="contra fw-bold fs-5">
+                    <td class="equipo-mobile favor fw-bold fs-5 d-none d-md-table-cell">{{ equipo.datos.favor }}</td>
+                    <td class="equipo-mobile contra fw-bold fs-5 d-none d-md-table-cell">
                       {{ equipo.datos.contra }}
                     </td>
-                    <td class="dife fw-bold fs-5">
+                    <td class="equipo-mobile dife fw-bold fs-5 d-none d-md-table-cell">
                       {{ equipo.datos.diferencia_canastas }}
                     </td>
-                    <td class="puntos fw-bold fs-5">
+                    <td class="equipo-mobile puntos fw-bold fs-5 d-none d-md-table-cell">
                       {{ equipo.datos.puntos }}
                     </td>
                   </tr>

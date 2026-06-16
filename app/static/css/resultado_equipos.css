@@ -7,3 +7,13 @@
     -1px  1px 0 #53148f ,
      1px  1px 0 #53148f ;
 }
+@media (max-width: 576px){
+  .equipo-pucela{
+    font-size: 1.3em; 
+  }
+}
+@media (max-width: 768px) {
+  .equipo-pucela {
+    font-size: 1.3em;
+  } 
+}

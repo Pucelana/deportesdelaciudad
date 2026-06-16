@@ -26,3 +26,20 @@
   color: white;
   border: none;
 }
+@media (max-width: 768px) {
+  .tab-btn {
+    font-size: 0.8em;
+  }
+  .btn-tab {
+    font-size: 0.9em;
+  }
+}
+@media (max-width: 576px) {
+  .tab-btn {
+    font-size: 0.6em;
+  }
+
+  .btn-tab {
+    font-size: 0.70em;
+  }
+}
