@@ -4,14 +4,14 @@
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a
-        href="/seccion/cdsi"
+        href="/seccion/cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6"
         >CDSI Valladolid</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_basket/calendario_cdsi_vall"
+        href="/admin/equipos_basket/calendario_cdsi"
         class="text-white text-decoration-none text-analisis fs-6"
         >Calendario Ind.</a
       >
@@ -23,15 +23,14 @@
         >Resultados</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Clasificaciones
     </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3>
 <section class="container-lg mb-5 flex-fill copa">
-  <div class="d-flex justify-content-center my-2 gap-2">
+  <div class="d-flex justify-content-center my-2 gap-1">
     <button
       class="btn btn-outline-light tab-btn active"
       data-tab="clasificacion"
@@ -49,59 +48,59 @@
     <div class="tab-pane active" id="clasificacion">
       <!--Tabla Clasificación-->
       <div class="d-flex justify-content-center">
-        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
-              <h3 class="text-center text-white fw-bold text-analisis">
+              <h3 class="text-center text-white fw-bold text-analisis fs-4">
                 1ª Div. Nacional Femenina
               </h3>
               <table id="tablaClasificacion2" class="table">
                 <!--Tabla Clasificación CDSI-->
                 <thead>
-                  <tr class="text-center">
+                  <tr>
                     <th></th>
-                    <th>Equipos</th>
-                    <th>PJ</th>
-                    <th>PG</th>
-                    <th>PP</th>
-                    <th>PF</th>
-                    <th>PC</th>
-                    <th>DP</th>
-                    <th>PTS</th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">P</th>
+                    <th class="equipo-mobile text-center">F</th>
+                    <th class="equipo-mobile text-center">C</th>
+                    <th class="equipo-mobile text-center">DP</th>
+                    <th class="equipo-mobile text-center">PT</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_cdsi_vall %}
-                  <tr class="text-center">
+                  <tr>
                     <td
-                      class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
                     <td
-                      class="fw-bold size_equipos2 text-white {% if 'CDSI Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start fw-bold size_equipos2 {% if 'CDSI Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="jugados fw-bold">
+                    <td class="equipo-mobile text-center fs-5 jugados fw-bold">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="ganados fw-bold">
+                    <td class="equipo-mobile text-center fs-5 ganados fw-bold">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="perdidos fw-bold">
+                    <td class="equipo-mobile text-center fs-5 perdidos fw-bold">
                       {{ equipo['datos']['perdidos'] }}
                     </td>
-                    <td class="favor fw-bold">
+                    <td class="equipo-mobile text-center fs-5 favor fw-bold">
                       {{ equipo['datos']['favor'] }}
                     </td>
-                    <td class="contra fw-bold">
+                    <td class="equipo-mobile text-center fs-5 contra fw-bold">
                       {{ equipo['datos']['contra']}}
                     </td>
-                    <td class="dife fw-bold">
+                    <td class="equipo-mobile text-center fs-5 dife fw-bold">
                       {{ equipo['datos']['diferencia_canastas'] }}
                     </td>
-                    <td class="puntos fw-bold">
+                    <td class="equipo-mobile text-center fs-5 puntos fw-bold">
                       {{ equipo['datos']['puntos'] }}
                     </td>
                   </tr>
@@ -111,9 +110,7 @@
             </div>
           </div>
           <p class="ms-4 text-descrip">
-            PJ (Partidos Jugados); PG (Partidos Ganados); PP (Partidos
-            Perdidos); PF (Puntos Favor); PC(Puntos Contra); DP (Diferencia
-            Puntos) PTS (Puntos)
+            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif. Puntos); PT(Puntos)
           </p>
           <p class="ms-4 text-descrip">
             PlayOffs<span class="badge bg-success ms-2">1-4</span> ;
@@ -125,43 +122,43 @@
     <div class="tab-pane" id="playoff">
       <!--Tabla PlayOff-->
       <div class="d-flex justify-content-center">
-        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
-              <h3 class="text-center text-white fw-bold text-analisis">
+              <h3 class="text-center text-white fw-bold text-analisis fs-4">
                 PlayOff - Liga Femenina 2
               </h3>
               <table id="tablaPlayCDSIVall" class="table">
                 <!--Tabla PlayOff-->
                 <thead>
-                  <tr class="text-center">
+                  <tr>
                     <th></th>
-                    <th>Equipos</th>
-                    <th>PJ</th>
-                    <th>GA</th>
-                    <th>Prox</th>
-                    <th>PM</th>
-                    <th>PO</th>
-                    <th>PPes</th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">%</th>
+                    <th class="equipo-mobile text-center">Mat</th>
+                    <th class="equipo-mobile text-center">Op</th>
+                    <th class="equipo-mobile text-center">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_cdsi_vall %}
-                  <tr class="text-center">
-                    <td class="fw-bold">{{ equipo.index }}</td>
-                    <td class="fw-bold size_equipos2 text-white play-equipo">
+                  <tr>
+                    <td class="fw-bold equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-start fw-bold size_equipos2">
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="play-jug fw-bold">
+                    <td class="equipo-mobile text-center fs-5 play-jug fw-bold">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="play-act fw-bold">
+                    <td class="equipo-mobile text-center fs-5 play-act fw-bold">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="play-prox fw-bold"></td>
-                    <td class="play-mate fw-bold"></td>
-                    <td class="play-opti fw-bold"></td>
-                    <td class="plya-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 play-prox fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 play-mate fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 play-opti fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 plya-pesi fw-bold"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -169,8 +166,7 @@
             </div>
           </div>
           <p class="ms-4 text-analisis fs-6">
-            PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM
-            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+            J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)
           </p>
         </div>
       </div>
@@ -178,43 +174,43 @@
     <div class="tab-pane" id="descenso">
       <!--Tabla Descenso-->
       <div class="d-flex justify-content-center">
-        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="row table-responsive">
-              <h3 class="text-center text-white fw-bold text-analisis">
+              <h3 class="text-center text-white fw-bold text-analisis fs-4">
                 Salvación - Descenso Liga Regional
               </h3>
               <table id="tablaDescCDSIVall" class="table">
                 <!--Tabla Descenso-->
                 <thead>
-                  <tr class="text-center">
+                  <tr>
                     <th></th>
-                    <th>Equipos</th>
-                    <th>PJ</th>
-                    <th>GA</th>
-                    <th>Prox</th>
-                    <th>PM</th>
-                    <th>PO</th>
-                    <th>PPes</th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">%</th>
+                    <th class="equipo-mobile text-center">Mat</th>
+                    <th class="equipo-mobile text-center">Op</th>
+                    <th class="equipo-mobile text-center">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_cdsi_vall %}
-                  <tr class="text-center">
-                    <td class="fw-bold">{{ equipo.index }}</td>
-                    <td class="fw-bold size_equipos2 text-white play-equipo">
+                  <tr>
+                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
+                    <td class="fw-bold size_equipos2 equipo-mobile text-start">
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="desc-jug fw-bold">
+                    <td class="equipo-mobile text-center fs-5 desc-jug fw-bold">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="desc-act fw-bold">
+                    <td class="equipo-mobile text-center fs-5 desc-act fw-bold">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="desc-prox fw-bold"></td>
-                    <td class="desc-mate fw-bold"></td>
-                    <td class="desc-opti fw-bold"></td>
-                    <td class="desc-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 desc-prox fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 desc-mate fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 desc-opti fw-bold"></td>
+                    <td class="equipo-mobile text-center fs-5 desc-pesi fw-bold"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -222,8 +218,7 @@
             </div>
           </div>
           <p class="ms-4 text-analisis fs-6">
-            PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM
-            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+            J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)
           </p>
         </div>
       </div>

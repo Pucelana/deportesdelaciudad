@@ -25,7 +25,7 @@
 {% endblock %}
 {% block contenido %}
 <div class="d-flex justify-content-center">
-    <div class="card tabla_equipos_aula w-100" style="max-width: 50rem">
+    <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered tabla_equipos tabla_uemc">
@@ -52,7 +52,7 @@
                           {% for equipo, datos_equipo in
                           tabla_partidos_uemc.items() %}
                           <tr class="text-center">
-                            <th class="equipo-calend">
+                            <th class="equipo-mobile text-start">
                               {{ equipo }}
                             </th>
                             <td class="jorn_ida text-muted">

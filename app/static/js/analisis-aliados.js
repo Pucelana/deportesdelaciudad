@@ -91,7 +91,7 @@ equipos.forEach((equipoData) => {
 const filas1 = document.querySelectorAll("#tablaPlayAliados tbody tr");
 const partidosTotales1 = 22; // Total de partidos en la temporada
 const partidosPorGanar1 = 1; // Cantidad de puntos por partido ganado
-const partidosPlayOff = 15; // Número de partidos para llegar a los playoffs
+const partidosPlayOff = 17; // Número de partidos para llegar a los playoffs
 const equiposPlay = [];
 let index = 1;
 filas1.forEach((fila, indice) => {
@@ -107,8 +107,8 @@ filas1.forEach((fila, indice) => {
 
     const partidosRestantesParaPlayoffs = partidosPlayOff;
     const puntosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesParaPlayoffs * partidosPorGanar1, puntosParaPlayoffs);
-    const puntosGanadosPesimistas = Math.min(puntosGanadosMatematicos - 2, puntosParaPlayoffs);
-    const puntosGanadosOptimistas = Math.min(puntosGanadosMatematicos - 3, puntosParaPlayoffs);
+    const puntosGanadosPesimistas = Math.min(puntosGanadosMatematicos - 1, puntosParaPlayoffs);
+    const puntosGanadosOptimistas = Math.min(puntosGanadosMatematicos - 2, puntosParaPlayoffs);
 
     equiposPlay.push({
         index: index,
@@ -136,14 +136,14 @@ equiposPlay.forEach((equipoData) => {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
-    <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
-    <td class="play-jug fw-bold text-center">${equipoData.partidosJugados}</td>
-    <td class="play-act fw-bold text-center">${equipoData.puntosActuales}</td>
-    <td class="play-prox fw-bold text-center">${equipoData.proximidadAscenso}%</td>
-    <td class="play-mate fw-bold text-center">${equipoData.puntosGanadosMatematicos}</td>
-    <td class="play-opti fw-bold text-center">${equipoData.puntosGanadosOptimistas}</td>
-    <td class="play-pesi fw-bold text-center">${equipoData.puntosGanadosPesimistas}</td>
+    <td class="fw-bold text-center equipo-mobile ${claseColor}">${equipoData.index}</td>
+    <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
+    <td class="play-jug fw-bold text-center equipo-mobile fs-5">${equipoData.partidosJugados}</td>
+    <td class="play-act fw-bold text-center equipo-mobile fs-5">${equipoData.puntosActuales}</td>
+    <td class="play-prox fw-bold text-center equipo-mobile fs-5">${equipoData.proximidadAscenso}%</td>
+    <td class="play-mate fw-bold text-center equipo-mobile fs-5">${equipoData.puntosGanadosMatematicos}</td>
+    <td class="play-opti fw-bold text-center equipo-mobile fs-5">${equipoData.puntosGanadosOptimistas}</td>
+    <td class="play-pesi fw-bold text-center equipo-mobile fs-5">${equipoData.puntosGanadosPesimistas}</td>
     `;
     tabla1.appendChild(nuevaFila);
 });
@@ -152,7 +152,7 @@ equiposPlay.forEach((equipoData) => {
 const filas2 = document.querySelectorAll("#tablaDescAliados tbody tr");
 const partidosTotales2 = 22; // Total de partidos en la temporada
 const partidosPorGanar2 = 1; // Cantidad de puntos por partido ganado
-const partidosDescenso = 5;
+const partidosDescenso = 6;
 const equiposDesc = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
@@ -198,14 +198,14 @@ equiposDesc.forEach((equipoData) => {
         claseColor2 = 'pos-desc';
     }
     nuevaFila.innerHTML = `
-    <td class="fw-bold text-center ${claseColor2}">${equipoData.index2}</td>
-    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
-    <td class="desc-jug fw-bold text-center">${equipoData.partidosJugados}</td>
-    <td class="desc-act fw-bold text-center">${equipoData.puntosActuales}</td>
-    <td class="desc-prox fw-bold text-center">${equipoData.proxiSalvacion}%</td>
-    <td class="desc-mate fw-bold text-center">${equipoData.partidosGanadosMatematicos}</td>
-    <td class="desc-opti fw-bold text-center">${equipoData.partidosGanadosOptimistas}</td>
-    <td class="desc-pesi fw-bold text-center">${equipoData.partidosGanadosPesimistas}</td>
+    <td class="fw-bold text-center equipo-mobile ${claseColor2}">${equipoData.index2}</td>
+    <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
+    <td class="desc-jug fw-bold text-center equipo-mobile fs-5">${equipoData.partidosJugados}</td>
+    <td class="desc-act fw-bold text-center equipo-mobile fs-5">${equipoData.puntosActuales}</td>
+    <td class="desc-prox fw-bold text-center equipo-mobile fs-5">${equipoData.proxiSalvacion}%</td>
+    <td class="desc-mate fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosMatematicos}</td>
+    <td class="desc-opti fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosOptimistas}</td>
+    <td class="desc-pesi fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosPesimistas}</td>
     `;
     tabla2.appendChild(nuevaFila);
 });
@@ -214,7 +214,7 @@ equiposDesc.forEach((equipoData) => {
 const filas3 = document.querySelectorAll("#tablaEuroAliados tbody tr");
 const partidosTotales3 = 22; // Total de partidos en la temporada
 const partidosPorGanar3 = 1; // Cantidad de puntos por partido ganado
-const partidosEuro = 22;
+const partidosEuro = 21;
 const equiposEuro = [];
 let index3 = 1;
 filas3.forEach((fila, indice) => {
@@ -226,8 +226,8 @@ filas3.forEach((fila, indice) => {
     const proxiEuro = Math.min(((puntosParaEuro - puntosFaltan3) / puntosParaEuro) * 100, 100);
     const partidosRestantesEuro = partidosEuro;
     const partidosGanadosMatematicos3 = Math.min(puntosActuales3 + partidosRestantesEuro * partidosPorGanar3,puntosParaEuro);
-    const partidosGanadosPesimistas3 = Math.min(partidosGanadosMatematicos3 -2, puntosParaEuro);
-    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -3, puntosParaEuro);
+    const partidosGanadosPesimistas3 = Math.min(partidosGanadosMatematicos3 -1, puntosParaEuro);
+    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -2, puntosParaEuro);
     equiposEuro.push({
         index3:index3,
         equipo3,
@@ -266,14 +266,14 @@ equiposEuro.forEach((equipo3Data, index) => {
         claseColor3 = 'pos-nada';
     }
     nuevaFila3.innerHTML = `
-    <td class="fw-bold text-center ${claseColor3}">${index + 1}</td>
-    <td class="fw-bold text-center size_equipos2 text-white">${equipo3Data.equipo3}</td>
-    <td class="euro-jug fw-bold text-center">${equipo3Data.partidosJugados3}</td>
-    <td class="euro-act fw-bold text-center">${equipo3Data.puntosActuales3}</td>
-    <td class="euro-prox fw-bold text-center">${equipo3Data.proxiEuro}%</td>
-    <td class="euro-mate fw-bold text-center">${equipo3Data.partidosGanadosMatematicos3}</td>
-    <td class="euro-opti fw-bold text-center">${equipo3Data.partidosGanadosOptimistas3}</td>
-    <td class="euro-pesi fw-bold text-center">${equipo3Data.partidosGanadosPesimistas3}</td>
+    <td class="fw-bold text-center equipo-mobile ${claseColor3}">${index + 1}</td>
+    <td class="text-start size_equipos2 equipo-mobile">${equipo3Data.equipo3}</td>
+    <td class="euro-jug fw-bold text-center equipo-mobile fs-5">${equipo3Data.partidosJugados3}</td>
+    <td class="euro-act fw-bold text-center equipo-mobile fs-5">${equipo3Data.puntosActuales3}</td>
+    <td class="euro-prox fw-bold text-center equipo-mobile fs-5">${equipo3Data.proxiEuro}%</td>
+    <td class="euro-mate fw-bold text-center equipo-mobile fs-5">${equipo3Data.partidosGanadosMatematicos3}</td>
+    <td class="euro-opti fw-bold text-center equipo-mobile fs-5">${equipo3Data.partidosGanadosOptimistas3}</td>
+    <td class="euro-pesi fw-bold text-center equipo-mobile-fs-5">${equipo3Data.partidosGanadosPesimistas3}</td>
     `;
     tabla3.appendChild(nuevaFila3);
 });

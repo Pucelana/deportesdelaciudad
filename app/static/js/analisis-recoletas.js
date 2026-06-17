@@ -45,14 +45,14 @@ equipos.forEach((equipoData) => {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
-    <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
-    <td class="champ-jug fw-bold text-center">${equipoData.partidosJugados}</td>
-    <td class="champ-act fw-bold text-center">${equipoData.puntosActuales}</td>
-    <td class="champ-prox fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
-    <td class="champ-mate fw-bold text-center">${equipoData.partidosGanadosMatematicos}</td>
-    <td class="champ-opti fw-bold text-center">${equipoData.partidosGanadosOptimistas}</td>
-    <td class="champ-pesi fw-bold text-center">${equipoData.partidosGanadosPesimistas}</td>
+    <td class="equipo-mobile fw-bold text-center ${claseColor}">${equipoData.index}</td>
+    <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
+    <td class="champ-jug fw-bold text-center equipo-mobile fs-5">${equipoData.partidosJugados}</td>
+    <td class="champ-act fw-bold text-center equipo-mobile fs-5">${equipoData.puntosActuales}</td>
+    <td class="champ-prox fw-bold text-center equipo-mobile fs-5">${equipoData.proximidadDeAscenso}%</td>
+    <td class="champ-mate fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosMatematicos}</td>
+    <td class="champ-opti fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosOptimistas}</td>
+    <td class="champ-pesi fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosPesimistas}</td>
     `;
     tabla.appendChild(nuevaFila);
 });

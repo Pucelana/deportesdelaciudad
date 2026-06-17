@@ -10,13 +10,11 @@
               >Aula Valladolid</a
             >
           </li>
-          <li class="breadcrumb-item active text-dark" aria-current="page">
+          <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
             Permanencia
           </li>
         </ol>
       </nav>
-      <h1 class="text-playoff">Aula Valladolid</h1>
-      <span class="equipo_copa"></span>
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
         <a
@@ -44,59 +42,58 @@
             <div class="d-flex justify-content-center">
               <div
                 class="card tabla_equipos_aula w-100"
-                style="max-width: 80rem"
+                style="max-width: 55rem"
               >
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text_uemc text-center text-white">
+                    <h3 class="text_uemc text-center text-white fs-4">
                       Clasificación General
                     </h3>
                     <table
-                      class="table border-secondary text-white text-center"
-                    >
+                      class="table border-secondary text-white text-center">
                       <thead>
                         <tr>
                           <th></th>
-                          <th class="text-dark fs-5">Equipos</th>
-                          <th class="text-dark fs-5">PTS</th>
-                          <th class="text-dark fs-5">J</th>
-                          <th class="text-dark fs-5">G</th>
-                          <th class="text-dark fs-5">E</th>
-                          <th class="text-dark fs-5">P</th>
-                          <th class="text-dark fs-5">GF</th>
-                          <th class="text-dark fs-5">GC</th>
+                          <th class="equipo-mobile text-start">Equipos</th>
+                          <th class="equipo-mobile text-center">PT</th>
+                          <th class="equipo-mobile text-center">J</th>
+                          <th class="equipo-mobile text-center">G</th>
+                          <th class="equipo-mobile text-center">E</th>
+                          <th class="equipo-mobile text-center">P</th>
+                          <th class="equipo-mobile text-center">GF</th>
+                          <th class="equipo-mobile text-center">GC</th>
                         </tr>
                       </thead>
                       <tbody>
                         {% for equipo in clasificacion_permanencia_aula %}
                         <tr>
                           <td
-                            class="text_uemc fs-5 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}"
+                            class="equipo-mobile text-center fs-5 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}"
                           >
                             {{ loop.index }}
                           </td>
-                          <td class="fw-bold text_uemc fs-4 size_equuipos">
+                          <td class="equipo-mobile text-start size_equuipos">
                             {{ equipo.equipo }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.puntos }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.jugados }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.ganados }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.empatados }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.perdidos }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.favor }}
                           </td>
-                          <td class="text_uemc fs-5">
+                          <td class="equipo-mobile text-center fw-bold fs-5">
                             {{ equipo.datos.contra }}
                           </td>
                         </tr>
@@ -113,47 +110,35 @@
             <div class="d-flex justify-content-center">
               <div
                 class="card tabla_equipos_aula w-100"
-                style="max-width: 80rem"
+                style="max-width: 55rem"
               >
                 <div class="card-body">
-                  <h3 class="text_uemc fs-4 text-center text-white mb-3">
+                  <h3 class="text_uemc fs-4 fw-bold text-center text-white mb-3">
                     {{ jornada.nombre }}
                   </h3>
 
                   <!-- TABLA TABLET Y PC -->
                   <div class="table-responsive d-none d-md-block">
                     <table
-                      class="table border-secondary text-white text-center"
-                    >
-                      <thead>
-                        <tr>
-                          <th class="text-dark">Fecha</th>
-                          <th class="text-dark">Hora</th>
-                          <th class="text-dark">Local</th>
-                          <th class="text-dark">Resultado</th>
-                          <th class="text-dark">Visitante</th>
-                        </tr>
-                      </thead>
+                      class="table border-secondary text-white text-center">
                       <tbody>
                         {% for partido in jornada.partidos %}
                         <tr>
-                          <td class="fs-5 fw-bold text-dark">{{ partido.fecha }}</td>
-                          <td class="fs-5 fw-bold text-dark">{{ partido.hora }}</td>
-
+                          <td class="text-muted fs-5 fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
                           <td
-                            class="fs-5 fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
+                            class="equipo-mobile fs-5 fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
                           >
                             {{ partido.local }}
                           </td>
 
-                          <td class="fs-5 fw-bold text-primary">
+                          <td class="resultado-mobile fw-bold fs-5">
                             {% if partido.resultadoA and partido.resultadoB %}
                             {{ partido.resultadoA }} - {{ partido.resultadoB }}
                             {% else %} - {% endif %}
                           </td>
 
                           <td
-                            class="fs-5 fw-bold {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
+                            class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
                           >
                             {{ partido.visitante }}
                           </td>

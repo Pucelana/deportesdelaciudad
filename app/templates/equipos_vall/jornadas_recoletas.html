@@ -17,7 +17,7 @@
         >Calendario Ind.</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Resultados
     </li>
     
@@ -48,7 +48,6 @@
   </a>
 </div>-->
     <!-- BOTONES JORNADAS -->
-     <h3 class="text-center text-white fw-bold equipo-mobile fs-3">Resultados</h3>
     <div class="d-flex justify-content-center flex-wrap gap-2 my-3">
       {% for goles in nuevos_datos_recoletas %}
       <a
@@ -69,22 +68,21 @@
         id="jornada{{ loop.index }}"
         class="jornada-contenido {% if goles.nombre != jornada_activa %}d-none{% endif %}"
       >
-        <div class="card tabla_equipos_aula w-100">
+        <div class="card tabla_equipos_aula w-100 mx-auto" style="max-width: 55rem;">
           <div class="card-body">
-            <h3 class="text-center text-white mb-3 fondo_jornadas">
+            <h3 class="text-center text-white mb-3 fondo_jornadas fw-bold">
               {{ goles.nombre }}
             </h3>
 
             <!-- TABLET / PC -->
             <div
-              class="table-responsive d-flex justify-content-center d-none d-md-block"
-            >
+              class="table-responsive d-flex justify-content-center d-none d-md-block">
               <table class="table table-bordered tabla_equipos">
                 <tbody>
                   {% for partido in goles.partidos %}
                   <tr class="text-center">
                     <td class="text-muted fw-bold">
-                      {{ partido.fecha }} {{ partido.hora }}
+                      {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
                     </td>
                     <td class="equipo-mobile fs-5">{{ partido.local }}</td>
                     <td class="resultado-mobile fs-5">

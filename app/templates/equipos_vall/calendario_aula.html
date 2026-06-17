@@ -9,13 +9,14 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
         >Aula Valladolid</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_balonmano/calendario_aula"
-        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
+        href="/admin/equipos_balonmano/resultados_aula"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Resultados</a>
     </li>
     <li class="breadcrumb-item">
       <a
@@ -39,10 +40,9 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
     Resultados
   </a>
 </div>-->
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
 <div class="d-flex justify-content-center">
   <!--Tabla Calendario-->
-  <div class="card tabla_equipos_aula w-100" style="max-width: 60rem">
+  <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-bordered tabla_equipos tabla_aula">
@@ -66,8 +66,8 @@ Ind. - Aula Valladolid{% endblock %} {% block breadcrumb %}
           </thead>
           <tbody>
             {% for equipo, datos_equipo in tabla_partidos_aula.items() %}
-            <tr class="text-center">
-              <th class="text-white size_equipos">{{ equipo }}</th>
+            <tr>
+              <th class="equipo-mobile text-start">{{ equipo }}</th>
               <td class="jorn_ida fw-bold">
                 {% if datos_equipo.get('primer_enfrentamiento') %} {{
                 datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}

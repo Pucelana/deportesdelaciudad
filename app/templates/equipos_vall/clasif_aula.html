@@ -19,20 +19,18 @@
       <a
         href="/admin/equipos_balonmano/resultados_aula"
         class="text-white text-decoration-none text-analisis fs-6"
-        >Resultados</a
-      >
+        >Resultados</a>
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Clasificaciones
     </li>
   </ol>
 </nav>
 {% endblock %} 
 {% block contenido %} 
-<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3>
     <section class="container-lg mb-5 flex-fill">
       <!-- Navegador personalizado -->
-      <div class="d-flex justify-content-center my-2 gap-2">
+      <div class="d-flex justify-content-center my-2 gap-1">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
         <button class="btn btn-outline-light tab-btn" data-tab="playoff">Playoff</button>
         <button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>
@@ -46,35 +44,35 @@
                     <h3 class="text-center text-analisis">Liga Guerreras Iberdrola</h3>
                       <table id="tablaClasificacion" class="table">
                         <thead>
-                          <tr class="text-center">
+                          <tr>
                             <th></th>
-                            <th>Equipos</th>
-                            <th>PTS</th>
-                            <th>PJ</th>
-                            <th>PG</th>
-                            <th>PE</th>
-                            <th>PP</th>
-                            <th>GF</th>
-                            <th>GC</th>
-                            <th>DG</th>
+                            <th class="equipo-mobile text-start">Equipos</th>
+                            <th class="equipo-mobile text-center">PT</th>
+                            <th class="equipo-mobile text-center">J</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">G</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">E</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">P</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
+                            <th class="equipo-mobile text-center">DG</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for equipo in clasificacion_analisis_aula %}
-                          <tr class="text-center">
+                          <tr>
                             <td
-                              class="fw-bold {% if loop.index <= 8 %}pos-playoff-titulo{% elif loop.index <= 9 %}pos-nada {% elif loop.index <= 13 %}pos-promo{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
+                              class="equipo-mobile text-center fw-bold {% if loop.index <= 8 %}pos-playoff-titulo{% elif loop.index <= 9 %}pos-nada {% elif loop.index <= 13 %}pos-promo{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
                               {{ loop.index }}
                             </td>
-                            <td class="text-white fw-bold size_equipos2 {% if 'Aula Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
-                            <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                            <td class="jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="ganados fw-bold">{{ equipo['datos']['ganados'] }}</td>
-                            <td class="empatados fw-bold">{{ equipo['datos']['empatados'] }}</td>
-                            <td class="perdidos fw-bold">{{ equipo['datos']['perdidos'] }}</td>
-                            <td class="favor fw-bold">{{ equipo['datos']['favor'] }}</td>
-                            <td class="contra fw-bold">{{ equipo['datos']['contra']}}</td>
-                            <td class="diferencia_goles fw-bold">{{ equipo['datos']['diferencia_goles'] }}</td>
+                            <td class="equipo-mobile text-start size_equipos2 {% if 'Aula Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
+                            <td class="equipo-mobile fs-5 puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="equipo-mobile fs-5 jugados fw-bold ">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="equipo-mobile fs-5 ganados fw-bold d-none d-md-table-cell">{{ equipo['datos']['ganados'] }}</td>
+                            <td class="equipo-mobile fs-5 empatados fw-bold d-none d-md-table-cell">{{ equipo['datos']['empatados'] }}</td>
+                            <td class="equipo-mobile fs-5 perdidos fw-bold d-none d-md-table-cell">{{ equipo['datos']['perdidos'] }}</td>
+                            <td class="equipo-mobile fs-5 favor fw-bold d-none d-md-table-cell">{{ equipo['datos']['favor'] }}</td>
+                            <td class="equipo-mobile fs-5 contra fw-bold d-none d-md-table-cell">{{ equipo['datos']['contra']}}</td>
+                            <td class="equipo-mobile fs-5 diferencia_goles fw-bold">{{ equipo['datos']['diferencia_goles'] }}</td>
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -90,34 +88,34 @@
           </div>
           <div class="tab-pane" id="playoff"><!--Tabla PlayOff-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos" style="width: 55rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">PlayOff al Título</h3>
+                    <h3 class="text-center mb-4 text-analisis fs-4">PlayOff al Título</h3>
                       <table id="tablaPlayAula" class="table"><!--Tabla PlayOff-->
                         <thead>
-                          <tr class="text-center">
+                          <tr>
                             <th></th>
-                            <th>Equipos</th>
-                            <th>PJ</th>
-                            <th>PA</th>
-                            <th>Prox</th>
-                            <th>PM</th>
-                            <th>POpt</th>
-                            <th>PPes</th>
+                            <th class="equipo-mobile text-start">Equipos</th>
+                            <th class="equipo-mobile text-center">J</th>
+                            <th class="equipo-mobile text-center">PT</th>
+                            <th class="equipo-mobile text-center">%</th>
+                            <th class="equipo-mobile text-center">Mat</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for equipo in clasificacion_analisis_aula %}
-                          <tr class="text-center">
-                            <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
-                            <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                            <td class="play-prox fw-bold"></td>
-                            <td class="play-mate fw-bold"></td>
-                            <td class="play-opti fw-bold"></td>
-                            <td class="play-pesi fw-bold"></td>
+                          <tr>
+                            <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
+                            <td class="equipo-mobile text-start size_equipos2">{{ equipo['equipo'] }}</td>
+                            <td class="equipo-mobile text-center fs-5 play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="equipo-mobile text-center fs-5 play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="equipo-mobile text-center fs-5 play-prox fw-bold"></td>
+                            <td class="equipo-mobile text-center fs-5 play-mate fw-bold"></td>
+                            <td class="equipo-mobile text-center fs-5 play-opti fw-bold d-none d-md-table-cell"></td>
+                            <td class="equipo-mobile text-center fs-5 play-pesi fw-bold d-none d-md-table-cell"></td>
                           </tr>
                           {% endfor %}
                         </tbody>
@@ -137,28 +135,28 @@
                     <h3 class="text-center mb-4 text-analisis">División Honor Oro</h3>
                       <table id="tablaDescAula" class="table"><!--Tabla Descenso-->
                         <thead>
-                          <tr class="text-center">
+                          <tr>
                             <th></th>
-                            <th>Equipos</th>
-                            <th>PJ</th>
-                            <th>PA</th>
-                            <th>Prox</th>
-                            <th>PM</th>
-                            <th>POpt</th>
-                            <th>PPes</th>
+                            <th class="equipo-mobile text-start">Equipos</th>
+                            <th class="equipo-mobile text-center">J</th>
+                            <th class="equipo-mobile text-center">PT</th>
+                            <th class="equipo-mobile text-center">%</th>
+                            <th class="equipo-mobile text-center">Mat</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                           </tr>
                         </thead>
                         <tbody>
                           {% for equipo in clasificacion_analisis_aula %}
-                          <tr class="text-center">
-                            <td class="fw-bold">{{ equipo.index }}</td>
-                            <td class="fw-bold size_equipos2 text-white">{{ equipo['equipo'] }}</td>
-                            <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                            <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                            <td class="desc-prox fw-bold"></td>
-                            <td class="desc-mate fw-bold"></td>
-                            <td class="desc-opti fw-bold"></td>
-                            <td class="desc-pesi fw-bold"></td>
+                          <tr>
+                            <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
+                            <td class="equipo-mobile text-start size_equipos2">{{ equipo['equipo'] }}</td>
+                            <td class="equipo-mobile text-center fs-5 desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="equipo-mobile text-center fs-5 desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="equipo-mobile text-center fs-5 desc-prox fw-bold"></td>
+                            <td class="equipo-mobile text-center fs-5 desc-mate fw-bold"></td>
+                            <td class="equipo-mobile text-center fs-5 desc-opti fw-bold d-none d-md-table-cell"></td>
+                            <td class="equipo-mobile text-center fs-5 desc-pesi fw-bold d-none d-md-table-cell"></td>
                           </tr>
                           {% endfor %}
                         </tbody>

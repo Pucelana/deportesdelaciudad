@@ -1,115 +1,140 @@
-{% extends "europa/base_europa.html" %} 
-{% block title %}Eurocup2 - BSR Valladolid{% endblock %}
-{% block contenido %}
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ps-2 pt-2">
-          <li class="breadcrumb-item">
-            <a
-              href="/seccion/aliados"
-              class="text-white text-decoration-none text-analisis fs-6"
-              >BSR Valladolid</a
-            >
-          </li>
-          <li class="breadcrumb-item active text-dark" aria-current="page">
-            Eurocup 2 - Final
-          </li>
-        </ol>
-      </nav>
-      <h1 class="text-playoff">BSR Valladolid</h1>
-      <span class="equipo_copa"></span>
-      <!-- Navegación -->
-      <div class="d-flex justify-content-center my-2 gap-2 flex-wrap">
-        <!-- Eliminatorias -->
-        {% for ronda in eliminatorias.keys() %}
-        <a
-          href="#"
-          class="btn btn-outline-dark btn-slide"
-          data-target="{{ ronda }}"
-        >
-          {{ ronda|capitalize }}
-        </a>
-        {% endfor %}
-      </div>
-      <section class="container-lg flex-fill copa_uemc">
-        <!-- Contenido Clasificaciones y Eliminatorias -->
-        <div id="contenedor-secciones">
-          <!-- Eliminatorias -->
-          {% for ronda, partidos in eliminatorias.items() %}
-          <div class="seccion-slide d-none" id="{{ ronda }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text_uemc text-center text-white fs-4 mb-3">
-                    {{ ronda|capitalize }}
-                  </h3>
-                  <div class="row table-responsive">
-                    <div class="col-12">
-                      <table
-                        class="table border-secondary text-white text-center"
-                      >
-                        {% for partido in partidos %}
-                        <tr class="text-center">
-                          <td class="text_uemc text-white fs-5">
-                            {{ partido.fecha }}
-                          </td>
-                          <td class="text_uemc text-white fs-5">
-                            {{ partido.hora }}
-                          </td>
-                          <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                          >
-                            {{ partido.local }}
-                          </td>
-                          <td class="text_uemc fw-bold fs-4">
-                            {{ partido.resultadoA }}
-                          </td>
-                          <td class="text_uemc fw-bold fs-4">
-                            {{ partido.resultadoB }}
-                          </td>
-                          <td
-                            class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                          >
-                            {{ partido.visitante }}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </table>
-                    </div>
-                  </div>
+{% extends "europa/base_europa.html" %} {% block title %}Eurocup2 - BSR
+Valladolid{% endblock %} {% block contenido %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/aliados"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >BSR Valladolid</a
+      >
+    </li>
+    <li
+      class="breadcrumb-item active text-dark text-analisis fs-6"
+      aria-current="page"
+    >
+      Eurocup 2 - Final
+    </li>
+  </ol>
+</nav>
+<!-- Navegación -->
+<div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+  <!-- Eliminatorias -->
+  {% for ronda in eliminatorias.keys() %}
+  <a
+    href="#"
+    class="btn btns-ronda btn-slide"
+    data-target="ronda{{ loop.index0 }}"
+  >
+    {{ ronda|capitalize }}
+  </a>
+  {% endfor %}
+</div>
+<div id="contenedor-rondas">
+  {% for ronda, partidos in eliminatorias.items() %}
+  <div
+    class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+    id="ronda{{ loop.index0 }}"
+  >
+    <div class="d-flex justify-content-center">
+      <div class="card tabla_copa mt-2 w-100" style="max-width: 55rem">
+        <div class="card-body">
+          <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
+            {{ ronda }}
+          </h3>
+          <!-- TABLET / PC -->
+          <div class="table-responsive d-none d-md-block">
+            <table class="table border-secondary">
+              <tbody>
+                {% for partido in partidos %}
+                <tr class="text-center">
+                  <td class="text-muted fw-bold fs-5">
+                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                    }}{% endif %}
+                  </td>
+                  <td
+                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
+                  >
+                    {{ partido.local }}
+                  </td>
+                  <td class="resultado-mobile fw-bold fs-5">
+                    {{ partido.resultadoA }}
+                  </td>
+                  <td class="resultado-mobile fw-bold fs-5">
+                    {{ partido.resultadoB }}
+                  </td>
+                  <td
+                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
+                  >
+                    {{ partido.visitante }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- MÓVIL -->
+          <div class="d-md-none cards-mobile">
+            {% for partido in partidos %}
+            <div class="card partido-mobile mb-2">
+              <div class="card-body text-center">
+                <small class="text-muted fw-bold">
+                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                  }}{% endif %}
+                </small>
+
+                <div
+                  class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
+                >
+                  {{ partido.local }}
+                </div>
+
+                <div class="resultado-mobile">
+                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                </div>
+
+                <div
+                  class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
+                >
+                  {{ partido.visitante }}
                 </div>
               </div>
             </div>
+            {% endfor %}
           </div>
-          {% endfor %}
         </div>
-      </section>
-{% endblock %}
-{% block scripts %}      
-    <script>
-      document.querySelectorAll(".btn-slide").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.preventDefault();
-          const targetId = button.dataset.target;
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-slide");
+    const rondas = document.querySelectorAll(".ronda-item");
 
-          // Ocultar todas las secciones
-          document.querySelectorAll(".seccion-slide").forEach((section) => {
-            section.classList.add("d-none");
-            section.classList.remove("d-block");
-          });
+    botones.forEach((boton) => {
+      boton.addEventListener("click", function (e) {
+        e.preventDefault();
 
-          // Mostrar la sección deseada
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            targetSection.classList.remove("d-none");
-            targetSection.classList.add("d-block");
-          }
+        // Oculta todas las rondas
+        rondas.forEach((r) => r.classList.add("d-none"));
+        rondas.forEach((r) => r.classList.remove("d-block"));
 
-          // Actualizar clase activa en los botones
-          document
-            .querySelectorAll(".btn-slide")
-            .forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-        });
+        // Activa solo la seleccionada
+        const targetId = this.dataset.target;
+        const targetDiv = document.getElementById(targetId);
+        if (targetDiv) {
+          targetDiv.classList.remove("d-none");
+          targetDiv.classList.add("d-block");
+        }
+
+        // Opcional: marcar el botón activo
+        botones.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
       });
-    </script>
+    });
+  });
+</script>
 {% endblock %}

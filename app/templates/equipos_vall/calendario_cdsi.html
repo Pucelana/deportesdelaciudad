@@ -7,7 +7,7 @@
         href="/seccion/cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6">CDSI Valladolid</a>
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
@@ -24,9 +24,8 @@
 </nav>
 {% endblock %}
 {% block contenido %}
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
 <div class="d-flex justify-content-center">
-    <div class="card tabla_equipos_aula w-100" style="max-width: 60rem">
+    <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered tabla_equipos tabla_cdsi">
@@ -53,7 +52,7 @@
                           {% for equipo, datos_equipo in
                           tabla_partidos_cdsi_vall.items() %}
                           <tr class="text-center">
-                            <th class="equipo-calend">
+                            <th class="equipo-mobile text-start">
                               {{ equipo }}
                             </th>
                             <td class="jorn_ida text-muted">

@@ -1,6 +1,7 @@
 .equipo-pucela {
   color: #ffffff !important;
   font-size: 1.50em;
+  font-weight: bold;
   text-shadow:
     -1px -1px 0 #53148f ,
      1px -1px 0 #53148f ,
@@ -9,7 +10,7 @@
 }
 @media (max-width: 576px){
   .equipo-pucela{
-    font-size: 1.3em; 
+    font-size: 0.9em; 
   }
 }
 @media (max-width: 768px) {

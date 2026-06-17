@@ -48,7 +48,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
   <div id="contenedor-secciones">
     <div class="seccion-slide d-block" id="clasificacion">
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-2" style="width: 50rem">
+        <div class="card tabla_copa mt-2" style="width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h4 class="text-analisis fs-5 text-center text-white">
@@ -108,7 +108,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
     {% for jornada, partidos in jornadas.items() %}
     <div class="seccion-slide d-none" id="{{ jornada }}">
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem">
+        <div class="card tabla_copa mt-4" style="width: 55rem">
           <div class="card-body">
               <h3 class="text_uemc fs-4 text-center text-white">
                 {{ jornada|replace('_',' ')|title }}
@@ -180,7 +180,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
     {% for ronda, partidos in eliminatorias.items() %}
     <div class="seccion-slide d-none" id="{{ ronda }}">
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 50rem">
+        <div class="card tabla_copa mt-4 w-100 mx-auto" style="max-width: 55rem">
           <div class="card-body">
             <h3
               class="text-center fs-4 text-white text-capitalize text-analisis mb-4"

@@ -5,7 +5,7 @@ Valladolid{% endblock %} {% block contenido %}
     <li class="breadcrumb-item">
       <a href="/" class="text-white text-decoration-none">Inicio</a>
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       PlayOff
     </li>
   </ol>
@@ -31,7 +31,7 @@ Valladolid{% endblock %} {% block contenido %}
       id="ronda{{ loop.index0 }}"
     >
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-2" style="width: 70rem">
+        <div class="card tabla_copa mt-2" style="width: 55rem">
           <div class="card-body">
             <h3
               class="text-center text-white text-analisis fw-bold text-capitalize"
@@ -42,14 +42,13 @@ Valladolid{% endblock %} {% block contenido %}
               <table class="table border-secondary">
                 {% for partido in partidos %}
                 <tr class="text-center">
-                  <td class="text-white fs-5">{{ partido.fecha }}</td>
-                  <td class="text-white fs-5">{{ partido.hora }}</td>
+                  <td class="text-muted fs-5 fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
                   <td
-                    class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
                   >
                     {{ partido.local }}
                   </td>
-                  <td class="text-white fw-bold fs-4" colspan="2">
+                  <td class="resultado-mobile fw-bold fs-5">
                     {% if partido.resultadoA is not none and partido.resultadoB
                     is not none %} {{ partido.resultadoA }} - {{
                     partido.resultadoB }} {% else %}
@@ -57,7 +56,7 @@ Valladolid{% endblock %} {% block contenido %}
                     {% endif %}
                   </td>
                   <td
-                    class="text-copa fw-bold fs-3 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
                   >
                     {{ partido.visitante }}
                   </td>

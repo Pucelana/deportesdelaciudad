@@ -39,9 +39,9 @@
 
 // Segunda función para calcular el porcentaje al ascenso
 const filas = document.querySelectorAll("#tablaAscenso tbody tr");
-const partidosTotales = 34; // Total de partidos en la temporada
+const partidosTotales = 26; // Total de partidos en la temporada
 const partidosPorGanar = 1; // Cantidad de puntos por partido ganado
-const puntosAscenso = 26; // Puntos relativos para quedar primero
+const puntosAscenso = 20; // Puntos relativos para quedar primero
 const equipos = [];
 let index = 1;
 filas.forEach((fila, indice) => {
@@ -53,8 +53,8 @@ filas.forEach((fila, indice) => {
     const proxiDeAscenso = Math.min(((puntosParaAscenso - puntosQueFaltan) / puntosParaAscenso) * 100, 100);
     const partidosRestantesAscenso = puntosAscenso;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * partidosPorGanar,puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos -2, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -3, puntosParaAscenso)
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos -1, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -2, puntosParaAscenso)
     equipos.push({
         index: index,
         equipo,
@@ -94,9 +94,9 @@ equipos.forEach((equipoData) => {
 });
 // Tercera función playoff y ordenar automaticamente
 const filas1 = document.querySelectorAll("#tablaPlayUemc tbody tr");
-const partidosTotales1 = 34; // Total de partidos en la temporada
+const partidosTotales1 = 26; // Total de partidos en la temporada
 const partidosPorGanar1 = 1; // Cantidad de puntos por partido ganado
-const partidosPlayOff = 17; // Número de partidos para llegar a los playoffs
+const partidosPlayOff = 16; // Número de partidos para llegar a los playoffs
 const equiposPlay = [];
 let index1 = 1;
 filas1.forEach((fila) => {
@@ -109,8 +109,8 @@ filas1.forEach((fila) => {
     const proximidadAscenso = Math.min(((puntosParaPlayoffs - puntosFaltantes) / puntosParaPlayoffs) * 100, 100);
     const partidosRestantesParaPlayoffs = partidosPlayOff;
     const puntosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesParaPlayoffs * partidosPorGanar1, puntosParaPlayoffs);
-    const puntosGanadosPesimistas = Math.min(puntosGanadosMatematicos - 2, puntosParaPlayoffs);
-    const puntosGanadosOptimistas = Math.min(puntosGanadosMatematicos - 3, puntosParaPlayoffs);
+    const puntosGanadosPesimistas = Math.min(puntosGanadosMatematicos - 1, puntosParaPlayoffs);
+    const puntosGanadosOptimistas = Math.min(puntosGanadosMatematicos - 2, puntosParaPlayoffs);
     equiposPlay.push({
         index1: index1,
         equipo,
@@ -152,9 +152,9 @@ equiposPlay.forEach((equipoData) => {
 });
 // Cuarta función descenso y ordenar automaticamente
 const filas2 = document.querySelectorAll("#tablaDescUemc tbody tr");
-const partidosTotales2 = 34; // Total de partidos en la temporada
+const partidosTotales2 = 26; // Total de partidos en la temporada
 const partidosPorGanar2 = 1; // Cantidad de puntos por partido ganado
-const partidosDescenso = 12;
+const partidosDescenso = 10;
 const equiposDesc = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
@@ -166,8 +166,8 @@ filas2.forEach((fila, indice) => {
     const proxiSalvacion = Math.min(((puntosParaSalvar - puntosFaltan) / puntosParaSalvar) * 100, 100);
     const partidosRestantesSalvacion = partidosDescenso;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesSalvacion * partidosPorGanar2,puntosParaSalvar);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos -2, puntosParaSalvar);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -3, puntosParaSalvar);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos -1, puntosParaSalvar);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -2, puntosParaSalvar);
     equiposDesc.push({
         index2: index2,
         equipo,
