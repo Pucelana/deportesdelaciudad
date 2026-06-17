@@ -24,12 +24,12 @@
     .table-responsive {
         font-size: 0.8rem;
       }
-      .size_equipos2 {
+      /*.size_equipos2 {
         font-size: 0.80rem;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
+      }*/
       .fw-bold {
         font-size: 0.85rem;
       }
@@ -49,13 +49,13 @@
   text-overflow: ellipsis;
   text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
-.size_equipos2 {
+/*.size_equipos2 {
   font-size: 1.30em;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   text-shadow: 0 0 6px rgba(0,0,0,0.70);
-}
+}*/
 .text-descrip{
   font-size: 1em;
   white-space: nowrap;
