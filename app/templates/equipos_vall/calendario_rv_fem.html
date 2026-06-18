@@ -9,7 +9,7 @@
         >RV Femenino</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
@@ -30,9 +30,8 @@
 </nav>
 {% endblock %}
 {% block contenido %}
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">Calendario Individual</h3>
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula w-100" style="max-width: 60rem;">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
                 <div class="card-body">
                   <div class="table-responsive">
                     <table class="table table-bordered tabla_equipos tabla_simancas">
@@ -56,8 +55,8 @@
                       </thead>
                       <tbody>
                         {% for equipo, datos_equipo in tabla_partidos_simancas.items() %}
-                        <tr class="text-center">
-                          <th class="text-white size_equipos">{{ equipo }}</th>
+                        <tr>
+                          <th class="equipo-mobile text-start">{{ equipo }}</th>
                           <td class="jorn_ida fw-bold">
                             {% if datos_equipo.get('primer_enfrentamiento') %}
                             {{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
