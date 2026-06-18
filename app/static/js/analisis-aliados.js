@@ -136,14 +136,14 @@ equiposPlay.forEach((equipoData) => {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
-    <td class="fw-bold text-center equipo-mobile ${claseColor}">${equipoData.index}</td>
+    <td class="text-center equipo-mobile ${claseColor}">${equipoData.index}</td>
     <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
-    <td class="play-jug fw-bold text-center equipo-mobile fs-5">${equipoData.partidosJugados}</td>
-    <td class="play-act fw-bold text-center equipo-mobile fs-5">${equipoData.puntosActuales}</td>
-    <td class="play-prox fw-bold text-center equipo-mobile fs-5">${equipoData.proximidadAscenso}%</td>
-    <td class="play-mate fw-bold text-center equipo-mobile fs-5">${equipoData.puntosGanadosMatematicos}</td>
-    <td class="play-opti fw-bold text-center equipo-mobile fs-5">${equipoData.puntosGanadosOptimistas}</td>
-    <td class="play-pesi fw-bold text-center equipo-mobile fs-5">${equipoData.puntosGanadosPesimistas}</td>
+    <td class="play-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
+    <td class="play-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
+    <td class="play-prox text-center equipo-mobile">${equipoData.proximidadAscenso}%</td>
+    <td class="play-mate text-center equipo-mobile">${equipoData.puntosGanadosMatematicos}</td>
+    <td class="play-opti text-center equipo-mobile">${equipoData.puntosGanadosOptimistas}</td>
+    <td class="play-pesi text-center equipo-mobile">${equipoData.puntosGanadosPesimistas}</td>
     `;
     tabla1.appendChild(nuevaFila);
 });
@@ -198,14 +198,14 @@ equiposDesc.forEach((equipoData) => {
         claseColor2 = 'pos-desc';
     }
     nuevaFila.innerHTML = `
-    <td class="fw-bold text-center equipo-mobile ${claseColor2}">${equipoData.index2}</td>
+    <td class="text-center equipo-mobile ${claseColor2}">${equipoData.index2}</td>
     <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
-    <td class="desc-jug fw-bold text-center equipo-mobile fs-5">${equipoData.partidosJugados}</td>
-    <td class="desc-act fw-bold text-center equipo-mobile fs-5">${equipoData.puntosActuales}</td>
-    <td class="desc-prox fw-bold text-center equipo-mobile fs-5">${equipoData.proxiSalvacion}%</td>
-    <td class="desc-mate fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosMatematicos}</td>
-    <td class="desc-opti fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosOptimistas}</td>
-    <td class="desc-pesi fw-bold text-center equipo-mobile fs-5">${equipoData.partidosGanadosPesimistas}</td>
+    <td class="desc-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
+    <td class="desc-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
+    <td class="desc-prox text-center equipo-mobile">${equipoData.proxiSalvacion}%</td>
+    <td class="desc-mate text-center equipo-mobile">${equipoData.partidosGanadosMatematicos}</td>
+    <td class="desc-opti text-center equipo-mobile">${equipoData.partidosGanadosOptimistas}</td>
+    <td class="desc-pesi text-center equipo-mobile">${equipoData.partidosGanadosPesimistas}</td>
     `;
     tabla2.appendChild(nuevaFila);
 });
@@ -266,14 +266,14 @@ equiposEuro.forEach((equipo3Data, index) => {
         claseColor3 = 'pos-nada';
     }
     nuevaFila3.innerHTML = `
-    <td class="fw-bold text-center equipo-mobile ${claseColor3}">${index + 1}</td>
+    <td class="text-center equipo-mobile ${claseColor3}">${index + 1}</td>
     <td class="text-start size_equipos2 equipo-mobile">${equipo3Data.equipo3}</td>
-    <td class="euro-jug fw-bold text-center equipo-mobile fs-5">${equipo3Data.partidosJugados3}</td>
-    <td class="euro-act fw-bold text-center equipo-mobile fs-5">${equipo3Data.puntosActuales3}</td>
-    <td class="euro-prox fw-bold text-center equipo-mobile fs-5">${equipo3Data.proxiEuro}%</td>
-    <td class="euro-mate fw-bold text-center equipo-mobile fs-5">${equipo3Data.partidosGanadosMatematicos3}</td>
-    <td class="euro-opti fw-bold text-center equipo-mobile fs-5">${equipo3Data.partidosGanadosOptimistas3}</td>
-    <td class="euro-pesi fw-bold text-center equipo-mobile-fs-5">${equipo3Data.partidosGanadosPesimistas3}</td>
+    <td class="euro-jug text-center equipo-mobile">${equipo3Data.partidosJugados3}</td>
+    <td class="euro-act text-center equipo-mobile">${equipo3Data.puntosActuales3}</td>
+    <td class="euro-prox text-center equipo-mobile">${equipo3Data.proxiEuro}%</td>
+    <td class="euro-mate text-center equipo-mobile">${equipo3Data.partidosGanadosMatematicos3}</td>
+    <td class="euro-opti text-center equipo-mobile">${equipo3Data.partidosGanadosOptimistas3}</td>
+    <td class="euro-pesi text-center equipo-mobile">${equipo3Data.partidosGanadosPesimistas3}</td>
     `;
     tabla3.appendChild(nuevaFila3);
 });

@@ -63,45 +63,45 @@
                   <tr>
                     <th></th>
                     <th class="equipo-mobile text-start">Equipos</th>
-                    <th class="equipo-mobile text-start">J</th>
-                    <th class="equipo-mobile text-start">G</th>
-                    <th class="equipo-mobile text-start">P</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">P</th>
                     <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
                     <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">DP</th>
-                    <th class="equipo-mobile text-start d-none d-md-table-cell">PT</th>
+                    <th class="equipo-mobile text-center">DP</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">PT</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_uemc %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center fw-bold {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile text-start fw-bold size_equipos2 text-white {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start size_equipos2 {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo.equipo }}
                     </td>
-                    <td class="equipo-mobile text-start jugados fw-bold fs-5">
+                    <td class="equipo-mobile text-center jugados">
                       {{ equipo.datos.jugados }}
                     </td>
-                    <td class="equipo-mobile ganados text-start fw-bold fs-5">
+                    <td class="equipo-mobile ganados text-center">
                       {{ equipo.datos.ganados }}
                     </td>
-                    <td class="equipo-mobile text-start perdidos fw-bold fs-5">
+                    <td class="equipo-mobile text-center perdidos">
                       {{ equipo.datos.perdidos }}
                     </td>
-                    <td class="equipo-mobile text-start favor fw-bold fs-5 d-none d-md-table-cell">{{ equipo.datos.favor }}</td>
+                    <td class="equipo-mobile text-center favor d-none d-md-table-cell">{{ equipo.datos.favor }}</td>
                     <td class="equipo-mobile text-start contra fw-bold fs-5 d-none d-md-table-cell">
                       {{ equipo.datos.contra }}
                     </td>
-                    <td class="equipo-mobile text-center dife fw-bold fs-5 d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center dife">
                       {{ equipo.datos.diferencia_canastas }}
                     </td>
-                    <td class="equipo-mobile text-start puntos fw-bold fs-5 d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center puntos d-none d-md-table-cell">
                       {{ equipo.datos.puntos }}
                     </td>
                   </tr>
@@ -152,23 +152,23 @@
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center">Op</th>
-                    <th class="equipo-mobile text-center">Pe</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pe</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_uemc %}
                   <tr>
-                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
-                    <td class="equipo-mobile text-start fw-bold size_equipos2">
+                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo.equipo }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 jugados1 fw-bold">{{ equipo.datos.jugados }}</td>
-                    <td class="equipo-mobile text-center fs-5 pts-act1 fw-bold">{{ equipo.datos.ganados }}</td>
-                    <td class="equipo-mobile text-center fs-5 proxi1 fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 pts-mate1 fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 pts-opti1 fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 pts-pesi1 fw-bold"></td>
+                    <td class="equipo-mobile text-center jugados1">{{ equipo.datos.jugados }}</td>
+                    <td class="equipo-mobile text-center pts-act1">{{ equipo.datos.ganados }}</td>
+                    <td class="equipo-mobile text-center proxi1"></td>
+                    <td class="equipo-mobile text-center pts-mate1"></td>
+                    <td class="equipo-mobile text-center pts-opti1 d-none d-md-table-cell"></td>
+                    <td class="equipo-mobile text-center pts-pesi1 d-none d-md-table-cell"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -199,23 +199,23 @@
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center">Op</th>
-                    <th class="equipo-mobile text-center">Pes</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_uemc %}
                   <tr>
-                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
-                    <td class="equipo-mobile text-start fw-bold size_equipos2">
+                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo.equipo }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 play-jug fw-bold">{{ equipo.datos.jugados }}</td>
-                    <td class="equipo-mobile text-center fs-5 play-act fw-bold">{{ equipo.datos.ganados }}</td>
-                    <td class="equipo-mobile text-center fs-5 play-prox fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 play-mate fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 play-opti fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 plya-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center play-jug">{{ equipo.datos.jugados }}</td>
+                    <td class="equipo-mobile text-center play-act">{{ equipo.datos.ganados }}</td>
+                    <td class="equipo-mobile text-center play-prox"></td>
+                    <td class="equipo-mobile text-center play-mate"></td>
+                    <td class="equipo-mobile text-center play-opti d-none d-md-table-cell"></td>
+                    <td class="equipo-mobile text-center plya-pesi d-none d-md-table-cell"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -246,23 +246,23 @@
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center">Op</th>
-                    <th class="equipo-mobile text-center">Pes</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_uemc %}
                   <tr>
-                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
-                    <td class="equipo-mobile text-start fw-bold size_equipos2">
+                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo.equipo }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 desc-jug fw-bold">{{ equipo.datos.jugados }}</td>
-                    <td class="equipo-mobile text-center fs-5 desc-act fw-bold">{{ equipo.datos.ganados }}</td>
-                    <td class="equipo-mobile text-center fs-5 desc-prox fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 desc-mate fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 desc-opti fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 desc-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center desc-jug">{{ equipo.datos.jugados }}</td>
+                    <td class="equipo-mobile text-center desc-act">{{ equipo.datos.ganados }}</td>
+                    <td class="equipo-mobile text-center desc-prox"></td>
+                    <td class="equipo-mobile text-center desc-mate"></td>
+                    <td class="equipo-mobile text-center desc-opti d-none d-md-table-cell"></td>
+                    <td class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"></td>
                   </tr>
                   {% endfor %}
                 </tbody>

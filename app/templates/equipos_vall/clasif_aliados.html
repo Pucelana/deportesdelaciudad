@@ -76,7 +76,7 @@
                   {% for equipo in clasificacion_analisis_aliados %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 11 %}pos-promo{% elif loop.index <= 12 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 11 %}pos-promo{% elif loop.index <= 12 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
@@ -85,25 +85,25 @@
                     >
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 jugados fw-bold">
+                    <td class="equipo-mobile text-center jugados">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 ganados fw-bold">
+                    <td class="equipo-mobile text-center ganados">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 perdidos fw-bold">
+                    <td class="equipo-mobile text-center perdidos">
                       {{ equipo['datos']['perdidos'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 favor fw-bold d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center favor d-none d-md-table-cell">
                       {{ equipo['datos']['favor'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 contra fw-bold d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center contra d-none d-md-table-cell">
                       {{ equipo['datos']['contra']}}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 dife fw-bold">
+                    <td class="equipo-mobile text-center dife">
                       {{ equipo['datos']['diferencia_canastas'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 puntos fw-bold d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center puntos d-none d-md-table-cell">
                       {{ equipo['datos']['puntos'] }}
                     </td>
                   </tr>
@@ -143,27 +143,27 @@
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center">Op</th>
-                    <th class="equipo-mobile text-center">Pes</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_aliados %}
                   <tr>
-                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
                     <td class="equipo-mobile text-start fs-5 size_equipos2">
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 play-jug fw-bold">
+                    <td class="equipo-mobile text-center play-jug">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 play-act fw-bold">
+                    <td class="equipo-mobile text-center play-act">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 play-prox fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 play-mate fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 play-opti fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 play-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center play-prox"></td>
+                    <td class="equipo-mobile text-center play-mate"></td>
+                    <td class="equipo-mobile text-center play-opti d-none d-md-table-cell"></td>
+                    <td class="equipo-mobile text-center play-pesi d-none d-md-table-cell"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -194,27 +194,27 @@
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center">Op</th>
-                    <th class="equipo-mobile text-center">Pes</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_aliados %}
                   <tr>
-                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
-                    <td class="equipo-mobile text-start fs-5 size_equipos2">
+                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 euro-jug fw-bold">
+                    <td class="equipo-mobile text-center euro-jug">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 euro-act fw-bold">
+                    <td class="equipo-mobile text-center euro-act">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 euro-prox fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 euro-mate fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 euro-opti fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 euro-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center euro-prox"></td>
+                    <td class="equipo-mobile text-center euro-mate"></td>
+                    <td class="equipo-mobile text-center euro-opti d-none d-md-table-cell"></td>
+                    <td class="equipo-mobile text-center euro-pesi d-none d-md-table-cell"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -222,8 +222,7 @@
             </div>
           </div>
           <p class="ms-4">
-            PJ (Partidos Jugados); GA (Ganados Actuales); Prox (Proximidad); PM
-            (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)
+            J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)
           </p>
         </div>
       </div>
@@ -246,27 +245,27 @@
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center">Op</th>
-                    <th class="equipo-mobile text-center">Pes</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_aliados %}
                   <tr>
-                    <td class="equipo-mobile text-center fw-bold">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
                     <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 desc-jug fw-bold">
+                    <td class="equipo-mobile text-center desc-jug">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 desc-act fw-bold">
+                    <td class="equipo-mobile text-center desc-act">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 desc-prox fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 desc-mate fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 desc-opti fw-bold"></td>
-                    <td class="equipo-mobile text-center fs-5 desc-pesi fw-bold"></td>
+                    <td class="equipo-mobile text-center desc-prox"></td>
+                    <td class="equipo-mobile text-center desc-mate"></td>
+                    <td class="equipo-mobile text-center desc-opti d-none d-md-table-cell"></td>
+                    <td class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"></td>
                   </tr>
                   {% endfor %}
                 </tbody>
