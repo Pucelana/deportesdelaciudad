@@ -67,7 +67,7 @@ Valladolid{% endblock %} {% block contenido %}
                   {% for equipo, stats in clasificacion %}
                   <tr>
                     <td
-                      class="equipo-mobile fw-bold fs-5 text-center {% if loop.index <= 15 %}pos-ascen{% elif loop.index <= 28 %}pos-nada{% endif %}"
+                      class="equipo-mobile fw-bold fs-5 text-center {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 5 %}pos-nada{% endif %}"
                     >
                       {{ loop.index }}
                     </td>

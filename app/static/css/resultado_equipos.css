@@ -6,7 +6,8 @@
     -1px -1px 0 #53148f ,
      1px -1px 0 #53148f ,
     -1px  1px 0 #53148f ,
-     1px  1px 0 #53148f ;
+     1px  1px 0 #53148f ,
+     0 0 6px rgba(0,0,0,0.80);
 }
 @media (max-width: 576px){
   .equipo-pucela{

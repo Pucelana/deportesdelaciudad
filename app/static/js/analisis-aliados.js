@@ -142,8 +142,8 @@ equiposPlay.forEach((equipoData) => {
     <td class="play-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="play-prox text-center equipo-mobile">${equipoData.proximidadAscenso}%</td>
     <td class="play-mate text-center equipo-mobile">${equipoData.puntosGanadosMatematicos}</td>
-    <td class="play-opti text-center equipo-mobile">${equipoData.puntosGanadosOptimistas}</td>
-    <td class="play-pesi text-center equipo-mobile">${equipoData.puntosGanadosPesimistas}</td>
+    <td class="play-opti text-center equipo-mobile d-none d-md-table-cell">${equipoData.puntosGanadosOptimistas}</td>
+    <td class="play-pesi text-center equipo-mobile d-none d-md-table-cell">${equipoData.puntosGanadosPesimistas}</td>
     `;
     tabla1.appendChild(nuevaFila);
 });
@@ -204,8 +204,8 @@ equiposDesc.forEach((equipoData) => {
     <td class="desc-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="desc-prox text-center equipo-mobile">${equipoData.proxiSalvacion}%</td>
     <td class="desc-mate text-center equipo-mobile">${equipoData.partidosGanadosMatematicos}</td>
-    <td class="desc-opti text-center equipo-mobile">${equipoData.partidosGanadosOptimistas}</td>
-    <td class="desc-pesi text-center equipo-mobile">${equipoData.partidosGanadosPesimistas}</td>
+    <td class="desc-opti text-center equipo-mobile d-none d-md-table-cell">${equipoData.partidosGanadosOptimistas}</td>
+    <td class="desc-pesi text-center equipo-mobile d-none d-md-table-cell">${equipoData.partidosGanadosPesimistas}</td>
     `;
     tabla2.appendChild(nuevaFila);
 });
@@ -272,8 +272,8 @@ equiposEuro.forEach((equipo3Data, index) => {
     <td class="euro-act text-center equipo-mobile">${equipo3Data.puntosActuales3}</td>
     <td class="euro-prox text-center equipo-mobile">${equipo3Data.proxiEuro}%</td>
     <td class="euro-mate text-center equipo-mobile">${equipo3Data.partidosGanadosMatematicos3}</td>
-    <td class="euro-opti text-center equipo-mobile">${equipo3Data.partidosGanadosOptimistas3}</td>
-    <td class="euro-pesi text-center equipo-mobile">${equipo3Data.partidosGanadosPesimistas3}</td>
+    <td class="euro-opti text-center equipo-mobile d-none d-md-table-cell">${equipo3Data.partidosGanadosOptimistas3}</td>
+    <td class="euro-pesi text-center equipo-mobile d-none d-md-table-cell">${equipo3Data.partidosGanadosPesimistas3}</td>
     `;
     tabla3.appendChild(nuevaFila3);
 });
