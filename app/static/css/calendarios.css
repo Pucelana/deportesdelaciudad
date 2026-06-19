@@ -120,30 +120,30 @@
 }
 
 .equipo-mobile{
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 800;
     color: white;
     margin: .4rem 0;
     text-shadow: 0 0 6px rgba(0,0,0,0.80);
 }
-.equipo-calend{
+/*.equipo-calend{
     font-size: 1rem;
     font-weight: 800;
     color: white;
     margin: .4rem 0;
     text-shadow: 0 0 6px rgba(0,0,0,0.70);
-}
+}*/
 
 .resultado-mobile{
     font-size: 1.4rem;
     font-weight: 800;
-    color: #c4d9ff;
+    color: #d4e3ff;
     margin: .5rem 0;
     text-shadow: 0 0 6px rgba(0,0,0,0.80);
 }
 
 .ganador{
-    color: #111 !important;
+    color: #303030 !important;
 }
 
 @media (max-width: 576px){

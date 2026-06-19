@@ -23,15 +23,15 @@
         >Resultados</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Clasificaciones
     </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3><section class="container-lg mb-5 flex-fill copa">
+<section class="container-lg mb-5 flex-fill copa">
     <!-- Navegador personalizado -->
-      <div class="d-flex justify-content-center my-2 gap-2">
+      <div class="d-flex justify-content-center my-2 gap-1">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
         <button class="btn btn-outline-light tab-btn" data-tab="playoff">PlayOff</button>
         <button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>
@@ -39,128 +39,128 @@
     <div class="tab-container">
       <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->	
           <div class="d-flex justify-content-center">
-            <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+            <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
               <div class="card-body">
                 <div class="table-responsive">
-                  <h3 class="text-center text-white fw-bold text-analisis">Clasificación - Liga Élite Masculina</h3>
+                  <h3 class="text-center text-white fw-bold text-analisis fs-4">Liga Élite Masculina</h3>
                     <table id="tablaClasificacion" class="table">
                       <thead>
-                        <tr class="text-center">
+                        <tr>
                           <th></th>
-                          <th>Equipos</th>
-                          <th>PTS</th>
-                          <th>PJ</th>
-                          <th>PG</th>
-                          <th>PEmp.</th>
-                          <th>PPer.</th>
-                          <th>GF</th>
-                          <th>GC</th>
-                          <th>DGol.</th>
-                          <th>B</th>
+                          <th class="equipo-mobile text-start">Equipos</th>
+                          <th class="equipo-mobile text-center">PT</th>
+                          <th class="equipo-mobile text-center">J</th>
+                          <th class="equipo-mobile text-center d-none d-md-table-cell">G</th>
+                          <th class="equipo-mobile text-center d-none d-md-table-cell">E</th>
+                          <th class="equipo-mobile text-center d-none d-md-table-cell">P</th>
+                          <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
+                          <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
+                          <th class="equipo-mobile text-center">DG</th>
+                          <th class="equipo-mobile text-center">B</th>
                         </tr>
                       </thead>
                       <tbody>
                         {% for equipo in clasificacion_analisis_caja %}
-                        <tr class="text-center">
-                          <td class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 8 %}pos-nada{% elif loop.index <= 10 %}pos-desc{% endif %}">{{ loop.index }}</td>
-                          <td class="text-white fw-bold size_equipos2 {% if 'Caja Rural' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
-                          <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
-                          <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
-                          <td class="ganados fw-bold">{{ equipo.datos.ganados }}</td>
-                          <td class="empatados fw-bold">{{ equipo.datos.empatados }}</td>
-                          <td class="perdidos fw-bold">{{ equipo.datos.perdidos }}</td>
-                          <td class="favor fw-bold">{{ equipo.datos.favor }}</td>
-                          <td class="contra fw-bold">{{ equipo.datos.contra}}</td>
-                          <td class="diferencia_goles fw-bold">{{ equipo.datos.diferencia_goles }}</td>
-                          <td class="bonus fw-bold">{{ equipo.datos.bonus }}</td>
+                        <tr>
+                          <td class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 8 %}pos-nada{% elif loop.index <= 10 %}pos-desc{% endif %}">{{ loop.index }}</td>
+                          <td class="equipo-mobile text-start size_equipos2 {% if 'Caja Rural' in equipo.equipo %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
+                          <td class="puntos equipo-mobile text-center">{{ equipo.datos.puntos }}</td>
+                          <td class="jugados equipo-mobile text-center">{{ equipo.datos.jugados }}</td>
+                          <td class="ganados equipo-mobile text-center d-none d-md-table-cell">{{ equipo.datos.ganados }}</td>
+                          <td class="empatados equipo-mobile text-center d-none d-md-table-cell">{{ equipo.datos.empatados }}</td>
+                          <td class="perdidos equipo-mobile text-center d-none d-md-table-cell">{{ equipo.datos.perdidos }}</td>
+                          <td class="favor equipo-mobile text-center d-none d-md-table-cell">{{ equipo.datos.favor }}</td>
+                          <td class="contra equipo-mobile text-center d-none d-md-table-cell">{{ equipo.datos.contra}}</td>
+                          <td class="diferencia_goles equipo-mobile text-center">{{ equipo.datos.diferencia_goles }}</td>
+                          <td class="bonus equipo-mobile text-center">{{ equipo.datos.bonus }}</td>
                         </tr>
                         {% endfor %}
                       </tbody>
                     </table>
                 </div>
               </div>
-              <p class="ms-4 text-analisis fs-6"> PTS (Puntos); PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP (Partidos Perdidos); GF (Goles Favor); GC(Goles Contra); DG (Diferencia Goles); B (Bonus)</p>
+              <p class="ms-4 text-analisis fs-6"> PT(Puntos); J(Jugados); G(Ganados); E(Empatados); P(Perdidos); F(Favor); C(Contra); DG(Dif. Goles); B(Bonus)</p>
               <p class="ms-4 text-analisis fs-6">PlayOffs (Título)<span class="badge bg-success ms-2">1-4</span> ; PlayOut (Descenso)<span class="badge bg-danger ms-2">9-10</span></p>
             </div>
           </div>
         </div>
         <div class="tab-pane" id="playoff"><!--Tabla PlayOff-->
           <div class="d-flex justify-content-center">
-            <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+            <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
               <div class="card-body">
                 <div class="table-responsive">
-                   <h3 class="text-center text-white fw-bold mb-4 text-analisis">PlayOff al Título</h3>
+                   <h3 class="text-center text-white fw-bold mb-4 text-analisis fs-4">PlayOff al Título</h3>
                   <table id="tablaPlayCaja" class="table">
                     <thead>
-                      <tr class="text-center">
+                      <tr>
                         <th></th>
-                        <th>Equipos</th>
-                        <th>PJ</th>
-                        <th>PA</th>
-                        <th>Prox</th>
-                        <th>PM</th>
-                        <th>PO</th>
-                        <th>PPes</th>
+                        <th class="equipo-mobile text-start">Equipos</th>
+                        <th class="equipo-mobile text-center">J</th>
+                        <th class="equipo-mobile text-center">PT</th>
+                        <th class="equipo-mobile text-center">%</th>
+                        <th class="equipo-mobile text-center">Mat</th>
+                        <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                        <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for equipo in clasificacion_analisis_caja %}
-                      <tr class="text-center">
-                        <td class="fw-bold">{{ equipo.index }}</td>
-                        <td class="fw-bold size_equipos2 text-white play-equipo">{{ equipo['equipo'] }}</td>
-                        <td class="play-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                        <td class="play-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                        <td class="play-prox fw-bold"></td>
-                        <td class="play-mate fw-bold"></td>
-                        <td class="play-opti fw-bold"></td>
-                        <td class="play-pesi fw-bold"></td>
+                      <tr>
+                        <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                        <td class="equipo-mobile text-start size_equipos2">{{ equipo['equipo'] }}</td>
+                        <td class="play-jug equipo-mobile text-center">{{ equipo['datos']['jugados'] }}</td>
+                        <td class="play-act equipo-mobile text-center">{{ equipo['datos']['puntos'] }}</td>
+                        <td class="play-prox equipo-mobile text-center"></td>
+                        <td class="play-mate equipo-mobile text-center"></td>
+                        <td class="play-opti equipo-mobile text-center d-none d-md-table-cell"></td>
+                        <td class="play-pesi equipo-mobile text-center d-none d-md-table-cell"></td>
                       </tr>
                       {% endfor %}
                     </tbody>
                   </table>  
                 </div>
               </div>
-              <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              <p class="ms-4 text-analisis fs-6">J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)</p>
             </div>
           </div>
         </div>
         <div class="tab-pane" id="descenso"><!--Tabla Descenso-->
           <div class="d-flex justify-content-center">
-            <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+            <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
               <div class="card-body">
                 <div class="table-responsive">
-                  <h3 class="text-center text-white fw-bold mb-4 text-analisis">PlayOut (Descenso)  1ª División</h3>
+                  <h3 class="text-center text-white fw-bold mb-4 text-analisis fs-4">1ª División</h3>
                   <table id="tablaDescCaja" class="table">
                     <thead>
-                      <tr class="text-center">
+                      <tr>
                         <th></th>
-                        <th>Equipos</th>
-                        <th>PJ</th>
-                        <th>PA</th>
-                        <th>Prox</th>
-                        <th>PM</th>
-                        <th>PO</th>
-                        <th>PPes</th>
+                        <th class="equipo-mobile text-start">Equipos</th>
+                        <th class="equipo-mobile text-center">J</th>
+                        <th class="equipo-mobile text-center">PT</th>
+                        <th class="equipo-mobile text-center">%</th>
+                        <th class="equipo-mobile text-center">Mat</th>
+                        <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                        <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
                       </tr>
                     </thead>
                     <tbody>
                       {% for equipo in clasificacion_analisis_caja %}
-                      <tr class="text-center">
-                        <td class="fw-bold">{{ equipo.index }}</td>
-                        <td class="fw-bold size_equipos2 text-white play-equipo">{{ equipo['equipo'] }}</td>
-                        <td class="desc-jug fw-bold">{{ equipo['datos']['jugados'] }}</td>
-                        <td class="desc-act fw-bold">{{ equipo['datos']['puntos'] }}</td>
-                        <td class="desc-prox fw-bold"></td>
-                        <td class="desc-mate fw-bold"></td>
-                        <td class="desc-opti fw-bold"></td>
-                        <td class="desc-pesi fw-bold"></td>
+                      <tr>
+                        <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                        <td class="equipo-mobile size_equipos2 text-start">{{ equipo['equipo'] }}</td>
+                        <td class="desc-jug equipo-mobile text-center">{{ equipo['datos']['jugados'] }}</td>
+                        <td class="desc-act equipo-mobile text-center">{{ equipo['datos']['puntos'] }}</td>
+                        <td class="desc-prox equipo-mobile text-center"></td>
+                        <td class="desc-mate equipo-mobile tetx-center"></td>
+                        <td class="desc-opti equipo-mobile text-center d-none d-md-table-cell"></td>
+                        <td class="desc-pesi equipo-mobile text-center d-none d-md-table-cell"></td>
                       </tr>
                       {% endfor %}
                     </tbody>
                   </table>
                 </div>
               </div>
-              <p class="ms-4 text-analisis fs-6">PJ (Partidos Jugados); PA (Puntos Actuales); Prox (Proximidad); PM (Puntos Matemáticos); PO(Puntos Optimista); PPes (Puntos Pesimista)</p>
+              <p class="ms-4 text-analisis fs-6">J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)</p>
             </div>
           </div>
           </div>

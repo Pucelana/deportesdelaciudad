@@ -8,14 +8,11 @@
         C.D Tierno Galván
       </a>
     </li>
-    <li class="breadcrumb-item active text-dark">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6">
       Copa del Rey 25/26
     </li>
   </ol>
 </nav>
-{% endblock %}
-{% block h1 %}
-<h1 class="text-playoff text-center">C.D Tierno Galván</h1>
 {% endblock %}
 {% block contenido %}
 <!-- Botones de rondas -->
@@ -34,9 +31,9 @@
   <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
        id="ronda{{ loop.index0 }}">
     <div class="d-flex justify-content-center">
-      <div class="card tabla_copa mt-4 w-100" style="max-width: 70rem">
+      <div class="card tabla_copa mt-4 w-100" style="max-width: 55rem">
         <div class="card-body">
-          <h3 class="text-center text-white text-capitalize text-analisis mb-4">
+          <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
             {{ ronda }}
           </h3>
           <!-- TABLET / PC -->
@@ -44,13 +41,12 @@
             <table class="table border-secondary">
               <tbody>
                 {% for partido in partidos %}
-                <tr class="text-center">
-                  <td class="text-copa fw-bold fs-4">{{ partido.fecha }}</td>
-                  <td class="text-copa fw-bold fs-4">{{ partido.hora }}</td>
-                  <td class="text-copa fw-bold fs-4 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">{{ partido.local }}</td>
-                  <td class="text-copa fw-bold fs-4">{{ partido.resultadoA }}</td>
-                  <td class="text-copa fw-bold fs-4">{{ partido.resultadoB }}</td>
-                  <td class="text-copa fw-bold fs-4 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">{{ partido.visitante }}</td>
+                <tr>
+                  <td class="text-muted">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
+                  <td class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">{{ partido.local }}</td>
+                  <td class="resultado-mobile">{{ partido.resultadoA }}</td>
+                  <td class="resultado-mobile">{{ partido.resultadoB }}</td>
+                  <td class="resultado-mobile {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">{{ partido.visitante }}</td>
                 </tr>
                 {% endfor %}
               </tbody>

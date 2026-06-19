@@ -7,7 +7,7 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
         href="/seccion/vrac"
         class="text-white text-decoration-none text-analisis fs-6">VRAC</a>
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
@@ -29,9 +29,6 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
     <a href="{{ url_for('aliados_route_bp.resultados_aliados') }}" class="btn btn-outline-light btn-tab">
         Resultados</a>
 </div>-->
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">
-  Calendario Individual
-</h3>
 <section class="container-lg mb-5 flex-fill copa">
   <!--<div class="d-flex justify-content-center my-2 gap-2">
     <button class="btn btn-outline-light tab-btn active" data-tab="calendario">
@@ -43,7 +40,7 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
   </div>-->
       <!--Tabla Calendario El Salvador Fem.-->
       <div class="d-flex justify-content-center">
-        <div class="card tabla_equipos_aula w-100" style="max-width: 80rem">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <table
@@ -52,16 +49,16 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                 <thead>
                   <tr class="text-center text-dark">
                     <th></th>
-                    <th colspan="2">Jornadas</th>
-                    <th colspan="4">Resultados</th>
+                    <th colspan="1">Jornadas</th>
+                    <th colspan="2">Resultados</th>
                     <!--<th colspan="2">Partidos</th>-->
                   </tr>
                   <tr class="text-center text-dark">
                     <th scope="col">Equipos</th>
-                    <th>Ida</th>
-                    <th>Vlt</th>
-                    <th colspan="2">Ida</th>
-                    <th colspan="2">Vlt</th>
+                    <th class="text-center">Ida</th>
+                    <!--<th>Vlt</th>-->
+                    <th class="text-center" colspan="2">Ida</th>
+                    <!--<th colspan="2">Vlt</th>-->
                     <th>Pts</th>
                     <!--<th>PP</th>-->
                     <th>Avrg</th>
@@ -71,8 +68,8 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                   {% for equipo, datos_equipo in
                   tabla_partidos_vrac.items() %}
                   <tr class="text-center">
-                    <th class="text-white size_equipos">{{ equipo }}</th>
-                    <td class="jorn_ida fw-bold">
+                    <th class="equipo-mobile text-start">{{ equipo }}</th>
+                    <td class="jorn_ida fw-bold text-center">
                       {% if datos_equipo.get('primer_enfrentamiento') %} {{
                       datos_equipo['primer_enfrentamiento']|replace('Jornada','')
                       }} {% if
@@ -81,7 +78,7 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                       datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vrac']
                       }}) {% endif %} {% endif %}
                     </td>
-                    <td class="jorn_vuelta fw-bold">
+                    <!--<td class="jorn_vuelta fw-bold">
                       {% if datos_equipo.get('segundo_enfrentamiento') %} {{
                       datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
                       }} {% if
@@ -89,21 +86,22 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                       %} ({{
                       datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vrac']
                       }}) {% endif %} {% endif %}
-                    </td>
-                    <td class="resultadoA fw-bold">
+                    </td>-->
+                    <td class="resultadoA fw-bold text-center">
                       {{ tabla_partidos_vrac[equipo]['resultadoA'] }}
                     </td>
-                    <td class="resultadoB fw-bold">
+                    <td class="resultadoB fw-bold text-center">
                       {{ tabla_partidos_vrac[equipo]['resultadoB'] }}
                     </td>
+                    <td class="part1 text-center"></td>
+                    <td class="average text-center"></td>
                     <td class="resultadoAA fw-bold">
-                      {{ tabla_partidos_vrac[equipo]['resultadoAA'] }}
+                      <!--{{ tabla_partidos_vrac[equipo]['resultadoAA'] }}-->
                     </td>
                     <td class="resultadoBB fw-bold">
-                      {{ tabla_partidos_vrac[equipo]['resultadoBB'] }}
+                      <!--{{ tabla_partidos_vrac[equipo]['resultadoBB'] }}-->
                     </td>
-                    <td class="part1"></td>
-                    <td class="average"></td>
+                    
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -154,19 +152,19 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
           var average = fila.querySelector(".average");
           if (esLocal) {
             if (resultadoA > resultadoB) {
-              part1.textContent = "3";
+              part1.textContent = "4";
               part1.style.color = "blue";
             } else if (resultadoA === resultadoB) {
-              part1.textContent = "1";
+              part1.textContent = "2";
               part1.style.color = "blue";
             } else if (resultadoA < resultadoB) {
               part1.textContent = "0";
               part1.style.color = "blue";
             } else if (resultadoAA > resultadoBB) {
-              part1.textContent = "3";
+              part1.textContent = "4";
               part1.style.color = "blue";
             } else if (resultadoAA === resultadoBB) {
-              part1.textContent = "1";
+              part1.textContent = "2";
               part1.style.color = "blue";
             } else if (resultadoAA < resultadoBB) {
               part1.textContent = "0";
@@ -174,19 +172,19 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
             }
           } else {
             if (resultadoB > resultadoA) {
-              part1.textContent = "3";
+              part1.textContent = "4";
               part1.style.color = "blue";
             } else if (resultadoB === resultadoA) {
-              part1.textContent = "1";
+              part1.textContent = "2";
               part1.style.color = "blue";
             } else if (resultadoB < resultadoA) {
               part1.textContent = "0";
               part1.style.color = "blue";
             } else if (resultadoBB > resultadoAA) {
-              part1.textContent = "3";
+              part1.textContent = "4";
               part1.style.color = "blue";
             } else if (resultadoBB === resultadoAA) {
-              part1.textContent = "1";
+              part1.textContent = "2";
               part1.style.color = "blue";
             } else if (resultadoBB < resultadoAA) {
               part1.textContent = "0";
@@ -201,16 +199,16 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
             if (resultadoAA > resultadoBB) {
               // "AA" gana como local
               if (!esLocal) {
-                puntajeSegundoEnfrentamiento = 3;
+                puntajeSegundoEnfrentamiento = 4;
               }
             } else if (resultadoAA < resultadoBB) {
               // "AA" gana como visitante
               if (esLocal) {
-                puntajeSegundoEnfrentamiento = 3;
+                puntajeSegundoEnfrentamiento = 4;
               }
             } else {
               // Empate en el segundo enfrentamiento
-              puntajeSegundoEnfrentamiento = 1;
+              puntajeSegundoEnfrentamiento = 2;
             }
             // Actualizar el puntaje total sumando el del segundo enfrentamiento
             if (part1.textContent === "-") {

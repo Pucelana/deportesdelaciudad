@@ -9,19 +9,19 @@ Ind. - CPLV Caja Rural{% endblock %} {% block breadcrumb %}
         >CPLV Caja Rural</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Calendario Individual
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_basket/calendario_caja"
+        href="/admin/equipos_hockey/resultados_caja"
         class="text-white text-decoration-none text-analisis fs-6"
         >Resultados</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_basket/clasif_caja"
+        href="/admin/equipos_hockey/clasif_caja"
         class="text-white text-decoration-none text-analisis fs-6"
         >Clasificaciones</a
       >
@@ -35,24 +35,13 @@ Ind. - CPLV Caja Rural{% endblock %} {% block breadcrumb %}
     <a href="{{ url_for('aliados_route_bp.resultados_aliados') }}" class="btn btn-outline-light btn-tab">
         Resultados</a>
 </div>-->
-<h3 class="text-center text-white fw-bold equipo-mobile fs-3">
-  Calendario Individual
-</h3>
 <section class="container-lg mb-5 flex-fill copa">
   <!-- Navegador personalizado -->
-  <div class="d-flex justify-content-center my-2 gap-2">
-    <button class="btn btn-outline-light tab-btn active" data-tab="calendario">
-      Clasificación
-    </button>
-    <button class="btn btn-outline-light tab-btn" data-tab="resultados">
-      Resultados
-    </button>
-  </div>
   <div class="tab-container">
     <div class="tab-pane active" id="calendario">
       <!--Tabla Calendario CPLV Caja Rural-->
       <div class="d-flex justify-content-center">
-        <div class="card tabla_equipos_aula" style="width: 80rem">
+        <div class="card tabla_equipos_aula" style="width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <table class="table table-bordered tabla_equipos tabla_caja">
@@ -77,7 +66,7 @@ Ind. - CPLV Caja Rural{% endblock %} {% block breadcrumb %}
                 <tbody>
                   {% for equipo, datos_equipo in tabla_partidos_caja.items() %}
                   <tr class="text-center">
-                    <th class="text-white size_equipos">{{ equipo }}</th>
+                    <th class="equipo-mobile text-start">{{ equipo }}</th>
                     <td class="jorn_ida fw-bold">
                       {% if datos_equipo.get('primer_enfrentamiento') %} J-{{
                       datos_equipo['primer_enfrentamiento']|replace('Jornada','')

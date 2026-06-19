@@ -9,7 +9,7 @@ Valladolid{% endblock %} {% block contenido %}
         >CBC Valladolid</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       PlayOff
     </li>
   </ol>
@@ -34,7 +34,7 @@ Valladolid{% endblock %} {% block contenido %}
       id="ronda{{ loop.index0 }}"
     >
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-2" style="width: 50rem">
+        <div class="card tabla_copa mt-2" style="width: 55rem">
           <div class="card-body">
             <h3
               class="text-center text-white text-analisis fw-bold text-capitalize"
@@ -45,14 +45,14 @@ Valladolid{% endblock %} {% block contenido %}
               <table class="table border-secondary">
                 {% for partido in partidos %}
                 <tr class="text-center">
-                  <td class="text-muted fs-5 fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
+                  <td class="text-muted">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
                   </td>
                   <td
-                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                    class="equipo-mobile {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %}  {% endif %}"
                   >
                     {{ partido.local }}
                   </td>
-                  <td class="resultado-mobile fw-bold fs-5">
+                  <td class="resultado-mobile">
                     {% if partido.resultadoA is not none and partido.resultadoB
                     is not none %} {{ partido.resultadoA }} - {{
                     partido.resultadoB }} {% else %}
@@ -60,7 +60,7 @@ Valladolid{% endblock %} {% block contenido %}
                     {% endif %}
                   </td>
                   <td
-                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                    class="equipo-mobile {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} {% endif %}"
                   >
                     {{ partido.visitante }}
                   </td>
