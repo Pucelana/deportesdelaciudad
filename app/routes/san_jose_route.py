@@ -239,26 +239,29 @@ def calendario_san_jose():
     return render_template(
         "equipos_vall/calendario_san_jose.html", tabla_partidos_san_jose=tabla_partidos_san_jose
     )
-# Jornadas VCV
-@san_jose_route_bp.route("/equipos_voley/resultados_san_jose")
+# Jornadas San Jose
+@san_jose_route_bp.route('/equipos_voley/resultados_san_jose')
 def resultados_san_jose():
     datos = obtener_datos_san_jose()
     nuevos_datos_san_jose = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_san_jose):
-        if any(
-            p.resultadoA is not None
-            and p.resultadoA != ""
-            and p.resultadoB is not None
-            and p.resultadoB != ""
-            for p in jornada["partidos"]
-        ):
-            jornada_activa = jornada["nombre"]
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_san_jose):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
+            for p in jornada['partidos']
+        )
+        if not jornada_completa:
+            jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_san_jose:
+        jornada_activa = nuevos_datos_san_jose[-1]['nombre']
     return render_template(
-        "equipos_vall/jornadas_san_jose.html",
+        'equipos_vall/jornadas_san_jose.html',
         nuevos_datos_san_jose=nuevos_datos_san_jose,
-        jornada_activa=jornada_activa,
+        jornada_activa=jornada_activa
     )
 # Crear la clasificación de Univ. Valladolid VCV
 def generar_clasificacion_analisis_voley_san_jose(data):

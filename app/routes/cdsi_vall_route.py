@@ -183,22 +183,28 @@ def calendario_cdsi_vall():
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['rol_cdsi_vall'] = rol_cdsi_vall
     return render_template('equipos_vall/calendario_cdsi.html', tabla_partidos_cdsi_vall=tabla_partidos_cdsi_vall)
 # Jornadas CDSI
-@cdsi_vall_route_bp.route('/equipos_basket/resultados_cdsi')
-def resultados_cdsi():
+@cdsi_vall_route_bp.route('/equipos_basket/resultados_cdsi_vall')
+def resultados_cdsi_vall():
     datos = obtener_datos_cdsi_vall()
     nuevos_datos_cdsi_vall = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_cdsi_vall):
-        if any(
-            p.resultadoA is not None and p.resultadoA != "" and
-            p.resultadoB is not None and p.resultadoB != ""
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_cdsi_vall):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
             for p in jornada['partidos']
-        ):
+        )
+        if not jornada_completa:
             jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_cdsi_vall:
+        jornada_activa = nuevos_datos_cdsi_vall[-1]['nombre']
     return render_template(
-        'equipos_vall/jornadas_cdsi.html',
-        nuevos_datos_cdsi_vall=nuevos_datos_cdsi_vall, jornada_activa=jornada_activa
+        'equipos_vall/jornadas_cdsi_vall.html',
+        nuevos_datos_cdsi_vall=nuevos_datos_cdsi_vall,
+        jornada_activa=jornada_activa
     )
 # Jornada 0 CDSI VALL
 @cdsi_vall_route_bp.route('/jornada0_cdsi_vall', methods=['GET', 'POST'])

@@ -189,18 +189,24 @@ def calendario_vall_sala():
 def resultados_vall_sala():
     datos = obtener_datos_vall_sala()
     nuevos_datos_vall_sala = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_vall_sala):
-        if any(
-            p.resultadoA is not None and p.resultadoA != "" and
-            p.resultadoB is not None and p.resultadoB != ""
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_vall_sala):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
             for p in jornada['partidos']
-        ):
+        )
+        if not jornada_completa:
             jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_vall_sala:
+        jornada_activa = nuevos_datos_vall_sala[-1]['nombre']
     return render_template(
         'equipos_vall/jornadas_vall_sala.html',
-        nuevos_datos_vall_sala=nuevos_datos_vall_sala, jornada_activa=jornada_activa
+        nuevos_datos_vall_sala=nuevos_datos_vall_sala,
+        jornada_activa=jornada_activa
     )
 # Jornada 0 Valladolid S.S
 @vall_sala_route_bp.route('/jornada0_vall_sala', methods=['GET', 'POST'])

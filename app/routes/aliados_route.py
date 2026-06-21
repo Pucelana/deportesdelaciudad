@@ -188,18 +188,24 @@ def calendario_aliados():
 def resultados_aliados():
     datos = obtener_datos_aliados()
     nuevos_datos_aliados = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_aliados):
-        if any(
-            p.resultadoA is not None and p.resultadoA != "" and
-            p.resultadoB is not None and p.resultadoB != ""
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_aliados):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
             for p in jornada['partidos']
-        ):
+        )
+        if not jornada_completa:
             jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_aliados:
+        jornada_activa = nuevos_datos_aliados[-1]['nombre']
     return render_template(
         'equipos_vall/jornadas_aliados.html',
-        nuevos_datos_aliados=nuevos_datos_aliados, jornada_activa=jornada_activa
+        nuevos_datos_aliados=nuevos_datos_aliados,
+        jornada_activa=jornada_activa
     )
 # Jornada 0 Aliados
 @aliados_route_bp.route('/jornada0_aliados', methods=['GET', 'POST'])

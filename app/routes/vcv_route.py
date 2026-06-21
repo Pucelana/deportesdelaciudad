@@ -249,25 +249,28 @@ def calendario_vcv():
         "equipos_vall/calendario_vcv.html", tabla_partidos_vcv=tabla_partidos_vcv
     )
 # Jornadas VCV
-@vcv_route_bp.route("/equipos_voley/resultados_vcv")
+@vcv_route_bp.route('/equipos_voley/resultados_vcv')
 def resultados_vcv():
     datos = obtener_datos_vcv()
     nuevos_datos_vcv = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_vcv):
-        if any(
-            p.resultadoA is not None
-            and p.resultadoA != ""
-            and p.resultadoB is not None
-            and p.resultadoB != ""
-            for p in jornada["partidos"]
-        ):
-            jornada_activa = jornada["nombre"]
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_vcv):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
+            for p in jornada['partidos']
+        )
+        if not jornada_completa:
+            jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_vcv:
+        jornada_activa = nuevos_datos_vcv[-1]['nombre']
     return render_template(
-        "equipos_vall/jornadas_vcv.html",
+        'equipos_vall/jornadas_vcv.html',
         nuevos_datos_vcv=nuevos_datos_vcv,
-        jornada_activa=jornada_activa,
+        jornada_activa=jornada_activa
     )
 # Crear la clasificación de Univ. Valladolid VCV
 def generar_clasificacion_analisis_voley_vcv(data):

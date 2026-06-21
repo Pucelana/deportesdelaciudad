@@ -189,18 +189,24 @@ def calendario_simancas():
 def resultados_simancas():
     datos = obtener_datos_simancas()
     nuevos_datos_simancas = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_simancas):
-        if any(
-            p.resultadoA is not None and p.resultadoA != "" and
-            p.resultadoB is not None and p.resultadoB != ""
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_simancas):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
             for p in jornada['partidos']
-        ):
+        )
+        if not jornada_completa:
             jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_simancas:
+        jornada_activa = nuevos_datos_simancas[-1]['nombre']
     return render_template(
-        'equipos_vall/jornadas_rv_fem.html',
-        nuevos_datos_simancas=nuevos_datos_simancas, jornada_activa=jornada_activa
+        'equipos_vall/jornadas_simancas.html',
+        nuevos_datos_simancas=nuevos_datos_simancas,
+        jornada_activa=jornada_activa
     )
 # Jornada 0 RV Simancas
 @simancas_route_bp.route('/jornada0_simancas', methods=['GET', 'POST'])

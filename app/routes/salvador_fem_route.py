@@ -218,18 +218,24 @@ def calendario_salvador_fem():
 def resultados_salvador_fem():
     datos = obtener_datos_salvador_fem()
     nuevos_datos_salvador_fem = [dato for dato in datos if dato]
-    for jornada in reversed(nuevos_datos_salvador_fem):
-        if any(
-            p.resultadoA is not None and p.resultadoA != "" and
-            p.resultadoB is not None and p.resultadoB != ""
+    jornada_activa = None
+    # Buscar primera jornada sin completar
+    for i, jornada in enumerate(nuevos_datos_salvador_fem):
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
             for p in jornada['partidos']
-        ):
+        )
+        if not jornada_completa:
             jornada_activa = jornada['nombre']
             break
-
+    # Si todas están completas mostrar la última
+    if jornada_activa is None and nuevos_datos_salvador_fem:
+        jornada_activa = nuevos_datos_salvador_fem[-1]['nombre']
     return render_template(
         'equipos_vall/jornadas_salvador_fem.html',
-        nuevos_datos_salvador_fem=nuevos_datos_salvador_fem, jornada_activa=jornada_activa
+        nuevos_datos_salvador_fem=nuevos_datos_salvador_fem,
+        jornada_activa=jornada_activa
     )
 # Jornada 0 El Salvador
 @salvador_fem_route_bp.route('/jornada0_salvador_fem', methods=['GET', 'POST'])
