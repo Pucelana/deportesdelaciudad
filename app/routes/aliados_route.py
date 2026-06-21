@@ -64,8 +64,9 @@ def modificar_jornada_aliados(id):
     if jornada:
         if request.method == 'POST':
             nombre_jornada = request.form['nombre']
+            fecha1 = request.form['fecha1']
             num_partidos = int(request.form['num_partidos'])
-            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada          
+            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada        
             # Actualizar los partidos
             for i in range(num_partidos):
                 partido_id = request.form[f'partido_id{i}']

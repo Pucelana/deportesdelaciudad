@@ -53,21 +53,18 @@
   </a>
   {% endfor %}
 </div>
-
 <!-- CONTENEDOR JORNADAS -->
 <div id="contenedor-jornadas">
   {% for goles in nuevos_datos_vrac %}
-
   <div
     id="jornada{{ loop.index }}"
     class="jornada-contenido {% if goles.nombre != jornada_activa %}d-none{% endif %}"
   >
     <div class="card tabla_equipos_aula w-100 mx-auto" style="max-width: 55rem;">
-      <div class="card-body">
-        <h3 class="text-center text-white mb-3 fondo_jornadas fw-bold">
+      <h3 class="text-center text-white mb-3 fondo_jornadas fw-bold">
           {{ goles.nombre }}
         </h3>
-
+      <div class="card-body">
         <!-- TABLET / PC -->
         <div
           class="table-responsive d-flex justify-content-center d-none d-md-block"

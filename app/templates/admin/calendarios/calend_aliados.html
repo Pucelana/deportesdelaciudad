@@ -41,6 +41,10 @@ Valladolid {% endblock %} {% block nav %}
         />
       </div>
       {% for i in range(6) %}
+      <div class="col-md-12">
+        <label for="fecha1{{i}}">Primera fecha</label>
+        <input type="text" class="form-control" id="fecha1{{i}}" name="fecha1{{i}}"/>
+      </div>
       <div class="col-md-5">
         <label for="fecha{{i}}">Fecha</label>
         <input
