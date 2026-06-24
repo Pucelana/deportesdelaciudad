@@ -105,6 +105,16 @@
                 name="resultadoA{{ loop.index0 }}" value="{{ partido.resultadoA }}">
             </div>
             <div class="mb-3">
+              <label for="bonusA{{ loop.index0 }}">Bonus A:</label>
+              <input type="text" class="form-control" id="bonusA{{ loop.index0 }}"
+                name="bonusA{{ loop.index0 }}" value="{{ partido.bonusA }}">
+            </div>
+            <div class="mb-3">
+              <label for="bonusB{{ loop.index0 }}">Bonus B:</label>
+              <input type="text" class="form-control" id="bonusB{{ loop.index0 }}"
+                name="bonusB{{ loop.index0 }}" value="{{ partido.bonusB }}">
+            </div>
+            <div class="mb-3">
               <label for="resultadoB{{ loop.index0 }}">Resultado B:</label>
               <input type="text" class="form-control" id="resultadoB{{ loop.index0 }}"
                 name="resultadoB{{ loop.index0 }}" value="{{ partido.resultadoB }}">
@@ -140,7 +150,7 @@
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
         if (selectedOption.startsWith("grupo")) {
-          numPartidos = 3;
+          numPartidos = 10;
         } else if (selectedOption === "semifinales") {
           numPartidos = 2;
         } else if (selectedOption === "final") {
@@ -167,12 +177,20 @@
                         <label for="local${i}">Local</label>
                         <input type="text" class="form-control" id="local${i}" name="local${i}">
                     </div>
-                    <div class="col-md-2">
-                        <label for="resultadoA${i}">Resultado A</label>
+                    <div class="col-md-1">
+                        <label for="resultadoA${i}">Res. A</label>
                         <input type="text" class="form-control" id="resultadoA${i}" name="resultadoA${i}">
                     </div>
-                    <div class="col-md-2">
-                        <label for="resultadoB${i}">Resultado B</label>
+                    <div class="col-md-1">
+                        <label for="bonusA${i}">Bns-A</label>
+                        <input type="text" class="form-control" id="bonusA${i}" name="bonusA${i}">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="bonusB${i}">Bns-B</label>
+                        <input type="text" class="form-control" id="bonusB${i}" name="bonusB${i}">
+                    </div>
+                    <div class="col-md-1">
+                        <label for="resultadoB${i}">Res. B</label>
                         <input type="text" class="form-control" id="resultadoB${i}" name="resultadoB${i}">
                     </div>
                     <div class="col-md-4">

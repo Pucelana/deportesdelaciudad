@@ -1,42 +1,57 @@
-{% extends 'secciones/base.html' %}
-{% block titulo %} El Salvador {% endblock %}
-{% block contenido %}
+{% extends 'secciones/base.html' %} {% block titulo %} El Salvador {%
+endblock %} {% block contenido %}
 <div class="team-header">
   <h1 class="responsive-title">El Salvador</h1>
-  <img src="/static/img/salvador_sf.png" alt="El Salvador" class="responsive-logo" />
+  <img
+    src="/static/img/salvador_sf.png"
+    alt="El Salvador"
+    class="responsive-logo"
+  />
 </div>
-<section class="container-lg seccion_deportes flex-fill">
+<section class="container-lg seccion_deportes">
   <div class="calend_deportes">
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center">
-          <h2 class="text_uemc">División De Honor</h2>
+          <h3 class="text_uemc">División de Honor</h3>
         </div>
         <div class="tu-contenedor-h5">
-          <a href="/admin/equipos_rugby/calendario_salvador" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Calendario Ind.</h5></a>
-          <a href="/admin/equipos_rugby/resultados_salvador" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Resultados</h5></a>
-          <a href="/admin/equipos_rugby/clasif_salvador" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Clasificaciones</h5></a>
+          <a
+            href="/admin/equipos_rugby/calendario_salvador"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Calendario Ind.</h5></a>
+             <a
+            href="/admin/equipos_rugby/resultados_salvador"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Resultados</h5></a>
+          <a
+            href="/admin/equipos_rugby/clasif_salvador"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Clasificaciones</h5></a>
         </div>
       </div>
     </div>
-    <div class="shadow-lg pb-3 mb-2">
+    <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
-          <a href="/admin/salvador_copa" class="text-decoration-none"><h2 class="text_uemc pt-3">Copa del Rey</h2></a>
+          <a href="/admin/salvador_copa" class="text-decoration-none">
+          <h2 class="text_uemc pt-3">Copa del Rey</h2></a>
         </div>
       </div>
     </div>
-    <div class="shadow-lg pb-3 mb-2">
+    <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
-          <a href="/admin/playoffs_salvador" class="text-decoration-none"><h2 class="text_uemc pt-3">Playoffs Título</h2></a>
+          <a href="/admin/playoffs_salvador" class="text-decoration-none">
+          <h2 class="text_uemc pt-3">PlayOff</h2></a>
         </div>
       </div>
     </div>
-    <div class="shadow-lg pb-3 mb-2">
+    <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
-          <a href="/admin/salvador_copa_iberica" class="text-decoration-none"><h2 class="text_uemc pt-3">Copa Ibérica</h2></a>
+          <a href="/admin/salvador_copa_iberica" class="text-decoration-none">
+          <h2 class="text_uemc pt-3">Copa Ibérica</h2></a>
         </div>
       </div>
     </div>

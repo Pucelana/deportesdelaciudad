@@ -12,7 +12,7 @@
         href="/admin/equipos_voley/calendario_vcv"
         class="text-white text-decoration-none text-analisis fs-6">Calendario Ind.</a>
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Resultados
     </li>
     <li class="breadcrumb-item">
@@ -70,15 +70,12 @@
           <div class="card partido-mobile">
             <div class="card-body text-center">
               <small class="text-muted fw-bold">
-                {{ partido.fecha }} {{ partido.hora }}
+                {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
               </small>
-
               <div class="equipo-mobile">{{ partido.local }}</div>
-
               <div class="resultado-mobile">
                 {{ partido.resultadoA }} - {{ partido.resultadoB }}
               </div>
-
               <div class="equipo-mobile">{{ partido.visitante }}</div>
             </div>
           </div>

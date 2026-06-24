@@ -38,7 +38,7 @@
               <table class="table border-secondary">
                 {% for partido in partidos %}
                 <tr>
-                  <td class="text-muted fw-bold fs-5">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                  <td class="text-muted fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
                     }}{% endif %}</td>
                   <td
                     class="equipo-mobil fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"

@@ -23,13 +23,12 @@
         >Resultados</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Clasificaciones
     </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-<h3 class="text-white text-center equipo-mobile fs-3 pb-2">Clasificaciones</h3>
 <section class="container-lg mb-5 flex-fill copa">
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-2 gap-2">
@@ -64,7 +63,7 @@
                           {% for equipo in clasificacion_general_indexed %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 8 %}pos-nada{% endif %}">
+                              class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 6 %}pos-nada {% elif equipo.index <= 7 %}pos-promo{% elif equipo.index <= 8 %}pos-desc{% endif %}">
                               {{ equipo.index }}</td>
                             <td class="fw-bold text-white size_equipos {% if 'Salvador Fem.' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
                             <td class="puntos fw-bold">{{ equipo['datos']['puntos'] }}</td>
@@ -82,16 +81,15 @@
                       </table>
                   </div>
                 </div>
-                <p class="ms-4">PT (Puntos);PJ (Partidos Jugados); PG (Partidos Ganados); PE (Partidos Empatados); PP
-                  (Partidos Perdidos); GF(Goles Favor); GC (Goles Contra); DG (Diferencia Goles); B (Bonus)</p>
-                <p class="ms-4">PlayOff Título<span class="badge bg-success ms-2">1-4</span> ; Nada<span
-                    class="badge bg-secondary ms-2">5-8</span></p>
+                <p class="text-analisis fs-6">PT(Puntos); J(Jugados); G(Ganados); E(Empatados); P(Perdidos); F(Favor); C(Contra); DG(Dif. Goles)</p>
+                <p class="  text-analisis fs-6">PlayOff Título<span class="badge bg-success ms-1">1-4</span> ; Nada<span
+                    class="badge bg-secondary ms-1">5-6</span>; Promoción<span class="badge" style="background-color: #ff7171">7</span>; Descenso<span class="badge bg-danger ms-1">8</span></p>
               </div>
             </div>
           </div>
           <div class="tab-pane" id="grupo-a"><!--Tabla Grupo A - Ganadores-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
+              <div class="card tabla_equipos_aula w-100 mx-auto" style="max-width: 55rem;">
                 <div class="card-body">
                   <div class="table-responsive">
                     <h3 class="text-center text-white fw-bold text-analisis">Grupo A - Ganadores</h3>

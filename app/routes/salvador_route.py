@@ -692,8 +692,7 @@ def recalcular_clasificaciones(partidos):
                 clasificaciones[grupo][visitante]['puntos'] += 2 + bonus_visitante
                 clasificaciones[grupo][local]['empatados'] += 1
                 clasificaciones[grupo][local]['puntos'] += 2 + bonus_local     
-            clasificaciones[grupo][local]['puntos'] += 1
-            clasificaciones[grupo][visitante]['puntos'] += 1      
+                 
         if local not in enfrentamientos_directos:
             enfrentamientos_directos[local] = {}
         if visitante not in enfrentamientos_directos:

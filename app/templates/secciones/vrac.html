@@ -1,27 +1,39 @@
-{% extends 'secciones/base.html' %}
-{% block titulo %} VRAC {% endblock %}
-{% block contenido %}
+{% extends 'secciones/base.html' %} {% block titulo %} VRAC {%
+endblock %} {% block contenido %}
 <div class="team-header">
   <h1 class="responsive-title">VRAC</h1>
-  <img src="/static/img/vrac_sf.png" alt="VRAC" class="responsive-logo">
+  <img
+    src="/static/img/vrac_sf.png"
+    alt="VRAC"
+    class="responsive-logo"
+  />
 </div>
-<section class="container-lg seccion_deportes flex-fill">
+<section class="container-lg seccion_deportes">
   <div class="calend_deportes">
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center">
-          <h2 class="text_uemc">División De Honor</h2>
+          <h3 class="text_uemc">División de Honor</h3>
         </div>
         <div class="tu-contenedor-h5">
-          <a href="/admin/equipos_rugby/calendario_vrac" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Calendario Ind.</h5></a>
-          <a href="/admin/equipos_rugby/resultados_vrac" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Resultados</h5></a>
-          <a href="/admin/equipos_rugby/clasif_vrac" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Clasificaciones</h5></a>
+          <a
+            href="/admin/equipos_rugby/calendario_vrac"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Calendario Ind.</h5></a>
+             <a
+            href="/admin/equipos_rugby/resultados_vrac"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Resultados</h5></a>
+          <a
+            href="/admin/equipos_rugby/clasif_vrac"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Clasificaciones</h5></a>
         </div>
       </div>
     </div>
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mb-2">
+        <div class="col-12 text-center mt-2">
           <a href="/admin/vrac_copa" class="text-decoration-none">
           <h2 class="text_uemc pt-3">Copa del Rey</h2></a>
         </div>
@@ -29,15 +41,15 @@
     </div>
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mb-2">
+        <div class="col-12 text-center mt-2">
           <a href="/admin/playoffs_vrac" class="text-decoration-none">
-          <h2 class="text_uemc pt-3">Playoffs Título</h2></a>
+          <h2 class="text_uemc pt-3">PlayOff</h2></a>
         </div>
       </div>
     </div>
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mb-2">
+        <div class="col-12 text-center mt-2">
           <a href="/admin/vrac_copa_iberica" class="text-decoration-none">
           <h2 class="text_uemc pt-3">Copa Ibérica</h2></a>
         </div>

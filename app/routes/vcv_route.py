@@ -5,18 +5,9 @@ from itertools import groupby
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.vcv import (
-    JornadaVCV,
-    VCVPartido,
-    VCVClub,
-    PlayoffVCV,
-    CopaVCV,
-    EuropaVCV,
-    Clasificacion,
-)
+from ..models.vcv import (JornadaVCV, VCVPartido, VCVClub, PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion,)
 
 vcv_route_bp = Blueprint("vcv_route_bp", __name__)
-
 
 # EQUIPOS VOLEIBOL
 # Ingresar los resultados de los partidos de Univ. Valladolid VCV
@@ -556,8 +547,6 @@ def clasif_analisis_vcv():
         "equipos_vall/clasif_vcv.html",
         clasificacion_analisis_vcv=clasificacion_analisis_vcv,
     )
-
-
 @vcv_route_bp.route("/jornada0_vcv", methods=["GET", "POST"])
 def jornada0_vcv():
     if request.method == "POST":
@@ -570,8 +559,6 @@ def jornada0_vcv():
             return redirect(url_for("vcv_route_bp.jornada0_vcv"))
     clubs = VCVClub.query.all()  # Obtener todos los clubes de PostgreSQL
     return render_template("admin/clubs/clubs_vcv.html", clubs=clubs)
-
-
 @vcv_route_bp.route("/admin/eliminar_club_vcv/<string:club_id>", methods=["POST"])
 def eliminar_club_vcv(club_id):
     club = VCVClub.query.get(club_id)
@@ -579,6 +566,4 @@ def eliminar_club_vcv(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for("vcv_route_bp.jornada0_vcv"))
-
-
 # Fin proceso Univ. Valladolid VCV

@@ -576,279 +576,90 @@ def playoffs_salvador_fem():
     for eliminatoria in eliminatorias:
         partidos = PlayoffSalvadorFem.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/salvador_playoff.html', datos_playoff=datos_playoff)
+    return render_template('playoff/salvador_fem_playoff.html', datos_playoff=datos_playoff)
 
 # COPA EL SALVADOR
-# Crear formulario para los grupos de la Copa DH VRAC
+# Crear formulario de la Copa Salvador Fem.
 @salvador_fem_route_bp.route('/crear_copa_salvador_fem', methods=['GET', 'POST'])
 def crear_copa_salvador_fem():
     if request.method == 'POST':
-        encuentros = request.form.get('encuentros')
-        print(f"Encuentros: {encuentros}")
-        num_partidos = int(request.form.get('num_partidos', 0))     
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'octavos': 8,
+            'cuartos_oro': 4,
+            'semifinales_oro': 2,
+            'final_oro': 1,
+            'cuartos_plata': 4,
+            'semifinales_plata': 2,
+            'final_plata': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            bonusA = request.form.get(f'bonusA{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            bonusB = request.form.get(f'bonusB{i}')
-            visitante = request.form.get(f'visitante{i}')  
-            # Crear una nueva instancia de CopaUemc con los datos recibidos           
-            nuevo_partido = CopaSalvadorFem(
-                encuentros=encuentros,
-                fecha=fecha or '',
-                hora=hora or '',
-                local=local or '',
-                bonusA=bonusA or '',
-                resultadoA=resultadoA or '',
-                resultadoB=resultadoB or '',
-                bonusB=bonusB or '',
-                visitante=visitante or ''
+            partido = CopaSalvadorFem(
+                encuentros = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
             )
-            # Agregar la instancia a la sesión y hacer commit
-            db.session.add(nuevo_partido)       
-        # Confirmar los cambios en la base de datos
-        db.session.commit()       
-        # Redirigir a la página para ver la Copa UEMC
+            db.session.add(partido)
+        db.session.commit()
         return redirect(url_for('salvador_fem_route_bp.ver_copa_salvador_fem'))
-    # Renderizar el formulario para crear la copa UEMC
     return render_template('admin/copa/copa_salvador_fem.html')
-# Actualizar clasificación de los grupos
-def actualizar_clasificacion(grupo, local, bonus_local ,resultado_local, resultado_visitante, bonus_visitante ,visitante):
-    # Convertir los resultados a enteros
-    resultado_local = int(resultado_local) if resultado_local.isdigit() else None
-    resultado_visitante = int(resultado_visitante) if resultado_visitante.isdigit() else None
-    # Consultar si los equipos ya están en la clasificación
-    clasificacion_local = Clasificacion.query.filter_by(grupo=grupo, equipo=local).first()
-    clasificacion_visitante = Clasificacion.query.filter_by(grupo=grupo, equipo=visitante).first()
-    # Si el local no existe, lo creamos
-    if not clasificacion_local:
-        clasificacion_local = Clasificacion(grupo=grupo, equipo=local, jugados=0, ganados=0, empatados=0 ,perdidos=0, puntos=0, bonus=0)
-        db.session.add(clasificacion_local)  
-    # Si el visitante no existe, lo creamos
-    if not clasificacion_visitante:
-        clasificacion_visitante = Clasificacion(grupo=grupo, equipo=visitante, jugados=0, ganados=0, empatados=0 ,perdidos=0, puntos=0, bonus=0)
-        db.session.add(clasificacion_visitante)   
-    # Actualizar los partidos jugados
-    if resultado_local is not None and resultado_visitante is not None:
-        clasificacion_local.jugados += 1
-        clasificacion_visitante.jugados += 1       
-        # Determinar el resultado del partido y actualizar clasificaciones
-        if resultado_local > resultado_visitante:
-            clasificacion_local.ganados += 1
-            clasificacion_local.puntos += 4 + bonus_local
-            clasificacion_visitante.perdidos += 1
-            clasificacion_visitante.puntos += 0 + bonus_visitante
-        elif resultado_local < resultado_visitante:
-            clasificacion_visitante.ganados += 1
-            clasificacion_visitante.puntos += 4 + bonus_visitante
-            clasificacion_local.perdidos += 1
-            clasificacion_local.puntos += 0 + bonus_local
-        elif resultado_local == resultado_visitante:
-            clasificacion_visitante.empatados += 1
-            clasificacion_visitante.puntos += 2 + bonus_visitante
-            clasificacion_local.empatados += 1
-            clasificacion_local.puntos += 2 + bonus_local   
-        clasificacion_local.bonus += bonus_local
-        clasificacion_visitante.bonus += bonus_visitante  
-    # Guardar los cambios en la base de datos
-    db.session.commit()
-    return clasificacion_local, clasificacion_visitante
-# Recalcular clasificación
-def recalcular_clasificaciones(partidos):
-    clasificaciones = {}
-    enfrentamientos_directos = {}
-    for partido in partidos:
-        grupo = partido.encuentros
-        local = partido.local
-        visitante = partido.visitante
-        resultado_local = int(partido.resultadoA) if partido.resultadoA.isdigit() else None
-        resultado_visitante = int(partido.resultadoB) if partido.resultadoB.isdigit() else None
-        bonus_local = int(partido.bonusA) if partido.bonusA.isdigit() else None
-        bonus_visitante = int(partido.bonusB) if partido.bonusB.isdigit() else None
-        if grupo not in clasificaciones:
-            clasificaciones[grupo] = {}
-        if local not in clasificaciones[grupo]:
-            clasificaciones[grupo][local] = {'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0, 'bonus': 0}
-        if visitante not in clasificaciones[grupo]:
-            clasificaciones[grupo][visitante] = {'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0, 'bonus':0}
-        if resultado_local is not None and resultado_visitante is not None:
-            clasificaciones[grupo][local]['jugados'] += 1
-            clasificaciones[grupo][visitante]['jugados'] += 1
-            if resultado_local > resultado_visitante:
-                clasificaciones[grupo][local]['ganados'] += 1
-                clasificaciones[grupo][local]['puntos'] += 4 + bonus_local
-                clasificaciones[grupo][visitante]['perdidos'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 0 + bonus_visitante
-            elif resultado_local < resultado_visitante:
-                clasificaciones[grupo][visitante]['ganados'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 4 + bonus_visitante
-                clasificaciones[grupo][local]['perdidos'] += 1
-                clasificaciones[grupo][local]['puntos'] += 0 + bonus_local
-            elif resultado_local == resultado_visitante:
-                clasificaciones[grupo][visitante]['empatados'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 2 + bonus_visitante
-                clasificaciones[grupo][local]['empatados'] += 1
-                clasificaciones[grupo][local]['puntos'] += 2 + bonus_local     
-            clasificaciones[grupo][local]['puntos'] += 1
-            clasificaciones[grupo][visitante]['puntos'] += 1      
-        if local not in enfrentamientos_directos:
-            enfrentamientos_directos[local] = {}
-        if visitante not in enfrentamientos_directos:
-            enfrentamientos_directos[visitante] = {}
-        if resultado_local is not None and resultado_visitante is not None:
-            enfrentamientos_directos[local][visitante] = resultado_local - resultado_visitante
-            enfrentamientos_directos[visitante][local] = resultado_visitante - resultado_local        
-    return clasificaciones, enfrentamientos_directos
-# Función para obtener equipos desde la base de datos
-def obtener_equipos_desde_bd(partidos):
-    # Obtener todos los partidos de la base de datos
-    partidos = CopaSalvadorFem.query.order_by(CopaSalvadorFem.id).all()
-    # Definir los grupos y fases de eliminatorias
-    grupos = {'grupoA', 'grupoB', 'grupoC', 'grupoD'}
-    fases_eliminatorias = {'semifinales', 'final'}
-    equipos_por_encuentros = {}
-    eliminatorias = {'semifinales': {'partidos': []}, 'final': {'partidos': []}}
-    for partido in partidos:
-        # Asumimos que 'encuentros' es un campo que puede ser 'grupoA', 'cuartos', etc.
-        grupo_o_fase = partido.encuentros
-        if grupo_o_fase in fases_eliminatorias:
-            # Añadir partidos a la fase de eliminación correspondiente
-            eliminatorias[grupo_o_fase]['partidos'].append(partido)
-        elif grupo_o_fase in grupos:
-            # Añadir equipos y partidos a los grupos
-            if grupo_o_fase not in equipos_por_encuentros:
-                equipos_por_encuentros[grupo_o_fase] = {'equipos': [], 'partidos': []}          
-            # Creamos los diccionarios de los equipos
-            local = {'nombre': partido.local, 'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0, 'bonus': 0}
-            visitante = {'nombre': partido.visitante, 'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0, 'bonus': 0}
-            # Añadir equipos si no existen en la lista de equipos del grupo
-            if not any(e['nombre'] == local['nombre'] for e in equipos_por_encuentros[grupo_o_fase]['equipos']):
-                equipos_por_encuentros[grupo_o_fase]['equipos'].append(local)
-            if not any(e['nombre'] == visitante['nombre'] for e in equipos_por_encuentros[grupo_o_fase]['equipos']):
-                equipos_por_encuentros[grupo_o_fase]['equipos'].append(visitante)
-            equipos_por_encuentros[grupo_o_fase]['partidos'].append(partido)
-        else:
-            print(f"Grupo o fase no reconocido: {grupo_o_fase}")
-    return equipos_por_encuentros, eliminatorias
-# Obtener equipos Copa UEMC
-def obtener_copa_salvador_fem():
-    partidos = CopaSalvadorFem.query.order_by(CopaSalvadorFem.id).all()
-    print("Partidos desde la BD:", partidos)  # Añadir esta línea para depuración
-    return partidos
-# Formatear partidos por grupo
-def formatear_partidos_por_encuentros(partidos):
-    encuentros = {
-        'grupoA': {'id': 1, 'encuentros': 'grupoA', 'partidos': []},
-        'grupoB': {'id': 2, 'encuentros': 'grupoB', 'partidos': []},
-        'grupoC': {'id': 3, 'encuentros': 'grupoC', 'partidos': []},
-        'grupoD': {'id': 4, 'encuentros': 'grupoD', 'partidos': []},
-        'semifinales': {'id': 5, 'encuentros': 'semifinales', 'partidos': []},
-        'final': {'id': 6, 'encuentros': 'final', 'partidos': []}
-    }
-    for partido in partidos:
-        # Si el objeto 'partido' es de SQLAlchemy, accedemos a sus atributos con punto
-        grupo = partido.encuentros  # Asumiendo que 'encuentros' es un campo en el modelo SQLAlchemy
-        if grupo in encuentros:
-            # Si el grupo existe, agregamos el partido a su lista
-            encuentros[grupo]['partidos'].append(partido)
-        else:
-            # Si no encontramos el grupo, lo indicamos
-            print(f"Grupo no encontrado: {grupo}")
-    return encuentros
-# Crear formularios para los grupos y eliminatorias UEMC
+# Ver encuentros copa en Admin
 @salvador_fem_route_bp.route('/copa_salvador_fem/')
 def ver_copa_salvador_fem():
-    try:
-        partidos = obtener_copa_salvador_fem()
-        dats5 = formatear_partidos_por_encuentros(partidos)
-        print(dats5)
-        return render_template('admin/copa/copa_salvador_fem.html', dats5=dats5)
-    except Exception as e:
-        print(f"Error al obtener o formatear los datos de la Copa Salvador: {e}")
-        return render_template('error.html')
-# Modificar los partidos de los playoff
-@salvador_fem_route_bp.route('/modificar_copa_salvador_fem/<string:encuentros>', methods=['POST'])
-def modificar_copa_salvador_fem(encuentros):
+    eliminatorias = ['octavos', 'cuartos_oro' ,'semifinales_oro', 'final_oro', 'cuartos_plata', 'semifinales_plata', 'final_plata']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = CopaSalvadorFem.query.filter_by(encuentros=eliminatoria).order_by(CopaSalvadorFem.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/copa/copa_salvador_fem.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la Copa
+@salvador_fem_route_bp.route('/modificar_copa_salvador_fem/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_copa_salvador_fem(eliminatoria):
     if request.method == 'POST':
         num_partidos = int(request.form.get('num_partidos', 0))
-        try:
-            for i in range(num_partidos):
-                partido_id = request.form.get(f'partido_id{i}')
-                if not partido_id:
-                    continue
-                partido = CopaSalvadorFem.query.get(int(partido_id))
-                if partido:
-                    partido.fecha = request.form.get(f'fecha{i}', partido.fecha)
-                    partido.hora = request.form.get(f'hora{i}', partido.hora)
-                    partido.local = request.form.get(f'local{i}', partido.local)
-                    partido.bonusA = request.form.get(f'bonusA{i}', partido.bonusA)
-                    partido.resultadoA = request.form.get(f'resultadoA{i}', partido.resultadoA)
-                    partido.resultadoB = request.form.get(f'resultadoB{i}', partido.resultadoB)
-                    partido.bonusB = request.form.get(f'bonusB{i}', partido.bonusB)
-                    partido.visitante = request.form.get(f'visitante{i}', partido.visitante)
-                    partido.encuentros = encuentros
-            db.session.commit()
-            flash('Partidos modificados correctamente', 'success')
-        except Exception as e:
-            db.session.rollback()
-            print(f"Error al modificar partidos: {e}")
-            flash('Hubo un error al modificar los partidos', 'error')
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = CopaSalvadorFem.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        flash('Copa actualizado correctamente', 'success')
         return redirect(url_for('salvador_fem_route_bp.ver_copa_salvador_fem'))
-# Eliminar partidos Copa DH VRAC
-@salvador_fem_route_bp.route('/eliminar_copa_salvador_fem/<string:identificador>', methods=['POST'])
-def eliminar_copa_salvador_fem(identificador):
-    try:
-        if identificador.startswith('grupo') or identificador in ['semifinales', 'final']:
-            partidos = CopaSalvadorFem.query.filter_by(encuentros=identificador).all()
-            for partido in partidos:
-                db.session.delete(partido)
-            db.session.commit()
-            flash('Partidos eliminados correctamente', 'success')
-        else:
-            flash('Identificador de encuentros no válido', 'error')
-    except Exception as e:
-        db.session.rollback()
-        flash(f'Error al eliminar partidos: {str(e)}', 'error')
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('salvador_fem_route_bp.ver_copa_salvador_fem'))
-# Ruta para mostrar la Copa El Salvador Fem
-@salvador_fem_route_bp.route('/salvador_copa_fem/')
-def salvador_copa_fem():
-    partidos = obtener_copa_salvador_fem()
-    equipos_por_encuentros, eliminatorias = obtener_equipos_desde_bd(partidos)
-    clasificaciones, enfrentamientos_directos = recalcular_clasificaciones(partidos)
-    # Definir fases eliminatorias que no deben entrar en las clasificaciones por grupo
-    fases_eliminatorias = {'semifinales', 'final'}
-    data_clasificaciones = {}
-    for grupo, equipos in clasificaciones.items():
-        if grupo in fases_eliminatorias:
-            continue  # Saltar fases eliminatorias
-        # Ordenar equipos según criterios
-        equipos_ordenados = sorted(
-            equipos.items(),
-            key=lambda item: (-item[1]['puntos'], item[1]['ganados'], item[1]['perdidos'], item[1]['empatados'] , item[1]['jugados'], -item[1]['bonus'])
-        )
-        # Criterio de desempate por enfrentamientos directos
-        def criterio_enfrentamientos_directos(equipo1, equipo2):
-            if equipo1 in enfrentamientos_directos and equipo2 in enfrentamientos_directos[equipo1]:
-                return enfrentamientos_directos[equipo1][equipo2]
-            return 0
-        equipos_ordenados = sorted(
-            equipos_ordenados,
-            key=lambda item: (
-                -item[1]['puntos'],
-                item[1]['ganados'],
-                item[1]['empatados'],
-                item[1]['perdidos'],
-                item[1]['jugados'],
-                -item[1]['bonus']
-                -criterio_enfrentamientos_directos(item[0], item[0])
-            )
-        )
-        data_clasificaciones[grupo] = equipos_ordenados
-    return render_template(
-        'copas/salvador_copa_fem.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
-        clasificaciones=data_clasificaciones
-    )
+# Eliminar los partidos de la copa
+@salvador_fem_route_bp.route('/eliminar_copa_salvador_fem/<string:eliminatoria>', methods=['POST'])
+def eliminar_copa_salvador_fem(eliminatoria):
+    partidos = CopaSalvadorFem.query.filter_by(encuentros=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
+    return redirect(url_for('salvador_fem_route_bp.ver_copa_salvador_fem'))
+# Mostrar los playoffs del CPLV Caja Rural
+@salvador_fem_route_bp.route('/copas_salvador_fem/')
+def copas_salvador_fem():
+    eliminatorias = ['octavos', 'cuartos_oro', 'semifinales_oro', 'final_oro', 'cuartos_plata', 'semifinales_plata', 'final_plata']
+    datos_copa = {}
+    for eliminatoria in eliminatorias:
+        partidos = CopaSalvadorFem.query.filter_by(encuentros=eliminatoria).all()
+        datos_copa[eliminatoria] = partidos   
+    return render_template('copas/salvador_fem_copa.html', datos_copa=datos_copa)
