@@ -32,6 +32,7 @@
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-2 gap-1">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="ascenso">Ascenso</button>
         <button class="btn btn-outline-light tab-btn" data-tab="playoff">Playoff</button>
         <button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>
       </div>
@@ -41,7 +42,7 @@
               <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-analisis">Liga Guerreras Iberdrola</h3>
+                    <h3 class="text-center text-analisis fs-4">División Honor Oro</h3>
                       <table id="tablaClasificacion" class="table">
                         <thead>
                           <tr>
@@ -61,7 +62,7 @@
                           {% for equipo in clasificacion_analisis_aula %}
                           <tr>
                             <td
-                              class="equipo-mobile text-center {% if loop.index <= 8 %}pos-playoff-titulo{% elif loop.index <= 9 %}pos-nada {% elif loop.index <= 13 %}pos-promo{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
+                              class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 4 %}pos-playoff{% elif loop.index <= 12 %}pos-nada{% elif loop.index >= clasificacion_analisis_aula|length - 1 %}pos-desc{% endif %}">
                               {{ loop.index }}
                             </td>
                             <td class="equipo-mobile text-start size_equipos2 {% if 'Aula Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
@@ -80,9 +81,48 @@
                   </div>
                 </div>
                 <p class="ms-4 text-analisis fs-6"> PT(Puntos); J(Jugados); G(Ganados); E(Empatados); P(Perdidos); F(Favor); C(Contra); DG (Dif. Goles)</p>
-                <p class="ms-4 text-analisis fs-6">PlayOffs (Título)<span class="badge bg-success ms-2">1-8</span>; Playoffs Permanencia<span
-                    class="badge bg-danger ms-2">10-13</span>; Descenso<span
-                    class="badge bg-danger ms-2">14</span>; Puestos Europa Final PlayOff Título<span class="badge bg-success ms-2">1-4</span></p>
+                <p class="ms-4 text-analisis fs-6">Campeón<span class="badge bg-success ms-2">1</span>; Playoff<span class="badge bg-warning ms-2">2-4</span>; Descenso<span class="badge bg-danger ms-2">13-14</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="ascenso"><!--Tabla Ascenso-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos" style="width: 55rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center mb-4 text-analisis fs-4">Liga Iberdrola</h3>
+                      <table id="tablaAscAula" class="table"><!--Tabla PlayOff-->
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th class="equipo-mobile text-start">Equipos</th>
+                            <th class="equipo-mobile text-center">J</th>
+                            <th class="equipo-mobile text-center">PT</th>
+                            <th class="equipo-mobile text-center">%</th>
+                            <th class="equipo-mobile text-center">Mat</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_aula %}
+                          <tr>
+                            <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                            <td class="equipo-mobile text-start size_equipos2">{{ equipo['equipo'] }}</td>
+                            <td class="equipo-mobile text-center play-jug">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="equipo-mobile text-center play-act">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="equipo-mobile text-center play-prox"></td>
+                            <td class="equipo-mobile text-center play-mate"></td>
+                            <td class="equipo-mobile text-center play-opti d-none d-md-table-cell"></td>
+                            <td class="equipo-mobile text-center play-pesi d-none d-md-table-cell"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4 text-analisis fs-6">J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos);
+                  Op(Optimista); Pes(Pesimista)</p>
               </div>
             </div>
           </div>
@@ -91,7 +131,7 @@
               <div class="card tabla_equipos" style="width: 55rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center mb-4 text-analisis fs-4">PlayOff al Título</h3>
+                    <h3 class="text-center mb-4 text-analisis fs-4">Liga Iberdrola</h3>
                       <table id="tablaPlayAula" class="table"><!--Tabla PlayOff-->
                         <thead>
                           <tr>
@@ -129,10 +169,10 @@
           </div>
           <div class="tab-pane" id="descenso"><!--Tabla Descenso-->
             <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos" style="width: 80rem;">
+              <div class="card tabla_equipos" style="width: 55rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center mb-4 text-analisis">División Honor Oro</h3>
+                    <h3 class="text-center mb-4 text-analisis fs-4">División Honor Plata</h3>
                       <table id="tablaDescAula" class="table"><!--Tabla Descenso-->
                         <thead>
                           <tr>

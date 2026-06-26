@@ -92,6 +92,69 @@ equipos.forEach((equipoData) => {
     tabla.appendChild(nuevaFila);
 });*/
 
+// Tercera función para calcular el porcentaje al Ascenso
+const filas3 = document.querySelectorAll("#tablaAscAula tbody tr");
+const partidosTotales3 = 26; // Cambiado a 26 partidos en la temporada
+const puntosPorGanar3 = 2; // Cambiado a 2 puntos por partido ganado
+const proximidadFija3 = 52; // Ajusta este valor según tus necesidades
+const equipos3 = [];
+let index3 = 1;
+filas3.forEach((fila, indice) => {
+    const equipo3 = fila.querySelector(`.size_equipos2`).textContent;
+    const partidosJugados3 = parseInt(fila.querySelector(`.play-jug`).textContent);
+    const puntosActuales3 = parseInt(fila.querySelector(`.play-act`).textContent);
+
+    // Calcular puntos necesarios para alcanzar la proximidad fija
+    const puntosParaAscenso3 = Math.round((proximidadFija3 / 100) * partidosTotales3 * puntosPorGanar3);
+
+    // Calcular la proximidad de ascenso
+    const puntosQueFaltan3 = Math.max(0, puntosParaAscenso3 - puntosActuales3);
+    const proximidadDePlayOff = Math.min(((puntosParaAscenso3 - puntosQueFaltan3) / puntosParaAscenso3) * 100, 100);
+
+    // Calcular los partidos ganados matemáticos, optimistas y pesimistas
+    const partidosRestantesAscenso3 = partidosTotales3 - partidosJugados3;
+    const partidosGanadosMatematicos3 = Math.min(puntosActuales3 + partidosRestantesAscenso3 * puntosPorGanar3, puntosParaAscenso3);
+    const partidosGanadosPesimistas3 = Math.min(partidosGanadosMatematicos3 - 2, puntosParaAscenso3);
+    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -4, puntosParaAscenso3);
+
+    equipos3.push({
+        index3:index3,
+        equipo3,
+        partidosJugados3,
+        puntosActuales3,
+        proximidadDePlayOff:Math.round(proximidadDePlayOff),
+        partidosGanadosMatematicos3,
+        partidosGanadosOptimistas3,
+        partidosGanadosPesimistas3
+    });
+    index3++
+});
+// Ordenar los equipo1s1 por proximidad descendente
+equipos3.sort((a, b) => b.proximidadDePlayOff - a.proximidadDePlayOff);
+// Actualizar la tabla1 con los datos ordenados
+const tabla3 = document.querySelector("#tablaAscAula tbody");
+tabla3.innerHTML = ""; // Limpiar la tabla1 antes de actualizar
+equipos3.forEach((equipo3Data) => {
+    const nuevaFila3 = document.createElement("tr");
+    let claseColor3 = '';
+    if (equipo3Data.index3 <= 1) {
+        claseColor3 = 'pos-ascen';    
+    } else if (equipo3Data.index3 <=14) {
+        claseColor3 = 'pos-nada';
+    }
+    nuevaFila3.innerHTML = `
+    <td class="text-center equipo-mobile ${claseColor3}">${equipo3Data.index3}</td>
+    <td class="text-start size_equipos2 equipo-mobile">${equipo3Data.equipo3}</td>
+    <td class="play-jug text-center equipo-mobile">${equipo3Data.partidosJugados3}</td>
+    <td class="play-act text-center equipo-mobile">${equipo3Data.puntosActuales3}</td>
+    <td class="play-prox text-center equipo-mobile">${equipo3Data.proximidadDePlayOff}%</td>
+    <td class="play-mate text-center equipo-mobile">${equipo3Data.partidosGanadosMatematicos3}</td>
+    <td class="play-opti text-center equipo-mobile d-none d-md-table-cell">${equipo3Data.partidosGanadosOptimistas3}</td>
+    <td class="play-pesi text-center equipo-mobile d-none d-md-table-cell">${equipo3Data.partidosGanadosPesimistas3}</td>
+    `;
+    tabla3.appendChild(nuevaFila3);
+});
+
 // Tercera función para calcular el porcentaje a los PlayOff
 const filas1 = document.querySelectorAll("#tablaPlayAula tbody tr");
 const partidosTotales1 = 26; // Cambiado a 26 partidos en la temporada
@@ -137,8 +200,10 @@ tabla1.innerHTML = ""; // Limpiar la tabla1 antes de actualizar
 equipos1.forEach((equipo1Data) => {
     const nuevaFila1 = document.createElement("tr");
     let claseColor1 = '';
-    if (equipo1Data.index1 <= 8) {
-        claseColor1 = 'pos-playoff-titulo';
+    if (equipo1Data.index1 <= 1) {
+        claseColor1 = 'pos-nada';
+    } else if (equipo1Data.index1 <= 4){
+        claseColor1 = 'pos-playoff';    
     } else if (equipo1Data.index1 <=14) {
         claseColor1 = 'pos-nada';
     }
@@ -200,10 +265,8 @@ tabla2.innerHTML = ""; // Limpiar la tabla2 antes de actualizar
 equipos2.forEach((equipo2Data) => {
     const nuevaFila2 = document.createElement("tr");
     let claseColor2 = '';
-    if (equipo2Data.index2 <= 9) {
-        claseColor2 = 'pos-nada';
-    } else if (equipo2Data.index2 <= 13) {
-        claseColor2 = 'pos-promo';    
+    if (equipo2Data.index2 <= 12) {
+        claseColor2 = 'pos-nada';    
     } else if (equipo2Data.index2 <= 14) {
         claseColor2 = 'pos-desc';
     }
