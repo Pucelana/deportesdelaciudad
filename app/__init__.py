@@ -62,7 +62,3 @@ def create_app():
     app.register_blueprint(usuarios_route_bp)
     
     return app 
-
-    
-
-    

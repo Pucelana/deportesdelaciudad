@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid, PlayoffValladolid
+from ..models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid, PlayoffValladolid, TemporadaValladolid
 
 valladolid_route_bp = Blueprint('valladolid_route_bp', __name__)
 
@@ -13,29 +13,32 @@ valladolid_route_bp = Blueprint('valladolid_route_bp', __name__)
 @valladolid_route_bp.route('/crear_calendario_valladolid', methods=['GET', 'POST'])
 def ingresar_resultado_valladolid():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaValladolid(nombre=nombre_jornada)
+        temporada = TemporadaValladolid.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaValladolid(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaValladolid(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
-        db.session.flush()  # Esto nos da el ID antes del commit        
+        db.session.flush()        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = ValladolidPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
                 orden=i
             )
             db.session.add(partido)
@@ -107,21 +110,24 @@ def eliminar_jornada_valladolid(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('valladolid_route_bp.calendarios_valladolid'))    
 # Obtener datos Real Valladolid
-def obtener_datos_valladolid():
-    # Obtener todas las jornadas UEMC
-    jornadas = JornadaValladolid.query.all()
+def obtener_datos_valladolid(nombre_temporada=None):
+    # Obtener todas las jornadas Real Valladolid
+    temporada = TemporadaValladolid.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
+    if nombre_temporada is None:
+        temporada = TemporadaValladolid.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaValladolid.query.filter_by(nombre=nombre_temporada).first()
+    for jornada in temporada.jornadas:
         # Obtener los partidos de esta jornada
-        partidos = db.session.query(ValladolidPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(ValladolidPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+        partidos = ValladolidPartido.query.filter_by(jornada_id=jornada.id).order_by(ValladolidPartido.orden.asc()).all()       
+        jornadas_con_partidos = {
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        }
+        jornadas_con_partidos.append(jornadas_con_partidos)            
     return jornadas_con_partidos
 # Calendario Real Valladolid
 @valladolid_route_bp.route('/equipos_futbol/calendario_valladolid')
