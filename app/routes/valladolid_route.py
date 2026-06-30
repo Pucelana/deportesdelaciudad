@@ -51,7 +51,13 @@ def ingresar_resultado_valladolid():
 # Ver calendario Real Valladolid en Admin
 @valladolid_route_bp.route('/calendario_valladolid')
 def calendarios_valladolid():
-    jornadas = JornadaValladolid.query.order_by(JornadaValladolid.id.asc()).all()
+    temporada = TemporadaValladolid.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaValladolid.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaValladolid.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(ValladolidPartido)\
@@ -111,29 +117,30 @@ def eliminar_jornada_valladolid(id):
     return redirect(url_for('valladolid_route_bp.calendarios_valladolid'))    
 # Obtener datos Real Valladolid
 def obtener_datos_valladolid(nombre_temporada=None):
-    # Obtener todas las jornadas Real Valladolid
-    temporada = TemporadaValladolid.query.filter_by(nombre=nombre_temporada).first()
-    if not temporada:
-        return []
-    jornadas_con_partidos = []
     if nombre_temporada is None:
         temporada = TemporadaValladolid.query.filter_by(activa=True).first()
     else:
         temporada = TemporadaValladolid.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
+    jornadas_con_partidos = []
     for jornada in temporada.jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = ValladolidPartido.query.filter_by(jornada_id=jornada.id).order_by(ValladolidPartido.orden.asc()).all()       
-        jornadas_con_partidos = {
+        partidos = (
+            ValladolidPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(ValladolidPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }
-        jornadas_con_partidos.append(jornadas_con_partidos)            
+        })
     return jornadas_con_partidos
 # Calendario Real Valladolid
 @valladolid_route_bp.route('/equipos_futbol/calendario_valladolid')
 def calendario_valladolid():
     datos = obtener_datos_valladolid()
-    equipo_valladolid = 'Real Valladolid'
+    equipo_valladolid = 'R.Valladolid'
     tabla_partidos_valladolid = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -460,6 +467,24 @@ def clasif_analisis_valladolid():
     )
     return render_template('equipos_vall/clasif_valladolid.html',
         clasificacion_analisis_valladolid=clasificacion_analisis_valladolid)
+# TEMPORADAS REAL VALLADOLID
+@valladolid_route_bp.route('/temporadas_valladolid')
+def temporadas_valladolid():
+    temporadas = TemporadaValladolid.query.order_by(
+        TemporadaValladolid.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_valladolid.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@valladolid_route_bp.route('/activar_temporada_valladolid/<int:id>')
+def activar_temporada_valladolid(id):
+    TemporadaValladolid.query.update({"activa": False})
+    temporada = TemporadaValladolid.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('valladolid_route_bp.temporadas_valladolid'))
 
 # COPA DEL REY REAL VALLADOLID
 # Creación de las eliminatorias de copa

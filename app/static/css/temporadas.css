@@ -1,0 +1,62 @@
+.admin_temporadas{
+    width:90%;
+    margin:40px auto;
+}
+
+.admin_temporadas h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.tabla_temporadas{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.tabla_temporadas th{
+    background:#1f4e79;
+    color:white;
+    padding:14px;
+    text-align:center;
+}
+
+.tabla_temporadas td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+.tabla_temporadas tr:hover{
+    background:#f6f6f6;
+}
+
+.estado_activa{
+    color:#0a8f2d;
+    font-weight:bold;
+}
+
+.estado_inactiva{
+    color:#777;
+}
+
+.btn_activar{
+    display:inline-block;
+    padding:8px 18px;
+    background:#28a745;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    transition:.2s;
+}
+
+.btn_activar:hover{
+    background:#1f8136;
+}
+
+.temporada_actual{
+    font-size:22px;
+    font-weight:bold;
+    color: black;
+}
