@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub, PlayoffRecoletas, CopaRecoletas,SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas
+from ..models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub, PlayoffRecoletas, CopaRecoletas,SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas, TemporadaRecoletas
 
 recoletas_route_bp = Blueprint('recoletas_route_bp', __name__)
 
@@ -13,29 +13,32 @@ recoletas_route_bp = Blueprint('recoletas_route_bp', __name__)
 @recoletas_route_bp.route('/crear_calendario_recoletas', methods=['GET', 'POST'])
 def ingresar_resultado_recoletas():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaRecoletas(nombre=nombre_jornada)
+        temporada = TemporadaRecoletas.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaRecoletas(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaRecoletas(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
-        db.session.flush()  # Esto nos da el ID antes del commit        
+        db.session.flush()        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = RecoletasPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
                 orden=i
             )
             db.session.add(partido)
@@ -48,7 +51,13 @@ def ingresar_resultado_recoletas():
 # Ver calendario Atl.Valladolid en Admin
 @recoletas_route_bp.route('/calendario_recoletas')
 def calendarios_recoletas():
-    jornadas = JornadaRecoletas.query.order_by(JornadaRecoletas.id.asc()).all()
+    temporada = TemporadaRecoletas.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaRecoletas.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaRecoletas.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(RecoletasPartido)\
@@ -104,21 +113,25 @@ def eliminar_jornada_recoletas(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('recoletas_route_bp.calendarios_recoletas'))    
 # Obtener datos Atl.Valladolid
-def obtener_datos_recoletas():
-    # Obtener todas las jornadas Atl.Valladolid
-    jornadas = JornadaRecoletas.query.all()
+def obtener_datos_recoletas(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaRecoletas.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaRecoletas.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(RecoletasPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(RecoletasPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            RecoletasPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(RecoletasPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario Atl.Valladolid
 @recoletas_route_bp.route('/equipos_balonmano/calendario_recoletas')
@@ -450,7 +463,25 @@ def clasif_recoletas():
     )
     return render_template('equipos_vall/clasif_recoletas.html',
         clasificacion_analisis_recoletas=clasificacion_analisis_recoletas)
-    
+# TEMPORADAS ATL VALLADOLID
+@recoletas_route_bp.route('/temporadas_recoletas')
+def temporadas_recoletas():
+    temporadas = TemporadaRecoletas.query.order_by(
+        TemporadaRecoletas.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_recoletas.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@recoletas_route_bp.route('/activar_temporada_recoletas/<int:id>')
+def activar_temporada_recoletas(id):
+    TemporadaRecoletas.query.update({"activa": False})
+    temporada = TemporadaRecoletas.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('recoletas_route_bp.temporadas_recoletas'))    
+       
 # PLAYOFF ATL.VALLADOLID
 # Crear formulario para los playoff
 @recoletas_route_bp.route('/crear_playoff_recoletas', methods=['GET', 'POST'])

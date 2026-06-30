@@ -1,5 +1,5 @@
 {% extends 'admin/temporadas/base_temporada.html' %}
-{% block title %} Temporadas - Real Valladolid {% endblock %}
+{% block title %} Temporada- Atl. Valladolid {% endblock %}
 {% block nav %}
 <ol class="breadcrumb ms-1">
   <li class="breadcrumb-item">
@@ -8,13 +8,13 @@
     >
   </li>
   <li class="breadcrumb-item active text-dark" aria-current="page">
-    Real Valladolid
+    Atl. Valladolid
   </li>
 </ol>
 {% endblock %}
 {% block contenido %}
 <div class="admin_temporadas">
-    <h2>Temporadas Real Valladolid</h2>
+    <h2>Temporadas Atl. Valladolid</h2>
     <table class="tabla_temporadas">
         <thead>
             <tr>
@@ -37,7 +37,7 @@
                 <td>
                     {% if not temporada.activa %}
                         <a class="btn_activar"
-                           href="{{ url_for('valladolid_route_bp.activar_temporada_valladolid', id=temporada.id) }}">
+                           href="{{ url_for('recoletas_route_bp.activar_temporada_recoletas', id=temporada.id) }}">
                             Activar
                         </a>
                     {% else %}

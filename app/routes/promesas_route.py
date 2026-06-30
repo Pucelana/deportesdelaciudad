@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.promesas import JornadaPromesas, PromesasPartido, PromesasClub, PlayoffPromesas
+from ..models.promesas import JornadaPromesas, PromesasPartido, PromesasClub, PlayoffPromesas, TemporadaPromesas
 
 promesas_route_bp = Blueprint('promesas_route_bp', __name__)
 
@@ -13,29 +13,32 @@ promesas_route_bp = Blueprint('promesas_route_bp', __name__)
 @promesas_route_bp.route('/crear_calendario_promesas', methods=['GET', 'POST'])
 def ingresar_resultado_promesas():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaPromesas(nombre=nombre_jornada)
+        temporada = TemporadaPromesas.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaPromesas(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaPromesas(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
-        db.session.flush()  # Esto nos da el ID antes del commit        
+        db.session.flush()        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = PromesasPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
                 orden=i
             )
             db.session.add(partido)
@@ -48,14 +51,20 @@ def ingresar_resultado_promesas():
 # Ver calendario Real Valladolid Promesas en Admin
 @promesas_route_bp.route('/calendario_promesas')
 def calendarios_promesas():
-    jornadas = JornadaPromesas.query.order_by(JornadaPromesas.id.asc()).all()
+    temporada = TemporadaPromesas.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaPromesas.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaPromesas.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(PromesasPartido)\
             .filter_by(jornada_id=jornada.id)\
             .order_by(PromesasPartido.orden.asc())\
             .all()
-    return render_template('admin/calendarios/calend_promesas.html', jornadas=jornadas)
+    return render_template('admin/calendarios/calend_valladolid.html', jornadas=jornadas)
 # Modificar jornada
 @promesas_route_bp.route('/modificar_jornada_promesas/<int:id>', methods=['GET', 'POST'])
 def modificar_jornada_promesas(id):
@@ -107,21 +116,25 @@ def eliminar_jornada_promesas(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('promesas_route_bp.calendarios_promesas'))    
 # Obtener datos Real Valladolid Promesas
-def obtener_datos_promesas():
-    # Obtener todas las jornadas Promesas
-    jornadas = JornadaPromesas.query.all()
+def obtener_datos_promesas(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaPromesas.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaPromesas.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(PromesasPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(PromesasPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            PromesasPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(PromesasPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario Real Valladolid Promesas
 @promesas_route_bp.route('/equipos_futbol/calendario_promesas')
@@ -453,6 +466,24 @@ def clasif_analisis_promesas():
     )
     return render_template('equipos_vall/clasif_promesas.html',
         clasificacion_analisis_promesas=clasificacion_analisis_promesas)
+# TEMPORADAS RV Promesas
+@promesas_route_bp.route('/temporadas_promesas')
+def temporadas_promesas():
+    temporadas = TemporadaPromesas.query.order_by(
+        TemporadaPromesas.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_promesas.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@promesas_route_bp.route('/activar_temporada_promesas/<int:id>')
+def activar_temporada_promesas(id):
+    TemporadaPromesas.query.update({"activa": False})
+    temporada = TemporadaPromesas.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('promesas_route_bp.temporadas_promesas'))    
 
 # PLAYOFF ASCENSO REAL VALLADOLID PROMESAS
 # Crear formulario para los playoff

@@ -1,10 +1,30 @@
 from app.extensions import db
 
-class JornadaParquesol(db.Model):
-    __tablename__ = 'jornadas_parquesol'
+class TemporadaParquesol(db.Model):
+    __tablename__ = "temporadas_parquesol"
     id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    activa = db.Column(db.Boolean, default=False)
+    jornadas = db.relationship(
+        "JornadaParquesol",
+        backref="temporada",
+        cascade="all, delete-orphan"
+    )
+    
+class JornadaParquesol(db.Model):
+    __tablename__ = "jornadas_parquesol"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_parquesol.id", ondelete="CASCADE"),
+        nullable=False
+    )
     nombre = db.Column(db.String(255), nullable=False)
-    partidos = db.relationship('ParquesolPartido', backref='jornada', cascade='all, delete-orphan')
+    partidos = db.relationship(
+        "ParquesolPartido",
+        backref="jornada",
+        cascade="all, delete-orphan"
+    ) 
     
 class ParquesolPartido(db.Model):
     __tablename__ = 'parquesol_partidos'
