@@ -217,7 +217,7 @@ def resultados_simancas():
     if jornada_activa is None and nuevos_datos_simancas:
         jornada_activa = nuevos_datos_simancas[-1]['nombre']
     return render_template(
-        'equipos_vall/jornadas_simancas.html',
+        'equipos_vall/jornadas_rv_fem.html',
         nuevos_datos_simancas=nuevos_datos_simancas,
         jornada_activa=jornada_activa
     )

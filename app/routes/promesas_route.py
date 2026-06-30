@@ -64,7 +64,7 @@ def calendarios_promesas():
             .filter_by(jornada_id=jornada.id)\
             .order_by(PromesasPartido.orden.asc())\
             .all()
-    return render_template('admin/calendarios/calend_valladolid.html', jornadas=jornadas)
+    return render_template('admin/calendarios/calend_promesas.html', jornadas=jornadas)
 # Modificar jornada
 @promesas_route_bp.route('/modificar_jornada_promesas/<int:id>', methods=['GET', 'POST'])
 def modificar_jornada_promesas(id):
