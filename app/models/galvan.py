@@ -12,7 +12,7 @@ class TemporadaGalvan(db.Model):
     )
     
 class JornadaGalvan(db.Model):
-    __tablename__ = "jornada_galvan"
+    __tablename__ = "jornadas_galvan"
     id = db.Column(db.Integer, primary_key=True)
     temporada_id = db.Column(
         db.Integer,
