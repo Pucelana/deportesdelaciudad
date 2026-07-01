@@ -1,10 +1,30 @@
 from app.extensions import db
 
-class JornadaUEMC(db.Model):
-    __tablename__ = 'jornadas_uemc'
+class TemporadaUEMC(db.Model):
+    __tablename__ = "temporadas_uemc"
     id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    activa = db.Column(db.Boolean, default=False)
+    jornadas = db.relationship(
+        "JornadaUEMC",
+        backref="temporada",
+        cascade="all, delete-orphan"
+    )
+    
+class JornadaUEMC(db.Model):
+    __tablename__ = "jornadas_uemc"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_uemc.id", ondelete="CASCADE"),
+        nullable=False
+    )
     nombre = db.Column(db.String(255), nullable=False)
-    partidos = db.relationship('UEMCPartido', backref='jornada', cascade='all, delete-orphan')
+    partidos = db.relationship(
+        "UEMCPartido",
+        backref="jornada",
+        cascade="all, delete-orphan"
+    ) 
 
 class UEMCPartido(db.Model):
     __tablename__ = 'uemc_partidos'

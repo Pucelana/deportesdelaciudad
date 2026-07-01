@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub, CopaVallSala, PlayoffVallSala
+from ..models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub, CopaVallSala, PlayoffVallSala, TemporadaVallSala
 
 vall_sala_route_bp = Blueprint('vall_sala_route_bp', __name__)
 
@@ -13,29 +13,32 @@ vall_sala_route_bp = Blueprint('vall_sala_route_bp', __name__)
 @vall_sala_route_bp.route('/crear_calendario_vall_sala', methods=['GET', 'POST'])
 def ingresar_resultado_vall_sala():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaVallSala(nombre=nombre_jornada)
+        temporada = TemporadaVallSala.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaVallSala(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaVallSala(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
-        db.session.flush()  # Esto nos da el ID antes del commit        
+        db.session.flush()        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = VallSalaPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
                 orden=i
             )
             db.session.add(partido)
@@ -48,7 +51,13 @@ def ingresar_resultado_vall_sala():
 # Ver calendario Valladolid S.S en Admin
 @vall_sala_route_bp.route('/calendarios_vall_sala')
 def calendarios_vall_sala():
-    jornadas = JornadaVallSala.query.order_by(JornadaVallSala.id.asc()).all()
+    temporada = TemporadaVallSala.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaVallSala.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaVallSala.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(VallSalaPartido)\
@@ -102,22 +111,26 @@ def eliminar_jornada_vall_sala(id):
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('vall_sala_route_bp.calendarios_vall_sala'))    
-# Obtener datos Tierno Galvan
-def obtener_datos_vall_sala():
-    # Obtener todas las jornadas Valladolid S.S
-    jornadas = JornadaVallSala.query.all()
+# Obtener datos Valladolid S.S
+def obtener_datos_vall_sala(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaVallSala.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaVallSala.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(VallSalaPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(VallSalaPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            VallSalaPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(VallSalaPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario Valladolid S.S
 @vall_sala_route_bp.route('/equipos_futsal/calendario_vall_sala')
@@ -449,6 +462,24 @@ def clasif_analisis_vall_sala():
     )
     return render_template('equipos_vall/clasif_vall_sala.html',
         clasificacion_analisis_vall_sala=clasificacion_analisis_vall_sala)
+# TEMPORADAS RV Promesas
+@vall_sala_route_bp.route('/temporadas_vall_sala')
+def temporadas_vall_sala():
+    temporadas = TemporadaVallSala.query.order_by(
+        TemporadaVallSala.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_vall_sala.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@vall_sala_route_bp.route('/activar_temporada_vall_sala/<int:id>')
+def activar_temporada_vall_sala(id):
+    TemporadaVallSala.query.update({"activa": False})
+    temporada = TemporadaVallSala.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('vall_sala_route_bp.temporadas_vall_sala'))
 
 # COPA DEL REY Valladolid S.S
 # Creación de las eliminatorias de copa

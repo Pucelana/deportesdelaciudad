@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.panteras import JornadaPanteras, PanterasPartido, PanterasClub, PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion
+from ..models.panteras import JornadaPanteras, PanterasPartido, PanterasClub, PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion, TemporadaPanteras
 
 panteras_route_bp = Blueprint('panteras_route_bp', __name__)
 
@@ -13,34 +13,34 @@ panteras_route_bp = Blueprint('panteras_route_bp', __name__)
 @panteras_route_bp.route('/crear_calendario_panteras', methods=['GET', 'POST'])
 def ingresar_resultado_panteras():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaPanteras(nombre=nombre_jornada)
+        temporada = TemporadaPanteras.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaPanteras(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaPanteras(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            bonusA = request.form.get(f'bonusA{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            bonusB = request.form.get(f'bonusB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = PanterasPartido(
-                jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                bonusA = bonusA,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                bonusB = bonusB,
-                visitante=visitante,
-                orden=i
+                fecha = request.form.get(f'fecha{i}'),
+                hora = request.form.get(f'hora{i}'),
+                local = request.form.get(f'local{i}'),
+                bonusA = request.form.get(f'bonusA{i}'),
+                resultadoA = request.form.get(f'resultadoA{i}'),
+                resultadoB = request.form.get(f'resultadoB{i}'),
+                bonusB = request.form.get(f'bonusB{i}'),
+                visitante = request.form.get(f'visitante{i}'),
+                orden = i
             )
             db.session.add(partido)
         # Confirmar todos los cambios en la base de datos
@@ -52,7 +52,13 @@ def ingresar_resultado_panteras():
 # Ver calendario CPLV Panteras en Admin
 @panteras_route_bp.route('/calendario_panteras')
 def calendarios_panteras():
-    jornadas = JornadaPanteras.query.order_by(JornadaPanteras.id.asc()).all()
+    temporada = TemporadaPanteras.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaPanteras.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaPanteras.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(PanterasPartido)\
@@ -112,21 +118,25 @@ def eliminar_jornada_panteras(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('panteras_route_bp.calendarios_panteras'))    
 # Obtener datos CPLV Panteras
-def obtener_datos_panteras():
-    # Obtener todas las jornadas CPLV Panteras
-    jornadas = JornadaPanteras.query.all()
+def obtener_datos_panteras(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaPanteras.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaPanteras.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(PanterasPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(PanterasPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            PanterasPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(PanterasPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario CPLV Panteras
 @panteras_route_bp.route('/equipos_hockey/calendario_panteras')
@@ -392,6 +402,24 @@ def clasif_analisis_panteras():
     )
     return render_template('equipos_vall/clasif_panteras.html',
         clasificacion_analisis_panteras=clasificacion_analisis_panteras)
+# TEMPORADAS Panteras
+@panteras_route_bp.route('/temporadas_panteras')
+def temporadas_panteras():
+    temporadas = TemporadaPanteras.query.order_by(
+        TemporadaPanteras.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_panteras.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@panteras_route_bp.route('/activar_temporada_panteras/<int:id>')
+def activar_temporada_panteras(id):
+    TemporadaPanteras.query.update({"activa": False})
+    temporada = TemporadaPanteras.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('panteras_route_bp.temporadas_panteras')) 
 
 # PLAYOFF CPLV MUNIA PANTERAS
 # Crear formulario para los playoff

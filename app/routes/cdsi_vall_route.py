@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub, PlayoffCDSIVall, Clasificacion
+from ..models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub, PlayoffCDSIVall, Clasificacion, TemporadaCDSIVall
 
 cdsi_vall_route_bp = Blueprint('cdsi_vall_route_bp', __name__)
 
@@ -14,29 +14,33 @@ cdsi_vall_route_bp = Blueprint('cdsi_vall_route_bp', __name__)
 @cdsi_vall_route_bp.route('/crear_calendario_cdsi_vall', methods=['GET', 'POST'])
 def ingresar_resultado_cdsi_vall():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaCDSIVall(nombre=nombre_jornada)
+        temporada = TemporadaCDSIVall.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaCDSIVall(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaCDSIVall(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = CDSIVallPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
+                orden=i
             )
             db.session.add(partido)
         # Confirmar todos los cambios en la base de datos
@@ -48,7 +52,13 @@ def ingresar_resultado_cdsi_vall():
 # Ver calendario CDSI VALL en Admin
 @cdsi_vall_route_bp.route('/calendario_cdsi_vall')
 def calendarios_cdsi_vall():
-    jornadas = JornadaCDSIVall.query.order_by(JornadaCDSIVall.id.asc()).all()
+    temporada = TemporadaCDSIVall.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaCDSIVall.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaCDSIVall.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(CDSIVallPartido)\
@@ -104,18 +114,25 @@ def eliminar_jornada_cdsi_vall(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('cdsi_vall_route_bp.calendarios_cdsi_vall'))
 # Obtener datos CDSI VALL
-def obtener_datos_cdsi_vall():
-    # Obtener todas las jornadas CDSI VALL
-    jornadas = JornadaCDSIVall.query.all()
+def obtener_datos_cdsi_vall(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaCDSIVall.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaCDSIVall.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = CDSIVallPartido.query.filter_by(jornada_id=jornada.id).all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            CDSIVallPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(CDSIVallPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario CDSI VALL
 @cdsi_vall_route_bp.route('/equipos_basket/calendario_cdsi_vall')
@@ -512,6 +529,24 @@ def clasif_analisis_cdsi_vall():
     )
     return render_template('equipos_vall/clasif_cdsi.html',
         clasificacion_analisis_cdsi_vall=clasificacion_analisis_cdsi_vall)
+# TEMPORADAS ATL VALLADOLID
+@cdsi_vall_route_bp.route('/temporadas_cdsi_vall')
+def temporadas_cdsi_vall():
+    temporadas = TemporadaCDSIVall.query.order_by(
+        TemporadaCDSIVall.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_cdsi_vall.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@cdsi_vall_route_bp.route('/activar_temporada_cdsi_vall/<int:id>')
+def activar_temporada_cdsi_vall(id):
+    TemporadaCDSIVall.query.update({"activa": False})
+    temporada = TemporadaCDSIVall.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('cdsi_vall_route_bp.temporadas_cdsi_vall'))   
     
 # PLAYOFF CDSI VALL
 # Crear formulario para los playoff

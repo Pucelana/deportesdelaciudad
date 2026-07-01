@@ -1,10 +1,30 @@
 from app.extensions import db
 
-class JornadaAliados(db.Model):
-    __tablename__ = 'jornadas_aliados'
+class TemporadaAliados(db.Model):
+    __tablename__ = "temporadas_aliados"
     id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    activa = db.Column(db.Boolean, default=False)
+    jornadas = db.relationship(
+        "JornadaAliados",
+        backref="temporada",
+        cascade="all, delete-orphan"
+    )
+    
+class JornadaAliados(db.Model):
+    __tablename__ = "jornadas_aliados"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_aliados.id", ondelete="CASCADE"),
+        nullable=False
+    )
     nombre = db.Column(db.String(255), nullable=False)
-    partidos = db.relationship('AliadosPartido', backref='jornada', cascade='all, delete-orphan')
+    partidos = db.relationship(
+        "AliadosPartido",
+        backref="jornada",
+        cascade="all, delete-orphan"
+    )
 
 class AliadosPartido(db.Model):
     __tablename__ = 'aliados_partidos'

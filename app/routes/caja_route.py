@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.caja import JornadaCaja, CajaPartido, CajaClub, PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion
+from ..models.caja import JornadaCaja, CajaPartido, CajaClub, PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion, TemporadaCaja
 
 caja_route_bp = Blueprint('caja_route_bp', __name__)
 
@@ -13,10 +13,20 @@ caja_route_bp = Blueprint('caja_route_bp', __name__)
 @caja_route_bp.route('/crear_calendario_caja', methods=['GET', 'POST'])
 def ingresar_resultado_caja():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaCaja(nombre=nombre_jornada)
+        temporada = TemporadaCaja.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaCaja(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaCaja(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
@@ -54,7 +64,13 @@ def ingresar_resultado_caja():
 # Ver calendario CPLV Caja en Admin
 @caja_route_bp.route('/calendario_caja')
 def calendarios_caja():
-    jornadas = JornadaCaja.query.order_by(JornadaCaja.id.asc()).all()
+    temporada = TemporadaCaja.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaCaja.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaCaja.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(CajaPartido)\
@@ -114,21 +130,25 @@ def eliminar_jornada_caja(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('caja_route_bp.calendarios_caja'))    
 # Obtener datos CPLV Caja
-def obtener_datos_caja():
-    # Obtener todas las jornadas CPLV Caja
-    jornadas = JornadaCaja.query.all()
+def obtener_datos_caja(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaCaja.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaCaja.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(CajaPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(CajaPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            CajaPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(CajaPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario CPLV Caja
 @caja_route_bp.route('/equipos_hockey/calendario_caja')
@@ -395,6 +415,24 @@ def clasif_analisis_caja():
     )
     return render_template('equipos_vall/clasif_caja.html',
         clasificacion_analisis_caja=clasificacion_analisis_caja)
+# TEMPORADAS Caja
+@caja_route_bp.route('/temporadas_caja')
+def temporadas_caja():
+    temporadas = TemporadaCaja.query.order_by(
+        TemporadaCaja.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_caja.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@caja_route_bp.route('/activar_temporada_caja/<int:id>')
+def activar_temporada_caja(id):
+    TemporadaCaja.query.update({"activa": False})
+    temporada = TemporadaCaja.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('caja_route_bp.temporadas_caja')) 
 
 # PLAYOFF CPLV CAJA RURAL
 # Crear formulario para los playoff

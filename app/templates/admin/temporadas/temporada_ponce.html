@@ -1,0 +1,52 @@
+{% extends 'admin/temporadas/base_temporada.html' %}
+{% block title %} Temporada- Ponce Valladolid {% endblock %}
+{% block nav %}
+<ol class="breadcrumb ms-1">
+  <li class="breadcrumb-item">
+    <a href="/admin/pub_marcadores" class="text-white text-decoration-none"
+      >Inicio</a
+    >
+  </li>
+  <li class="breadcrumb-item active text-dark" aria-current="page">
+    Ponce Valladolid
+  </li>
+</ol>
+{% endblock %}
+{% block contenido %}
+<div class="admin_temporadas">
+    <h2>Temporadas Ponce Valladolid</h2>
+    <table class="tabla_temporadas">
+        <thead>
+            <tr>
+                <th>Temporada</th>
+                <th>Estado</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for temporada in temporadas %}
+            <tr>
+                <td class="text-dark fw-bold fs-5">{{ temporada.nombre }}</td>
+                <td>
+                    {% if temporada.activa %}
+                        <span class="estado_activa">🟢 Activa</span>
+                    {% else %}
+                        <span class="estado_inactiva">⚪ Inactiva</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if not temporada.activa %}
+                        <a class="btn_activar"
+                           href="{{ url_for('ponce_route_bp.activar_temporada_ponce', id=temporada.id) }}">
+                            Activar
+                        </a>
+                    {% else %}
+                        <span class="temporada_actual">—</span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

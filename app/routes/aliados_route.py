@@ -5,7 +5,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.models.uemc import CopaUEMC
-from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup
+from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados
 
 aliados_route_bp = Blueprint('aliados_route_bp', __name__)
 
@@ -15,29 +15,33 @@ aliados_route_bp = Blueprint('aliados_route_bp', __name__)
 @aliados_route_bp.route('/crear_calendario_aliados', methods=['GET', 'POST'])
 def ingresar_resultado_aliados():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaAliados(nombre=nombre_jornada)
+        temporada = TemporadaAliados.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaAliados(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaAliados(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = AliadosPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
+                orden=i
             )
             db.session.add(partido)
         # Confirmar todos los cambios en la base de datos
@@ -46,10 +50,16 @@ def ingresar_resultado_aliados():
         return redirect(url_for('aliados_route_bp.calendarios_aliados'))
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_aliados.html')
-# Ver calendario Ponce en Admin
+# Ver calendario Aliados en Admin
 @aliados_route_bp.route('/calendario_aliados')
 def calendarios_aliados():
-    jornadas = JornadaAliados.query.order_by(JornadaAliados.id.asc()).all()
+    temporada = TemporadaAliados.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaAliados.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaAliados.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(AliadosPartido)\
@@ -106,18 +116,25 @@ def eliminar_jornada_aliados(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('aliados_route_bp.calendarios_aliados'))
 # Obtener datos Aliados
-def obtener_datos_aliados():
-    # Obtener todas las jornadas Aliados
-    jornadas = JornadaAliados.query.all()
+def obtener_datos_aliados(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaAliados.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaAliados.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = AliadosPartido.query.filter_by(jornada_id=jornada.id).all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            AliadosPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(AliadosPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario Aliados
 @aliados_route_bp.route('/equipos_basket/calendario_aliados')
@@ -514,6 +531,24 @@ def clasif_analisis_aliados():
     )
     return render_template('equipos_vall/clasif_aliados.html',
         clasificacion_analisis_aliados=clasificacion_analisis_aliados)
+# TEMPORADAS ATL VALLADOLID
+@aliados_route_bp.route('/temporadas_aliados')
+def temporadas_aliados():
+    temporadas = TemporadaAliados.query.order_by(
+        TemporadaAliados.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_aliados.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@aliados_route_bp.route('/activar_temporada_aliados/<int:id>')
+def activar_temporada_aliados(id):
+    TemporadaAliados.query.update({"activa": False})
+    temporada = TemporadaAliados.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('aliados_route_bp.temporadas_aliados')) 
 
 # PLAYOFF ALIADOS
 # Crear formulario para los playoff

@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce, Clasificacion
+from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce, Clasificacion, TemporadaPonce
 
 ponce_route_bp = Blueprint('ponce_route_bp', __name__)
 
@@ -14,29 +14,33 @@ ponce_route_bp = Blueprint('ponce_route_bp', __name__)
 @ponce_route_bp.route('/crear_calendario_ponce', methods=['GET', 'POST'])
 def ingresar_resultado_ponce():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaPonce(nombre=nombre_jornada)
+        temporada = TemporadaPonce.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaPonce(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaPonce(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = PoncePartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
+                orden=i
             )
             db.session.add(partido)
         # Confirmar todos los cambios en la base de datos
@@ -48,7 +52,13 @@ def ingresar_resultado_ponce():
 # Ver calendario Ponce en Admin
 @ponce_route_bp.route('/calendario_ponce')
 def calendarios_ponce():
-    jornadas = JornadaPonce.query.order_by(JornadaPonce.id.asc()).all()
+    temporada = TemporadaPonce.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaPonce.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaPonce.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(PoncePartido)\
@@ -104,18 +114,25 @@ def eliminar_jornada_ponce(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('ponce_route_bp.calendarios_ponce'))
 # Obtener datos Ponce
-def obtener_datos_ponce():
-    # Obtener todas las jornadas Ponce
-    jornadas = JornadaPonce.query.all()
+def obtener_datos_ponce(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaPonce.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaPonce.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = PoncePartido.query.filter_by(jornada_id=jornada.id).all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            PoncePartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(PoncePartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario Ponce
 @ponce_route_bp.route('/equipos_basket/calendario_ponce')
@@ -512,7 +529,25 @@ def clasif_analisis_ponce():
     )
     return render_template('equipos_vall/clasif_ponce.html',
         clasificacion_analisis_ponce=clasificacion_analisis_ponce)
-    
+# TEMPORADAS ATL VALLADOLID
+@ponce_route_bp.route('/temporadas_ponce')
+def temporadas_ponce():
+    temporadas = TemporadaPonce.query.order_by(
+        TemporadaPonce.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_ponce.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@ponce_route_bp.route('/activar_temporada_ponce/<int:id>')
+def activar_temporada_ponce(id):
+    TemporadaPonce.query.update({"activa": False})
+    temporada = TemporadaPonce.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('ponce_route_bp.temporadas_ponce'))     
+     
 # PLAYOFF PONCE
 # Crear formulario para los playoff
 @ponce_route_bp.route('/crear_playoff_ponce', methods=['GET', 'POST'])

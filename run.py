@@ -1,23 +1,23 @@
 from app import create_app
 from app.extensions import db
 from app.models.horario import Horario
-from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC
+from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC
 from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid, TemporadaValladolid
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas, TemporadaPromesas
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas, TemporadaSimancas
 from app.models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol,  PlayoffParquesol, TemporadaParquesol
-from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce, Clasificacion
-from app.models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub,  PlayoffCDSIVall, Clasificacion
-from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup
+from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce, Clasificacion, TemporadaPonce
+from app.models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub,  PlayoffCDSIVall, Clasificacion, TemporadaCDSIVall
+from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados
 from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula, PermanenciaAula, JornadaPermanenciaAula, TemporadaAula
 from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas, TemporadaRecoletas
-from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion
-from app.models.panteras import JornadaPanteras, PanterasPartido, PanterasClub,  PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion
+from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion, TemporadaCaja
+from app.models.panteras import JornadaPanteras, PanterasPartido, PanterasClub,  PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion, TemporadaPanteras
 from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
 from app.models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub,  PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion
 from app.models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub,  PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion
 from app.models.galvan import JornadaGalvan, GalvanPartido, GalvanClub,  PlayoffGalvan, CopaGalvan
-from app.models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub,  PlayoffVallSala, CopaVallSala
+from app.models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub,  PlayoffVallSala, CopaVallSala, TemporadaVallSala
 from app.models.vcv import JornadaVCV, VCVPartido, VCVClub,  PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion
 from app.models.san_jose import JornadaJose, JosePartido, JoseClub,  PlayoffJose, CopaJose, EuropaJose, Clasificacion
 from app.models.usuarios import Usuario

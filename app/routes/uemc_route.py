@@ -4,7 +4,7 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC
+from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC
 
 uemc_route_bp = Blueprint('uemc_route_bp', __name__)
 
@@ -14,29 +14,33 @@ uemc_route_bp = Blueprint('uemc_route_bp', __name__)
 @uemc_route_bp.route('/crear_calendario_uemc', methods=['GET', 'POST'])
 def ingresar_resultado_uemc():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaUEMC(nombre=nombre_jornada)
+        temporada = TemporadaUEMC.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaUEMC(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaUEMC(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            fecha = request.form.get(f'fecha{i}')
-            hora = request.form.get(f'hora{i}')
-            local = request.form.get(f'local{i}')
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
-            visitante = request.form.get(f'visitante{i}')            
-            # Crear el objeto partido y agregarlo a la sesión
             partido = UEMCPartido(
                 jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                resultadoB=resultadoB,
-                visitante=visitante
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=request.form.get(f'local{i}'),
+                resultadoA=request.form.get(f'resultadoA{i}'),
+                resultadoB=request.form.get(f'resultadoB{i}'),
+                visitante=request.form.get(f'visitante{i}'),
+                orden=i
             )
             db.session.add(partido)
         # Confirmar todos los cambios en la base de datos
@@ -48,7 +52,13 @@ def ingresar_resultado_uemc():
 # Ver calendario UEMC en Admin
 @uemc_route_bp.route('/calendario_uemc')
 def calendarios_uemc():
-    jornadas = JornadaUEMC.query.order_by(JornadaUEMC.id.asc()).all()
+    temporada = TemporadaUEMC.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaUEMC.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaUEMC.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(UEMCPartido)\
@@ -104,18 +114,25 @@ def eliminar_jornada_uemc(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('uemc_route_bp.calendarios_uemc'))
 # Obtener datos UEMC
-def obtener_datos_uemc():
-    # Obtener todas las jornadas UEMC
-    jornadas = JornadaUEMC.query.all()
+def obtener_datos_uemc(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaUEMC.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaUEMC.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = UEMCPartido.query.filter_by(jornada_id=jornada.id).all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            UEMCPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(UEMCPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 # Calendario UEMC
 @uemc_route_bp.route('/equipos_basket/calendario_uemc')
@@ -515,6 +532,24 @@ def clasif_analisis_uemc():
         'equipos_vall/clasif_uemc.html',
         clasificacion_analisis_uemc=clasificacion_analisis_uemc
     )
+# TEMPORADAS ATL VALLADOLID
+@uemc_route_bp.route('/temporadas_uemc')
+def temporadas_uemc():
+    temporadas = TemporadaUEMC.query.order_by(
+        TemporadaUEMC.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_uemc.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@uemc_route_bp.route('/activar_temporada_uemc/<int:id>')
+def activar_temporada_uemc(id):
+    TemporadaUEMC.query.update({"activa": False})
+    temporada = TemporadaUEMC.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('uemc_route_bp.temporadas_uemc')) 
 
 # COPA UEMC
 # Crear formulario para los grupos de la Copa UEMC
