@@ -1,10 +1,30 @@
 from app.extensions import db
 
-class JornadaVCV(db.Model):
-    __tablename__ = 'jornadas_vcv'
+class TemporadaVCV(db.Model):
+    __tablename__ = "temporadas_vcv"
     id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    activa = db.Column(db.Boolean, default=False)
+    jornadas = db.relationship(
+        "JornadaVCV",
+        backref="temporada",
+        cascade="all, delete-orphan"
+    )
+    
+class JornadaVCV(db.Model):
+    __tablename__ = "jornadas_vcv"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_vcv.id", ondelete="CASCADE"),
+        nullable=False
+    )
     nombre = db.Column(db.String(255), nullable=False)
-    partidos = db.relationship('VCVPartido', backref='jornada', cascade='all, delete-orphan')
+    partidos = db.relationship(
+        "VCVPartido",
+        backref="jornada",
+        cascade="all, delete-orphan"
+    ) 
 
 class VCVPartido(db.Model):
     __tablename__ = 'vcv_partidos'

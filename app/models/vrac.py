@@ -1,11 +1,30 @@
 from app.extensions import db
 
-class JornadaVrac(db.Model):
-    __tablename__ = 'jornadas_vrac'
+class TemporadaVrac(db.Model):
+    __tablename__ = "temporadas_vrac"
     id = db.Column(db.Integer, primary_key=True)
-    fase = db.Column(db.String(20), nullable=True)
+    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    activa = db.Column(db.Boolean, default=False)
+    jornadas = db.relationship(
+        "JornadaVrac",
+        backref="temporada",
+        cascade="all, delete-orphan"
+    )
+    
+class JornadaVrac(db.Model):
+    __tablename__ = "jornadas_vrac"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_vrac.id", ondelete="CASCADE"),
+        nullable=False
+    )
     nombre = db.Column(db.String(255), nullable=False)
-    partidos = db.relationship('VracPartido', backref='jornada', cascade='all, delete-orphan')
+    partidos = db.relationship(
+        "VracPartido",
+        backref="jornada",
+        cascade="all, delete-orphan"
+    ) 
 
 class VracPartido(db.Model):
     __tablename__ = 'vrac_partidos'

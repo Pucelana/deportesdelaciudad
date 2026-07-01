@@ -5,7 +5,7 @@ from functools import cmp_to_key
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.san_jose import JornadaJose, JosePartido, JoseClub, PlayoffJose, CopaJose, EuropaJose, Clasificacion
+from ..models.san_jose import JornadaJose, JosePartido, JoseClub, PlayoffJose, CopaJose, EuropaJose, Clasificacion, TemporadaJose
 
 san_jose_route_bp = Blueprint('san_jose_route_bp', __name__)
 #EQUIPOS VOLEIBOL
@@ -13,31 +13,34 @@ san_jose_route_bp = Blueprint('san_jose_route_bp', __name__)
 # Ingresar los resultados de los partidos de CD San Jose
 @san_jose_route_bp.route("/crear_calendario_san_jose", methods=["POST"])
 def ingresar_resultado_san_jose():
-    if request.method == "POST":
-        nombre_jornada = request.form["nombre"]
-        num_partidos = int(request.form["num_partidos"])
-        jornada = JornadaJose(nombre=nombre_jornada)
+    if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
+        nombre_jornada = request.form['nombre']
+        num_partidos = int(request.form['num_partidos'])       
+        # Crear la jornada y añadirla a la sesión
+        temporada = TemporadaJose.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaJose(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaJose(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()
         for i in range(num_partidos):
-            fecha = request.form[f"fecha{i}"]
-            hora = request.form[f"hora{i}"]
-            local = request.form[f"local{i}"]
-            resultadoA = request.form[f"resultadoA{i}"]
-            puntosA = request.form[f"puntosA{i}"]
-            puntosB = request.form[f"puntosB{i}"]
-            resultadoB = request.form[f"resultadoB{i}"]
-            visitante = request.form[f"visitante{i}"]
             partido = JosePartido(
-                jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                puntosA=puntosA,
-                puntosB=puntosB,
-                resultadoB=resultadoB,
-                visitante=visitante,
+            fecha = request.form[f"fecha{i}"],
+            hora = request.form[f"hora{i}"],
+            local = request.form[f"local{i}"],
+            resultadoA = request.form[f"resultadoA{i}"],
+            puntosA = request.form[f"puntosA{i}"],
+            puntosB = request.form[f"puntosB{i}"],
+            resultadoB = request.form[f"resultadoB{i}"],
+            visitante = request.form[f"visitante{i}"],
+            orden =i
             )
             db.session.add(partido)
         db.session.commit()
@@ -48,16 +51,20 @@ def ingresar_resultado_san_jose():
 # Partidos Univ. Valladolid VCV
 @san_jose_route_bp.route("/calendario_san_jose")
 def calendarios_san_jose():
-    jornadas = JornadaJose.query.order_by(JornadaJose.id.asc()).all()
+    temporada = TemporadaJose.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaJose.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaJose.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
-        jornada.partidos = (
-            db.session.query(JosePartido)
-            .filter_by(jornada_id=jornada.id)
-            .order_by(JosePartido.orden.asc())
+        jornada.partidos = db.session.query(JosePartido)\
+            .filter_by(jornada_id=jornada.id)\
+            .order_by(JosePartido.orden.asc())\
             .all()
-        )
-    return render_template("admin/calendarios/calend_san_jose.html", jornadas=jornadas)
+    return render_template('admin/calendarios/calend_san_jose.html', jornadas=jornadas)
 # Modificar los partidos de cada jornada
 @san_jose_route_bp.route("/modificar_jornada_san_jose/<string:id>", methods=["POST"])
 def modificar_jornada_san_jose(id):
@@ -115,20 +122,25 @@ def eliminar_jornada_san_jose(id):
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for("san_jose_route_bp.calendarios_san_jose"))
-def obtener_datos_san_jose():
-    # Obtener todas las jornadas VCV
-    jornadas = JornadaJose.query.all()
+def obtener_datos_san_jose(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaJose.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaJose.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
+    for jornada in temporada.jornadas:
         partidos = (
-            db.session.query(JosePartido)
+            JosePartido.query
             .filter_by(jornada_id=jornada.id)
             .order_by(JosePartido.orden.asc())
             .all()
         )
-        jornada_con_partidos = {"nombre": jornada.nombre, "partidos": partidos}
-        jornadas_con_partidos.append(jornada_con_partidos)
+        jornadas_con_partidos.append({
+            'nombre': jornada.nombre,
+            'partidos': partidos
+        })
     return jornadas_con_partidos
 # Ruta y creación del calendario individual del CD San Jose
 @san_jose_route_bp.route("/equipos_voley/calendario_san_jose")
@@ -561,4 +573,22 @@ def eliminar_club_san_jose(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for("san_jose_route_bp.jornada0_san_jose"))
+# TEMPORADAS Panteras
+@san_jose_route_bp.route('/temporadas_san_jose')
+def temporadas_san_jose():
+    temporadas = TemporadaJose.query.order_by(
+        TemporadaJose.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_san_jose.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@san_jose_route_bp.route('/activar_temporada_san_jose/<int:id>')
+def activar_temporada_san_jose(id):
+    TemporadaJose.query.update({"activa": False})
+    temporada = TemporadaJose.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('san_jose_route_bp.temporadas_san_jose'))
 #Fin proceso Univ. Valladolid VCV

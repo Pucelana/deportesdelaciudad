@@ -13,13 +13,13 @@ from app.models.aula import JornadaAula, AulaPartido, AulaClub,  PlayoffAula, Co
 from app.models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub,  PlayoffRecoletas, CopaRecoletas, SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas, TemporadaRecoletas
 from app.models.caja import JornadaCaja, CajaPartido, CajaClub,  PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion, TemporadaCaja
 from app.models.panteras import JornadaPanteras, PanterasPartido, PanterasClub,  PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion, TemporadaPanteras
-from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
-from app.models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub,  PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion
-from app.models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub,  PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion
-from app.models.galvan import JornadaGalvan, GalvanPartido, GalvanClub,  PlayoffGalvan, CopaGalvan
+from app.models.vrac import JornadaVrac, VracPartido, VracClub,  PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion, TemporadaVrac
+from app.models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub,  PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador
+from app.models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub,  PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion, TemporadaSalvadorFem
+from app.models.galvan import JornadaGalvan, GalvanPartido, GalvanClub,  PlayoffGalvan, CopaGalvan, TemporadaGalvan
 from app.models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub,  PlayoffVallSala, CopaVallSala, TemporadaVallSala
-from app.models.vcv import JornadaVCV, VCVPartido, VCVClub,  PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion
-from app.models.san_jose import JornadaJose, JosePartido, JoseClub,  PlayoffJose, CopaJose, EuropaJose, Clasificacion
+from app.models.vcv import JornadaVCV, VCVPartido, VCVClub,  PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion, TemporadaVCV
+from app.models.san_jose import JornadaJose, JosePartido, JoseClub,  PlayoffJose, CopaJose, EuropaJose, Clasificacion, TemporadaJose
 from app.models.usuarios import Usuario
 
 from flask_login import LoginManager

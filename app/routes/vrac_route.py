@@ -4,7 +4,7 @@ from collections import defaultdict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion
+from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion, TemporadaVrac
 
 vrac_route_bp = Blueprint('vrac_route_bp', __name__)
 
@@ -13,10 +13,20 @@ vrac_route_bp = Blueprint('vrac_route_bp', __name__)
 @vrac_route_bp.route('/crear_calendario_vrac', methods=['GET', 'POST'])
 def ingresar_resultado_vrac():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaVrac(nombre=nombre_jornada)
+        temporada = TemporadaVrac.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaVrac(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaVrac(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
@@ -56,7 +66,13 @@ def ingresar_resultado_vrac():
 # Ver calendario Vrac en Admin
 @vrac_route_bp.route('/calendario_vrac')
 def calendarios_vrac():
-    jornadas = JornadaVrac.query.order_by(JornadaVrac.id.asc()).all()
+    temporada = TemporadaVrac.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaVrac.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaVrac.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(VracPartido)\
@@ -116,21 +132,25 @@ def eliminar_jornada_vrac(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('vrac_route_bp.calendarios_vrac'))
 # Obtener datos Vrac
-def obtener_datos_vrac():
-    # Obtener todas las jornadas Vrac
-    jornadas = JornadaVrac.query.all()
+def obtener_datos_vrac(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaVrac.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaVrac.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(VracPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(VracPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            VracPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(VracPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 total_partidos_temporada_vrac = 10
 total_partidos_temporada_grupos_vrac = 5
@@ -477,6 +497,24 @@ def clasif_analisis_vrac():
         grupoA2=grupoA_indexed,
         grupoB2=grupoB_indexed
     )
+# TEMPORADAS Panteras
+@vrac_route_bp.route('/temporadas_vrac')
+def temporadas_vrac():
+    temporadas = TemporadaVrac.query.order_by(
+        TemporadaVrac.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_vrac.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@vrac_route_bp.route('/activar_temporada_vrac/<int:id>')
+def activar_temporada_vrac(id):
+    TemporadaVrac.query.update({"activa": False})
+    temporada = TemporadaVrac.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('vrac_route_bp.temporadas_vrac'))
 
 # PLAYOFF DH VRAC
 # Crear formulario para los playoff

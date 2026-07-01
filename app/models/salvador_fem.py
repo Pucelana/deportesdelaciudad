@@ -1,11 +1,30 @@
 from app.extensions import db
 
-class JornadaSalvadorFem(db.Model):
-    __tablename__ = 'jornadas_salvador_fem'
+class TemporadaSalvadorFem(db.Model):
+    __tablename__ = "temporadas_salvador_fem"
     id = db.Column(db.Integer, primary_key=True)
-    fase = db.Column(db.String(20), nullable=True)
+    nombre = db.Column(db.String(20), unique=True, nullable=False)
+    activa = db.Column(db.Boolean, default=False)
+    jornadas = db.relationship(
+        "JornadaSalvadorFem",
+        backref="temporada",
+        cascade="all, delete-orphan"
+    )
+    
+class JornadaSalvadorFem(db.Model):
+    __tablename__ = "jornadas_salvador_fem"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_salvador_fem.id", ondelete="CASCADE"),
+        nullable=False
+    )
     nombre = db.Column(db.String(255), nullable=False)
-    partidos = db.relationship('SalvadorFemPartido', backref='jornada', cascade='all, delete-orphan')
+    partidos = db.relationship(
+        "SalvadorFemPartido",
+        backref="jornada",
+        cascade="all, delete-orphan"
+    ) 
 
 class SalvadorFemPartido(db.Model):
     __tablename__ = 'salvador_fem_partidos'

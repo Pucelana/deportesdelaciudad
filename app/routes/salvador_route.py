@@ -4,7 +4,7 @@ from collections import defaultdict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion
+from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador
 
 salvador_route_bp = Blueprint('salvador_route_bp', __name__)
 
@@ -13,10 +13,20 @@ salvador_route_bp = Blueprint('salvador_route_bp', __name__)
 @salvador_route_bp.route('/crear_calendario_salvador', methods=['GET', 'POST'])
 def ingresar_resultado_salvador():
     if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
-        jornada = JornadaSalvador(nombre=nombre_jornada)
+        temporada = TemporadaSalvador.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaSalvador(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaSalvador(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
@@ -56,7 +66,13 @@ def ingresar_resultado_salvador():
 # Ver calendario Salvador en Admin
 @salvador_route_bp.route('/calendario_salvador')
 def calendarios_salvador():
-    jornadas = JornadaSalvador.query.order_by(JornadaSalvador.id.asc()).all()
+    temporada = TemporadaSalvador.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaSalvador.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaSalvador.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = db.session.query(SalvadorPartido)\
@@ -116,21 +132,25 @@ def eliminar_jornada_salvador(id):
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('salvador_route_bp.calendarios_salvador'))
 # Obtener datos Salvador
-def obtener_datos_salvador():
-    # Obtener todas las jornadas Salvador
-    jornadas = JornadaSalvador.query.all()
+def obtener_datos_salvador(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaSalvador.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaSalvador.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
-        partidos = db.session.query(SalvadorPartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(SalvadorPartido.orden.asc())\
-            .all()       
-        jornada_con_partidos = {
+    for jornada in temporada.jornadas:
+        partidos = (
+            SalvadorPartido.query
+            .filter_by(jornada_id=jornada.id)
+            .order_by(SalvadorPartido.orden.asc())
+            .all()
+        )
+        jornadas_con_partidos.append({
             'nombre': jornada.nombre,
             'partidos': partidos
-        }       
-        jornadas_con_partidos.append(jornada_con_partidos)     
+        })
     return jornadas_con_partidos
 total_partidos_temporada_salvador = 10
 total_partidos_temporada_grupos_salvador = 5
@@ -495,6 +515,26 @@ def clasif_analisis_salvador():
         grupoA2=grupoA_indexed,
         grupoB2=grupoB_indexed
     )
+# TEMPORADAS Panteras
+@salvador_route_bp.route('/temporadas_salvador')
+def temporadas_salvador():
+    temporadas = TemporadaSalvador.query.order_by(
+        TemporadaSalvador.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_salvador.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@salvador_route_bp.route('/activar_temporada_salvador/<int:id>')
+def activar_temporada_salvador(id):
+    TemporadaSalvador.query.update({"activa": False})
+    temporada = TemporadaSalvador.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('salvador_route_bp.temporadas_salvador')) 
+
+
 
 # PLAYOFF SALVADOR
 # Crear formulario para los playoff

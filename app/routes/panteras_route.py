@@ -421,6 +421,7 @@ def activar_temporada_panteras(id):
     db.session.commit()
     return redirect(url_for('panteras_route_bp.temporadas_panteras')) 
 
+
 # PLAYOFF CPLV MUNIA PANTERAS
 # Crear formulario para los playoff
 @panteras_route_bp.route('/crear_playoff_panteras', methods=['GET', 'POST'])

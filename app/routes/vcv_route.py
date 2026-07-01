@@ -5,7 +5,7 @@ from itertools import groupby
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.vcv import (JornadaVCV, VCVPartido, VCVClub, PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion,)
+from ..models.vcv import JornadaVCV, VCVPartido, VCVClub, PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion, TemporadaVCV
 
 vcv_route_bp = Blueprint("vcv_route_bp", __name__)
 
@@ -13,31 +13,34 @@ vcv_route_bp = Blueprint("vcv_route_bp", __name__)
 # Ingresar los resultados de los partidos de Univ. Valladolid VCV
 @vcv_route_bp.route("/crear_calendario_vcv", methods=["POST"])
 def ingresar_resultado_vcv():
-    if request.method == "POST":
-        nombre_jornada = request.form["nombre"]
-        num_partidos = int(request.form["num_partidos"])
-        jornada = JornadaVCV(nombre=nombre_jornada)
+    if request.method == 'POST':
+        temporada_nombre = request.form['temporada']
+        nombre_jornada = request.form['nombre']
+        num_partidos = int(request.form['num_partidos'])       
+        # Crear la jornada y añadirla a la sesión
+        temporada = TemporadaVCV.query.filter_by(nombre=temporada_nombre).first()
+        if not temporada:
+            temporada = TemporadaVCV(nombre=temporada_nombre, activa=False)
+            db.session.add(temporada)
+            db.session.flush()
+        # 2. crear jornada correcta
+        jornada = JornadaVCV(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
         db.session.add(jornada)
         db.session.flush()
         for i in range(num_partidos):
-            fecha = request.form[f"fecha{i}"]
-            hora = request.form[f"hora{i}"]
-            local = request.form[f"local{i}"]
-            resultadoA = request.form[f"resultadoA{i}"]
-            puntosA = request.form[f"puntosA{i}"]
-            puntosB = request.form[f"puntosB{i}"]
-            resultadoB = request.form[f"resultadoB{i}"]
-            visitante = request.form[f"visitante{i}"]
             partido = VCVPartido(
-                jornada_id=jornada.id,
-                fecha=fecha,
-                hora=hora,
-                local=local,
-                resultadoA=resultadoA,
-                puntosA=puntosA,
-                puntosB=puntosB,
-                resultadoB=resultadoB,
-                visitante=visitante,
+            fecha = request.form[f"fecha{i}"],
+            hora = request.form[f"hora{i}"],
+            local = request.form[f"local{i}"],
+            resultadoA = request.form[f"resultadoA{i}"],
+            puntosA = request.form[f"puntosA{i}"],
+            puntosB = request.form[f"puntosB{i}"],
+            resultadoB = request.form[f"resultadoB{i}"],
+            visitante = request.form[f"visitante{i}"],
+            orden =i
             )
             db.session.add(partido)
         db.session.commit()
@@ -48,16 +51,20 @@ def ingresar_resultado_vcv():
 # Partidos Univ. Valladolid VCV
 @vcv_route_bp.route("/calendario_vcv")
 def calendarios_vcv():
-    jornadas = JornadaVCV.query.order_by(JornadaVCV.id.asc()).all()
+    temporada = TemporadaVCV.query.filter_by(activa=True).first()
+    if temporada:
+        jornadas = JornadaVCV.query.filter_by(
+        temporada_id=temporada.id
+        ).order_by(JornadaVCV.id.asc()).all()
+    else:
+        jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
-        jornada.partidos = (
-            db.session.query(VCVPartido)
-            .filter_by(jornada_id=jornada.id)
-            .order_by(VCVPartido.orden.asc())
+        jornada.partidos = db.session.query(VCVPartido)\
+            .filter_by(jornada_id=jornada.id)\
+            .order_by(VCVPartido.orden.asc())\
             .all()
-        )
-    return render_template("admin/calendarios/calend_vcv.html", jornadas=jornadas)
+    return render_template('admin/calendarios/calend_vcv.html', jornadas=jornadas)
 # Modificar los partidos de cada jornada
 @vcv_route_bp.route("/modificar_jornada_vcv/<string:id>", methods=["POST"])
 def modificar_jornada_vcv(id):
@@ -115,20 +122,25 @@ def eliminar_jornada_vcv(id):
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for("vcv_route_bp.calendarios_vcv"))
-def obtener_datos_vcv():
-    # Obtener todas las jornadas VCV
-    jornadas = JornadaVCV.query.all()
+def obtener_datos_vcv(nombre_temporada=None):
+    if nombre_temporada is None:
+        temporada = TemporadaVCV.query.filter_by(activa=True).first()
+    else:
+        temporada = TemporadaVCV.query.filter_by(nombre=nombre_temporada).first()
+    if not temporada:
+        return []
     jornadas_con_partidos = []
-    for jornada in jornadas:
-        # Obtener los partidos de esta jornada
+    for jornada in temporada.jornadas:
         partidos = (
-            db.session.query(VCVPartido)
+            VCVPartido.query
             .filter_by(jornada_id=jornada.id)
             .order_by(VCVPartido.orden.asc())
             .all()
         )
-        jornada_con_partidos = {"nombre": jornada.nombre, "partidos": partidos}
-        jornadas_con_partidos.append(jornada_con_partidos)
+        jornadas_con_partidos.append({
+            'nombre': jornada.nombre,
+            'partidos': partidos
+        })
     return jornadas_con_partidos
 # Ruta y creación del calendario individual del Univ. Valladolid VCV
 @vcv_route_bp.route("/equipos_voley/calendario_vcv")
@@ -566,4 +578,25 @@ def eliminar_club_vcv(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for("vcv_route_bp.jornada0_vcv"))
+# TEMPORADAS Panteras
+@vcv_route_bp.route('/temporadas_vcv')
+def temporadas_vcv():
+    temporadas = TemporadaVCV.query.order_by(
+        TemporadaVCV.id.desc()
+    ).all()
+    return render_template(
+        'admin/temporadas/temporada_vcv.html',
+        temporadas=temporadas
+    )
+# ACTIVAR Y DESACTIVAR TEMPORADAS
+@vcv_route_bp.route('/activar_temporada_vcv/<int:id>')
+def activar_temporada_vcv(id):
+    TemporadaVCV.query.update({"activa": False})
+    temporada = TemporadaVCV.query.get_or_404(id)
+    temporada.activa = True
+    db.session.commit()
+    return redirect(url_for('vcv_route_bp.temporadas_vcv')) 
+
+
 # Fin proceso Univ. Valladolid VCV
+
