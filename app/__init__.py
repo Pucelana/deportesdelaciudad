@@ -33,6 +33,12 @@ def create_app():
     app = Flask(__name__)
     app.secret_key = 'sk_4F8v9u13sjd9sjd82018fh01hf01h'
     app.config.from_object('config.Config')
+    
+    app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
+        "pool_pre_ping": True,
+        "pool_recycle": 300,
+    }
+    
     db.init_app(app)
     migrate.init_app(app, db)
     
