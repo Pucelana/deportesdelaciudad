@@ -86,6 +86,7 @@ def modificar_jornada_galvan(id):
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(GalvanPartido).filter(GalvanPartido.id == partido_id).first()
                 if partido:
+                    partido.fecha = fecha
                     partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
