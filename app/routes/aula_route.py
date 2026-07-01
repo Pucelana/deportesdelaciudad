@@ -86,6 +86,7 @@ def modificar_jornada_aula(id):
                 # Obtener el partido correspondiente por ID
                 partido = db.session.query(AulaPartido).filter(AulaPartido.id == partido_id).first()
                 if partido:
+                    partido.fecha = fecha
                     partido.hora = hora
                     partido.local = local
                     partido.resultadoA = resultadoA
