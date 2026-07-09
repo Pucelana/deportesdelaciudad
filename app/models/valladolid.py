@@ -1,5 +1,23 @@
 from app.extensions import db
 
+class HistorialValladolid(db.Model):
+    __tablename__ = "historial_valladolid"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_valladolid.id"),
+        nullable=False
+    )
+    liga = db.Column(db.String(80), nullable=False)
+    puntos = db.Column(db.Integer)
+    puesto = db.Column(db.Integer)
+    playoff = db.Column(db.String(80))
+    copa = db.Column(db.String(80))
+    titulos = db.Column(db.String(150))
+    siguiente_temporada = db.Column(db.String(80))
+    observaciones = db.Column(db.String(200))
+    temporada = db.relationship("TemporadaValladolid")
+
 class TemporadaValladolid(db.Model):
     __tablename__ = "temporadas_valladolid"
     id = db.Column(db.Integer, primary_key=True)

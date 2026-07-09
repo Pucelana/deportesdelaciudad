@@ -2,7 +2,7 @@ from app import create_app
 from app.extensions import db
 from app.models.horario import Horario
 from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC
-from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid, TemporadaValladolid
+from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid, TemporadaValladolid, HistorialValladolid
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas, TemporadaPromesas
 from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas, TemporadaSimancas
 from app.models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol,  PlayoffParquesol, TemporadaParquesol

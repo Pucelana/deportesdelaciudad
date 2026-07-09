@@ -1,0 +1,113 @@
+{% extends "historia/base_historia.html" %} 
+{% block title %}Historial - Real Valladolid{% endblock %} {% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/valladolid"
+        class="text-white text-decoration-none text-analisis fs-6">Real Valladolid</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_futbol/calendario_valladolid"
+        class="text-white text-decoration-none text-analisis fs-6">Calendario Ind.</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_futbol/resultados_valladolid"
+        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/equipos_futbol/clasif_valladolid"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      Historial
+    </li>
+  </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+<div class="container-lg mt-4">
+    <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
+        <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen">Historial</a>
+        <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico">Puntos Temporada</a>
+        <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2">Puntos Jornadas</a>
+        <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos">Títulos</a>
+    </div>
+    <div id="resumen" class="tab-pane active">
+        <div class="card tabla_copa mx-auto w-100" style="max-width:75rem">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table text-center align-middle tabla-historial">
+                        <thead>
+                            <tr>
+                                <th class="text-analisis text-dark fs-4">Temporada</th>
+                                <th class="text-analisis text-dark fs-4">Liga</th>
+                                <th class="text-analisis text-dark fs-4">Pts</th>
+                                <th class="text-analisis text-dark fs-4">Puesto</th>
+                                <th class="text-analisis text-dark fs-4">Playoff</th>
+                                <th class="text-analisis text-dark fs-4">Copa</th>
+                                <th class="text-analisis text-dark fs-4">Títulos</th>
+                                <th class="text-analisis text-dark fs-4">Temp.Siguiente</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for h in historial %}
+                        <tr>
+                            <td class="equipo-mobile">
+                                {{ h.temporada.nombre }}
+                            </td>
+                            <td class="equipo-mobile">{{ h.liga }}</td>
+                            <td class="equipo-mobile">{{ h.puntos }}</td>
+                            <td class="equipo-mobile">{{ h.puesto }}</td>
+                            <td class="equipo-mobile">{{ h.playoff }}</td>
+                            <td class="equipo-mobile">{{ h.copa }}</td>
+                            <td class="equipo-mobile">
+                                {% if h.titulos %}
+
+                                    🏆 {{ h.titulos }}
+
+                                {% else %}
+
+                                    —
+
+                                {% endif %}
+                            </td>
+                            <td class="equipo-mobile">{{ h.siguiente_temporada }}</td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="grafico" class="tab-pane">
+        <div class="card mt-5 mx-auto w-100" style="max-width:75rem">
+            <div class="card-body">
+                <h3 class="text-center mb-4">
+                    Evolución de puntos por temporada
+                </h3>
+                <canvas id="graficoTemporadas" height="120" data-labels='{{ labels_temporadas|tojson }}' data-puntos='{{ puntos_temporadas|tojson }}'></canvas>
+            </div>
+        </div>
+    </div>
+    <div id="grafico2" class="tab-pane">
+        <div class="card mt-5 mx-auto w-100" style="max-width:75rem">
+            <div class="card-body">
+                <h3 class="text-center mb-4">
+                    Evolución de puntos por jornadas
+                </h3>
+                <canvas id="graficoJornadas" height="120" data-labels='{{ labels_jornadas|tojson }}' data-puntos='{{ puntos_jornadas|tojson }}'></canvas>
+            </div>
+        </div>
+    </div>
+    <div id="titulos" class="tab-pane">
+    </div>
+</div>
+{% endblock %}
+{% block scripts %}
+
+{% endblock %}

@@ -4,7 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid, PlayoffValladolid, TemporadaValladolid
+from ..models.historial import obtener_evolucion_puntos
+from ..models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid, PlayoffValladolid, TemporadaValladolid, HistorialValladolid
 
 valladolid_route_bp = Blueprint('valladolid_route_bp', __name__)
 
@@ -486,6 +487,97 @@ def activar_temporada_valladolid(id):
     db.session.commit()
     return redirect(url_for('valladolid_route_bp.temporadas_valladolid'))
 
+# HISTORIAL REAL VALLADOLID
+# Creación del historial de temporadas del Real Valladolid
+@valladolid_route_bp.route('/admin/crear_historial_valladolid', methods=['GET', 'POST'])
+def crear_historial_valladolid():
+    if request.method == 'POST':
+        historial = HistorialValladolid(
+            temporada_id=request.form.get('temporada_id'),
+            liga=request.form.get('liga'),
+            puntos=request.form.get('puntos'),
+            puesto=request.form.get('puesto'),
+            playoff=request.form.get('playoff'),
+            copa=request.form.get('copa'),
+            titulos=request.form.get('titulos'),
+            siguiente_temporada=request.form.get('siguiente_temporada'),
+            observaciones=request.form.get('observaciones')
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for('valladolid_route_bp.crear_historial_valladolid'))
+    historial = HistorialValladolid.query\
+        .join(TemporadaValladolid)\
+        .order_by(TemporadaValladolid.nombre.desc())\
+        .all()
+    temporadas = TemporadaValladolid.query.order_by(TemporadaValladolid.nombre.desc()).all()
+    return render_template(
+        'admin/historial/historial_valladolid.html', historial=historial, temporadas=temporadas
+    )
+# Ver Historial de temporadas del Real Valladolid
+@valladolid_route_bp.route('/historial_valladolid')
+def historial_valladolid_admin():
+    historial = HistorialValladolid.query\
+        .join(TemporadaValladolid)\
+        .order_by(TemporadaValladolid.nombre.desc())\
+        .all()
+    temporadas = TemporadaValladolid.query.order_by(
+        TemporadaValladolid.nombre.desc()
+).all()
+    return render_template(
+        'admin/historial/historial_valladolid.html', historial=historial, temporadas=temporadas
+    )
+# Eliminar historial de temporadas del Real Valladolid
+@valladolid_route_bp.route('/admin/eliminar_historial_valladolid/<int:id>', methods=['POST'])
+def eliminar_historial_valladolid(id):
+    historial = HistorialValladolid.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for('valladolid_route_bp.crear_historial_valladolid'))
+# Modificar historial de temporadas del Real Valladolid
+@valladolid_route_bp.route('/admin/modificar_historial_valladolid/<int:id>', methods=['POST'])
+def modificar_historial_valladolid(id):
+    historial = HistorialValladolid.query.get_or_404(id)
+    historial.temporada_id = request.form.get('temporada_id')
+    historial.liga = request.form.get('liga')
+    historial.puntos = request.form.get('puntos')
+    historial.puesto = request.form.get('puesto')
+    historial.playoff = request.form.get('playoff')
+    historial.copa = request.form.get('copa')
+    historial.siguiente_temporada = request.form.get('siguiente_temporada')
+    historial.titulos = request.form.get('titulos')
+    historial.observaciones = request.form.get('observaciones')
+    db.session.commit()
+    return redirect(url_for('valladolid_route_bp.crear_historial_valladolid'))
+# Ver Historial de temporadas del Real Valladolid en la página principal
+@valladolid_route_bp.route('/valladolid/historial')
+def historial_valladolid():
+    temporada = TemporadaValladolid.query.filter_by(activa=True).first()
+    historial = HistorialValladolid.query.order_by(
+        HistorialValladolid.temporada_id.desc()).all()
+    jornadas = JornadaValladolid.query.filter_by(temporada_id=temporada.id).order_by(JornadaValladolid.id).all()
+    # Datos del gráfico de temporadas
+    labels_temporadas = [
+        h.temporada.nombre for h in historial
+    ]
+
+    puntos_temporadas = [
+        h.puntos for h in historial
+    ]
+    labels_jornadas, puntos_jornadas = obtener_evolucion_puntos(
+        jornadas,
+        "R.Valladolid",
+        generar_clasificacion_analisis_futbol_valladolid
+    )
+    return render_template(
+        "historia/historia_valladolid.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        puntos_jornadas=puntos_jornadas
+    )
+    
 # COPA DEL REY REAL VALLADOLID
 # Creación de las eliminatorias de copa
 @valladolid_route_bp.route('/crear_copa_valladolid', methods=['GET', 'POST'])
