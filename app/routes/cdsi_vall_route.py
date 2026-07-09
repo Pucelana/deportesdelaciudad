@@ -219,7 +219,7 @@ def resultados_cdsi_vall():
     if jornada_activa is None and nuevos_datos_cdsi_vall:
         jornada_activa = nuevos_datos_cdsi_vall[-1]['nombre']
     return render_template(
-        'equipos_vall/jornadas_cdsi_vall.html',
+        'equipos_vall/jornadas_cdsi.html',
         nuevos_datos_cdsi_vall=nuevos_datos_cdsi_vall,
         jornada_activa=jornada_activa
     )

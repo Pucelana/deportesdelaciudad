@@ -11,14 +11,14 @@
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_basket/calendario_cdsi"
+        href="/admin/equipos_basket/calendario_cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6"
         >Calendario Ind.</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_basket/resultados_cdsi"
+        href="/admin/equipos_basket/resultados_cdsi_vall"
         class="text-white text-decoration-none text-analisis fs-6"
         >Resultados</a
       >
@@ -73,7 +73,7 @@
                   {% for equipo in clasificacion_analisis_cdsi_vall %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center{% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
