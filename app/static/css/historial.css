@@ -2,3 +2,193 @@
     color: #e9e9e9 !important;
     transition: color .2s ease;
 }
+
+.grafico-historial{
+    position: relative;
+    width: 100%;
+    height: 500px;
+}
+/* Medias Historial Completo */
+@media (max-width:992px){
+    .grafico-historial{
+        height:420px;
+    }
+}
+
+@media (max-width:768px){
+    .grafico-historial{
+        height:320px;
+    }
+}
+
+@media(max-width:768px){
+.tab-btn{
+    flex:1 1 45%;
+    margin-bottom:6px;
+}
+}
+
+@media(max-width:768px){
+.trofeo-img{
+    width:90px;
+    height:90px;
+}
+}
+
+@media(max-width:768px){
+.card{
+    margin-top:20px!important;
+}
+}
+/* CSS Trofeos */
+.trofeo-card{
+    background:rgba(255,255,255,.03);
+    border:1px solid rgba(255,255,255,.12);
+    backdrop-filter: blur(12px);
+    border-radius:18px;
+    padding:30px 20px;
+    text-align:center;
+    transition:.35s;
+    box-shadow: inset 0 1px 8px rgba(255,255,255,.20),0 10px 25px rgba(0,0,0,.35);
+
+}
+
+.trofeo-card:hover{
+    transform:translateY(-6px);
+    box-shadow: 0 0 25px rgba(255,215,0,.35), 0 15px 35px rgba(0,0,0,.45);
+}
+
+.trofeo-img{
+    width:110px;
+    height:110px;
+    object-fit:contain;
+    transition:.4s;
+}
+
+.trofeo-card:hover .trofeo-img{
+    transform:scale(1.1) rotate(-2deg);
+}
+
+.trofeo-card h5{
+    color:white;
+    font-weight:700;
+    margin-top:15px;
+}
+.temporada{
+    color:#000000;
+    font-size:.95rem;
+    margin-top:10px;
+    font-weight:600;
+}
+
+/* CSS Historial Card para moviles */
+.historial-mobile{
+    display:none;
+}
+/* Móvil */
+@media(max-width:768px){
+.historial-desktop{
+    display:none;
+}
+
+.historial-mobile{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.historial-card{
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.15);
+    border-radius:15px;
+    color:white;
+    width:100%;
+    max-width:420px;
+}
+
+.historial-card .card-header{
+    background:#672e8d;
+    color:white;
+    font-size:1.2rem;
+}
+
+.historial-card p{
+    margin-bottom:.7rem;
+    font-size:.95rem;
+}
+
+}
+/* Solo móvil */
+@media (max-width:576px){
+
+    .historial-desktop{
+        display:none;
+    }
+
+    .historial-mobile{
+        display:grid;
+        grid-template-columns:repeat(auto-fit,minmax(330px,1fr));
+        gap:20px;
+    }
+}
+@media (min-width:577px){
+
+    .historial-desktop{
+        display:block;
+    }
+
+    .historial-mobile{
+        display:none;
+    }
+
+}
+
+/* CSS Texto Historial */
+/* PC */
+.text-historial{
+    font-size: 1rem;
+    font-weight: 700;
+    color: black;
+    margin: .4rem 0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.80);
+}
+
+/* Tablets y móviles horizontales */
+@media (max-width:992px){
+    th.text-historial{
+        font-size: .85rem;
+        font-weight: 700;
+        color: black;
+        margin: .4rem 0;
+        text-shadow: 0 0 6px rgba(0,0,0,0.80);
+    }
+
+    td.text-historial{
+        font-size: .85rem;
+        font-weight: 700;
+        color: white;
+        margin: .4rem 0;
+        text-shadow: 0 0 6px rgba(0,0,0,0.80);
+    }
+
+}
+
+/* Móviles verticales */
+@media (max-width:577px){
+    th.text-historial{
+        font-size: .72rem;
+        font-weight: 700;
+        color: black;
+        margin: .4rem 0;
+        text-shadow: 0 0 6px rgba(0,0,0,0.80);
+    }
+
+    td.text-historial{
+        font-size: .72rem;
+        font-weight: 700;
+        color: white;
+        margin: .4rem 0;
+        text-shadow: 0 0 6px rgba(0,0,0,0.80);
+    }
+
+}

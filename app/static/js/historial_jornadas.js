@@ -1,98 +1,88 @@
+let grafico2 = null;
 const canvas_jornadas = document.getElementById("graficoJornadas");
+
 if (canvas_jornadas) {
-    const labels_jornadas = JSON.parse(canvas_jornadas.dataset.labels);
-    const puntos_jornadas = JSON.parse(canvas_jornadas.dataset.puntos);
-    new Chart(canvas_jornadas, {
-    type: "line",
 
-    data: {
-        labels: labels_jornadas,
-        datasets: [{
-            label: "Puntos",
-            data: puntos_jornadas,
+    const labels = JSON.parse(canvas_jornadas.getAttribute("data-labels"));
+    const datasets = JSON.parse(canvas_jornadas.getAttribute("data-datasets"));
 
-            borderColor: "#672e8d",
-            backgroundColor: "rgba(103,46,141,0.10)",
+    grafico2 =new Chart(canvas_jornadas, {
 
-            borderWidth: 3,
+        type: "line",
 
-            pointRadius: 5,
-            pointHoverRadius: 8,
-
-            pointBackgroundColor: "#ffffff",
-            pointBorderColor: "#672e8d",
-            pointBorderWidth: 3,
-
-            tension: 0.35,
-            fill: true
-        }]
-    },
-
-    options: {
-
-        responsive: true,
-
-        plugins: {
-
-            legend: {
-                display: false
-            },
-
-            tooltip: {
-
-                displayColors: false,
-
-                callbacks: {
-
-                    title: function(context){
-                        return "Temporada " + context[0].label;
-                    },
-
-                    label: function(context){
-                        return "Puntos: " + context.raw;
-                    }
-
-                }
-
-            }
-
+        data: {
+            labels: labels,
+            datasets: datasets
         },
 
-        scales: {
+        options: {
 
-            x: {
+            responsive: true,
 
-                ticks: {
-                    font: {
-                        size: 13
+            plugins: {
+
+                legend: {
+                    display: true,
+                    labels: {
+                        font: {
+                            size: 13
+                        }
                     }
                 },
 
-                grid: {
-                    display: false
+                tooltip: {
+                    mode: "index",
+                    intersect: false
                 }
 
             },
 
-            y: {
+            interaction: {
+                mode: "index",
+                intersect: false
+            },
 
-                beginAtZero: true,
-                max:90,
+            scales: {
 
-                ticks: {
-                    stepSize: 5,
-                    font: {
-                        size: 15
+                x: {
+                    ticks: {
+                        font: {
+                            size: 11
+                        }
                     }
                 },
-                
-                suggestedMax: Math.max(...puntos_jornadas) + 5
+
+                y: {
+
+                    beginAtZero: true,
+
+                    ticks: {
+                        stepSize: 5,
+                        font: {
+                            size: 15
+                        }
+                    }
+
+                }
 
             }
 
         }
 
-    }
+    });
+    document.querySelectorAll(".temporada-check").forEach(check => {
+
+    check.addEventListener("change", function(){
+
+        const indice = Number(this.dataset.index);
+
+        grafico2.data.datasets[indice].hidden = !this.checked;
+
+        grafico2.update();
+
+    });
 
 });
+
 }
+

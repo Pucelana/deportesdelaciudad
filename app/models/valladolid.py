@@ -18,6 +18,21 @@ class HistorialValladolid(db.Model):
     observaciones = db.Column(db.String(200))
     temporada = db.relationship("TemporadaValladolid")
 
+class Palmares(db.Model):
+    __tablename__ = "palmares"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_valladolid.id"),
+        nullable=False
+    )
+    competicion = db.Column(db.String(100), nullable=False)
+    imagen = db.Column(db.String(100), nullable=False)
+    temporada = db.relationship(
+        "TemporadaValladolid",
+        backref="palmares"
+    ) 
+
 class TemporadaValladolid(db.Model):
     __tablename__ = "temporadas_valladolid"
     id = db.Column(db.Integer, primary_key=True)
