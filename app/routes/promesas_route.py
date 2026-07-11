@@ -4,7 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.promesas import JornadaPromesas, PromesasPartido, PromesasClub, PlayoffPromesas, TemporadaPromesas
+from ..models.historial import obtener_evolucion_puntos
+from ..models.promesas import JornadaPromesas, PromesasPartido, PromesasClub, PlayoffPromesas, TemporadaPromesas, PalmaresPromesas, HistorialPromesas
 
 promesas_route_bp = Blueprint('promesas_route_bp', __name__)
 
@@ -484,6 +485,191 @@ def activar_temporada_promesas(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('promesas_route_bp.temporadas_promesas'))    
+
+# HISTORIAL RV PROMESAS
+# Creación del historial de temporadas del RV Promesas
+@promesas_route_bp.route("/admin/crear_historial_promesas", methods=["GET", "POST"])
+def crear_historial_promesas():
+    if request.method == "POST":
+        historial = HistorialPromesas(
+            temporada_id=request.form.get("temporada_id"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("promesas_route_bp.crear_historial_promesas"))
+    historial = (
+        HistorialPromesas.query.join(TemporadaPromesas)
+        .order_by(TemporadaPromesas.nombre.desc())
+        .all()
+    )
+    temporadas = TemporadaPromesas.query.order_by(
+        TemporadaPromesas.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial_promesas.html",
+        historial=historial,
+        temporadas=temporadas,
+    )
+
+# Ver Historial de temporadas del RV Promesas
+@promesas_route_bp.route("/historial_promesas")
+def historial_promesas_admin():
+    historial = (
+        HistorialPromesas.query.join(TemporadaPromesas)
+        .order_by(TemporadaPromesas.nombre.desc())
+        .all()
+    )
+    temporadas = TemporadaPromesas.query.order_by(
+        TemporadaPromesas.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial_promesas.html",
+        historial=historial,
+        temporadas=temporadas,
+    )
+
+
+# Eliminar historial de temporadas del Real Valladolid
+@promesas_route_bp.route(
+    "/admin/eliminar_historial_promesas/<int:id>", methods=["POST"]
+)
+def eliminar_historial_promesas(id):
+    historial = HistorialPromesas.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("promesas_route_bp.crear_historial_promesas"))
+
+
+# Modificar historial de temporadas del Real Valladolid
+@promesas_route_bp.route("/admin/modificar_historial_promesas/<int:id>", methods=["POST"])
+def modificar_historial_promesas(id):
+    historial = HistorialPromesas.query.get_or_404(id)
+    historial.temporada_id = request.form.get("temporada_id")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("promesas_route_bp.crear_historial_promesas"))
+
+# Ver Historial de temporadas del Real Valladolid en la página principal
+@promesas_route_bp.route("/promesas/historial")
+def historial_promesas():
+    historial = HistorialPromesas.query.order_by(
+        HistorialPromesas.temporada_id.desc()
+    ).all()
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada.nombre for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaPromesas.query.order_by(TemporadaPromesas.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#8B4513",
+        "#20B2AA",
+    ]
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaPromesas.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaPromesas.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "RV Promesas", generar_clasificacion_analisis_futbol_promesas
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+        titulos = (
+            PalmaresPromesas.query.join(TemporadaPromesas)
+            .order_by(TemporadaPromesas.nombre.desc())
+            .all()
+        )
+    return render_template(
+        "historia/historia_promesas.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        titulos=titulos,
+  )
+
+# PALMARES REAL VALLADOLID
+# Crear Palmares del Real Valladolid
+@promesas_route_bp.route("/admin/crear_palmares_promesas", methods=["POST"])
+def crear_palmares_promesas():
+    titulo = PalmaresPromesas(
+        temporada_id=request.form.get("temporada_id"),
+        competicion=request.form.get("competicion"),
+        imagen=request.form.get("imagen"),
+    )
+    db.session.add(titulo)
+    db.session.commit()
+    return redirect(url_for("promesas_route_bp.ver_palmares_promesas"))
+
+# Modificar Palmares del Real Valladolid
+@promesas_route_bp.route(
+    "/admin/modificar_palmares_promesas/<int:id>", methods=["POST"]
+)
+def modificar_palmares_promesas(id):
+    titulo = PalmaresPromesas.query.get_or_404(id)
+    titulo.temporada_id = request.form.get("temporada_id")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    db.session.commit()
+    return redirect(url_for("promesas_route_bp.ver_palmares_promesas"))
+
+# Eliminar Palmares del Real Valladolid
+@promesas_route_bp.route("/admin/eliminar_palmares_promesas/<int:id>", methods=["POST"])
+def eliminar_palmares_promesas(id):
+    titulo = PalmaresPromesas.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("promesas_route_bp.ver_palmares_promesas"))
+
+# Ver Palmares del Real Valladolid en Admin
+@promesas_route_bp.route("/palmares_promesas")
+def ver_palmares_promesas():
+    temporadas = TemporadaPromesas.query.order_by(TemporadaPromesas.id.desc()).all()
+    palmares = PalmaresPromesas.query.order_by(PalmaresPromesas.temporada_id.desc()).all()
+    return render_template(
+        "admin/historial/palma_promesas.html",
+        temporadas=temporadas,
+        palmares=palmares,
+    )
 
 # PLAYOFF ASCENSO REAL VALLADOLID PROMESAS
 # Crear formulario para los playoff

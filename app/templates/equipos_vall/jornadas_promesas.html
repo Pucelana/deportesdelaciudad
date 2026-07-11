@@ -20,6 +20,11 @@
         href="/admin/equipos_futbol/clasif_promesas"
         class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
     </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/admin/promesas/historial"
+        class="text-decoration-none text-white text-analisis fs-6">Historial</a>
+    </li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
@@ -39,14 +44,10 @@
 <!-- CONTENEDOR JORNADAS -->
 <div id="contenedor-jornadas">
   {% for goles in nuevos_datos_promesas %}
-
-  <div
-    id="jornada{{ loop.index }}"
-    class="jornada-contenido {% if goles.nombre != jornada_activa %}d-none{% endif %}">
-    <h3 class="text-center text-white mb-3 fondo_jornadas fw-bold">{{ goles.nombre }}</h3>
+  <div id="jornada{{ loop.index }}" class="jornada-contenido {% if goles.nombre != jornada_activa %}d-none{% endif %}">
     <div class="card tabla_equipos_aula w-100 mx-auto" style="max-width: 55rem;">
+      <h3 class="text-center text-white mb-3 fondo_jornadas fw-bold">{{ goles.nombre }}</h3>
       <div class="card-body">
-        
         <!-- TABLET / PC -->
         <div
           class="table-responsive d-flex justify-content-center d-none d-md-block">
@@ -74,13 +75,10 @@
               <small class="text-muted fw-bold">
                 {{ partido.fecha }} {{ partido.hora }}
               </small>
-
               <div class="equipo-mobile">{{ partido.local }}</div>
-
               <div class="resultado-mobile">
                 {{ partido.resultadoA }} - {{ partido.resultadoB }}
               </div>
-
               <div class="equipo-mobile">{{ partido.visitante }}</div>
             </div>
           </div>

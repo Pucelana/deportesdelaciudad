@@ -1,6 +1,6 @@
 {% extends 'admin/historial/base_historial.html' %}
 {% block title %}
-Palmares - Real Valladolid
+Palmares - RV Femenino
 {% endblock %}
 {% block nav %}
 <ol class="breadcrumb ms-1">
@@ -10,7 +10,7 @@ Palmares - Real Valladolid
         </a>
     </li>
     <li class="breadcrumb-item active text-dark">
-        Palmares Real Valladolid
+        Palmares RV Femenino
     </li>
 </ol>
 {% endblock %}
@@ -26,7 +26,7 @@ Palmares - Real Valladolid
     <div id="form_palmares" style="display:none;">
         <form
             method="POST"
-            action="{{ url_for('valladolid_route_bp.crear_palmares_valladolid') }}"
+            action="{{ url_for('simancas_route_bp.crear_palmares_simancas') }}"
             class="row g-3">
             <div class="col-md-4">
                 <label class="form-label">
@@ -142,7 +142,7 @@ Palmares - Real Valladolid
 
                         <form
                             method="POST"
-                            action="{{ url_for('valladolid_route_bp.eliminar_palmares_valladolid', id=titulo.id) }}">
+                            action="{{ url_for('simancas_route_bp.eliminar_palmares_simancas', id=titulo.id) }}">
 
                             <button class="btn btn-danger">
 
@@ -179,7 +179,7 @@ Palmares - Real Valladolid
 
             <form
                 method="POST"
-                action="{{ url_for('valladolid_route_bp.modificar_palmares_valladolid', id=titulo.id) }}">
+                action="{{ url_for('simancas_route_bp.modificar_palmares_simancas', id=titulo.id) }}">
 
                 <div class="modal-header">
 
@@ -248,14 +248,10 @@ Palmares - Real Valladolid
 {% block scripts %}
 <script>
 function mostrarFormularioPalmares(){
-
     document.getElementById("form_palmares").style.display="block";
-
 }
 function ocultarFormularioPalmares(){
-
     document.getElementById("form_palmares").style.display="none";
-
 }
 </script>
 {% endblock %}

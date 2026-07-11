@@ -1,6 +1,6 @@
 {% extends 'admin/historial/base_historial.html' %}
 {% block title %}
-Palmares - Real Valladolid
+Palmares - RV Promesas
 {% endblock %}
 {% block nav %}
 <ol class="breadcrumb ms-1">
@@ -10,7 +10,7 @@ Palmares - Real Valladolid
         </a>
     </li>
     <li class="breadcrumb-item active text-dark">
-        Palmares Real Valladolid
+        Palmares RV Promesas
     </li>
 </ol>
 {% endblock %}
@@ -26,7 +26,7 @@ Palmares - Real Valladolid
     <div id="form_palmares" style="display:none;">
         <form
             method="POST"
-            action="{{ url_for('valladolid_route_bp.crear_palmares_valladolid') }}"
+            action="{{ url_for('promesas_route_bp.crear_palmares_promesas') }}"
             class="row g-3">
             <div class="col-md-4">
                 <label class="form-label">
@@ -60,11 +60,6 @@ Palmares - Real Valladolid
                     class="form-select"
                     name="imagen">
                     <option value="Liga_sf.png">Liga</option>
-                    <option value="Copa_Rey_sf.png">Copa</option>
-                    <option value="Supercopa.png">Supercopa</option>
-                    <option value="Uefa.png">Uefa</option>
-                    <option value="Champion.png">Champion</option>
-                    <option value="Copa_Espana.png">Copa España</option>
                     <option value="Oro.png">Oro</option>
                     <option value="Plata.png">Plata</option>
                     <option value="Bronce.png">Bronce</option>
@@ -142,7 +137,7 @@ Palmares - Real Valladolid
 
                         <form
                             method="POST"
-                            action="{{ url_for('valladolid_route_bp.eliminar_palmares_valladolid', id=titulo.id) }}">
+                            action="{{ url_for('promesas_route_bp.eliminar_palmares_promesas', id=titulo.id) }}">
 
                             <button class="btn btn-danger">
 
@@ -179,7 +174,7 @@ Palmares - Real Valladolid
 
             <form
                 method="POST"
-                action="{{ url_for('valladolid_route_bp.modificar_palmares_valladolid', id=titulo.id) }}">
+                action="{{ url_for('promesas_route_bp.modificar_palmares_promesas', id=titulo.id) }}">
 
                 <div class="modal-header">
 
@@ -224,11 +219,6 @@ Palmares - Real Valladolid
                     <label>Imagen</label>
                     <select class="form-select" name="imagen">
                         <option value="Liga_sf.png" {% if titulo.imagen=="Liga_sf.png" %}selected{% endif %}>Liga</option>
-                        <option value="Copa_Rey_sf.png" {% if titulo.imagen=="Copa_Rey_sf.png" %}selected{% endif %}>Copa</option>
-                        <option value="Supercopa.png" {% if titulo.imagen=="Supercopa.png" %}selected{% endif %}>Supercopa</option>
-                        <option value="Copa_España.png" {% if titulo.imagen=="Copa_España.png" %}selected{% endif %}>Copa España</option>
-                        <option value="Uefa.png" {% if titulo.imagen=="Uefa.png" %}selected{% endif %}>Uefa</option>
-                        <option value="Champion.png" {% if titulo.imagen=="Champion.png" %}selected{% endif %}>Champion</option>
                         <option value="Oro.png" {% if titulo.imagen=="Oro.png" %}selected{% endif %}>Oro</option>
                         <option value="Plata.png" {% if titulo.imagen=="Plata.png" %}selected{% endif %}>Plata</option>
                         <option value="Bronce.png" {% if titulo.imagen=="Bronce.png" %}selected{% endif %}>Bronce</option>
@@ -248,14 +238,10 @@ Palmares - Real Valladolid
 {% block scripts %}
 <script>
 function mostrarFormularioPalmares(){
-
     document.getElementById("form_palmares").style.display="block";
-
 }
 function ocultarFormularioPalmares(){
-
     document.getElementById("form_palmares").style.display="none";
-
 }
 </script>
 {% endblock %}

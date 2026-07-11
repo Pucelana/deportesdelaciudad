@@ -18,7 +18,6 @@ from ..models.valladolid import (
 
 valladolid_route_bp = Blueprint("valladolid_route_bp", __name__)
 
-
 # LIGA REAL VALLADOLID
 # Crear el calendario Real Valladolid
 @valladolid_route_bp.route("/crear_calendario_valladolid", methods=["GET", "POST"])
@@ -56,8 +55,6 @@ def ingresar_resultado_valladolid():
         return redirect(url_for("valladolid_route_bp.calendarios_valladolid"))
     # Si es un GET, renderizamos el formulario de creación
     return render_template("admin/calendarios/calend_valladolid.html")
-
-
 # Ver calendario Real Valladolid en Admin
 @valladolid_route_bp.route("/calendario_valladolid")
 def calendarios_valladolid():
@@ -81,8 +78,6 @@ def calendarios_valladolid():
     return render_template(
         "admin/calendarios/calend_valladolid.html", jornadas=jornadas
     )
-
-
 # Modificar jornada
 @valladolid_route_bp.route(
     "/modificar_jornada_valladolid/<int:id>", methods=["GET", "POST"]
@@ -130,7 +125,6 @@ def modificar_jornada_valladolid(id):
             partido.hora = partido.hora.strftime("%H:%M") if partido.hora else ""
     return render_template("admin/calendarios/calend_valladolid.html", jornada=jornada)
 
-
 # Eliminar jornada
 @valladolid_route_bp.route(
     "/eliminar_jornada_valladolid/<int:id>", methods=["GET", "POST"]
@@ -151,8 +145,6 @@ def eliminar_jornada_valladolid(id):
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for("valladolid_route_bp.calendarios_valladolid"))
-
-
 # Obtener datos Real Valladolid
 def obtener_datos_valladolid(nombre_temporada=None):
     if nombre_temporada is None:
@@ -170,8 +162,6 @@ def obtener_datos_valladolid(nombre_temporada=None):
         )
         jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
     return jornadas_con_partidos
-
-
 # Calendario Real Valladolid
 @valladolid_route_bp.route("/equipos_futbol/calendario_valladolid")
 def calendario_valladolid():
@@ -297,8 +287,6 @@ def calendario_valladolid():
         "equipos_vall/calendario_valladolid.html",
         tabla_partidos_valladolid=tabla_partidos_valladolid,
     )
-
-
 # Jornadas Real Valladolid
 @valladolid_route_bp.route("/equipos_futbol/resultados_valladolid")
 def resultados_valladolid():
@@ -322,8 +310,6 @@ def resultados_valladolid():
         nuevos_datos_valladolid=nuevos_datos_valladolid,
         jornada_activa=jornada_activa,
     )
-
-
 # Jornada 0 Real Valladolid
 @valladolid_route_bp.route("/jornada0_valladolid", methods=["GET", "POST"])
 def jornada0_valladolid():
@@ -337,8 +323,6 @@ def jornada0_valladolid():
             return redirect(url_for("valladolid_route_bp.jornada0_valladolid"))
     clubs = ValladolidClub.query.all()  # Obtener todos los clubes de PostgreSQL
     return render_template("admin/clubs/clubs_valladolid.html", clubs=clubs)
-
-
 # Eliminar clubs jornada 0
 @valladolid_route_bp.route("/eliminar_club_valladolid/<int:club_id>", methods=["POST"])
 def eliminar_club_valladolid(club_id):
@@ -347,8 +331,6 @@ def eliminar_club_valladolid(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for("valladolid_route_bp.jornada0_valladolid"))
-
-
 # Crear la clasificación Real Valladolid
 def generar_clasificacion_analisis_futbol_valladolid(data):
     clasificacion = defaultdict(
@@ -532,8 +514,6 @@ def generar_clasificacion_analisis_futbol_valladolid(data):
     equipos.sort(key=cmp_to_key(comparar))
 
     return [{"equipo": e, "datos": d} for e, d in equipos]
-
-
 # Ruta para mostrar la clasificación y análisis del Real Valladolid
 @valladolid_route_bp.route("/equipos_futbol/clasif_valladolid")
 def clasif_analisis_valladolid():
@@ -575,8 +555,6 @@ def clasif_analisis_valladolid():
         "equipos_vall/clasif_valladolid.html",
         clasificacion_analisis_valladolid=clasificacion_analisis_valladolid,
     )
-
-
 # TEMPORADAS REAL VALLADOLID
 @valladolid_route_bp.route("/temporadas_valladolid")
 def temporadas_valladolid():
@@ -584,8 +562,6 @@ def temporadas_valladolid():
     return render_template(
         "admin/temporadas/temporada_valladolid.html", temporadas=temporadas
     )
-
-
 # ACTIVAR Y DESACTIVAR TEMPORADAS
 @valladolid_route_bp.route("/activar_temporada_valladolid/<int:id>")
 def activar_temporada_valladolid(id):
@@ -594,7 +570,6 @@ def activar_temporada_valladolid(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.temporadas_valladolid"))
-
 
 # HISTORIAL REAL VALLADOLID
 # Creación del historial de temporadas del Real Valladolid
@@ -628,8 +603,6 @@ def crear_historial_valladolid():
         historial=historial,
         temporadas=temporadas,
     )
-
-
 # Ver Historial de temporadas del Real Valladolid
 @valladolid_route_bp.route("/historial_valladolid")
 def historial_valladolid_admin():
@@ -646,8 +619,6 @@ def historial_valladolid_admin():
         historial=historial,
         temporadas=temporadas,
     )
-
-
 # Eliminar historial de temporadas del Real Valladolid
 @valladolid_route_bp.route(
     "/admin/eliminar_historial_valladolid/<int:id>", methods=["POST"]
@@ -657,7 +628,6 @@ def eliminar_historial_valladolid(id):
     db.session.delete(historial)
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.crear_historial_valladolid"))
-
 
 # Modificar historial de temporadas del Real Valladolid
 @valladolid_route_bp.route(
@@ -676,7 +646,6 @@ def modificar_historial_valladolid(id):
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.crear_historial_valladolid"))
-
 
 # Ver Historial de temporadas del Real Valladolid en la página principal
 @valladolid_route_bp.route("/valladolid/historial")
@@ -759,7 +728,6 @@ def historial_valladolid():
         datasets_jornadas=datasets_jornadas,
         titulos=titulos,
   )
-
 
 # PALMARES REAL VALLADOLID
 # Crear Palmares del Real Valladolid

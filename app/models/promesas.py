@@ -1,5 +1,38 @@
 from app.extensions import db
 
+class HistorialPromesas(db.Model):
+    __tablename__ = "historial_promesas"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_promesas.id"),
+        nullable=False
+    )
+    liga = db.Column(db.String(80), nullable=False)
+    puntos = db.Column(db.Integer)
+    puesto = db.Column(db.Integer)
+    playoff = db.Column(db.String(80))
+    copa = db.Column(db.String(80))
+    titulos = db.Column(db.String(150))
+    siguiente_temporada = db.Column(db.String(80))
+    observaciones = db.Column(db.String(200))
+    temporada = db.relationship("TemporadaPromesas")
+    
+class PalmaresPromesas(db.Model):
+    __tablename__ = "palmares_promesas"
+    id = db.Column(db.Integer, primary_key=True)
+    temporada_id = db.Column(
+        db.Integer,
+        db.ForeignKey("temporadas_promesas.id"),
+        nullable=False
+    )
+    competicion = db.Column(db.String(100), nullable=False)
+    imagen = db.Column(db.String(100), nullable=False)
+    temporada = db.relationship(
+        "TemporadaPromesas",
+        backref="palmares_promesas"
+    )    
+
 class TemporadaPromesas(db.Model):
     __tablename__ = "temporadas_promesas"
     id = db.Column(db.Integer, primary_key=True)
@@ -10,7 +43,7 @@ class TemporadaPromesas(db.Model):
         backref="temporada",
         cascade="all, delete-orphan"
     )
-    
+             
 class JornadaPromesas(db.Model):
     __tablename__ = "jornada_promesas"
     id = db.Column(db.Integer, primary_key=True)

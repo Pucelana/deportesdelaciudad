@@ -1,58 +1,42 @@
-{% extends "historia/base_historia.html" %} {% block title %}Historial - Real
-Valladolid{% endblock %} {% block breadcrumb %}
+{% extends "historia/base_historia.html" %} 
+{% block title %}Historial - RV Promesas{% endblock %} 
+{% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a
-        href="/seccion/valladolid"
+        href="/seccion/promesas"
         class="text-white text-decoration-none text-analisis fs-6"
-        >Real Valladolid</a
+        >RV Promesas</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_futbol/calendario_valladolid"
+        href="/admin/equipos_futbol/calendario_promesas"
         class="text-white text-decoration-none text-analisis fs-6"
         >Calendario Ind.</a
       >
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/admin/equipos_futbol/resultados_valladolid"
+        href="/admin/equipos_futbol/resultados_promesas"
         class="text-white text-decoration-none text-analisis fs-6"
         >Resultados</a
       >
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_futbol/clasif_valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Clasificaciones</a
-      >
+      <a href="/admin/equipos_futbol/clasif_promesas" class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
     </li>
-    <li
-      class="breadcrumb-item active text-dark text-analisis fs-6"
-      aria-current="page"
-    >
-      Historial
-    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">Historial</li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
 <div class="container-lg mt-4">
   <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
-    <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen"
-      >Historial</a
-    >
-    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico"
-      >Puntos Temporada</a
-    >
-    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2"
-      >Puntos Jornadas</a
-    >
-    <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos"
-      >Palmares</a
-    >
+    <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen">Historial</a>
+    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico">Puntos Temporada</a>
+    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2">Puntos Jornadas</a>
+    <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos">Palmares</a>
   </div>
   <div id="resumen" class="tab-pane active">
     <div class="card tabla_copa mx-auto w-100  historial-desktop" style="max-width: 75rem">
@@ -66,7 +50,6 @@ Valladolid{% endblock %} {% block breadcrumb %}
                 <th class="text-historial text-dark">Pts</th>
                 <th class="text-historial text-dark">Puesto</th>
                 <th class="text-historial text-dark">Playoff</th>
-                <th class="text-historial text-dark">Copa</th>
                 <th class="text-historial text-dark">Títulos</th>
                 <th class="text-historial text-dark"></th>
               </tr>
@@ -79,7 +62,6 @@ Valladolid{% endblock %} {% block breadcrumb %}
                 <td class="text-historial text-white">{{ h.puntos }}</td>
                 <td class="text-historial text-white">{{ h.puesto }}</td>
                 <td class="text-historial text-white">{{ h.playoff }}</td>
-                <td class="text-historial text-white">{{ h.copa }}</td>
                 <td class="text-historial text-white">
                   {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
                 </td>
@@ -98,31 +80,22 @@ Valladolid{% endblock %} {% block breadcrumb %}
         <div class="card-header text-center fw-bold">
           {{ h.temporada.nombre }}
         </div>
-
         <div class="card-body">
           <p class="equipo-mobile"><strong class="text-dark">Liga:</strong> {{ h.liga }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Puntos:</strong> {{ h.puntos }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Puesto:</strong> {{ h.puesto }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Playoff:</strong> {{ h.playoff }}</p>
-
-          <p class="equipo-mobile"><strong class="text-dark">Copa:</strong> {{ h.copa }}</p>
-
           <p class="equipo-mobile">
             <strong class="text-dark">Títulos:</strong>
-
             {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
           </p>
         </div>
       </div>
-
       {% endfor %}
     </div>
   </div>
   <div id="grafico" class="tab-pane">
-    <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
+    <div class="card mt-3 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
         <h3 class="text-center mb-4">Evolución de puntos por temporada</h3>
         <canvas
@@ -134,7 +107,6 @@ Valladolid{% endblock %} {% block breadcrumb %}
       </div>
     </div>
   </div>
-
   <div id="grafico2" class="tab-pane">
     <div class="d-flex justify-content-center flex-wrap gap-2 mb-2">
       {% for dataset in datasets_jornadas %}
@@ -145,14 +117,11 @@ Valladolid{% endblock %} {% block breadcrumb %}
           type="checkbox"
           checked
           id="temp{{ loop.index0 }}"
-          data-index="{{ loop.index0 }}"
-        />
-
+          data-index="{{ loop.index0 }}"/>
         <label class="form-check-label text-white" for="temp{{ loop.index0 }}">
           {{ dataset.label }}
         </label>
       </div>
-
       {% endfor %}
     </div>
     <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">

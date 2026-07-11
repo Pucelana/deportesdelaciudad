@@ -4,7 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas, PlayoffSimancas, TemporadaSimancas
+from ..models.historial import obtener_evolucion_puntos
+from ..models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas, PlayoffSimancas, TemporadaSimancas, HistorialSimancas, PalmaresSimancas
 
 simancas_route_bp = Blueprint('simancas_route_bp', __name__)
 
@@ -482,6 +483,185 @@ def activar_temporada_simancas(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('simancas_route_bp.temporadas_simancas')) 
+
+# HISTORIAL RV FEMENINO
+# Creación del historial de temporadas del RV Femenino
+@simancas_route_bp.route("/admin/crear_historial_simancas", methods=["GET", "POST"])
+def crear_historial_simancas():
+    if request.method == "POST":
+        historial = HistorialSimancas(
+            temporada_id=request.form.get("temporada_id"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("simancas_route_bp.crear_historial_simancas"))
+    historial = (
+        HistorialSimancas.query.join(TemporadaSimancas)
+        .order_by(TemporadaSimancas.nombre.desc())
+        .all()
+    )
+    temporadas = TemporadaSimancas.query.order_by(
+        TemporadaSimancas.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial_simancas.html",
+        historial=historial,
+        temporadas=temporadas,
+    )
+
+# Ver Historial de temporadas del RV Promesas
+@simancas_route_bp.route("/historial_simancas")
+def historial_simancas_admin():
+    historial = (
+        HistorialSimancas.query.join(TemporadaSimancas)
+        .order_by(TemporadaSimancas.nombre.desc())
+        .all()
+    )
+    temporadas = TemporadaSimancas.query.order_by(
+        TemporadaSimancas.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial_simancas.html",
+        historial=historial,
+        temporadas=temporadas,
+    )
+
+# Eliminar historial de temporadas del Real Valladolid
+@simancas_route_bp.route(
+    "/admin/eliminar_historial_simancas/<int:id>", methods=["POST"]
+)
+def eliminar_historial_simancas(id):
+    historial = HistorialSimancas.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("simancas_route_bp.crear_historial_simancas"))
+
+# Modificar historial de temporadas del Real Valladolid
+@simancas_route_bp.route("/admin/modificar_historial_simancas/<int:id>", methods=["POST"])
+def modificar_historial_simancas(id):
+    historial = HistorialSimancas.query.get_or_404(id)
+    historial.temporada_id = request.form.get("temporada_id")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("simancas_route_bp.crear_historial_simancas"))
+
+# Ver Historial de temporadas del Real Valladolid en la página principal
+@simancas_route_bp.route("/simancas/historial")
+def historial_simancas():
+    historial = HistorialSimancas.query.order_by(
+        HistorialSimancas.temporada_id.desc()
+    ).all()
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada.nombre for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaSimancas.query.order_by(TemporadaSimancas.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#8B4513",
+        "#20B2AA",
+    ]
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaSimancas.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaSimancas.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "RV Femenino", generar_clasificacion_analisis_futbol_simancas
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+        titulos = (
+            PalmaresSimancas.query.join(TemporadaSimancas)
+            .order_by(TemporadaSimancas.nombre.desc())
+            .all()
+        )
+    return render_template(
+        "historia/historia_simancas.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        titulos=titulos,
+  )
+
+# PALMARES REAL VALLADOLID
+# Crear Palmares del Real Valladolid
+@simancas_route_bp.route("/admin/crear_palmares_simancas", methods=["POST"])
+def crear_palmares_simancas():
+    titulo = PalmaresSimancas(
+        temporada_id=request.form.get("temporada_id"),
+        competicion=request.form.get("competicion"),
+        imagen=request.form.get("imagen"),
+    )
+    db.session.add(titulo)
+    db.session.commit()
+    return redirect(url_for("simancas_route_bp.ver_palmares_simancas"))
+# Modificar Palmares del Real Valladolid
+@simancas_route_bp.route("/admin/modificar_palmares_simancas/<int:id>", methods=["POST"])
+def modificar_palmares_simancas(id):
+    titulo = PalmaresSimancas.query.get_or_404(id)
+    titulo.temporada_id = request.form.get("temporada_id")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    db.session.commit()
+    return redirect(url_for("simancas_route_bp.ver_palmares_simancas"))
+# Eliminar Palmares del Real Valladolid
+@simancas_route_bp.route("/admin/eliminar_palmares_simancas/<int:id>", methods=["POST"])
+def eliminar_palmares_simancas(id):
+    titulo = PalmaresSimancas.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("simancas_route_bp.ver_palmares_simancas"))
+
+# Ver Palmares del Real Valladolid en Admin
+@simancas_route_bp.route("/palmares_simancas")
+def ver_palmares_simancas():
+    temporadas = TemporadaSimancas.query.order_by(TemporadaSimancas.id.desc()).all()
+    palmares = PalmaresSimancas.query.order_by(PalmaresSimancas.temporada_id.desc()).all()
+    return render_template(
+        "admin/historial/palma_simancas.html",
+        temporadas=temporadas,
+        palmares=palmares,
+    )
 
 # COPA DEL REY RV Simancas
 # Creación de las eliminatorias de copa
