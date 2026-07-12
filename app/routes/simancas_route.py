@@ -579,7 +579,7 @@ def historial_simancas():
         "#32CD32",
         "#FF4500",
         "#FF1493",
-        "#8B4513",
+        "#FF6A00",
         "#20B2AA",
     ]
     labels_jornadas = []
@@ -592,7 +592,7 @@ def historial_simancas():
         if not jornadas:
             continue
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "RV Femenino", generar_clasificacion_analisis_futbol_simancas
+            jornadas, "RV Femenino", generar_clasificacion_analisis_futbol_simancas,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

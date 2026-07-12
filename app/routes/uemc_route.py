@@ -4,7 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC
+from ..models.historial import obtener_evolucion_puntos
+from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC, HistorialUEMC, PalmaresUEMC
 
 uemc_route_bp = Blueprint('uemc_route_bp', __name__)
 
@@ -516,7 +517,6 @@ def clasif_analisis_uemc():
                     'puntos': 0,
                     'jugados': 0,
                     'ganados': 0,
-                    'empatados': 0,
                     'perdidos': 0,
                     'favor': 0,
                     'contra': 0,
@@ -550,6 +550,184 @@ def activar_temporada_uemc(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('uemc_route_bp.temporadas_uemc')) 
+
+# HISTORIAL UEMC
+# Creación del historial de temporadas del UEMC
+@uemc_route_bp.route("/admin/crear_historial_uemc", methods=["GET", "POST"])
+def crear_historial_uemc():
+    if request.method == "POST":
+        historial = HistorialUEMC(
+            temporada_id=request.form.get("temporada_id"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("uemc_route_bp.crear_historial_uemc"))
+    historial = (
+        HistorialUEMC.query.join(TemporadaUEMC)
+        .order_by(TemporadaUEMC.nombre.desc())
+        .all()
+    )
+    temporadas = TemporadaUEMC.query.order_by(
+        TemporadaUEMC.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial_uemc.html",
+        historial=historial,
+        temporadas=temporadas,
+    )
+
+# Ver Historial de temporadas del UEMC
+@uemc_route_bp.route("/historial_uemc")
+def historial_uemc_admin():
+    historial = (
+        HistorialUEMC.query.join(TemporadaUEMC)
+        .order_by(TemporadaUEMC.nombre.desc())
+        .all()
+    )
+    temporadas = TemporadaUEMC.query.order_by(
+        TemporadaUEMC.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial_uemc.html",
+        historial=historial,
+        temporadas=temporadas,
+    )
+
+# Eliminar historial de temporadas del UEMC
+@uemc_route_bp.route(
+    "/admin/eliminar_historial_uemc/<int:id>", methods=["POST"]
+)
+def eliminar_historial_uemc(id):
+    historial = HistorialUEMC.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("uemc_route_bp.crear_historial_uemc"))
+
+# Modificar historial de temporadas del UEMC
+@uemc_route_bp.route("/admin/modificar_historial_uemc/<int:id>", methods=["POST"])
+def modificar_historial_uemc(id):
+    historial = HistorialUEMC.query.get_or_404(id)
+    historial.temporada_id = request.form.get("temporada_id")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("uemc_route_bp.crear_historial_uemc"))
+
+# Ver Historial de temporadas del UEMC en la página principal
+@uemc_route_bp.route("/uemc/historial")
+def historial_uemc():
+    historial = HistorialUEMC.query.order_by(
+        HistorialUEMC.temporada_id.desc()
+    ).all()
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada.nombre for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaUEMC.query.order_by(TemporadaUEMC.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaUEMC.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaUEMC.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "CBC Valladolid", generar_clasificacion_analisis_baloncesto_uemc,"ganados"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+        titulos = (
+            PalmaresUEMC.query.join(TemporadaUEMC)
+            .order_by(TemporadaUEMC.nombre.desc())
+            .all()
+        )
+    return render_template(
+        "historia/historia_uemc.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        titulos=titulos,
+  )
+
+# PALMARES UEMC
+# Crear Palmares del UEMC
+@uemc_route_bp.route("/admin/crear_palmares_uemc", methods=["POST"])
+def crear_palmares_uemc():
+    titulo = PalmaresUEMC(
+        temporada_id=request.form.get("temporada_id"),
+        competicion=request.form.get("competicion"),
+        imagen=request.form.get("imagen"),
+    )
+    db.session.add(titulo)
+    db.session.commit()
+    return redirect(url_for("uemc_route_bp.ver_palmares_uemc"))
+# Modificar Palmares del UEMC
+@uemc_route_bp.route("/admin/modificar_palmares_uemc/<int:id>", methods=["POST"])
+def modificar_palmares_uemc(id):
+    titulo = PalmaresUEMC.query.get_or_404(id)
+    titulo.temporada_id = request.form.get("temporada_id")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    db.session.commit()
+    return redirect(url_for("uemc_route_bp.ver_palmares_uemc"))
+# Eliminar Palmares del UEMC
+@uemc_route_bp.route("/admin/eliminar_palmares_uemc/<int:id>", methods=["POST"])
+def eliminar_palmares_uemc(id):
+    titulo = PalmaresUEMC.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("uemc_route_bp.ver_palmares_uemc"))
+# Ver Palmares del UEMC en Admin
+@uemc_route_bp.route("/palmares_uemc")
+def ver_palmares_uemc():
+    temporadas = TemporadaUEMC.query.order_by(TemporadaUEMC.id.desc()).all()
+    palmares = PalmaresUEMC.query.order_by(PalmaresUEMC.temporada_id.desc()).all()
+    return render_template(
+        "admin/historial/palma_uemc.html",
+        temporadas=temporadas,
+        palmares=palmares,
+    )
 
 # COPA UEMC
 # Crear formulario para los grupos de la Copa UEMC

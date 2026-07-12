@@ -518,7 +518,6 @@ def crear_historial_promesas():
         historial=historial,
         temporadas=temporadas,
     )
-
 # Ver Historial de temporadas del RV Promesas
 @promesas_route_bp.route("/historial_promesas")
 def historial_promesas_admin():
@@ -535,19 +534,13 @@ def historial_promesas_admin():
         historial=historial,
         temporadas=temporadas,
     )
-
-
 # Eliminar historial de temporadas del Real Valladolid
-@promesas_route_bp.route(
-    "/admin/eliminar_historial_promesas/<int:id>", methods=["POST"]
-)
+@promesas_route_bp.route("/admin/eliminar_historial_promesas/<int:id>", methods=["POST"])
 def eliminar_historial_promesas(id):
     historial = HistorialPromesas.query.get_or_404(id)
     db.session.delete(historial)
     db.session.commit()
     return redirect(url_for("promesas_route_bp.crear_historial_promesas"))
-
-
 # Modificar historial de temporadas del Real Valladolid
 @promesas_route_bp.route("/admin/modificar_historial_promesas/<int:id>", methods=["POST"])
 def modificar_historial_promesas(id):
@@ -563,7 +556,6 @@ def modificar_historial_promesas(id):
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
     return redirect(url_for("promesas_route_bp.crear_historial_promesas"))
-
 # Ver Historial de temporadas del Real Valladolid en la página principal
 @promesas_route_bp.route("/promesas/historial")
 def historial_promesas():
@@ -581,9 +573,9 @@ def historial_promesas():
         "#FFD700",
         "#00BFFF",
         "#32CD32",
-        "#FF4500",
+        "#FF4400",
         "#FF1493",
-        "#8B4513",
+        "#FF6A00",
         "#20B2AA",
     ]
     labels_jornadas = []
@@ -596,7 +588,7 @@ def historial_promesas():
         if not jornadas:
             continue
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "RV Promesas", generar_clasificacion_analisis_futbol_promesas
+            jornadas, "RV Promesas", generar_clasificacion_analisis_futbol_promesas,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

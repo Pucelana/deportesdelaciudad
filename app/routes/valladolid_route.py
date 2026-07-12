@@ -678,7 +678,7 @@ def historial_valladolid():
         "#32CD32",
         "#FF4500",
         "#FF1493",
-        "#8B4513",
+        "#FF6A00",
         "#20B2AA",
     ]
 
@@ -696,7 +696,7 @@ def historial_valladolid():
             continue
 
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "R.Valladolid", generar_clasificacion_analisis_futbol_valladolid
+            jornadas, "R.Valladolid", generar_clasificacion_analisis_futbol_valladolid,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

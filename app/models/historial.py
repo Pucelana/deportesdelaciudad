@@ -1,7 +1,7 @@
-def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion):
+def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion, campo="puntos"):
 
     labels = []
-    puntos = []
+    valores = []
 
     jornadas_acumuladas = []
 
@@ -25,8 +25,8 @@ def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion):
         )
 
         if equipo:
-            puntos.append(equipo["datos"]["puntos"])
+            valores.append(equipo["datos"].get(campo, 0))
         else:
-            puntos.append(0)
+            valores.append(0)
 
-    return labels, puntos
+    return labels, valores
