@@ -98,6 +98,10 @@ function mostrarFormularioVcv(){
 function mostrarFormularioJose(){
   document.getElementById('form_partidos_san_jose').style.display='block';
 }
+// HISTORIAL
+function mostrarFormularioHistorial(){
+  document.getElementById('form_historial').style.display='block';
+}
 
 // Abrir y cerrar las jornadas de calendario_uemc
 function toggleTabla(element, nombre) {

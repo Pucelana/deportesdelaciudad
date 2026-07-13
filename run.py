@@ -1,11 +1,12 @@
 from app import create_app
 from app.extensions import db
+from app.models.historial import Historial, Palmaress
 from app.models.horario import Horario
-from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC, HistorialUEMC, PalmaresUEMC
-from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid, TemporadaValladolid, HistorialValladolid, Palmares
-from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas, TemporadaPromesas, PalmaresPromesas, HistorialPromesas
-from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas, TemporadaSimancas, HistorialSimancas, PalmaresSimancas
-from app.models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol,  PlayoffParquesol, TemporadaParquesol, HistorialParquesol, PalmaresParquesol
+from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC
+from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid, TemporadaValladolid
+from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas, TemporadaPromesas
+from app.models.simancas import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas, TemporadaSimancas
+from app.models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol,  PlayoffParquesol, TemporadaParquesol
 from app.models.ponce import JornadaPonce, PoncePartido, PonceClub,  PlayoffPonce, Clasificacion, TemporadaPonce
 from app.models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub,  PlayoffCDSIVall, Clasificacion, TemporadaCDSIVall
 from app.models.aliados import JornadaAliados, AliadosPartido, AliadosClub,  PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados

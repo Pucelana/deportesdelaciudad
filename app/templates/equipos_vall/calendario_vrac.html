@@ -30,14 +30,6 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
         Resultados</a>
 </div>-->
 <section class="container-lg mb-5 flex-fill copa">
-  <!--<div class="d-flex justify-content-center my-2 gap-2">
-    <button class="btn btn-outline-light tab-btn active" data-tab="calendario">
-      Clasificación
-    </button>
-    <button class="btn btn-outline-light tab-btn" data-tab="resultados">
-      Resultados
-    </button>
-  </div>-->
       <!--Tabla Calendario El Salvador Fem.-->
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
@@ -49,16 +41,16 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                 <thead>
                   <tr class="text-center text-dark">
                     <th></th>
-                    <th colspan="1">Jornadas</th>
-                    <th colspan="2">Resultados</th>
+                    <th colspan="2">Jornadas</th>
+                    <th colspan="4">Resultados</th>
                     <!--<th colspan="2">Partidos</th>-->
                   </tr>
                   <tr class="text-center text-dark">
                     <th scope="col">Equipos</th>
                     <th class="text-center">Ida</th>
-                    <!--<th>Vlt</th>-->
+                    <th>Vlt</th>
                     <th class="text-center" colspan="2">Ida</th>
-                    <!--<th colspan="2">Vlt</th>-->
+                    <th colspan="2">Vlt</th>
                     <th>Pts</th>
                     <!--<th>PP</th>-->
                     <th>Avrg</th>
@@ -78,7 +70,7 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                       datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vrac']
                       }}) {% endif %} {% endif %}
                     </td>
-                    <!--<td class="jorn_vuelta fw-bold">
+                    <td class="jorn_vuelta fw-bold">
                       {% if datos_equipo.get('segundo_enfrentamiento') %} {{
                       datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
                       }} {% if
@@ -86,21 +78,22 @@ Ind. - VRAC{% endblock %} {% block breadcrumb %}
                       %} ({{
                       datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vrac']
                       }}) {% endif %} {% endif %}
-                    </td>-->
+                    </td>
                     <td class="resultadoA fw-bold text-center">
                       {{ tabla_partidos_vrac[equipo]['resultadoA'] }}
                     </td>
                     <td class="resultadoB fw-bold text-center">
                       {{ tabla_partidos_vrac[equipo]['resultadoB'] }}
                     </td>
-                    <td class="part1 text-center"></td>
-                    <td class="average text-center"></td>
                     <td class="resultadoAA fw-bold">
-                      <!--{{ tabla_partidos_vrac[equipo]['resultadoAA'] }}-->
+                      {{ tabla_partidos_vrac[equipo]['resultadoAA'] }}
                     </td>
                     <td class="resultadoBB fw-bold">
-                      <!--{{ tabla_partidos_vrac[equipo]['resultadoBB'] }}-->
+                      {{ tabla_partidos_vrac[equipo]['resultadoBB'] }}
                     </td>
+                    <td class="part1 text-center"></td>
+                    <td class="average text-center"></td>
+                    
                     
                   </tr>
                   {% endfor %}

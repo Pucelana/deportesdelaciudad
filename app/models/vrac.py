@@ -14,6 +14,7 @@ class TemporadaVrac(db.Model):
 class JornadaVrac(db.Model):
     __tablename__ = "jornadas_vrac"
     id = db.Column(db.Integer, primary_key=True)
+    fase = db.Column(db.String(30))
     temporada_id = db.Column(
         db.Integer,
         db.ForeignKey("temporadas_vrac.id", ondelete="CASCADE"),

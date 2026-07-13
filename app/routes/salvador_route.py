@@ -14,6 +14,7 @@ salvador_route_bp = Blueprint('salvador_route_bp', __name__)
 def ingresar_resultado_salvador():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
+        fase = request.form["fase"]
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
@@ -25,16 +26,15 @@ def ingresar_resultado_salvador():
         # 2. crear jornada correcta
         jornada = JornadaSalvador(
             nombre=nombre_jornada,
+            fase=fase,
             temporada_id=temporada.id
         )
         db.session.add(jornada)
         db.session.flush()  # Esto nos da el ID antes del commit        
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-
             local = request.form.get(f'local{i}')
             visitante = request.form.get(f'visitante{i}')
-
             resultadoA = request.form.get(f'resultadoA{i}')
             resultadoB = request.form.get(f'resultadoB{i}')
             # 🔥 CLAVE: ignorar partidos vacíos
@@ -65,7 +65,7 @@ def ingresar_resultado_salvador():
     return render_template('admin/calendarios/calend_salvador.html')
 # Ver calendario Salvador en Admin
 @salvador_route_bp.route('/calendario_salvador')
-def calendarios_salvador():
+def calendarios_vrac():
     temporada = TemporadaSalvador.query.filter_by(activa=True).first()
     if temporada:
         jornadas = JornadaSalvador.query.filter_by(
@@ -86,9 +86,11 @@ def modificar_jornada_salvador(id):
     jornada = db.session.query(JornadaSalvador).filter(JornadaSalvador.id == id).first()
     if jornada:
         if request.method == 'POST':
+            fase = request.form["fase"]
             nombre_jornada = request.form['nombre']
             num_partidos = int(request.form['num_partidos'])
-            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada          
+            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada   
+            jornada.fase = fase       
             # Actualizar los partidos
             for i in range(num_partidos):
                 partido_id = request.form[f'partido_id{i}']
@@ -168,7 +170,7 @@ def separar_fases(data):
             fase_regular.append(jornada)
 
     return fase_regular, fase_liguilla
-# Calendario Salvador
+# Calendario Vrac
 @salvador_route_bp.route('/equipos_rugby/calendario_salvador')
 def calendario_salvador():
     datos = obtener_datos_salvador()
@@ -269,7 +271,7 @@ def jornada0_salvador():
                 db.session.commit()
             return redirect(url_for('salvador_route_bp.jornada0_salvador'))
     clubs = SalvadorClub.query.all()  # Obtener todos los clubes de PostgreSQL
-    return render_template('admin/clubs/clubs_salvador.html', clubs=clubs) 
+    return render_template('admin/clubs/clubs_vrac.html', clubs=clubs) 
 # Eliminar clubs jornada 0
 @salvador_route_bp.route('/eliminar_club_salvador/<int:club_id>', methods=['POST'])
 def eliminar_club_salvador(club_id):
@@ -278,7 +280,7 @@ def eliminar_club_salvador(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for('salvador_route_bp.jornada0_salvador'))
-# Crear la clasificación CPLV Caja
+# Crear la clasificación Salvador
 def generar_clasificacion_analisis_rugby_salvador(data):
     clasificacion = defaultdict(lambda: {
         'puntos': 0,
@@ -293,7 +295,7 @@ def generar_clasificacion_analisis_rugby_salvador(data):
     })
 
     for jornada in data:
-        for partido in jornada['partidos']:
+        for partido in jornada.partidos:
             if (
                 partido.resultadoA in (None, '')
                 or partido.resultadoB in (None, '')
@@ -312,6 +314,12 @@ def generar_clasificacion_analisis_rugby_salvador(data):
             visitante = partido.visitante
 
             # RESULTADO BASE
+            print(
+                partido.local,
+                partido.visitante,
+                "Bonus Local:", repr(partido.bonusA),
+                "Bonus Visitante:", repr(partido.bonusB)
+            )
             if a > b:
                 clasificacion[local]['puntos'] += 4
                 clasificacion[local]['ganados'] += 1
@@ -328,10 +336,9 @@ def generar_clasificacion_analisis_rugby_salvador(data):
                 clasificacion[local]['empatados'] += 1
                 clasificacion[visitante]['empatados'] += 1
 
-            # 🔥 BONUS SOLO SI ES 1
             if ba == 1:
                 clasificacion[local]['bonus'] += 1
-                clasificacion[local]['puntos'] += 1   # si bonus suma a puntos
+                clasificacion[local]['puntos'] += 1
 
             if bb == 1:
                 clasificacion[visitante]['bonus'] += 1
@@ -348,7 +355,10 @@ def generar_clasificacion_analisis_rugby_salvador(data):
 
             clasificacion[local]['diferencia_goles'] += (a - b)
             clasificacion[visitante]['diferencia_goles'] += (b - a)
-
+            for equipo, datos in clasificacion.items():
+                if equipo == "VRAC":
+                    print(datos)
+    
     return [
         {'equipo': k, 'datos': v}
         for k, v in clasificacion.items()
@@ -361,68 +371,75 @@ def aplicar_h2h_en_empates(clasificacion, data):
         equipo1 = clasificacion[i]
         equipo2 = clasificacion[i+1]
 
-        if equipo1['datos']['puntos'] == equipo2['datos']['puntos']:
+        if equipo1["datos"]["puntos"] != equipo2["datos"]["puntos"]:
+            continue
 
-            ganador = None
+        puntos1 = 0
+        puntos2 = 0
 
-            for jornada in data:
-                for partido in jornada['partidos']:
+        for jornada in data:
 
-                    local = partido.local
-                    visitante = partido.visitante
+            for partido in jornada.partidos:
 
-                    if (
-                        (local == equipo1['equipo'] and visitante == equipo2['equipo']) or
-                        (local == equipo2['equipo'] and visitante == equipo1['equipo'])
-                    ):
+                if not (
+                    (partido.local == equipo1["equipo"] and partido.visitante == equipo2["equipo"]) or
+                    (partido.local == equipo2["equipo"] and partido.visitante == equipo1["equipo"])
+                ):
+                    continue
 
-                        try:
-                            a = int(partido.resultadoA)
-                            b = int(partido.resultadoB)
-                        except:
-                            continue
+                try:
+                    a = int(partido.resultadoA)
+                    b = int(partido.resultadoB)
+                except:
+                    continue
 
-                        if local == equipo1['equipo']:
-                            if a > b:
-                                ganador = equipo1['equipo']
-                            elif b > a:
-                                ganador = equipo2['equipo']
-                        else:
-                            if a > b:
-                                ganador = equipo2['equipo']
-                            elif b > a:
-                                ganador = equipo1['equipo']
+                # equipo1 juega en casa
+                if partido.local == equipo1["equipo"]:
 
-            if ganador == equipo2['equipo']:
-                clasificacion[i], clasificacion[i+1] = clasificacion[i+1], clasificacion[i]
+                    if a > b:
+                        puntos1 += 4
+                    elif b > a:
+                        puntos2 += 4
+                    else:
+                        puntos1 += 2
+                        puntos2 += 2
+
+                # equipo1 juega fuera
+                else:
+
+                    if b > a:
+                        puntos1 += 4
+                    elif a > b:
+                        puntos2 += 4
+                    else:
+                        puntos1 += 2
+                        puntos2 += 2
+
+        if puntos2 > puntos1:
+            clasificacion[i], clasificacion[i+1] = clasificacion[i+1], clasificacion[i]
 
     return clasificacion
-# Ruta para mostrar la clasificación y análisis del Vrac
+# Ruta para mostrar la clasificación y análisis del Salvador
 @salvador_route_bp.route('/equipos_rugby/clasif_salvador')
 def clasif_analisis_salvador():
-    data = obtener_datos_salvador()
-    fase_regular, fase_liguilla = separar_fases(data)
+    temporada = TemporadaSalvador.query.filter_by(activa=True).first()
+    fase_regular = JornadaSalvador.query.filter_by(
+        temporada_id=temporada.id,
+        fase="Regular"
+    ).order_by(JornadaSalvador.id).all()
+
+    grupoA_data = JornadaSalvador.query.filter_by(
+        temporada_id=temporada.id,
+        fase="Grupo A"
+    ).order_by(JornadaSalvador.id).all()
+
+    grupoB_data = JornadaSalvador.query.filter_by(
+        temporada_id=temporada.id,
+        fase="Grupo B"
+    ).order_by(JornadaSalvador.id).all()
 
     # 🔥 1. CLASIFICACIÓN BASE (GENERAL)
     base = generar_clasificacion_analisis_rugby_salvador(fase_regular)
-    clubs = SalvadorClub.query.all()
-
-    for club in clubs:
-        if not any(e['equipo'] == club.nombre for e in base):
-            base.append({
-                'equipo': club.nombre,
-                'datos': {
-                    'puntos': 0,
-                    'jugados': 0,
-                    'ganados': 0,
-                    'empatados': 0,
-                    'perdidos': 0,
-                    'favor': 0,
-                    'contra': 0,
-                    'diferencia_goles': 0,
-                    'bonus': 0
-                }
-            })
     base_dict = {e['equipo']: e['datos'] for e in base}
 
     # 🔥 2. FUNCIÓN ARRASTRE LIGUILLA
@@ -459,13 +476,8 @@ def clasif_analisis_salvador():
                 'diferencia_goles': datos_base['diferencia_goles'] + d['diferencia_goles'],
                 'bonus': datos_base['bonus'] + d['bonus']
             }
-
         return [{'equipo': k, 'datos': v} for k, v in resultado.items()]
-
     # 🔥 3. GRUPOS
-    grupoA_data = [j for j in fase_liguilla if "grupo a" in j['nombre'].lower()]
-    grupoB_data = [j for j in fase_liguilla if "grupo b" in j['nombre'].lower()]
-
     grupoA = sumar_liguilla(grupoA_data)
     grupoB = sumar_liguilla(grupoB_data)
 
@@ -479,6 +491,10 @@ def clasif_analisis_salvador():
         ),
         reverse=True
     )
+    clasificacion_general = aplicar_h2h_en_empates(
+    clasificacion_general,
+    fase_regular
+)
 
     # 🔥 5. ORDEN GRUPOS
     grupoA = sorted(grupoA, key=lambda x: (
@@ -486,12 +502,20 @@ def clasif_analisis_salvador():
         x['datos']['diferencia_goles'],
         x['datos']['favor']
     ), reverse=True)
+    grupoA = aplicar_h2h_en_empates(
+    grupoA,
+    grupoA_data
+)
 
     grupoB = sorted(grupoB, key=lambda x: (
         x['datos']['puntos'],
         x['datos']['diferencia_goles'],
         x['datos']['favor']
     ), reverse=True)
+    grupoB = aplicar_h2h_en_empates(
+    grupoB,
+    grupoB_data
+)
 
     # 🔥 6. INDEXADO
     clasificacion_general_indexed = [
@@ -515,7 +539,7 @@ def clasif_analisis_salvador():
         grupoA2=grupoA_indexed,
         grupoB2=grupoB_indexed
     )
-# TEMPORADAS Panteras
+# TEMPORADAS SALVADOR
 @salvador_route_bp.route('/temporadas_salvador')
 def temporadas_salvador():
     temporadas = TemporadaSalvador.query.order_by(
@@ -532,7 +556,7 @@ def activar_temporada_salvador(id):
     temporada = TemporadaSalvador.query.get_or_404(id)
     temporada.activa = True
     db.session.commit()
-    return redirect(url_for('salvador_route_bp.temporadas_salvador')) 
+    return redirect(url_for('salvador_route_bp.temporadas_salvador'))
 
 
 

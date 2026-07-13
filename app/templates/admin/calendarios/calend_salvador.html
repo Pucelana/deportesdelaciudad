@@ -1,199 +1,392 @@
-{% extends 'admin/calendarios/base_calend.html' %} 
-{% block title %} Calendario - El Salvador {% endblock %} 
-{% block nav %}
-    <ol class="breadcrumb ms-1">
-      <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
-      <li class="breadcrumb-item active text-dark" aria-current="page">El Salvador</li>
-    </ol>
-{% endblock %}
-{% block contenido %}
-    <section class="container-lg">
-      <div class="d-flex justify-content-center mb-4">
-        <button onclick="mostrarFormularioSalvador()" class="btn btn-success text-center fs-3">Crear Resultados</button>
+{% extends 'admin/calendarios/base_calend.html' %} {% block title %} Calendario
+- El Salvador {% endblock %} {% block nav %}
+<ol class="breadcrumb ms-1">
+  <li class="breadcrumb-item">
+    <a href="/admin/pub_marcadores" class="text-white text-decoration-none"
+      >Inicio</a
+    >
+  </li>
+  <li class="breadcrumb-item active text-dark" aria-current="page">El Salvador</li>
+</ol>
+{% endblock %} {% block contenido %}
+<section class="container-lg">
+  <div class="d-flex justify-content-center mb-4">
+    <button
+      onclick="mostrarFormularioSalvador()"
+      class="btn btn-success text-center fs-3"
+    >
+      Crear Resultados
+    </button>
+  </div>
+  <!-- Formulario para los resultados de los partidos -->
+  <div class="container-lg" id="form_partidos_salvador">
+    <form method="POST" action="/admin/crear_calendario_salvador" class="row mb-3">
+      <div class="col-md-12">
+        <label for="temporada">Temporada</label>
+        <input
+          type="text"
+          class="form-control"
+          id="temporada"
+          name="temporada"
+        />
       </div>
-      <!-- Formulario para los resultados de los partidos -->
-      <div class="container-lg" id="form_partidos_salvador">
-        <form method="POST" action="/admin/crear_calendario_salvador" class="row mb-3">
-          <div class="col-md-12">
-            <label for="temporada">Temporada</label>
-            <input type="text" class="form-control" id="temporada" name="temporada">
-          </div>
-          <div class="col-md-12">
-            <label for="nombre">Jornada</label>
-            <input type="text" class="form-control" id="nombre" name="nombre">
-          </div>
-          <div class="col-md-12">
-            <label for="num_partidos">Número de partidos</label>
-            <input type="text" class="form-control" id="num_partidos" name="num_partidos">
-          </div>
-          {% for i in range(5) %}
-          <div class="col-md-5">
-            <label for="fecha{{i}}">Fecha</label>
-            <input type="text" class="form-control" id="fecha{{i}}" name="fecha{{i}}">
-          </div>
-          <div class="col-md-5">
-            <label for="hora{{i}}">Hora</label>
-            <input type="text" class="form-control" id="hora{{i}}" name="hora{{i}}">
-          </div>
-          <div class="col-md-4">
-            <label for="local{{i}}">Equipo Local</label>
-            <input type="text" class="form-control" id="local{{i}}" name="local{{i}}">
-          </div>
-          <div class="col-md-1">
-            <label for="bonusA{{i}}">Bonus</label>
-            <input type="text" class="form-control" id="bonusA{{i}}" name="bonusA{{i}}">
-          </div>
-          <div class="col-md-1">
-            <label for="resultadoA{{i}}"></label>
-            <input type="text" class="form-control" id="resultadoA{{i}}" name="resultadoA{{i}}">
-          </div>
-          <div class="col-md-1">
-            <label for="resultadoB{{i}}"></label>
-            <input type="text" class="form-control" id="resultadoB{{i}}" name="resultadoB{{i}}">
-          </div>
-          <div class="col-md-1">
-            <label for="bonusB{{i}}">Bonus</label>
-            <input type="text" class="form-control" id="bonusB{{i}}" name="bonusB{{i}}">
-          </div>
-          <div class="col-md-4">
-            <label for="visitante{{i}}">Equipo Visitante</label>
-            <input type="text" class="form-control" id="visitante{{i}}" name="visitante{{i}}">
-          </div>
-          {% endfor %}      
-          <div class="col-md-4 mt-2">
-            <button class="btn btn-primary" type="submit">Guardar Jornada</button>
-          </div>
-          <div class="col-md-4 mt-2">
-            <button class="btn btn-danger" type="submit">Cerrar</button>
-          </div>    
-        </form>
+      <div class="col-md-12">
+        <label for="nombre">Jornada</label>
+        <input type="text" class="form-control" id="nombre" name="nombre" />
       </div>
-    </section>
-    <!--Visibilidad de los resultados-->
-      <div class="container-fluid">
-        <div class="row">
-        {% for jornada in jornadas %}
-          <div class="col-lg-6">
-            <div class="card card_admin mb-3">
-              <div class="table-responsive">
-                <table class="table table-bordered tabla_equipos">
-                  <thead>
-                    <tr class="text-center">
-                      <td colspan="5" class="text-center fw-bold">{{ jornada.nombre }}</td>
-                    </tr>
-                  </thead>
-                  <tbody style="display:none">
-                  {% for partido in jornada.partidos %}
-                    <tr class="text-center">
-                      <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
-                      <td class="text-center fw-bold">{{ partido.local }}</td>
-                      <td class="text-center">{{ partido.resultadoA }}</td>
-                      <td class="text-center">{{ partido.resultadoB }}</td>
-                      <td class="text-center fw-bold">{{ partido.visitante }}</td>
-                    </tr>
-                  {% endfor %}
-                  </tbody>
-                </table>
-                <div class="d-flex ms-1 my-1">
-                  <!--<form action="" method="POST">
+      <div class="col-md-12">
+        <label for="fase">Fase</label>
+        <select class="form-select" id="fase" name="fase">
+          <option value="Regular">Temporada Regular</option>
+          <option value="Grupo A">Grupo A</option>
+          <option value="Grupo B">Grupo B</option>
+          <option value="Cuartos">Cuartos</option>
+          <option value="Semifinal">Semifinal</option>
+          <option value="Final">Final</option>
+        </select>
+      </div>
+      <div class="col-md-12">
+        <label for="num_partidos">Número de partidos</label>
+        <input
+          type="text"
+          class="form-control"
+          id="num_partidos"
+          name="num_partidos"
+        />
+      </div>
+      {% for i in range(5) %}
+      <div class="col-md-5">
+        <label for="fecha{{i}}">Fecha</label>
+        <input
+          type="text"
+          class="form-control"
+          id="fecha{{i}}"
+          name="fecha{{i}}"
+        />
+      </div>
+      <div class="col-md-5">
+        <label for="hora{{i}}">Hora</label>
+        <input
+          type="text"
+          class="form-control"
+          id="hora{{i}}"
+          name="hora{{i}}"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="local{{i}}">Equipo Local</label>
+        <input
+          type="text"
+          class="form-control"
+          id="local{{i}}"
+          name="local{{i}}"
+        />
+      </div>
+      <div class="col-md-1">
+        <label for="bonusA{{i}}">Bonus</label>
+        <input
+          type="text"
+          class="form-control"
+          id="bonusA{{i}}"
+          name="bonusA{{i}}"
+        />
+      </div>
+      <div class="col-md-1">
+        <label for="resultadoA{{i}}"></label>
+        <input
+          type="text"
+          class="form-control"
+          id="resultadoA{{i}}"
+          name="resultadoA{{i}}"
+        />
+      </div>
+      <div class="col-md-1">
+        <label for="resultadoB{{i}}"></label>
+        <input
+          type="text"
+          class="form-control"
+          id="resultadoB{{i}}"
+          name="resultadoB{{i}}"
+        />
+      </div>
+      <div class="col-md-1">
+        <label for="bonusB{{i}}">Bonus</label>
+        <input
+          type="text"
+          class="form-control"
+          id="bonusB{{i}}"
+          name="bonusB{{i}}"
+        />
+      </div>
+      <div class="col-md-4">
+        <label for="visitante{{i}}">Equipo Visitante</label>
+        <input
+          type="text"
+          class="form-control"
+          id="visitante{{i}}"
+          name="visitante{{i}}"
+        />
+      </div>
+      {% endfor %}
+      <div class="col-md-4 mt-2">
+        <button class="btn btn-primary" type="submit">Guardar Jornada</button>
+      </div>
+      <div class="col-md-4 mt-2">
+        <button class="btn btn-danger" type="submit">Cerrar</button>
+      </div>
+    </form>
+  </div>
+</section>
+<!--Visibilidad de los resultados-->
+<div class="container-fluid">
+  <div class="row">
+    {% for jornada in jornadas %}
+    <div class="col-lg-6">
+      <div class="card card_admin mb-3">
+        <div class="table-responsive">
+          <table class="table table-bordered tabla_equipos">
+            <thead>
+              <tr class="text-center">
+                <td colspan="5" class="text-center fw-bold">
+                  {{ jornada.nombre }}
+                </td>
+              </tr>
+            </thead>
+            <tbody style="display: none">
+              {% for partido in jornada.partidos %}
+              <tr class="text-center">
+                <td class="text-center fw-bold">
+                  {{ partido.fecha }} {{ partido.hora }}
+                </td>
+                <td class="text-center fw-bold">{{ partido.local }}</td>
+                <td class="text-center">{{ partido.resultadoA }}</td>
+                <td class="text-center">{{ partido.resultadoB }}</td>
+                <td class="text-center fw-bold">{{ partido.visitante }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          <div class="d-flex ms-1 my-1">
+            <!--<form action="" method="POST">
                   <button type="button" class="bg-success text-white border-0 px-2 me-2">Publicar</button>
                   </form>-->
-                  <button type="submit" id="btn-modificar{{ jornada.id }}" class="bg-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal" data-bs-target="#modal{{ jornada.id }}">Modificar</button>
-                  <a href="#" onclick="toggleTabla(this, '{{ jornada.nombre }}') " class="text-decoration-none btn btn-primary text-white">Ver Tabla</a>
-                  <form action="{{ url_for('salvador_route_bp.eliminar_jornada_salvador', id=jornada.id) }}" method="POST">
-                    <button type="submit" class="bg-danger text-white border-0 rounded px-1 py-1 ms-5">Eliminar</button>
-                  </form>
-                  
-                </div>
-              </div> 
-            </div>
-          </div>
-        {% endfor %}
-        </div>
-      </div>
-    <!-- Modal para modificar la jornada -->
-    {% for jornada in jornadas %}
-    <div class="modal fade" id="modal{{ jornada.id }}" tabindex="-1" role="dialog" aria-labelledby="modificarModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content" style="width: 45rem;">
-          <div class="modal-header">
-            <h5 class="modal-title" id="modificarModalLabel">Modificar Jornada</h5>
-          </div>
-          <div class="modal-body">
-          <!-- Contenido del formulario para modificar la jornada -->
-          <form method="POST" action="{{ url_for('salvador_route_bp.modificar_jornada_salvador', id=jornada.id) }}" class="row">
-            <div class="col-md-12 mb-2"> 
-              <label for="nombre">Jornada</label>
-              <input type="text" name="nombre" id="nombre" class="form-control" value="{{ jornada.nombre }}">
-            </div>
-            <div class="col-md-12">
-              <label for="num_partidos">Número de partidos</label>
-              <input type="text" class="form-control" id="num_partidos" name="num_partidos" value="{{ jornada.num_partidos }}">
-            </div>
-            {% for partido in jornada.partidos %}
-            <div class="col-md-5 mb-2">
-              <input type="hidden" name="partido_id{{ loop.index0 }}" value="{{ partido.id }}">
-              <label for="fecha{{ loop.index0 }}">Fecha</label>
-              <input name="fecha{{ loop.index0 }}" id="fecha{{ loop.index0 }}" class="form-control" value="{{ partido.fecha }}">
-            </div>
-            <div class="col-md-5 mb-2">
-              <label for="hora{{ loop.index0 }}">Hora</label>
-              <input type="time" name="hora{{ loop.index0 }}" id="hora{{ loop.index0 }}" class="form-control" value="{{ partido.hora }}">
-            </div>
-            <div class="col-md-3 mb-2">
-              <label for="local{{ loop.index0 }}">Equipo A</label>
-              <input name="local{{ loop.index0 }}" id="local{{ loop.index0 }}" class="form-control" value="{{ partido.local }}">
-            </div>
-            <div class="col-md-1 mb-2">
-              <label for="bonusA{{ loop.index0 }}">Bonus</label>
-              <input type="text" name="bonusA{{ loop.index0 }}" id="bonusA{{ loop.index0 }}" class="form-control" value="{{ partido.bonusA }}">
-            </div>
-            <div class="col-md-2 mb-2">
-              <label for="resultadoA{{ loop.index0 }}"></label>
-              <input type="text" name="resultadoA{{ loop.index0 }}" id="resultadoA{{ loop.index0 }}" class="form-control" value="{{ partido.resultadoA }}">
-            </div>
-            <div class="col-md-2 mb-2"> 
-              <label for="resultadoB{{ loop.index0 }}"></label>
-              <input type="text" name="resultadoB{{ loop.index0 }}" id="resultadoB{{ loop.index0 }}" class="form-control" value="{{ partido.resultadoB }}">
-            </div>
-            <div class="col-md-1 mb-2">
-              <label for="bonusB{{ loop.index0 }}">Bonus</label>
-              <input type="text" name="bonusB{{ loop.index0 }}" id="bonusB{{ loop.index0 }}" class="form-control" value="{{ partido.bonusB }}">
-            </div>
-            <div class="col-md-3 mb-2">
-              <label for="visitante{{ loop.index0 }}">Equipo B</label>
-              <input type="text" name="visitante{{ loop.index0 }}" id="visitante{{ loop.index0 }}" class="form-control" value="{{ partido.visitante }}">
-            </div>
-            {% endfor %}
-            <div class="row">
-              <div class="col-md-4">
-                <button type="submit" class="btn btn-success mt-3">Actualizar</button>
-              </div>
-              <div class="col-md-4">
-                <button type="submit" class="btn btn-danger mt-3">Cerrar</button>
-              </div>
-            </div>
-          </form>
+            <button
+              type="submit"
+              id="btn-modificar{{ jornada.id }}"
+              class="bg-info text-white border-0 rounded px-2 me-2"
+              data-bs-toggle="modal"
+              data-bs-target="#modal{{ jornada.id }}"
+            >
+              Modificar
+            </button>
+            <a
+              href="#"
+              onclick="toggleTabla(this, '{{ jornada.nombre }}') "
+              class="text-decoration-none btn btn-primary text-white"
+              >Ver Tabla</a
+            >
+            <form
+              action="{{ url_for('salvador_route_bp.eliminar_jornada_salvador', id=jornada.id) }}"
+              method="POST"
+            >
+              <button
+                type="submit"
+                class="bg-danger text-white border-0 rounded px-1 py-1 ms-5"
+              >
+                Eliminar
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
-{% endblock %}    
-{% block scripts %}
-    <script>
-        function toggleTabla(element, nombreTabla) {
-          event.preventDefault();
-        // Encuentra el contenedor padre de la tabla
-        var container = element.closest('.card');
-          if (container) {
-          // Encuentra el tbody dentro de la tabla específica
-          var tbody = container.querySelector('.tabla_equipos tbody');
-            if (tbody) {
-            // Muestra u oculta el tbody
-            tbody.style.display = (tbody.style.display === 'none' || tbody.style.display === '') ? 'table-row-group' : 'none';
-            }
-          }
-        }
-    </script>
+  </div>
+</div>
+<!-- Modal para modificar la jornada -->
+{% for jornada in jornadas %}
+<div
+  class="modal fade"
+  id="modal{{ jornada.id }}"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="modificarModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="width: 45rem">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modificarModalLabel">Modificar Jornada</h5>
+      </div>
+      <div class="modal-body">
+        <!-- Contenido del formulario para modificar la jornada -->
+        <form
+          method="POST"
+          action="{{ url_for('salvador_route_bp.modificar_jornada_salvador', id=jornada.id) }}"
+          class="row">
+          <select class="form-select" name="fase">
+            <option value="Regular"
+              {% if jornada.fase=="Regular" %}selected{% endif %}>
+              Temporada Regular
+            </option>
+            <option value="Grupo A"
+              {% if jornada.fase=="Grupo A" %}selected{% endif %}>
+              Grupo A
+            </option>
+            <option value="Grupo B"
+              {% if jornada.fase=="Grupo B" %}selected{% endif %}>
+              Grupo B
+            </option>
+            <option value="Semifinal"
+              {% if jornada.fase=="Cuartos" %}selected{% endif %}>
+              Cuartos
+            </option>
+            <option value="Semifinal"
+              {% if jornada.fase=="Semifinal" %}selected{% endif %}>
+              Semifinal
+            </option>
+            <option value="Final"
+              {% if jornada.fase=="Final" %}selected{% endif %}>
+              Final
+            </option>
+          </select>
+          <div class="col-md-12 mb-2">
+            <label for="nombre">Jornada</label>
+            <input
+              type="text"
+              name="nombre"
+              id="nombre"
+              class="form-control"
+              value="{{ jornada.nombre }}"
+            />
+          </div>
+          <div class="col-md-12">
+            <label for="num_partidos">Número de partidos</label>
+            <input
+              type="text"
+              class="form-control"
+              id="num_partidos"
+              name="num_partidos"
+              value="{{ jornada.num_partidos }}"
+            />
+          </div>
+          {% for partido in jornada.partidos %}
+          <div class="col-md-5 mb-2">
+            <input
+              type="hidden"
+              name="partido_id{{ loop.index0 }}"
+              value="{{ partido.id }}"
+            />
+            <label for="fecha{{ loop.index0 }}">Fecha</label>
+            <input
+              name="fecha{{ loop.index0 }}"
+              id="fecha{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.fecha }}"
+            />
+          </div>
+          <div class="col-md-5 mb-2">
+            <label for="hora{{ loop.index0 }}">Hora</label>
+            <input
+              type="time"
+              name="hora{{ loop.index0 }}"
+              id="hora{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.hora }}"
+            />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="local{{ loop.index0 }}">Equipo A</label>
+            <input
+              name="local{{ loop.index0 }}"
+              id="local{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.local }}"
+            />
+          </div>
+          <div class="col-md-1 mb-2">
+            <label for="bonusA{{ loop.index0 }}">Bonus</label>
+            <input
+              type="text"
+              name="bonusA{{ loop.index0 }}"
+              id="bonusA{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.bonusA }}"
+            />
+          </div>
+          <div class="col-md-2 mb-2">
+            <label for="resultadoA{{ loop.index0 }}"></label>
+            <input
+              type="text"
+              name="resultadoA{{ loop.index0 }}"
+              id="resultadoA{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.resultadoA }}"
+            />
+          </div>
+          <div class="col-md-2 mb-2">
+            <label for="resultadoB{{ loop.index0 }}"></label>
+            <input
+              type="text"
+              name="resultadoB{{ loop.index0 }}"
+              id="resultadoB{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.resultadoB }}"
+            />
+          </div>
+          <div class="col-md-1 mb-2">
+            <label for="bonusB{{ loop.index0 }}">Bonus</label>
+            <input
+              type="text"
+              name="bonusB{{ loop.index0 }}"
+              id="bonusB{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.bonusB }}"
+            />
+          </div>
+          <div class="col-md-3 mb-2">
+            <label for="visitante{{ loop.index0 }}">Equipo B</label>
+            <input
+              type="text"
+              name="visitante{{ loop.index0 }}"
+              id="visitante{{ loop.index0 }}"
+              class="form-control"
+              value="{{ partido.visitante }}"
+            />
+          </div>
+          {% endfor %}
+          <div class="row">
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-success mt-3">
+                Actualizar
+              </button>
+            </div>
+            <div class="col-md-4">
+              <button type="submit" class="btn btn-danger mt-3">Cerrar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %} {% endblock %} {% block scripts %}
+<script>
+  function toggleTabla(element, nombreTabla) {
+    event.preventDefault();
+    // Encuentra el contenedor padre de la tabla
+    var container = element.closest(".card");
+    if (container) {
+      // Encuentra el tbody dentro de la tabla específica
+      var tbody = container.querySelector(".tabla_equipos tbody");
+      if (tbody) {
+        // Muestra u oculta el tbody
+        tbody.style.display =
+          tbody.style.display === "none" || tbody.style.display === ""
+            ? "table-row-group"
+            : "none";
+      }
+    }
+  }
+</script>
 {% endblock %}

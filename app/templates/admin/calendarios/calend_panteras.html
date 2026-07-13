@@ -79,7 +79,7 @@
                 <table class="table table-bordered tabla_equipos">
                   <thead>
                     <tr class="text-center">
-                      <td colspan="5" class="text-center fw-bold">{{ jornada.nombre }}</td>
+                      <td colspan="7" class="text-center fw-bold">{{ jornada.nombre }}</td>
                     </tr>
                   </thead>
                   <tbody style="display:none">
@@ -87,8 +87,10 @@
                     <tr class="text-center">
                       <td class="text-center fw-bold">{{ partido.fecha }} {{ partido.hora }}</td>
                       <td class="text-center fw-bold">{{ partido.local }}</td>
+                      <td class="text-center">{{ partido.bonusA }}</td>
                       <td class="text-center">{{ partido.resultadoA }}</td>
                       <td class="text-center">{{ partido.resultadoB }}</td>
+                      <td class="text-center">{{ partido.bonusB }}</td>
                       <td class="text-center fw-bold">{{ partido.visitante }}</td>
                     </tr>
                   {% endfor %}
@@ -179,8 +181,8 @@
       </div>
     </div>
     {% endfor %}
-{% endblock %}
-{% block scripts %}    
+{% endblock %}    
+{% block scripts %}
     <script>
         function toggleTabla(element, nombreTabla) {
           event.preventDefault();

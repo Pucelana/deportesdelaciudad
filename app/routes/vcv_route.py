@@ -11,7 +11,7 @@ vcv_route_bp = Blueprint("vcv_route_bp", __name__)
 
 # EQUIPOS VOLEIBOL
 # Ingresar los resultados de los partidos de Univ. Valladolid VCV
-@vcv_route_bp.route("/crear_calendario_vcv", methods=["POST"])
+@vcv_route_bp.route('/crear_calendario_vcv', methods=['GET', 'POST'])
 def ingresar_resultado_vcv():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -29,25 +29,39 @@ def ingresar_resultado_vcv():
             temporada_id=temporada.id
         )
         db.session.add(jornada)
-        db.session.flush()
+        db.session.flush()  # Esto nos da el ID antes del commit        
+        # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
+
+            local = request.form.get(f'local{i}')
+            visitante = request.form.get(f'visitante{i}')
+
+            resultadoA = request.form.get(f'resultadoA{i}')
+            resultadoB = request.form.get(f'resultadoB{i}')
+            # 🔥 CLAVE: ignorar partidos vacíos
+            if not local or not visitante:
+                continue
+
             partido = VCVPartido(
-            fecha = request.form[f"fecha{i}"],
-            hora = request.form[f"hora{i}"],
-            local = request.form[f"local{i}"],
-            resultadoA = request.form[f"resultadoA{i}"],
-            puntosA = request.form[f"puntosA{i}"],
-            puntosB = request.form[f"puntosB{i}"],
-            resultadoB = request.form[f"resultadoB{i}"],
-            visitante = request.form[f"visitante{i}"],
-            orden =i
+                jornada_id=jornada.id,
+                fecha=request.form.get(f'fecha{i}'),
+                hora=request.form.get(f'hora{i}'),
+                local=local,
+                visitante=visitante,
+                resultadoA=resultadoA or "",
+                resultadoB=resultadoB or "",
+                puntosA=request.form.get(f'puntosA{i}') or 0,
+                puntosB=request.form.get(f'puntosB{i}') or 0,
+                orden=i
             )
+
             db.session.add(partido)
+            # Confirmar todos los cambios en la base de datos
         db.session.commit()
+        print("JORNADA:", jornada.nombre)
+        print("PARTIDOS GUARDADOS:", len(jornada.partidos))
         # Redirigir al calendario después de crear la jornada
-        return redirect(url_for("vcv_route_bp.calendarios_vcv"))
-    # Si es un GET, renderizamos el formulario de creación
-    return render_template("admin/calendarios/calend_vcv.html")
+        return redirect(url_for('vcv_route_bp.calendarios_vcv'))
 # Partidos Univ. Valladolid VCV
 @vcv_route_bp.route("/calendario_vcv")
 def calendarios_vcv():

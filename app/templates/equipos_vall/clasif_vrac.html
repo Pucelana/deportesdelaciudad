@@ -59,7 +59,7 @@
                             <td
                               class="equipo-mobile text-center {% if equipo.index <= 6 %}pos-ascen{% elif equipo.index <= 11 %}pos-desc{% endif %}">
                               {{ equipo.index }}</td>
-                            <td class="equipo-mobile text-start size_equipos {% if 'VRAC' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo['equipo'] }}</td>
+                            <td class="equipo-mobile text-start size_equipos {% if 'VRAC' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos equipo-mobile text-center">{{ equipo['datos']['puntos'] }}</td>
                             <td class="jugados equipo-mobile text-center">{{ equipo['datos']['jugados'] }}</td>
                             <td class="ganados equipo-mobile text-center d-none d-md-table-cell">{{ equipo['datos']['ganados'] }}</td>

@@ -5,7 +5,8 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.historial import obtener_evolucion_puntos
-from ..models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol, PlayoffParquesol, TemporadaParquesol, PalmaresParquesol, HistorialParquesol
+from ..models.historial import Historial, Palmaress
+from ..models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol, PlayoffParquesol, TemporadaParquesol
 
 parquesol_route_bp = Blueprint('parquesol_route_bp', __name__)
 
@@ -489,8 +490,10 @@ def activar_temporada_parquesol(id):
 @parquesol_route_bp.route("/admin/crear_historial_parquesol", methods=["GET", "POST"])
 def crear_historial_parquesol():
     if request.method == "POST":
-        historial = HistorialParquesol(
-            temporada_id=request.form.get("temporada_id"),
+        historial = Historial(
+            deporte="futbol",
+            equipo="CD Parquesol",
+            temporada=request.form.get("temporada"),
             liga=request.form.get("liga"),
             puntos=request.form.get("puntos"),
             puesto=request.form.get("puesto"),
@@ -503,47 +506,34 @@ def crear_historial_parquesol():
         db.session.add(historial)
         db.session.commit()
         return redirect(url_for("parquesol_route_bp.crear_historial_parquesol"))
-    historial = (
-        HistorialParquesol.query.join(TemporadaParquesol)
-        .order_by(TemporadaParquesol.nombre.desc())
-        .all()
-    )
+    historial = (Historial.query.filter_by(
+        deporte="futbol",
+        equipo="CD Parquesol"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
     temporadas = TemporadaParquesol.query.order_by(
         TemporadaParquesol.nombre.desc()
     ).all()
     return render_template(
-        "admin/historial/historial_parquesol.html",
+        "admin/historial/historial.html",
         historial=historial,
         temporadas=temporadas,
+        deporte="futbol",
+        equipo="CD Parquesol",
+        crear_url="parquesol_route_bp.crear_historial_parquesol",
+        modificar_url="parquesol_route_bp.modificar_historial_parquesol",
+        eliminar_url="parquesol_route_bp.eliminar_historial_parquesol"
     )
-# Ver Historial de temporadas del CD Parquesol
-@parquesol_route_bp.route("/historial_parquesol")
-def historial_parquesol_admin():
-    historial = (
-        HistorialParquesol.query.join(TemporadaParquesol)
-        .order_by(TemporadaParquesol.nombre.desc())
-        .all()
-    )
-    temporadas = TemporadaParquesol.query.order_by(
-        TemporadaParquesol.nombre.desc()
-    ).all()
-    return render_template(
-        "admin/historial/historial_parquesol.html",
-        historial=historial,
-        temporadas=temporadas,
-    )
-# Eliminar historial de temporadas del CD Parquesol
 @parquesol_route_bp.route("/admin/eliminar_historial_parquesol/<int:id>", methods=["POST"])
 def eliminar_historial_parquesol(id):
-    historial = HistorialParquesol.query.get_or_404(id)
+    historial = Historial.query.get_or_404(id)
     db.session.delete(historial)
     db.session.commit()
     return redirect(url_for("parquesol_route_bp.crear_historial_parquesol"))
-# Modificar historial de temporadas del CD Parquesol
 @parquesol_route_bp.route("/admin/modificar_historial_parquesol/<int:id>", methods=["POST"])
 def modificar_historial_parquesol(id):
-    historial = HistorialParquesol.query.get_or_404(id)
-    historial.temporada_id = request.form.get("temporada_id")
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
     historial.liga = request.form.get("liga")
     historial.puntos = request.form.get("puntos")
     historial.puesto = request.form.get("puesto")
@@ -553,15 +543,16 @@ def modificar_historial_parquesol(id):
     historial.titulos = request.form.get("titulos")
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
-    return redirect(url_for("parquesol_route_bp.crear_historial_parquesol"))
+    return redirect(url_for("simancas_route_bp.crear_historial_simancas"))
 # Ver Historial de temporadas del CD Parquesol en la página principal
 @parquesol_route_bp.route("/parquesol/historial")
 def historial_parquesol():
-    historial = HistorialParquesol.query.order_by(
-        HistorialParquesol.temporada_id.desc()
-    ).all()
+    historial = (Historial.query.filter_by(
+        deporte="futbol",
+        equipo="CD Parquesol"
+    ).order_by(Historial.temporada.desc()).all())
     # GRÁFICO TEMPORADAS
-    labels_temporadas = [h.temporada.nombre for h in historial]
+    labels_temporadas = [h.temporada for h in historial]
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaParquesol.query.order_by(TemporadaParquesol.id).all()
@@ -576,15 +567,24 @@ def historial_parquesol():
         "#FF6A00",
         "#20B2AA",
     ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="futbol",
+            equipo="CD Parquesol"
+        ).order_by(Palmaress.temporada.desc()).all())
+
     labels_jornadas = []
+
     for i, temporada in enumerate(temporadas):
+
         jornadas = (
             JornadaParquesol.query.filter_by(temporada_id=temporada.id)
             .order_by(JornadaParquesol.id)
             .all()
         )
+
         if not jornadas:
             continue
+
         labels, puntos = obtener_evolucion_puntos(
             jornadas, "CD Parquesol", generar_clasificacion_analisis_futbol_parquesol,"puntos"
         )
@@ -602,11 +602,6 @@ def historial_parquesol():
                 "tension": 0.3,
             }
         )
-        titulos = (
-            PalmaresParquesol.query.join(TemporadaParquesol)
-            .order_by(TemporadaParquesol.nombre.desc())
-            .all()
-        )
     return render_template(
         "historia/historia_parquesol.html",
         historial=historial,
@@ -615,46 +610,58 @@ def historial_parquesol():
         labels_jornadas=labels_jornadas,
         datasets_jornadas=datasets_jornadas,
         titulos=titulos,
+        deporte="Fútbol",
+        equipo="CD Parquesol"
   )
 
 # PALMARES CD PARQUESOL
 # Crear Palmares del CD Parquesol
-@parquesol_route_bp.route("/admin/crear_palmares_parquesol", methods=["POST"])
+@parquesol_route_bp.route("/admin/crear_palmares_parquesol", methods=["GET", "POST"])
 def crear_palmares_parquesol():
-    titulo = PalmaresParquesol(
-        temporada_id=request.form.get("temporada_id"),
-        competicion=request.form.get("competicion"),
-        imagen=request.form.get("imagen"),
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="futbol",
+            equipo="CD Parquesol",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("parquesol_route_bp.crear_palmares_parquesol"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="futbol",
+            equipo="CD Parquesol"
+        )
+        .order_by(Palmaress.temporada.desc())
+        .all()
     )
-    db.session.add(titulo)
-    db.session.commit()
-    return redirect(url_for("parquesol_route_bp.ver_palmares_parquesol"))
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Fútbol",
+        equipo="CD Parquesol",
+        crear_url="parquesol_route_bp.crear_palmares_parquesol",
+        modificar_url="parquesol_route_bp.modificar_palmares_parquesol",
+        eliminar_url="parquesol_route_bp.eliminar_palmares_parquesol",
+    )
 # Modificar Palmares del CD Parquesol
 @parquesol_route_bp.route("/admin/modificar_palmares_parquesol/<int:id>", methods=["POST"])
 def modificar_palmares_parquesol(id):
-    titulo = PalmaresParquesol.query.get_or_404(id)
-    titulo.temporada_id = request.form.get("temporada_id")
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
     titulo.competicion = request.form.get("competicion")
     titulo.imagen = request.form.get("imagen")
     db.session.commit()
-    return redirect(url_for("parquesol_route_bp.ver_palmares_parquesol"))
+    return redirect(url_for("parquesol_route_bp.crear_palmares_parquesol"))
 # Eliminar Palmares del CD Parquesol
 @parquesol_route_bp.route("/admin/eliminar_palmares_parquesol/<int:id>", methods=["POST"])
 def eliminar_palmares_parquesol(id):
-    titulo = PalmaresParquesol.query.get_or_404(id)
+    titulo = Palmaress.query.get_or_404(id)
     db.session.delete(titulo)
     db.session.commit()
-    return redirect(url_for("parquesol_route_bp.ver_palmares_parquesol"))
-# Ver Palmares del CD Parquesol en Admin
-@parquesol_route_bp.route("/palmares_parquesol")
-def ver_palmares_parquesol():
-    temporadas = TemporadaParquesol.query.order_by(TemporadaParquesol.id.desc()).all()
-    palmares = PalmaresParquesol.query.order_by(PalmaresParquesol.temporada_id.desc()).all()
-    return render_template(
-        "admin/historial/palma_parquesol.html",
-        temporadas=temporadas,
-        palmares=palmares,
-    )
+    return redirect(url_for("parquesol_route_bp.crear_palmares_parquesol"))
 
 # COPA DEL REY Parquesol
 # Creación de las eliminatorias de copa

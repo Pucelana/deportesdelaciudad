@@ -1,39 +1,5 @@
 from app.extensions import db
 
-class HistorialParquesol(db.Model):
-    __tablename__ = "historial_parquesol"
-    id = db.Column(db.Integer, primary_key=True)
-    temporada_id = db.Column(
-        db.Integer,
-        db.ForeignKey("temporadas_parquesol.id"),
-        nullable=False
-    )
-    liga = db.Column(db.String(80), nullable=False)
-    puntos = db.Column(db.Integer)
-    puesto = db.Column(db.Integer)
-    playoff = db.Column(db.String(80))
-    copa = db.Column(db.String(80))
-    titulos = db.Column(db.String(150))
-    siguiente_temporada = db.Column(db.String(80))
-    observaciones = db.Column(db.String(200))
-    temporada = db.relationship("TemporadaParquesol")
-    
-class PalmaresParquesol(db.Model):
-    __tablename__ = "palmares_parquesol"
-    id = db.Column(db.Integer, primary_key=True)
-    temporada_id = db.Column(
-        db.Integer,
-        db.ForeignKey("temporadas_parquesol.id"),
-        nullable=False
-    )
-    competicion = db.Column(db.String(100), nullable=False)
-    imagen = db.Column(db.String(100), nullable=False)
-    temporada = db.relationship(
-        "TemporadaParquesol",
-        backref="palmares_parquesol"
-    ) 
-
-
 class TemporadaParquesol(db.Model):
     __tablename__ = "temporadas_parquesol"
     id = db.Column(db.Integer, primary_key=True)

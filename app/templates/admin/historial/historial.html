@@ -1,6 +1,6 @@
 {% extends 'admin/historial/base_historial.html' %}
 {% block title %}
-Historial - CD Parquesol
+Historial - {{ equipo }}
 {% endblock %}
 {% block nav %}
 <ol class="breadcrumb ms-1">
@@ -10,7 +10,7 @@ Historial - CD Parquesol
         </a>
     </li>
     <li class="breadcrumb-item active text-dark">
-        Historial CD Parquesol
+        Historial {{ equipo }}
     </li>
 </ol>
 {% endblock %}
@@ -25,17 +25,13 @@ Historial - CD Parquesol
     <!-- FORMULARIO -->
     <div id="form_historial" style="display:none;">
         <form method="POST"
-              action="{{ url_for('parquesol_route_bp.crear_historial_parquesol') }}"
+              action="{{ url_for(crear_url) }}"
               class="row g-3">
             <div class="col-md-6">
                 <label class="form-label">Temporada</label>
-                <select name="temporada_id" class="form-select">
-                    {% for temporada in temporadas %}
-                    <option value="{{ temporada.id }}">
-                        {{ temporada.nombre }}
-                    </option>
-                    {% endfor %}
-                </select>
+                <input type="text" class="form-control" name="temporada" placeholder="24/25">
+                <input type="hidden" name="deporte" value="{{ deporte }}">
+                <input type="hidden" name="equipo" value="{{ equipo }}">
             </div>
             <div class="col-md-6">
                 <label class="form-label">Liga</label>
@@ -76,6 +72,7 @@ Historial - CD Parquesol
                     <option>No disputada</option>
                     <option>Primera ronda</option>
                     <option>Segunda ronda</option>
+                    <option>Dieciseisavos</option>
                     <option>Octavos</option>
                     <option>Cuartos</option>
                     <option>Semifinal</option>
@@ -122,13 +119,14 @@ Historial - CD Parquesol
         <div class="col-lg-6">
             <div class="card card_admin mb-3">
                 <div class="card-header fw-bold text-center">
-                    {{ temporada.temporada.nombre }}
+                    {{ temporada.temporada }}
                 </div>
                 <div class="card-body">
                     <p><strong>Liga:</strong> {{ temporada.liga }}</p>
                     <p><strong>Puntos:</strong> {{ temporada.puntos }}</p>
                     <p><strong>Puesto:</strong> {{ temporada.puesto }}</p>
                     <p><strong>Playoff:</strong> {{ temporada.playoff }}</p>
+                    <p><strong>Copa:</strong> {{ temporada.copa }}</p>
                     <p><strong>Títulos:</strong> {{ temporada.titulos }}</p>
                     <p><strong>Siguiente Temporada:</strong> {{ temporada.siguiente_temporada }}</p>
                     {% if temporada.observaciones %}
@@ -141,7 +139,7 @@ Historial - CD Parquesol
                         <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modal{{ temporada.id }}">
                             Modificar
                         </button>
-                        <form method="POST" action="{{ url_for('parquesol_route_bp.eliminar_historial_parquesol', id=temporada.id) }}">
+                        <form method="POST" action="{{ url_for(eliminar_url, id=temporada.id) }}">
                             <button class="btn btn-danger">Eliminar</button>
                         </form>
                     </div>
@@ -164,7 +162,7 @@ Historial - CD Parquesol
 
             <div class="modal-header">
                 <h5 class="modal-title">
-                    Modificar {{ temporada.temporada.nombre }}
+                    Modificar {{ temporada.temporada }}
                 </h5>
 
                 <button type="button"
@@ -172,19 +170,14 @@ Historial - CD Parquesol
                         data-bs-dismiss="modal">
                 </button>
             </div>
-            <form method="POST" action="{{ url_for('parquesol_route_bp.modificar_historial_parquesol', id=temporada.id) }}">
+            <form method="POST" action="{{ url_for(modificar_url, id=temporada.id) }}">
                 <div class="modal-body">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label class="form-label">Temporada</label>
-                            <select name="temporada_id" class="form-select">
-                                {% for t in temporadas %}
-                                <option value="{{ t.id }}"
-                                    {% if t.id == temporada.temporada_id %}selected{% endif %}>
-                                    {{ t.nombre }}
-                                </option>
-                                {% endfor %}
-                            </select>
+                            <input class="form-control mb-3" type="text" name="temporada" value="{{ titulo }}">
+                            <input type="hidden" name="deporte" value="{{ deporte }}">
+                            <input type="hidden" name="equipo" value="{{ equipo }}">
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Liga</label>
@@ -224,6 +217,7 @@ Historial - CD Parquesol
                             </select>
 
                         </div>
+
                         <div class="col-md-3">
 
                             <label class="form-label">Copa</label>
@@ -245,6 +239,7 @@ Historial - CD Parquesol
                             </select>
 
                         </div>
+
                         <div class="col-md-12">
 
                             <label class="form-label">Títulos</label>

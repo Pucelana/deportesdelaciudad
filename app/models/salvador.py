@@ -14,6 +14,7 @@ class TemporadaSalvador(db.Model):
 class JornadaSalvador(db.Model):
     __tablename__ = "jornadas_salvador"
     id = db.Column(db.Integer, primary_key=True)
+    fase = db.Column(db.String(30))
     temporada_id = db.Column(
         db.Integer,
         db.ForeignKey("temporadas_salvador.id", ondelete="CASCADE"),

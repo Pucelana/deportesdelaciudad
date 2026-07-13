@@ -1,6 +1,6 @@
 {% extends 'admin/historial/base_historial.html' %}
 {% block title %}
-Palmares - RV Femenino
+Palmares - {{ equipo }}
 {% endblock %}
 {% block nav %}
 <ol class="breadcrumb ms-1">
@@ -10,7 +10,7 @@ Palmares - RV Femenino
         </a>
     </li>
     <li class="breadcrumb-item active text-dark">
-        Palmares RV Femenino
+        Palmares {{ equipo }}
     </li>
 </ol>
 {% endblock %}
@@ -26,21 +26,14 @@ Palmares - RV Femenino
     <div id="form_palmares" style="display:none;">
         <form
             method="POST"
-            action="{{ url_for('simancas_route_bp.crear_palmares_simancas') }}"
+            action="{{ url_for(crear_url) }}"
             class="row g-3">
             <div class="col-md-4">
-                <label class="form-label">
-                    Temporada
-                </label>
-                <select
-                    class="form-select"
-                    name="temporada_id">
-                    {% for temporada in temporadas %}
-                    <option value="{{ temporada.id }}">
-                        {{ temporada.nombre }}
-                    </option>
-                    {% endfor %}
-                </select>
+                <label class="form-label">Temporada</label>
+                <input type="text" class="form-control" name="temporada" placeholder="24/25">
+                <input type="hidden" name="deporte" value="{{ deporte }}">
+                <input type="hidden" name="equipo" value="{{ equipo }}">
+                
             </div>
             <div class="col-md-4">
                 <label class="form-label">
@@ -125,7 +118,7 @@ Palmares - RV Femenino
 
                     <h5 class="mt-3">
 
-                        {{ titulo.temporada.nombre }}
+                        {{ titulo.temporada }}
 
                     </h5>
 
@@ -139,17 +132,10 @@ Palmares - RV Femenino
                             Modificar
 
                         </button>
-
-                        <form
-                            method="POST"
-                            action="{{ url_for('simancas_route_bp.eliminar_palmares_simancas', id=titulo.id) }}">
-
+                        <form method="POST" action="{{ url_for(eliminar_url, id=titulo.id) }}">
                             <button class="btn btn-danger">
-
                                 Eliminar
-
                             </button>
-
                         </form>
 
                     </div>
@@ -179,7 +165,7 @@ Palmares - RV Femenino
 
             <form
                 method="POST"
-                action="{{ url_for('simancas_route_bp.modificar_palmares_simancas', id=titulo.id) }}">
+                action="{{ url_for(modificar_url, id=titulo.id) }}">
 
                 <div class="modal-header">
 
@@ -202,8 +188,8 @@ Palmares - RV Femenino
                         {% for temporada in temporadas %}
 
                         <option
-                            value="{{ temporada.id }}"
-                            {% if temporada.id == titulo.temporada_id %}selected{% endif %}>
+                            value="{{ temporada }}"
+                            {% if temporada == titulo.temporada %}selected{% endif %}>
 
                             {{ temporada.nombre }}
 
@@ -248,10 +234,14 @@ Palmares - RV Femenino
 {% block scripts %}
 <script>
 function mostrarFormularioPalmares(){
+
     document.getElementById("form_palmares").style.display="block";
+
 }
 function ocultarFormularioPalmares(){
+
     document.getElementById("form_palmares").style.display="none";
+
 }
 </script>
 {% endblock %}

@@ -5,15 +5,14 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.valladolid import (
     JornadaValladolid,
     ValladolidPartido,
     ValladolidClub,
     CopaValladolid,
     PlayoffValladolid,
-    TemporadaValladolid,
-    HistorialValladolid,
-    Palmares,
+    TemporadaValladolid
 )
 
 valladolid_route_bp = Blueprint("valladolid_route_bp", __name__)
@@ -576,8 +575,10 @@ def activar_temporada_valladolid(id):
 @valladolid_route_bp.route("/admin/crear_historial_valladolid", methods=["GET", "POST"])
 def crear_historial_valladolid():
     if request.method == "POST":
-        historial = HistorialValladolid(
-            temporada_id=request.form.get("temporada_id"),
+        historial = Historial(
+            deporte="futbol",
+            equipo="R.Valladolid",
+            temporada=request.form.get("temporada"),
             liga=request.form.get("liga"),
             puntos=request.form.get("puntos"),
             puesto=request.form.get("puesto"),
@@ -590,52 +591,36 @@ def crear_historial_valladolid():
         db.session.add(historial)
         db.session.commit()
         return redirect(url_for("valladolid_route_bp.crear_historial_valladolid"))
-    historial = (
-        HistorialValladolid.query.join(TemporadaValladolid)
-        .order_by(TemporadaValladolid.nombre.desc())
-        .all()
-    )
+    historial = (Historial.query.filter_by(
+        deporte="futbol",
+        equipo="R.Valladolid"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
     temporadas = TemporadaValladolid.query.order_by(
         TemporadaValladolid.nombre.desc()
     ).all()
     return render_template(
-        "admin/historial/historial_valladolid.html",
+        "admin/historial/historial.html",
         historial=historial,
         temporadas=temporadas,
-    )
-# Ver Historial de temporadas del Real Valladolid
-@valladolid_route_bp.route("/historial_valladolid")
-def historial_valladolid_admin():
-    historial = (
-        HistorialValladolid.query.join(TemporadaValladolid)
-        .order_by(TemporadaValladolid.nombre.desc())
-        .all()
-    )
-    temporadas = TemporadaValladolid.query.order_by(
-        TemporadaValladolid.nombre.desc()
-    ).all()
-    return render_template(
-        "admin/historial/historial_valladolid.html",
-        historial=historial,
-        temporadas=temporadas,
+        deporte="futbol",
+        equipo="R.Valladolid",
+        crear_url="valladolid_route_bp.crear_historial_valladolid",
+        modificar_url="valladolid_route_bp.modificar_historial_valladolid",
+        eliminar_url="valladolid_route_bp.eliminar_historial_valladolid"
     )
 # Eliminar historial de temporadas del Real Valladolid
-@valladolid_route_bp.route(
-    "/admin/eliminar_historial_valladolid/<int:id>", methods=["POST"]
-)
+@valladolid_route_bp.route("/admin/eliminar_historial_valladolid/<int:id>", methods=["POST"])
 def eliminar_historial_valladolid(id):
-    historial = HistorialValladolid.query.get_or_404(id)
+    historial = Historial.query.get_or_404(id)
     db.session.delete(historial)
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.crear_historial_valladolid"))
-
 # Modificar historial de temporadas del Real Valladolid
-@valladolid_route_bp.route(
-    "/admin/modificar_historial_valladolid/<int:id>", methods=["POST"]
-)
+@valladolid_route_bp.route("/admin/modificar_historial_valladolid/<int:id>", methods=["POST"])
 def modificar_historial_valladolid(id):
-    historial = HistorialValladolid.query.get_or_404(id)
-    historial.temporada_id = request.form.get("temporada_id")
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
     historial.liga = request.form.get("liga")
     historial.puntos = request.form.get("puntos")
     historial.puesto = request.form.get("puesto")
@@ -646,31 +631,19 @@ def modificar_historial_valladolid(id):
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.crear_historial_valladolid"))
-
 # Ver Historial de temporadas del Real Valladolid en la página principal
 @valladolid_route_bp.route("/valladolid/historial")
 def historial_valladolid():
-
-    historial = HistorialValladolid.query.order_by(
-        HistorialValladolid.temporada_id.desc()
-    ).all()
-
-    # ==========================
+    historial = (Historial.query.filter_by(
+        deporte="futbol",
+        equipo="R.Valladolid"
+    ).order_by(Historial.temporada.desc()).all())
     # GRÁFICO TEMPORADAS
-    # ==========================
-
-    labels_temporadas = [h.temporada.nombre for h in historial]
-
+    labels_temporadas = [h.temporada for h in historial]
     puntos_temporadas = [h.puntos for h in historial]
-
-    # ==========================
     # GRÁFICO JORNADAS
-    # ==========================
-
     temporadas = TemporadaValladolid.query.order_by(TemporadaValladolid.id).all()
-
     datasets_jornadas = []
-
     colores = [
         "#672e8d",
         "#FFD700",
@@ -681,6 +654,10 @@ def historial_valladolid():
         "#FF6A00",
         "#20B2AA",
     ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="futbol",
+            equipo="R.Valladolid"
+        ).order_by(Palmaress.temporada.desc()).all())
 
     labels_jornadas = []
 
@@ -712,12 +689,7 @@ def historial_valladolid():
                 "tension": 0.3,
             }
         )
-        titulos = (
-            Palmares.query.join(TemporadaValladolid)
-            .order_by(TemporadaValladolid.nombre.desc())
-            .all()
-        )
-
+        
 
     return render_template(
         "historia/historia_valladolid.html",
@@ -727,56 +699,58 @@ def historial_valladolid():
         labels_jornadas=labels_jornadas,
         datasets_jornadas=datasets_jornadas,
         titulos=titulos,
+        deporte="Fútbol",
+        equipo="R.Valladolid"
   )
 
 # PALMARES REAL VALLADOLID
 # Crear Palmares del Real Valladolid
-@valladolid_route_bp.route("/admin/crear_palmares_valladolid", methods=["POST"])
+@valladolid_route_bp.route("/admin/crear_palmares_valladolid", methods=["GET", "POST"])
 def crear_palmares_valladolid():
-    titulo = Palmares(
-        temporada_id=request.form.get("temporada_id"),
-        competicion=request.form.get("competicion"),
-        imagen=request.form.get("imagen"),
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="futbol",
+            equipo="R.Valladolid",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("valladolid_route_bp.crear_palmares_valladolid"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="futbol",
+            equipo="R.Valladolid"
+        )
+        .order_by(Palmaress.temporada.desc())
+        .all()
     )
-    db.session.add(titulo)
-    db.session.commit()
-    return redirect(url_for("valladolid_route_bp.ver_palmares_valladolid"))
-
-
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Fútbol",
+        equipo="R.Valladolid",
+        crear_url="valladolid_route_bp.crear_palmares_valladolid",
+        modificar_url="valladolid_route_bp.modificar_palmares_valladolid",
+        eliminar_url="valladolid_route_bp.eliminar_palmares_valladolid",
+    )
 # Modificar Palmares del Real Valladolid
-@valladolid_route_bp.route(
-    "/admin/modificar_palmares_valladolid/<int:id>", methods=["POST"]
-)
+@valladolid_route_bp.route("/admin/modificar_palmares_valladolid/<int:id>", methods=["POST"])
 def modificar_palmares_valladolid(id):
-    titulo = Palmares.query.get_or_404(id)
-    titulo.temporada_id = request.form.get("temporada_id")
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
     titulo.competicion = request.form.get("competicion")
     titulo.imagen = request.form.get("imagen")
     db.session.commit()
-    return redirect(url_for("valladolid_route_bp.ver_palmares_valladolid"))
-
-
-# Eliminar Palmares del Real Valladolid
-@valladolid_route_bp.route(
-    "/admin/eliminar_palmares_valladolid/<int:id>", methods=["POST"]
-)
+    return redirect(url_for("valladolid_route_bp.crear_palmares_valladolid"))
+# Eliminar Palmares del RV Promesas
+@valladolid_route_bp.route("/admin/eliminar_palmares_valladolid/<int:id>", methods=["POST"])
 def eliminar_palmares_valladolid(id):
-    titulo = Palmares.query.get_or_404(id)
+    titulo = Palmaress.query.get_or_404(id)
     db.session.delete(titulo)
     db.session.commit()
-    return redirect(url_for("valladolid_route_bp.ver_palmares_valladolid"))
-
-
-# Ver Palmares del Real Valladolid en Admin
-@valladolid_route_bp.route("/palmares_valladolid")
-def ver_palmares_valladolid():
-    temporadas = TemporadaValladolid.query.order_by(TemporadaValladolid.id.desc()).all()
-    palmares = Palmares.query.order_by(Palmares.temporada_id.desc()).all()
-    return render_template(
-        "admin/historial/palma_valladolid.html",
-        temporadas=temporadas,
-        palmares=palmares,
-    )
+    return redirect(url_for("valladolid_route_bp.crear_palmares_valladolid"))
 
 
 # COPA DEL REY REAL VALLADOLID

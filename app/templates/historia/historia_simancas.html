@@ -74,7 +74,7 @@
             <tbody>
               {% for h in historial %}
               <tr>
-                <td class="text-historial text-white">{{ h.temporada.nombre }}</td>
+                <td class="text-historial text-white">{{ h.temporada }}</td>
                 <td class="text-historial text-white">{{ h.liga }}</td>
                 <td class="text-historial text-white">{{ h.puntos }}</td>
                 <td class="text-historial text-white">{{ h.puesto }}</td>
@@ -178,7 +178,7 @@
             class="trofeo-img"
           />
           <h5 class="mt-3">{{ titulo.competicion }}</h5>
-          <div class="temporada">{{ titulo.temporada.nombre }}</div>
+          <div class="temporada">{{ titulo.temporada }}</div>
         </div>
       </div>
 

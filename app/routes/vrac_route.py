@@ -14,6 +14,7 @@ vrac_route_bp = Blueprint('vrac_route_bp', __name__)
 def ingresar_resultado_vrac():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
+        fase = request.form["fase"]
         nombre_jornada = request.form['nombre']
         num_partidos = int(request.form['num_partidos'])       
         # Crear la jornada y añadirla a la sesión
@@ -25,6 +26,7 @@ def ingresar_resultado_vrac():
         # 2. crear jornada correcta
         jornada = JornadaVrac(
             nombre=nombre_jornada,
+            fase=fase,
             temporada_id=temporada.id
         )
         db.session.add(jornada)
@@ -86,9 +88,11 @@ def modificar_jornada_vrac(id):
     jornada = db.session.query(JornadaVrac).filter(JornadaVrac.id == id).first()
     if jornada:
         if request.method == 'POST':
+            fase = request.form["fase"]
             nombre_jornada = request.form['nombre']
             num_partidos = int(request.form['num_partidos'])
-            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada          
+            jornada.nombre = nombre_jornada  # Actualizar el nombre de la jornada   
+            jornada.fase = fase       
             # Actualizar los partidos
             for i in range(num_partidos):
                 partido_id = request.form[f'partido_id{i}']
@@ -293,7 +297,7 @@ def generar_clasificacion_analisis_rugby_vrac(data):
     })
 
     for jornada in data:
-        for partido in jornada['partidos']:
+        for partido in jornada.partidos:
             if (
                 partido.resultadoA in (None, '')
                 or partido.resultadoB in (None, '')
@@ -312,6 +316,12 @@ def generar_clasificacion_analisis_rugby_vrac(data):
             visitante = partido.visitante
 
             # RESULTADO BASE
+            print(
+                partido.local,
+                partido.visitante,
+                "Bonus Local:", repr(partido.bonusA),
+                "Bonus Visitante:", repr(partido.bonusB)
+            )
             if a > b:
                 clasificacion[local]['puntos'] += 4
                 clasificacion[local]['ganados'] += 1
@@ -328,10 +338,9 @@ def generar_clasificacion_analisis_rugby_vrac(data):
                 clasificacion[local]['empatados'] += 1
                 clasificacion[visitante]['empatados'] += 1
 
-            # 🔥 BONUS SOLO SI ES 1
             if ba == 1:
                 clasificacion[local]['bonus'] += 1
-                clasificacion[local]['puntos'] += 1   # si bonus suma a puntos
+                clasificacion[local]['puntos'] += 1
 
             if bb == 1:
                 clasificacion[visitante]['bonus'] += 1
@@ -348,7 +357,10 @@ def generar_clasificacion_analisis_rugby_vrac(data):
 
             clasificacion[local]['diferencia_goles'] += (a - b)
             clasificacion[visitante]['diferencia_goles'] += (b - a)
-
+            for equipo, datos in clasificacion.items():
+                if equipo == "VRAC":
+                    print(datos)
+    
     return [
         {'equipo': k, 'datos': v}
         for k, v in clasificacion.items()
@@ -361,47 +373,72 @@ def aplicar_h2h_en_empates(clasificacion, data):
         equipo1 = clasificacion[i]
         equipo2 = clasificacion[i+1]
 
-        if equipo1['datos']['puntos'] == equipo2['datos']['puntos']:
+        if equipo1["datos"]["puntos"] != equipo2["datos"]["puntos"]:
+            continue
 
-            ganador = None
+        puntos1 = 0
+        puntos2 = 0
 
-            for jornada in data:
-                for partido in jornada['partidos']:
+        for jornada in data:
 
-                    local = partido.local
-                    visitante = partido.visitante
+            for partido in jornada.partidos:
 
-                    if (
-                        (local == equipo1['equipo'] and visitante == equipo2['equipo']) or
-                        (local == equipo2['equipo'] and visitante == equipo1['equipo'])
-                    ):
+                if not (
+                    (partido.local == equipo1["equipo"] and partido.visitante == equipo2["equipo"]) or
+                    (partido.local == equipo2["equipo"] and partido.visitante == equipo1["equipo"])
+                ):
+                    continue
 
-                        try:
-                            a = int(partido.resultadoA)
-                            b = int(partido.resultadoB)
-                        except:
-                            continue
+                try:
+                    a = int(partido.resultadoA)
+                    b = int(partido.resultadoB)
+                except:
+                    continue
 
-                        if local == equipo1['equipo']:
-                            if a > b:
-                                ganador = equipo1['equipo']
-                            elif b > a:
-                                ganador = equipo2['equipo']
-                        else:
-                            if a > b:
-                                ganador = equipo2['equipo']
-                            elif b > a:
-                                ganador = equipo1['equipo']
+                # equipo1 juega en casa
+                if partido.local == equipo1["equipo"]:
 
-            if ganador == equipo2['equipo']:
-                clasificacion[i], clasificacion[i+1] = clasificacion[i+1], clasificacion[i]
+                    if a > b:
+                        puntos1 += 4
+                    elif b > a:
+                        puntos2 += 4
+                    else:
+                        puntos1 += 2
+                        puntos2 += 2
+
+                # equipo1 juega fuera
+                else:
+
+                    if b > a:
+                        puntos1 += 4
+                    elif a > b:
+                        puntos2 += 4
+                    else:
+                        puntos1 += 2
+                        puntos2 += 2
+
+        if puntos2 > puntos1:
+            clasificacion[i], clasificacion[i+1] = clasificacion[i+1], clasificacion[i]
 
     return clasificacion
 # Ruta para mostrar la clasificación y análisis del Vrac
 @vrac_route_bp.route('/equipos_rugby/clasif_vrac')
 def clasif_analisis_vrac():
-    data = obtener_datos_vrac()
-    fase_regular, fase_liguilla = separar_fases(data)
+    temporada = TemporadaVrac.query.filter_by(activa=True).first()
+    fase_regular = JornadaVrac.query.filter_by(
+        temporada_id=temporada.id,
+        fase="Regular"
+    ).order_by(JornadaVrac.id).all()
+
+    grupoA_data = JornadaVrac.query.filter_by(
+        temporada_id=temporada.id,
+        fase="Grupo A"
+    ).order_by(JornadaVrac.id).all()
+
+    grupoB_data = JornadaVrac.query.filter_by(
+        temporada_id=temporada.id,
+        fase="Grupo B"
+    ).order_by(JornadaVrac.id).all()
 
     # 🔥 1. CLASIFICACIÓN BASE (GENERAL)
     base = generar_clasificacion_analisis_rugby_vrac(fase_regular)
@@ -441,13 +478,8 @@ def clasif_analisis_vrac():
                 'diferencia_goles': datos_base['diferencia_goles'] + d['diferencia_goles'],
                 'bonus': datos_base['bonus'] + d['bonus']
             }
-
         return [{'equipo': k, 'datos': v} for k, v in resultado.items()]
-
     # 🔥 3. GRUPOS
-    grupoA_data = [j for j in fase_liguilla if "grupo a" in j['nombre'].lower()]
-    grupoB_data = [j for j in fase_liguilla if "grupo b" in j['nombre'].lower()]
-
     grupoA = sumar_liguilla(grupoA_data)
     grupoB = sumar_liguilla(grupoB_data)
 
@@ -461,6 +493,10 @@ def clasif_analisis_vrac():
         ),
         reverse=True
     )
+    clasificacion_general = aplicar_h2h_en_empates(
+    clasificacion_general,
+    fase_regular
+)
 
     # 🔥 5. ORDEN GRUPOS
     grupoA = sorted(grupoA, key=lambda x: (
@@ -468,12 +504,20 @@ def clasif_analisis_vrac():
         x['datos']['diferencia_goles'],
         x['datos']['favor']
     ), reverse=True)
+    grupoA = aplicar_h2h_en_empates(
+    grupoA,
+    grupoA_data
+)
 
     grupoB = sorted(grupoB, key=lambda x: (
         x['datos']['puntos'],
         x['datos']['diferencia_goles'],
         x['datos']['favor']
     ), reverse=True)
+    grupoB = aplicar_h2h_en_empates(
+    grupoB,
+    grupoB_data
+)
 
     # 🔥 6. INDEXADO
     clasificacion_general_indexed = [
