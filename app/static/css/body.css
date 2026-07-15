@@ -42,8 +42,11 @@ body{
   flex-direction: column;
 }
 
-main.container-lg {
-  flex: 1;
+main {
+  flex:1;
+  flex-grow:1;
+  flex-shrink:0;
+  flex-basis:auto;
 }
 
 /* Splash base */
