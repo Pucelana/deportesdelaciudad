@@ -4,7 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
-from app.models.uemc import CopaUEMC
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados
 
 aliados_route_bp = Blueprint('aliados_route_bp', __name__)
@@ -549,6 +550,187 @@ def activar_temporada_aliados(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('aliados_route_bp.temporadas_aliados')) 
+
+# HISTORIAL BSR VALLADOLID
+# Creación del historial de temporadas del BSR Valladolid
+@aliados_route_bp.route("/admin/crear_historial_aliados", methods=["GET", "POST"])
+def crear_historial_aliados():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="baloncesto",
+            equipo="BSR Valladolid",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            europa=request.form.get("europa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("aliados_route_bp.crear_historial_aliados"))
+    historial = (Historial.query.filter_by(
+        deporte="baloncesto",
+        equipo="BSR Valladolid"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaAliados.query.order_by(
+        TemporadaAliados.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="baloncesto",
+        equipo="BSR Valladolid",
+        crear_url="aliados_route_bp.crear_historial_aliados",
+        modificar_url="aliados_route_bp.modificar_historial_aliados",
+        eliminar_url="aliados_route_bp.eliminar_historial_aliados"
+    )
+@aliados_route_bp.route("/admin/eliminar_historial_aliados/<int:id>", methods=["POST"])
+def eliminar_historial_aliados(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("aliados_route_bp.crear_historial_aliados"))
+# Modificar historial de temporadas del BSR Valladolid
+@aliados_route_bp.route("/admin/modificar_historial_aliados/<int:id>", methods=["POST"])
+def modificar_historial_aliados(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.europa = request.form.get("europa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("aliados_route_bp.crear_historial_aliados"))
+# Ver Historial de temporadas del BSR Valladolid en la página principal
+@aliados_route_bp.route("/aliados/historial")
+def historial_aliados():
+    historial = (Historial.query.filter_by(
+        deporte="baloncesto",
+        equipo="BSR Valladolid"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaAliados.query.order_by(TemporadaAliados.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="baloncesto",
+            equipo="BSR Valladolid"
+        ).order_by(Palmaress.temporada.desc()).all())
+    
+    labels_jornadas = []
+    
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaAliados.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaAliados.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "BSR Valladolid", generar_clasificacion_analisis_baloncesto_aliados,"ganados"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_aliados.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        titulos=titulos,
+        deporte="baloncesto",
+        equipo="BSR Valladolid"
+  )
+
+# PALMARES BSR VALLADOLID
+# Crear Palmares del BSR Valladolid
+@aliados_route_bp.route("/admin/crear_palmares_aliados", methods=["GET", "POST"])
+def crear_palmares_aliados():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="baloncesto",
+            equipo="BSR Valladolid",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("aliados_route_bp.crear_palmares_aliados"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="baloncesto",
+            equipo="BSR Valladolid"
+        )
+        .order_by(Palmaress.temporada.desc())
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="baloncesto",
+        equipo="BSR Valladolid",
+        crear_url="aliados_route_bp.crear_palmares_aliados",
+        modificar_url="aliados_route_bp.modificar_palmares_aliados",
+        eliminar_url="aliados_route_bp.eliminar_palmares_aliados",
+    )
+# Modificar Palmares del BSR Valladolid
+@aliados_route_bp.route("/admin/modificar_palmares_aliados/<int:id>", methods=["POST"])
+def modificar_palmares_aliados(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada_id = request.form.get("temporada_id")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    db.session.commit()
+    return redirect(url_for("aliados_route_bp.crear_palmares_aliados"))
+# Eliminar Palmares del BSR Valladolid
+@aliados_route_bp.route("/admin/eliminar_palmares_aliados/<int:id>", methods=["POST"])
+def eliminar_palmares_aliados(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("aliados_route_bp.crear_palmares_aliados"))  
+
+
 
 # PLAYOFF ALIADOS
 # Crear formulario para los playoff

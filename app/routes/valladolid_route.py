@@ -584,6 +584,7 @@ def crear_historial_valladolid():
             puesto=request.form.get("puesto"),
             playoff=request.form.get("playoff"),
             copa=request.form.get("copa"),
+            europa=request.form.get("europa"),
             titulos=request.form.get("titulos"),
             siguiente_temporada=request.form.get("siguiente_temporada"),
             observaciones=request.form.get("observaciones"),
@@ -626,6 +627,7 @@ def modificar_historial_valladolid(id):
     historial.puesto = request.form.get("puesto")
     historial.playoff = request.form.get("playoff")
     historial.copa = request.form.get("copa")
+    historial.europa = request.form.get("europa")
     historial.siguiente_temporada = request.form.get("siguiente_temporada")
     historial.titulos = request.form.get("titulos")
     historial.observaciones = request.form.get("observaciones")

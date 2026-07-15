@@ -44,6 +44,7 @@ class Historial(db.Model):
     puesto = db.Column(db.Integer)
     playoff = db.Column(db.String(80))
     copa = db.Column(db.String(80))
+    europa = db.Column(db.String(80))
     titulos = db.Column(db.String(150))
     siguiente_temporada = db.Column(db.String(80))
     observaciones = db.Column(db.String(200))

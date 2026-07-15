@@ -61,14 +61,15 @@
           <table class="table text-center align-middle tabla-historial">
             <thead>
               <tr>
-                <th class="text-historial text-dark">Temporada</th>
+                <th class="text-historial text-dark">Temp.</th>
                 <th class="text-historial text-dark">Liga</th>
                 <th class="text-historial text-dark">Ganados</th>
                 <th class="text-historial text-dark">Puesto</th>
                 <th class="text-historial text-dark">Playoff</th>
                 <th class="text-historial text-dark">Copa</th>
+                <th class="text-historial text-dark">Europa</th>
                 <th class="text-historial text-dark">Títulos</th>
-                <th class="text-historial text-dark"></th>
+                <th class="text-historial text-dark">Obser.</th>
               </tr>
             </thead>
             <tbody>
@@ -80,9 +81,11 @@
                 <td class="text-historial text-white">{{ h.puesto }}</td>
                 <td class="text-historial text-white">{{ h.playoff }}</td>
                 <td class="text-historial text-white">{{ h.copa }}</td>
+                <td class="text-historial text-white">{{ h.europa }}</td>
                 <td class="text-historial text-white">
                   {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
                 </td>
+                <td class="text-historial text-white">{{ h.observaciones }}</td>
                 <!--<td class="equipo-mobile">{{ h.siguiente_temporada }}</td>-->
               </tr>
               {% endfor %}
@@ -93,28 +96,22 @@
     </div>
     <div class="historial-mobile">
       {% for h in historial %}
-
       <div class="card historial-card mb-3">
         <div class="card-header text-center fw-bold">
-          {{ h.temporada.nombre }}
+          {{ h.temporada }}
         </div>
-
         <div class="card-body">
           <p class="equipo-mobile"><strong class="text-dark">Liga:</strong> {{ h.liga }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Ganados:</strong> {{ h.puntos }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Puesto:</strong> {{ h.puesto }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Playoff:</strong> {{ h.playoff }}</p>
-
           <p class="equipo-mobile"><strong class="text-dark">Copa:</strong> {{ h.copa }}</p>
-
+          <p class="equipo-mobile"><strong class="text-dark">Europa:</strong> {{ h.europa }}</p>
           <p class="equipo-mobile">
             <strong class="text-dark">Títulos:</strong>
-
             {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
           </p>
+          <p class="equipo-mobile"><strong class="text-dark">Obser.:</strong> {{ h.observaciones }}</p>
         </div>
       </div>
 

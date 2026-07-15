@@ -4,6 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce, Clasificacion, TemporadaPonce
 
 ponce_route_bp = Blueprint('ponce_route_bp', __name__)
@@ -547,6 +549,183 @@ def activar_temporada_ponce(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('ponce_route_bp.temporadas_ponce'))     
+   
+# HISTORIAL PONCE
+# Creación del historial de temporadas del Ponce
+@ponce_route_bp.route("/admin/crear_historial_ponce", methods=["GET", "POST"])
+def crear_historial_ponce():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="baloncesto",
+            equipo="Ponce Valladolid CB",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("ponce_route_bp.crear_historial_ponce"))
+    historial = (Historial.query.filter_by(
+        deporte="baloncesto",
+        equipo="Ponce Valladolid CB"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaPonce.query.order_by(
+        TemporadaPonce.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="baloncesto",
+        equipo="Ponce Valladolid CB",
+        crear_url="ponce_route_bp.crear_historial_ponce",
+        modificar_url="ponce_route_bp.modificar_historial_ponce",
+        eliminar_url="ponce_route_bp.eliminar_historial_ponce"
+    )
+@ponce_route_bp.route("/admin/eliminar_historial_ponce/<int:id>", methods=["POST"])
+def eliminar_historial_ponce(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("ponce_route_bp.crear_historial_ponce"))
+# Modificar historial de temporadas del Ponce
+@ponce_route_bp.route("/admin/modificar_historial_ponce/<int:id>", methods=["POST"])
+def modificar_historial_ponce(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("ponce_route_bp.crear_historial_ponce"))
+# Ver Historial de temporadas del Ponce en la página principal
+@ponce_route_bp.route("/ponce/historial")
+def historial_ponce():
+    historial = (Historial.query.filter_by(
+        deporte="baloncesto",
+        equipo="Ponce Valladolid CB"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaPonce.query.order_by(TemporadaPonce.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="baloncesto",
+            equipo="Ponce Valladolid CB"
+        ).order_by(Palmaress.temporada.desc()).all())
+    
+    labels_jornadas = []
+    
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaPonce.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaPonce.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "Ponce Valladolid CB", generar_clasificacion_analisis_baloncesto_ponce,"ganados"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_ponce.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        titulos=titulos,
+        deporte="baloncesto",
+        equipo="Ponce Valladolid CB"
+  )
+
+# PALMARES PONCE
+# Crear Palmares del Ponce
+@ponce_route_bp.route("/admin/crear_palmares_ponce", methods=["GET", "POST"])
+def crear_palmares_ponce():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="baloncesto",
+            equipo="Ponce Valladolid CB",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("ponce_route_bp.crear_palmares_ponce"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="baloncesto",
+            equipo="Ponce Valladolid CB"
+        )
+        .order_by(Palmaress.temporada.desc())
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="baloncesto",
+        equipo="Ponce Valladolid CB",
+        crear_url="ponce_route_bp.crear_palmares_ponce",
+        modificar_url="ponce_route_bp.modificar_palmares_ponce",
+        eliminar_url="ponce_route_bp.eliminar_palmares_ponce",
+    )
+# Modificar Palmares del Ponce
+@ponce_route_bp.route("/admin/modificar_palmares_ponce/<int:id>", methods=["POST"])
+def modificar_palmares_ponce(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada_id = request.form.get("temporada_id")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    db.session.commit()
+    return redirect(url_for("ponce_route_bp.crear_palmares_ponce"))
+# Eliminar Palmares del UEMC
+@ponce_route_bp.route("/admin/eliminar_palmares_ponce/<int:id>", methods=["POST"])
+def eliminar_palmares_ponce(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("ponce_route_bp.crear_palmares_ponce"))   
      
 # PLAYOFF PONCE
 # Crear formulario para los playoff
