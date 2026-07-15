@@ -41,9 +41,10 @@ body{
   display: flex;
   flex-direction: column;
 }
-/*main {
+
+main.container-lg {
   flex: 1;
-}*/
+}
 
 /* Splash base */
 #splash {
