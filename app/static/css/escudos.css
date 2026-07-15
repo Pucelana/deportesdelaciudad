@@ -7,16 +7,16 @@
     cursor: pointer;
   }
   #escudos-wrapper {
-  margin-top: auto;
-}
+  margin-top: 40vh;
+  }
   .escudo-link {
   position: relative;
   text-decoration: none;
   }
   
   .escudo {
-    width: 48px; /* Ajustá el tamaño según necesites */
-    height: 48px;
+    width: 42px; /* Ajustá el tamaño según necesites */
+    height: 42px;
     object-fit: contain;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Sombra sutil inicial */
@@ -36,8 +36,8 @@
   color: white;
   padding: 5px 14px;
   border-radius: 20px;
-  font-size: 0.7em;
-  font-weight: 600;
+  font-size: 0.5em;
+  font-weight: 500;
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -53,12 +53,12 @@
 
 @media (max-width: 576px) {
   .escudos-container {
-    gap: 10px;
+    gap: 8px;
   }
 
   .escudo {
-    width: 38px;
-    height: 38px;
+    width: 30px;
+    height: 30px;
   }
 }
 

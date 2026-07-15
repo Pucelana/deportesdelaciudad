@@ -36,11 +36,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const width = window.innerWidth;
 
     if (width <= 576) {
-        speed = 0.25; // móvil (más suave)
+        speed = 0.35; // móvil (más suave)
     } else if (width <= 992) {
-        speed = 0.4; // tablet
+        speed = 0.6; // tablet
     } else {
-        speed = 0.6; // desktop
+        speed = 0.7; // desktop
     }
 }
 setSpeed();

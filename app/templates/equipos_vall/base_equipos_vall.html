@@ -65,30 +65,25 @@
     <title>{% block title %}  {% endblock %}</title>
   </head>
   <body class="calend_deportes">
-    <div class="d-flex flex-column min-vh-100 sticky-top">
         {% block breadcrumb %}{% endblock %}
-        <main class="container-lg mb-5 flex-fill">
+        <main class="container-lg mb-3">
             {% block contenido %}{% endblock %}
         </main>
-         <footer class="container-fluid mt-auto footer-seccion">
-        <div class="row align-items-center text-center">
-          <div class="col-12 col-md-6 mb-2 mb-md-0">
-            <a>
-              <h5 class="text-white fw-bold text-analisis mb-0 fs-4">
-                deportesdeslaciudad &copy; 2026
-              </h5>
-            </a>
-          </div>
-          <div class="col-12 col-md-6">
-            <img
-              src="/static/img/logo-deportes2.png"
-              class="img-fluid logo-footer"
-              alt="deportesdelaciudad"
-            />
-          </div>
-        </div>
-      </footer>
-    </div>
+          <footer class="container-fluid footer-seccion">
+            <div class="row align-items-center text-center">
+              <div class="col-12 col-md-6 mb-2 mb-md-0">
+                <a>
+                  <h5 class="text-white fw-bold text-analisis mb-0 fs-4">
+                    deportesdeslaciudad &copy; 2026
+                  </h5>
+                </a>
+              </div>
+              <div class="col-12 col-md-6">
+                <img src="/static/img/logo-deportes2.png"
+                class="img-fluid logo-footer" alt="deportesdelaciudad"/>
+              </div>
+            </div>
+          </footer>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Bootstrap JavaScript Libraries -->
