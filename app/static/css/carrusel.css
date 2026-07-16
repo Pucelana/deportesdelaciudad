@@ -1,10 +1,11 @@
-.netflix-track {
-    display: flex;
-    overflow-x: auto;
-    scroll-behavior: smooth;
-    gap: 8px;
-    cursor: grab;
+.netflix-track{
+    display:flex;
+    gap:14px;
+    overflow-x:auto;
+    scroll-behavior:smooth;
+    cursor:grab;
 }
+
 .netflix-track:active {
     cursor: grabbing;
 }
@@ -13,37 +14,34 @@
 .netflix-track::-webkit-scrollbar {
     display: none;
 }
-
-.netflix-item {
-    flex: 0 0 auto;
+.netflix-item{
+    flex:0 0 auto;
 }
-
-/* tarjetas */
-.card {
-    box-shadow: 2px 6px 8px rgba(22, 22, 26, .18);
-    width: 250px;
-    background-color: transparent;
-    backdrop-filter: blur(18px);
-    border-radius: 8px;
+.partido-card{
+    width:270px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,.10);
+    backdrop-filter:blur(18px);
+    box-shadow:2px 6px 8px rgba(22,22,26,.18);
 }
-
-/* sección */
-.section-card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 30px;
-    box-shadow: 2px 6px 8px rgba(22, 22, 26, .18);
-    background-color: #c2dafd;
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
+.deporte-header{
+    background:linear-gradient(180deg,#0d6efd,#0a58ca);
+    color:white;
+    text-shadow: 0 0 6px rgba(0,0,0,0.80);
+    font-weight:bold;
+    text-align:center;
+    border:none;
+    border-radius:12px 12px 0 0;
 }
-.deporte {
-    writing-mode: vertical-rl;
-    transform: rotate(180deg);
-    text-align: center;
-    letter-spacing: 2px;
-    font-weight: bold;
+.deportes-header i{
+    color:#ffd54a;
+    font-size:1.5rem;
+}
+.card-body{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 /* Admin */

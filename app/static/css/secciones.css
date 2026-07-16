@@ -1,3 +1,20 @@
+.main-seccion{
+    width:100%;
+    max-width:1200px;
+    margin:0 auto;
+    padding:0 12px;
+}
+
+@media (max-width:992px){
+    .main-seccion{
+        padding:15px 10px;
+    }
+}
+
+footer{
+    flex-shrink:0;
+}
+
 #seccion_home{
     margin-top: 2%;
     font-family: 'Caveat', cursive;
@@ -88,9 +105,9 @@
         font-size: 1em;
     }
 }
-@media (max-width: 768px){
+@media (min-width:577px) and (max-width:768px){
     .text_uemc{
-        font-size: 1.8em;
+        font-size:1.8em;
     }
 }
 

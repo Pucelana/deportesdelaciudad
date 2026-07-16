@@ -1,4 +1,4 @@
-html, body {
+html {
     width: 100%;
     overflow-x: hidden;
 }
@@ -8,7 +8,7 @@ html, body {
 body{
     /*background: linear-gradient(top left, #ff7878, #3a71d8);*/
     /*background: -webkit-linear-gradient(180deg, #ffa3a3, #89a8e2);*/
-    /*position: relative;*/
+    position: relative;
     margin: 0;
     background: #050505;
     padding-top: 0;
@@ -20,8 +20,8 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /*color: white;
-    overflow-x: hidden;*/
+    /*color: white;*/
+    overflow-x: hidden;
 }
 
 #body_secciones{
@@ -120,13 +120,11 @@ main {
   font-weight: 900;
   letter-spacing: 3px;
   margin: 0;
-
   background: linear-gradient(90deg, #7f00ff, #ff005d, #009dff);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-
   animation: gradientMove 4s ease infinite;
   text-shadow:
     0 0 12px rgba(140,0,255,.6),
@@ -148,13 +146,11 @@ main {
   margin-top: 12px;
   font-size: 1.4em;
   letter-spacing: 4px;
-
   background: linear-gradient(90deg, #7f00ff, #ff005d, #009dff);
   background-size: 300% 300%;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-
   animation: gradientMove 4s ease infinite, subFade 2s ease infinite alternate;
 }
 

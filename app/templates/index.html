@@ -143,7 +143,6 @@
           </div>
           <div class="col-lg-4 col-md-4 d-flex justify-content-end align-items-center">
             <div class="d-flex">
-
               <a><img src="/static/img/facebook.png" class="iconos pe-2" alt="facebook"></a>
               <a><img src="/static/img/twitter.png" class="iconos" alt="twitter"></a>
               <!--<a><img src="/static/img/usuario.png" class="usuario" alt="usuario"></a>--->
@@ -269,28 +268,56 @@
         <div class="netflix-track">
           {% if ver_publicacion %}
           {% for date in ver_publicacion %}
-          <!-- Card de sección -->
-          <div class="netflix-item section-card">
-            <h5 class="text-center text-secondary fw-bold deporte">
-            {{ date.seccion }}
-            </h5>
-          </div>
-          <!-- Card partido -->
-          <div class="netflix-item">
-            <div class="card">
-              <div class="card-body">
-                <h6 class="text-center fw-bold text-primary">{{ date.liga }}</h6>
-                <h6 class="text-white fw-bold">{{ date.equipoA }}
-                <strong class="fw-bold text-success ps-2">{{ date.resultado1 }}</strong>
-                </h6>
-                <h6 class="text-white fw-bold">{{ date.equipoB }}
-                <strong class="fw-bold text-success ps-2">{{ date.resultado2 }}</strong>
-                </h6>
-                <h6 class="text-center text-primary fw-bold">{{ date.fecha_partido }}</h6>
-
+            <div class="netflix-item">
+              <div class="card partido-card">
+              <!-- Cabecera -->
+                <div class="card-header deporte-header  {{ date.seccion|lower|replace(' ','-') }}">
+                  {% if date.seccion == "Fútbol" %}
+                  ⚽
+                  {% elif date.seccion == "Baloncesto" %}
+                  🏀
+                  {% elif date.seccion == "Balonmano" %}
+                  🤾
+                  {% elif date.seccion == "Rugby" %}
+                  🏉
+                  {% elif date.seccion == "Hockey" %}
+                  🏑
+                  {% elif date.seccion == "Voleibol" %}
+                  🏐
+                  {% elif date.seccion == "Fútbol-Sala" %}
+                  🥅
+                  {% endif %}
+                  {{ date.seccion }}
+                </div>
+                <!-- Cuerpo -->
+                <div class="card-body">
+                  <h6 class="text-center fw-bold text-primary mb-3">
+                    {{ date.liga }}
+                  </h6>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="equipo-mobile">
+                      {{ date.equipoA }}
+                    </span>
+                    <span class="resultados-mobile">
+                      {{ date.resultado1 }}
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="equipo-mobile">
+                      {{ date.equipoB }}
+                    </span>
+                    <span class="resultados-mobile">
+                      {{ date.resultado2 }}
+                    </span>
+                  </div>
+                  <div class="text-center">
+                    <small class="text-primary fw-bold">
+                      📅 {{ date.fecha_partido }}
+                    </small>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
           {% endfor %}
           {% endif %}
         </div>
@@ -396,7 +423,6 @@
      </section>
     </main>
     <footer class="container-fluid mt-auto footer-seccion py-1">
-
       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>

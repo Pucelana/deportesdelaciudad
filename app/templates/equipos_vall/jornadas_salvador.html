@@ -64,7 +64,7 @@
               {% for partido in goles.partidos %}
               <tr class="text-center">
                 <td class="text-muted fw-bold">
-                  {{ partido.fecha }} {{ partido.hora }}
+                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
                 </td>
                 <td class="equipo-mobile fs-5">{{ partido.local }}</td>
                 <td class="resultado-mobile fs-5">{{ partido.resultadoA }}</td>

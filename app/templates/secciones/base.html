@@ -79,480 +79,273 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   </head>
   <body id="body_secciones">
-    <header class="container-fluid d-none d-lg-block sticky-top">
-      <section id="cabecera1" class="align-items-center">
-        <div class="row mx-0 bg_menu_seccion shadow-lg">
-          <div class="col-lg-9 col-md-9">
-            <nav class="navbar navbar-expand navbar-light">
-              <div class="container-fluid">
-                <a class="navbar-brand" href="#"></a>
-                <button
-                  class="navbar-toggler d-lg-none"
-                  type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapsibleNavId"
-                  aria-controls="collapsibleNavId"
-                  aria-expanded="false"
-                  aria-label="Toggle navigation"
-                >
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="collapsibleNavId">
-                  <ul class="navbar-nav me-auto mt-2 mt-lg-0">
-                    <li class="nav-item">
-                      <a
-                        class="nav-link active fw-bold text-white text-menu-seccion"
-                        href="/"
-                        aria-current="page"
-                        >Inicio</a
-                      >
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Baloncesto</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/uemc"
-                          >CBC Valladolid</a
-                        >
-                        <a class="dropdown-item" href="/seccion/ponce"
-                          >Ponce Valladolid</a
-                        >
-                        <a class="dropdown-item" href="/seccion/cdsi_vall"
-                          >CDSI Valladolid</a
-                        >
-                        <a class="dropdown-item" href="/seccion/aliados"
-                          >BSR Valladolid</a
-                        >
-                        <a
-                          class="dropdown-item"
-                          href="/sistema_ligas/baloncesto"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Balonmano</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/aula"
-                          >Aula Valladolid</a
-                        >
-                        <a class="dropdown-item" href="/seccion/recoletas"
-                          >Atl. Valladolid</a
-                        >
-                        <a class="dropdown-item" href="/sistema_ligas/balonmano"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Fútbol</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/valladolid"
-                          >Real Valladolid</a
-                        >
-                        <a class="dropdown-item" href="/seccion/promesas"
-                          >RV Promesas</a
-                        >
-                        <a class="dropdown-item" href="/seccion/rv_femenino"
-                          >RV Femenino</a
-                        >
-                        <a class="dropdown-item" href="/seccion/parquesol"
-                          >CD Parquesol</a
-                        >
-                        <a class="dropdown-item" href="/sistema_ligas/futbol"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Fútbol-Sala</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/galvan"
-                          >C.D Tierno Galván</a
-                        >
-                        <a class="dropdown-item" href="/seccion/vall_sala"
-                          >FS Valladolid</a
-                        >
-                        <a
-                          class="dropdown-item"
-                          href="/sistema_ligas/futbol_sala"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Hockey</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/caja"
-                          >CPLV Caja Rural</a
-                        >
-                        <a class="dropdown-item" href="/seccion/panteras"
-                          >Panteras Caja Rural</a
-                        >
-                        <a class="dropdown-item" href="/sistema_ligas/hockey"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Rugby</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/vrac">VRAC</a>
-                        <a class="dropdown-item" href="/seccion/salvador"
-                          >El Salvador</a
-                        >
-                        <a class="dropdown-item" href="/seccion/salvador_fem"
-                          >El Salvador Fem.</a
-                        >
-                        <a class="dropdown-item" href="/sistema_ligas/rugby"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a
-                        class="nav-link dropdown-toggle fw-bold text-white text-menu-seccion"
-                        href="#"
-                        id="dropdownId"
-                        data-bs-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Voley</a
-                      >
-                      <div class="dropdown-menu" aria-labelledby="dropdownId">
-                        <a class="dropdown-item" href="/seccion/vcv"
-                          >Universidad VCV</a
-                        >
-                        <a class="dropdown-item" href="/seccion/san_jose"
-                          >CD San Jose</a
-                        >
-                        <a class="dropdown-item" href="/sistema_ligas/voleibol"
-                          >Info</a
-                        >
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </nav>
+    <header class="container-fluid bg_menu_seccion sticky-top shadow">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+          <!-- Botón móvil -->
+          <button class="navbar-toggler order-lg-3" data-bs-toggle="collapse"
+            data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false"
+            aria-label="Mostrar menú">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <!-- Logo -->
+          <a class="navbar-brand order-lg-2 ms-lg-3 me-0" href="/">
+            <img src="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+            class="logo-movil" alt="deportesdelaciudad">
+          </a>
+          <!-- Menú -->
+          <div class="collapse navbar-collapse order-lg-1" id="menuPrincipal">
+            <ul class="navbar-nav me-auto">
+              <!-- Inicio -->
+              <li class="nav-item">
+                <a class="nav-link fw-bold text-menu-seccion active" href="/">
+                  Inicio
+                </a>
+              </li>
+              <!-- BALONCESTO -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">Baloncesto
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/uemc">
+                      CBC Valladolid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/ponce">
+                      Ponce Valladolid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/cdsi_vall">
+                      CDSI Valladolid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/aliados">
+                      BSR Valladolid
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/baloncesto">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- BALONMANO -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">Balonmano
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/aula">
+                      Aula Valladolid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/recoletas">
+                      Atl. Valladolid
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/balonmano">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- FUTBOL -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">
+                  Fútbol
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/valladolid">
+                      Real Valladolid
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/promesas">
+                      RV Promesas
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/rv_femenino">
+                      RV Femenino
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/parquesol">
+                      CD Parquesol
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/futbol">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- FUTBOL SALA -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">
+                    Fútbol Sala
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/galvan">
+                      C.D. Tierno Galván
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vall_sala">
+                      FS Valladolid
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/futbol_sala">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- HOCKEY -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">
+                    Hockey
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/caja">
+                      CPLV Caja Rural
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/panteras">
+                      Panteras Caja Rural
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/hockey">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- RUGBY -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">
+                    Rugby
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vrac">
+                      VRAC
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/salvador">
+                      El Salvador
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/salvador_fem">
+                      El Salvador Fem.
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/rugby">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- VOLEIBOL -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#"
+                  role="button" data-bs-toggle="dropdown">
+                    Voleibol
+                </a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vcv">
+                      Universidad VCV
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/san_jose">
+                      CD San José
+                    </a>
+                  </li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li>
+                    <a class="dropdown-item" href="/sistema_ligas/voleibol">
+                      Información
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
           </div>
         </div>
-      </section>
+      </nav>
     </header>
-    <!--Fin header1-->
-    <header
-      class="container-fluid d-lg-none d-md-block bg_menu_seccion sticky-top"
-    >
-      <section
-        id="cabecera1"
-        class="d-flex justify-content-around align-items-center shadow"
-      >
-        <nav class="navbar navbar-expand-lg navbar-light">
-          <div class="container-fluid">
-            <a class="navbar-brand" href="#"></a>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-bs-toggle="collapse"
-              data-bs-target="#navbarNavDropdown"
-              aria-controls="navbarNavDropdown"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-              <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a
-                    class="nav-link active fw-bold fs-5 text-white text-menu-seccion"
-                    href="/"
-                    aria-current="page"
-                    >Inicio</a
-                  >
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Baloncesto</a
-                  >
-                  <div class="dropdown-menu" aria-labelledby="dropdownId">
-                    <a class="dropdown-item" href="/seccion/uemc"
-                      >CBC Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/seccion/ponce"
-                      >Ponce Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/seccion/cdsi_vall"
-                      >CDSI Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/seccion/aliados"
-                      >BSR Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/baloncesto"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Balonmano</a
-                  >
-                  <div
-                    class="dropdown-menu menu-desple"
-                    aria-labelledby="dropdownId"
-                  >
-                    <a class="dropdown-item" href="/seccion/aula"
-                      >Aula Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/seccion/recoletas"
-                      >Atl. Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/balonmano"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Fútbol</a
-                  >
-                  <div
-                    class="dropdown-menu menu-desple"
-                    aria-labelledby="dropdownId"
-                  >
-                    <a class="dropdown-item" href="/seccion/valladolid"
-                      >Real Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/seccion/promesas"
-                      >RV Promesas</a
-                    >
-                    <a class="dropdown-item" href="/seccion/rv_femenino"
-                      >RV Femenino</a
-                    >
-                    <a class="dropdown-item" href="/seccion/parquesol"
-                      >CD Parquesol</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/futbol"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Fútbol-Sala</a
-                  >
-                  <div
-                    class="dropdown-menu menu-desple"
-                    aria-labelledby="dropdownId"
-                  >
-                    <a class="dropdown-item" href="/seccion/galvan"
-                      >C.D Tierno Galván</a
-                    >
-                    <a class="dropdown-item" href="/seccion/vall_sala"
-                      >FS Valladolid</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/futbol_sala"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Hockey Línea</a
-                  >
-                  <div
-                    class="dropdown-menu menu-desple"
-                    aria-labelledby="dropdownId"
-                  >
-                    <a class="dropdown-item" href="/seccion/caja"
-                      >CPLV Caja Rural</a
-                    >
-                    <a class="dropdown-item" href="/seccion/panteras"
-                      >Panteras Caja Rural</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/hockey"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Rugby</a
-                  >
-                  <div
-                    class="dropdown-menu menu-desple"
-                    aria-labelledby="dropdownId"
-                  >
-                    <a class="dropdown-item" href="/seccion/vrac">VRAC</a>
-                    <a class="dropdown-item" href="/seccion/salvador"
-                      >El Salvador</a
-                    >
-                    <a class="dropdown-item" href="/seccion/salvador_fem"
-                      >El Salvador Fem.</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/rugby"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold fs-5 text-white text-menu-seccion"
-                    href="#"
-                    id="dropdownId"
-                    data-bs-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Voleibol</a
-                  >
-                  <div
-                    class="dropdown-menu menu-desple"
-                    aria-labelledby="dropdownId"
-                  >
-                    <a class="dropdown-item" href="/seccion/vcv"
-                      >Universidad VCV</a
-                    >
-                    <a class="dropdown-item" href="/seccion/san_jose"
-                      >CD San Jose</a
-                    >
-                    <a class="dropdown-item" href="/sistema_ligas/voleibol"
-                      >Info</a
-                    >
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-        <div>
-          <img
-            src="{{ url_for('static', filename='img/logo-deportes2.png') }}"
-            class="img-fluid logo-movil"
-            alt="eldeportedelaciudad"
-          />
-        </div>
-      </section>
-    </header>
-    <main class="container-lg">
+    <!-- Fin header -->
+    <!-- Main --> 
+    <main class="main-seccion">
     {% block contenido %} {% endblock %}
     </main>
-    <footer class="container-fluid footer-seccion">
-      <div class="row">
+    <footer class="container-fluid mt-auto footer-seccion py-1">
+      <div class="container-lg">
+       <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h5 class="text-start text-white fw-bold pt-1 text-analisis fs-5 ms-2">
+            <h4 class="text-start text-white fw-bold pt-1 text-analisis ms-2">
               deportesdelaciudad &copy; 2026
-            </h5>
+            </h4>
           </a>
         </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-1 mb-lg-0">
+        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white text-analisis fs-5">Nosotros</h5>
+            <h4 class="text-white text-analisis">Nosotros</h4>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-2 text-analisis fs-5">Contáctanos</h5>
+            <h4 class="text-white ms-1 text-analisis">Contáctanos</h4>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-2 text-analisis fs-5">Aviso legal</h5>
+            <h4 class="text-white ms-1 text-analisis">Aviso legal</h4>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-2 text-analisis fs-5">
-              Política de privacidad
-            </h5>
+            <h4 class="text-white ms-1 text-analisis">
+              Privacidad
+            </h4>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-2 text-analisis fs-5">
-              Política de cookies
-            </h5>
+            <h4 class="text-white ms-1 text-analisis">
+              Cookies
+            </h4>
           </a>
         </div>
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center">
           <img src="../static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer"
             alt="eldeportedelaciudad"/>
         </div>
+       </div>
       </div>
     </footer>
     <!-- Modales -->

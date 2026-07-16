@@ -1,35 +1,38 @@
-{% extends 'secciones/base.html' %}
-{% block titulo %} RV Promesas {% endblock %}
+{% extends 'secciones/base.html' %} {% block titulo %} RV Promesas {% endblock %}
 {% block contenido %}
-<div class="team-header">
-  <h1 class="responsive-title">RV Promesas</h1>
-  <img src="/static/img/pucela_sf.png" alt="RV Promesas" class="responsive-logo" />
-</div>
-<section class="seccion_deportes">
-  <div class="calend_deportes">
-    <div class="shadow-lg p-3 mb-2">
-      <div class="row">
-        <div class="col-12 ">
-          <h2 class="text_uemc">2ª Rfef</h2>
-        </div>
-        <div class="tu-contenedor-h5">
-          <a href="/admin/equipos_futbol/calendario_promesas" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Calendario</h5></a>
-          <a href="/admin/equipos_futbol/resultados_promesas" class="text-decoration-none text-white"><h5 class="small-option fw-bold">Resultados</h5></a>
-          <a href="/admin/equipos_futbol/clasif_promesas" class="text-decoration-none text-white">
-          <h5 class="small-option fw-bold">Clasificaciones</h5></a>
-          <a href="/admin/promesas/historial" class="text-decoration-none text-white">
-            <h5 class="small-option fw-bold">Historial</h5></a>
-        </div>
-      </div>
+  <div class="container-lg">
+    <!-- Cabecera del equipo -->
+    <div class="team-header">
+        <h1 class="responsive-title">RV Promesas</h1>
+        <img src="{{ url_for('static', filename='img/pucela_sf.png') }}"
+            alt="RV Promesas" class="responsive-logo">
     </div>
-    <!--<div class="shadow-lg pb-3 mb-2">
-        <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mt-2">
-          <a href="/admin/copas_promesas" class="text-decoration-none">
-          <h2 class="text_uemc pt-2">Playoff</h2></a>
+    <!-- Competiciones -->
+    <section class="seccion_deportes">
+      <!-- Tarjeta -->
+      <div class="calend_deportes">
+        <div class="shadow-lg p-3 mb-3">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="text_uemc">2ª RFEF</h2>
+            </div>
+            <div class="tu-contenedor-h5">
+              <a href="/admin/equipos_futbol/calendario_promesas" class="text-decoration-none text-white">
+                <h5 class="small-option fw-bold">Calendario</h5>
+              </a>
+              <a href="/admin/equipos_futbol/resultados_promesas" class="text-decoration-none text-white">
+                <h5 class="small-option fw-bold">Resultados</h5>
+              </a>
+              <a href="/admin/equipos_futbol/clasif_promesas" class="text-decoration-none text-white">
+                <h5 class="small-option fw-bold">Clasificaciones</h5>
+              </a>
+              <a href="/admin/promesas/historial" class="text-decoration-none text-white">
+                <h5 class="small-option fw-bold">Historial</h5>
+              </a>
+            </div>
+          </div>
         </div>
       </div>
-    </div>-->
-  </diV>
-</section>
+    </section>
+  </div>
 {% endblock %}

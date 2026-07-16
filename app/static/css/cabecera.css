@@ -128,7 +128,19 @@
     left: calc(35% - 15px)
 }
 .logo-movil{
-    width: 80px;
-    max-width: 100%;
+    width:60px;
+    height:auto;
+}
+/* Escritorio */
+@media (min-width:992px){
+
+    .navbar-brand{
+        margin-left: auto;
+    }
+
+    .navbar-nav{
+        margin-right:auto;
+    }
+
 }
 

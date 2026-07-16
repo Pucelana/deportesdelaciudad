@@ -134,6 +134,13 @@
     margin: .4rem 0;
     text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }*/
+.resultados-mobile{
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #d4e3ff;
+    margin: .4rem 0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.80);
+}
 
 .resultado-mobile{
     font-size: 1.4rem;
@@ -153,6 +160,9 @@
         font-size: 0.85rem;
     }
     .equipo-calend{
+        font-size: 0.85rem;
+    }
+    .resultados-mobile{
         font-size: 0.85rem;
     }
 
