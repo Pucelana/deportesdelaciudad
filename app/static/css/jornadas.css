@@ -85,13 +85,13 @@
     }
 }
 .btn-jornada-container,
-.d-flex.flex-wrap.gap-2 {
+.section-botones {
   scroll-behavior: smooth;
 }
 
 @media(max-width:768px){
 
-    .d-flex.flex-wrap.gap-2{
+    .section-botones{
         justify-content: flex-start;
         overflow-x: auto;
         flex-wrap: nowrap;
