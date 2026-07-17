@@ -1,10 +1,16 @@
+#escudos-wrapper{
+    padding:8px 0 0 0;
+    margin:0;
+}
 .escudos-container {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 18px;
-    padding: 10px;
+    gap: 8px;
+    padding: 0px;
     cursor: pointer;
+    margin:0 auto;
+    max-width:1000px;
   }
   /*#escudos-wrapper {
   margin-top: 40vh;
@@ -53,7 +59,7 @@
 
 @media (max-width: 576px) {
   .escudos-container {
-    gap: 6px;
+    gap: 4px;
   }
 
   .escudo {
