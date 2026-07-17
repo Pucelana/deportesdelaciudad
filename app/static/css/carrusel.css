@@ -18,8 +18,7 @@
     flex:0 0 auto;
 }
 .partido-card{
-    width:290px;
-    border:none;
+    width:260px;
     border-radius:12px;
     background:rgba(255,255,255,.10);
     backdrop-filter:blur(18px);
@@ -42,6 +41,44 @@
     display:flex;
     flex-direction:column;
     justify-content:space-between;
+}
+.equipos-mobile{
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: white;
+    margin: .4rem 0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.80);
+}
+
+.resultados-mobile{
+    font-size: 1.3rem;
+    font-weight: 800;
+    color: #d4e3ff;
+    margin: .4rem 0;
+    text-shadow: 0 0 6px rgba(0,0,0,0.80);
+}
+@media (max-width: 576px){
+
+    .equipos-mobile{
+        font-size: 0.85rem;
+    }
+    .resultados-mobile{
+        font-size: 0.85rem;
+    }
+}
+@media (max-width: 768px){
+
+    .equipos-mobile{
+        font-size: 1rem;
+    }
+    .resultados-mobile{
+        font-size: 1rem;
+    }
+}
+.cards-mobile{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:1rem;
 }
 
 /* Admin */

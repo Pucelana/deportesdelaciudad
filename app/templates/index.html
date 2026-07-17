@@ -263,80 +263,7 @@
     <!-- Fin header 2 -->
     <!--Carrusel-->
     <main class="">
-      <section id="valladolid" class="container-fluid mt-3">
-        <div class="netflix-track">
-          {% if ver_publicacion %}
-          {% for date in ver_publicacion %}
-            <div class="netflix-item">
-              <div class="card partido-card">
-              <!-- Cabecera -->
-                <div class="card-header deporte-header  {{ date.seccion|lower|replace(' ','-') }}">
-                  {% if date.seccion == "Fútbol" %}
-                  ⚽
-                  {% elif date.seccion == "Baloncesto" %}
-                  🏀
-                  {% elif date.seccion == "Balonmano" %}
-                  🤾
-                  {% elif date.seccion == "Rugby" %}
-                  🏉
-                  {% elif date.seccion == "Hockey" %}
-                  🏑
-                  {% elif date.seccion == "Voleibol" %}
-                  🏐
-                  {% elif date.seccion == "Fútbol-Sala" %}
-                  🥅
-                  {% endif %}
-                  {{ date.seccion }}
-                </div>
-                <!-- Cuerpo -->
-                <div class="card-body">
-                  <h6 class="text-center fw-bold text-primary mb-3">
-                    {{ date.liga }}
-                  </h6>
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="equipo-mobile">
-                      {{ date.equipoA }}
-                    </span>
-                    <span class="resultados-mobile">
-                      {{ date.resultado1 }}
-                    </span>
-                  </div>
-                  <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="equipo-mobile">
-                      {{ date.equipoB }}
-                    </span>
-                    <span class="resultados-mobile">
-                      {{ date.resultado2 }}
-                    </span>
-                  </div>
-                  <div class="text-center">
-                    <small class="text-primary fw-bold">
-                      📅 {{ date.fecha_partido }}
-                    </small>
-                  </div>
-                </div>
-              </div>
-            </div>
-          {% endfor %}
-          {% endif %}
-        </div>
-      </section>
-     <!-- Resultados flotantes en directo -->
-     <!--<section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
-      <div class="card shadow-lg border-0 w-25" id="directo-container">
-        <div class="card-header fs-5 bg-info text-white fw-bold text-center">
-          🟢 Partidos en Directo
-        </div>
-        <div class="card-body bg-light p-2" id="directo-contenido">
-          <!- Las cards se insertarán aquí ->
-        </div>
-        <div class="card-footer text-center bg-light">
-          <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
-        </div>
-      </div>
-     </section>-->
-     <!--Logos Escudos-->
-     <section class="hero-home container">
+      <section class="hero-home container">
         <!--<div class="hero-texto">
           <h1>deportesdelaciudad</h1>
           <p>deporte local, corazón urbano</p>
@@ -346,7 +273,7 @@
             alt="Deportes de la Ciudad">
         </div>
       </section>
-     <section id="escudos-wrapper" class="container-fluid">
+      <section id="escudos-wrapper" class="container-fluid">
       <div class="escudos-container">
        <div class="container-lg d-flex justify-content-center flex-wrap gap-2">
         <!-- Reemplazá los src con las rutas de tus escudos -->
@@ -430,36 +357,109 @@
        </div>
       </div>
      </section>
+      <section id="valladolid" class="container-fluid mt-3">
+        <div class="netflix-track mb-3">
+          {% if ver_publicacion %}
+          {% for date in ver_publicacion %}
+            <div class="netflix-item">
+              <div class="card partido-card">
+              <!-- Cabecera -->
+                <div class="card-header deporte-header  {{ date.seccion|lower|replace(' ','-') }}">
+                  {% if date.seccion == "Fútbol" %}
+                  ⚽
+                  {% elif date.seccion == "Baloncesto" %}
+                  🏀
+                  {% elif date.seccion == "Balonmano" %}
+                  🤾
+                  {% elif date.seccion == "Rugby" %}
+                  🏉
+                  {% elif date.seccion == "Hockey" %}
+                  🏑
+                  {% elif date.seccion == "Voleibol" %}
+                  🏐
+                  {% elif date.seccion == "Fútbol-Sala" %}
+                  🥅
+                  {% endif %}
+                  {{ date.seccion }}
+                </div>
+                <!-- Cuerpo -->
+                <div class="card-body">
+                  <h6 class="text-center fw-bold text-primary mb-3">
+                    {{ date.liga }}
+                  </h6>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="equipos-mobile">
+                      {{ date.equipoA }}
+                    </span>
+                    <span class="resultados-mobile">
+                      {{ date.resultado1 }}
+                    </span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="equipos-mobile">
+                      {{ date.equipoB }}
+                    </span>
+                    <span class="resultados-mobile">
+                      {{ date.resultado2 }}
+                    </span>
+                  </div>
+                  <div class="text-center">
+                    <small class="text-primary fw-bold">
+                      📅 {{ date.fecha_partido }}
+                    </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          {% endif %}
+        </div>
+      </section>
+     <!-- Resultados flotantes en directo -->
+     <!--<section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
+      <div class="card shadow-lg border-0 w-25" id="directo-container">
+        <div class="card-header fs-5 bg-info text-white fw-bold text-center">
+          🟢 Partidos en Directo
+        </div>
+        <div class="card-body bg-light p-2" id="directo-contenido">
+          <!- Las cards se insertarán aquí ->
+        </div>
+        <div class="card-footer text-center bg-light">
+          <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
+        </div>
+      </div>
+     </section>-->
+     <!--Logos Escudos-->
     </main>
     <footer class="container-fluid mt-auto footer-seccion py-1">
       <div class="container-lg">
        <div class="row">
         <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
           <a>
-            <h4 class="text-start text-white fw-bold pt-1 ms-2">
+            <h4 class="text-start text-white text-footer fw-bold pt-1 ms-2">
               deportesdelaciudad &copy; 2026
             </h4>
           </a>
         </div>
         <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-lg-0">
           <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h4 class="text-white">Nosotros</h4>
+            <h5 class="text-white text-footer">Nosotros</h5>
           </a>
           <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h4 class="text-white ms-1">Contáctanos</h4>
+            <h5 class="text-white ms-1">Contáctanos</h5>
           </a>
           <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h4 class="text-white ms-1">Aviso legal</h4>
+            <h5 class="text-white ms-1 text-footer">Aviso legal</h5>
           </a>
           <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h4 class="text-white ms-1">
+            <h5 class="text-white ms-1 text-footer">
               Privacidad
-            </h4>
+            </h5>
           </a>
           <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h4 class="text-white ms-1">
+            <h5 class="text-white ms-1 text-footer">
               Cookies
-            </h4>
+            </h5>
           </a>
         </div>
         <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center">
