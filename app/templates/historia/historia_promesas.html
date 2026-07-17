@@ -99,7 +99,7 @@
   <div id="grafico" class="tab-pane">
     <div class="card mt-3 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
-        <h3 class="text-center mb-4">Evolución de puntos por temporada</h3>
+        <h5 class="text-center mb-1">Evolución puntos temporada</h5>
         <canvas
           id="graficoTemporadas"
           data-labels='{{ labels_temporadas|tojson }}'
@@ -127,7 +127,7 @@
     </div>
     <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
-        <h3 class="text-center mb-4">Evolución de puntos por jornadas</h3>
+        <h5 class="text-center mb-1">Evolución puntos jornadas</h5>
         <canvas
           id="graficoJornadas"
           data-labels='{{ labels_jornadas|tojson }}'

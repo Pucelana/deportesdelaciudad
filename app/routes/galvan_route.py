@@ -4,6 +4,8 @@ from collections import defaultdict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.galvan import JornadaGalvan, GalvanPartido, GalvanClub, CopaGalvan, PlayoffGalvan, TemporadaGalvan
 
 galvan_route_bp = Blueprint('galvan_route_bp', __name__)
@@ -137,7 +139,7 @@ def obtener_datos_galvan(nombre_temporada=None):
 @galvan_route_bp.route('/equipos_futsal/calendario_galvan')
 def calendario_galvan():
     datos = obtener_datos_galvan()
-    equipo_galvan = 'C.D Tierno Galván'
+    equipo_galvan = 'Tierno Galván'
     tabla_partidos_galvan = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -243,7 +245,7 @@ def eliminar_club_galvan(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for('galvan_route_bp.jornada0_galvan'))
-# Crear la clasificación RV Galvan
+# Crear la clasificación Tierno Galvan
 def generar_clasificacion_analisis_futsal_galvan(data):
     clasificacion = defaultdict(lambda: {
         'jugados': 0,
@@ -428,7 +430,7 @@ def generar_clasificacion_analisis_futsal_galvan(data):
         {'equipo': e, 'datos': d}
         for e, d in equipos
     ]
-# Ruta para mostrar la clasificación y análisis del UEMC
+# Ruta para mostrar la clasificación y análisis del Tierno Galvan
 @galvan_route_bp.route('/equipos_futsal/clasif_galvan')
 def clasif_analisis_galvan():
     data = obtener_datos_galvan()
@@ -463,7 +465,7 @@ def clasif_analisis_galvan():
     )
     return render_template('equipos_vall/clasif_galvan.html',
         clasificacion_analisis_galvan=clasificacion_analisis_galvan)
-# TEMPORADAS RV Promesas
+# TEMPORADAS Tierno Galvan
 @galvan_route_bp.route('/temporadas_galvan')
 def temporadas_galvan():
     temporadas = TemporadaGalvan.query.order_by(
@@ -481,6 +483,188 @@ def activar_temporada_galvan(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('galvan_route_bp.temporadas_galvan')) 
+
+# HISTORIAL TIERNO GALVAN
+# Creación del historial de temporadas del Tierno Galván
+@galvan_route_bp.route("/admin/crear_historial_galvan", methods=["GET", "POST"])
+def crear_historial_galvan():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="futbol sala",
+            equipo="Tierno Galván",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("galvan_route_bp.crear_historial_galvan"))
+    historial = (Historial.query.filter_by(
+        deporte="futbol sala",
+        equipo="Tierno Galván"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaGalvan.query.order_by(
+        TemporadaGalvan.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="futbol sala",
+        equipo="Tierno Galván",
+        crear_url="galvan_route_bp.crear_historial_galvan",
+        modificar_url="galvan_route_bp.modificar_historial_galvan",
+        eliminar_url="galvan_route_bp.eliminar_historial_galvan"
+    )
+@galvan_route_bp.route("/admin/eliminar_historial_galvan/<int:id>", methods=["POST"])
+def eliminar_historial_galvan(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("galvan_route_bp.crear_historial_galvan"))
+# Modificar historial de temporadas del Tierno Galván
+@galvan_route_bp.route("/admin/modificar_historial_galvan/<int:id>", methods=["POST"])
+def modificar_historial_galvan(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("galvan_route_bp.crear_historial_galvan"))
+# Ver Historial de temporadas del Tierno Galván en la página principal
+@galvan_route_bp.route("/galvan/historial")
+def historial_galvan():
+    historial = (Historial.query.filter_by(
+        deporte="futbol sala",
+        equipo="Tierno Galván"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaGalvan.query.order_by(TemporadaGalvan.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="futbol sala",
+            equipo="Tierno Galván"
+        ).order_by(Palmaress.temporada.desc()).all())
+
+    labels_jornadas = []
+
+    for i, temporada in enumerate(temporadas):
+
+        jornadas = (
+            JornadaGalvan.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaGalvan.id)
+            .all()
+        )
+
+        if not jornadas:
+            continue
+
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "Tierno Galván", generar_clasificacion_analisis_futsal_galvan,"puntos"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+        
+
+    return render_template(
+        "historia/historia_galvan.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        titulos=titulos,
+        deporte="Fútbol sala",
+        equipo="Tierno Galván"
+  )
+
+# PALMARES TIERNO GALVAN
+# Crear Palmares del Tierno Galvan
+@galvan_route_bp.route("/admin/crear_palmares_galvan", methods=["GET", "POST"])
+def crear_palmares_galvan():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="futbol sala",
+            equipo="Tierno Galvan",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="futbol sala",
+            equipo="Tierno Galvan"
+        )
+        .order_by(Palmaress.temporada.desc())
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Fútbol sala",
+        equipo="Tierno Galvan",
+        crear_url="galvan_route_bp.crear_palmares_galvan",
+        modificar_url="galvan_route_bp.modificar_palmares_galvan",
+        eliminar_url="galvan_route_bp.eliminar_palmares_galvan",
+    )
+# Modificar Palmares del Tierno Galván
+@galvan_route_bp.route("/admin/modificar_palmares_galvan/<int:id>", methods=["POST"])
+def modificar_palmares_galvan(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    db.session.commit()
+    return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
+# Eliminar Palmares del Tierno Galván
+@galvan_route_bp.route("/admin/eliminar_palmares_galvan/<int:id>", methods=["POST"])
+def eliminar_palmares_galvan(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
+
 
 # COPA DEL REY Tierno Galvan
 # Creación de las eliminatorias de copa
