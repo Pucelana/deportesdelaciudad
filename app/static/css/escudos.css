@@ -6,9 +6,9 @@
     padding: 10px;
     cursor: pointer;
   }
-  #escudos-wrapper {
+  /*#escudos-wrapper {
   margin-top: 40vh;
-  }
+  }*/
   .escudo-link {
   position: relative;
   text-decoration: none;
@@ -53,22 +53,22 @@
 
 @media (max-width: 576px) {
   .escudos-container {
-    gap: 8px;
+    gap: 6px;
   }
 
   .escudo {
-    width: 30px;
-    height: 30px;
+    width: 18px;
+    height: 18px;
   }
 }
 
 @media (min-width: 577px) and (max-width: 992px) {
   .escudo {
-    width: 40px;
-    height: 40px;
+    width: 30px;
+    height: 30px;
   }
 
   .escudos-container {
-    gap: 12px;
+    gap: 10px;
   }
 }

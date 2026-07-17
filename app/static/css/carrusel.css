@@ -1,6 +1,6 @@
 .netflix-track{
     display:flex;
-    gap:14px;
+    gap:10px;
     overflow-x:auto;
     scroll-behavior:smooth;
     cursor:grab;
@@ -18,7 +18,7 @@
     flex:0 0 auto;
 }
 .partido-card{
-    width:270px;
+    width:290px;
     border:none;
     border-radius:12px;
     background:rgba(255,255,255,.10);

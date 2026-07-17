@@ -58,6 +58,7 @@
     min-height: 100dvh;
     background-position: center;
     position: relative;*/
+    border:2px solid rgba(255,255,255,.9);
     background: linear-gradient(135deg,
     #C3AEEB 0%,
     #E4C9E6 35%,
@@ -65,7 +66,7 @@
     #F8EEF4 100%);
     background-repeat: no-repeat;
     background-size: cover;
-    box-shadow: 10px 5px 5px gray;
+    box-shadow: 0 10px 25px rgba(0,0,0,.18);
 }
 .tabla_equ_futb{
     margin-top: 2%;

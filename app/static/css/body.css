@@ -1,13 +1,13 @@
-html {
+/*html {
     width: 100%;
     overflow-x: hidden;
-}
+}*/
 * {
     box-sizing: border-box;
 }
-body{
+/*body{
     /*background: linear-gradient(top left, #ff7878, #3a71d8);*/
-    /*background: -webkit-linear-gradient(180deg, #ffa3a3, #89a8e2);*/
+    /*background: -webkit-linear-gradient(180deg, #ffa3a3, #89a8e2);*
     position: relative;
     margin: 0;
     background: #050505;
@@ -20,17 +20,20 @@ body{
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /*color: white;*/
+    /*color: white;*
     overflow-x: hidden;
-}
+}*/
 
-#body_secciones{
+.body_secciones{
     /*background-color: #ffefef;*/
     background: linear-gradient(135deg,
     #C3AEEB 0%,
     #E4C9E6 35%,
     #F3DDEB 65%,
     #F8EEF4 100%);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
 }
 .body_admin{
     /*background-color: #ffefef;*/
@@ -44,9 +47,7 @@ body{
 
 main {
   flex:1;
-  flex-grow:1;
-  flex-shrink:0;
-  flex-basis:auto;
+  
 }
 
 /* Splash base */
