@@ -7,17 +7,24 @@
     position: relative;
     width: 100%;
     height: 100%;
+
+    
 }
 /* Medias Historial Completo */
 @media (max-width:992px){
     .grafico-historial{
-        height:350px;
+        height:420px;
     }
 }
 
 @media (max-width:768px){
     .grafico-historial{
-        height:250px;
+        height:350px;
+    }
+}
+@media (max-width:576px){
+    .grafico-historial{
+        height:290px;
     }
 }
 

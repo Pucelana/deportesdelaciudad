@@ -57,11 +57,14 @@ if (canvas_jornadas) {
                     beginAtZero: true,
 
                     ticks: {
-                        stepSize: 5,
+                        autoSkip: true,
+                        maxTicksLimit: 15,
                         font: {
-                            size: 15
+                            size: 11
                         }
+                        
                     }
+                    
 
                 }
 

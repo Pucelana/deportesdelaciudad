@@ -114,7 +114,6 @@
           <p class="equipo-mobile"><strong class="text-dark">Obser.:</strong> {{ h.observaciones }}</p>
         </div>
       </div>
-
       {% endfor %}
     </div>
   </div>
@@ -124,7 +123,6 @@
         <h3 class="text-center mb-4">Evolución de puntos por temporada</h3>
         <canvas
           id="graficoTemporadas"
-          height="120"
           data-labels='{{ labels_temporadas|tojson }}'
           data-puntos='{{ puntos_temporadas|tojson }}'
         ></canvas>
@@ -142,9 +140,7 @@
           type="checkbox"
           checked
           id="temp{{ loop.index0 }}"
-          data-index="{{ loop.index0 }}"
-        />
-
+          data-index="{{ loop.index0 }}"/>
         <label class="form-check-label text-white" for="temp{{ loop.index0 }}">
           {{ dataset.label }}
         </label>
@@ -157,7 +153,6 @@
         <h3 class="text-center mb-4">Evolución de puntos por jornadas</h3>
         <canvas
           id="graficoJornadas"
-          height="120"
           data-labels='{{ labels_jornadas|tojson }}'
           data-datasets='{{ datasets_jornadas|tojson }}'
         ></canvas>
