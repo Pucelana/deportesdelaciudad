@@ -1,74 +1,39 @@
 .hero-home{
     display:flex;
-    align-items:center;
     justify-content:center;
-    gap:2px;
-    padding:2rem 0;
-    margin: 2rem auto;
-}
-
-.hero-texto{
-    flex:0 1 auto;
-}
-
-.hero-texto h1{
-    font-family: 'Nunito ExtraBold';
-    margin:0;
-    font-size:clamp(2.4rem,4vw,5rem);
-    font-weight:800;
-    line-height:1;
-    background:linear-gradient(90deg,#153c8b 0%, #1b63d8 35%, #8a3cb5 70%, #ef2d66 100%);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-}
-
-.hero-texto p{
-    font-family: 'Dancing Script', cursive;
-    margin-top:.2rem;
-    font-size:clamp(1rem,1.7vw,2rem);
-    background:linear-gradient(90deg,#153c8b,#8a3cb5);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-    background-clip:text;
-    font-weight:600;
+    align-items:center;
+    padding: 8px 0 2px;
 }
 
 .hero-logo{
-    flex:0 0 auto;
-    display:flex;
-    align-items:center;    
+    margin-top: 10px;
+    text-align:center;
 }
 
 .hero-logo img{
-    width:clamp(120px,18vw,260px);
+    width:min(92vw,750px);
     height:auto;
-    display:block;
-    
+    animation: aparecer 0.8s ease;
+}
+@keyframes aparecer{
+    from{
+        opacity:0;
+        transform:translateY(-12px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 @media (max-width:768px){
 
 .hero-home{
-    padding: 6px 0;
-    margin-top: 3rem;
-}
-
-.hero-texto{
-    margin-right:-8px;   /* acerca el texto al logo */
+    padding:8px 0 10px;
 }
 
 .hero-logo img{
-    width:135px;
-}
-
-.hero-texto h1{
-    font-size:1.7rem;
-}
-
-.hero-texto p{
-    font-size:1.2rem;
-    margin-top:0;
+    max-width:340px;
 }
 
 }

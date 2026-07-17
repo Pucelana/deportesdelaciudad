@@ -6,22 +6,41 @@
     box-sizing: border-box;
 }
 /*body{
+  /*margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image:
+    linear-gradient(rgba(211, 211, 211, 0.6), rgba(0, 0, 0, 0.4)),
+    url('/static/img/deporteciudad.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;*/
     /*background: linear-gradient(top left, #ff7878, #3a71d8);*/
     /*background: -webkit-linear-gradient(180deg, #ffa3a3, #89a8e2);*
     position: relative;
     margin: 0;
-    background: #050505;
-    padding-top: 0;
+    padding: 0;
     background-image: linear-gradient(rgba(211, 211, 211, 0.6), rgba(0, 0, 0, 0.4)), url('/static/img/deporteciudad.png');
     background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center center;
+    background-size: cover;
+    background-position: center;
     position: relative;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     /*color: white;*
     overflow-x: hidden;
+}
+@media (max-width: 576px) {
+  body {
+    background-position: center center;
+    background-size: 100% 100%;
+    position: relative;
+    margin: 0;
+    padding: 0;
+  }
 }*/
 
 .body_secciones{
@@ -31,7 +50,7 @@
     #E4C9E6 35%,
     #F3DDEB 65%,
     #F8EEF4 100%);
-    min-height:120vh;
+    min-height:100vh;
     display:flex;
     flex-direction:column;
 }
@@ -45,10 +64,10 @@
   flex-direction: column;
 }
 
-main {
-  flex:1;
-  
+main{
+  flex: 1;
 }
+
 
 /* Splash base */
 #splash {

@@ -2,7 +2,7 @@
     width:100%;
     max-width:1200px;
     /*margin:20px auto 20px auto;*/
-    padding: 10px;
+    padding: 0 10px;
     padding-top: 20px;
     margin: 5px auto;
 }
@@ -11,6 +11,14 @@
     .main-seccion{
         padding: 5px 5px;
     }
+}
+@media (max-width:768px){
+
+.main-seccion{
+    padding-left:4px;
+    padding-right:4px;
+}
+
 }
 
 /*footer{

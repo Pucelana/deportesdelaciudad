@@ -1,9 +1,10 @@
 #escudos-wrapper{
-  padding:16px 0 0 0;
-  margin-top: 3rem;
+  padding: 16px 0 16px 0;
+  margin-top: 14px;
   /*margin-top: 8vh;*/
 }
 .escudos-container {
+  margin-top:10px;
   align-items: center;
   display: flex;
   justify-content: center;

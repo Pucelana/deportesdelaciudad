@@ -50,13 +50,10 @@
     flex-wrap: nowrap;
     overflow-x: auto;
     overflow-y: hidden;
-
     gap: 12px;
     padding: 10px;
-
     cursor: grab;
     scroll-behavior: smooth;
-
     -webkit-overflow-scrolling: touch;
 }
 

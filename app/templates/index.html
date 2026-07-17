@@ -262,7 +262,7 @@
     </header>
     <!-- Fin header 2 -->
     <!--Carrusel-->
-    <main class="main-seccion">
+    <main class="">
       <section id="valladolid" class="container-fluid mt-3">
         <div class="netflix-track">
           {% if ver_publicacion %}
@@ -321,16 +321,6 @@
           {% endif %}
         </div>
       </section>
-      <section class="hero-home container">
-        <div class="hero-texto">
-          <h1>deportesdelaciudad</h1>
-          <p>deporte local, corazón urbano</p>
-        </div>
-        <div class="hero-logo">
-          <img src="{{ url_for('static', filename='img/logo-deportes2.png') }}"
-            alt="Deportes de la Ciudad">
-        </div>
-      </section>
      <!-- Resultados flotantes en directo -->
      <!--<section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
       <div class="card shadow-lg border-0 w-25" id="directo-container">
@@ -346,6 +336,16 @@
       </div>
      </section>-->
      <!--Logos Escudos-->
+     <section class="hero-home container">
+        <!--<div class="hero-texto">
+          <h1>deportesdelaciudad</h1>
+          <p>deporte local, corazón urbano</p>
+        </div>-->
+        <div class="hero-logo">
+          <img src="{{ url_for('static', filename='img/deporteciudad_sf1.png') }}"
+            alt="Deportes de la Ciudad">
+        </div>
+      </section>
      <section id="escudos-wrapper" class="container-fluid">
       <div class="escudos-container">
        <div class="container-lg d-flex justify-content-center flex-wrap gap-2">
