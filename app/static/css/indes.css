@@ -6,7 +6,7 @@
 }
 
 .hero-logo{
-    margin-top: 10px;
+    margin-top: 20px;
     text-align:center;
 }
 
@@ -25,11 +25,43 @@
         transform:translateY(0);
     }
 }
+@media (max-width:768px){
+
+    #valladolid{
+        margin-bottom:15px;
+    }
+
+    .footer-seccion{
+        padding-top:20px;
+    }
+
+}
+@media (max-width:576px){
+
+    #valladolid{
+        margin-bottom:5px;
+    }
+
+    .footer-seccion{
+        padding-top: 25px;
+    }
+
+}
 
 @media (max-width:768px){
 
 .hero-home{
     padding:8px 0 10px;
+}
+
+.hero-logo img{
+    max-width:340px;
+}
+
+}@media (max-width:576px){
+
+.hero-logo{
+    margin-top: 30px;
 }
 
 .hero-logo img{

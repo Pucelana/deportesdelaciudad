@@ -11,13 +11,13 @@
 /* Medias Historial Completo */
 @media (max-width:992px){
     .grafico-historial{
-        height:420px;
+        height:350px;
     }
 }
 
 @media (max-width:768px){
     .grafico-historial{
-        height:320px;
+        height:250px;
     }
 }
 

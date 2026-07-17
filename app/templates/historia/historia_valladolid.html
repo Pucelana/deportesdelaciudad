@@ -114,7 +114,6 @@ Valladolid{% endblock %} {% block breadcrumb %}
           <p class="equipo-mobile"><strong class="text-dark">Obser.:</strong> {{ h.observaciones }}</p>
         </div>
       </div>
-
       {% endfor %}
     </div>
   </div>
@@ -131,34 +130,26 @@ Valladolid{% endblock %} {% block breadcrumb %}
       </div>
     </div>
   </div>
-
   <div id="grafico2" class="tab-pane">
-    <div class="d-flex justify-content-center flex-wrap gap-2 mb-2">
+    <div class="section-botones d-flex justify-content-center flex-wrap gap-2 mb-2">
       {% for dataset in datasets_jornadas %}
-
       <div class="form-check">
         <input
           class="form-check-input temporada-check"
           type="checkbox"
           checked
           id="temp{{ loop.index0 }}"
-          data-index="{{ loop.index0 }}"
-        />
-
+          data-index="{{ loop.index0 }}"/>
         <label class="form-check-label text-white" for="temp{{ loop.index0 }}">
           {{ dataset.label }}
         </label>
       </div>
-
       {% endfor %}
     </div>
     <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
         <h3 class="text-center mb-4">Evolución de puntos por jornadas</h3>
-        <canvas
-          id="graficoJornadas"
-          height="120"
-          data-labels='{{ labels_jornadas|tojson }}'
+        <canvas id="graficoJornadas" height="120" data-labels='{{ labels_jornadas|tojson }}'
           data-datasets='{{ datasets_jornadas|tojson }}'
         ></canvas>
       </div>
@@ -167,7 +158,6 @@ Valladolid{% endblock %} {% block breadcrumb %}
   <div id="titulos" class="tab-pane">
     <div class="row justify-content-center g-4">
       {% for titulo in titulos %}
-
       <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="trofeo-card">
           <img
