@@ -61,17 +61,16 @@
             <a class="dropdown-item" href="{{ url_for('promesas_route_bp.crear_historial_promesas') }}">RV Promesas</a>
             <a class="dropdown-item" href="{{ url_for('simancas_route_bp.crear_historial_simancas') }}">RV Femenino</a>
             <a class="dropdown-item" href="{{ url_for('parquesol_route_bp.crear_historial_parquesol') }}">CD Parquesol</a>
-            <a class="dropdown-item" href="">Valladolid FS</a>
             <a class="dropdown-item" href="{{ url_for('galvan_route_bp.crear_historial_galvan') }}">C.D Tierno Galván</a>
-            <a class="dropdown-item" href="">FS Valladolid</a>
+            <a class="dropdown-item" href="{{ url_for('vall_sala_route_bp.crear_historial_vall_sala') }}">FS Valladolid</a>
             <a class="dropdown-item" href="">Atl.Valladolid T.G</a>
             <a class="dropdown-item" href="{{ url_for('aula_route_bp.crear_historial_aula') }}">Aula Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('recoletas_route_bp.crear_historial_recoletas') }}">Atl.Valladolid</a>
-            <a class="dropdown-item" href="">VRAC</a>
+            <a class="dropdown-item" href="{{ url_for('vrac_route_bp.crear_historial_vrac') }}">VRAC</a>
             <a class="dropdown-item" href="">CR El Salvador</a>
             <a class="dropdown-item" href="">El Salvador Fem.</a>
-            <a class="dropdown-item" href="">CPLV Caja Rural</a>
-            <a class="dropdown-item" href="">Panteras Caja Rural</a>
+            <a class="dropdown-item" href="{{ url_for('caja_route_bp.crear_historial_caja') }}">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="{{ url_for('panteras_route_bp.crear_historial_panteras') }}">Panteras Caja Rural</a>
             <a class="dropdown-item" href="">Universidad VCV</a>
             <a class="dropdown-item" href="">CD San Jose</a>
           </div>
@@ -87,17 +86,17 @@
             <a class="dropdown-item" href="{{ url_for('promesas_route_bp.crear_palmares_promesas') }}">RV Promesas</a>
             <a class="dropdown-item" href="{{ url_for('simancas_route_bp.crear_palmares_simancas') }}">RV Femenino</a>
              <a class="dropdown-item" href="{{ url_for('parquesol_route_bp.crear_palmares_parquesol') }}">CD Parquesol</a>
-            <a class="dropdown-item" href="/admin/palmares_fsvalladolid">Valladolid FS</a>
+            <a class="dropdown-item" href="{{ url_for('vall_sala_route_bp.crear_palmares_vall_sala') }}">FS Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('galvan_route_bp.crear_palmares_galvan') }}">C.D Tierno Galván</a>
             <a class="dropdown-item" href="/admin/palmares_vall_sala">FS Valladolid</a>
             <a class="dropdown-item" href="/admin/palmares_valladolidfsf">Atl.Valladolid T.G</a>
             <a class="dropdown-item" href="{{ url_for('aula_route_bp.crear_palmares_aula') }}">Aula Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('recoletas_route_bp.crear_palmares_recoletas') }}">Atl.Valladolid</a>
-            <a class="dropdown-item" href="/admin/palmares_vrac">VRAC</a>
+            <a class="dropdown-item" href="{{ url_for('vrac_route_bp.crear_palmares_vrac') }}">VRAC</a>
             <a class="dropdown-item" href="/admin/palmares_salvador">CR El Salvador</a>
             <a class="dropdown-item" href="/admin/palmares_salvador_fem">El Salvador Fem.</a>
-            <a class="dropdown-item" href="/admin/palmares_caja">CPLV Caja Rural</a>
-            <a class="dropdown-item" href="/admin/palmares_panteras">Panteras Caja Rural</a>
+            <a class="dropdown-item" href="{{ url_for('caja_route_bp.crear_palmares_caja') }}">CPLV Caja Rural</a>
+            <a class="dropdown-item" href="{{ url_for('panteras_route_bp.crear_palmares_panteras') }}">Panteras Caja Rural</a>
             <a class="dropdown-item" href="/admin/palmares_vcv">Universidad VCV</a>
             <a class="dropdown-item" href="/admin/palmares_san_jose">CD San Jose</a>
           </div>

@@ -45,9 +45,17 @@ class UEMCClub(db.Model):
     # Definir la columna 'nombre' para el nombre del club
     nombre = db.Column(db.String(255), nullable=False)
 
+class EquiposCopaUEMC(db.Model):
+    __tablename__ = "equipos_copa_uemc"
+    id = db.Column(db.Integer, primary_key=True)
+    grupo = db.Column(db.String(1))
+    equipo = db.Column(db.String(120), unique=True)
+    orden = db.Column(db.Integer, default=0)    
+
 class CopaUEMC(db.Model):
     __tablename__ = 'copa_uemc'
     id = db.Column(db.Integer, primary_key=True)  # ID único para cada partido
+    grupo = db.Column(db.String(10))
     encuentros = db.Column(db.String(255), nullable=True)  # Encuentros, por ejemplo, nombre del torneo o fase
     fecha = db.Column(db.String(20))
     hora = db.Column(db.String(20))  # Hora del partido

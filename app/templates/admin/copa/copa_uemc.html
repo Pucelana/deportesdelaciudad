@@ -8,22 +8,137 @@
     </ol>
 {% endblock %}
 {% block contenido %}
+  <section class="container-lg mt-4  d-flex justify-content-center">
+    <div class="card shadow-sm mb-4 w-100"  style="max-width: 50rem;">
+      <div class="card-header bg-primary text-white">
+        <h5 class="mb-0">Equipos Copa UEMC</h5>
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('uemc_route_bp.crear_equipo_copa_uemc') }}" class="row">
+          <div class="justify-content-center">
+            <div class="col-md-12 mb-3">
+              <label class="form-label fw-bold">Grupo</label>
+                <select name="grupo" class="form-select">
+                  <option value="A">Grupo A</option>
+                  <option value="B">Grupo B</option>
+                  <option value="C">Grupo C</option>
+                  <option value="D">Grupo D</option>
+                  <option value="E">Grupo E</option>
+                  <option value="F">Grupo F</option>
+                  <option value="G">Grupo G</option>
+                </select>
+              
+            </div>
+            <div class="col-md-12 mb-3">
+              <label class="form-label fw-bold">Equipo</label>
+                <input type="text" name="equipo" class="form-control" required>
+                <button class="btn btn-success w-100 mt-3">
+                  Añadir equipo
+                </button>
+              </div>
+            </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <hr class="my-4">
+  <div class="row g-3">
+  {% for grupo in ["A","B","C","D","E","F","G"] %}
+  <div class="col-lg-4 col-md-6">
+    <div class="card shadow-sm w-100" style="max-width: 20rem;">
+      <div class="card-header bg-dark text-white text-center">
+        <h5 class="mb-0">Grupo {{ grupo }}</h5>
+      </div>
+      <div class="card-body p-2">
+        <table class="table table-striped table-lg align-middle mb-0">
+          <thead>
+            <tr>
+              <th>Equipo</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for equipo in equipos if equipo.grupo == grupo %}
+            <tr>
+              <td>{{ equipo.equipo }}</td>
+              <td class="text-center">
+                <div class="d-flex justify-content-center gap-2">
+                  <button class="btn btn-warning btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#modal{{ equipo.id }}">Modificar
+                  </button>
+                  <form method="POST" action="{{ url_for('uemc_route_bp.eliminar_equipo_copa_uemc', id=equipo.id) }}"
+                    class="m-0">
+                    <button type="submit" class="btn btn-danger btn-sm"
+                      onclick="return confirm('¿Eliminar equipo?')">Borrar
+                    </button>
+                  </form>
+                </div>
+              </td>
+            </tr>
+         {% endfor %}
+         </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  </div>
+  {% for equipo in equipos %}
+  <div class="modal fade" id="modal{{ equipo.id }}">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <form method="POST" action="{{ url_for('uemc_route_bp.modificar_equipo_copa_uemc', id=equipo.id) }}">
+          <div class="modal-header">
+            <h5>Modificar Equipo</h5>
+              <button class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <label>Equipo</label>
+              <input class="form-control mb-3" name="equipo" value="{{ equipo.equipo }}">
+                <label>Grupo</label>
+                  <select class="form-select" name="grupo">
+                  {% for g in ["A","B","C","D","E","F","G"] %}
+                    <option value="{{ g }}"
+                      {% if g==equipo.grupo %}selected{% endif %}>
+                            Grupo {{ g }}
+                    </option>
+                  {% endfor %}
+                  </select>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary">Guardar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
   <section class="container-lg">
     <!-- Formulario para los resultados de los partidos -->
     <div class="container-lg d-flex justify-content-center">
       <form id="form_copa_uemc" method="POST" action="/admin/crear_copa_uemc" class="row mb-3">
         <!-- Selección de etapa del torneo -->
         <label for="encuentros">Etapa del Torneo:</label>
-        <select id="encuentros" name="encuentros">
-          <option value="liga_j1">Jornada 1</option>
-          <option value="liga_j2">Jornada 2</option>
-          <option value="liga_j3">Jornada 3</option>
-          <option value="dieciseisavos">Dieciseisavos</option>
-          <option value="octavos">Octavos</option>
-          <option value="cuartos">Cuartos</option>
-          <option value="semifinales">Semifinales</option>
-          <option value="final">Final</option>
-        </select>
+        <label for="grupo">Grupo:</label>
+          <select id="grupo" name="grupo">
+            <option value="A">Grupo A</option>
+            <option value="B">Grupo B</option>
+            <option value="C">Grupo C</option>
+            <option value="D">Grupo D</option>
+            <option value="E">Grupo E</option>
+            <option value="F">Grupo F</option>
+            <option value="G">Grupo G</option>
+          </select>
+          <select id="encuentros" name="encuentros">
+            <option value="liga_j1">Jornada 1</option>
+            <option value="liga_j2">Jornada 2</option>
+            <option value="liga_j3">Jornada 3</option>
+            <option value="dieciseisavos">Dieciseisavos</option>
+            <option value="octavos">Octavos</option>
+            <option value="cuartos">Cuartos</option>
+            <option value="semifinales">Semifinales</option>
+            <option value="final">Final</option>
+          </select>
         <div class="form-group col-md-6">
           <label for="num_partidos">Número de Partidos</label>
           <input type="text" name="num_partidos" id="num_partidos" class="form-control">
@@ -171,8 +286,8 @@
         var selectedOption = selectEliminatoria.value;
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
-        if (selectedOption.startsWith("liga_j1") || selectedOption.startsWith("liga_j2") || selectedOption.startsWith("liga_j3")) {
-          numPartidos = 14;
+        if (selectedOption("liga_j1") || selectedOption("liga_j2") || selectedOption("liga_j3")) {
+          numPartidos = 2;
           } else if (selectedOption === "dieciseisavos") {
           numPartidos = 16;
         } else if (selectedOption === "octavos") {

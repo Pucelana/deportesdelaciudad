@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.vall_sala import JornadaVallSala, VallSalaPartido, VallSalaClub, CopaVallSala, PlayoffVallSala, TemporadaVallSala
 
 vall_sala_route_bp = Blueprint('vall_sala_route_bp', __name__)
@@ -481,6 +484,187 @@ def activar_temporada_vall_sala(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('vall_sala_route_bp.temporadas_vall_sala'))
+
+# HISTORIAL FS VALLADOLID
+# Creación del historial de temporadas del FS Valladolid
+@vall_sala_route_bp.route("/admin/crear_historial_vall_sala", methods=["GET", "POST"])
+def crear_historial_vall_sala():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="futbol sala",
+            equipo="FS Valladolid",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
+    historial = (Historial.query.filter_by(
+        deporte="futbol sala",
+        equipo="FS Valladolid"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaVallSala.query.order_by(
+        TemporadaVallSala.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="futbol sala",
+        equipo="FS Valladolid",
+        crear_url="vall_sala_route_bp.crear_historial_vall_sala",
+        modificar_url="vall_sala_route_bp.modificar_historial_vall_sala",
+        eliminar_url="vall_sala_route_bp.eliminar_historial_vall_sala"
+    )
+@vall_sala_route_bp.route("/admin/eliminar_historial_vall_sala/<int:id>", methods=["POST"])
+def eliminar_historial_vall_sala(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
+# Modificar historial de temporadas del FS Valladolid
+@vall_sala_route_bp.route("/admin/modificar_historial_vall_sala/<int:id>", methods=["POST"])
+def modificar_historial_vall_sala(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
+# Ver Historial de temporadas del FS Valladolid en la página principal
+@vall_sala_route_bp.route("/vall_sala/historial")
+def historial_vall_sala():
+    historial = (Historial.query.filter_by(
+        deporte="futbol sala",
+        equipo="FS Valladolid"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaVallSala.query.order_by(TemporadaVallSala.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="futbol sala",
+            equipo="FS Valladolid"
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaVallSala.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaVallSala.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "FS Valladolid", generar_clasificacion_analisis_futsal_vall_sala,"puntos"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_vall_sala.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        palmares=palmares,
+        deporte="Fútbol sala",
+        equipo="FS Valladolid"
+  )
+
+# PALMARES FS VALLADOLID
+# Crear Palmares del FS Valladolid
+@vall_sala_route_bp.route("/admin/crear_palmares_vall_sala", methods=["GET", "POST"])
+def crear_palmares_vall_sala():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="futbol sala",
+            equipo="FS Valladolid",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("vall_sala_route_bp.crear_palmares_vall_sala"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="futbol sala",
+            equipo="FS Valladolid"
+        )
+        .order_by( Palmaress.orden.asc(),Palmaress.temporada.desc())
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Fútbol sala",
+        equipo="FS Valladolid",
+        crear_url="vall_sala_route_bp.crear_palmares_vall_sala",
+        modificar_url="vall_sala_route_bp.modificar_palmares_vall_sala",
+        eliminar_url="vall_sala_route_bp.eliminar_palmares_vall_sala",
+    )
+# Modificar Palmares del FS Valladolid
+@vall_sala_route_bp.route("/admin/modificar_palmares_vall_sala/<int:id>", methods=["POST"])
+def modificar_palmares_vall_sala(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
+    db.session.commit()
+    return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
+# Eliminar Palmares del FS Valladolid
+@vall_sala_route_bp.route("/admin/eliminar_palmares_vall_sala/<int:id>", methods=["POST"])
+def eliminar_palmares_vall_sala(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("vall_sala_route_bp.crear_palmares_vall_sala"))
 
 # COPA DEL REY Valladolid S.S
 # Creación de las eliminatorias de copa

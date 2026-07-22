@@ -1,12 +1,13 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC
+from ..models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC, EquiposCopaUEMC
 
 uemc_route_bp = Blueprint('uemc_route_bp', __name__)
 
@@ -638,7 +639,12 @@ def historial_uemc():
     titulos = (Palmaress.query.filter_by(
             deporte="baloncesto",
             equipo="CBC Valladolid"
-        ).order_by(Palmaress.temporada.desc()).all())
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
     
     labels_jornadas = []
     
@@ -675,7 +681,7 @@ def historial_uemc():
         puntos_temporadas=puntos_temporadas,
         labels_jornadas=labels_jornadas,
         datasets_jornadas=datasets_jornadas,
-        titulos=titulos,
+        palmares=palmares,
         deporte="baloncesto",
         equipo="CBC Valladolid"
   )
@@ -691,6 +697,7 @@ def crear_palmares_uemc():
             temporada=request.form.get("temporada"),
             competicion=request.form.get("competicion"),
             imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
         )
         db.session.add(titulo)
         db.session.commit()
@@ -700,7 +707,7 @@ def crear_palmares_uemc():
             deporte="baloncesto",
             equipo="CBC Valladolid"
         )
-        .order_by(Palmaress.temporada.desc())
+        .order_by(Palmaress.orden.asc(),Palmaress.temporada.desc())
         .all()
     )
     return render_template(
@@ -719,6 +726,7 @@ def modificar_palmares_uemc(id):
     titulo.temporada_id = request.form.get("temporada_id")
     titulo.competicion = request.form.get("competicion")
     titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
     db.session.commit()
     return redirect(url_for("uemc_route_bp.crear_palmares_uemc"))
 # Eliminar Palmares del UEMC
@@ -729,12 +737,51 @@ def eliminar_palmares_uemc(id):
     db.session.commit()
     return redirect(url_for("uemc_route_bp.crear_palmares_uemc"))
 
-
 # COPA UEMC
+# Crear equipos copa CBC
+@uemc_route_bp.route('/crear_equipo_copa_uemc', methods=['POST'])
+def crear_equipo_copa_uemc():
+    grupo = request.form.get('grupo')
+    equipo = request.form.get('equipo')
+    if not grupo or not equipo:
+        flash('Debes indicar grupo y equipo', 'warning')
+        return redirect(url_for('uemc_route_bp.ver_copa_uemc'))
+    # Evitar duplicados
+    existe = EquiposCopaUEMC.query.filter_by(
+        grupo=grupo,
+        equipo=equipo
+    ).first()
+    if existe:
+        flash('Ese equipo ya existe en ese grupo', 'warning')
+        return redirect(url_for('uemc_route_bp.ver_copa_uemc'))
+    nuevo_equipo = EquiposCopaUEMC(
+        grupo=grupo,
+        equipo=equipo
+    )
+    db.session.add(nuevo_equipo)
+    db.session.commit()
+    flash('Equipo añadido correctamente', 'success')
+    return redirect(url_for('uemc_route_bp.ver_copa_uemc'))
+# Modificar equipo Copa UEMC
+@uemc_route_bp.route('/modificar_equipo_copa_uemc/<int:id>', methods=['POST'])
+def modificar_equipo_copa_uemc(id):
+    equipo = EquiposCopaUEMC.query.get_or_404(id)
+    equipo.grupo = request.form.get("grupo")
+    equipo.equipo = request.form.get("equipo")
+    db.session.commit()
+    flash("Equipo modificado correctamente", "success")
+    return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
+# Eliminar equipo Copa UEMC
+@uemc_route_bp.route('/eliminar_equipo_copa_uemc/<int:id>', methods=['POST'])
+def eliminar_equipo_copa_uemc(id):
+    equipo = EquiposCopaUEMC.query.get_or_404(id)
+    db.session.delete(equipo)
+    db.session.commit()
+    flash("Equipo eliminado correctamente", "success")
+    return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
 # Crear formulario para los grupos de la Copa UEMC
 @uemc_route_bp.route('/crear_copa_uemc', methods=['GET', 'POST'])
 def crear_copa_uemc():
-
     def safe_int(value):
         try:
             if value is None or value == '':
@@ -742,14 +789,11 @@ def crear_copa_uemc():
             return int(value)
         except ValueError:
             return None
-
     if request.method == 'POST':
-
         encuentros = request.form.get('encuentros')
+        grupo = request.form.get('grupo')
         num_partidos = int(request.form.get('num_partidos', 0))
-
         for i in range(num_partidos):
-
             fecha = request.form.get(f'fecha{i}')
             hora = request.form.get(f'hora{i}')
             local = request.form.get(f'local{i}')
@@ -759,6 +803,7 @@ def crear_copa_uemc():
             resultadoB = safe_int(request.form.get(f'resultadoB{i}'))
 
             nuevo_partido = CopaUEMC(
+                grupo=grupo,
                 encuentros=encuentros,
                 fecha=fecha or '',
                 hora=hora or '',
@@ -786,7 +831,8 @@ def ver_copa_uemc():
     datos_jornadas = {j: CopaUEMC.query.filter_by(encuentros=j).order_by(CopaUEMC.id).all() for j in jornadas}
     # Diccionario para eliminatorias
     datos_eliminatorias = {f: CopaUEMC.query.filter_by(encuentros=f).order_by(CopaUEMC.id).all() for f in fases_eliminatorias}
-    return render_template('admin/copa/copa_uemc.html',datos_jornadas=datos_jornadas, datos_eliminatorias=datos_eliminatorias)
+    equipos = EquiposCopaUEMC.query.order_by(EquiposCopaUEMC.grupo,EquiposCopaUEMC.equipo).all()
+    return render_template('admin/copa/copa_uemc.html',datos_jornadas=datos_jornadas, datos_eliminatorias=datos_eliminatorias, equipos=equipos)
 # Actualizar clasificación de los grupos
 def actualizar_clasificacion(local, resultado_local, resultado_visitante, visitante):
     # Convertir los resultados a enteros
@@ -824,18 +870,20 @@ def actualizar_clasificacion(local, resultado_local, resultado_visitante, visita
     # Guardar los cambios en la base de datos
     db.session.commit()
     return clasificacion_local, clasificacion_visitante
-def obtener_jornadas_liga():
+def obtener_jornadas_liga(grupo=None):
+    consulta = CopaUEMC.query.filter(
+        CopaUEMC.encuentros.like("liga_%")
+    )
+    if grupo:
+        consulta = consulta.filter_by(grupo=grupo)
+    partidos = consulta.order_by(
+        CopaUEMC.orden,
+        CopaUEMC.id
+    ).all()
     jornadas = {}
-
-    partidos = CopaUEMC.query.filter(
-        CopaUEMC.encuentros.like('liga_%')
-    ).order_by(CopaUEMC.orden, CopaUEMC.id).all()
-
     for partido in partidos:
-        jornada = partido.encuentros  # liga_j1, liga_j2...
-        if jornada not in jornadas:
-            jornadas[jornada] = []
-        jornadas[jornada].append(partido)
+        jornada = partido.encuentros
+        jornadas.setdefault(jornada, []).append(partido)
     return jornadas
 def obtener_eliminatorias():
     fases = ['dieciseisavos', 'octavos', 'cuartos', 'semifinales', 'final']
@@ -850,45 +898,48 @@ def obtener_eliminatorias():
 # Recalcular clasificación
 def recalcular_clasificacion(jornadas):
     clasificacion = {}
-
+    # Cargar todos los equipos antes de procesar partidos
+    equipos = EquiposCopaUEMC.query.order_by(EquiposCopaUEMC.grupo,                                     EquiposCopaUEMC.equipo).all()
+    for e in equipos:
+        clasificacion[e.equipo] = {
+            "grupo": e.grupo,
+            "equipo": e.equipo,
+            "jugados": 0,
+            "ganados": 0,
+            "perdidos": 0,
+            "favor": 0,
+            "contra": 0,
+            "puntos": 0
+        }
     for jornada, partidos in jornadas.items():
         for p in partidos:
             if not p.local or not p.visitante:
-                continue
-            
+                continue      
             local = p.local.strip()
             visitante = p.visitante.strip()
-
             if local not in clasificacion:
                 clasificacion[local] = {
-                    'equipo': local, 'jugados': 0, 'ganados': 0,
+                    "grupo": p.grupo,'equipo': local, 'jugados': 0, 'ganados': 0,
                     'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
                 }
-
             if visitante not in clasificacion:
                 clasificacion[visitante] = {
-                    'equipo': visitante, 'jugados': 0, 'ganados': 0,
+                    "grupo": p.grupo,'equipo': visitante, 'jugados': 0, 'ganados': 0,
                     'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
                 }
-
             # 👉 si no hay resultado, NO se calcula nada más
             if not p.resultadoA or not p.resultadoB:
                 continue
-
             if p.resultadoA is None or p.resultadoB is None:
                 continue
-
             resA = int(p.resultadoA)
             resB = int(p.resultadoB)
-
             clasificacion[local]['jugados'] += 1
             clasificacion[visitante]['jugados'] += 1
-
             clasificacion[local]['favor'] += resA
             clasificacion[local]['contra'] += resB
             clasificacion[visitante]['favor'] += resB
             clasificacion[visitante]['contra'] += resA
-
             if resA > resB:
                 clasificacion[local]['ganados'] += 1
                 clasificacion[local]['puntos'] += 2
@@ -902,7 +953,6 @@ def recalcular_clasificacion(jornadas):
             else:
                 clasificacion[local]['puntos'] += 1
                 clasificacion[visitante]['puntos'] += 1
-
     clasificacion_ordenada = sorted(
         clasificacion.items(),
         key=lambda x: (
@@ -911,8 +961,59 @@ def recalcular_clasificacion(jornadas):
             -x[1]["favor"]
         )
     )
-
     return clasificacion_ordenada
+# Clasificación grupos
+def obtener_clasificaciones_grupos():
+    clasificaciones = {}
+    for grupo in ["A", "B", "C", "D", "E", "F", "G"]:
+        # Equipos del grupo
+        equipos = EquiposCopaUEMC.query.filter_by(grupo=grupo).order_by(
+            EquiposCopaUEMC.equipo).all()
+        # Inicializar clasificación
+        tabla = {}
+        for equipo in equipos:
+            tabla[equipo.equipo] = {
+                "equipo": equipo.equipo,
+                "jugados": 0,
+                "ganados": 0,
+                "perdidos": 0,
+                "favor": 0,
+                "contra": 0,
+                "puntos": 0
+            }
+        # Partidos de ese grupo
+        partidos = CopaUEMC.query.filter(CopaUEMC.grupo == grupo,
+            CopaUEMC.encuentros.like("liga_%")).all()
+        for partido in partidos:
+            if partido.resultadoA is None or partido.resultadoB is None:
+                continue
+            local = tabla[partido.local]
+            visitante = tabla[partido.visitante]
+            local["jugados"] += 1
+            visitante["jugados"] += 1
+            local["favor"] += partido.resultadoA
+            local["contra"] += partido.resultadoB
+            visitante["favor"] += partido.resultadoB
+            visitante["contra"] += partido.resultadoA
+            if partido.resultadoA > partido.resultadoB:
+                local["ganados"] += 1
+                local["puntos"] += 2
+                visitante["perdidos"] += 1
+                visitante["puntos"] += 1
+            else:
+                visitante["ganados"] += 1
+                visitante["puntos"] += 2
+                local["perdidos"] += 1
+                local["puntos"] += 1
+        clasificaciones[grupo] = sorted(
+            tabla.items(),
+            key=lambda x: (
+                -x[1]["puntos"],
+                -(x[1]["favor"] - x[1]["contra"]),
+                -x[1]["favor"]
+            )
+        )
+    return clasificaciones
 # Modificar los partidos de los playoff
 @uemc_route_bp.route('/modificar_copa_uemc/<string:encuentros>', methods=['POST'])
 def modificar_copa_uemc(encuentros):
@@ -951,8 +1052,10 @@ def eliminar_copa_uemc(identificador):
 def uemc_copa():
     jornadas = obtener_jornadas_liga()
     clasificacion = recalcular_clasificacion(jornadas)
+    clasificaciones_grupos = obtener_clasificaciones_grupos()
     eliminatorias = obtener_eliminatorias()
-    return render_template('copas/uemc_copa.html', jornadas=jornadas, clasificacion=clasificacion, eliminatorias=eliminatorias
+    equipos = EquiposCopaUEMC.query.order_by(EquiposCopaUEMC.grupo,EquiposCopaUEMC.equipo).all()
+    return render_template('copas/uemc_copa.html', jornadas=jornadas, clasificacion=clasificacion,clasificaciones_grupos=clasificaciones_grupos, eliminatorias=eliminatorias, equipos=equipos
     )
 
 # PLAYOFF UEMC

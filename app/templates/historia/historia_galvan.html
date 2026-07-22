@@ -5,7 +5,7 @@
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
       <a href="/seccion/galvan"
-        class="text-white text-decoration-none text-analisis fs-6">Tierno Galván</a>
+        class="text-white text-decoration-none text-analisis fs-6">C.D Tierno Galván</a>
     </li>
     <li class="breadcrumb-item">
       <a href="/admin/equipos_futsal/calendario_galvan"
@@ -128,21 +128,28 @@
     </div>
   </div>
   <div id="titulos" class="tab-pane">
-    <div class="row justify-content-center g-4">
-      {% for titulo in titulos %}
-
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="trofeo-card">
-          <img
-            src="{{ url_for('static', filename='img/trofeos/' ~ titulo.imagen) }}"
-            class="trofeo-img"
-          />
-          <h5 class="mt-3">{{ titulo.competicion }}</h5>
-          <div class="temporada">{{ titulo.temporada }}</div>
+    <div class="container-lg">
+        {% for competicion, titulos in palmares.items() %}
+        <div class="row align-items-center border-bottom py-3">
+            <div class="col-lg-2 col-md-3 fw-bold fs-5">
+                {{ competicion }}
+            </div>
+            <div class="col-lg-10 col-md-9">
+                <div class="d-flex flex-wrap">
+                    {% for titulo in titulos %}
+                    <div class="text-center me-4 mb-2">
+                        <img
+                            src="{{ url_for('static', filename='img/trofeos/' ~ titulo.imagen) }}"
+                            width="25">
+                        <div class="small fw-bold mt-1">
+                            {{ titulo.temporada }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
-      </div>
-
-      {% endfor %}
+        {% endfor %}
     </div>
   </div>
 </div>

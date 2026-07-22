@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
@@ -570,7 +571,12 @@ def historial_promesas():
     titulos = (Palmaress.query.filter_by(
             deporte="futbol",
             equipo="RV Femenino"
-        ).order_by(Palmaress.temporada.desc()).all())
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
 
     labels_jornadas = []
 
@@ -611,7 +617,7 @@ def historial_promesas():
         puntos_temporadas=puntos_temporadas,
         labels_jornadas=labels_jornadas,
         datasets_jornadas=datasets_jornadas,
-        titulos=titulos,
+        palmares=palmares,
         deporte="Fútbol",
         equipo="RV Femennino"
   )
@@ -627,6 +633,7 @@ def crear_palmares_simancas():
             temporada=request.form.get("temporada"),
             competicion=request.form.get("competicion"),
             imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
         )
         db.session.add(titulo)
         db.session.commit()
@@ -636,7 +643,7 @@ def crear_palmares_simancas():
             deporte="futbol",
             equipo="RV Femenino"
         )
-        .order_by(Palmaress.temporada.desc())
+        .order_by(Palmaress.orden.asc(),Palmaress.temporada.desc())
         .all()
     )
     return render_template(
@@ -655,6 +662,7 @@ def modificar_palmares_simancas(id):
     titulo.temporada = request.form.get("temporada")
     titulo.competicion = request.form.get("competicion")
     titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
     db.session.commit()
     return redirect(url_for("simancas_route_bp.crear_palmares_simancas"))
 # Eliminar Palmares del RV Promesas

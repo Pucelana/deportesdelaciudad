@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.panteras import JornadaPanteras, PanterasPartido, PanterasClub, PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion, TemporadaPanteras
 
 panteras_route_bp = Blueprint('panteras_route_bp', __name__)
@@ -431,6 +434,193 @@ def activar_temporada_panteras(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('panteras_route_bp.temporadas_panteras'))
+
+# HISTORIAL PANTERAS CAJA RURAL
+# Creación del historial de temporadas del Panteras Caja Rural
+@panteras_route_bp.route("/admin/crear_historial_panteras", methods=["GET", "POST"])
+def crear_historial_panteras():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="hockey",
+            equipo="Panteras Caja Rural",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            europa=request.form.get("europa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("panteras_route_bp.crear_historial_panteras"))
+    historial = (Historial.query.filter_by(
+        deporte="hockey",
+        equipo="Panteras Caja Rural"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaPanteras.query.order_by(
+        TemporadaPanteras.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="hockey",
+        equipo="Panteras Caja Rural",
+        crear_url="panteras_route_bp.crear_historial_panteras",
+        modificar_url="panteras_route_bp.modificar_historial_panteras",
+        eliminar_url="panteras_route_bp.eliminar_historial_panteras"
+    )
+# Eliminar historial de temporadas del Panteras Caja Rural
+@panteras_route_bp.route("/admin/eliminar_historial_panteras/<int:id>", methods=["POST"])
+def eliminar_historial_panteras(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("panteras_route_bp.crear_historial_panteras"))
+# Modificar historial de temporadas del Panteras Caja Rural
+@panteras_route_bp.route("/admin/modificar_historial_panteras/<int:id>", methods=["POST"])
+def modificar_historial_panteras(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.europa = request.form.get("europa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("panteras_route_bp.crear_historial_panteras"))
+# Ver Historial de temporadas del Panteras Caja Rural en la página principal
+@panteras_route_bp.route("/panteras/historial")
+def historial_panteras():
+    historial = (Historial.query.filter_by(
+        deporte="hockey",
+        equipo="Panteras Caja Rural"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaPanteras.query.order_by(TemporadaPanteras.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="hockey",
+            equipo="Panteras Caja Rural"
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaPanteras.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaPanteras.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "Panteras Caja Rural", generar_clasificacion_analisis_hockey_panteras,"puntos"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_panteras.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        palmares=palmares,
+        deporte="Hockey",
+        equipo="Panteras Caja Rural"
+  )
+
+# PALMARES PANTERAS CAJA RURAL
+# Crear Palmares del Panteras Caja Rural
+@panteras_route_bp.route("/admin/crear_palmares_panteras", methods=["GET", "POST"])
+def crear_palmares_panteras():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="hockey",
+            equipo="Panteras Caja Rural",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("panteras_route_bp.crear_palmares_panteras"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="hockey",
+            equipo="Panteras Caja Rural"
+        )
+        .order_by(
+            Palmaress.orden.asc(),
+            Palmaress.temporada.desc()
+        )
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Hockey",
+        equipo="Panteras Caja Rural",
+        crear_url="panteras_route_bp.crear_palmares_panteras",
+        modificar_url="panteras_route_bp.modificar_palmares_panteras",
+        eliminar_url="panteras_route_bp.eliminar_palmares_panteras",
+    )
+# Modificar Palmares del PANTERAS Caja Rural
+@panteras_route_bp.route("/admin/modificar_palmares_panteras/<int:id>", methods=["POST"])
+def modificar_palmares_panteras(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
+    db.session.commit()
+    return redirect(url_for("panteras_route_bp.crear_palmares_panteras"))
+# Eliminar Palmares del Panteras Caja Rural
+@panteras_route_bp.route("/admin/eliminar_palmares_panteras/<int:id>", methods=["POST"])
+def eliminar_palmares_panteras(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("panteras_route_bp.crear_palmares_panteras"))
 
 
 # PLAYOFF CPLV MUNIA PANTERAS

@@ -1,58 +1,33 @@
 {% extends "historia/base_historia.html" %} 
-{% block title %}Historial - CBC Valladolid{% endblock %} {% block breadcrumb %}
+{% block title %}Historial - FS Valladolid{% endblock %} 
+{% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
-      <a
-        href="/seccion/uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >CBC Valladolid</a
-      >
+      <a href="/seccion/vall_sala"
+        class="text-white text-decoration-none text-analisis fs-6">FS Valladolid</a>
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_basket/calendario_uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Calendario Ind.</a
-      >
+      <a href="/admin/equipos_futsal/calendario_vall_sala"
+        class="text-white text-decoration-none text-analisis fs-6">Calendario Ind.</a>
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_basket/resultados_uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Resultados</a
-      >
+      <a href="/admin/equipos_futsal/resultados_vall_sala"
+        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_basket/clasif_uemc"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Clasificaciones</a
-      >
+      <a href="/admin/equipos_futsal/clasif_vall_sala" class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
     </li>
-    <li
-      class="breadcrumb-item active text-dark text-analisis fs-6"
-      aria-current="page"
-    >
-      Historial
-    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">Historial</li>
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
 <div class="container-lg mt-4">
   <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
-    <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen"
-      >Historial</a
-    >
-    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico"
-      >Puntos Temporada</a
-    >
-    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2"
-      >Puntos Jornadas</a
-    >
-    <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos"
-      >Palmares</a
-    >
+    <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen">Historial</a>
+    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico">Puntos Temporada</a>
+    <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2">Puntos Jornadas</a>
+    <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos">Palmares</a>
   </div>
   <div id="resumen" class="tab-pane active">
     <div class="card tabla_copa mx-auto w-100  historial-desktop" style="max-width: 75rem">
@@ -63,11 +38,9 @@
               <tr>
                 <th class="text-historial text-dark">Temp.</th>
                 <th class="text-historial text-dark">Liga</th>
-                <th class="text-historial text-dark">Ganados</th>
+                <th class="text-historial text-dark">Pts</th>
                 <th class="text-historial text-dark">Puesto</th>
                 <th class="text-historial text-dark">Playoff</th>
-                <th class="text-historial text-dark">Copa</th>
-                <th class="text-historial text-dark">Europa</th>
                 <th class="text-historial text-dark">Títulos</th>
                 <th class="text-historial text-dark">Obser.</th>
               </tr>
@@ -80,8 +53,6 @@
                 <td class="text-historial text-white">{{ h.puntos }}</td>
                 <td class="text-historial text-white">{{ h.puesto }}</td>
                 <td class="text-historial text-white">{{ h.playoff }}</td>
-                <td class="text-historial text-white">{{ h.copa }}</td>
-                <td class="text-historial text-white">{{ h.europa }}</td>
                 <td class="text-historial text-white">
                   {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
                 </td>
@@ -96,17 +67,16 @@
     </div>
     <div class="historial-mobile">
       {% for h in historial %}
+
       <div class="card historial-card mb-3">
         <div class="card-header text-center fw-bold">
           {{ h.temporada }}
         </div>
         <div class="card-body">
           <p class="equipo-mobile"><strong class="text-dark">Liga:</strong> {{ h.liga }}</p>
-          <p class="equipo-mobile"><strong class="text-dark">Ganados:</strong> {{ h.puntos }}</p>
+          <p class="equipo-mobile"><strong class="text-dark">Puntos:</strong> {{ h.puntos }}</p>
           <p class="equipo-mobile"><strong class="text-dark">Puesto:</strong> {{ h.puesto }}</p>
           <p class="equipo-mobile"><strong class="text-dark">Playoff:</strong> {{ h.playoff }}</p>
-          <p class="equipo-mobile"><strong class="text-dark">Copa:</strong> {{ h.copa }}</p>
-          <p class="equipo-mobile"><strong class="text-dark">Europa:</strong> {{ h.europa }}</p>
           <p class="equipo-mobile">
             <strong class="text-dark">Títulos:</strong>
             {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
@@ -118,9 +88,9 @@
     </div>
   </div>
   <div id="grafico" class="tab-pane">
-    <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
+    <div class="card mt-3 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
-        <h5 class="text-center mb-1">Evolución ganados temporada</h5>
+        <h5 class="text-center mb-1">Evolución puntos temporada</h5>
         <canvas
           id="graficoTemporadas"
           data-labels='{{ labels_temporadas|tojson }}'
@@ -129,7 +99,6 @@
       </div>
     </div>
   </div>
-
   <div id="grafico2" class="tab-pane">
     <div class="d-flex justify-content-center flex-wrap gap-2 mb-2">
       {% for dataset in datasets_jornadas %}
@@ -145,12 +114,11 @@
           {{ dataset.label }}
         </label>
       </div>
-
       {% endfor %}
     </div>
     <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
-        <h5 class="text-center mb-1">Evolución ganados jornadas</h5>
+        <h5 class="text-center mb-1">Evolución puntos jornadas</h5>
         <canvas
           id="graficoJornadas"
           data-labels='{{ labels_jornadas|tojson }}'

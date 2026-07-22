@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion, TemporadaVrac
 
 vrac_route_bp = Blueprint('vrac_route_bp', __name__)
@@ -164,7 +167,7 @@ def separar_fases(data):
     fase_liguilla = []
 
     for jornada in data:
-        nombre = jornada['nombre'].lower()
+        nombre = jornada["nombre"].lower()
 
         if "grupo a" in nombre or "grupo b" in nombre or "liguilla" in nombre:
             fase_liguilla.append(jornada)
@@ -295,9 +298,12 @@ def generar_clasificacion_analisis_rugby_vrac(data):
         'diferencia_goles': 0,
         'bonus': 0
     })
-
     for jornada in data:
-        for partido in jornada.partidos:
+        if hasattr(jornada, "partidos"):
+            partidos = jornada.partidos
+        else:
+            partidos = jornada["partidos"]
+        for partido in partidos:
             if (
                 partido.resultadoA in (None, '')
                 or partido.resultadoB in (None, '')
@@ -380,8 +386,12 @@ def aplicar_h2h_en_empates(clasificacion, data):
         puntos2 = 0
 
         for jornada in data:
+            if hasattr(jornada, "partidos"):
+                partidos = jornada.partidos
+            else:
+                partidos = jornada["partidos"]
 
-            for partido in jornada.partidos:
+            for partido in partidos:
 
                 if not (
                     (partido.local == equipo1["equipo"] and partido.visitante == equipo2["equipo"]) or
@@ -559,6 +569,193 @@ def activar_temporada_vrac(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('vrac_route_bp.temporadas_vrac'))
+
+# HISTORIAL VRAC
+# Creación del historial de temporadas del VRAC
+@vrac_route_bp.route("/admin/crear_historial_vrac", methods=["GET", "POST"])
+def crear_historial_vrac():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="rugby",
+            equipo="VRAC",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            europa=request.form.get("europa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("vrac_route_bp.crear_historial_vrac"))
+    historial = (Historial.query.filter_by(
+        deporte="rugby",
+        equipo="VRAC"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaVrac.query.order_by(
+        TemporadaVrac.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="rugby",
+        equipo="VRAC",
+        crear_url="vrac_route_bp.crear_historial_vrac",
+        modificar_url="vrac_route_bp.modificar_historial_vrac",
+        eliminar_url="vrac_route_bp.eliminar_historial_vrac"
+    )
+# Eliminar historial de temporadas del VRAC
+@vrac_route_bp.route("/admin/eliminar_historial_vrac/<int:id>", methods=["POST"])
+def eliminar_historial_vrac(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("vrac_route_bp.crear_historial_vrac"))
+# Modificar historial de temporadas del VRAC
+@vrac_route_bp.route("/admin/modificar_historial_vrac/<int:id>", methods=["POST"])
+def modificar_historial_vrac(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.europa = request.form.get("europa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("vrac_route_bp.crear_historial_vrac"))
+# Ver Historial de temporadas del VRAC en la página principal
+@vrac_route_bp.route("/vrac/historial")
+def historial_vrac():
+    historial = (Historial.query.filter_by(
+        deporte="rugby",
+        equipo="VRAC"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaVrac.query.order_by(TemporadaVrac.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="rugby",
+            equipo="VRAC"
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaVrac.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaVrac.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "VRAC", generar_clasificacion_analisis_rugby_vrac,"puntos"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_vrac.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        palmares=palmares,
+        deporte="Rugby",
+        equipo="VRAC"
+  )
+    
+# PALMARES VRAC
+# Crear Palmares del VRAC
+@vrac_route_bp.route("/admin/crear_palmares_vrac", methods=["GET", "POST"])
+def crear_palmares_vrac():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="rugby",
+            equipo="VRAC",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("vrac_route_bp.crear_palmares_vrac"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="rugby",
+            equipo="VRAC"
+        )
+        .order_by(
+            Palmaress.orden.asc(),
+            Palmaress.temporada.desc()
+        )
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Rugby",
+        equipo="VRAC",
+        crear_url="vrac_route_bp.crear_palmares_vrac",
+        modificar_url="vrac_route_bp.modificar_palmares_vrac",
+        eliminar_url="vrac_route_bp.eliminar_palmares_vrac",
+    )
+# Modificar Palmares del VRAC
+@vrac_route_bp.route("/admin/modificar_palmares_vrac/<int:id>", methods=["POST"])
+def modificar_palmares_vrac(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
+    db.session.commit()
+    return redirect(url_for("vrac_route_bp.crear_palmares_vrac"))
+# Eliminar Palmares del VRAC
+@vrac_route_bp.route("/admin/eliminar_palmares_vrac/<int:id>", methods=["POST"])
+def eliminar_palmares_vrac(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("vrac_route_bp.crear_palmares_vrac"))
 
 # PLAYOFF DH VRAC
 # Crear formulario para los playoff

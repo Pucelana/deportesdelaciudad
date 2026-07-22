@@ -1,21 +1,20 @@
 def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion, campo="puntos"):
-
     labels = []
     valores = []
-
     jornadas_acumuladas = []
-
     for jornada in jornadas:
-
-        jornadas_acumuladas.append({
-            "nombre": jornada.nombre,
-            "partidos": jornada.partidos
-        })
-
+        # Si jornada es un objeto SQLAlchemy
+        if hasattr(jornada, "partidos"):
+            jornadas_acumuladas.append({
+                "nombre": jornada.nombre,
+                "partidos": jornada.partidos
+            })
+            labels.append(jornada.nombre)
+        # Si jornada ya es un diccionario
+        else:
+            jornadas_acumuladas.append(jornada)
+            labels.append(jornada["nombre"])
         clasificacion = funcion_clasificacion(jornadas_acumuladas)
-
-        labels.append(jornada.nombre)
-
         equipo = next(
             (
                 e for e in clasificacion
@@ -23,12 +22,10 @@ def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion, cam
             ),
             None
         )
-
         if equipo:
             valores.append(equipo["datos"].get(campo, 0))
         else:
             valores.append(0)
-
     return labels, valores
 
 from app.extensions import db
@@ -56,4 +53,5 @@ class Palmaress(db.Model):
     equipo = db.Column(db.String(80), nullable=False)
     temporada = db.Column(db.String(20), nullable=False)
     competicion = db.Column(db.String(100))
-    imagen = db.Column(db.String(100))    
+    imagen = db.Column(db.String(100))
+    orden = db.Column(db.Integer, default=0)    

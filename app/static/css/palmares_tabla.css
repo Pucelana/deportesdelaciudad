@@ -1,0 +1,15 @@
+#titulos .row{
+    min-height:90px;
+}
+
+#titulos img{
+    transition:.3s;
+}
+
+#titulos img:hover{
+    transform:scale(1.1);
+}
+
+#titulos .small{
+    font-size:.9rem;
+}
