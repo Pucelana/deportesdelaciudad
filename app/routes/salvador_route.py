@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador
 
 salvador_route_bp = Blueprint('salvador_route_bp', __name__)
@@ -65,7 +68,7 @@ def ingresar_resultado_salvador():
     return render_template('admin/calendarios/calend_salvador.html')
 # Ver calendario Salvador en Admin
 @salvador_route_bp.route('/calendario_salvador')
-def calendarios_vrac():
+def calendarios_salvador():
     temporada = TemporadaSalvador.query.filter_by(activa=True).first()
     if temporada:
         jornadas = JornadaSalvador.query.filter_by(
@@ -295,7 +298,11 @@ def generar_clasificacion_analisis_rugby_salvador(data):
     })
 
     for jornada in data:
-        for partido in jornada.partidos:
+        if hasattr(jornada, "partidos"):
+            partidos = jornada.partidos
+        else:
+            partidos = jornada["partidos"]
+        for partido in partidos:
             if (
                 partido.resultadoA in (None, '')
                 or partido.resultadoB in (None, '')
@@ -558,6 +565,192 @@ def activar_temporada_salvador(id):
     db.session.commit()
     return redirect(url_for('salvador_route_bp.temporadas_salvador'))
 
+# HISTORIAL EL SALVADOR
+# Creación del historial de temporadas de El Salvador
+@salvador_route_bp.route("/admin/crear_historial_salvador", methods=["GET", "POST"])
+def crear_historial_salvador():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="rugby",
+            equipo="El Salvador",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            europa=request.form.get("europa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("salvador_route_bp.crear_historial_salvador"))
+    historial = (Historial.query.filter_by(
+        deporte="rugby",
+        equipo="El Salvador"
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaSalvador.query.order_by(
+        TemporadaSalvador.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="rugby",
+        equipo="El Salvador",
+        crear_url="salvador_route_bp.crear_historial_salvador",
+        modificar_url="salvador_route_bp.modificar_historial_salvador",
+        eliminar_url="salvador_route_bp.eliminar_historial_salvador"
+    )
+# Eliminar historial de temporadas de El Salvador
+@salvador_route_bp.route("/admin/eliminar_historial_salvador/<int:id>", methods=["POST"])
+def eliminar_historial_salvador(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("salvador_route_bp.crear_historial_salvador"))
+# Modificar historial de temporadas de El Salvador
+@salvador_route_bp.route("/admin/modificar_historial_salvador/<int:id>", methods=["POST"])
+def modificar_historial_salvador(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.europa = request.form.get("europa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("salvador_route_bp.crear_historial_salvador"))
+# Ver Historial de temporadas de El Salvador en la página principal
+@salvador_route_bp.route("/salvador/historial")
+def historial_salvador():
+    historial = (Historial.query.filter_by(
+        deporte="rugby",
+        equipo="El Salvador"
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaSalvador.query.order_by(TemporadaSalvador.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="rugby",
+            equipo="El Salvador"
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaSalvador.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaSalvador.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "El Salvador", generar_clasificacion_analisis_rugby_salvador,"puntos"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_salvador.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        palmares=palmares,
+        deporte="Rugby",
+        equipo="El Salvador"
+  )
+    
+# PALMARES EL SALVADOR
+# Crear Palmares de El Salvador
+@salvador_route_bp.route("/admin/crear_palmares_salvador", methods=["GET", "POST"])
+def crear_palmares_salvador():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="rugby",
+            equipo="El Salvador",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("salvador_route_bp.crear_palmares_salvador"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="rugby",
+            equipo="El Salvador"
+        )
+        .order_by(
+            Palmaress.orden.asc(),
+            Palmaress.temporada.desc()
+        )
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Rugby",
+        equipo="El Salvador",
+        crear_url="salvador_route_bp.crear_palmares_salvador",
+        modificar_url="salvador_route_bp.modificar_palmares_salvador",
+        eliminar_url="salvador_route_bp.eliminar_palmares_salvador",
+    )
+# Modificar Palmares de El Salvador
+@salvador_route_bp.route("/admin/modificar_palmares_salvador/<int:id>", methods=["POST"])
+def modificar_palmares_salvador(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
+    db.session.commit()
+    return redirect(url_for("salvador_route_bp.crear_palmares_salvador"))
+# Eliminar Palmares de El Salvador
+@salvador_route_bp.route("/admin/eliminar_palmares_salvador/<int:id>", methods=["POST"])
+def eliminar_palmares_salvador(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("salvador_route_bp.crear_palmares_salvador"))
 
 
 # PLAYOFF SALVADOR

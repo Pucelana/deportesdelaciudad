@@ -29,9 +29,9 @@
     <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen"
       >Historial</a>
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico"
-      >Ganados Temporada</a>
+      >Puntos Temporada</a>
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2"
-      >Ganados Jornadas</a>
+      >Puntos Jornadas</a>
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos"
     >Palmares</a>
   </div>
@@ -141,7 +141,7 @@
     <div class="container-lg">
         {% for competicion, titulos in palmares.items() %}
         <div class="row align-items-center border-bottom py-3">
-            <div class="col-lg-2 col-md-3 fw-bold fs-5">
+            <div class="col-lg-2 col-md-3 fw-bold fs-5 mb-2">
                 {{ competicion }}
             </div>
             <div class="col-lg-10 col-md-9">
@@ -150,7 +150,7 @@
                     <div class="text-center me-4 mb-2">
                         <img
                             src="{{ url_for('static', filename='img/trofeos/' ~ titulo.imagen) }}"
-                            width="25">
+                            width="30">
                         <div class="small fw-bold mt-1">
                             {{ titulo.temporada }}
                         </div>

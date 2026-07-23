@@ -54,7 +54,7 @@ Palmares - {{ equipo }}
                     name="imagen">
                     <option value="Liga_sf.png">Liga</option>
                     <option value="Copa_Rey_sf.png">Copa</option>
-                    <option value="Supercopa.png">Supercopa</option>
+                    <option value="Supercopa_sf.png">Supercopa</option>
                     <option value="Uefa.png">Uefa</option>
                     <option value="Champion.png">Champion</option>
                     <option value="Copa_Espana.png">Copa España</option>
@@ -183,38 +183,17 @@ Palmares - {{ equipo }}
                 <div class="modal-body">
 
                     <label>Temporada</label>
-
-                    <select
-                        class="form-select mb-3"
-                        name="temporada_id">
-
-                        {% for temporada in temporadas %}
-
-                        <option
-                            value="{{ temporada }}"
-                            {% if temporada == titulo.temporada %}selected{% endif %}>
-
-                            {{ temporada.nombre }}
-
-                        </option>
-
-                        {% endfor %}
-
-                    </select>
-
+                        <input class="form-control mb-3" type="text"
+                            name="temporada" value="{{ titulo.temporada }}">
                     <label>Competición</label>
-
-                    <input
-                        class="form-control mb-3"
-                        type="text"
-                        name="competicion"
-                        value="{{ titulo.competicion }}">
+                    <input class="form-control mb-3" type="text"
+                        name="competicion" value="{{ titulo.competicion }}">
 
                     <label>Imagen</label>
                     <select class="form-select" name="imagen">
                         <option value="Liga_sf.png" {% if titulo.imagen=="Liga_sf.png" %}selected{% endif %}>Liga</option>
                         <option value="Copa_Rey_sf.png" {% if titulo.imagen=="Copa_Rey_sf.png" %}selected{% endif %}>Copa</option>
-                        <option value="Supercopa.png" {% if titulo.imagen=="Supercopa.png" %}selected{% endif %}>Supercopa</option>
+                        <option value="Supercopa_sf.png" {% if titulo.imagen=="Supercopa_sf.png" %}selected{% endif %}>Supercopa</option>
                         <option value="Copa_España.png" {% if titulo.imagen=="Copa_España.png" %}selected{% endif %}>Copa España</option>
                         <option value="Uefa.png" {% if titulo.imagen=="Uefa.png" %}selected{% endif %}>Uefa</option>
                         <option value="Champion.png" {% if titulo.imagen=="Champion.png" %}selected{% endif %}>Champion</option>
@@ -222,6 +201,11 @@ Palmares - {{ equipo }}
                         <option value="Plata.png" {% if titulo.imagen=="Plata.png" %}selected{% endif %}>Plata</option>
                         <option value="Bronce.png" {% if titulo.imagen=="Bronce.png" %}selected{% endif %}>Bronce</option>
                     </select>
+                </div>
+                <div class="col-md-2">
+                    <label class="form-label">Orden</label>
+                        <input type="number" name="orden"
+                            class="form-control" value="{{ titulo.orden }}">
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-success">Guardar cambios</button>

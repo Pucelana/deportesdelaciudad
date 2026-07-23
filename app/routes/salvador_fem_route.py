@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
 from collections import defaultdict
+from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import Historial, Palmaress
 from ..models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub, PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion, TemporadaSalvadorFem
 
 salvador_fem_route_bp = Blueprint('salvador_fem_route_bp', __name__)
@@ -291,15 +294,17 @@ def generar_clasificacion_analisis_rugby_salvador_fem(data):
         'diferencia_goles': 0,
         'bonus': 0
     })
-
     for jornada in data:
-        for partido in jornada['partidos']:
+        if hasattr(jornada, "partidos"):
+            partidos = jornada.partidos
+        else:
+            partidos = jornada["partidos"]
+        for partido in partidos:
             if (
                 partido.resultadoA in (None, '')
                 or partido.resultadoB in (None, '')
             ):
                 continue
-
             try:
                 a = int(partido.resultadoA)
                 b = int(partido.resultadoB)
@@ -366,7 +371,7 @@ def aplicar_h2h_en_empates(clasificacion, data):
             ganador = None
 
             for jornada in data:
-                for partido in jornada['partidos']:
+                for partido in jornada.partidos:
 
                     local = partido.local
                     visitante = partido.visitante
@@ -534,6 +539,192 @@ def activar_temporada_salvador_fem(id):
     db.session.commit()
     return redirect(url_for('salvador_fem_route_bp.temporadas_salvador_fem')) 
 
+# HISTORIAL EL SALVADOR FEM.
+# Creación del historial de temporadas de El Salvador Fem.
+@salvador_fem_route_bp.route("/admin/crear_historial_salvador_fem", methods=["GET", "POST"])
+def crear_historial_salvador_fem():
+    if request.method == "POST":
+        historial = Historial(
+            deporte="rugby",
+            equipo="El Salvador Fem.",
+            temporada=request.form.get("temporada"),
+            liga=request.form.get("liga"),
+            puntos=request.form.get("puntos"),
+            puesto=request.form.get("puesto"),
+            playoff=request.form.get("playoff"),
+            copa=request.form.get("copa"),
+            europa=request.form.get("europa"),
+            titulos=request.form.get("titulos"),
+            siguiente_temporada=request.form.get("siguiente_temporada"),
+            observaciones=request.form.get("observaciones"),
+        )
+        db.session.add(historial)
+        db.session.commit()
+        return redirect(url_for("salvador_fem_route_bp.crear_historial_salvador_fem"))
+    historial = (Historial.query.filter_by(
+        deporte="rugby",
+        equipo="El Salvador Fem."
+    ).order_by(Historial.temporada.desc()).all()
+                 )
+    temporadas = TemporadaSalvadorFem.query.order_by(
+        TemporadaSalvadorFem.nombre.desc()
+    ).all()
+    return render_template(
+        "admin/historial/historial.html",
+        historial=historial,
+        temporadas=temporadas,
+        deporte="rugby",
+        equipo="El Salvador Fem.",
+        crear_url="salvador_fem_route_bp.crear_historial_salvador_fem",
+        modificar_url="salvador_fem_route_bp.modificar_historial_salvador_fem",
+        eliminar_url="salvador_fem_route_bp.eliminar_historial_salvador_fem"
+    )
+# Eliminar historial de temporadas de El Salvador Fem
+@salvador_fem_route_bp.route("/admin/eliminar_historial_salvador_fem/<int:id>", methods=["POST"])
+def eliminar_historial_salvador_fem(id):
+    historial = Historial.query.get_or_404(id)
+    db.session.delete(historial)
+    db.session.commit()
+    return redirect(url_for("salvador_fem_route_bp.crear_historial_salvador_fem"))
+# Modificar historial de temporadas de El Salvador Fem
+@salvador_fem_route_bp.route("/admin/modificar_historial_salvador_fem/<int:id>", methods=["POST"])
+def modificar_historial_salvador_fem(id):
+    historial = Historial.query.get_or_404(id)
+    historial.temporada = request.form.get("temporada")
+    historial.liga = request.form.get("liga")
+    historial.puntos = request.form.get("puntos")
+    historial.puesto = request.form.get("puesto")
+    historial.playoff = request.form.get("playoff")
+    historial.copa = request.form.get("copa")
+    historial.europa = request.form.get("europa")
+    historial.siguiente_temporada = request.form.get("siguiente_temporada")
+    historial.titulos = request.form.get("titulos")
+    historial.observaciones = request.form.get("observaciones")
+    db.session.commit()
+    return redirect(url_for("salvador_fem_route_bp.crear_historial_salvador_fem"))
+# Ver Historial de temporadas de El Salvador Fem en la página principal
+@salvador_fem_route_bp.route("/salvador_fem/historial")
+def historial_salvador_fem():
+    historial = (Historial.query.filter_by(
+        deporte="rugby",
+        equipo="El Salvador Fem."
+    ).order_by(Historial.temporada.desc()).all())
+    # GRÁFICO TEMPORADAS
+    labels_temporadas = [h.temporada for h in historial]
+    puntos_temporadas = [h.puntos for h in historial]
+    # GRÁFICO JORNADAS
+    temporadas = TemporadaSalvadorFem.query.order_by(TemporadaSalvadorFem.id).all()
+    datasets_jornadas = []
+    colores = [
+        "#672e8d",
+        "#FFD700",
+        "#00BFFF",
+        "#32CD32",
+        "#FF4500",
+        "#FF1493",
+        "#FF6A00",
+        "#20B2AA",
+    ]
+    titulos = (Palmaress.query.filter_by(
+            deporte="rugby",
+            equipo="El Salvador Fem."
+        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    palmares = OrderedDict()
+    for titulo in titulos:
+        if titulo.competicion not in palmares:
+            palmares[titulo.competicion] = []
+        palmares[titulo.competicion].append(titulo)
+    labels_jornadas = []
+    for i, temporada in enumerate(temporadas):
+        jornadas = (
+            JornadaSalvadorFem.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaSalvadorFem.id)
+            .all()
+        )
+        if not jornadas:
+            continue
+        labels, puntos = obtener_evolucion_puntos(
+            jornadas, "El Salvador Fem.", generar_clasificacion_analisis_rugby_salvador_fem,"puntos"
+        )
+        labels_jornadas = labels
+        datasets_jornadas.append(
+            {
+                "label": temporada.nombre,
+                "data": puntos,
+                "borderColor": colores[i % len(colores)],
+                "backgroundColor": colores[i % len(colores)],
+                "borderWidth": 3,
+                "pointRadius": 4,
+                "pointHoverRadius": 7,
+                "fill": False,
+                "tension": 0.3,
+            }
+        )
+    return render_template(
+        "historia/historia_salvador_fem.html",
+        historial=historial,
+        labels_temporadas=labels_temporadas,
+        puntos_temporadas=puntos_temporadas,
+        labels_jornadas=labels_jornadas,
+        datasets_jornadas=datasets_jornadas,
+        palmares=palmares,
+        deporte="Rugby",
+        equipo="El Salvador Fem."
+  )
+    
+# PALMARES EL SALVADOR FEM.
+# Crear Palmares de El Salvador Fem
+@salvador_fem_route_bp.route("/admin/crear_palmares_salvador_fem", methods=["GET", "POST"])
+def crear_palmares_salvador_fem():
+    if request.method == "POST":
+        titulo = Palmaress(
+            deporte="rugby",
+            equipo="El Salvador Fem.",
+            temporada=request.form.get("temporada"),
+            competicion=request.form.get("competicion"),
+            imagen=request.form.get("imagen"),
+            orden=int(request.form.get("orden", 0))
+        )
+        db.session.add(titulo)
+        db.session.commit()
+        return redirect(url_for("salvador_fem_route_bp.crear_palmares_salvador_fem"))
+    palmares = (
+        Palmaress.query.filter_by(
+            deporte="rugby",
+            equipo="El Salvador Fem."
+        )
+        .order_by(
+            Palmaress.orden.asc(),
+            Palmaress.temporada.desc()
+        )
+        .all()
+    )
+    return render_template(
+        "admin/historial/palmares.html",
+        palmares=palmares,
+        deporte="Rugby",
+        equipo="El Salvador Fem.",
+        crear_url="salvador_fem_route_bp.crear_palmares_salvador_fem",
+        modificar_url="salvador_fem_route_bp.modificar_palmares_salvador_fem",
+        eliminar_url="salvador_fem_route_bp.eliminar_palmares_salvador_fem",
+    )
+# Modificar Palmares de El Salvador Fem.
+@salvador_fem_route_bp.route("/admin/modificar_palmares_salvador_fem/<int:id>", methods=["POST"])
+def modificar_palmares_salvador_fem(id):
+    titulo = Palmaress.query.get_or_404(id)
+    titulo.temporada = request.form.get("temporada")
+    titulo.competicion = request.form.get("competicion")
+    titulo.imagen = request.form.get("imagen")
+    titulo.orden = request.form.get("orden")
+    db.session.commit()
+    return redirect(url_for("salvador_fem_route_bp.crear_palmares_salvador_fem"))
+# Eliminar Palmares de El Salvador Fem
+@salvador_fem_route_bp.route("/admin/eliminar_palmares_salvador_fem/<int:id>", methods=["POST"])
+def eliminar_palmares_salvador_fem(id):
+    titulo = Palmaress.query.get_or_404(id)
+    db.session.delete(titulo)
+    db.session.commit()
+    return redirect(url_for("salvador_fem_route_bp.crear_palmares_salvador_fem"))
 
 # PLAYOFF SALVADOR
 # Crear formulario para los playoff

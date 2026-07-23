@@ -1,40 +1,25 @@
-{% extends "historia/base_historia.html" %} {% block title %}Historial - Real
-Valladolid{% endblock %} {% block breadcrumb %}
+{% extends "historia/base_historia.html" %} 
+{% block title %}Historial - CD San Jose{% endblock %} {% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
-      <a
-        href="/seccion/valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Real Valladolid</a
-      >
+      <a href="/seccion/vcv"
+        class="text-white text-decoration-none text-analisis fs-6">CD San Jose</a>
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_futbol/calendario_valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Calendario Ind.</a
-      >
+      <a href="/admin/equipos_voley/calendario_san_jose"
+        class="text-white text-decoration-none text-analisis fs-6">Calendario Ind.</a>
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_futbol/resultados_valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Resultados</a
-      >
+      <a href="/admin/equipos_voley/resultados_san_jose"
+        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
     </li>
     <li class="breadcrumb-item">
-      <a
-        href="/admin/equipos_futbol/clasif_valladolid"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >Clasificaciones</a
-      >
+      <a href="/admin/equipos_voley/clasif_san_jose"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
     </li>
-    <li
-      class="breadcrumb-item active text-dark text-analisis fs-6"
-      aria-current="page"
-    >
-      Historial
+    <li class="breadcrumb-item active text-dark text-analisis fs-6"
+      aria-current="page">Historial
     </li>
   </ol>
 </nav>
@@ -42,17 +27,13 @@ Valladolid{% endblock %} {% block breadcrumb %}
 <div class="container-lg mt-4">
   <div class="d-flex justify-content-center mb-4 gap-2 flex-wrap">
     <a href="#" class="btn btn-outline-light active tab-btn" data-tab="resumen"
-      >Historial</a
-    >
+      >Historial</a>
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico"
-      >Puntos Temporada</a
-    >
+      >Puntos Temporada</a>
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="grafico2"
-      >Puntos Jornadas</a
-    >
+      >Puntos Jornadas</a>
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos"
-      >Palmares</a
-    >
+    >Palmares</a>
   </div>
   <div id="resumen" class="tab-pane active">
     <div class="card tabla_copa mx-auto w-100  historial-desktop" style="max-width: 75rem">
@@ -63,13 +44,13 @@ Valladolid{% endblock %} {% block breadcrumb %}
               <tr>
                 <th class="text-historial text-dark">Temp.</th>
                 <th class="text-historial text-dark">Liga</th>
-                <th class="text-historial text-dark">Pts</th>
+                <th class="text-historial text-dark">Ganados</th>
                 <th class="text-historial text-dark">Puesto</th>
                 <th class="text-historial text-dark">Playoff</th>
                 <th class="text-historial text-dark">Copa</th>
                 <th class="text-historial text-dark">Europa</th>
                 <th class="text-historial text-dark">Títulos</th>
-                <th class="text-historial text-dark">Obser.</th>
+                <th class="text-historial text-dark">Observ.</th>
               </tr>
             </thead>
             <tbody>
@@ -102,7 +83,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
         </div>
         <div class="card-body">
           <p class="equipo-mobile"><strong class="text-dark">Liga:</strong> {{ h.liga }}</p>
-          <p class="equipo-mobile"><strong class="text-dark">Puntos:</strong> {{ h.puntos }}</p>
+          <p class="equipo-mobile"><strong class="text-dark">Ganados:</strong> {{ h.puntos }}</p>
           <p class="equipo-mobile"><strong class="text-dark">Puesto:</strong> {{ h.puesto }}</p>
           <p class="equipo-mobile"><strong class="text-dark">Playoff:</strong> {{ h.playoff }}</p>
           <p class="equipo-mobile"><strong class="text-dark">Copa:</strong> {{ h.copa }}</p>
@@ -111,7 +92,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
             <strong class="text-dark">Títulos:</strong>
             {% if h.titulos %} 🏆 {{ h.titulos }} {% else %} — {% endif %}
           </p>
-          <p class="equipo-mobile"><strong class="text-dark">Obser.:</strong> {{ h.observaciones }}</p>
+          <p class="equipo-mobile"><strong class="text-dark">Observ.:</strong> {{ h.observaciones }}</p>
         </div>
       </div>
       {% endfor %}
@@ -130,7 +111,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
     </div>
   </div>
   <div id="grafico2" class="tab-pane">
-    <div class="section-botones d-flex justify-content-center flex-wrap gap-2 mb-2">
+    <div class="d-flex justify-content-center flex-wrap gap-2 mb-2">
       {% for dataset in datasets_jornadas %}
       <div class="form-check">
         <input
@@ -147,8 +128,10 @@ Valladolid{% endblock %} {% block breadcrumb %}
     </div>
     <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
-        <h5 class="text-center mb-1">Evolución puntos jornadas</h5>
-        <canvas id="graficoJornadas" data-labels='{{ labels_jornadas|tojson }}'
+        <h5 class="text-center mb-4">Evolución puntos jornadas</h5>
+        <canvas
+          id="graficoJornadas"
+          data-labels='{{ labels_jornadas|tojson }}'
           data-datasets='{{ datasets_jornadas|tojson }}'
         ></canvas>
       </div>
@@ -158,7 +141,7 @@ Valladolid{% endblock %} {% block breadcrumb %}
     <div class="container-lg">
         {% for competicion, titulos in palmares.items() %}
         <div class="row align-items-center border-bottom py-3">
-            <div class="col-lg-2 col-md-3 fw-bold fs-5">
+            <div class="col-lg-2 col-md-3 fw-bold fs-5 mb-2">
                 {{ competicion }}
             </div>
             <div class="col-lg-10 col-md-9">
