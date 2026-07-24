@@ -51,20 +51,26 @@
 /* H1 RESPONSIVE */
 .responsive-title{
     font-weight: 900;
-    margin-top: 15px;
+    margin-top: 10px;
     /* clave: escala fluida */
-    font-size: clamp(2rem, 6vw, 8rem);
+    font-size: clamp(2.2rem, 5.8vw, 7rem);
     line-height: 1.1;
-    text-shadow: 0 0 6px rgba(0,0,0,0.70);
+    text-shadow: 0 2px 8px rgba(0,0,0,0.65);
     color: white;
     font-family: 'Caveat', cursive;
 }
 
 /* LOGO RESPONSIVE */
 .responsive-logo{
-    width: clamp(40px, 8vw, 100px);
+    width: clamp(55px, 11vw, 125px);
     height: auto;
-    margin-top: 12px;
+    margin-top: 2px;
+    margin-left: 6px;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,.35));
+    transition: .3s;
+}
+.responsive-logo:hover{
+    transform: scale(1.08);
 }
 /* CONTENEDOR */
 .tu-contenedor-h5{

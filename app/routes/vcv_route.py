@@ -780,7 +780,7 @@ def crear_palmares_vcv():
         deporte="Voley",
         equipo="Universidad VCV",
         crear_url="vcv_route_bp.crear_palmares_vcv",
-        modificar_url="vcv_route_bp.modificar_palmares_vc",
+        modificar_url="vcv_route_bp.modificar_palmares_vcv",
         eliminar_url="vcv_route_bp.eliminar_palmares_vcv",
     )
 # Modificar Palmares del VCV
