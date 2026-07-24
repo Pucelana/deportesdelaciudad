@@ -140,7 +140,8 @@ equipos1.forEach((equipo1Data) => {
     }
     nuevaFila1.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor1}">${equipo1Data.index1}</td>
-    <td class="equipo-mobile text-start size_equipos2">${equipo1Data.equipo1}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo1Data.equipo1.includes("CPLV Caja Rural") ? "equipo-pucela" : ""}">${equipo1Data.equipo1}</td>
     <td class="play-jug equipo-mobile text-center">${equipo1Data.partidosJugados1}</td>
     <td class="play-act equipo-mobile text-center">${equipo1Data.puntosActuales1}</td>
     <td class="play-prox equipo-mobile text-center">${equipo1Data.proximidadDePlayOff}%</td>
@@ -199,7 +200,8 @@ equipos2.forEach((equipo2Data) => {
     }
     nuevaFila2.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="equipo-mobile text-start size_equipos2">${equipo2Data.equipo2}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo2Data.equipo2.includes("CPLV Caja Rural") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
     <td class="desc-jug equipo-mobile text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act equipo-mobile text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox equipo-mobile text-center">${equipo2Data.proxiPermanencia}%</td>

@@ -81,13 +81,11 @@
                   {% for equipo in clasificacion_analisis_uemc %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}"
-                    >
+                      class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 8 %}pos-playoff{% elif loop.index <= 11 %}pos-nada{% elif loop.index <= 12 %}pos-promo{% elif loop.index <= 14 %}pos-desc{% endif %}">
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile text-start size_equipos2 {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
-                    >
+                      class="equipo-mobile text-start size_equipos2 {% if 'CBC Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}">
                       {{ equipo.equipo }}
                     </td>
                     <td class="equipo-mobile text-center jugados">

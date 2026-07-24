@@ -144,7 +144,8 @@ equipos3.forEach((equipo3Data) => {
     }
     nuevaFila3.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor3}">${equipo3Data.index3}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipo3Data.equipo3}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo3Data.equipo3.includes("Aula Valladolid") ? "equipo-pucela" : ""}">${equipo3Data.equipo3}</td>
     <td class="play-jug text-center equipo-mobile">${equipo3Data.partidosJugados3}</td>
     <td class="play-act text-center equipo-mobile">${equipo3Data.puntosActuales3}</td>
     <td class="play-prox text-center equipo-mobile">${equipo3Data.proximidadDePlayOff}%</td>
@@ -209,7 +210,8 @@ equipos1.forEach((equipo1Data) => {
     }
     nuevaFila1.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor1}">${equipo1Data.index1}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipo1Data.equipo1}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo1Data.equipo1.includes("Aula Valladolid") ? "equipo-pucela" : ""}">${equipo1Data.equipo1}</td>
     <td class="play-jug text-center equipo-mobile">${equipo1Data.partidosJugados1}</td>
     <td class="play-act text-center equipo-mobile">${equipo1Data.puntosActuales1}</td>
     <td class="play-prox text-center equipo-mobile">${equipo1Data.proximidadDePlayOff}%</td>
@@ -272,7 +274,8 @@ equipos2.forEach((equipo2Data) => {
     }
     nuevaFila2.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipo2Data.equipo2}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo2Data.equipo2.includes("Aula Valladolid") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
     <td class="desc-jug text-center equipo-mobile">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act text-center equipo-mobile">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox text-center equipo-mobile">${equipo2Data.proxiPermanencia}%</td>

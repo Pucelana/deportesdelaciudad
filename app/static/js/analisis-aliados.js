@@ -137,7 +137,8 @@ equiposPlay.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor}">${equipoData.index}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("BSR Valladolid") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="play-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="play-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="play-prox text-center equipo-mobile">${equipoData.proximidadAscenso}%</td>
@@ -199,7 +200,8 @@ equiposDesc.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor2}">${equipoData.index2}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("BSR Valladolid") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="desc-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="desc-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="desc-prox text-center equipo-mobile">${equipoData.proxiSalvacion}%</td>
@@ -267,7 +269,8 @@ equiposEuro.forEach((equipo3Data, index) => {
     }
     nuevaFila3.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor3}">${index + 1}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipo3Data.equipo3}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo3Data.equipo3.includes("BSR Valladolid") ? "equipo-pucela" : ""}">${equipo3Data.equipo3}</td>
     <td class="euro-jug text-center equipo-mobile">${equipo3Data.partidosJugados3}</td>
     <td class="euro-act text-center equipo-mobile">${equipo3Data.puntosActuales3}</td>
     <td class="euro-prox text-center equipo-mobile">${equipo3Data.proxiEuro}%</td>
