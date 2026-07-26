@@ -82,7 +82,8 @@ equipos.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor}">${equipoData.index}</td>
-    <td class="equipo-mobile size_equipos2 text-start">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("CBC Valladolid") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="equipo-mobile text-center jugados1">${equipoData.partidosJugados}</td>
     <td class="equipo-mobile text-center pts-act1">${equipoData.puntosActuales}</td>
     <td class="equipo-mobile text-center proxi1">${equipoData.proxiDeAscenso}%</td>
@@ -140,7 +141,8 @@ equiposPlay.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor1}">${equipoData.index1}</td>
-    <td class="size_equipos2 text-start equipo-mobile">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("CBC Valladolid") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="play-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="play-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="play-prox text-center equipo-mobile">${equipoData.proximidadAscenso}%</td>
@@ -197,7 +199,8 @@ equiposDesc.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor2}">${equipoData.index2}</td>
-    <td class="size_equipos2 text-start equipo-mobile">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("CBC Valladolid") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="desc-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="desc-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="desc-prox text-center equipo-mobile">${equipoData.proxiSalvacion}%</td>

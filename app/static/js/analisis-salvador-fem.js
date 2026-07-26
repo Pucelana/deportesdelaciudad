@@ -1,44 +1,5 @@
-// Primera función para calcular la clasificación y oredenar automaticamente
-/*function calcularEstadisticas2() {
-    const tablaDatos = document.getElementById('tablaClasificacion2');
-    const filasDatos = Array.from(tablaDatos.querySelectorAll('tbody tr'));
-    filasDatos.forEach(row => {
-        const ptosFav = parseInt(row.querySelector('.favor2').textContent);
-        const ptosCont = parseInt(row.querySelector('.contra2').textContent);
-        const ganados = parseInt(row.querySelector('.ganados2').textContent);
-        const perdidos = parseInt(row.querySelector('.perdidos2').textContent);
-        const partidosJugados = ganados + perdidos;
-        row.querySelector('.jugados2').textContent = partidosJugados;
-        const diferenciaPuntos = ptosFav - ptosCont;
-        row.querySelector('.dife2').textContent = diferenciaPuntos;
-        const puntos = ganados * 2 + perdidos;
-        row.querySelector('.puntos2').textContent = puntos;
-    });
-    // Ordenar filas de datos según los puntos (PTS) de mayor a menor
-    filasDatos.sort((a, b) => {
-        const puntosA = parseInt(a.querySelector('.puntos2').textContent);
-        const puntosB = parseInt(b.querySelector('.puntos2').textContent);
-        const difPuntosA = parseInt(a.querySelector('.dife2').textContent);
-        const difPuntosB = parseInt(b.querySelector('.dife2').textContent);
-        if (puntosB !== puntosA) {
-            return puntosB - puntosA; // Ordenar por puntos de mayor a menor
-        } else {
-            return difPuntosB - difPuntosA; // Si los puntos son iguales, ordenar por diferencia de puntos
-        }
-    });
-    // Limpiar y reinsertar las filas ordenadas
-    const tbody = tablaDatos.querySelector('tbody');
-    tbody.innerHTML = '';
-    filasDatos.forEach(fila => {
-        tbody.appendChild(fila);
-    });
-  }
-  document.addEventListener('DOMContentLoaded', function() {
-    calcularEstadisticas2();
-  });*/
-
 // Segunda función playoff y ordenar automaticamente
-const filas1 = document.querySelectorAll("#tablaPlayPonce tbody tr");
+const filas1 = document.querySelectorAll("#tablaPlaySalvFem tbody tr");
 const partidosTotales1 = 26; // Total de partidos en la temporada
 const partidosPorGanar1 = 1; // Cantidad de puntos por partido ganado
 const partidosPlayOff = 23; // Número de partidos para llegar a los playoffs
@@ -75,20 +36,20 @@ filas1.forEach((fila) => {
 // Ordenar los equiposPlay por proximidad descendente
 equiposPlay.sort((a, b) => b.proximidadAscenso - a.proximidadAscenso);
 // Actualizar la tabla con los datos ordenados
-const tabla1 = document.querySelector("#tablaPlayPonce tbody");
+const tabla1 = document.querySelector("#tablaPlaySalvFem tbody");
 tabla1.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equiposPlay.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor1 = '';
     if (equipoData.index1 <= 4) {
         claseColor1 = 'pos-ascen';
-    } else if (equipoData.index1 <=14) {
+    } else if (equipoData.index1 <=8) {
         claseColor1 = 'pos-nada';
     }
     nuevaFila.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor1}">${equipoData.index1}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipoData.equipo.includes("Ponce Valladolid CB") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
+    equipoData.equipo.includes("El Salvador Fem") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="play-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="play-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="play-prox text-center equipo-mobile">${equipoData.proximidadAscenso}%</td>
@@ -100,9 +61,9 @@ equiposPlay.forEach((equipoData) => {
 });
 
 // Tercera función descenso y ordenar automaticamente
-const filas2 = document.querySelectorAll("#tablaDescPonce tbody tr");
-const partidosTotales2 = 26; // Total de partidos en la temporada
-const partidosPorGanar2 = 1; // Cantidad de puntos por partido ganado
+const filas2 = document.querySelectorAll("#tablaDescSalvFem tbody tr");
+const partidosTotales2 = 14; // Total de partidos en la temporada
+const partidosPorGanar2 = 4; // Cantidad de puntos por partido ganado
 const partidosDescenso = 8;
 const equiposDesc = [];
 let index2 = 1;
@@ -132,20 +93,22 @@ filas2.forEach((fila) => {
 // Ordenar los equiposDesc por proximidad descendente
 equiposDesc.sort((a, b) => b.proxiSalvacion - a.proxiSalvacion);
 // Actualizar la tabla con los datos ordenados
-const tabla2 = document.querySelector("#tablaDescPonce tbody");
+const tabla2 = document.querySelector("#tablaDescSalvFem tbody");
 tabla2.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equiposDesc.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor2 = '';
-    if (equipoData.index2 <= 11) {
+    if (equipoData.index2 <= 6) {
         claseColor2 = 'pos-nada';
-    } else if (equipoData.index2 <=14) {
+    }    else if (equipoData.index2 <=7) {
+        claseColor2 = 'pos-promo';
+    } else if (equipoData.index2 <=8) {
         claseColor2 = 'pos-desc';
     }
     nuevaFila.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor2}">${equipoData.index2}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipoData.equipo.includes("Ponce Valladolid CB") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
+    equipoData.equipo.includes("El Salvador Fem.") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="desc-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="desc-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="desc-prox text-center equipo-mobile">${equipoData.proxiSalvacion}%</td>

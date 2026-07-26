@@ -46,7 +46,8 @@ equipos.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="equipo-mobile fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("Atl. Valladolid") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="champ-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="champ-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="champ-prox text-center equipo-mobile">${equipoData.proximidadDeAscenso}%</td>
@@ -107,7 +108,8 @@ equipos3.forEach((equipo3Data) => {
     }
     nuevaFila3.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor3}">${equipo3Data.index3}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipo3Data.equipo3}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo3Data.equipo3.includes("Atl. Valladolid") ? "equipo-pucela" : ""}">${equipo3Data.equipo3}</td>
     <td class="euro-jug equipo-mobile text-center">${equipo3Data.partidosJugados3}</td>
     <td class="euro-act equipo-mobile text-center">${equipo3Data.puntosActuales3}</td>
     <td class="euro-prox equipo-mobile text-center">${equipo3Data.proximidadDeAscenso3}%</td>
@@ -172,7 +174,8 @@ equipo1s1.forEach((equipo1Data) => {
     }
     nuevaFila1.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor1}">${equipo1Data.index1}</td>
-    <td class="text-start size_equipos2 equipo-mobile">${equipo1Data.equipo1}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo1Data.equipo1.includes("Atl. Valladolid") ? "equipo-pucela" : ""}">${equipo1Data.equipo1}</td>
     <td class="promo-jug equipo-mobile text-center">${equipo1Data.partidosJugados1}</td>
     <td class="promo-act equipo-mobile text-center">${equipo1Data.puntosActuales1}</td>
     <td class="promo-prox equipo-mobile text-center">${equipo1Data.proximidadDePlayOff}%</td>
@@ -235,7 +238,8 @@ equipos2.forEach((equipo2Data) => {
     }
     nuevaFila2.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="equipo-mobile text-start size_equipos2">${equipo2Data.equipo2}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo2Data.equipo2.includes("Atl. Valladolid") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
     <td class="desc-jug equipo-mobile text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act equipo-mobile text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox equipo-mobile text-center">${equipo2Data.proxiPermanencia}%</td>

@@ -91,7 +91,8 @@ equipos.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor}">${equipoData.index}</td>
-    <td class="equipo-mobile text-start size_equipos2">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("RV Femenino") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="jugados1 equipo-mobile text-center">${equipoData.partidosJugados}</td>
     <td class="pts-act1 equipo-mobile text-center">${equipoData.puntosActuales}</td>
     <td class="proxi1 equipo-mobile text-center">${equipoData.proximidadDeAscenso}%</td>
@@ -156,7 +157,8 @@ equipo1s1.forEach((equipo1Data) => {
     }     
     nuevaFila1.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor1}">${equipo1Data.index1}</td>
-    <td class="equipo-mobile text-start size_equipos2">${equipo1Data.equipo1}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo1Data.equipo1.includes("RV Femenino") ? "equipo-pucela" : ""}">${equipo1Data.equipo1}</td>
     <td class="play-jug equipo-mobile text-center">${equipo1Data.partidosJugados1}</td>
     <td class="play-act equipo-mobile text-center">${equipo1Data.puntosActuales1}</td>
     <td class="play-prox equipo-mobile text-center">${equipo1Data.proximidadDePlayOff}%</td>
@@ -215,7 +217,8 @@ equipos2.forEach((equipo2Data) => {
     }
     nuevaFila2.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="equipo-mobile text-start size_equipos2">${equipo2Data.equipo2}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo2Data.equipo2.includes("RV Femenino") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
     <td class="desc-jug equipo-mobile text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act equipo-mobile text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox equipo-mobile text-center">${equipo2Data.proxiPermanencia}%</td>

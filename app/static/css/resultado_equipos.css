@@ -9,8 +9,8 @@
     -1px  1px 0 #53148f ,
      1px  1px 0 #53148f ,
      0 0 6px rgba(0,0,0,0.80);
-    border-left:5px solid #672e8d;
-    padding-left:10px !important;
+    border-left:6px solid #672e8d;
+    padding-left:10px !important;;
 }
 @media (max-width: 576px){
   .equipo-pucela{

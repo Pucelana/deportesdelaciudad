@@ -91,7 +91,8 @@ equipos.forEach((equipoData) => {
     }
     nuevaFila.innerHTML = `
     <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
-    <td class="fw-bold text-center size_equipos2 text-white">${equipoData.equipo}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipoData.equipo.includes("CD San Jose Rojo") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="play-jug fw-bold text-center">${equipoData.partidosJugados}</td>
     <td class="play-pts fw-bold text-center">${equipoData.puntosActuales}</td>
     <td class="play-proxi fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
@@ -209,7 +210,8 @@ equipos2.forEach((equipo2Data) => {
     }
     nuevaFila2.innerHTML = `
     <td class="fw-bold text-center ${claseColor2}">${equipo2Data.index2}</td>
-    <td class="fw-bold text-center">${equipo2Data.equipo2}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo2Data.equipo2.includes("CD San Jose Rojo") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
     <td class="desc-jug fw-bold text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act fw-bold text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox fw-bold text-center">${equipo2Data.proxiPermanencia}%</td>
