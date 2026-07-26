@@ -109,25 +109,6 @@ endblock %} {% block contenido %}
         </div>
       </div>
     </div>
-    <!-- PRODUCTO 3 -->
-    <div class="col-12 col-sm-6 col-lg-4">
-      <div class="card recomendacion-card h-100">
-        <div class="recomendacion-imagen">
-          <img
-            src="{{ url_for('static', filename='img/recomendaciones/mochila-deportiva.jpg') }}"
-            alt="Mochila deportiva"
-            class="img-fluid"
-          />
-        </div>
-        <div class="card-body text-center d-flex flex-column">
-          <h3 class="h5 fw-bold">Mochilas deportivas</h3>
-          <p class="small flex-grow-1">
-            Mochilas para entrenamientos y partidos.
-          </p>
-          <a href="#" class="btn btn-recomendacion"> Ver producto </a>
-        </div>
-      </div>
-    </div>
   </div>
   <p class="text-center recomendaciones-aviso mt-4 mb-0">
     Publicidad · Enlaces de afiliación
@@ -145,14 +126,27 @@ endblock %} {% block contenido %}
 </section>
 <!-- PATROCINADORES -->
 <section class="patrocinadores-seccion container-lg mt-4 mb-5">
+
     <div class="patrocinadores-titulo text-center mb-3">
         <h2 class="fw-bold">🤝 Patrocinadores</h2>
         <p>Empresas y colaboradores que apoyan el deporte local.</p>
     </div>
-    <div class="patrocinadores-contenedor">
-        <div class="patrocinador-placeholder">
-            <span>Tu empresa aquí</span>
+
+    <div class="patrocinadores-contenedor text-center">
+
+        <div class="patrocinador">
+            <img
+                src="{{ url_for('static', filename='img/biopiñon.png') }}"
+                alt="Biopiñón S.L."
+                class="logo-patrocinador"
+            >
+
+            <h3>Biopiñón S.L.</h3>
+
+            <p>Empresa colaboradora de deportesdelaciudad</p>
         </div>
+
     </div>
+
 </section>
 {% endblock %}
