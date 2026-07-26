@@ -1,0 +1,202 @@
+{# ============================================================
+   BLOQUE COMERCIAL
+   zona puede ser:
+   seccion
+   calendario
+   resultados
+   clasificacion
+   historial
+   temporadas
+   puntos
+   palmares
+   sistema_ligas
+   ============================================================ #}
+{% set amazon_productos = comercial.amazon.get(zona, []) %}
+{% set publicidad_activa = comercial.publicidad.get(zona, False) %}
+{% set patrocinador_actual = comercial.patrocinador.get(zona) %}
+{# AMAZON #}
+
+{% if amazon_productos %}
+
+<section class="recomendaciones-deportivas container-lg mt-5 mb-4">
+
+    <div class="recomendaciones-titulo text-center mb-4">
+
+        <h2 class="fw-bold">
+            {{ comercial.amazon_titulo }}
+        </h2>
+
+        <p>
+            {{ comercial.amazon_descripcion }}
+        </p>
+
+    </div>
+
+
+    <div class="row g-4 justify-content-center mb-3">
+
+        {% for producto in amazon_productos %}
+
+        <div class="col-12 col-sm-6 col-lg-4">
+
+            <div class="card recomendacion-card h-100">
+
+                <div class="recomendacion-imagen">
+
+                    <img
+                        src="{{ url_for(
+                            'static',
+                            filename='img/recomendaciones/' ~ producto.imagen
+                        ) }}"
+                        alt="{{ producto.alt }}"
+                        class="img-fluid"
+                    >
+
+                </div>
+
+
+                <div class="card-body text-center d-flex flex-column">
+
+                    <h3 class="h5 fw-bold">
+                        {{ producto.titulo }}
+                    </h3>
+
+                    <p class="small flex-grow-1">
+                        {{ producto.descripcion }}
+                    </p>
+
+                    <a
+                        href="{{ producto.url }}"
+                        class="btn btn-recomendacion"
+                        target="_blank"
+                        rel="nofollow sponsored noopener"
+                    >
+                        Ver producto
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+
+    <p class="text-center recomendaciones-aviso mt-4 mb-0">
+        Publicidad · Enlaces de afiliación
+    </p>
+
+</section>
+
+{% endif %}
+
+
+
+{# ============================================================
+   PUBLICIDAD
+   ============================================================ #}
+
+{% if publicidad_activa %}
+
+<section class="publicidad-seccion container-lg mt-4 mb-4">
+
+    <div class="publicidad-titulo text-center">
+
+        <h2 class="fw-bold">
+            📢 Publicidad
+        </h2>
+
+        <p>
+            Espacio reservado para publicidad.
+        </p>
+
+    </div>
+
+
+    <div class="publicidad-contenedor">
+
+        <span>
+            Espacio publicitario
+        </span>
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+
+{# ============================================================
+   PATROCINADOR
+   ============================================================ #}
+
+{% if patrocinador_actual %}
+
+<section class="patrocinadores-seccion container-lg mt-4 mb-5">
+
+    <div class="patrocinadores-titulo text-center mb-3">
+
+        <h2 class="fw-bold">
+            🤝 Patrocinador
+        </h2>
+
+        <p>
+            Empresa que apoya el deporte local.
+        </p>
+
+    </div>
+
+
+    <div class="patrocinadores-contenedor text-center">
+
+        <div class="patrocinador">
+
+
+            {% if patrocinador_actual.url %}
+
+            <a
+                href="{{ patrocinador_actual.url }}"
+                target="_blank"
+                rel="sponsored noopener"
+            >
+
+            {% endif %}
+
+
+                <img
+                    src="{{ url_for(
+                        'static',
+                        filename='img/patrocinador/' ~ patrocinador_actual.logo
+                    ) }}"
+                    alt="{{ patrocinador_actual.nombre }}"
+                    class="logo-patrocinador"
+                >
+
+
+            {% if patrocinador_actual.url %}
+
+            </a>
+
+            {% endif %}
+
+
+            <h3>
+                {{ patrocinador_actual.nombre }}
+            </h3>
+
+
+            <p>
+                {{ patrocinador_actual.descripcion }}
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endif %}

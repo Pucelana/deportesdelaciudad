@@ -87,7 +87,7 @@
 }
 /* AVISO AFILIACIÓN */
 .recomendaciones-aviso {
-    font-size: 0.8rem;
+    font-size: 1rem;
     color: rgba(255, 255, 255, 0.70);
 }
 /* MÓVIL */
@@ -146,7 +146,7 @@
     }
 
     .recomendaciones-aviso {
-        font-size: 0.68rem;
+        font-size: 0.8rem;
     }
 }
 /* TABLET */
