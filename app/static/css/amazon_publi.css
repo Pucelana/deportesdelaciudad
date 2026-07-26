@@ -1,0 +1,238 @@
+/* AMAZON */
+.recomendaciones-deportivas {
+    padding: 25px 0;
+}
+/* Titulo */
+.recomendaciones-titulo {
+    padding: 0 10px;
+}
+.recomendaciones-titulo h2 {
+    color: white;
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    margin-bottom: 8px;
+}
+.recomendaciones-titulo p {
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 0;
+    font-size: 0.95rem;
+}
+/* CARD */
+.recomendacion-card {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    box-shadow: 2px 6px 12px rgba(22, 22, 26, 0.18);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+/* HOVER */
+.recomendacion-card:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        2px 10px 20px rgba(22, 22, 26, 0.28);
+}
+/* IMAGEN */
+.recomendacion-imagen {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
+.recomendacion-imagen img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 150px;
+    object-fit: contain;
+}
+/* TEXTO */
+.recomendacion-card .card-body {
+    color: white;
+    padding: 16px;
+}
+.recomendacion-card h3 {
+    color: white;
+    font-size: 1.05rem;
+    margin-bottom: 8px;
+}
+.recomendacion-card p {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+}
+/* BOTÓN */
+.btn-recomendacion {
+    display: inline-block;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    background: rgba(255, 255, 255, 0.12);
+    color: white;
+    font-weight: 700;
+    border-radius: 10px;
+    padding: 8px 18px;
+    transition:
+        background 0.25s ease,
+        color 0.25s ease,
+        transform 0.25s ease;
+}
+.btn-recomendacion:hover {
+    background: white;
+    color: #6f42c1;
+    transform: translateY(-1px);
+}
+/* AVISO AFILIACIÓN */
+.recomendaciones-aviso {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.70);
+}
+/* MÓVIL */
+@media (max-width: 576px) {
+
+    .recomendaciones-deportivas {
+        padding: 15px 10px;
+        margin-top: 2rem !important;
+    }
+
+    .recomendaciones-titulo h2 {
+        font-size: 1.35rem;
+    }
+
+    .recomendaciones-titulo p {
+        font-size: 0.82rem;
+    }
+
+    .recomendaciones-deportivas .row {
+        --bs-gutter-y: 0.8rem;
+    }
+
+    .recomendacion-card {
+        max-width: 250px;
+        margin: 0 auto;
+        border-radius: 12px;
+    }
+
+    .recomendacion-imagen {
+        height: 120px;
+        padding: 12px;
+    }
+
+    .recomendacion-imagen img {
+        max-height: 100px;
+    }
+
+    .recomendacion-card .card-body {
+        padding: 10px;
+    }
+
+    .recomendacion-card h3 {
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+    }
+
+    .recomendacion-card p {
+        font-size: 0.75rem;
+        margin-bottom: 8px;
+    }
+
+    .btn-recomendacion {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+
+    .recomendaciones-aviso {
+        font-size: 0.68rem;
+    }
+}
+/* TABLET */
+@media (min-width: 576px) and (max-width: 991.98px) {
+    .recomendacion-imagen {
+        height: 155px;
+    }
+    .recomendacion-imagen img {
+        max-height: 125px;
+    }
+    .recomendacion-card .card-body {
+        padding: 14px;
+    }
+    .recomendacion-card h3 {
+        font-size: 1rem;
+    }
+}
+/* PUBLICIDAD */
+.publicidad-seccion {
+    padding: 15px 0;
+}
+.publicidad-titulo h2 {
+    color: white;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+}
+.publicidad-titulo p {
+    color: rgba(255,255,255,.80);
+    font-size: .9rem;
+}
+.publicidad-contenedor {
+    width: 100%;
+    min-height: 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed rgba(255,255,255,.35);
+    border-radius: 14px;
+    background: rgba(255,255,255,.05);
+    color: rgba(255,255,255,.55);
+    font-size: .8rem;
+}
+@media (max-width: 576px) {
+    .publicidad-seccion {
+        padding: 10px;
+    }
+    .publicidad-contenedor {
+        min-height: 90px;
+        font-size: .7rem;
+    }
+}
+/* PATROCINADORES */
+.patrocinadores-seccion {
+    padding: 15px 0;
+}
+.patrocinadores-titulo h2 {
+    color: white;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+}
+.patrocinadores-titulo p {
+    color: rgba(255,255,255,.80);
+    font-size: .9rem;
+}
+.patrocinadores-contenedor {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.patrocinador-placeholder {
+    width: 220px;
+    height: 90px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed rgba(255,255,255,.35);
+    border-radius: 14px;
+    background: rgba(255,255,255,.06);
+    color: rgba(255,255,255,.55);
+    font-size: .8rem;
+}
+@media (max-width: 576px) {
+    .patrocinadores-seccion {
+        padding: 10px;
+    }
+    .patrocinador-placeholder {
+        width: 180px;
+        height: 70px;
+        font-size: .7rem;
+    }
+}

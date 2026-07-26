@@ -17,18 +17,30 @@ endblock %} {% block contenido %}
           <h2 class="text_uemc">2ª Feb</h2>
         </div>
         <div class="tu-contenedor-h5">
-            <a href="/admin/equipos_basket/calendario_uemc" class="text-decoration-none text-white">
-              <h5 class="small-option fw-bold">Calendario Ind.</h5>
-            </a>
-            <a href="/admin/equipos_basket/resultados_uemc" class="text-decoration-none text-white">
-              <h5 class="small-option fw-bold">Resultados</h5>
-            </a>
-            <a href="/admin/equipos_basket/clasif_uemc" class="text-decoration-none text-white">
-              <h5 class="small-option fw-bold">Clasificaciones</h5>
-            </a>
-            <a href="/admin/uemc/historial" class="text-decoration-none text-white">
-              <h5 class="small-option fw-bold">Historial</h5>
-            </a>
+          <a
+            href="/admin/equipos_basket/calendario_uemc"
+            class="text-decoration-none text-white"
+          >
+            <h5 class="small-option fw-bold">Calendario Ind.</h5>
+          </a>
+          <a
+            href="/admin/equipos_basket/resultados_uemc"
+            class="text-decoration-none text-white"
+          >
+            <h5 class="small-option fw-bold">Resultados</h5>
+          </a>
+          <a
+            href="/admin/equipos_basket/clasif_uemc"
+            class="text-decoration-none text-white"
+          >
+            <h5 class="small-option fw-bold">Clasificaciones</h5>
+          </a>
+          <a
+            href="/admin/uemc/historial"
+            class="text-decoration-none text-white"
+          >
+            <h5 class="small-option fw-bold">Historial</h5>
+          </a>
         </div>
       </div>
     </div>
@@ -53,5 +65,94 @@ endblock %} {% block contenido %}
       </div>
     </div>
   </div>
+</section>
+<!-- Amazon -->
+<section class="recomendaciones-deportivas container-lg mt-5 mb-4">
+  <div class="recomendaciones-titulo text-center mb-4">
+    <h2 class="fw-bold">🏀 Equipamiento de baloncesto</h2>
+    <p>Productos y material deportivo que pueden interesarte.</p>
+  </div>
+  <div class="row g-4 justify-content-center mb-3">
+    <!-- PRODUCTO 1 -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card recomendacion-card h-100">
+        <div class="recomendacion-imagen">
+          <img
+            src="{{ url_for('static', filename='img/recomendaciones/balon-baloncesto.jpg') }}"
+            alt="Balón de baloncesto"
+            class="img-fluid"
+          />
+        </div>
+        <div class="card-body text-center d-flex flex-column">
+          <h3 class="h5 fw-bold">Balones de baloncesto</h3>
+          <p class="small flex-grow-1">Balones para entrenamiento y juego.</p>
+          <a href="#" class="btn btn-recomendacion"> Ver producto </a>
+        </div>
+      </div>
+    </div>
+    <!-- PRODUCTO 2 -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card recomendacion-card h-100">
+        <div class="recomendacion-imagen">
+          <img
+            src="{{ url_for('static', filename='img/recomendaciones/zapatillas-basket.jpg') }}"
+            alt="Zapatillas de baloncesto"
+            class="img-fluid"
+          />
+        </div>
+        <div class="card-body text-center d-flex flex-column">
+          <h3 class="h5 fw-bold">Zapatillas de baloncesto</h3>
+          <p class="small flex-grow-1">
+            Calzado deportivo para jugar y entrenar.
+          </p>
+          <a href="#" class="btn btn-recomendacion"> Ver producto </a>
+        </div>
+      </div>
+    </div>
+    <!-- PRODUCTO 3 -->
+    <div class="col-12 col-sm-6 col-lg-4">
+      <div class="card recomendacion-card h-100">
+        <div class="recomendacion-imagen">
+          <img
+            src="{{ url_for('static', filename='img/recomendaciones/mochila-deportiva.jpg') }}"
+            alt="Mochila deportiva"
+            class="img-fluid"
+          />
+        </div>
+        <div class="card-body text-center d-flex flex-column">
+          <h3 class="h5 fw-bold">Mochilas deportivas</h3>
+          <p class="small flex-grow-1">
+            Mochilas para entrenamientos y partidos.
+          </p>
+          <a href="#" class="btn btn-recomendacion"> Ver producto </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="text-center recomendaciones-aviso mt-4 mb-0">
+    Publicidad · Enlaces de afiliación
+  </p>
+</section>
+<!-- Publicidad -->
+<section class="publicidad-seccion container-lg mt-4 mb-4">
+    <div class="publicidad-titulo text-center">
+        <h2 class="fw-bold">📢 Publicidad</h2>
+        <p>Espacio reservado para publicidad.</p>
+    </div>
+    <div class="publicidad-contenedor">
+        <span>Espacio publicitario</span>
+    </div>
+</section>
+<!-- PATROCINADORES -->
+<section class="patrocinadores-seccion container-lg mt-4 mb-5">
+    <div class="patrocinadores-titulo text-center mb-3">
+        <h2 class="fw-bold">🤝 Patrocinadores</h2>
+        <p>Empresas y colaboradores que apoyan el deporte local.</p>
+    </div>
+    <div class="patrocinadores-contenedor">
+        <div class="patrocinador-placeholder">
+            <span>Tu empresa aquí</span>
+        </div>
+    </div>
 </section>
 {% endblock %}
