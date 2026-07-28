@@ -159,8 +159,8 @@ def obtener_datos_vrac(nombre_temporada=None):
             'partidos': partidos
         })
     return jornadas_con_partidos
-total_partidos_temporada_vrac = 10
-total_partidos_temporada_grupos_vrac = 5
+total_partidos_temporada_vrac = 18
+total_partidos_temporada_grupos_vrac = 0
 # Función para separar fases de la temporada
 def separar_fases(data):
     fase_regular = []
@@ -452,6 +452,23 @@ def clasif_analisis_vrac():
 
     # 🔥 1. CLASIFICACIÓN BASE (GENERAL)
     base = generar_clasificacion_analisis_rugby_vrac(fase_regular)
+    clubs = VracClub.query.all()
+    for club in clubs:
+            if not any(e['equipo'] == club.nombre for e in base):
+                base.append({
+                    'equipo': club.nombre,
+                    'datos': {
+                        'puntos': 0,
+                        'jugados': 0,
+                        'ganados': 0,
+                        'empatados': 0,
+                        'perdidos': 0,
+                        'favor': 0,
+                        'contra': 0,
+                        'diferencia_goles': 0,
+                        'bonus': 0
+                    }
+                })
     base_dict = {e['equipo']: e['datos'] for e in base}
 
     # 🔥 2. FUNCIÓN ARRASTRE LIGUILLA

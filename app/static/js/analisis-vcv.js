@@ -144,7 +144,7 @@ tabla1.innerHTML = ""; // Limpiar la tabla1 antes de actualizar
 equipos1.forEach((equipo1Data) => {
     const nuevaFila1 = document.createElement("tr");
     let claseColor1 = '';
-    if (equipo1Data.index1 <= 2) {
+    if (equipo1Data.index1 <= 1) {
         claseColor1 = 'pos-ascen';
     } else if (equipo1Data.index1 <=12) {
         claseColor1 = 'pos-nada';
@@ -221,4 +221,65 @@ equipos2.forEach((equipo2Data) => {
     <td class="desc-pesi equipo-mobile text-center d-none d-md-table-cell">${equipo2Data.partidosGanadosPesimistas2}</td>
     `;
     tabla2.appendChild(nuevaFila2);
+});
+// Quinta función para calcular la promoción descenso
+const filas5 = document.querySelectorAll("#tablaPromoVcv tbody tr");
+const partidosTotales5 = 22; // Cambiado a 42 partidos en la temporada
+const puntosPorGanar5 = 3; // Cambiado a 3 puntos por partido ganado
+const proximidadFijar5 = 46.5; // Ajusta este valor según tus necesidades
+const equipos5 = [];
+let index5 = 1;
+filas5.forEach((fila) => {
+    const equipo5 = fila.querySelector(`.size_equipos2`).textContent;
+    const partidosJugados5 = parseInt(fila.querySelector(`.desc-jug`).textContent);
+    const puntosActuales5 = parseInt(fila.querySelector(`.desc-act`).textContent);
+    // Calcular puntos necesarios para alcanzar la proximidad fija
+    const puntosPermanencia5 = Math.round((proximidadFijar5 / 100) * partidosTotales5 * puntosPorGanar5);
+    // Calcular la proximidad de ascenso
+    const puntosQueFaltan5 = Math.max(0, puntosPermanencia5 - puntosActuales5);
+    const proxiPermanencia5 = Math.min(((puntosPermanencia5 - puntosQueFaltan5) / puntosPermanencia5) * 100, 100);
+    // Calcular los partidos ganados matemáticos, optimistas y pesimistas
+    const partidosRestantesPermanencia5 = partidosTotales5 - partidosJugados5;
+    const partidosGanadosMatematicos5 = Math.min(puntosActuales5 + partidosRestantesPermanencia5 * puntosPorGanar5, puntosPermanencia5);
+    const partidosGanadosPesimistas5 = Math.min(partidosGanadosMatematicos5 -3, puntosPermanencia5);
+    const partidosGanadosOptimistas5 = Math.min(partidosGanadosMatematicos5 -5, puntosPermanencia5);
+    equipos5.push({
+        index5: index5,
+        equipo5,
+        partidosJugados5,
+        puntosActuales5,
+        proxiPermanencia5:Math.round(proxiPermanencia5),
+        partidosGanadosMatematicos5,
+        partidosGanadosOptimistas5,
+        partidosGanadosPesimistas5
+    });
+    index5++
+});
+// Ordenar los equipos2 por proximidad descendente
+equipos5.sort((a, b) => b.proxiPermanencia - a.proxiPermanencia);
+// Actualizar la tabla2 con los datos ordenados
+const tabla5 = document.querySelector("#tablaPromoVcv tbody");
+tabla5.innerHTML = ""; // Limpiar la tabla5 antes de actualizar
+equipos5.forEach((equipo5Data) => {
+    const nuevaFila5 = document.createElement("tr");
+    let claseColor5 = '';
+    if (equipo5Data.index5 <= 9) {
+        claseColor5 = 'pos-nada';
+    } else if (equipo5Data.index5 <=10) {
+        claseColor5 = 'pos-promo';
+    } else if (equipo5Data.index5 <=12) {
+        claseColor5 = 'pos-nada';
+    }
+    nuevaFila5.innerHTML = `
+    <td class="equipo-mobile text-center ${claseColor5}">${equipo5Data.index5}</td>
+    <td class="equipo-mobile text-start size_equipos2 ${
+    equipo5Data.equipo5.includes("Universidad VCV") ? "equipo-pucela" : ""}">${equipo5Data.equipo5}</td>
+    <td class="desc-jug equipo-mobile text-center">${equipo5Data.partidosJugados5}</td>
+    <td class="desc-act equipo-mobile text-center">${equipo5Data.puntosActuales5}</td>
+    <td class="desc-prox equipo-mobile text-center">${equipo5Data.proxiPermanencia5}%</td>
+    <td class="desc-mate equipo-mobile text-center d-none d-md-table-cell">${equipo5Data.partidosGanadosMatematicos5}</td>
+    <td class="desc-opti equipo-mobile text-center d-none d-md-table-cell">${equipo5Data.partidosGanadosOptimistas5}</td>
+    <td class="desc-pesi equipo-mobile text-center d-none d-md-table-cell">${equipo5Data.partidosGanadosPesimistas5}</td>
+    `;
+    tabla5.appendChild(nuevaFila5);
 });

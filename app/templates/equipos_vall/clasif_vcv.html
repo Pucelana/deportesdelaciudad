@@ -38,8 +38,9 @@
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-2 gap-2">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
-        <button class="btn btn-outline-light tab-btn" data-tab="ascenso">Ascenso</button>
+        <!--<button class="btn btn-outline-light tab-btn" data-tab="ascenso">Ascenso</button>-->
         <button class="btn btn-outline-light tab-btn" data-tab="playoff">PlayOff</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="promocion">Promoción</button>
         <button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>
       </div>
         <div class="tab-container">
@@ -48,7 +49,7 @@
               <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis fs-4">Superliga 2 (Grp-A)</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis fs-4">Superliga 2 (Gr-C)</h3>
                       <table id="tablaClasifVcv" class="table">
                         <thead>
                           <tr class="text-center">
@@ -70,7 +71,7 @@
                           {% for equipo in clasificacion_analisis_vcv %}
                           <tr class="text-center">
                             <td
-                              class="equipo-mobile text-center {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 11 %}pos-desc{% endif %}">
+                              class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 9 %}pos-nada{% elif loop.index <= 10 %}pos-promo{% elif loop.index <= 12 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
                             <td class="equipo-mobile text-start size_equipos2 {% if 'Universidad VCV' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos equipo-mobile text-center">{{ equipo.datos.puntos }}</td>
@@ -91,8 +92,9 @@
                 </div>
                 <p class="ms-4">PT(Puntos); J(Jugados); G3 (Ganados +3); G2 (Ganados +2); P1 (Perdidos +1);
                   P0 (Perdidos +0); SF (Set Favor); SC (Set Contra)</p>
-                <p class="ms-4">PlayOffs (Ascenso)<span class="badge bg-success ms-2">1-2</span> ; Descenso<span
-                    class="badge bg-danger ms-2">11</span></p>
+                <p class="ms-4">PlayOffs (Ascenso)<span class="badge bg-success ms-2">1</span>; Promoción<span
+                    class="badge ms-2" style="background-color: #d86f6f">10</span>; Descenso<span
+                    class="badge bg-danger ms-2">11-12</span></p>
               </div>
             </div>
           </div>
@@ -185,6 +187,47 @@
                   <div class="table-responsive">
                     <h3 class="text-center text-white fw-bold text-analisis fs-4">1ª División</h3>
                       <table id="tablaDescVcv" class="table"><!--Tabla Permanencia-->
+                        <thead>
+                          <tr class="text-center">
+                            <th></th>
+                            <th class="equipo-mobile text-start">Equipos</th>
+                            <th class="equipo-mobile text-center">J</th>
+                            <th class="equipo-mobile text-center">PT</th>
+                            <th class="equipo-mobile text-center">%</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Mat</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
+                            <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {% for equipo in clasificacion_analisis_vcv %}
+                          <tr class="text-center">
+                            <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                            <td class="equipo-mobile text-start size_equipos2">{{ equipo['equipo'] }}</td>
+                            <td class="desc-jug equipo-mobile text-center">{{ equipo['datos']['jugados'] }}</td>
+                            <td class="desc-act equipo-mobile text-center">{{ equipo['datos']['puntos'] }}</td>
+                            <td class="desc-prox equipo-mobile text-center d-none d-md-table-cell"></td>
+                            <td class="desc-mate equipo-mobile text-center d-none d-md-table-cell"></td>
+                            <td class="desc-opti equipo-mobile text-center d-none d-md-table-cell"></td>
+                            <td class="desc-pesi equipo-mobile text-center d-none d-md-table-cell"></td>
+                          </tr>
+                          {% endfor %}
+                        </tbody>
+                      </table>
+                  </div>
+                </div>
+                <p class="ms-4">J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos);
+                  Op(Optimista); Pes(Pesimista)</p>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="promocion"><!--Tabla Permanencia-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100 mx-auto" style="max-width: 55rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <h3 class="text-center text-white fw-bold text-analisis fs-4">1ª División</h3>
+                      <table id="tablaPromoVcv" class="table"><!--Tabla Permanencia-->
                         <thead>
                           <tr class="text-center">
                             <th></th>

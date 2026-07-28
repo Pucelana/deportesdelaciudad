@@ -163,7 +163,7 @@ def obtener_datos_san_jose(nombre_temporada=None):
 @san_jose_route_bp.route("/equipos_voley/calendario_san_jose")
 def calendario_san_jose():
     datos = obtener_datos_san_jose()
-    equipo_san_jose = "CD San Jose"
+    equipo_san_jose = "CD San Jose Rojo"
     tabla_partidos_san_jose = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:

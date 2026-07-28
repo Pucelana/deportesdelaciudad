@@ -1,22 +1,7 @@
 COMERCIAL = {
     "uemc": {
         "amazon": {
-            "seccion": [
-                {
-                    "titulo": "Balones de baloncesto",
-                    "descripcion": "Balones para entrenamiento y juego.",
-                    "imagen": "balon-baloncesto.jpg",
-                    "alt": "Balón de baloncesto",
-                    "url": "#",
-                },
-                {
-                    "titulo": "Zapatillas de baloncesto",
-                    "descripcion": "Calzado deportivo para jugar y entrenar.",
-                    "imagen": "zapatillas-basket.jpg",
-                    "alt": "Zapatillas de baloncesto",
-                    "url": "#",
-                },
-            ],
+            "seccion": [],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -57,20 +42,6 @@ COMERCIAL = {
     "ponce": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -107,20 +78,6 @@ COMERCIAL = {
     "cdsi": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -157,20 +114,6 @@ COMERCIAL = {
     "aliados": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -207,20 +150,6 @@ COMERCIAL = {
     "aula": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -257,20 +186,6 @@ COMERCIAL = {
     "recoletas": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -307,20 +222,6 @@ COMERCIAL = {
     "valladolid": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -357,20 +258,6 @@ COMERCIAL = {
     "rv_femenino": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -407,20 +294,6 @@ COMERCIAL = {
     "promesas": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -457,20 +330,6 @@ COMERCIAL = {
     "parquesol": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -507,20 +366,6 @@ COMERCIAL = {
     "galvan": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -557,20 +402,6 @@ COMERCIAL = {
     "vall_sala": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -607,20 +438,6 @@ COMERCIAL = {
     "caja": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -657,20 +474,6 @@ COMERCIAL = {
     "panteras": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -707,20 +510,6 @@ COMERCIAL = {
     "vrac": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -757,20 +546,6 @@ COMERCIAL = {
     "salvador": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -807,20 +582,6 @@ COMERCIAL = {
     "salvador_fem": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],
@@ -857,20 +618,6 @@ COMERCIAL = {
     "vcv": {
         "amazon": {
             "seccion": [
-                {
-                    "titulo": "Balones de baloncesto",
-                    "descripcion": "Balones para entrenamiento y juego.",
-                    "imagen": "balon-baloncesto.jpg",
-                    "alt": "Balón de baloncesto",
-                    "url": "#",
-                },
-                {
-                    "titulo": "Zapatillas de baloncesto",
-                    "descripcion": "Calzado deportivo para jugar y entrenar.",
-                    "imagen": "zapatillas-basket.jpg",
-                    "alt": "Zapatillas de baloncesto",
-                    "url": "#",
-                },
             ],
             "calendario": [],
             "resultados": [],
@@ -907,20 +654,6 @@ COMERCIAL = {
     "san_jose": {
             "amazon": {
                 "seccion": [
-                    {
-                        "titulo": "Balones de baloncesto",
-                        "descripcion": "Balones para entrenamiento y juego.",
-                        "imagen": "balon-baloncesto.jpg",
-                        "alt": "Balón de baloncesto",
-                        "url": "#",
-                    },
-                    {
-                        "titulo": "Zapatillas de baloncesto",
-                        "descripcion": "Calzado deportivo para jugar y entrenar.",
-                        "imagen": "zapatillas-basket.jpg",
-                        "alt": "Zapatillas de baloncesto",
-                        "url": "#",
-                    },
                 ],
                 "calendario": [],
                 "resultados": [],

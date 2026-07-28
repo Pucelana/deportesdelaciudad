@@ -55,10 +55,12 @@
     <!-- Bootstrap CSS v5.2.1 -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"/>
+    <link
       rel="stylesheet"
-      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-      crossorigin="anonymous"
-    />
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />  
     <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
     <!-- Favicon -->
     <link
@@ -310,44 +312,97 @@
     <main class="main-seccion">
       {% block contenido %} {% endblock %}
     </main>
-    <footer class="container-fluid mt-auto footer-seccion py-1">
-      <div class="container-lg">
-       <div class="row align-items-center text-center">
-        <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-1 mb-lg-0">
-          <a>
-            <h4 class="text-start text-white fw-bold pt-1 text-footer ms-2">
-              deportesdelaciudad &copy; 2026
-            </h4>
-          </a>
-        </div>
-        <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-lg-0">
-          <a href="#" id="nosotros-link" class="text-decoration-none">
-            <h5 class="text-white text-footer">Nosotros -</h5>
-          </a>
-          <a href="#" id="contactanos-link" class="text-decoration-none">
-            <h5 class="text-white ms-1 text-footer">Contáctanos -</h5>
-          </a>
-          <a href="#" id="aviso-legal-link" class="text-decoration-none">
-            <h5 class="text-white ms-1 text-footer">Aviso legal -</h5>
-          </a>
-          <a href="#" id="politica-privacidad-link" class="text-decoration-none">
-            <h5 class="text-white ms-1 text-footer">
-              Privacidad -
+      <footer class="container-fluid mt-auto footer-seccion py-3">
+        <div class="container-lg">
+          <!-- REDES SOCIALES -->
+          <div class="footer-redes text-center mb-3">
+            <h5 class="text-white fw-bold mb-2">Síguenos</h5>
+            <div class="redes-iconos">
+              <a href="#" class="red-social" aria-label="Facebook">
+                <i class="bi bi-facebook"></i>
+              </a>
+              <a href="#" class="red-social" aria-label="Instagram">
+                <i class="bi bi-instagram"></i>
+              </a>
+              <!--<a href="#" class="red-social" aria-label="TikTok">
+                    <i class="bi bi-tiktok"></i>
+                </a>-->
+              <a href="#" class="red-social" aria-label="WhatsApp">
+                <i class="bi bi-whatsapp"></i>
+              </a>
+              <!--<a href="#" class="red-social" aria-label="YouTube">
+                    <i class="bi bi-youtube"></i>
+                </a>-->
+            </div>
+          </div>
+          <!-- PATROCINADORES -->
+          <!--<div class="footer-patrocinadores text-center mb-3">
+            <h5 class="text-white fw-bold mb-3">
+                Patrocinadores
             </h5>
-          </a>
-          <a href="#" id="politica-cookies-link" class="text-decoration-none">
-            <h5 class="text-white ms-1 text-footer">
-              Cookies
-            </h5>
-          </a>
+            <div class="logos-patrocinadores">
+                <- EJEMPLO ->
+                <a href="#" class="logo-patrocinador-footer">
+                    <img src="{{ url_for('static', filename='img/patrocinador/biopiñon.png') }}"
+                        alt="Biopiñón S.L.">
+                </a>
+                <!-FUTUROS PATROCINADORES
+                <a href="#" class="logo-patrocinador-footer">
+                    <img src="..." alt="Empresa">
+                </a>
+                ->
+            </div>
+        </div>-->
+          <!-- SEPARADOR -->
+          <div class="footer-separador mb-2"></div>
+          <!-- INFORMACIÓN -->
+          <div class="row align-items-center">
+            <div
+              class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-2 mb-lg-0"
+            >
+              <h4 class="text-white text-footer fw-bold mb-0">
+                deportesdelaciudad &copy; 2026
+              </h4>
+            </div>
+            <div
+              class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-2 mb-lg-0"
+            >
+              <a href="#" id="nosotros-link" class="text-decoration-none">
+                <h5 class="text-white text-footer ms-1 mb-1">Nosotros -</h5>
+              </a>
+              <a href="#" id="contactanos-link" class="text-decoration-none">
+                <h5 class="text-white ms-1 mb-1">Contáctanos -</h5>
+              </a>
+              <a href="#" id="aviso-legal-link" class="text-decoration-none">
+                <h5 class="text-white text-footer ms-1 mb-1">Aviso legal -</h5>
+              </a>
+              <a
+                href="#"
+                id="politica-privacidad-link"
+                class="text-decoration-none"
+              >
+                <h5 class="text-white text-footer ms-1 mb-1">Privacidad -</h5>
+              </a>
+              <a
+                href="#"
+                id="politica-cookies-link"
+                class="text-decoration-none"
+              >
+                <h5 class="text-white text-footer ms-1 mb-1">Cookies</h5>
+              </a>
+            </div>
+            <div
+              class="col-12 col-lg-2 d-flex justify-content-center align-items-center"
+            >
+              <img
+                src="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+                class="img-fluid logo-footer"
+                alt="Deportes de la Ciudad"
+              />
+            </div>
+          </div>
         </div>
-        <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center">
-          <img src="../static/img/logo-deportes2.png" class="img-fluid me-2 p-1 logo-footer"
-            alt="eldeportedelaciudad"/>
-        </div>
-       </div>
-      </div>
-    </footer>
+      </footer>
     <!-- Modales -->
     <div id="aviso-legal-modal" class="custom-modal aviso-legal-modal text-dark"><!-- Aviso Legal -->
       <div class="custom-modal-content aviso-legal-content">

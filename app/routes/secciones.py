@@ -87,7 +87,7 @@ def seccion_galvan():
 
 @secciones_bp.route('/seccion/vall_sala')
 def seccion_vall_sala():
-    return render_template('secciones/vall_sala.html', 'vall_sala')
+    return render_seccion('secciones/vall_sala.html', 'vall_sala')
 
 # Rutas de sistemas de ligas
 @secciones_bp.route('/sistema_ligas/futbol')

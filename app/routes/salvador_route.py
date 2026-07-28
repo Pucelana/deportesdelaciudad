@@ -157,8 +157,8 @@ def obtener_datos_salvador(nombre_temporada=None):
             'partidos': partidos
         })
     return jornadas_con_partidos
-total_partidos_temporada_salvador = 10
-total_partidos_temporada_grupos_salvador = 5
+total_partidos_temporada_salvador = 18
+total_partidos_temporada_grupos_salvador = 0
 # Función para separar fases de la temporada
 def separar_fases(data):
     fase_regular = []
@@ -274,7 +274,7 @@ def jornada0_salvador():
                 db.session.commit()
             return redirect(url_for('salvador_route_bp.jornada0_salvador'))
     clubs = SalvadorClub.query.all()  # Obtener todos los clubes de PostgreSQL
-    return render_template('admin/clubs/clubs_vrac.html', clubs=clubs) 
+    return render_template('admin/clubs/clubs_salvador.html', clubs=clubs) 
 # Eliminar clubs jornada 0
 @salvador_route_bp.route('/eliminar_club_salvador/<int:club_id>', methods=['POST'])
 def eliminar_club_salvador(club_id):
@@ -447,6 +447,23 @@ def clasif_analisis_salvador():
 
     # 🔥 1. CLASIFICACIÓN BASE (GENERAL)
     base = generar_clasificacion_analisis_rugby_salvador(fase_regular)
+    clubs = SalvadorClub.query.all()
+    for club in clubs:
+        if not any(e['equipo'] == club.nombre for e in base):
+            base.append({
+                'equipo': club.nombre,
+                'datos': {
+                    'puntos': 0,
+                    'jugados': 0,
+                    'ganados': 0,
+                    'empatados': 0,
+                    'perdidos': 0,
+                    'favor': 0,
+                    'contra': 0,
+                    'diferencia_goles': 0,
+                    'bonus': 0
+                }
+            })
     base_dict = {e['equipo']: e['datos'] for e in base}
 
     # 🔥 2. FUNCIÓN ARRASTRE LIGUILLA
