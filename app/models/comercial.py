@@ -23,12 +23,7 @@ COMERCIAL = {
             "sistema_ligas": False,
         },
         "patrocinador": {
-            "seccion": {
-                "nombre": "Biopiñón S.L.",
-                "logo": "biopiñon.png",
-                "descripcion": "Empresa colaboradora de deportesdelaciudad",
-                "url": "https://www.biopiñon.com",
-            },
+            "seccion": None,
             "calendario": None,
             "resultados": None,
             "clasificacion": None,

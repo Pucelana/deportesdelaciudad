@@ -1,5 +1,5 @@
 {% extends "playoff/base_playoff.html" %} 
-{% block title %}Playoff | BSR Valladolid | Deportes de la Ciudad{%endblock %} {% block contenido %}
+{% block title %}Playoff | BSR Valladolid | Deportes de la Ciudad{%endblock %}
 
 {% block description %}
 Cuadro, eliminatorias, cruces y resultados de los playoffs del BSR Valladolid.
@@ -16,7 +16,7 @@ Playoffs | BSR Valladolid | Deportes de la Ciudad
 {% block twitter_description %}
 Sigue las eliminatorias y resultados de los playoffs del BSR Valladolid.
 {% endblock %}
-
+{% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
@@ -31,7 +31,8 @@ Sigue las eliminatorias y resultados de los playoffs del BSR Valladolid.
     </li>
   </ol>
 </nav>
-
+{% endblock %}
+{% block contenido %}
 <section class="container-lg flex-fill copa">
   <!-- Eliminatorias -->
   <!-- Navegación -->

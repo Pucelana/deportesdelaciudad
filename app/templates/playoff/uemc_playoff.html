@@ -1,5 +1,5 @@
-{% extends "playoff/base_playoff.html" %} {% block title %}PlayOff | CBC
-Valladolid | Deportes de la Ciudad{% endblock %} {% block contenido %}
+{% extends "playoff/base_playoff.html" %} 
+{% block title %}PlayOff | CBC Valladolid | Deportes de la Ciudad{% endblock %}
 
 {% block description %}
 Cuadro, eliminatorias, cruces y resultados de los playoffs del CBC Valladolid.
@@ -17,6 +17,7 @@ Playoffs | CBC Valladolid | Deportes de la Ciudad
 Sigue las eliminatorias y resultados de los playoffs del CBC Valladolid.
 {% endblock %}
 
+{% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
@@ -31,6 +32,8 @@ Sigue las eliminatorias y resultados de los playoffs del CBC Valladolid.
     </li>
   </ol>
 </nav>
+{% endblock %}
+ {% block contenido %}
 <section class="container-lg flex-fill copa">
   <!-- Navegación -->
   <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">

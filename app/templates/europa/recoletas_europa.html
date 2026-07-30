@@ -21,17 +21,19 @@ EHF | Atl. Valladolid | Deportes de la Ciudad
 Sigue la participación del Atl. Valladolid en la EHF.
 {% endblock %}
 
-{% block contenido %}
+      {% block breadcrumb %}
       <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
           <li class="breadcrumb-item">
-            <a href="/" class="text-white text-decoration-none">Inicio</a>
+            <a href="/seccion/recoletas" class="text-white text-decoration-none text-analisis fs-6">Atl. Valladolid</a>
           </li>
           <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
             Europa
           </li>
         </ol>
       </nav>
+      {% endblock %}
+      {% block contenido %}
       <!-- Navegación -->
       <div class="d-flex justify-content-center my-2 gap-2 flex-wrap">
         <a

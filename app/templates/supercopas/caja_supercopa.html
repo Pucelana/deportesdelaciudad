@@ -17,13 +17,15 @@ Supercopa | CPLV Caja Rural | Deportes de la Ciudad
 Eliminatorias y resultados del CPLV Caja Rural.
 {% endblock %}
 
-{% block contenido %}
+    {% block breadcrumb %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/seccion/caja" class="text-white text-decoration-none text-analisis fs-6">CPLV Caja Rural</a></li>
         <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">Supercopa de España</li>
       </ol>
     </nav>
+    {% endblock %}
+    {% block contenido %}
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
          <!-- Navegación -->
       <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">

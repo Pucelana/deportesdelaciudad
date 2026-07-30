@@ -21,7 +21,7 @@ EuroCup 1 | BSR Valladolid | Deportes de la Ciudad
 Sigue la participación del BSR Valladolid en la EuroCup 1.
 {% endblock %}
 
-{% block contenido %}
+{% block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ps-2 pt-2">
     <li class="breadcrumb-item">
@@ -31,11 +31,13 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
         >BSR Valladolid</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark" aria-current="page">
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Eurocup 1 - Grp-A
     </li>
   </ol>
 </nav>
+{% endblock %}
+{% block contenido %}
 <!-- Navegación -->
 <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
   <a

@@ -17,13 +17,15 @@ Playoffs | RV Promesas | Deportes de la Ciudad
 Sigue las eliminatorias y resultados de los playoffs del RV Promesas.
 {% endblock %}
 
-{% block contenido %}
+    {% block breadcrumb %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
         <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">PlayOffs</li>
       </ol>
     </nav>
+    {% endblock %}
+    {% block contenido %}
    <section class="container-lg flex-fill copa">
   <!-- Navegación -->
   <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">

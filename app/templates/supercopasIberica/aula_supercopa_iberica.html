@@ -17,15 +17,15 @@ SuperCopaIberica | Aula Valladolid | Deportes de la Ciudad
 Eliminatorias y fase de grupos si lo hubiera del Aula Valladolid.
 {% endblock %}
 
-{% block contenido %}
+    {% block breadcrumb %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
         <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
         <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Ibérica Aula Valladolid</li>
       </ol>
     </nav>
-    <h1 class="text-playoff">Supercopa Ibérica 25/26</h1>
-    <span class="equipo_copa">Aula Valladolid</span>
+    {% endblock %}
+    {% block contenido %}
     <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 70rem;">
