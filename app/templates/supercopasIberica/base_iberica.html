@@ -1,65 +1,127 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-<head>
-  <title>Supercopa Ibérica - Aula Valladolid</title>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description"
-    content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
-  <meta name="keywords"
-    content="deporte, Valladolid, resultados, liga local, Copa del Rey, Copa de la Reina, competiciones europeas, análisis, sistemas de liga">
-  <meta name="author" content="eldeportedelaciudad">
-  <!-- Twitter meta tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Página deportiva de Valladolid">
-  <meta name="twitter:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
-  <meta name="twitter:image" content="URL_de_la_imagen">
-  <meta name="twitter:site" content="@tu_cuenta_de_twitter">
-  <meta name="twitter:creator" content="@cuenta_del_autor">
-  <!-- Open Graph meta tags -->
-  <meta property="og:title" content="Página deportiva de Valladolid">
-  <meta property="og:description" content="Página deportiva dedicada a informar sobre los resultados y análisis de las competiciones deportivas en la ciudad de Valladolid, incluyendo la Liga local, la Copa del Rey/Reina, Competiciones Europeas, y explicaciones de los sistemas de liga.">
-  <meta property="og:image" content="URL_de_la_imagen">
-  <meta property="og:url" content="URL_de_tu_página">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="eldeportedelaciudad">
-  <!-- Bootstrap CSS v5.2.1 -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-  <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
-  <!-- Favicon -->
-  <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
-</head>
-<body class="fondos_playoffs">
-  <main class="container-lg mb-3">
-  {% block contenido %}  {% endblock %}
-  </main>
-  <footer class="container-fluid footer-seccion">
+  <head>
+    <title>
+      {% block title %}Supercopa Ibérica | Deportes
+      de la Ciudad{% endblock %}
+    </title>
+
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="{% block description %}Resultados, calendario, clasificación y toda la información de la Supercopa Ibérica.{% endblock %}"
+    />
+
+    <meta
+      name="keywords"
+      content="{% block keywords %}Supercopa Ibérica, resultados, calendario, competición ibérica{% endblock %}"
+    />
+
+    <meta name="author" content="Deportes de la Ciudad" />
+    <meta name="robots" content="index, follow" />
+
+    <link rel="canonical" href="{{ request.url }}" />
+
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="{% block og_title %}Supercopa Ibérica | Deportes de la Ciudad{% endblock %}"
+    />
+
+    <meta
+      property="og:description"
+      content="{% block og_description %}Toda la información sobre la Supercopa Ibérica.{% endblock %}"
+    />
+
+    <meta
+      property="og:image"
+      content="https://deportesdelaciudad.es/static/img/logo-deportes2.png"
+    />
+
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Deportes de la Ciudad" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <meta
+      name="twitter:title"
+      content="{% block twitter_title %}Supercopa Ibérica | Deportes de la Ciudad{% endblock %}"
+    />
+
+    <meta
+      name="twitter:description"
+      content="{% block twitter_description %}Resultados, calendario y toda la actualidad de la Supercopa Ibérica.{% endblock %}"
+    />
+
+    <meta
+      name="twitter:image"
+      content="https://deportesdelaciudad.es/static/img/logo-deportes2.png"
+    />
+
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
+
+    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css" />
+
+    <!-- Favicon -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
+  </head>
+  <body class="fondos_playoffs">
+    <main class="container-lg mb-3">{% block contenido %} {% endblock %}</main>
+    <footer class="container-fluid footer-seccion">
       <div class="row align-items-center text-center">
         <div class="col-12 col-md-6 mb-2 mb-md-0">
           <a>
-            <h5 class="text-white fw-bold text-analisis mb-0 fs-4">deportesdeslaciudad &copy; 2026</h5>
+            <h5 class="text-white fw-bold text-analisis mb-0 fs-4">
+              deportesdeslaciudad &copy; 2026
+            </h5>
           </a>
         </div>
         <div class="col-12 col-md-6">
-          <img src="/static/img/logo-deportes2.png" class="img-fluid logo-footer" alt="deportesdelaciudad">
+          <img
+            src="/static/img/logo-deportes2.png"
+            class="img-fluid logo-footer"
+            alt="deportesdelaciudad"
+          />
         </div>
       </div>
     </footer>
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
-    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <!-- Bootstrap JavaScript Libraries -->
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
-    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous">
-    </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
-    integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous">
-    </script>
-  <script src="/static/js/proteccion-datos.js"></script>
-  <!--<script src="/static/js/script.js"></script>-->
-  <script src="/static/js/proteccion-datos.js"></script>
-  <script src="/static/js/num_caracteres.js"></script>
-  {% block scripts %}  {% endblock %}
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+      crossorigin="anonymous"
+    ></script>
+    <!-- Bootstrap JavaScript Libraries -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+      crossorigin="anonymous"
+    ></script>
+    <script src="/static/js/proteccion-datos.js"></script>
+    <!--<script src="/static/js/script.js"></script>-->
+    <script src="/static/js/proteccion-datos.js"></script>
+    <script src="/static/js/num_caracteres.js"></script>
+    {% block scripts %} {% endblock %}
   </body>
-</html>  
+</html>

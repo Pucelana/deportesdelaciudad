@@ -26,6 +26,7 @@ from .routes.salvador_route import salvador_route_bp
 from .routes.salvador_fem_route import salvador_fem_route_bp
 from .routes.vcv_route import vcv_route_bp
 from .routes.san_jose_route import san_jose_route_bp
+from .seo.sitemap import seo_bp
 from .routes.usuarios_route import usuarios_route_bp
 
 def create_app():
@@ -65,6 +66,7 @@ def create_app():
     app.register_blueprint(salvador_fem_route_bp, url_prefix='/admin')
     app.register_blueprint(vcv_route_bp, url_prefix='/admin')
     app.register_blueprint(san_jose_route_bp, url_prefix='/admin')
+    app.register_blueprint(seo_bp)
     app.register_blueprint(usuarios_route_bp)
     
     return app 

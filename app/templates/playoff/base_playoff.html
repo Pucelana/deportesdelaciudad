@@ -4,28 +4,62 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>{% block title %}Deportes de la Ciudad{% endblock %}</title>
+  <title>{% block title %}Playoffs | Deportes de la Ciudad{% endblock %}</title>
 
   <!-- SEO -->
-  <meta name="description" content="{% block description %}Resultados, clasificaciones y análisis deportivos.{% endblock %}">
-  <meta name="keywords" content="{% block keywords %}deporte, Valladolid, resultados, clasificaciones{% endblock %}">
-  <meta name="author" content="eldeportedelaciudad">
+  <meta
+    name="description"
+    content="{% block description %}Toda la información sobre los playoffs deportivos: eliminatorias, cuadros, cruces, resultados y formato de las fases finales de las competiciones deportivas.{% endblock %}"
+  >
+
+  <meta
+    name="keywords"
+    content="{% block keywords %}playoffs, eliminatorias, fases finales, cruces, deporte Valladolid, competiciones deportivas{% endblock %}"
+  >
+
+  <meta name="author" content="Deportes de la Ciudad">
   <meta name="robots" content="index, follow">
+
   <link rel="canonical" href="{{ request.url }}">
 
   <!-- OPEN GRAPH -->
-  <meta property="og:title" content="{% block og_title %}Deportes de la Ciudad{% endblock %}">
-  <meta property="og:description" content="{% block og_description %}Resultados y análisis deportivos{% endblock %}">
-  <meta property="og:image" content="{% block og_image %}https://deportesdelaciudad.onrender.com/static/img/logo-deportes2.png{% endblock %}">
+  <meta
+    property="og:title"
+    content="{% block og_title %}Playoffs | Deportes de la Ciudad{% endblock %}"
+  >
+
+  <meta
+    property="og:description"
+    content="{% block og_description %}Consulta los cuadros, eliminatorias, cruces y resultados de los playoffs deportivos.{% endblock %}"
+  >
+
+  <meta
+    property="og:image"
+    content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
+  >
+
   <meta property="og:url" content="{{ request.url }}">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="eldeportedelaciudad">
+  <meta property="og:site_name" content="Deportes de la Ciudad">
+  <meta property="og:locale" content="es_ES">
 
-  <!-- TWITTER -->
+  <!-- TWITTER / X -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{% block twitter_title %}Deportes de la Ciudad{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Resultados y análisis deportivos{% endblock %}">
-  <meta name="twitter:image" content="{% block twitter_image %}https://deportesdelaciudad.onrender.com/static/img/logo-deportes2.png{% endblock %}">
+
+  <meta
+    name="twitter:title"
+    content="{% block twitter_title %}Playoffs | Deportes de la Ciudad{% endblock %}"
+  >
+
+  <meta
+    name="twitter:description"
+    content="{% block twitter_description %}Consulta los cuadros, eliminatorias, cruces y resultados de los playoffs deportivos.{% endblock %}"
+  >
+
+  <meta
+    name="twitter:image"
+    content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
+  >
 
   <!-- PWA -->
   <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
