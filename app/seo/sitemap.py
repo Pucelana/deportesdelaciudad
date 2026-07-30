@@ -10,8 +10,7 @@ def sitemap():
 
     urls = []
 
-    for rule in sorted(current_app.url_map.iter_rules(), key=lambda r: r.rule):
-        print(rule.endpoint, "->", rule.rule)
+    for rule in current_app.url_map.iter_rules():
 
         # Excluir rutas del panel de administración
         if rule.rule.startswith("/admin"):
@@ -39,9 +38,6 @@ def sitemap():
 
     </urlset>
     """
-    return "ok"
-
-
-    """return "<br>".join(sorted(urls))"""
+    return "<br>".join(sorted(urls))
 
     """return Response(xml, mimetype="application/xml")"""
