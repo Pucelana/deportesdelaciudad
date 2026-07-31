@@ -13,7 +13,7 @@ salvador_route_bp = Blueprint('salvador_route_bp', __name__)
 
 # LIGA SALVADOR
 # Crear el calendario Salvador
-@salvador_route_bp.route('/crear_calendario_salvador', methods=['GET', 'POST'])
+@salvador_route_bp.route('/admin/crear_calendario_salvador', methods=['GET', 'POST'])
 def ingresar_resultado_salvador():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -67,7 +67,7 @@ def ingresar_resultado_salvador():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_salvador.html')
 # Ver calendario Salvador en Admin
-@salvador_route_bp.route('/calendario_salvador')
+@salvador_route_bp.route('/admin/calendario_salvador')
 def calendarios_salvador():
     temporada = TemporadaSalvador.query.filter_by(activa=True).first()
     if temporada:
@@ -263,7 +263,7 @@ def resultados_salvador():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Salvador
-@salvador_route_bp.route('/jornada0_salvador', methods=['GET', 'POST'])
+@salvador_route_bp.route('/admin/jornada0_salvador', methods=['GET', 'POST'])
 def jornada0_salvador():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -564,7 +564,7 @@ def clasif_analisis_salvador():
         grupoB2=grupoB_indexed
     )
 # TEMPORADAS SALVADOR
-@salvador_route_bp.route('/temporadas_salvador')
+@salvador_route_bp.route('/admin/temporadas_salvador')
 def temporadas_salvador():
     temporadas = TemporadaSalvador.query.order_by(
         TemporadaSalvador.id.desc()
@@ -772,7 +772,7 @@ def eliminar_palmares_salvador(id):
 
 # PLAYOFF SALVADOR
 # Crear formulario para los playoff
-@salvador_route_bp.route('/crear_playoff_salvador', methods=['GET', 'POST'])
+@salvador_route_bp.route('/admin/crear_playoff_salvador', methods=['GET', 'POST'])
 def crear_playoff_salvador():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -800,7 +800,7 @@ def crear_playoff_salvador():
         return redirect(url_for('salvador_route_bp.ver_playoff_salvador'))
     return render_template('admin/playoffs/playoff_salvador.html')
 # Ver encuentros playoff en Admin
-@salvador_route_bp.route('/playoff_salvador/')
+@salvador_route_bp.route('/admin/playoff_salvador/')
 def ver_playoff_salvador():
     eliminatorias = ['cuartos' ,'semifinales', 'final']
     datos_eliminatorias = {}
@@ -854,7 +854,7 @@ def playoffs_salvador():
 
 # COPA EL SALVADOR
 # Crear formulario para los grupos de la Copa DH VRAC
-@salvador_route_bp.route('/crear_copa_salvador', methods=['GET', 'POST'])
+@salvador_route_bp.route('/admin/crear_copa_salvador', methods=['GET', 'POST'])
 def crear_copa_salvador():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -1032,7 +1032,7 @@ def formatear_partidos_por_encuentros(partidos):
             print(f"Grupo no encontrado: {grupo}")
     return encuentros
 # Crear formularios para los grupos y eliminatorias UEMC
-@salvador_route_bp.route('/copa_salvador/')
+@salvador_route_bp.route('/admin/copa_salvador/')
 def ver_copa_salvador():
     try:
         partidos = obtener_copa_salvador()

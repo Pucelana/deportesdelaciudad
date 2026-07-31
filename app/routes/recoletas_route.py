@@ -13,7 +13,7 @@ recoletas_route_bp = Blueprint('recoletas_route_bp', __name__)
 
 # LIGA RECOLETAS ATL.VALLADOLID
 # Crear el calendario Recoletas Atl.Valladolid
-@recoletas_route_bp.route('/crear_calendario_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/crear_calendario_recoletas', methods=['GET', 'POST'])
 def ingresar_resultado_recoletas():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -52,7 +52,7 @@ def ingresar_resultado_recoletas():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_recoletas.html')
 # Ver calendario Atl.Valladolid en Admin
-@recoletas_route_bp.route('/calendario_recoletas')
+@recoletas_route_bp.route('/admin/calendario_recoletas')
 def calendarios_recoletas():
     temporada = TemporadaRecoletas.query.filter_by(activa=True).first()
     if temporada:
@@ -226,7 +226,7 @@ def resultados_recoletas():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Atl.Valladolid
-@recoletas_route_bp.route('/jornada0_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/jornada0_recoletas', methods=['GET', 'POST'])
 def jornada0_recoletas():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -467,7 +467,7 @@ def clasif_recoletas():
     return render_template('equipos_vall/clasif_recoletas.html',
         clasificacion_analisis_recoletas=clasificacion_analisis_recoletas)
 # TEMPORADAS ATL VALLADOLID
-@recoletas_route_bp.route('/temporadas_recoletas')
+@recoletas_route_bp.route('/admin/temporadas_recoletas')
 def temporadas_recoletas():
     temporadas = TemporadaRecoletas.query.order_by(
         TemporadaRecoletas.id.desc()
@@ -669,10 +669,9 @@ def eliminar_palmares_recoletas(id):
     db.session.commit()
     return redirect(url_for("recoletas_route_bp.crear_palmares_recoletas")) 
    
-       
 # PLAYOFF ATL.VALLADOLID
 # Crear formulario para los playoff
-@recoletas_route_bp.route('/crear_playoff_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/crear_playoff_recoletas', methods=['GET', 'POST'])
 def crear_playoff_recoletas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -698,7 +697,7 @@ def crear_playoff_recoletas():
         return redirect(url_for('recoletas_route_bp.ver_playoff_recoletas'))
     return render_template('admin/playoffs/playoff_recoletas.html')
 # Ver encuentros playoff en Admin
-@recoletas_route_bp.route('/playoff_recoletas/')
+@recoletas_route_bp.route('/admin/playoff_recoletas/')
 def ver_playoff_recoletas():
     eliminatorias = ['promocion']
     datos_eliminatorias = {}
@@ -752,7 +751,7 @@ def playoffs_recoletas():
     
 # COPA ATL.VALLADOLID
 # Crear formulario para la copa
-@recoletas_route_bp.route('/crear_copa_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/crear_copa_recoletas', methods=['GET', 'POST'])
 def crear_copa_recoletas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -779,7 +778,7 @@ def crear_copa_recoletas():
         return redirect(url_for('recoletas_route_bp.ver_copa_recoletas'))
     return render_template('admin/copa/copa_recoletas.html')
 # Ver encuentros copa en Admin
-@recoletas_route_bp.route('/copa_recoletas/')
+@recoletas_route_bp.route('/admin/copa_recoletas/')
 def ver_copa_recoletas():
     eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}
@@ -833,7 +832,7 @@ def copas_recoletas():
 
 # COPA DEL REY ATL.VALLADOLID
 # Crear formulario para la copa de españa
-@recoletas_route_bp.route('/crear_copa_rey_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/crear_copa_rey_recoletas', methods=['GET', 'POST'])
 def crear_copa_rey_recoletas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -864,7 +863,7 @@ def crear_copa_rey_recoletas():
         return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
     return render_template('admin/copa/copa_rey_recoletas.html')
 # Ver encuentros copa en Admin
-@recoletas_route_bp.route('/copa_rey_recoletas/')
+@recoletas_route_bp.route('/admin/copa_rey_recoletas/')
 def ver_copa_rey_recoletas():
     eliminatorias = ['ronda1','ronda2','octavos','cuartos','semifinales', 'final']
     datos_eliminatorias = {}
@@ -918,7 +917,7 @@ def copas_rey_recoletas():
 
 # # SUPERCOPA IBÉRICA ATL.VALLADOLID
 # Crear formulario para la supercopa ibérica
-@recoletas_route_bp.route('/crear_supercopa_iberica_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/crear_supercopa_iberica_recoletas', methods=['GET', 'POST'])
 def crear_supercopa_iberica_recoletas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -945,7 +944,7 @@ def crear_supercopa_iberica_recoletas():
         return redirect(url_for('recoletas_route_bp.ver_supercopa_iberica_recoletas'))
     return render_template('admin/supercopaIberica/supercopa_iberica_recoletas.html')
 # Ver encuentros supercopa en Admin
-@recoletas_route_bp.route('/supercopa_iberica_recoletas/')
+@recoletas_route_bp.route('/admin/supercopa_iberica_recoletas/')
 def ver_supercopa_iberica_recoletas():
     eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}
@@ -999,7 +998,7 @@ def supercopas_iberica_recoletas():
 
 # EUROPA ATL.VALLADOLID
 # Crear formulario para europa
-@recoletas_route_bp.route('/crear_europa_recoletas', methods=['GET', 'POST'])
+@recoletas_route_bp.route('/admin/crear_europa_recoletas', methods=['GET', 'POST'])
 def crear_europa_recoletas():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -1187,7 +1186,7 @@ def formatear_partidos_por_encuentros(partidos):
             print(f"Grupo no encontrado: {grupo}")
     return encuentros
 # Crear formularios para los grupos y eliminatorias Atl.Valladolid
-@recoletas_route_bp.route('/europa_recoletas/')
+@recoletas_route_bp.route('/admin/europa_recoletas/')
 def ver_europa_recoletas():
     try:
         partidos = obtener_europa_recoletas()

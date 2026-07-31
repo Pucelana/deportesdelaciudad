@@ -14,7 +14,7 @@ ponce_route_bp = Blueprint('ponce_route_bp', __name__)
 # LIGA PONCE
 #Todo el proceso de calendario y clasificación del PONCE
 # Ingresar los resultados de los partidos PONCE
-@ponce_route_bp.route('/crear_calendario_ponce', methods=['GET', 'POST'])
+@ponce_route_bp.route('/admin/crear_calendario_ponce', methods=['GET', 'POST'])
 def ingresar_resultado_ponce():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -53,7 +53,7 @@ def ingresar_resultado_ponce():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_ponce.html')
 # Ver calendario Ponce en Admin
-@ponce_route_bp.route('/calendario_ponce')
+@ponce_route_bp.route('/admin/calendario_ponce')
 def calendarios_ponce():
     temporada = TemporadaPonce.query.filter_by(activa=True).first()
     if temporada:
@@ -227,7 +227,7 @@ def resultados_ponce():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Ponce
-@ponce_route_bp.route('/jornada0_ponce', methods=['GET', 'POST'])
+@ponce_route_bp.route('/admin/jornada0_ponce', methods=['GET', 'POST'])
 def jornada0_ponce():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -533,7 +533,7 @@ def clasif_analisis_ponce():
     return render_template('equipos_vall/clasif_ponce.html',
         clasificacion_analisis_ponce=clasificacion_analisis_ponce)
 # TEMPORADAS ATL VALLADOLID
-@ponce_route_bp.route('/temporadas_ponce')
+@ponce_route_bp.route('/admin/temporadas_ponce')
 def temporadas_ponce():
     temporadas = TemporadaPonce.query.order_by(
         TemporadaPonce.id.desc()
@@ -737,7 +737,7 @@ def eliminar_palmares_ponce(id):
      
 # PLAYOFF PONCE
 # Crear formulario para los playoff
-@ponce_route_bp.route('/crear_playoff_ponce', methods=['GET', 'POST'])
+@ponce_route_bp.route('/admin/crear_playoff_ponce', methods=['GET', 'POST'])
 def crear_playoff_ponce():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -769,7 +769,7 @@ def crear_playoff_ponce():
     # Renderizar el formulario para crear la copa UEMC
     return render_template('admin/playoffs/playoff_ponce.html')
 # Ver encuentros playoff en Admin
-@ponce_route_bp.route('/playoff_ponce/')
+@ponce_route_bp.route('/admin/playoff_ponce/')
 def ver_playoff_ponce():
     # Definimos todas las jornadas de la fase regular
     jornadas = ['liga_j1', 'liga_j2', 'liga_j3']

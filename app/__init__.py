@@ -26,7 +26,7 @@ from .routes.salvador_route import salvador_route_bp
 from .routes.salvador_fem_route import salvador_fem_route_bp
 from .routes.vcv_route import vcv_route_bp
 from .routes.san_jose_route import san_jose_route_bp
-from .seo.sitemap import seo_bp
+from .seo.sitemap_index import sitemap_index_bp
 from .routes.usuarios_route import usuarios_route_bp
 
 def create_app():
@@ -66,7 +66,14 @@ def create_app():
     app.register_blueprint(salvador_fem_route_bp)
     app.register_blueprint(vcv_route_bp)
     app.register_blueprint(san_jose_route_bp)
-    app.register_blueprint(seo_bp)
+    app.register_blueprint(sitemap_index_bp)
     app.register_blueprint(usuarios_route_bp)
+    
+    print("\n========== RUTAS REGISTRADAS ==========\n")
+
+    for rule in sorted(app.url_map.iter_rules(), key=lambda r: r.rule):
+        print(f"{rule.endpoint:50} -> {rule.rule}")
+
+        print("\n=======================================\n")
     
     return app 

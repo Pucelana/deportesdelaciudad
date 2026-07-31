@@ -14,7 +14,7 @@ vcv_route_bp = Blueprint("vcv_route_bp", __name__)
 
 # EQUIPOS VOLEIBOL
 # Ingresar los resultados de los partidos de Univ. Valladolid VCV
-@vcv_route_bp.route('/crear_calendario_vcv', methods=['GET', 'POST'])
+@vcv_route_bp.route('/admin/crear_calendario_vcv', methods=['GET', 'POST'])
 def ingresar_resultado_vcv():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -66,7 +66,7 @@ def ingresar_resultado_vcv():
         # Redirigir al calendario después de crear la jornada
         return redirect(url_for('vcv_route_bp.calendarios_vcv'))
 # Partidos Univ. Valladolid VCV
-@vcv_route_bp.route("/calendario_vcv")
+@vcv_route_bp.route("/admin/calendario_vcv")
 def calendarios_vcv():
     temporada = TemporadaVCV.query.filter_by(activa=True).first()
     if temporada:
@@ -576,7 +576,7 @@ def clasif_analisis_vcv():
         "equipos_vall/clasif_vcv.html",
         clasificacion_analisis_vcv=clasificacion_analisis_vcv,
     )
-@vcv_route_bp.route("/jornada0_vcv", methods=["GET", "POST"])
+@vcv_route_bp.route("/admin/jornada0_vcv", methods=["GET", "POST"])
 def jornada0_vcv():
     if request.method == "POST":
         if "equipo" in request.form:
@@ -596,7 +596,7 @@ def eliminar_club_vcv(club_id):
         db.session.commit()
     return redirect(url_for("vcv_route_bp.jornada0_vcv"))
 # TEMPORADAS Panteras
-@vcv_route_bp.route('/temporadas_vcv')
+@vcv_route_bp.route('/admin/temporadas_vcv')
 def temporadas_vcv():
     temporadas = TemporadaVCV.query.order_by(
         TemporadaVCV.id.desc()

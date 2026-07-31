@@ -14,7 +14,7 @@ uemc_route_bp = Blueprint('uemc_route_bp', __name__)
 # LIGA UEMC
 #Todo el proceso de calendario y clasificación del UEMC
 # Ingresar los resultados de los partidos UEMC
-@uemc_route_bp.route('/crear_calendario_uemc', methods=['GET', 'POST'])
+@uemc_route_bp.route('/admin/crear_calendario_uemc', methods=['GET', 'POST'])
 def ingresar_resultado_uemc():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -53,7 +53,7 @@ def ingresar_resultado_uemc():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_uemc.html')
 # Ver calendario UEMC en Admin
-@uemc_route_bp.route('/calendario_uemc')
+@uemc_route_bp.route('/admin/calendario_uemc')
 def calendarios_uemc():
     temporada = TemporadaUEMC.query.filter_by(activa=True).first()
     if temporada:
@@ -227,7 +227,7 @@ def resultados_uemc():
         jornada_activa=jornada_activa
     )
 # Jornada 0 UEMC
-@uemc_route_bp.route('/jornada0_uemc', methods=['GET', 'POST'])
+@uemc_route_bp.route('/admin/jornada0_uemc', methods=['GET', 'POST'])
 def jornada0_uemc():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -535,7 +535,7 @@ def clasif_analisis_uemc():
         clasificacion_analisis_uemc=clasificacion_analisis_uemc
     )
 # TEMPORADAS ATL VALLADOLID
-@uemc_route_bp.route('/temporadas_uemc')
+@uemc_route_bp.route('/admin/temporadas_uemc')
 def temporadas_uemc():
     temporadas = TemporadaUEMC.query.order_by(
         TemporadaUEMC.id.desc()
@@ -739,7 +739,7 @@ def eliminar_palmares_uemc(id):
 
 # COPA UEMC
 # Crear equipos copa CBC
-@uemc_route_bp.route('/crear_equipo_copa_uemc', methods=['POST'])
+@uemc_route_bp.route('/admin/crear_equipo_copa_uemc', methods=['POST'])
 def crear_equipo_copa_uemc():
     grupo = request.form.get('grupo')
     equipo = request.form.get('equipo')
@@ -780,7 +780,7 @@ def eliminar_equipo_copa_uemc(id):
     flash("Equipo eliminado correctamente", "success")
     return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
 # Crear formulario para los grupos de la Copa UEMC
-@uemc_route_bp.route('/crear_copa_uemc', methods=['GET', 'POST'])
+@uemc_route_bp.route('/admin/crear_copa_uemc', methods=['GET', 'POST'])
 def crear_copa_uemc():
     def safe_int(value):
         try:
@@ -821,7 +821,7 @@ def crear_copa_uemc():
 
     return render_template('admin/copa/copa_uemc.html')
 # Ver la Copa UEMC en Admin (crear/editar partidos)
-@uemc_route_bp.route('/copa_uemc/')
+@uemc_route_bp.route('/admin/copa_uemc/')
 def ver_copa_uemc():
     # Definimos todas las jornadas de la fase regular
     jornadas = ['liga_j1', 'liga_j2', 'liga_j3']
@@ -1060,7 +1060,7 @@ def uemc_copa():
 
 # PLAYOFF UEMC
 # Crear formulario para los playoff
-@uemc_route_bp.route('/crear_playoff_uemc', methods=['GET', 'POST'])
+@uemc_route_bp.route('/admin/crear_playoff_uemc', methods=['GET', 'POST'])
 def crear_playoff_uemc():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -1095,7 +1095,7 @@ def crear_playoff_uemc():
         return redirect(url_for('uemc_route_bp.ver_playoff_uemc'))
     return render_template('admin/playoffs/playoff_uemc.html')
 # Ver encuentros playoff en Admin
-@uemc_route_bp.route('/playoff_uemc/')
+@uemc_route_bp.route('/admin/playoff_uemc/')
 def ver_playoff_uemc():
     eliminatorias = ['ascenso', 'octavos','cuartos', 'semifinales']
     datos_eliminatorias = {}

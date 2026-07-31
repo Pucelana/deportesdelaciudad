@@ -13,7 +13,7 @@ simancas_route_bp = Blueprint('simancas_route_bp', __name__)
 
 # LIGA RV SIMANCAS
 # Crear el calendario RV Simancas
-@simancas_route_bp.route('/crear_calendario_simancas', methods=['GET', 'POST'])
+@simancas_route_bp.route('/admin/crear_calendario_simancas', methods=['GET', 'POST'])
 def ingresar_resultado_simancas():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -52,7 +52,7 @@ def ingresar_resultado_simancas():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_simancas.html')
 # Ver calendario Real Valladolid en Admin
-@simancas_route_bp.route('/calendario_simancas')
+@simancas_route_bp.route('/admin/calendario_simancas')
 def calendarios_simancas():
     temporada = TemporadaSimancas.query.filter_by(activa=True).first()
     if temporada:
@@ -226,7 +226,7 @@ def resultados_simancas():
         jornada_activa=jornada_activa
     )
 # Jornada 0 RV Simancas
-@simancas_route_bp.route('/jornada0_simancas', methods=['GET', 'POST'])
+@simancas_route_bp.route('/admin/jornada0_simancas', methods=['GET', 'POST'])
 def jornada0_simancas():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -468,7 +468,7 @@ def clasif_analisis_simancas():
     return render_template('equipos_vall/clasif_rv_fem.html',
         clasificacion_analisis_simancas=clasificacion_analisis_simancas)
 # TEMPORADAS RV Promesas
-@simancas_route_bp.route('/temporadas_simancas')
+@simancas_route_bp.route('/admin/temporadas_simancas')
 def temporadas_simancas():
     temporadas = TemporadaSimancas.query.order_by(
         TemporadaSimancas.id.desc()
@@ -675,7 +675,7 @@ def eliminar_palmares_simancas(id):
 
 # COPA DEL REY RV Simancas
 # Creación de las eliminatorias de copa
-@simancas_route_bp.route('/crear_copa_simancas', methods=['GET', 'POST'])
+@simancas_route_bp.route('/admin/crear_copa_simancas', methods=['GET', 'POST'])
 def crear_copa_simancas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')
@@ -706,7 +706,7 @@ def crear_copa_simancas():
         return redirect(url_for('simancas_route_bp.ver_copa_simancas'))
     return render_template('admin/copa/copa_simancas.html')   
 # Ver las eliminatorias en Admin
-@simancas_route_bp.route('/copa_simancas/')
+@simancas_route_bp.route('/admin/copa_simancas/')
 def ver_copa_simancas():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {
@@ -750,7 +750,7 @@ def copas_simancas():
 
 # PLAYOFF ASCENSO RV Simancas
 # Crear formulario para los playoff
-@simancas_route_bp.route('/crear_playoff_simancas', methods=['GET', 'POST'])
+@simancas_route_bp.route('/admin/crear_playoff_simancas', methods=['GET', 'POST'])
 def crear_playoff_simancas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -781,7 +781,7 @@ def crear_playoff_simancas():
         return redirect(url_for('simancas_route_bp.ver_playoff_simancas'))
     return render_template('admin/playoffs/playoff_simancas.html')
 # Ver encuentros playoff en Admin
-@simancas_route_bp.route('/playoff_simancas/')
+@simancas_route_bp.route('/admin/playoff_simancas/')
 def ver_playoff_simancas():
     eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}

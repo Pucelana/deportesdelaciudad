@@ -13,7 +13,7 @@ aula_route_bp = Blueprint('aula_route_bp', __name__)
 
 # LIGA AULA VALLADOLID
 # Crear el calendario Aula Valladolid
-@aula_route_bp.route('/crear_calendario_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/crear_calendario_aula', methods=['GET', 'POST'])
 def ingresar_resultado_aula():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -52,7 +52,7 @@ def ingresar_resultado_aula():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_aula.html')
 # Ver calendario Aula Valladolid en Admin
-@aula_route_bp.route('/calendario_aula')
+@aula_route_bp.route('/admin/calendario_aula')
 def calendarios_aula():
     temporada = TemporadaAula.query.filter_by(activa=True).first()
     if temporada:
@@ -226,7 +226,7 @@ def resultados_aula():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Aula
-@aula_route_bp.route('/jornada0_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/jornada0_aula', methods=['GET', 'POST'])
 def jornada0_aula():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -467,7 +467,7 @@ def clasif_analisis_aula():
     return render_template('equipos_vall/clasif_aula.html',
         clasificacion_analisis_aula=clasificacion_analisis_aula)
 # TEMPORADAS AULA VALLADOLID
-@aula_route_bp.route('/temporadas_aula')
+@aula_route_bp.route('/admin/temporadas_aula')
 def temporadas_aula():
     temporadas = TemporadaAula.query.order_by(
         TemporadaAula.id.desc()
@@ -671,7 +671,7 @@ def eliminar_palmares_aula(id):
 
 # PLAYOFF AULA VALLADOLID
 # Crear formulario para los playoff
-@aula_route_bp.route('/crear_playoff_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/crear_playoff_aula', methods=['GET', 'POST'])
 def crear_playoff_aula():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -703,7 +703,7 @@ def crear_playoff_aula():
         return redirect(url_for('aula_route_bp.ver_playoff_aula'))
     return render_template('admin/playoffs/playoff_aula.html')
 # Ver encuentros playoff en Admin
-@aula_route_bp.route('/playoff_aula/')
+@aula_route_bp.route('/admin/playoff_aula/')
 def ver_playoff_aula():
     eliminatorias = ['cuartos', 'perdedores', 'septimo', 'cuarto', 'tercero' ,'semifinales', 'final']
     datos_eliminatorias = {}
@@ -756,7 +756,7 @@ def playoffs_aula():
     return render_template('playoff/aula_playoff.html', datos_playoff=datos_playoff)
 
 #PLAYOFF PERMANENCIA AULA
-@aula_route_bp.route('/crear_permanencia_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/crear_permanencia_aula', methods=['GET', 'POST'])
 def resultado_permanencia_aula():
 
     if request.method == 'POST':
@@ -802,7 +802,7 @@ def resultado_permanencia_aula():
 
     return render_template('admin/permanencia/play_perm_aula.html')
 # Ver calendario Aula Valladolid en Admin
-@aula_route_bp.route('/permanencia_aula')
+@aula_route_bp.route('/admin/permanencia_aula')
 def permanencia_aula():
     jornadas = JornadaPermanenciaAula.query.order_by(JornadaPermanenciaAula.id.asc()).all()
     # Ordenar los partidos por el campo `orden` en cada jornada
@@ -1381,7 +1381,7 @@ def aula_permanencia():
 
 # COPA AULA VALLADOLID
 # Crear formulario para la copa
-@aula_route_bp.route('/crear_copa_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/crear_copa_aula', methods=['GET', 'POST'])
 def crear_copa_aula():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -1411,7 +1411,7 @@ def crear_copa_aula():
         return redirect(url_for('aula_route_bp.ver_copa_aula'))
     return render_template('admin/copa/copa_aula.html')
 # Ver encuentros copa en Admin
-@aula_route_bp.route('/copa_aula/')
+@aula_route_bp.route('/admin/copa_aula/')
 def ver_copa_aula():
     eliminatorias = ['fase1', 'fase2', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {}
@@ -1465,7 +1465,7 @@ def copas_aula():
 
 # SUPERCOPA IBÉRICA AULA VALLADOLID
 # Crear formulario para la supercopa
-@aula_route_bp.route('/crear_supercopa_iberica_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/crear_supercopa_iberica_aula', methods=['GET', 'POST'])
 def crear_supercopa_iberica_aula():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -1492,7 +1492,7 @@ def crear_supercopa_iberica_aula():
         return redirect(url_for('aula_route_bp.ver_supercopa_iberica_aula'))
     return render_template('admin/supercopaIberica/supercopa_iberica_aula.html')
 # Ver encuentros supercopa en Admin
-@aula_route_bp.route('/supercopa_iberica_aula/')
+@aula_route_bp.route('/admin/supercopa_iberica_aula/')
 def ver_supercopa_iberica_aula():
     eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}
@@ -1546,7 +1546,7 @@ def supercopas_iberica_aula():
 
 # EUROPA AULA VALLADOLID
 # Crear formulario para la copa
-@aula_route_bp.route('/crear_europa_aula', methods=['GET', 'POST'])
+@aula_route_bp.route('/admin/crear_europa_aula', methods=['GET', 'POST'])
 def crear_europa_aula():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -1577,7 +1577,7 @@ def crear_europa_aula():
         return redirect(url_for('aula_route_bp.ver_europa_aula'))
     return render_template('admin/europa/europa_aula.html')
 # Ver encuentros europa en Admin
-@aula_route_bp.route('/europa_aula/')
+@aula_route_bp.route('/admin/europa_aula/')
 def ver_europa_aula():
     eliminatorias = ['ronda1', 'ronda2', 'octavos','cuartos', 'semifinales', 'final']
     datos_eliminatorias = {}

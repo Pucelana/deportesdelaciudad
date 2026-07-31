@@ -13,7 +13,7 @@ galvan_route_bp = Blueprint('galvan_route_bp', __name__)
 
 # LIGA RV GALVAN
 # Crear el calendario RV Galván
-@galvan_route_bp.route('/crear_calendario_galvan', methods=['GET', 'POST'])
+@galvan_route_bp.route('/admin/crear_calendario_galvan', methods=['GET', 'POST'])
 def ingresar_resultado_galvan():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -52,7 +52,7 @@ def ingresar_resultado_galvan():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_galvan.html')
 # Ver calendario Real Valladolid en Admin
-@galvan_route_bp.route('/calendarios_galvan')
+@galvan_route_bp.route('/admin/calendarios_galvan')
 def calendarios_galvan():
     temporada = TemporadaGalvan.query.filter_by(activa=True).first()
     if temporada:
@@ -226,7 +226,7 @@ def resultados_galvan():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Tierno Galvan
-@galvan_route_bp.route('/jornada0_galvan', methods=['GET', 'POST'])
+@galvan_route_bp.route('/admin/jornada0_galvan', methods=['GET', 'POST'])
 def jornada0_galvan():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -467,7 +467,7 @@ def clasif_analisis_galvan():
     return render_template('equipos_vall/clasif_galvan.html',
         clasificacion_analisis_galvan=clasificacion_analisis_galvan)
 # TEMPORADAS Tierno Galvan
-@galvan_route_bp.route('/temporadas_galvan')
+@galvan_route_bp.route('/admin/temporadas_galvan')
 def temporadas_galvan():
     temporadas = TemporadaGalvan.query.order_by(
         TemporadaGalvan.id.desc()
@@ -676,7 +676,7 @@ def eliminar_palmares_galvan(id):
 
 # COPA DEL REY Tierno Galvan
 # Creación de las eliminatorias de copa
-@galvan_route_bp.route('/crear_copa_galvan', methods=['GET', 'POST'])
+@galvan_route_bp.route('/admin/crear_copa_galvan', methods=['GET', 'POST'])
 def crear_copa_galvan():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')
@@ -707,7 +707,7 @@ def crear_copa_galvan():
         return redirect(url_for('galvan_route_bp.ver_copa_galvan'))
     return render_template('admin/copa/copa_galvan.html')   
 # Ver las eliminatorias en Admin
-@galvan_route_bp.route('/copa_galvan/')
+@galvan_route_bp.route('/admin/copa_galvan/')
 def ver_copa_galvan():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {
@@ -751,7 +751,7 @@ def copas_galvan():
 
 # PLAYOFF ASCENSO Tierno Galvan
 # Crear formulario para los playoff
-@galvan_route_bp.route('/crear_playoff_galvan', methods=['GET', 'POST'])
+@galvan_route_bp.route('/admin/crear_playoff_galvan', methods=['GET', 'POST'])
 def crear_playoff_galvan():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -782,7 +782,7 @@ def crear_playoff_galvan():
         return redirect(url_for('galvan_route_bp.ver_playoff_galvan'))
     return render_template('admin/playoffs/playoff_galvan.html')
 # Ver encuentros playoff en Admin
-@galvan_route_bp.route('/playoff_galvan/')
+@galvan_route_bp.route('/admin/playoff_galvan/')
 def ver_playoff_galvan():
     eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}

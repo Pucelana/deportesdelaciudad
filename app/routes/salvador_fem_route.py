@@ -13,7 +13,7 @@ salvador_fem_route_bp = Blueprint('salvador_fem_route_bp', __name__)
 
 # LIGA SALVADOR
 # Crear el calendario Salvador Fem.
-@salvador_fem_route_bp.route('/crear_calendario_salvador_fem', methods=['GET', 'POST'])
+@salvador_fem_route_bp.route('/admin/crear_calendario_salvador_fem', methods=['GET', 'POST'])
 def ingresar_resultado_salvador_fem():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -67,7 +67,7 @@ def ingresar_resultado_salvador_fem():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_salvador_fem.html')
 # Ver calendario Salvador en Admin
-@salvador_fem_route_bp.route('/calendario_salvador_fem')
+@salvador_fem_route_bp.route('/admin/calendario_salvador_fem')
 def calendarios_salvador_fem():
     temporada = TemporadaSalvadorFem.query.filter_by(activa=True).first()
     if temporada:
@@ -261,7 +261,7 @@ def resultados_salvador_fem():
         jornada_activa=jornada_activa
     )
 # Jornada 0 El Salvador
-@salvador_fem_route_bp.route('/jornada0_salvador_fem', methods=['GET', 'POST'])
+@salvador_fem_route_bp.route('/admin/jornada0_salvador_fem', methods=['GET', 'POST'])
 def jornada0_salvador_fem():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -521,7 +521,7 @@ def clasif_analisis_salvador_fem():
         grupoB2=grupoB_indexed
     )
 # TEMPORADAS Panteras
-@salvador_fem_route_bp.route('/temporadas_salvador_fem')
+@salvador_fem_route_bp.route('/admin/temporadas_salvador_fem')
 def temporadas_salvador_fem():
     temporadas = TemporadaSalvadorFem.query.order_by(
         TemporadaSalvadorFem.id.desc()
@@ -728,7 +728,7 @@ def eliminar_palmares_salvador_fem(id):
 
 # PLAYOFF SALVADOR
 # Crear formulario para los playoff
-@salvador_fem_route_bp.route('/crear_playoff_salvador_fem', methods=['GET', 'POST'])
+@salvador_fem_route_bp.route('/admin/crear_playoff_salvador_fem', methods=['GET', 'POST'])
 def crear_playoff_salvador_fem():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -756,7 +756,7 @@ def crear_playoff_salvador_fem():
         return redirect(url_for('salvador_fem_route_bp.ver_playoff_salvador_fem'))
     return render_template('admin/playoffs/playoff_salvador_fem.html')
 # Ver encuentros playoff en Admin
-@salvador_fem_route_bp.route('/playoff_salvador_fem/')
+@salvador_fem_route_bp.route('/admin/playoff_salvador_fem/')
 def ver_playoff_salvador_fem():
     eliminatorias = ['cuartos' ,'semifinales', 'final']
     datos_eliminatorias = {}
@@ -810,7 +810,7 @@ def playoffs_salvador_fem():
 
 # COPA EL SALVADOR
 # Crear formulario de la Copa Salvador Fem.
-@salvador_fem_route_bp.route('/crear_copa_salvador_fem', methods=['GET', 'POST'])
+@salvador_fem_route_bp.route('/admin/crear_copa_salvador_fem', methods=['GET', 'POST'])
 def crear_copa_salvador_fem():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -842,7 +842,7 @@ def crear_copa_salvador_fem():
         return redirect(url_for('salvador_fem_route_bp.ver_copa_salvador_fem'))
     return render_template('admin/copa/copa_salvador_fem.html')
 # Ver encuentros copa en Admin
-@salvador_fem_route_bp.route('/copa_salvador_fem/')
+@salvador_fem_route_bp.route('/admin/copa_salvador_fem/')
 def ver_copa_salvador_fem():
     eliminatorias = ['octavos', 'cuartos_oro' ,'semifinales_oro', 'final_oro', 'cuartos_plata', 'semifinales_plata', 'final_plata']
     datos_eliminatorias = {}

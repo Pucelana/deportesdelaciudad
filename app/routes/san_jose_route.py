@@ -14,7 +14,7 @@ san_jose_route_bp = Blueprint('san_jose_route_bp', __name__)
 #EQUIPOS VOLEIBOL
 #Todo el proceso de calendario y clasificación del CD San Jose
 # Ingresar los resultados de los partidos de CD San Jose
-@san_jose_route_bp.route('/crear_calendario_san_jose', methods=['GET', 'POST'])
+@san_jose_route_bp.route('/admin/crear_calendario_san_jose', methods=['GET', 'POST'])
 def ingresar_resultado_san_jose():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -66,7 +66,7 @@ def ingresar_resultado_san_jose():
         # Redirigir al calendario después de crear la jornada
         return redirect(url_for('san_jose_route_bp.calendarios_san_jose'))
 # Partidos Univ. Valladolid VCV
-@san_jose_route_bp.route("/calendario_san_jose")
+@san_jose_route_bp.route("/admin/calendario_san_jose")
 def calendarios_san_jose():
     temporada = TemporadaJose.query.filter_by(activa=True).first()
     if temporada:
@@ -571,7 +571,7 @@ def clasif_analisis_san_jose():
         "equipos_vall/clasif_san_jose.html",
         clasificacion_analisis_san_jose=clasificacion_analisis_san_jose,
     )
-@san_jose_route_bp.route("/jornada0_san_jose", methods=["GET", "POST"])
+@san_jose_route_bp.route("/admin/jornada0_san_jose", methods=["GET", "POST"])
 def jornada0_san_jose():
     if request.method == "POST":
         if "equipo" in request.form:
@@ -591,7 +591,7 @@ def eliminar_club_san_jose(club_id):
         db.session.commit()
     return redirect(url_for("san_jose_route_bp.jornada0_san_jose"))
 # TEMPORADAS Panteras
-@san_jose_route_bp.route('/temporadas_san_jose')
+@san_jose_route_bp.route('/admin/temporadas_san_jose')
 def temporadas_san_jose():
     temporadas = TemporadaJose.query.order_by(
         TemporadaJose.id.desc()

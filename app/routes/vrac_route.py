@@ -13,7 +13,7 @@ vrac_route_bp = Blueprint('vrac_route_bp', __name__)
 
 # LIGA VRAC
 # Crear el calendario Vrac
-@vrac_route_bp.route('/crear_calendario_vrac', methods=['GET', 'POST'])
+@vrac_route_bp.route('/admin/crear_calendario_vrac', methods=['GET', 'POST'])
 def ingresar_resultado_vrac():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -69,7 +69,7 @@ def ingresar_resultado_vrac():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_vrac.html')
 # Ver calendario Vrac en Admin
-@vrac_route_bp.route('/calendario_vrac')
+@vrac_route_bp.route('/admin/calendario_vrac')
 def calendarios_vrac():
     temporada = TemporadaVrac.query.filter_by(activa=True).first()
     if temporada:
@@ -265,7 +265,7 @@ def resultados_vrac():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Vrac
-@vrac_route_bp.route('/jornada0_vrac', methods=['GET', 'POST'])
+@vrac_route_bp.route('/admin/jornada0_vrac', methods=['GET', 'POST'])
 def jornada0_vrac():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -569,7 +569,7 @@ def clasif_analisis_vrac():
         grupoB2=grupoB_indexed
     )
 # TEMPORADAS Panteras
-@vrac_route_bp.route('/temporadas_vrac')
+@vrac_route_bp.route('/admin/temporadas_vrac')
 def temporadas_vrac():
     temporadas = TemporadaVrac.query.order_by(
         TemporadaVrac.id.desc()
@@ -776,7 +776,7 @@ def eliminar_palmares_vrac(id):
 
 # PLAYOFF DH VRAC
 # Crear formulario para los playoff
-@vrac_route_bp.route('/crear_playoff_vrac', methods=['GET', 'POST'])
+@vrac_route_bp.route('/admin/crear_playoff_vrac', methods=['GET', 'POST'])
 def crear_playoff_vrac():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -804,7 +804,7 @@ def crear_playoff_vrac():
         return redirect(url_for('vrac_route_bp.ver_playoff_vrac'))
     return render_template('admin/playoffs/playoff_vrac.html')
 # Ver encuentros playoff en Admin
-@vrac_route_bp.route('/playoff_vrac/')
+@vrac_route_bp.route('/admin/playoff_vrac/')
 def ver_playoff_vrac():
     eliminatorias = ['cuartos' ,'semifinales', 'final']
     datos_eliminatorias = {}
@@ -858,7 +858,7 @@ def playoffs_vrac():
 
 # COPA DH VRAC
 # Crear formulario para los grupos de la Copa DH VRAC
-@vrac_route_bp.route('/crear_copa_vrac', methods=['GET', 'POST'])
+@vrac_route_bp.route('/admin/crear_copa_vrac', methods=['GET', 'POST'])
 def crear_copa_vrac():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -1037,7 +1037,7 @@ def formatear_partidos_por_encuentros(partidos):
             print(f"Grupo no encontrado: {grupo}")
     return encuentros
 # Crear formularios para los grupos y eliminatorias UEMC
-@vrac_route_bp.route('/copa_vrac/')
+@vrac_route_bp.route('/admin/copa_vrac/')
 def ver_copa_vrac():
     try:
         partidos = obtener_copa_vrac()

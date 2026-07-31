@@ -14,7 +14,7 @@ cdsi_vall_route_bp = Blueprint('cdsi_vall_route_bp', __name__)
 # LIGA CDSI
 #Todo el proceso de calendario y clasificación del PONCE
 # Ingresar los resultados de los partidos PONCE
-@cdsi_vall_route_bp.route('/crear_calendario_cdsi_vall', methods=['GET', 'POST'])
+@cdsi_vall_route_bp.route('/admin/crear_calendario_cdsi_vall', methods=['GET', 'POST'])
 def ingresar_resultado_cdsi_vall():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -53,7 +53,7 @@ def ingresar_resultado_cdsi_vall():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_cdsi_vall.html')
 # Ver calendario CDSI VALL en Admin
-@cdsi_vall_route_bp.route('/calendario_cdsi_vall')
+@cdsi_vall_route_bp.route('/admin/calendario_cdsi_vall')
 def calendarios_cdsi_vall():
     temporada = TemporadaCDSIVall.query.filter_by(activa=True).first()
     if temporada:
@@ -227,7 +227,7 @@ def resultados_cdsi_vall():
         jornada_activa=jornada_activa
     )
 # Jornada 0 CDSI VALL
-@cdsi_vall_route_bp.route('/jornada0_cdsi_vall', methods=['GET', 'POST'])
+@cdsi_vall_route_bp.route('/admin/jornada0_cdsi_vall', methods=['GET', 'POST'])
 def jornada0_cdsi_vall():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -533,7 +533,7 @@ def clasif_analisis_cdsi_vall():
     return render_template('equipos_vall/clasif_cdsi.html',
         clasificacion_analisis_cdsi_vall=clasificacion_analisis_cdsi_vall)
 # TEMPORADAS ATL VALLADOLID
-@cdsi_vall_route_bp.route('/temporadas_cdsi_vall')
+@cdsi_vall_route_bp.route('/admin/temporadas_cdsi_vall')
 def temporadas_cdsi_vall():
     temporadas = TemporadaCDSIVall.query.order_by(
         TemporadaCDSIVall.id.desc()
@@ -737,7 +737,7 @@ def eliminar_palmares_cdsi_vall(id):
         
 # PLAYOFF CDSI VALL
 # Crear formulario para los playoff
-@cdsi_vall_route_bp.route('/crear_playoff_cdsi_vall', methods=['GET', 'POST'])
+@cdsi_vall_route_bp.route('/admin/crear_playoff_cdsi_vall', methods=['GET', 'POST'])
 def crear_playoff_cdsi_vall():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -769,7 +769,7 @@ def crear_playoff_cdsi_vall():
     # Renderizar el formulario para crear la copa UEMC
     return render_template('admin/playoffs/playoff_cdsi_vall.html')
 # Ver encuentros playoff en Admin
-@cdsi_vall_route_bp.route('/playoff_cdsi_vall/')
+@cdsi_vall_route_bp.route('/admin/playoff_cdsi_vall/')
 def ver_playoff_cdsi_vall():
     # Definimos todas las jornadas de la fase regular
     jornadas = ['liga_j1', 'liga_j2', 'liga_j3']

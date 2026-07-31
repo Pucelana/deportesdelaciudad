@@ -20,7 +20,7 @@ valladolid_route_bp = Blueprint("valladolid_route_bp", __name__)
 
 # LIGA REAL VALLADOLID
 # Crear el calendario Real Valladolid
-@valladolid_route_bp.route("/crear_calendario_valladolid", methods=["GET", "POST"])
+@valladolid_route_bp.route("/admin/crear_calendario_valladolid", methods=["GET", "POST"])
 def ingresar_resultado_valladolid():
     if request.method == "POST":
         temporada_nombre = request.form["temporada"]
@@ -56,7 +56,7 @@ def ingresar_resultado_valladolid():
     # Si es un GET, renderizamos el formulario de creación
     return render_template("admin/calendarios/calend_valladolid.html")
 # Ver calendario Real Valladolid en Admin
-@valladolid_route_bp.route("/calendario_valladolid")
+@valladolid_route_bp.route("/admin/calendario_valladolid")
 def calendarios_valladolid():
     temporada = TemporadaValladolid.query.filter_by(activa=True).first()
     if temporada:
@@ -306,7 +306,7 @@ def resultados_valladolid():
         jornada_activa=jornada_activa,
     )
 # Jornada 0 Real Valladolid
-@valladolid_route_bp.route("/jornada0_valladolid", methods=["GET", "POST"])
+@valladolid_route_bp.route("/admin/jornada0_valladolid", methods=["GET", "POST"])
 def jornada0_valladolid():
     if request.method == "POST":
         if "equipo" in request.form:
@@ -551,7 +551,7 @@ def clasif_analisis_valladolid():
         clasificacion_analisis_valladolid=clasificacion_analisis_valladolid,
     )
 # TEMPORADAS REAL VALLADOLID
-@valladolid_route_bp.route("/temporadas_valladolid")
+@valladolid_route_bp.route("/admin/temporadas_valladolid")
 def temporadas_valladolid():
     temporadas = TemporadaValladolid.query.order_by(TemporadaValladolid.id.desc()).all()
     return render_template(
@@ -759,7 +759,7 @@ def eliminar_palmares_valladolid(id):
 
 # COPA DEL REY REAL VALLADOLID
 # Creación de las eliminatorias de copa
-@valladolid_route_bp.route("/crear_copa_valladolid", methods=["GET", "POST"])
+@valladolid_route_bp.route("/admin/crear_copa_valladolid", methods=["GET", "POST"])
 def crear_copa_valladolid():
     if request.method == "POST":
         eliminatoria = request.form.get("eliminatoria")
@@ -790,10 +790,8 @@ def crear_copa_valladolid():
         db.session.commit()
         return redirect(url_for("valladolid_route_bp.ver_copa_valladolid"))
     return render_template("admin/copa/copa_valladolid.html")
-
-
 # Ver las eliminatorias en Admin
-@valladolid_route_bp.route("/copa_valladolid/")
+@valladolid_route_bp.route("/admin/copa_valladolid/")
 def ver_copa_valladolid():
     eliminatorias = [
         "ronda1",
@@ -811,8 +809,6 @@ def ver_copa_valladolid():
     return render_template(
         "admin/copa/copa_valladolid.html", datos_eliminatorias=datos_eliminatorias
     )
-
-
 # Modificar las eliminatorias
 @valladolid_route_bp.route("/modificar_copa_valladolid_post", methods=["POST"])
 def modificar_copa_valladolid_post():
@@ -833,8 +829,6 @@ def modificar_copa_valladolid_post():
             partido.visitante = request.form.get(f"visitante{i}", "")
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.ver_copa_valladolid"))
-
-
 # Eliminar las eliminatorias en Admin
 @valladolid_route_bp.route(
     "/eliminar_copa_valladolid/<string:eliminatoria>", methods=["POST"]
@@ -843,8 +837,6 @@ def eliminar_copa_valladolid(eliminatoria):
     CopaValladolid.query.filter_by(eliminatoria=eliminatoria).delete()
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.ver_copa_valladolid"))
-
-
 # Ver las eliminatorias en la página principal Copa
 @valladolid_route_bp.route("/valladolid_copa/")
 def copas_valladolid():
@@ -863,10 +855,9 @@ def copas_valladolid():
     }
     return render_template("copas/valladolid_copa.html", datos_copa=datos_copa)
 
-
 # PLAYOFF ASCENSO REAL VALLADOLID
 # Crear formulario para los playoff
-@valladolid_route_bp.route("/crear_playoff_valladolid", methods=["GET", "POST"])
+@valladolid_route_bp.route("/admin/crear_playoff_valladolid", methods=["GET", "POST"])
 def crear_playoff_valladolid():
     if request.method == "POST":
         eliminatoria = request.form.get("eliminatoria")
@@ -890,10 +881,8 @@ def crear_playoff_valladolid():
         db.session.commit()
         return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
     return render_template("admin/playoffs/playoff_valladolid.html")
-
-
 # Ver encuentros playoff en Admin
-@valladolid_route_bp.route("/playoff_valladolid/")
+@valladolid_route_bp.route("/admin/playoff_valladolid/")
 def ver_playoff_valladolid():
     eliminatorias = ["semifinales", "final"]
     datos_playoff = {}
@@ -907,8 +896,6 @@ def ver_playoff_valladolid():
     return render_template(
         "admin/playoffs/playoff_valladolid.html", datos_playoff=datos_playoff
     )
-
-
 # Modificar los partidos de los playoff
 @valladolid_route_bp.route(
     "/modificar_playoff_valladolid/<string:eliminatoria>", methods=["GET", "POST"]
@@ -936,8 +923,6 @@ def modificar_playoff_valladolid(eliminatoria):
         return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
-
-
 # Eliminar los partidos de los playoff
 @valladolid_route_bp.route(
     "/eliminar_playoff_valladolid/<string:eliminatoria>", methods=["POST"]
@@ -949,8 +934,6 @@ def eliminar_playoff_valladolid(eliminatoria):
     db.session.commit()
     flash(f"Eliminatoria {eliminatoria} eliminada correctamente", "success")
     return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
-
-
 # Mostrar los playoffs del Real Valladolid
 @valladolid_route_bp.route("/playoffs_valladolid/")
 def playoffs_valladolid():

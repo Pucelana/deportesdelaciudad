@@ -13,7 +13,7 @@ caja_route_bp = Blueprint('caja_route_bp', __name__)
 
 # LIGA CPLV CAJA
 # Crear el calendario CPLV Caja
-@caja_route_bp.route('/crear_calendario_caja', methods=['GET', 'POST'])
+@caja_route_bp.route('/admin/crear_calendario_caja', methods=['GET', 'POST'])
 def ingresar_resultado_caja():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -65,7 +65,7 @@ def ingresar_resultado_caja():
         # Redirigir al calendario después de crear la jornada
         return redirect(url_for('caja_route_bp.calendarios_caja'))
 # Ver calendario CPLV Caja en Admin
-@caja_route_bp.route('/calendario_caja')
+@caja_route_bp.route('/admin/calendario_caja')
 def calendarios_caja():
     temporada = TemporadaCaja.query.filter_by(activa=True).first()
     if temporada:
@@ -243,7 +243,7 @@ def resultados_caja():
         jornada_activa=jornada_activa
     )
 # Jornada 0 CPLV Caja
-@caja_route_bp.route('/jornada0_caja', methods=['GET', 'POST'])
+@caja_route_bp.route('/admin/jornada0_caja', methods=['GET', 'POST'])
 def jornada0_caja():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -419,7 +419,7 @@ def clasif_analisis_caja():
     return render_template('equipos_vall/clasif_caja.html',
         clasificacion_analisis_caja=clasificacion_analisis_caja)
 # TEMPORADAS Caja
-@caja_route_bp.route('/temporadas_caja')
+@caja_route_bp.route('/admin/temporadas_caja')
 def temporadas_caja():
     temporadas = TemporadaCaja.query.order_by(
         TemporadaCaja.id.desc()
@@ -627,7 +627,7 @@ def eliminar_palmares_caja(id):
 
 # PLAYOFF CPLV CAJA RURAL
 # Crear formulario para los playoff
-@caja_route_bp.route('/crear_playoff_caja', methods=['GET', 'POST'])
+@caja_route_bp.route('/admin/crear_playoff_caja', methods=['GET', 'POST'])
 def crear_playoff_caja():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -655,7 +655,7 @@ def crear_playoff_caja():
         return redirect(url_for('caja_route_bp.ver_playoff_caja'))
     return render_template('admin/playoffs/playoff_caja.html')
 # Ver encuentros playoff en Admin
-@caja_route_bp.route('/playoff_caja/')
+@caja_route_bp.route('/admin/playoff_caja/')
 def ver_playoff_caja():
     eliminatorias = ['play-out' ,'semifinales', 'final']
     datos_eliminatorias = {}
@@ -709,7 +709,7 @@ def playoffs_caja():
 
 # COPA CPLV CAJA
 # Crear formulario para la copa
-@caja_route_bp.route('/crear_copa_caja', methods=['GET', 'POST'])
+@caja_route_bp.route('/admin/crear_copa_caja', methods=['GET', 'POST'])
 def crear_copa_caja():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -737,7 +737,7 @@ def crear_copa_caja():
         return redirect(url_for('caja_route_bp.ver_copa_caja'))
     return render_template('admin/copa/copa_caja.html')
 # Ver encuentros copa en Admin
-@caja_route_bp.route('/copa_caja/')
+@caja_route_bp.route('/admin/copa_caja/')
 def ver_copa_caja():
     eliminatorias = ['cuartos', 'semifinales', 'final']
     datos_eliminatorias = {}
@@ -791,7 +791,7 @@ def copas_caja():
 
 # EUROPA CPLV CAJA RURAL
 # Crear formulario para los grupos de Europa CPLV Caja Rural
-@caja_route_bp.route('/crear_europa_caja', methods=['GET', 'POST'])
+@caja_route_bp.route('/admin/crear_europa_caja', methods=['GET', 'POST'])
 def crear_europa_caja():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -1069,7 +1069,7 @@ def caja_europa():
 
 # SUPERCOPA ESPAÑA CPLV CAJA RURAL
 # Crear formulario para la supercopa
-@caja_route_bp.route('/crear_supercopa_caja', methods=['GET', 'POST'])
+@caja_route_bp.route('/admin/crear_supercopa_caja', methods=['GET', 'POST'])
 def crear_supercopa_caja():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -1098,7 +1098,7 @@ def crear_supercopa_caja():
         return redirect(url_for('caja_route_bp.ver_supercopa_caja'))
     return render_template('admin/supercopa/supercopa_caja.html')
 # Ver encuentros supercopa en Admin
-@caja_route_bp.route('/supercopa_caja/')
+@caja_route_bp.route('/admin/supercopa_caja/')
 def ver_supercopa_caja():
     eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}

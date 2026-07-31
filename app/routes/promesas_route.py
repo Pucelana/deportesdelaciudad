@@ -13,7 +13,7 @@ promesas_route_bp = Blueprint('promesas_route_bp', __name__)
 
 # LIGA REAL VALLADOLID PROMESAS
 # Crear el calendario Real Valladolid Promesas
-@promesas_route_bp.route('/crear_calendario_promesas', methods=['GET', 'POST'])
+@promesas_route_bp.route('/admin/crear_calendario_promesas', methods=['GET', 'POST'])
 def ingresar_resultado_promesas():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -52,7 +52,7 @@ def ingresar_resultado_promesas():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_promesas.html')
 # Ver calendario Real Valladolid Promesas en Admin
-@promesas_route_bp.route('/calendario_promesas')
+@promesas_route_bp.route('/admin/calendario_promesas')
 def calendarios_promesas():
     temporada = TemporadaPromesas.query.filter_by(activa=True).first()
     if temporada:
@@ -228,7 +228,7 @@ def resultados_promesas():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Real Valladolid Promesas
-@promesas_route_bp.route('/jornada0_promesas', methods=['GET', 'POST'])
+@promesas_route_bp.route('/admin/jornada0_promesas', methods=['GET', 'POST'])
 def jornada0_promesas():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -470,7 +470,7 @@ def clasif_analisis_promesas():
     return render_template('equipos_vall/clasif_promesas.html',
         clasificacion_analisis_promesas=clasificacion_analisis_promesas)
 # TEMPORADAS RV Promesas
-@promesas_route_bp.route('/temporadas_promesas')
+@promesas_route_bp.route('/admin/temporadas_promesas')
 def temporadas_promesas():
     temporadas = TemporadaPromesas.query.order_by(
         TemporadaPromesas.id.desc()
@@ -679,7 +679,7 @@ def eliminar_palmares_promesas(id):
 
 # PLAYOFF ASCENSO REAL VALLADOLID PROMESAS
 # Crear formulario para los playoff
-@promesas_route_bp.route('/crear_playoff_promesas', methods=['GET', 'POST'])
+@promesas_route_bp.route('/admin/crear_playoff_promesas', methods=['GET', 'POST'])
 def crear_playoff_promesas():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -714,7 +714,7 @@ def crear_playoff_promesas():
 
     return render_template('admin/playoffs/playoff_promesas.html')
 # Ver encuentros playoff en Admin
-@promesas_route_bp.route('/playoff_promesas/')
+@promesas_route_bp.route('/admin/playoff_promesas/')
 def ver_playoff_promesas():
     eliminatorias = ['semifinales', 'final']
     datos_playoff = {}

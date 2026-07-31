@@ -13,7 +13,7 @@ parquesol_route_bp = Blueprint('parquesol_route_bp', __name__)
 
 # LIGA PARQUESOL
 # Crear el calendario Parquesol
-@parquesol_route_bp.route('/crear_calendario_parquesol', methods=['GET', 'POST'])
+@parquesol_route_bp.route('/admin/crear_calendario_parquesol', methods=['GET', 'POST'])
 def ingresar_resultado_parquesol():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -52,7 +52,7 @@ def ingresar_resultado_parquesol():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_parquesol.html')
 # Ver calendario Real Valladolid en Admin
-@parquesol_route_bp.route('/calendario_parquesol')
+@parquesol_route_bp.route('/admin/calendario_parquesol')
 def calendarios_parquesol():
     temporada = TemporadaParquesol.query.filter_by(activa=True).first()
     if temporada:
@@ -226,7 +226,7 @@ def resultados_parquesol():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Parquesol
-@parquesol_route_bp.route('/jornada0_parquesol', methods=['GET', 'POST'])
+@parquesol_route_bp.route('/admin/jornada0_parquesol', methods=['GET', 'POST'])
 def jornada0_parquesol():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -468,7 +468,7 @@ def clasif_analisis_parquesol():
     return render_template('equipos_vall/clasif_parquesol.html',
         clasificacion_analisis_parquesol=clasificacion_analisis_parquesol)
 # TEMPORADAS RV Promesas
-@parquesol_route_bp.route('/temporadas_parquesol')
+@parquesol_route_bp.route('/admin/temporadas_parquesol')
 def temporadas_parquesol():
     temporadas = TemporadaParquesol.query.order_by(
         TemporadaParquesol.id.desc()
@@ -673,7 +673,7 @@ def eliminar_palmares_parquesol(id):
 
 # COPA DEL REY Parquesol
 # Creación de las eliminatorias de copa
-@parquesol_route_bp.route('/crear_copa_parquesol', methods=['GET', 'POST'])
+@parquesol_route_bp.route('/admin/crear_copa_parquesol', methods=['GET', 'POST'])
 def crear_copa_parquesol():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')
@@ -704,7 +704,7 @@ def crear_copa_parquesol():
         return redirect(url_for('parquesol_route_bp.ver_copa_parquesol'))
     return render_template('admin/copa/copa_parquesol.html')   
 # Ver las eliminatorias en Admin
-@parquesol_route_bp.route('/copa_parquesol/')
+@parquesol_route_bp.route('/admin/copa_parquesol/')
 def ver_copa_parquesol():
     eliminatorias = ['ronda1', 'ronda2', 'ronda3', 'octavos', 'cuartos', 'semifinales', 'final']
     datos_eliminatorias = {
@@ -748,7 +748,7 @@ def copas_parquesol():
 
 # PLAYOFF ASCENSO RV Simancas
 # Crear formulario para los playoff
-@parquesol_route_bp.route('/crear_playoff_parquesol', methods=['GET', 'POST'])
+@parquesol_route_bp.route('/admin/crear_playoff_parquesol', methods=['GET', 'POST'])
 def crear_playoff_parquesol():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -779,7 +779,7 @@ def crear_playoff_parquesol():
         return redirect(url_for('parquesol_route_bp.ver_playoff_parquesol'))
     return render_template('admin/playoffs/playoff_parquesol.html')
 # Ver encuentros playoff en Admin
-@parquesol_route_bp.route('/playoff_parquesol/')
+@parquesol_route_bp.route('/admin/playoff_parquesol/')
 def ver_playoff_parquesol():
     eliminatorias = ['cuartos','semifinales', 'final']
     datos_playoff = {}

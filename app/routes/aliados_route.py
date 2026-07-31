@@ -14,7 +14,7 @@ aliados_route_bp = Blueprint('aliados_route_bp', __name__)
 # LIGA BSR FUNDACIÓN ALIADOS
 #Todo el proceso de calendario y clasificación del ALIADOS
 # Ingresar los resultados de los partidos ALIADOS
-@aliados_route_bp.route('/crear_calendario_aliados', methods=['GET', 'POST'])
+@aliados_route_bp.route('/admin/crear_calendario_aliados', methods=['GET', 'POST'])
 def ingresar_resultado_aliados():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -53,7 +53,7 @@ def ingresar_resultado_aliados():
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_aliados.html')
 # Ver calendario Aliados en Admin
-@aliados_route_bp.route('/calendario_aliados')
+@aliados_route_bp.route('/admin/calendario_aliados')
 def calendarios_aliados():
     temporada = TemporadaAliados.query.filter_by(activa=True).first()
     if temporada:
@@ -228,7 +228,7 @@ def resultados_aliados():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Aliados
-@aliados_route_bp.route('/jornada0_aliados', methods=['GET', 'POST'])
+@aliados_route_bp.route('/admin/jornada0_aliados', methods=['GET', 'POST'])
 def jornada0_aliados():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -534,7 +534,7 @@ def clasif_analisis_aliados():
     return render_template('equipos_vall/clasif_aliados.html',
         clasificacion_analisis_aliados=clasificacion_analisis_aliados)
 # TEMPORADAS ATL VALLADOLID
-@aliados_route_bp.route('/temporadas_aliados')
+@aliados_route_bp.route('/admin/temporadas_aliados')
 def temporadas_aliados():
     temporadas = TemporadaAliados.query.order_by(
         TemporadaAliados.id.desc()
@@ -738,11 +738,9 @@ def eliminar_palmares_aliados(id):
     db.session.commit()
     return redirect(url_for("aliados_route_bp.crear_palmares_aliados"))  
 
-
-
 # PLAYOFF ALIADOS
 # Crear formulario para los playoff
-@aliados_route_bp.route('/crear_playoff_aliados', methods=['GET', 'POST'])
+@aliados_route_bp.route('/admin/crear_playoff_aliados', methods=['GET', 'POST'])
 def crear_playoff_aliados():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -770,7 +768,7 @@ def crear_playoff_aliados():
         return redirect(url_for('aliados_route_bp.ver_playoff_aliados'))
     return render_template('admin/playoffs/playoff_aliados.html')
 # Ver encuentros playoff en Admin
-@aliados_route_bp.route('/playoff_aliados/')
+@aliados_route_bp.route('/admin/playoff_aliados/')
 def ver_playoff_aliados():
     eliminatorias = ['semifinales', '3º y 4º' ,'final']
     datos_eliminatorias = {}
@@ -824,7 +822,7 @@ def playoffs_aliados():
 
 # COPA ALIADOS
 # Crear formulario para la copa
-@aliados_route_bp.route('/crear_copa_aliados', methods=['GET', 'POST'])
+@aliados_route_bp.route('/admin/crear_copa_aliados', methods=['GET', 'POST'])
 def crear_copa_aliados():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -852,7 +850,7 @@ def crear_copa_aliados():
         return redirect(url_for('aliados_route_bp.ver_copa_aliados'))
     return render_template('admin/copa/copa_aliados.html')
 # Ver encuentros copa en Admin
-@aliados_route_bp.route('/copa_aliados/')
+@aliados_route_bp.route('/admin/copa_aliados/')
 def ver_copa_aliados():
     eliminatorias = ['cuartos', 'semifinales', 'eliminados' , 'final']
     datos_eliminatorias = {}
@@ -906,7 +904,7 @@ def copas_aliados():
 
 # SUPERCOPA ALIADOS
 # Crear formulario para la supercopa
-@aliados_route_bp.route('/crear_supercopa_aliados', methods=['GET', 'POST'])
+@aliados_route_bp.route('/admin/crear_supercopa_aliados', methods=['GET', 'POST'])
 def crear_supercopa_aliados():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -933,7 +931,7 @@ def crear_supercopa_aliados():
         return redirect(url_for('aliados_route_bp.ver_supercopa_aliados'))
     return render_template('admin/supercopa/supercopa_aliados.html')
 # Ver encuentros supercopa en Admin
-@aliados_route_bp.route('/supercopa_aliados/')
+@aliados_route_bp.route('/admin/supercopa_aliados/')
 def ver_supercopa_aliados():
     eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}
@@ -986,7 +984,7 @@ def supercopas_aliados():
     return render_template('supercopas/aliados_supercopa.html', datos_supercopa=datos_supercopa)      
 
 # EUROCUP ALIADOS
-@aliados_route_bp.route('/crear_eurocup_aliados', methods=['GET', 'POST'])
+@aliados_route_bp.route('/admin/crear_eurocup_aliados', methods=['GET', 'POST'])
 def crear_eurocup_aliados():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -1018,7 +1016,7 @@ def crear_eurocup_aliados():
     # Renderizar el formulario para crear la copa UEMC
     return render_template('admin/europa/eurocup_aliados.html')
 # Ver la Eurocup Aliados en Admin (crear/editar partidos)
-@aliados_route_bp.route('/eurocup_aliados/')
+@aliados_route_bp.route('/admin/eurocup_aliados/')
 def ver_eurocup_aliados():
     # Definimos todas las jornadas de la fase regular
     jornadas = ['dia_1', 'dia_2']

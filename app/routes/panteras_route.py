@@ -13,7 +13,7 @@ panteras_route_bp = Blueprint('panteras_route_bp', __name__)
 
 # LIGA CPLV MUNIA PANTERAS
 # Crear el calendario CPLV Munia Panteras
-@panteras_route_bp.route('/crear_calendario_panteras', methods=['GET', 'POST'])
+@panteras_route_bp.route('/admin/crear_calendario_panteras', methods=['GET', 'POST'])
 def ingresar_resultado_panteras():
     if request.method == 'POST':
         temporada_nombre = request.form['temporada']
@@ -65,7 +65,7 @@ def ingresar_resultado_panteras():
         # Redirigir al calendario después de crear la jornada
         return redirect(url_for('panteras_route_bp.calendarios_panteras'))
 # Ver calendario CPLV Panteras en Admin
-@panteras_route_bp.route('/calendario_panteras')
+@panteras_route_bp.route('/admin/calendario_panteras')
 def calendarios_panteras():
     temporada = TemporadaPanteras.query.filter_by(activa=True).first()
     if temporada:
@@ -243,7 +243,7 @@ def resultados_panteras():
         jornada_activa=jornada_activa
     )
 # Jornada 0 Panteras Caja
-@panteras_route_bp.route('/jornada0_panteras', methods=['GET', 'POST'])
+@panteras_route_bp.route('/admin/jornada0_panteras', methods=['GET', 'POST'])
 def jornada0_panteras():
     if request.method == 'POST':
         if 'equipo' in request.form:
@@ -417,7 +417,7 @@ def clasif_analisis_panteras():
     return render_template('equipos_vall/clasif_panteras.html',
         clasificacion_analisis_panteras=clasificacion_analisis_panteras)
 # TEMPORADAS Panteras
-@panteras_route_bp.route('/temporadas_panteras')
+@panteras_route_bp.route('/admin/temporadas_panteras')
 def temporadas_panteras():
     temporadas = TemporadaPanteras.query.order_by(
         TemporadaPanteras.id.desc()
@@ -625,7 +625,7 @@ def eliminar_palmares_panteras(id):
 
 # PLAYOFF CPLV MUNIA PANTERAS
 # Crear formulario para los playoff
-@panteras_route_bp.route('/crear_playoff_panteras', methods=['GET', 'POST'])
+@panteras_route_bp.route('/admin/crear_playoff_panteras', methods=['GET', 'POST'])
 def crear_playoff_panteras():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -653,7 +653,7 @@ def crear_playoff_panteras():
         return redirect(url_for('panteras_route_bp.ver_playoff_panteras'))
     return render_template('admin/playoffs/playoff_panteras.html')
 # Ver encuentros playoff en Admin
-@panteras_route_bp.route('/playoff_panteras/')
+@panteras_route_bp.route('/admin/playoff_panteras/')
 def ver_playoff_panteras():
     eliminatorias = ['play-out' ,'semifinales', 'final']
     datos_eliminatorias = {}
@@ -707,7 +707,7 @@ def playoffs_panteras():
     
 # COPA CPLV MUNIA PANTERAS
 # Crear formulario para la copa
-@panteras_route_bp.route('/crear_copa_panteras', methods=['GET', 'POST'])
+@panteras_route_bp.route('/admin/crear_copa_panteras', methods=['GET', 'POST'])
 def crear_copa_panteras():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -735,7 +735,7 @@ def crear_copa_panteras():
         return redirect(url_for('panteras_route_bp.ver_copa_panteras'))
     return render_template('admin/copa/copa_panteras.html')
 # Ver encuentros copa en Admin
-@panteras_route_bp.route('/copa_panteras/')
+@panteras_route_bp.route('/admin/copa_panteras/')
 def ver_copa_panteras():
     eliminatorias = ['cuartos', 'semifinales', 'final']
     datos_eliminatorias = {}
@@ -789,7 +789,7 @@ def copas_panteras():
 
 # EUROPA CPLV MUNIA PANTERAS
 # Crear formulario para los grupos de Europa CPLV Munia Panteras
-@panteras_route_bp.route('/crear_europa_panteras', methods=['GET', 'POST'])
+@panteras_route_bp.route('/admin/crear_europa_panteras', methods=['GET', 'POST'])
 def crear_europa_panteras():
     if request.method == 'POST':
         encuentros = request.form.get('encuentros')
@@ -970,7 +970,7 @@ def formatear_partidos_por_encuentros(partidos):
             print(f"Grupo no encontrado: {grupo}")
     return encuentros
 # Crear formularios para los grupos y eliminatorias CPLV Munia Panteras
-@panteras_route_bp.route('/europa_panteras/')
+@panteras_route_bp.route('/admin/europa_panteras/')
 def ver_europa_panteras():
     try:
         partidos = obtener_europa_panteras()
@@ -1067,7 +1067,7 @@ def panteras_europa():
 
 # SUPERCOPA ESPAÑA CPLV MUNIA PANTERAS
 # Crear formulario para la supercopa
-@panteras_route_bp.route('/crear_supercopa_panteras', methods=['GET', 'POST'])
+@panteras_route_bp.route('/admin/crear_supercopa_panteras', methods=['GET', 'POST'])
 def crear_supercopa_panteras():
     if request.method == 'POST':
         eliminatoria = request.form.get('eliminatoria')       
@@ -1096,7 +1096,7 @@ def crear_supercopa_panteras():
         return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
     return render_template('admin/supercopa/supercopa_panteras.html')
 # Ver encuentros supercopa en Admin
-@panteras_route_bp.route('/supercopa_panteras/')
+@panteras_route_bp.route('/admin/supercopa_panteras/')
 def ver_supercopa_panteras():
     eliminatorias = ['semifinales', 'final']
     datos_eliminatorias = {}
