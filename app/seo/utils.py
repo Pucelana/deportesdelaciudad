@@ -36,6 +36,9 @@ def excluir(rule):
     # No indexar rutas con parámetros
     if rule.arguments:
         return True
+    
+    if "/admin" in rule.rule:
+        return True
 
     endpoint = rule.endpoint.lower()
 
@@ -49,22 +52,45 @@ def excluir(rule):
 
 def obtener_rutas(tipo=None):
     """
-    Devuelve todas las rutas públicas.
-    Si se indica un tipo, únicamente devuelve las rutas de esa categoría.
-    Ejemplos:
-        obtener_rutas()
-        obtener_rutas("baloncesto")
-        obtener_rutas("futbol")
+    Devuelve todas las rutas públicas válidas.
+
+    Si se indica un tipo, únicamente devuelve las rutas
+    de esa categoría.
     """
+
     rutas = []
+
     for rule in current_app.url_map.iter_rules():
+
         if excluir(rule):
             continue
+
         ruta = rule.rule
+
+        # No incluir rutas dinámicas
+        # Ejemplo:
+        # /modificar_jornada_galvan/<int:id>
+        if "<" in ruta or ">" in ruta:
+            continue
+
+        # Si no se especifica categoría,
+        # añadimos todas las rutas públicas válidas.
         if tipo is None:
             rutas.append(ruta)
             continue
-        if categoria(ruta) == tipo:
+
+        # Si se especifica categoría,
+        # añadimos únicamente las correspondientes.
+        cat = categoria(ruta)
+
+        if "copa" in ruta.lower():
+            print(f"{ruta} ---> {cat}")
+
+        cat = categoria(ruta)
+
+        print(ruta, "=>", cat)
+
+        if cat == tipo:
             rutas.append(ruta)
 
     return sorted(set(rutas))
@@ -76,83 +102,20 @@ def categoria(url):
     url = url.lower()
 
     # GENERAL
-
     if url == "/":
         return "general"
 
     if url.startswith("/seccion"):
         return "general"
 
-    if "/resultados" == url:
+    if url == "/resultados":
         return "general"
 
     if "sistema_ligas" in url:
         return "general"
 
-    # BALONCESTO
 
-    if (
-        "basket" in url
-        or "uemc" in url
-        or "aliados" in url
-        or "ponce" in url
-        or "san_jose" in url
-    ):
-        return "baloncesto"
-
-    # FÚTBOL
-
-    if (
-        "futbol" in url
-        or "valladolid" in url
-        or "promesas" in url
-        or "simancas" in url
-        or "parquesol" in url
-        or "cdsi" in url
-    ):
-        return "futbol"
-
-    # BALONMANO
-
-    if (
-        "aula" in url
-        or "recoletas" in url
-    ):
-        return "balonmano"
-
-    # HOCKEY
-
-    if (
-        "panteras" in url
-        or "caja" in url
-    ):
-        return "hockey"
-
-    # RUGBY
-
-    if (
-        "vrac" in url
-        or "salvador" in url
-    ):
-        return "rugby"
-
-    # FÚTBOL SALA
-
-    if (
-        "galvan" in url
-        or "vall_sala" in url
-    ):
-        return "futsal"
-
-    # VOLEIBOL
-
-    if (
-        "vcv" in url
-    ):
-        return "voleibol"
-
-    # HISTORIA
-
+    # HISTORIAL
     if (
         "historial" in url
         or "temporadas" in url
@@ -160,27 +123,94 @@ def categoria(url):
     ):
         return "historial"
 
-    # PLAYOFF
-
-    if "playoff" in url:
-        return "playoff"
 
     # COPAS
-
     if (
         "copa" in url
+        or "copas" in url
         or "supercopa" in url
+        or "supercopas" in url
     ):
-        return "copas"
+        return "copa"
+
+
+    # PLAYOFF
+    if (
+        "playoff" in url
+        or "playoffs" in url
+    ):
+        return "playoff"
+
 
     # EUROPA
-
     if (
         "europa" in url
         or "eurocup" in url
         or "iberica" in url
     ):
         return "europa"
+
+
+    # BALONCESTO
+    if (
+        "uemc" in url
+        or "aliados" in url
+        or "ponce" in url
+        or "cdsi_vall" in url
+    ):
+        return "baloncesto"
+
+
+    # BALONMANO
+    if (
+        "aula" in url
+        or "recoletas" in url
+    ):
+        return "balonmano"
+
+
+    # HOCKEY
+    if (
+        "panteras" in url
+        or "caja" in url
+    ):
+        return "hockey"
+
+
+    # RUGBY
+    if (
+        "vrac" in url
+        or "salvador" in url
+        or "salvador_fem" in url
+    ):
+        return "rugby"
+
+
+    # FUTSAL
+    if (
+        "galvan" in url
+        or "vall_sala" in url
+    ):
+        return "futsal"
+
+
+    # FÚTBOL
+    if (
+        "futbol" in url
+        or "valladolid" in url
+        or "promesas" in url
+        or "simancas" in url
+        or "parquesol" in url
+    ):
+        return "futbol"
+
+
+    # VOLEY
+    if (
+        "vcv" in url
+        or "san_jose" in url
+    ):
+        return "voley"
 
     return "otros"
 

@@ -24,7 +24,7 @@ def sitemap_index():
         
         "sitemap_playoff.xml",
 
-        "sitemap_copas.xml",
+        "sitemap_copa.xml",
 
         "sitemap_europa.xml",
 

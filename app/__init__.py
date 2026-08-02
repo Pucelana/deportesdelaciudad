@@ -27,6 +27,18 @@ from .routes.salvador_fem_route import salvador_fem_route_bp
 from .routes.vcv_route import vcv_route_bp
 from .routes.san_jose_route import san_jose_route_bp
 from .seo.sitemap_index import sitemap_index_bp
+from .seo.sitemap_general import sitemap_general_bp
+from .seo.sitemap_baloncesto import sitemap_baloncesto_bp
+from .seo.sitemap_futbol import sitemap_futbol_bp
+from .seo.sitemap_futsal import sitemap_futsal_bp
+from .seo.sitemap_balonmano import sitemap_balonmano_bp
+from .seo.sitemap_rugby import sitemap_rugby_bp
+from .seo.sitemap_hockey import sitemap_hockey_bp
+from .seo.sitemap_voley import sitemap_voley_bp
+from .seo.sitemap_copa import sitemap_copa_bp
+from .seo.sitemap_europa import sitemap_europa_bp
+from .seo.sitemap_playoff import sitemap_playoff_bp
+from .seo.sitemap_historial import sitemap_historial_bp
 from .routes.usuarios_route import usuarios_route_bp
 
 def create_app():
@@ -67,6 +79,18 @@ def create_app():
     app.register_blueprint(vcv_route_bp)
     app.register_blueprint(san_jose_route_bp)
     app.register_blueprint(sitemap_index_bp)
+    app.register_blueprint(sitemap_general_bp)
+    app.register_blueprint(sitemap_baloncesto_bp)
+    app.register_blueprint(sitemap_futbol_bp)
+    app.register_blueprint(sitemap_futsal_bp)
+    app.register_blueprint(sitemap_balonmano_bp)
+    app.register_blueprint(sitemap_rugby_bp)
+    app.register_blueprint(sitemap_hockey_bp)
+    app.register_blueprint(sitemap_voley_bp)
+    app.register_blueprint(sitemap_copa_bp)
+    app.register_blueprint(sitemap_europa_bp)
+    app.register_blueprint(sitemap_playoff_bp)
+    app.register_blueprint(sitemap_historial_bp)
     app.register_blueprint(usuarios_route_bp)
     
     print("\n========== RUTAS REGISTRADAS ==========\n")
