@@ -612,7 +612,7 @@ def modificar_historial_cdsi_vall(id):
     db.session.commit()
     return redirect(url_for("cdsi_vall_route_bp.crear_historial_cdsi_vall"))
 # Ver Historial de temporadas del CDSI Valladolid en la página principal
-@cdsi_vall_route_bp.route("/cdsi_vall/historial")
+@cdsi_vall_route_bp.route("/historial/cdsi_vall")
 def historial_cdsi_vall():
     historial = (Historial.query.filter_by(
         deporte="baloncesto",

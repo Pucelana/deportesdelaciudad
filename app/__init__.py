@@ -40,6 +40,7 @@ from .seo.sitemap_europa import sitemap_europa_bp
 from .seo.sitemap_playoff import sitemap_playoff_bp
 from .seo.sitemap_historial import sitemap_historial_bp
 from .routes.usuarios_route import usuarios_route_bp
+from .routes.seo_routes import seo_bp
 
 def create_app():
     load_dotenv()
@@ -92,7 +93,7 @@ def create_app():
     app.register_blueprint(sitemap_playoff_bp)
     app.register_blueprint(sitemap_historial_bp)
     app.register_blueprint(usuarios_route_bp)
-    
+    app.register_blueprint(seo_bp)
     print("\n========== RUTAS REGISTRADAS ==========\n")
 
     for rule in sorted(app.url_map.iter_rules(), key=lambda r: r.rule):
