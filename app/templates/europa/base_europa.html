@@ -96,6 +96,11 @@
     href="{{ url_for('static', filename='css/estilo.css') }}"
     rel="stylesheet"
   />
+  <script type="application/ld+json">
+    {{ schema_web|safe }}
+  </script>
+
+  {% block schema %}{% endblock %}
 
   {% block head %}{% endblock %}
 </head>

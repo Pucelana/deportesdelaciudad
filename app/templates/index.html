@@ -78,6 +78,10 @@
       href="{{ url_for('static', filename='css/estilo.css') }}"
       rel="stylesheet"
     />
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {{ schema_web|safe }}
+    </script>
   </head>
   <body class="body_secciones">
     <div id="splash">

@@ -102,10 +102,16 @@
       href="{{ url_for('static', filename='css/estilo.css') }}"
       rel="stylesheet"
     />
+    <script type="application/ld+json">
+      {{ schema_web|safe }}
+    </script>
+
+    {% block schema %}{% endblock %}
 
     {% block head %}{% endblock %}
 
     <title>{% block title %}Sistemas de competición | Deportes de la Ciudad{% endblock %}</title>
+    
   </head>
   <body class="body_secciones">
     <section id="cabecera1" class="align-items-center sticky-top">

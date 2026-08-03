@@ -80,6 +80,11 @@
       rel="icon"
       href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
     />
+    <script type="application/ld+json">
+      {{ schema_web|safe }}
+    </script>
+
+    {% block schema %}{% endblock %}
   </head>
 <body class="calend_deportes">
   {% block breadcrumb %}  {% endblock %}

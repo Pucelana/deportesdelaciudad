@@ -45,6 +45,14 @@ from .routes.seo_routes import seo_bp
 def create_app():
     load_dotenv()
     app = Flask(__name__)
+    
+    @app.context_processor
+    def inject_schema():
+        from .seo.schema import schema_website, jsonld
+        return {
+            "schema_web": jsonld(schema_website())
+        }
+    
     app.secret_key = 'sk_4F8v9u13sjd9sjd82018fh01hf01h'
     app.config.from_object('config.Config')
     
@@ -52,6 +60,7 @@ def create_app():
         "pool_pre_ping": True,
         "pool_recycle": 300,
     }
+    
     
     db.init_app(app)
     migrate.init_app(app, db)
