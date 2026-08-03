@@ -86,7 +86,7 @@ equipos.forEach((equipoData) => {
     let claseColor = '';
     if (equipoData.index <= 4) {
         claseColor = 'pos-ascen';
-    } else if (equipoData.index <=7) {
+    } else if (equipoData.index <=12) {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `

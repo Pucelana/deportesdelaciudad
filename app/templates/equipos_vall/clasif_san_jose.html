@@ -62,7 +62,7 @@ Consulta la clasificación actualizada del CD San Jose.
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
         <!--<button class="btn btn-outline-light tab-btn" data-tab="ascenso">Ascenso</button>-->
         <button class="btn btn-outline-light tab-btn" data-tab="playoff">PlayOff</button>
-        <!--<button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>-->
+        <button class="btn btn-outline-light tab-btn" data-tab="descenso">Descenso</button>
       </div>
         <div class="tab-container">
           <div class="tab-pane active" id="clasificacion"><!--Tabla Clasificación-->
@@ -70,7 +70,7 @@ Consulta la clasificación actualizada del CD San Jose.
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">2ª División Fem. (Grp-A)</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">1ª División Fem. (Grp-D)</h3>
                       <table id="tablaClasifJose" class="table">
                         <thead>
                           <tr class="text-center">
@@ -92,7 +92,7 @@ Consulta la clasificación actualizada del CD San Jose.
                           {% for equipo in clasificacion_analisis_san_jose %}
                           <tr class="text-center">
                             <td
-                              class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 7 %}pos-nada{% endif %}">
+                              class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% endif %}">
                               {{ loop.index }}</td>
                             <td class="fw-bold text-white size_equipos {% if 'CD San Jose Rojo' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
@@ -123,7 +123,7 @@ Consulta la clasificación actualizada del CD San Jose.
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">1ª División Femenina</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2 Fem.</h3>
                       <table id="tablaPlayJose" class="table">
                         <thead>
                           <tr class="text-center">
@@ -165,7 +165,7 @@ Consulta la clasificación actualizada del CD San Jose.
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="row table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">1º División Femenina</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">Superliga 2 Fem.</h3>
                       <table id="tablaPlayoffJOse" class="table">
                         <thead>
                           <tr class="text-center">
@@ -206,7 +206,7 @@ Consulta la clasificación actualizada del CD San Jose.
               <div class="card tabla_equipos_aula w-100" style="max-width: 80rem;">
                 <div class="card-body">
                   <div class="table-responsive">
-                    <h3 class="text-center text-white fw-bold text-analisis">Descenso</h3>
+                    <h3 class="text-center text-white fw-bold text-analisis">2ª División Fem.</h3>
                       <table id="tablaDescJose" class="table"><!--Tabla Permanencia-->
                         <thead>
                           <tr class="text-center">
