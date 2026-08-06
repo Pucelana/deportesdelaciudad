@@ -7,15 +7,15 @@
     <!-- SEO -->
     <meta
       name="description"
-      content="{% block description %}Resultados, clasificaciones y análisis deportivos.{% endblock %}"
+      content="{% block description %}Deportes de Valladolid: resultados, clasificaciones, calendarios, noticias y actualidad del fútbol, baloncesto, balonmano, rugby, hockey, voleibol y mucho más.{% endblock %}"
     />
     <meta
       name="keywords"
-      content="{% block keywords %}deporte, Valladolid, resultados, clasificaciones{% endblock %}"
+      content="{% block keywords %}deportes Valladolid, deporte Valladolid, resultados deportivos, clasificaciones, calendarios, fútbol Valladolid, baloncesto Valladolid, balonmano Valladolid{% endblock %}"
     />
     <meta name="author" content="Deportes de la Ciudad" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="{{ request.url }}" />
+    <link rel="canonical" href="{{ request.base_url }}" />
     <!-- OPEN GRAPH -->
     <meta
       property="og:title"
@@ -23,7 +23,7 @@
     />
     <meta
       property="og:description"
-      content="{% block og_description %}Resultados y análisis deportivos{% endblock %}"
+      content="{% block og_description %}Deportes de Valladolid: resultados, clasificaciones, calendarios y actualidad deportiva.{% endblock %}"
     />
     <meta
       property="og:image"
@@ -41,7 +41,7 @@
     />
     <meta
       name="twitter:description"
-      content="{% block twitter_description %}Resultados y análisis deportivos{% endblock %}"
+      content="{% block twitter_description %}Deportes de Valladolid: resultados, clasificaciones, calendarios y actualidad deportiva.{% endblock %}"
     />
     <meta
       name="twitter:image"
@@ -97,6 +97,12 @@
       </div>
     </div>
     <!-- Pantalla inicial -->
+     <h1 class="visually-hidden">
+      Deportes de la Ciudad | Resultados, clasificaciones y actualidad del deporte de Valladolid
+    </h1>
+    <p class="visually-hidden">
+      Toda la información del deporte de Valladolid: fútbol, baloncesto, balonmano, rugby, hockey, voleibol y mucho más.
+    </p>
     <div id="contenido" class="d-flex flex-column">
       <!--HEADER ESCRITORIO-->
       <header class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg">
