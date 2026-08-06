@@ -508,8 +508,20 @@ def obtener_partidos_schema(datos):
 
     partidos = []
 
-    for jornada in datos:
-        partidos.extend(jornada["partidos"])
+    if isinstance(datos, dict):
+
+        for lista in datos.values():
+            partidos.extend(lista)
+
+    else:
+
+        for jornada in datos:
+
+            if isinstance(jornada, dict):
+                partidos.extend(jornada.get("partidos", []))
+
+            elif isinstance(jornada, list):
+                partidos.extend(jornada)
 
     return partidos
 
