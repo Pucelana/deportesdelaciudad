@@ -8,38 +8,38 @@ from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.vall_sala import (
-    JornadaVallSala,
-    VallSalaPartido,
-    VallSalaClub,
-    CopaVallSala,
-    PlayoffVallSala,
-    TemporadaVallSala,
+from ..models.rv_fem import (
+    JornadaSimancas,
+    SimancasPartido,
+    SimancasClub,
+    CopaSimancas,
+    PlayoffSimancas,
+    TemporadaSimancas,
 )
 
-vall_sala_route_bp = Blueprint("vall_sala_route_bp", __name__)
+rv_fem_route_bp = Blueprint("rv_fem_route_bp", __name__)
 
-# LIGA VALLADOLID S.S
-# Crear el calendario Valladolid S.S
-@vall_sala_route_bp.route("/admin/crear_calendario_vall_sala", methods=["GET", "POST"])
-def ingresar_resultado_vall_sala():
+# LIGA RV FEMENINO
+# Crear el calendario RV FEMENINO
+@rv_fem_route_bp.route("/admin/crear_calendario_rv_fem", methods=["GET", "POST"])
+def ingresar_resultado_rv_fem():
     if request.method == "POST":
         temporada_nombre = request.form["temporada"]
         nombre_jornada = request.form["nombre"]
         num_partidos = int(request.form["num_partidos"])
         # Crear la jornada y añadirla a la sesión
-        temporada = TemporadaVallSala.query.filter_by(nombre=temporada_nombre).first()
+        temporada = TemporadaSimancas.query.filter_by(nombre=temporada_nombre).first()
         if not temporada:
-            temporada = TemporadaVallSala(nombre=temporada_nombre, activa=False)
+            temporada = TemporadaSimancas(nombre=temporada_nombre, activa=False)
             db.session.add(temporada)
             db.session.flush()
         # 2. crear jornada correcta
-        jornada = JornadaVallSala(nombre=nombre_jornada, temporada_id=temporada.id)
+        jornada = JornadaSimancas(nombre=nombre_jornada, temporada_id=temporada.id)
         db.session.add(jornada)
         db.session.flush()
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
-            partido = VallSalaPartido(
+            partido = SimancasPartido(
                 jornada_id=jornada.id,
                 fecha=request.form.get(f"fecha{i}"),
                 hora=request.form.get(f"hora{i}"),
@@ -53,17 +53,17 @@ def ingresar_resultado_vall_sala():
         # Confirmar todos los cambios en la base de datos
         db.session.commit()
         # Redirigir al calendario después de crear la jornada
-        return redirect(url_for("vall_sala_route_bp.calendarios_vall_sala"))
+        return redirect(url_for("rv_fem_route_bp.calendarios_rv_fem"))
     # Si es un GET, renderizamos el formulario de creación
-    return render_template("admin/calendarios/calend_vall_sala.html")
-# Ver calendario Valladolid S.S en Admin
-@vall_sala_route_bp.route("/admin/calendarios_vall_sala")
-def calendarios_vall_sala():
-    temporada = TemporadaVallSala.query.filter_by(activa=True).first()
+    return render_template("admin/calendarios/calend_rv_fem.html")
+# Ver calendario Real Valladolid en Admin
+@rv_fem_route_bp.route("/admin/calendario_rv_fem")
+def calendarios_rv_fem():
+    temporada = TemporadaSimancas.query.filter_by(activa=True).first()
     if temporada:
         jornadas = (
-            JornadaVallSala.query.filter_by(temporada_id=temporada.id)
-            .order_by(JornadaVallSala.id.asc())
+            JornadaSimancas.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaSimancas.id.asc())
             .all()
         )
     else:
@@ -71,16 +71,16 @@ def calendarios_vall_sala():
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
         jornada.partidos = (
-            db.session.query(VallSalaPartido)
+            db.session.query(SimancasPartido)
             .filter_by(jornada_id=jornada.id)
-            .order_by(VallSalaPartido.orden.asc())
+            .order_by(SimancasPartido.orden.asc())
             .all()
         )
-    return render_template("admin/calendarios/calend_vall_sala.html", jornadas=jornadas)
+    return render_template("admin/calendarios/calend_rv_fem.html", jornadas=jornadas)
 # Modificar jornada
-@vall_sala_route_bp.route("/modificar_jornada_vall_sala/<int:id>", methods=["GET", "POST"])
-def modificar_jornada_vall_sala(id):
-    jornada = db.session.query(JornadaVallSala).filter(JornadaVallSala.id == id).first()
+@rv_fem_route_bp.route("/modificar_jornada_rv_fem/<int:id>", methods=["GET", "POST"])
+def modificar_jornada_rv_fem(id):
+    jornada = db.session.query(JornadaSimancas).filter(JornadaSimancas.id == id).first()
     if jornada:
         if request.method == "POST":
             nombre_jornada = request.form["nombre"]
@@ -97,8 +97,8 @@ def modificar_jornada_vall_sala(id):
                 visitante = request.form[f"visitante{i}"]
                 # Obtener el partido correspondiente por ID
                 partido = (
-                    db.session.query(VallSalaPartido)
-                    .filter(VallSalaPartido.id == partido_id)
+                    db.session.query(SimancasPartido)
+                    .filter(SimancasPartido.id == partido_id)
                     .first()
                 )
                 if partido:
@@ -114,48 +114,47 @@ def modificar_jornada_vall_sala(id):
                     partido.orden = orden
             # Guardar cambios en la base de datos
             db.session.commit()
-            return redirect(url_for("vall_sala_route_bp.calendarios_vall_sala"))
-    return render_template("admin/calendarios/calend_vall_sala.html", jornada=jornada)
+            return redirect(url_for("rv_fem_route_bp.calendarios_rv_fem"))
+    return render_template("admin/calendarios/calend_rv_fem.html", jornada=jornada)
 # Eliminar jornada
-@vall_sala_route_bp.route("/eliminar_jornada_vall_sala/<int:id>", methods=["GET", "POST"])
-def eliminar_jornada_vall_sala(id):
+@rv_fem_route_bp.route("/eliminar_jornada_rv_fem/<int:id>", methods=["GET", "POST"])
+def eliminar_jornada_rv_fem(id):
     # Obtener la jornada
-    jornada = db.session.query(JornadaVallSala).filter(JornadaVallSala.id == id).first()
+    jornada = db.session.query(JornadaSimancas).filter(JornadaSimancas.id == id).first()
     if jornada:
         # Eliminar los partidos asociados a la jornada
-        db.session.query(VallSalaPartido).filter(
-            VallSalaPartido.jornada_id == id
+        db.session.query(SimancasPartido).filter(
+            SimancasPartido.jornada_id == id
         ).delete()
         # Eliminar la jornada
         db.session.delete(jornada)
         # Confirmar los cambios en la base de datos
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
-    return redirect(url_for("vall_sala_route_bp.calendarios_vall_sala"))
-# Obtener datos Valladolid S.S
-def obtener_datos_vall_sala(nombre_temporada=None):
+    return redirect(url_for("rv_fem_route_bp.calendarios_rv_fem"))
+# Obtener datos RV FEMENINO
+def obtener_datos_rv_fem(nombre_temporada=None):
     if nombre_temporada is None:
-        temporada = TemporadaVallSala.query.filter_by(activa=True).first()
+        temporada = TemporadaSimancas.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaVallSala.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaSimancas.query.filter_by(nombre=nombre_temporada).first()
     if not temporada:
         return []
     jornadas_con_partidos = []
     for jornada in temporada.jornadas:
         partidos = (
-            VallSalaPartido.query.filter_by(jornada_id=jornada.id)
-            .order_by(VallSalaPartido.orden.asc())
+            SimancasPartido.query.filter_by(jornada_id=jornada.id)
+            .order_by(SimancasPartido.orden.asc())
             .all()
         )
         jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
     return jornadas_con_partidos
-
-# Calendario Valladolid S.S
-@vall_sala_route_bp.route("/equipos_futsal/calendario_vall_sala")
-def calendario_vall_sala():
-    datos = obtener_datos_vall_sala()
-    equipo_vall_sala = "FS Valladolid"
-    tabla_partidos_vall_sala = {}
+# Calendario RV FEMRNINO
+@rv_fem_route_bp.route("/equipos_futbol/calendario_rv_fem")
+def calendario_rv_fem():
+    datos = obtener_datos_rv_fem()
+    equipo_rv_fem = "RV Femenino"
+    tabla_partidos_rv_fem = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
         for partido in jornada["partidos"]:
@@ -163,144 +162,144 @@ def calendario_vall_sala():
             equipo_visitante = partido.visitante
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB
-            # Verificamos si el Valladolid S.S está jugando
-            if equipo_local == equipo_vall_sala or equipo_visitante == equipo_vall_sala:
+            # Verificamos si el UEMC está jugando
+            if equipo_local == equipo_rv_fem or equipo_visitante == equipo_rv_fem:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_vall_sala:
+                if equipo_local == equipo_rv_fem:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vall_sala = "C"
+                    rol_rv_fem = "C"
                 else:
                     equipo_contrario = equipo_local
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
-                    rol_vall_sala = "F"
+                    rol_rv_fem = "F"
                 # Verificamos si el equipo contrario no está en la tabla
-                if equipo_contrario not in tabla_partidos_vall_sala:
-                    tabla_partidos_vall_sala[equipo_contrario] = {"jornadas": {}}
+                if equipo_contrario not in tabla_partidos_rv_fem:
+                    tabla_partidos_rv_fem[equipo_contrario] = {"jornadas": {}}
                 # Verificamos si es el primer o segundo enfrentamiento
                 if (
                     "primer_enfrentamiento"
-                    not in tabla_partidos_vall_sala[equipo_contrario]
+                    not in tabla_partidos_rv_fem[equipo_contrario]
                 ):
-                    tabla_partidos_vall_sala[equipo_contrario][
+                    tabla_partidos_rv_fem[equipo_contrario][
                         "primer_enfrentamiento"
                     ] = jornada["nombre"]
-                    tabla_partidos_vall_sala[equipo_contrario][
+                    tabla_partidos_rv_fem[equipo_contrario][
                         "resultadoA"
                     ] = resultado_a
-                    tabla_partidos_vall_sala[equipo_contrario][
+                    tabla_partidos_rv_fem[equipo_contrario][
                         "resultadoB"
                     ] = resultado_b
                 elif (
                     "segundo_enfrentamiento"
-                    not in tabla_partidos_vall_sala[equipo_contrario]
+                    not in tabla_partidos_rv_fem[equipo_contrario]
                 ):
-                    tabla_partidos_vall_sala[equipo_contrario][
+                    tabla_partidos_rv_fem[equipo_contrario][
                         "segundo_enfrentamiento"
                     ] = jornada["nombre"]
-                    tabla_partidos_vall_sala[equipo_contrario][
+                    tabla_partidos_rv_fem[equipo_contrario][
                         "resultadoAA"
                     ] = resultado_a
-                    tabla_partidos_vall_sala[equipo_contrario][
+                    tabla_partidos_rv_fem[equipo_contrario][
                         "resultadoBB"
                     ] = resultado_b
                 # Agregamos la jornada y resultados
                 if (
                     jornada["nombre"]
-                    not in tabla_partidos_vall_sala[equipo_contrario]["jornadas"]
+                    not in tabla_partidos_rv_fem[equipo_contrario]["jornadas"]
                 ):
-                    tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                    tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                         jornada["nombre"]
                     ] = {
                         "resultadoA": resultado_a,
                         "resultadoB": resultado_b,
-                        "rol_vall_sala": rol_vall_sala,
+                        "rol_rv_fem": rol_rv_fem,
                     }
-                # Asignamos los resultados según el rol del Valladolid S.S
+                # Asignamos los resultados según el rol del RV FEMENINO
                 if (
                     equipo_local == equipo_contrario
                     or equipo_visitante == equipo_contrario
                 ):
-                    if not tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                    if not tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                         jornada["nombre"]
                     ]["resultadoA"]:
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["resultadoA"] = resultado_a
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["resultadoB"] = resultado_b
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
-                        ]["rol_vall_sala"] = rol_vall_sala
+                        ]["rol_rv_fem"] = rol_rv_fem
                     else:
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["resultadoAA"] = resultado_a
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["resultadoBB"] = resultado_b
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
-                        ]["rol_vall_sala"] = rol_vall_sala
+                        ]["rol_rv_fem"] = rol_rv_fem
                 else:
-                    if not tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                    if not tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                         jornada["nombre"]
                     ]["resultadoAA"]:
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["resultadoAA"] = resultado_a
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["resultadoBB"] = resultado_b
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
-                        ]["rol_vall_sala"] = rol_vall_sala
+                        ]["rol_rv_fem"] = rol_rv_fem
                     else:
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
-                        ]["resultadoAAA"] = resultado_a
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        ]["resultadoAA"] = resultado_a
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
-                        ]["resultadoBBB"] = resultado_b
-                        tabla_partidos_vall_sala[equipo_contrario]["jornadas"][
+                        ]["resultadoBB"] = resultado_b
+                        tabla_partidos_rv_fem[equipo_contrario]["jornadas"][
                             jornada["nombre"]
-                        ]["rol_vall_sala"] = rol_vall_sala
+                        ]["rol_rv_fem"] = rol_rv_fem
     partidos_schema = obtener_partidos_schema(datos)                    
     return render_template(
-        "equipos_vall/calendario_vall_sala.html",
-        tabla_partidos_vall_sala=tabla_partidos_vall_sala,
-        breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
+        "equipos_vall/calendario_rv_fem.html",
+        tabla_partidos_rv_fem=tabla_partidos_rv_fem,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("rv_fem")),
         schema_team=jsonld(
             schema_sports_team(
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/calendario_vall_sala",
+                "rv_fem",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_rv_fem",
             )
         ),
         schema_competition=jsonld(
             schema_sports_competition(
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/calendario_vall_sala"
+                "rv_fem",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_rv_fem"
             )
         ),
         schema_eventos=jsonld(
             schema_partidos(
                 partidos_schema,
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/calendario_vall_sala"
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_rv_fem"
             )
         )
     )
-# Jornadas Valladolid S.S
-@vall_sala_route_bp.route("/equipos_futsal/resultados_vall_sala")
-def resultados_vall_sala():
-    datos = obtener_datos_vall_sala()
-    nuevos_datos_vall_sala = [dato for dato in datos if dato]
+# Jornadas RV FEMENINO
+@rv_fem_route_bp.route("/equipos_futbol/resultados_rv_fem")
+def resultados_rv_fem():
+    datos = obtener_datos_rv_fem()
+    nuevos_datos_rv_fem = [dato for dato in datos if dato]
     jornada_activa = None
     # Buscar primera jornada sin completar
-    for i, jornada in enumerate(nuevos_datos_vall_sala):
+    for i, jornada in enumerate(nuevos_datos_rv_fem):
         jornada_completa = all(
             p.resultadoA not in (None, "") and p.resultadoB not in (None, "")
             for p in jornada["partidos"]
@@ -309,57 +308,57 @@ def resultados_vall_sala():
             jornada_activa = jornada["nombre"]
             break
     # Si todas están completas mostrar la última
-    if jornada_activa is None and nuevos_datos_vall_sala:
-        jornada_activa = nuevos_datos_vall_sala[-1]["nombre"]
-    partidos_schema = obtener_partidos_schema(nuevos_datos_vall_sala)    
+    if jornada_activa is None and nuevos_datos_rv_fem:
+        jornada_activa = nuevos_datos_rv_fem[-1]["nombre"]
+    partidos_schema = obtener_partidos_schema(nuevos_datos_rv_fem)    
     return render_template(
-        "equipos_vall/jornadas_vall_sala.html",
-        nuevos_datos_vall_sala=nuevos_datos_vall_sala,
+        "equipos_vall/jornadas_rv_fem.html",
+        nuevos_datos_rv_fem=nuevos_datos_rv_fem,
         jornada_activa=jornada_activa,
-        breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
+        breadcrumb=jsonld(schema_breadcrumb_equipo("rv_fem")),
         schema_team=jsonld(
             schema_sports_team(
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/resultados_vall_sala",
+                "rv_fem",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_rv_fem",
             )
         ),
         schema_competition=jsonld(
             schema_sports_competition(
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/resultados_vall_sala"
+                "rv_fem",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_rv_fem"
             )
         ),
         schema_eventos=jsonld(
             schema_partidos(
                 partidos_schema,
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/resultados_vall_sala"
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_rv_frm"
             )
         )
     )
-# Jornada 0 Valladolid S.S
-@vall_sala_route_bp.route("/admin/jornada0_vall_sala", methods=["GET", "POST"])
-def jornada0_vall_sala():
+# Jornada 0 RV FEMENINO
+@rv_fem_route_bp.route("/admin/jornada0_rv_fem", methods=["GET", "POST"])
+def jornada0_rv_fem():
     if request.method == "POST":
         if "equipo" in request.form:
             club = request.form["equipo"]
             if club:
-                nuevo_club = VallSalaClub(nombre=club)
+                nuevo_club = SimancasClub(nombre=club)
                 db.session.add(nuevo_club)
                 db.session.commit()
-            return redirect(url_for("vall_sala_route_bp.jornada0_vall_sala"))
-    clubs = VallSalaClub.query.all()  # Obtener todos los clubes de PostgreSQL
-    return render_template("admin/clubs/clubs_vall_sala.html", clubs=clubs)
+            return redirect(url_for("rv_fem_route_bp.jornada0_rv_fem"))
+    clubs = SimancasClub.query.all()  # Obtener todos los clubes de PostgreSQL
+    return render_template("admin/clubs/clubs_rv_fem.html", clubs=clubs)
 # Eliminar clubs jornada 0
-@vall_sala_route_bp.route("/eliminar_club_vall_sala/<int:club_id>", methods=["POST"])
-def eliminar_club_vall_sala(club_id):
-    club = VallSalaClub.query.get(club_id)
+@rv_fem_route_bp.route("/eliminar_club_rv_fem/<int:club_id>", methods=["POST"])
+def eliminar_club_rv_fem(club_id):
+    club = SimancasClub.query.get(club_id)
     if club:
         db.session.delete(club)
         db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.jornada0_vall_sala"))
-# Crear la clasificación RV Galvan
-def generar_clasificacion_analisis_futsal_vall_sala(data):
+    return redirect(url_for("rv_fem_route_bp.jornada0_rv_fem"))
+# Crear la clasificación RV FEMENINO
+def generar_clasificacion_analisis_futbol_rv_fem(data):
     clasificacion = defaultdict(
         lambda: {
             "jugados": 0,
@@ -541,24 +540,25 @@ def generar_clasificacion_analisis_futsal_vall_sala(data):
     equipos.sort(key=cmp_to_key(comparar))
 
     return [{"equipo": e, "datos": d} for e, d in equipos]
-# Ruta para mostrar la clasificación y análisis del Valladolid S.S
-@vall_sala_route_bp.route("/equipos_futsal/clasif_vall_sala")
-def clasif_analisis_vall_sala():
-    data = obtener_datos_vall_sala()
+# Ruta para mostrar la clasificación y análisis del UEMC
+@rv_fem_route_bp.route("/equipos_futbol/clasif_rv_fem")
+def clasif_analisis_rv_fem():
+    data = obtener_datos_rv_fem()
     # Genera la clasificación y análisis actual
-    clasificacion_analisis_vall_sala = generar_clasificacion_analisis_futsal_vall_sala(
+    clasificacion_analisis_rv_fem = generar_clasificacion_analisis_futbol_rv_fem(
         data
     )
     # Obtén los equipos desde la base de datos PostgreSQL
-    clubs_vall_sala = VallSalaClub.query.all()
+    clubs_rv_fem = SimancasClub.query.all()
     # Inicializa las estadísticas de los equipos que aún no están en la clasificación
-    for club in clubs_vall_sala:
+    for club in clubs_rv_fem:
+
         if not any(
             equipo["equipo"] == club.nombre
-            for equipo in clasificacion_analisis_vall_sala
+            for equipo in clasificacion_analisis_rv_fem
         ):
 
-            clasificacion_analisis_vall_sala.append(
+            clasificacion_analisis_rv_fem.append(
                 {
                     "equipo": club.nombre,
                     "datos": {
@@ -574,50 +574,49 @@ def clasif_analisis_vall_sala():
                 }
             )
 
-    clasificacion_analisis_vall_sala.sort(
+    clasificacion_analisis_rv_fem.sort(
         key=lambda x: x["datos"]["puntos"], reverse=True
     )
     return render_template(
-        "equipos_vall/clasif_vall_sala.html",
-        clasificacion_analisis_vall_sala=clasificacion_analisis_vall_sala,
-        breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
+        "equipos_vall/clasif_rv_fem.html",
+        clasificacion_analisis_rv_fem=clasificacion_analisis_rv_fem,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("rv_fem")),
         schema_team=jsonld(
             schema_sports_team(
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/clasif_vall_sala",
+                "rv_fem", "https://deportesdelaciudad.es/equipos_futbol/clasif_rv_fem"
             )
         ),
         schema_competition=jsonld(
             schema_sports_competition(
-                "vall_sala",
-                "https://deportesdelaciudad.es/equipos_futsal/clasif_vall_sala"
+                "rv_fem",
+                "https://deportesdelaciudad.es/equipos_futbol/clasif_rv_fem"
             )
         )
     )
 # TEMPORADAS RV Promesas
-@vall_sala_route_bp.route("/admin/temporadas_vall_sala")
-def temporadas_vall_sala():
-    temporadas = TemporadaVallSala.query.order_by(TemporadaVallSala.id.desc()).all()
+@rv_fem_route_bp.route("/admin/temporadas_rv_fem")
+def temporadas_rv_fem():
+    temporadas = TemporadaSimancas.query.order_by(TemporadaSimancas.id.desc()).all()
     return render_template(
-        "admin/temporadas/temporada_vall_sala.html", temporadas=temporadas
+        "admin/temporadas/temporada_rv_fem.html", temporadas=temporadas
     )
 # ACTIVAR Y DESACTIVAR TEMPORADAS
-@vall_sala_route_bp.route("/activar_temporada_vall_sala/<int:id>")
-def activar_temporada_vall_sala(id):
-    TemporadaVallSala.query.update({"activa": False})
-    temporada = TemporadaVallSala.query.get_or_404(id)
+@rv_fem_route_bp.route("/activar_temporada_rv_fem/<int:id>")
+def activar_temporada_rv_fem(id):
+    TemporadaSimancas.query.update({"activa": False})
+    temporada = TemporadaSimancas.query.get_or_404(id)
     temporada.activa = True
     db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.temporadas_vall_sala"))
+    return redirect(url_for("rv_fem_route_bp.temporadas_rv_fem"))
 
-# HISTORIAL FS VALLADOLID
-# Creación del historial de temporadas del FS Valladolid
-@vall_sala_route_bp.route("/admin/crear_historial_vall_sala", methods=["GET", "POST"])
-def crear_historial_vall_sala():
+# HISTORIAL RV FEMENINO
+# Creación del historial de temporadas del RV Femenino
+@rv_fem_route_bp.route("/admin/crear_historial_rv_fem", methods=["GET", "POST"])
+def crear_historial_rv_fem():
     if request.method == "POST":
         historial = Historial(
-            deporte="futbol sala",
-            equipo="FS Valladolid",
+            deporte="futbol",
+            equipo="RV Femenino",
             temporada=request.form.get("temporada"),
             liga=request.form.get("liga"),
             puntos=request.form.get("puntos"),
@@ -630,32 +629,31 @@ def crear_historial_vall_sala():
         )
         db.session.add(historial)
         db.session.commit()
-        return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
+        return redirect(url_for("rv_fem_route_bp.crear_historial_rv_fem"))
     historial = (
-        Historial.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Historial.query.filter_by(deporte="futbol", equipo="RV Femenino")
         .order_by(Historial.temporada.desc())
         .all()
     )
-    temporadas = TemporadaVallSala.query.order_by(TemporadaVallSala.nombre.desc()).all()
+    temporadas = TemporadaSimancas.query.order_by(TemporadaSimancas.nombre.desc()).all()
     return render_template(
         "admin/historial/historial.html",
         historial=historial,
         temporadas=temporadas,
-        deporte="futbol sala",
-        equipo="FS Valladolid",
-        crear_url="vall_sala_route_bp.crear_historial_vall_sala",
-        modificar_url="vall_sala_route_bp.modificar_historial_vall_sala",
-        eliminar_url="vall_sala_route_bp.eliminar_historial_vall_sala",
+        deporte="futbol",
+        equipo="RV Femenino",
+        crear_url="rv_fem_route_bp.crear_historial_rv_fem",
+        modificar_url="rv_fem_route_bp.modificar_historial_rv_fem",
+        eliminar_url="rv_fem_route_bp.eliminar_historial_rv_fem",
     )
-@vall_sala_route_bp.route("/admin/eliminar_historial_vall_sala/<int:id>", methods=["POST"])
-def eliminar_historial_vall_sala(id):
+@rv_fem_route_bp.route("/admin/eliminar_historial_rv_fem/<int:id>", methods=["POST"])
+def eliminar_historial_rv_fem(id):
     historial = Historial.query.get_or_404(id)
     db.session.delete(historial)
     db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
-# Modificar historial de temporadas del FS Valladolid
-@vall_sala_route_bp.route("/admin/modificar_historial_vall_sala/<int:id>", methods=["POST"])
-def modificar_historial_vall_sala(id):
+    return redirect(url_for("rv_fem_route_bp.crear_historial_rv_fem"))
+@rv_fem_route_bp.route("/admin/modificar_historial_rv_fem/<int:id>", methods=["POST"])
+def modificar_historial_rv_fem(id):
     historial = Historial.query.get_or_404(id)
     historial.temporada = request.form.get("temporada")
     historial.liga = request.form.get("liga")
@@ -667,12 +665,12 @@ def modificar_historial_vall_sala(id):
     historial.titulos = request.form.get("titulos")
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
-# Ver Historial de temporadas del FS Valladolid en la página principal
-@vall_sala_route_bp.route("/vall_sala/historial")
-def historial_vall_sala():
+    return redirect(url_for("rv_fem_route_bp.crear_historial_rv_fem"))
+# Ver Historial de temporadas del RV Femenino en la página principal
+@rv_fem_route_bp.route("/rv_fem/historial")
+def historial_promesas():
     historial = (
-        Historial.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Historial.query.filter_by(deporte="futbol", equipo="RV Femenino")
         .order_by(Historial.temporada.desc())
         .all()
     )
@@ -680,7 +678,7 @@ def historial_vall_sala():
     labels_temporadas = [h.temporada for h in historial]
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
-    temporadas = TemporadaVallSala.query.order_by(TemporadaVallSala.id).all()
+    temporadas = TemporadaSimancas.query.order_by(TemporadaSimancas.id).all()
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -693,7 +691,7 @@ def historial_vall_sala():
         "#20B2AA",
     ]
     titulos = (
-        Palmaress.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Palmaress.query.filter_by(deporte="futbol", equipo="RV Femenino")
         .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
@@ -702,19 +700,24 @@ def historial_vall_sala():
         if titulo.competicion not in palmares:
             palmares[titulo.competicion] = []
         palmares[titulo.competicion].append(titulo)
+
     labels_jornadas = []
+
     for i, temporada in enumerate(temporadas):
+
         jornadas = (
-            JornadaVallSala.query.filter_by(temporada_id=temporada.id)
-            .order_by(JornadaVallSala.id)
+            JornadaSimancas.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaSimancas.id)
             .all()
         )
+
         if not jornadas:
             continue
+
         labels, puntos = obtener_evolucion_puntos(
             jornadas,
-            "FS Valladolid",
-            generar_clasificacion_analisis_futsal_vall_sala,
+            "RV Femenino",
+            generar_clasificacion_analisis_futbol_rv_fem,
             "puntos",
         )
         labels_jornadas = labels
@@ -731,38 +734,39 @@ def historial_vall_sala():
                 "tension": 0.3,
             }
         )
+
     return render_template(
-        "historia/historia_vall_sala.html",
+        "historia/historia_rv_fem.html",
         historial=historial,
         labels_temporadas=labels_temporadas,
         puntos_temporadas=puntos_temporadas,
         labels_jornadas=labels_jornadas,
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
-        deporte="Fútbol sala",
-        equipo="FS Valladolid",
-        breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
+        deporte="Fútbol",
+        equipo="RV Femennino",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("rv_fem")),
         schema_team=jsonld(
             schema_sports_team(
-                "vall_sala", "https://deportesdelaciudad.es/vall_sala_historial"
+                "rv_fem", "https://deportesdelaciudad.es/rv_fem/historial"
             )
         ),
         schema_competition=jsonld(
             schema_sports_competition(
-                "vall_sala",
-                "https://deportesdelaciudad.es/vall_sala/historial"
+                "rv_fem",
+                "https://deportesdelaciudad.es/rv_fem/historial"
             )
         )
     )
 
-# PALMARES FS VALLADOLID
-# Crear Palmares del FS Valladolid
-@vall_sala_route_bp.route("/admin/crear_palmares_vall_sala", methods=["GET", "POST"])
-def crear_palmares_vall_sala():
+# PALMARES RV FEMENINO
+# Crear Palmares del RV Femenino
+@rv_fem_route_bp.route("/admin/crear_palmares_rv_fem", methods=["GET", "POST"])
+def crear_palmares_rv_fem():
     if request.method == "POST":
         titulo = Palmaress(
-            deporte="futbol sala",
-            equipo="FS Valladolid",
+            deporte="futbol",
+            equipo="RV Femenino",
             temporada=request.form.get("temporada"),
             competicion=request.form.get("competicion"),
             imagen=request.form.get("imagen"),
@@ -770,43 +774,43 @@ def crear_palmares_vall_sala():
         )
         db.session.add(titulo)
         db.session.commit()
-        return redirect(url_for("vall_sala_route_bp.crear_palmares_vall_sala"))
+        return redirect(url_for("rv_fem_route_bp.crear_palmares_rv_fem"))
     palmares = (
-        Palmaress.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Palmaress.query.filter_by(deporte="futbol", equipo="RV Femenino")
         .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
     return render_template(
         "admin/historial/palmares.html",
         palmares=palmares,
-        deporte="Fútbol sala",
-        equipo="FS Valladolid",
-        crear_url="vall_sala_route_bp.crear_palmares_vall_sala",
-        modificar_url="vall_sala_route_bp.modificar_palmares_vall_sala",
-        eliminar_url="vall_sala_route_bp.eliminar_palmares_vall_sala",
+        deporte="Fútbol",
+        equipo="RV Femenino",
+        crear_url="rv_fem_route_bp.crear_palmares_rv_fem",
+        modificar_url="rv_fem_route_bp.modificar_palmares_rv_fem",
+        eliminar_url="rv_fem_route_bp.eliminar_palmares_rv_fem",
     )
-# Modificar Palmares del FS Valladolid
-@vall_sala_route_bp.route("/admin/modificar_palmares_vall_sala/<int:id>", methods=["POST"])
-def modificar_palmares_vall_sala(id):
+# Modificar Palmares del RV Femenino
+@rv_fem_route_bp.route("/admin/modificar_palmares_rv_fem/<int:id>", methods=["POST"])
+def modificar_palmares_rv_fem(id):
     titulo = Palmaress.query.get_or_404(id)
     titulo.temporada = request.form.get("temporada")
     titulo.competicion = request.form.get("competicion")
     titulo.imagen = request.form.get("imagen")
     titulo.orden = request.form.get("orden")
     db.session.commit()
-    return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
-# Eliminar Palmares del FS Valladolid
-@vall_sala_route_bp.route("/admin/eliminar_palmares_vall_sala/<int:id>", methods=["POST"])
-def eliminar_palmares_vall_sala(id):
+    return redirect(url_for("rv_fem_route_bp.crear_palmares_rv_fem"))
+# Eliminar Palmares del RV Promesas
+@rv_fem_route_bp.route("/admin/eliminar_palmares_rv_fem/<int:id>", methods=["POST"])
+def eliminar_palmares_rv_fem(id):
     titulo = Palmaress.query.get_or_404(id)
     db.session.delete(titulo)
     db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.crear_palmares_vall_sala"))
+    return redirect(url_for("rv_fem_route_bp.crear_palmares_rv_fem"))
 
-# COPA DEL REY Valladolid S.S
+# COPA DEL REY RV FEMENINO
 # Creación de las eliminatorias de copa
-@vall_sala_route_bp.route("/admin/crear_copa_vall_sala", methods=["GET", "POST"])
-def crear_copa_vall_sala():
+@rv_fem_route_bp.route("/admin/crear_copa_rv_fem", methods=["GET", "POST"])
+def crear_copa_rv_fem():
     if request.method == "POST":
         eliminatoria = request.form.get("eliminatoria")
         max_partidos = {
@@ -822,7 +826,7 @@ def crear_copa_vall_sala():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         for i in range(num_partidos):
-            partido = CopaVallSala(
+            partido = CopaSimancas(
                 eliminatoria=eliminatoria,
                 fecha=request.form.get(f"fecha{i}", ""),
                 hora=request.form.get(f"hora{i}", ""),
@@ -833,11 +837,11 @@ def crear_copa_vall_sala():
             )
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for("vall_sala_route_bp.ver_copa_vall_sala"))
-    return render_template("admin/copa/copa_vall_sala.html")
+        return redirect(url_for("rv_fem_route_bp.ver_copa_rv_fem"))
+    return render_template("admin/copa/copa_rv_fem.html")
 # Ver las eliminatorias en Admin
-@vall_sala_route_bp.route("/admin/copa_vall_sala/")
-def ver_copa_vall_sala():
+@rv_fem_route_bp.route("/admin/copa_rv_fem/")
+def ver_copa_rv_fem():
     eliminatorias = [
         "ronda1",
         "ronda2",
@@ -848,19 +852,19 @@ def ver_copa_vall_sala():
         "final",
     ]
     datos_eliminatorias = {
-        e: CopaVallSala.query.filter_by(eliminatoria=e).all() for e in eliminatorias
+        e: CopaSimancas.query.filter_by(eliminatoria=e).all() for e in eliminatorias
     }
     return render_template(
-        "admin/copa/copa_vall_sala.html", datos_eliminatorias=datos_eliminatorias
+        "admin/copa/copa_rv_fem.html", datos_eliminatorias=datos_eliminatorias
     )
 # Modificar las eliminatorias
-@vall_sala_route_bp.route("/modificar_copa_vall_sala_post", methods=["POST"])
-def modificar_copa_vall_sala_post():
+@rv_fem_route_bp.route("/modificar_copa_rv_fem_post", methods=["POST"])
+def modificar_copa_rv_fem_post():
     eliminatoria = request.form["eliminatoria"]
     num_partidos = int(request.form["num_partidos"])
     for i in range(num_partidos):
         partido_id = request.form.get(f"partido_id{i}")
-        partido = CopaVallSala.query.get(partido_id)
+        partido = CopaSimancas.query.get(partido_id)
         if partido:
             partido.eliminatoria = (
                 eliminatoria  # Opcional: si quieres actualizarla por partido
@@ -872,16 +876,16 @@ def modificar_copa_vall_sala_post():
             partido.resultadoB = request.form.get(f"resultadoB{i}", "")
             partido.visitante = request.form.get(f"visitante{i}", "")
     db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.ver_copa_vall_sala"))
+    return redirect(url_for("rv_fem_route_bp.ver_copa_rv_fem"))
 # Eliminar las eliminatorias en Admin
-@vall_sala_route_bp.route("/eliminar_copa_vall_sala/<string:eliminatoria>", methods=["POST"])
-def eliminar_copa_vall_sala(eliminatoria):
-    CopaVallSala.query.filter_by(eliminatoria=eliminatoria).delete()
+@rv_fem_route_bp.route("/eliminar_copa_rv_fem/<string:eliminatoria>", methods=["POST"])
+def eliminar_copa_rv_fem(eliminatoria):
+    CopaSimancas.query.filter_by(eliminatoria=eliminatoria).delete()
     db.session.commit()
-    return redirect(url_for("vall_sala_route_bp.ver_copa_vall_sala"))
+    return redirect(url_for("rv_fem_route_bp.ver_copa_rv_fem"))
 # Ver las eliminatorias en la página principal Copa
-@vall_sala_route_bp.route("/vall_sala_copa/")
-def copas_vall_sala():
+@rv_fem_route_bp.route("/rv_fem_copa/")
+def copas_rv_fem():
     eliminatorias = [
         "ronda1",
         "ronda2",
@@ -892,37 +896,37 @@ def copas_vall_sala():
         "final",
     ]
     datos_copa = {
-        e: CopaVallSala.query.filter_by(eliminatoria=e).all() for e in eliminatorias
+        e: CopaSimancas.query.filter_by(eliminatoria=e).all() for e in eliminatorias
     }
     partidos_schema = obtener_partidos_schema(eliminatorias)
     return render_template(
-        "copas/vall_sala_copa.html",
+        "copas/rv_fem_copa.html",
         datos_copa=datos_copa,
-        breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
+        breadcrumb=jsonld(schema_breadcrumb_equipo("rv_fem")),
         schema_team=jsonld(
             schema_sports_team(
-                "vall_sala", "https://deportesdelaciudad.es/vall_sala_copa/"
+                "rv_fem", "https://deportesdelaciudad.es/rv_fem_copa"
             )
         ),
         schema_competition=jsonld(
             schema_sports_competition(
-                "vall_sala",
-                "https://deportesdelaciudad.es/vall_sala_copa/"
+                "rv_fem",
+                "https://deportesdelaciudad.es/rv_fem_copa/"
             )
         ),
         schema_eventos=jsonld(
             schema_partidos(
                 partidos_schema,
-                "vall_sala",
-                "https://deportesdelaciudad.es/vall_sala_copa/"
+                "rv_fem",
+                "https://deportesdelaciudad.es/rv_fem_copa/"
             )
         )
     )
 
-# PLAYOFF ASCENSO Valladolid S.S
+# PLAYOFF ASCENSO RV FEMENINO
 # Crear formulario para los playoff
-@vall_sala_route_bp.route("/admin/crear_playoff_vall_sala", methods=["GET", "POST"])
-def crear_playoff_vall_sala():
+@rv_fem_route_bp.route("/admin/crear_playoff_rv_fem", methods=["GET", "POST"])
+def crear_playoff_rv_fem():
     if request.method == "POST":
         eliminatoria = request.form.get("eliminatoria")
         max_partidos = {"cuartos": 8, "semifinales": 4, "final": 2}.get(eliminatoria, 0)
@@ -931,10 +935,10 @@ def crear_playoff_vall_sala():
         if num_partidos < 0 or num_partidos > max_partidos:
             return "Número de partidos no válido"
         # 🧹 Eliminar partidos ANTES de agregar nuevos
-        PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).delete()
+        PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).delete()
 
         for i in range(num_partidos):
-            partido = PlayoffVallSala(
+            partido = PlayoffSimancas(
                 eliminatoria=eliminatoria,
                 fecha=request.form.get(f"fecha{i}", ""),
                 hora=request.form.get(f"hora{i}", ""),
@@ -945,33 +949,33 @@ def crear_playoff_vall_sala():
             )
             db.session.add(partido)
         db.session.commit()
-        return redirect(url_for("vall_sala_route_bp.ver_playoff_vall_sala"))
-    return render_template("admin/playoffs/playoff_vall_sala.html")
+        return redirect(url_for("rv_fem_route_bp.ver_playoff_rv_fem"))
+    return render_template("admin/playoffs/playoff_rv_fem.html")
 # Ver encuentros playoff en Admin
-@vall_sala_route_bp.route("/admin/playoff_vall_sala/")
-def ver_playoff_vall_sala():
+@rv_fem_route_bp.route("/admin/playoff_rv_fem/")
+def ver_playoff_rv_fem():
     eliminatorias = ["cuartos", "semifinales", "final"]
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = (
-            PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria)
-            .order_by(PlayoffVallSala.orden)
+            PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria)
+            .order_by(PlayoffSimancas.orden)
             .all()
         )
         datos_playoff[eliminatoria] = partidos
     return render_template(
-        "admin/playoffs/playoff_vall_sala.html", datos_playoff=datos_playoff
+        "admin/playoffs/playoff_rv_fem.html", datos_playoff=datos_playoff
     )
 # Modificar los partidos de los playoff
-@vall_sala_route_bp.route("/modificar_playoff_vall_sala/<string:eliminatoria>", methods=["GET", "POST"])
-def modificar_playoff_vall_sala(eliminatoria):
+@rv_fem_route_bp.route("/modificar_playoff_rv_fem/<string:eliminatoria>", methods=["GET", "POST"])
+def modificar_playoff_rv_fem(eliminatoria):
     if request.method == "POST":
         num_partidos = int(request.form.get("num_partidos", 0))
         for i in range(num_partidos):
             partido_id = request.form.get(f"partido_id{i}")
             if not partido_id:
                 continue
-            partido_obj = PlayoffVallSala.query.get(int(partido_id))
+            partido_obj = PlayoffSimancas.query.get(int(partido_id))
             if not partido_obj:
                 continue
             partido_obj.fecha = request.form.get(f"fecha{i}", "")
@@ -984,45 +988,47 @@ def modificar_playoff_vall_sala(eliminatoria):
         # Commit para guardar los cambios
         db.session.commit()
         flash("Playoff actualizado correctamente", "success")
-        return redirect(url_for("vall_sala_route_bp.ver_playoff_vall_sala"))
+        return redirect(url_for("rv_fem_route_bp.ver_playoff_rv_fem"))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
-    return redirect(url_for("vall_sala_route_bp.ver_playoff_vall_sala"))
+    return redirect(url_for("rv_fem_route_bp.ver_playoff_rv_fem"))
 # Eliminar los partidos de los playoff
-@vall_sala_route_bp.route( "/eliminar_playoff_vall_sala/<string:eliminatoria>", methods=["POST"])
-def eliminar_playoff_vall_sala(eliminatoria):
-    partidos = PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).all()
+@rv_fem_route_bp.route(
+    "/eliminar_playoff_rv_fem/<string:eliminatoria>", methods=["POST"]
+)
+def eliminar_playoff_rv_fem(eliminatoria):
+    partidos = PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).all()
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
     flash(f"Eliminatoria {eliminatoria} eliminada correctamente", "success")
-    return redirect(url_for("vall_sala_route_bp.ver_playoff_vall_sala"))
-# Mostrar los playoffs del Valladolid S.S
-@vall_sala_route_bp.route("/playoffs_vall_sala/")
-def playoffs_vall_sala():
+    return redirect(url_for("rv_fem_route_bp.ver_playoff_rv_fem"))
+# Mostrar los playoffs del RV FEMENINO
+@rv_fem_route_bp.route("/playoffs_rv_fem/")
+def playoffs_rv_fem():
     eliminatorias = ["cuartos", "semifinales", "final"]
     datos_playoff = {}
     for eliminatoria in eliminatorias:
-        partidos = PlayoffVallSala.query.filter_by(eliminatoria=eliminatoria).all()
+        partidos = PlayoffSimancas.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos
     partidos_schema = obtener_partidos_schema(eliminatorias)    
     return render_template(
-        "playoff/vall_sala_playoff.html",
+        "playoff/rv_fem_playoff.html",
         datos_playoff=datos_playoff,
-        breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
+        breadcrumb=jsonld(schema_breadcrumb_equipo("rv_fem")),
         schema_team=jsonld(
-            schema_sports_team("vall_sala", "https://deportesdelaciudad.es/playoffs_vall_sala/")
+            schema_sports_team("rv_fem", "https://deportesdelaciudad.es/playoffs_rv_fem")
         ),
         schema_competition=jsonld(
             schema_sports_competition(
-                "vall_sala",
-                "https://deportesdelaciudad.es/playoffs_vall_sala/"
+                "rv_fem",
+                "https://deportesdelaciudad.es/playoffs_rv_fem"
             )
         ),
         schema_eventos=jsonld(
             schema_partidos(
                 partidos_schema,
-                "vall_sala",
-                "https://deportesdelaciudad.es/playoffs_vall_sala/"
+                "rv_fem",
+                "https://deportesdelaciudad.es/playoffs_rv_fem"
             )
         )
     )

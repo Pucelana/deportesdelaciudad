@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.cdsi_vall import JornadaCDSIVall, CDSIVallPartido, CDSIVallClub, PlayoffCDSIVall, Clasificacion, TemporadaCDSIVall
@@ -201,7 +202,31 @@ def calendario_cdsi_vall():
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_cdsi_vall[equipo_contrario]['jornadas'][jornada['nombre']]['rol_cdsi_vall'] = rol_cdsi_vall
-    return render_template('equipos_vall/calendario_cdsi.html', tabla_partidos_cdsi_vall=tabla_partidos_cdsi_vall)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_cdsi.html', 
+        tabla_partidos_cdsi_vall=tabla_partidos_cdsi_vall,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("cdsi_vall")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_cdsi_vall"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_cdsi_vall"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_cdsi_vall"
+            )
+        )
+    )
 # Jornadas CDSI
 @cdsi_vall_route_bp.route('/equipos_basket/resultados_cdsi_vall')
 def resultados_cdsi_vall():
@@ -221,10 +246,31 @@ def resultados_cdsi_vall():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_cdsi_vall:
         jornada_activa = nuevos_datos_cdsi_vall[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_cdsi_vall)    
     return render_template(
         'equipos_vall/jornadas_cdsi.html',
         nuevos_datos_cdsi_vall=nuevos_datos_cdsi_vall,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("cdsi_vall")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_cdsi_vall"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_cdsi_vall"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_cdsi_vall"
+            )
+        )
     )
 # Jornada 0 CDSI VALL
 @cdsi_vall_route_bp.route('/admin/jornada0_cdsi_vall', methods=['GET', 'POST'])
@@ -531,7 +577,21 @@ def clasif_analisis_cdsi_vall():
         reverse=True
     )
     return render_template('equipos_vall/clasif_cdsi.html',
-        clasificacion_analisis_cdsi_vall=clasificacion_analisis_cdsi_vall)
+        clasificacion_analisis_cdsi_vall=clasificacion_analisis_cdsi_vall,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("cdsi_vall")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/clasif_cdsi_vall"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_uemc"
+            )
+        )
+    )
 # TEMPORADAS ATL VALLADOLID
 @cdsi_vall_route_bp.route('/admin/temporadas_cdsi_vall')
 def temporadas_cdsi_vall():
@@ -681,8 +741,21 @@ def historial_cdsi_vall():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="baloncesto",
-        equipo="CDSI Valladolid"
-  )
+        equipo="CDSI Valladolid",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("cdsi_vall")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/historial/cdsi_vall"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_cdsi_vall"
+            )
+        )
+)
 
 # PALMARES CDSI VALLADOLID
 # Crear Palmares del CDSI Valladolid
@@ -944,5 +1017,32 @@ def playoff_cdsi_vall():
     jornadas = obtener_jornadas_liga()
     clasificacion = recalcular_clasificacion(jornadas)
     eliminatorias = obtener_eliminatorias()
-    return render_template('playoff/cdsi_vall_playoff.html', jornadas=jornadas, clasificacion=clasificacion, eliminatorias=eliminatorias
+    partidos_jornadas = obtener_partidos_schema(jornadas)
+    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    partidos_schema = partidos_jornadas + partidos_eliminatorias
+    return render_template(
+        'playoff/cdsi_vall_playoff.html', 
+        jornadas=jornadas, clasificacion=clasificacion, 
+        eliminatorias=eliminatorias,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("cdsi_vall")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/playoffs_cdsi_vall/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/playoffs_cdsi_vall/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "cdsi_vall",
+                "https://deportesdelaciudad.es/playoffs_cdsi_vall/"
+            )
+        )
+    
     )   

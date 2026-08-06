@@ -5,6 +5,7 @@ from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador
@@ -237,7 +238,31 @@ def calendario_salvador():
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_salvador[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador'] = rol_salvador
-    return render_template('equipos_vall/calendario_salvador.html', tabla_partidos_salvador=tabla_partidos_salvador)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_salvador.html', 
+        tabla_partidos_salvador=tabla_partidos_salvador,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_salvador"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_salvador"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_salvador"
+            )
+        )
+    )
 # Jornadas Salvador
 @salvador_route_bp.route('/equipos_rugby/resultados_salvador')
 def resultados_salvador():
@@ -257,10 +282,31 @@ def resultados_salvador():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_salvador:
         jornada_activa = nuevos_datos_salvador[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_salvador)    
     return render_template(
         'equipos_vall/jornadas_salvador.html',
         nuevos_datos_salvador=nuevos_datos_salvador,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_salvador"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_salvador"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_salvador"
+    )
+)
     )
 # Jornada 0 Salvador
 @salvador_route_bp.route('/admin/jornada0_salvador', methods=['GET', 'POST'])
@@ -561,7 +607,21 @@ def clasif_analisis_salvador():
         'equipos_vall/clasif_salvador.html',
         clasificacion_general_indexed=clasificacion_general_indexed,
         grupoA2=grupoA_indexed,
-        grupoB2=grupoB_indexed
+        grupoB2=grupoB_indexed,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/clasif_salvador"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_rugby/clasif_salvador"
+                    )
+                )
+        
     )
 # TEMPORADAS SALVADOR
 @salvador_route_bp.route('/admin/temporadas_salvador')
@@ -712,7 +772,21 @@ def historial_salvador():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Rugby",
-        equipo="El Salvador"
+        equipo="El Salvador",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador",
+                "https://deportesdelaciudad.es/salvador/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador",
+                "https://deportesdelaciudad.es/salvador/historial"
+            )
+        )
+        
   )
     
 # PALMARES EL SALVADOR
@@ -768,7 +842,6 @@ def eliminar_palmares_salvador(id):
     db.session.delete(titulo)
     db.session.commit()
     return redirect(url_for("salvador_route_bp.crear_palmares_salvador"))
-
 
 # PLAYOFF SALVADOR
 # Crear formulario para los playoff
@@ -850,7 +923,31 @@ def playoffs_salvador():
     for eliminatoria in eliminatorias:
         partidos = PlayoffSalvador.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/salvador_playoff.html', datos_playoff=datos_playoff)
+    partidos_schema = obtener_partidos_schema(eliminatorias)    
+    return render_template(
+        'playoff/salvador_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador",
+                "https://deportesdelaciudad.es/playoffs_salvador"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador",
+                "https://deportesdelaciudad.es/playoffs_salvador"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador",
+                "https://deportesdelaciudad.es/playoffs_salvador"
+            )
+        )
+    )
 
 # COPA EL SALVADOR
 # Crear formulario para los grupos de la Copa DH VRAC
@@ -1121,7 +1218,30 @@ def salvador_copa():
             )
         )
         data_clasificaciones[grupo] = equipos_ordenados
+    partidos_jornadas = obtener_partidos_schema(partidos)
+    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    partidos_schema = partidos_jornadas + partidos_eliminatorias    
     return render_template(
         'copas/salvador_copa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
-        clasificaciones=data_clasificaciones
+        clasificaciones=data_clasificaciones,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador",
+                "https://deportesdelaciudad.es/salvador_copa"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador",
+                "https://deportesdelaciudad.es/salvador_copa"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador",
+                "https://deportesdelaciudad.es/salvador_copa"
+            )
+        )
     )

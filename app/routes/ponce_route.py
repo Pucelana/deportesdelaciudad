@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce, Clasificacion, TemporadaPonce
@@ -201,7 +202,31 @@ def calendario_ponce():
                         tabla_partidos_ponce[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_ponce[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_ponce[equipo_contrario]['jornadas'][jornada['nombre']]['rol_ponce'] = rol_ponce
-    return render_template('equipos_vall/calendario_ponce.html', tabla_partidos_ponce=tabla_partidos_ponce)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_ponce.html', 
+        tabla_partidos_ponce=tabla_partidos_ponce,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("ponce")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_ponce"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_ponce"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_ponce"
+            )
+        )
+    )
 # Jornadas Ponce
 @ponce_route_bp.route('/equipos_basket/resultados_ponce')
 def resultados_ponce():
@@ -221,10 +246,31 @@ def resultados_ponce():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_ponce:
         jornada_activa = nuevos_datos_ponce[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_ponce)    
     return render_template(
         'equipos_vall/jornadas_ponce.html',
         nuevos_datos_ponce=nuevos_datos_ponce,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("ponce")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_ponce"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_ponce"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_ponce"
+            )
+        )
     )
 # Jornada 0 Ponce
 @ponce_route_bp.route('/admin/jornada0_ponce', methods=['GET', 'POST'])
@@ -531,7 +577,21 @@ def clasif_analisis_ponce():
         reverse=True
     )
     return render_template('equipos_vall/clasif_ponce.html',
-        clasificacion_analisis_ponce=clasificacion_analisis_ponce)
+        clasificacion_analisis_ponce=clasificacion_analisis_ponce,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("ponce")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/clasif_ponce"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "ponce",
+                "https://deportesdelaciudad.es/equipos_basket/clasif_ponce"
+            )
+        )
+    )
 # TEMPORADAS ATL VALLADOLID
 @ponce_route_bp.route('/admin/temporadas_ponce')
 def temporadas_ponce():
@@ -681,8 +741,21 @@ def historial_ponce():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="baloncesto",
-        equipo="Ponce Valladolid CB"
-  )
+        equipo="Ponce Valladolid CB",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("ponce")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "ponce",
+                "https://deportesdelaciudad.es/ponce/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "ponce",
+                "https://deportesdelaciudad.es/ponce/historial"
+            )
+        )
+    )
 
 # PALMARES PONCE
 # Crear Palmares del Ponce
@@ -944,5 +1017,32 @@ def playoff_ponce():
     jornadas = obtener_jornadas_liga()
     clasificacion = recalcular_clasificacion(jornadas)
     eliminatorias = obtener_eliminatorias()
-    return render_template('playoff/ponce_playoff.html', jornadas=jornadas, clasificacion=clasificacion, eliminatorias=eliminatorias
+    partidos_jornadas = obtener_partidos_schema(jornadas)
+    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    partidos_schema = partidos_jornadas + partidos_eliminatorias
+    return render_template(
+        'playoff/ponce_playoff.html', 
+        jornadas=jornadas, 
+        clasificacion=clasificacion, 
+        eliminatorias=eliminatorias,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("ponce")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "ponce",
+                "https://deportesdelaciudad.es/playoffs_ponce"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "ponce",
+                "https://deportesdelaciudad.es/playoffs_ponce/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "ponce",
+                "https://deportesdelaciudad.es/playoffs_ponce/"
+            )
+        )
     )    

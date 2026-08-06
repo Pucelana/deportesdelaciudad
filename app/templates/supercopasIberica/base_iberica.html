@@ -2,8 +2,7 @@
 <html lang="es">
   <head>
     <title>
-      {% block title %}Supercopa Ibérica | Deportes
-      de la Ciudad{% endblock %}
+      {% block title %}Supercopa Ibérica | Deportes de la Ciudad{% endblock %}
     </title>
 
     <meta charset="utf-8" />
@@ -85,10 +84,28 @@
       {{ schema_web|safe }}
     </script>
 
-    {% block schema %}{% endblock %}
+    {% if breadcrumb %}
+    <script type="application/ld+json">
+      {{ breadcrumb|safe }}
+    </script>
+    {% endif %} {% if schema_team %}
+    <script type="application/ld+json">
+      {{ schema_team|safe }}
+    </script>
+    {% if schema_competition %}
+    <script type="application/ld+json">
+      {{ schema_competition|safe }}
+    </script>
+    {% endif %}
+    {% if schema_eventos %}
+    <script type="application/ld+json">
+      {{ schema_eventos|safe }}
+    </script>
+    {% endif %}
+    {% endif %} {% block schema %}{% endblock %}
   </head>
   <body class="fondos_playoffs">
-    {% block breadcrumb %}  {% endblock %}
+    {% block breadcrumb %} {% endblock %}
     <main class="container-lg mb-3">{% block contenido %} {% endblock %}</main>
     <footer class="container-fluid footer-seccion">
       <div class="row align-items-center text-center">

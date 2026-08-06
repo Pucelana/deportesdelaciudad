@@ -6,20 +6,32 @@ from functools import cmp_to_key
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.san_jose import JornadaJose, JosePartido, JoseClub, PlayoffJose, CopaJose, EuropaJose, Clasificacion, TemporadaJose
+from ..models.san_jose import (
+    JornadaJose,
+    JosePartido,
+    JoseClub,
+    PlayoffJose,
+    CopaJose,
+    EuropaJose,
+    Clasificacion,
+    TemporadaJose,
+)
 
-san_jose_route_bp = Blueprint('san_jose_route_bp', __name__)
-#EQUIPOS VOLEIBOL
-#Todo el proceso de calendario y clasificación del CD San Jose
+san_jose_route_bp = Blueprint("san_jose_route_bp", __name__)
+
+
+# EQUIPOS VOLEIBOL
+# Todo el proceso de calendario y clasificación del CD San Jose
 # Ingresar los resultados de los partidos de CD San Jose
-@san_jose_route_bp.route('/admin/crear_calendario_san_jose', methods=['GET', 'POST'])
+@san_jose_route_bp.route("/admin/crear_calendario_san_jose", methods=["GET", "POST"])
 def ingresar_resultado_san_jose():
-    if request.method == 'POST':
-        temporada_nombre = request.form['temporada']
-        nombre_jornada = request.form['nombre']
-        num_partidos = int(request.form['num_partidos'])       
+    if request.method == "POST":
+        temporada_nombre = request.form["temporada"]
+        nombre_jornada = request.form["nombre"]
+        num_partidos = int(request.form["num_partidos"])
         # Crear la jornada y añadirla a la sesión
         temporada = TemporadaJose.query.filter_by(nombre=temporada_nombre).first()
         if not temporada:
@@ -27,35 +39,32 @@ def ingresar_resultado_san_jose():
             db.session.add(temporada)
             db.session.flush()
         # 2. crear jornada correcta
-        jornada = JornadaJose(
-            nombre=nombre_jornada,
-            temporada_id=temporada.id
-        )
+        jornada = JornadaJose(nombre=nombre_jornada, temporada_id=temporada.id)
         db.session.add(jornada)
-        db.session.flush()  # Esto nos da el ID antes del commit        
+        db.session.flush()  # Esto nos da el ID antes del commit
         # Recorrer los partidos y añadirlos a la base de datos
         for i in range(num_partidos):
 
-            local = request.form.get(f'local{i}')
-            visitante = request.form.get(f'visitante{i}')
+            local = request.form.get(f"local{i}")
+            visitante = request.form.get(f"visitante{i}")
 
-            resultadoA = request.form.get(f'resultadoA{i}')
-            resultadoB = request.form.get(f'resultadoB{i}')
+            resultadoA = request.form.get(f"resultadoA{i}")
+            resultadoB = request.form.get(f"resultadoB{i}")
             # 🔥 CLAVE: ignorar partidos vacíos
             if not local or not visitante:
                 continue
 
             partido = JosePartido(
                 jornada_id=jornada.id,
-                fecha=request.form.get(f'fecha{i}'),
-                hora=request.form.get(f'hora{i}'),
+                fecha=request.form.get(f"fecha{i}"),
+                hora=request.form.get(f"hora{i}"),
                 local=local,
                 visitante=visitante,
                 resultadoA=resultadoA or "",
                 resultadoB=resultadoB or "",
-                puntosA=request.form.get(f'puntosA{i}') or 0,
-                puntosB=request.form.get(f'puntosB{i}') or 0,
-                orden=i
+                puntosA=request.form.get(f"puntosA{i}") or 0,
+                puntosB=request.form.get(f"puntosB{i}") or 0,
+                orden=i,
             )
 
             db.session.add(partido)
@@ -64,24 +73,28 @@ def ingresar_resultado_san_jose():
         print("JORNADA:", jornada.nombre)
         print("PARTIDOS GUARDADOS:", len(jornada.partidos))
         # Redirigir al calendario después de crear la jornada
-        return redirect(url_for('san_jose_route_bp.calendarios_san_jose'))
+        return redirect(url_for("san_jose_route_bp.calendarios_san_jose"))
 # Partidos Univ. Valladolid VCV
 @san_jose_route_bp.route("/admin/calendario_san_jose")
 def calendarios_san_jose():
     temporada = TemporadaJose.query.filter_by(activa=True).first()
     if temporada:
-        jornadas = JornadaJose.query.filter_by(
-        temporada_id=temporada.id
-        ).order_by(JornadaJose.id.asc()).all()
+        jornadas = (
+            JornadaJose.query.filter_by(temporada_id=temporada.id)
+            .order_by(JornadaJose.id.asc())
+            .all()
+        )
     else:
         jornadas = []
     # Ordenar los partidos por el campo `orden` en cada jornada
     for jornada in jornadas:
-        jornada.partidos = db.session.query(JosePartido)\
-            .filter_by(jornada_id=jornada.id)\
-            .order_by(JosePartido.orden.asc())\
+        jornada.partidos = (
+            db.session.query(JosePartido)
+            .filter_by(jornada_id=jornada.id)
+            .order_by(JosePartido.orden.asc())
             .all()
-    return render_template('admin/calendarios/calend_san_jose.html', jornadas=jornadas)
+        )
+    return render_template("admin/calendarios/calend_san_jose.html", jornadas=jornadas)
 # Modificar los partidos de cada jornada
 @san_jose_route_bp.route("/modificar_jornada_san_jose/<string:id>", methods=["POST"])
 def modificar_jornada_san_jose(id):
@@ -149,15 +162,11 @@ def obtener_datos_san_jose(nombre_temporada=None):
     jornadas_con_partidos = []
     for jornada in temporada.jornadas:
         partidos = (
-            JosePartido.query
-            .filter_by(jornada_id=jornada.id)
+            JosePartido.query.filter_by(jornada_id=jornada.id)
             .order_by(JosePartido.orden.asc())
             .all()
         )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
+        jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
     return jornadas_con_partidos
 # Ruta y creación del calendario individual del CD San Jose
 @san_jose_route_bp.route("/equipos_voley/calendario_san_jose")
@@ -189,20 +198,32 @@ def calendario_san_jose():
                 if equipo_contrario not in tabla_partidos_san_jose:
                     tabla_partidos_san_jose[equipo_contrario] = {"jornadas": {}}
                 # Verificamos si es el primer o segundo enfrentamiento
-                if "primer_enfrentamiento" not in tabla_partidos_san_jose[equipo_contrario]:
-                    tabla_partidos_san_jose[equipo_contrario]["primer_enfrentamiento"] = (
-                        jornada["nombre"]
-                    )
-                    tabla_partidos_san_jose[equipo_contrario]["resultadoA"] = resultado_a
-                    tabla_partidos_san_jose[equipo_contrario]["resultadoB"] = resultado_b
-                elif (
-                    "segundo_enfrentamiento" not in tabla_partidos_san_jose[equipo_contrario]
+                if (
+                    "primer_enfrentamiento"
+                    not in tabla_partidos_san_jose[equipo_contrario]
                 ):
-                    tabla_partidos_san_jose[equipo_contrario]["segundo_enfrentamiento"] = (
-                        jornada["nombre"]
-                    )
-                    tabla_partidos_san_jose[equipo_contrario]["resultadoAA"] = resultado_a
-                    tabla_partidos_san_jose[equipo_contrario]["resultadoBB"] = resultado_b
+                    tabla_partidos_san_jose[equipo_contrario][
+                        "primer_enfrentamiento"
+                    ] = jornada["nombre"]
+                    tabla_partidos_san_jose[equipo_contrario][
+                        "resultadoA"
+                    ] = resultado_a
+                    tabla_partidos_san_jose[equipo_contrario][
+                        "resultadoB"
+                    ] = resultado_b
+                elif (
+                    "segundo_enfrentamiento"
+                    not in tabla_partidos_san_jose[equipo_contrario]
+                ):
+                    tabla_partidos_san_jose[equipo_contrario][
+                        "segundo_enfrentamiento"
+                    ] = jornada["nombre"]
+                    tabla_partidos_san_jose[equipo_contrario][
+                        "resultadoAA"
+                    ] = resultado_a
+                    tabla_partidos_san_jose[equipo_contrario][
+                        "resultadoBB"
+                    ] = resultado_b
                 # Agregamos la jornada y resultados
                 if (
                     jornada["nombre"]
@@ -265,11 +286,33 @@ def calendario_san_jose():
                         tabla_partidos_san_jose[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["rol_san_jose"] = rol_san_jose
+    partidos_schema = obtener_partidos_schema(datos)                    
     return render_template(
-        "equipos_vall/calendario_san_jose.html", tabla_partidos_san_jose=tabla_partidos_san_jose
+        "equipos_vall/calendario_san_jose.html",
+        tabla_partidos_san_jose=tabla_partidos_san_jose,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("san_jose")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/calendario_san_jose",
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/calendario_san_jose"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador",
+                "https://deportesdelaciudad.es/equipos_voley/calendario_san_jose"
+            )
+        )
     )
 # Jornadas San Jose
-@san_jose_route_bp.route('/equipos_voley/resultados_san_jose')
+@san_jose_route_bp.route("/equipos_voley/resultados_san_jose")
 def resultados_san_jose():
     datos = obtener_datos_san_jose()
     nuevos_datos_san_jose = [dato for dato in datos if dato]
@@ -277,20 +320,40 @@ def resultados_san_jose():
     # Buscar primera jornada sin completar
     for i, jornada in enumerate(nuevos_datos_san_jose):
         jornada_completa = all(
-            p.resultadoA not in (None, "") and
-            p.resultadoB not in (None, "")
-            for p in jornada['partidos']
+            p.resultadoA not in (None, "") and p.resultadoB not in (None, "")
+            for p in jornada["partidos"]
         )
         if not jornada_completa:
-            jornada_activa = jornada['nombre']
+            jornada_activa = jornada["nombre"]
             break
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_san_jose:
-        jornada_activa = nuevos_datos_san_jose[-1]['nombre']
+        jornada_activa = nuevos_datos_san_jose[-1]["nombre"]
+    partidos_schema = obtener_partidos_schema(nuevos_datos_san_jose)    
     return render_template(
-        'equipos_vall/jornadas_san_jose.html',
+        "equipos_vall/jornadas_san_jose.html",
         nuevos_datos_san_jose=nuevos_datos_san_jose,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("san_jose")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/resultados_san_jose",
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/resultados_san_jose"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/resultados_san_jose"
+            )
+        )
     )
 # Crear la clasificación de Univ. Valladolid VCV
 def generar_clasificacion_analisis_voley_san_jose(data):
@@ -390,8 +453,7 @@ def generar_clasificacion_analisis_voley_san_jose(data):
             )
 
             clasificacion[equipo_local]["diferencia_puntos"] = (
-                clasificacion[equipo_local]["pf"]
-                - clasificacion[equipo_local]["pc"]
+                clasificacion[equipo_local]["pf"] - clasificacion[equipo_local]["pc"]
             )
 
             clasificacion[equipo_visitante]["diferencia_puntos"] = (
@@ -534,21 +596,21 @@ def generar_clasificacion_analisis_voley_san_jose(data):
 
     equipos.sort(key=cmp_to_key(comparar))
 
-    return [
-        {"equipo": equipo, "datos": datos}
-        for equipo, datos in equipos
-    ]
+    return [{"equipo": equipo, "datos": datos} for equipo, datos in equipos]
 # Ruta para mostrar la clasificación y analisis del Univ. Valladolid VCV
 @san_jose_route_bp.route("/equipos_voley/clasif_san_jose")
 def clasif_analisis_san_jose():
     data = obtener_datos_san_jose()
     # Genera la clasificación y análisis actual
-    clasificacion_analisis_san_jose = generar_clasificacion_analisis_voley_san_jose(data)
+    clasificacion_analisis_san_jose = generar_clasificacion_analisis_voley_san_jose(
+        data
+    )
     clubs_san_jose = JoseClub.query.all()
     # Inicializa las estadísticas de los equipos de la jornada 0 si no están ya en la clasificación
     for club in clubs_san_jose:
         if not any(
-            equipo["equipo"] == club.nombre for equipo in clasificacion_analisis_san_jose
+            equipo["equipo"] == club.nombre
+            for equipo in clasificacion_analisis_san_jose
         ):
             clasificacion_analisis_san_jose.append(
                 {
@@ -566,10 +628,25 @@ def clasif_analisis_san_jose():
                     },
                 }
             )
-    clasificacion_analisis_san_jose.sort(key=lambda x: x["datos"]["puntos"], reverse=True)
+    clasificacion_analisis_san_jose.sort(
+        key=lambda x: x["datos"]["puntos"], reverse=True
+    )
     return render_template(
         "equipos_vall/clasif_san_jose.html",
         clasificacion_analisis_san_jose=clasificacion_analisis_san_jose,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("san_jose")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/clasif_san_jose",
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "san_jose",
+                "https://deportesdelaciudad.es/equipos_voley/clasif_san_jose"
+            )
+        )
     )
 @san_jose_route_bp.route("/admin/jornada0_san_jose", methods=["GET", "POST"])
 def jornada0_san_jose():
@@ -591,23 +668,20 @@ def eliminar_club_san_jose(club_id):
         db.session.commit()
     return redirect(url_for("san_jose_route_bp.jornada0_san_jose"))
 # TEMPORADAS Panteras
-@san_jose_route_bp.route('/admin/temporadas_san_jose')
+@san_jose_route_bp.route("/admin/temporadas_san_jose")
 def temporadas_san_jose():
-    temporadas = TemporadaJose.query.order_by(
-        TemporadaJose.id.desc()
-    ).all()
+    temporadas = TemporadaJose.query.order_by(TemporadaJose.id.desc()).all()
     return render_template(
-        'admin/temporadas/temporada_san_jose.html',
-        temporadas=temporadas
+        "admin/temporadas/temporada_san_jose.html", temporadas=temporadas
     )
 # ACTIVAR Y DESACTIVAR TEMPORADAS
-@san_jose_route_bp.route('/activar_temporada_san_jose/<int:id>')
+@san_jose_route_bp.route("/activar_temporada_san_jose/<int:id>")
 def activar_temporada_san_jose(id):
     TemporadaJose.query.update({"activa": False})
     temporada = TemporadaJose.query.get_or_404(id)
     temporada.activa = True
     db.session.commit()
-    return redirect(url_for('san_jose_route_bp.temporadas_san_jose'))
+    return redirect(url_for("san_jose_route_bp.temporadas_san_jose"))
 
 # HISTORIAL CD SAN JOSE
 # Creación del historial de temporadas del CD San Jose
@@ -631,14 +705,12 @@ def crear_historial_san_jose():
         db.session.add(historial)
         db.session.commit()
         return redirect(url_for("san_jose_route_bp.crear_historial_san_jose"))
-    historial = (Historial.query.filter_by(
-        deporte="voley",
-        equipo="CD San Jose"
-    ).order_by(Historial.temporada.desc()).all()
-                 )
-    temporadas = TemporadaJose.query.order_by(
-        TemporadaJose.nombre.desc()
-    ).all()
+    historial = (
+        Historial.query.filter_by(deporte="voley", equipo="CD San Jose")
+        .order_by(Historial.temporada.desc())
+        .all()
+    )
+    temporadas = TemporadaJose.query.order_by(TemporadaJose.nombre.desc()).all()
     return render_template(
         "admin/historial/historial.html",
         historial=historial,
@@ -647,7 +719,7 @@ def crear_historial_san_jose():
         equipo="CD San Jose",
         crear_url="san_jose_route_bp.crear_historial_san_jose",
         modificar_url="san_jose_route_bp.modificar_historial_san_jose",
-        eliminar_url="san_jose_route_bp.eliminar_historial_san_jose"
+        eliminar_url="san_jose_route_bp.eliminar_historial_san_jose",
     )
 # Eliminar historial de temporadas del CD San Jose
 @san_jose_route_bp.route("/admin/eliminar_historial_san_jose/<int:id>", methods=["POST"])
@@ -675,10 +747,11 @@ def modificar_historial_san_jose(id):
 # Ver Historial de temporadas del CD San Jose en la página principal
 @san_jose_route_bp.route("/san_jose/historial")
 def historial_san_jose():
-    historial = (Historial.query.filter_by(
-        deporte="voley",
-        equipo="CD San Jose"
-    ).order_by(Historial.temporada.desc()).all())
+    historial = (
+        Historial.query.filter_by(deporte="voley", equipo="CD San Jose")
+        .order_by(Historial.temporada.desc())
+        .all()
+    )
     # GRÁFICO TEMPORADAS
     labels_temporadas = [h.temporada for h in historial]
     puntos_temporadas = [h.puntos for h in historial]
@@ -695,10 +768,11 @@ def historial_san_jose():
         "#FF6A00",
         "#20B2AA",
     ]
-    titulos = (Palmaress.query.filter_by(
-            deporte="voley",
-            equipo="CD San Jose"
-        ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
+    titulos = (
+        Palmaress.query.filter_by(deporte="voley", equipo="CD San Jose")
+        .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
+        .all()
+    )
     palmares = OrderedDict()
     for titulo in titulos:
         if titulo.competicion not in palmares:
@@ -714,7 +788,10 @@ def historial_san_jose():
         if not jornadas:
             continue
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "CD San Jose", generar_clasificacion_analisis_voley_san_jose,"puntos"
+            jornadas,
+            "CD San Jose",
+            generar_clasificacion_analisis_voley_san_jose,
+            "puntos",
         )
         labels_jornadas = labels
         datasets_jornadas.append(
@@ -739,8 +816,18 @@ def historial_san_jose():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="voley",
-        equipo="CD San Jose"
-  )
+        equipo="CD San Jose",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("san_jose")),
+        schema_team=jsonld(
+            schema_sports_team("san_jose", "https://deportesdelaciudad.es/san_jose/historial")
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "san_jose",
+                "https://deportesdelaciudad.es/san_jose/historial"
+            )
+        )
+    )
 
 # PALMARES CD SAN JOSE
 # Crear Palmares del CD San Jose
@@ -753,20 +840,14 @@ def crear_palmares_san_jose():
             temporada=request.form.get("temporada"),
             competicion=request.form.get("competicion"),
             imagen=request.form.get("imagen"),
-            orden=int(request.form.get("orden", 0))
+            orden=int(request.form.get("orden", 0)),
         )
         db.session.add(titulo)
         db.session.commit()
         return redirect(url_for("san_jose_route_bp.crear_palmares_san_jose"))
     palmares = (
-        Palmaress.query.filter_by(
-            deporte="voley",
-            equipo="CD San Jose"
-        )
-        .order_by(
-            Palmaress.orden.asc(),
-            Palmaress.temporada.desc()
-        )
+        Palmaress.query.filter_by(deporte="voley", equipo="CD San Jose")
+        .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
     return render_template(
@@ -796,5 +877,4 @@ def eliminar_palmares_san_jose(id):
     db.session.commit()
     return redirect(url_for("san_jose_route_bp.crear_palmares_san_jose"))
 
-
-#Fin proceso Univ. Valladolid VCV
+# Fin proceso Univ. Valladolid VCV

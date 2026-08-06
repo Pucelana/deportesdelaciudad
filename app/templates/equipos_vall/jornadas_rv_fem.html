@@ -44,7 +44,7 @@ Resultados y marcadores del RV Femenino jornada a jornada.
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/simancas/historial"
+        href="/rv_fem/historial"
         class="text-decoration-none text-white text-analisis fs-6">Historial</a>
     </li>
   </ol>
@@ -52,7 +52,7 @@ Resultados y marcadores del RV Femenino jornada a jornada.
 {% endblock %} {% block contenido %}
 <!-- BOTONES JORNADAS -->
 <div class="d-flex justify-content-center flex-wrap gap-2 my-3">
-  {% for goles in nuevos_datos_simancas %}
+  {% for goles in nuevos_datos_rv_fem %}
   <a
     href="#"
     class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
@@ -65,7 +65,7 @@ Resultados y marcadores del RV Femenino jornada a jornada.
 
 <!-- CONTENEDOR JORNADAS -->
 <div id="contenedor-jornadas">
-  {% for goles in nuevos_datos_simancas %}
+  {% for goles in nuevos_datos_rv_fem %}
 
   <div
     id="jornada{{ loop.index }}"
@@ -103,7 +103,7 @@ Resultados y marcadores del RV Femenino jornada a jornada.
           <div class="card partido-mobile">
             <div class="card-body text-center">
               <small class="text-muted fw-bold">
-                {{ partido.fecha }} {{ partido.hora }}
+                {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
               </small>
 
               <div class="equipo-mobile">{{ partido.local }}</div>

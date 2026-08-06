@@ -82,6 +82,19 @@
     <script type="application/ld+json">
       {{ schema_web|safe }}
     </script>
+
+    {% if breadcrumb %}
+    <script type="application/ld+json">
+      {{ breadcrumb|safe }}
+    </script>
+    {% endif %}
+
+    {% if schema_team %}
+    <script type="application/ld+json">
+      {{ schema_team|safe }}
+    </script>
+    {% endif %}
+
     {% block schema %}{% endblock %}
   </head>
   <body class="body_secciones">

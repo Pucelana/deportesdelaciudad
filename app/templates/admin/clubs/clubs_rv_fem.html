@@ -9,7 +9,7 @@
 {% block section %}
       <!-- Formulario para los resultados de los partidos -->
       <div class="container-lg">
-        <form method="POST" action="/admin/jornada0_simancas" class="row mb-3">
+        <form method="POST" action="/admin/jornada0_rv_fem" class="row mb-3">
           <div class="col-md-12">
             <label for="equipo">Nombre Equipos</label>
             <input type="text" class="form-control" id="equipo" name="equipo">
@@ -19,7 +19,6 @@
           </div>    
         </form>
       </div>
-{% endblock %}
     <!--Visibilidad de los Equipos-->
       <h2 class="text-center">Clubs:</h2>
       <div class="container-fluid">
@@ -39,7 +38,7 @@
                     <td class="text-center fw-bold">{{ club['nombre'] }}</td>
                     <td>
                       <!-- Botón para cada equipo -->
-                      <form action="{{ url_for('simancas_route_bp.eliminar_club_simancas', club_id=club.id) }}" method="POST">
+                      <form action="{{ url_for('rv_fem_route_bp.eliminar_club_rv_fem', club_id=club.id) }}" method="POST">
                         <input type="hidden" name="index" value="{{ index }}">
                         <button type="submit" class="btn btn-danger">Borrar</button>
                        </form>

@@ -250,7 +250,7 @@ COMERCIAL = {
                 "sistema_ligas": None,
             },
         },
-    "rv_femenino": {
+    "rv_fem": {
             "amazon": {
                 "seccion": [
                 ],

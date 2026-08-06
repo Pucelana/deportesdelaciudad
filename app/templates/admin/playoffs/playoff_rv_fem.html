@@ -12,7 +12,7 @@
     <section class="container-lg">
         <!-- Formulario para los resultados de los partidos -->
         <div class="container-lg d-flex justify-content-center">
-            <form id="form_playoff_promesas" method="POST" action="/admin/crear_playoff_simancas" class="row mb-3">
+            <form id="form_playoff_promesas" method="POST" action="/admin/crear_playoff_rv_fem" class="row mb-3">
                 <div class="form-group col-md-6">
                     <!-- Selección de etapa del torneo -->
                     <label for="eliminatoria">Etapa del Torneo:</label>
@@ -57,7 +57,7 @@
                 <button type="button" id="btn-modal{{ loop.index }}"
                     class="btn btn-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal"
                     data-bs-target="#modal{{ loop.index }}">Modificar</button>
-                <form method="POST" action="{{ url_for('simancas_route_bp.eliminar_playoff_simancas', eliminatoria=eliminatoria) }}">
+                <form method="POST" action="{{ url_for('rv_fem_route_bp.eliminar_playoff_rv_fem', eliminatoria=eliminatoria) }}">
                     <button type="submit" class="btn btn-danger">Borrar</button>
                 </form>
             </div>
@@ -79,7 +79,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form method="POST" action="{{ url_for('simancas_route_bp.modificar_playoff_simancas', eliminatoria=eliminatoria) }}">
+                    <form method="POST" action="{{ url_for('rv_fem_route_bp.modificar_playoff_rv_fem', eliminatoria=eliminatoria) }}">
                         <input type="hidden" name="eliminatoria" value="{{ eliminatoria }}">
                         <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
                         {% for partido in partidos %}

@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_partidos, schema_sports_competition, schema_sports_team, schema_breadcrumb_equipo
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.valladolid import (
@@ -278,9 +279,32 @@ def calendario_valladolid():
                         tabla_partidos_valladolid[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["rol_valladolid"] = rol_valladolid
+    partidos_schema = obtener_partidos_schema(datos)                    
     return render_template(
         "equipos_vall/calendario_valladolid.html",
         tabla_partidos_valladolid=tabla_partidos_valladolid,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valladolid")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_valladolid"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_valladolid"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_valladolid"
+            )
+        )
     )
 # Jornadas Real Valladolid
 @valladolid_route_bp.route("/equipos_futbol/resultados_valladolid")
@@ -300,10 +324,33 @@ def resultados_valladolid():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_valladolid:
         jornada_activa = nuevos_datos_valladolid[-1]["nombre"]
+    partidos_schema = obtener_partidos_schema(nuevos_datos_valladolid)    
     return render_template(
         "equipos_vall/jornadas_valladolid.html",
         nuevos_datos_valladolid=nuevos_datos_valladolid,
         jornada_activa=jornada_activa,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valladolid")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_valladolid"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_valladolid"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_valladolid"
+            )
+        )
     )
 # Jornada 0 Real Valladolid
 @valladolid_route_bp.route("/admin/jornada0_valladolid", methods=["GET", "POST"])
@@ -549,6 +596,21 @@ def clasif_analisis_valladolid():
     return render_template(
         "equipos_vall/clasif_valladolid.html",
         clasificacion_analisis_valladolid=clasificacion_analisis_valladolid,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valladolid")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/clasif_valladolid"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "valladolid",
+                "https://deportesdelaciudad.es/equipos_futbol/clasif_valladolid"
+            )
+        )
     )
 # TEMPORADAS REAL VALLADOLID
 @valladolid_route_bp.route("/admin/temporadas_valladolid")
@@ -702,8 +764,23 @@ def historial_valladolid():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Fútbol",
-        equipo="R.Valladolid"
-  )
+        equipo="R.Valladolid",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valladolid")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+               "valladolid",
+               "https://deportesdelaciudad.es/valladolid/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "valladolid",
+                "https://deportesdelaciudad.es/valladolid/historial"
+            )
+        )
+    )
 
 # PALMARES REAL VALLADOLID
 # Crear Palmares del Real Valladolid
@@ -830,9 +907,7 @@ def modificar_copa_valladolid_post():
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.ver_copa_valladolid"))
 # Eliminar las eliminatorias en Admin
-@valladolid_route_bp.route(
-    "/eliminar_copa_valladolid/<string:eliminatoria>", methods=["POST"]
-)
+@valladolid_route_bp.route("/eliminar_copa_valladolid/<string:eliminatoria>", methods=["POST"])
 def eliminar_copa_valladolid(eliminatoria):
     CopaValladolid.query.filter_by(eliminatoria=eliminatoria).delete()
     db.session.commit()
@@ -853,7 +928,33 @@ def copas_valladolid():
     datos_copa = {
         e: CopaValladolid.query.filter_by(eliminatoria=e).all() for e in eliminatorias
     }
-    return render_template("copas/valladolid_copa.html", datos_copa=datos_copa)
+    partidos_schema = obtener_partidos_schema(eliminatorias)
+    return render_template(
+        "copas/valladolid_copa.html", 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valladolid")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valladolid",
+                "https://deportesdelaciudad.es/valladolid_copa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "valladolid",
+                "https://deportesdelaciudad.es/valladolid_copa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "valladolid",
+                "https://deportesdelaciudad.es/valladolid_copa/"
+            )
+        )
+    )
 
 # PLAYOFF ASCENSO REAL VALLADOLID
 # Crear formulario para los playoff
@@ -924,9 +1025,7 @@ def modificar_playoff_valladolid(eliminatoria):
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
 # Eliminar los partidos de los playoff
-@valladolid_route_bp.route(
-    "/eliminar_playoff_valladolid/<string:eliminatoria>", methods=["POST"]
-)
+@valladolid_route_bp.route("/eliminar_playoff_valladolid/<string:eliminatoria>", methods=["POST"])
 def eliminar_playoff_valladolid(eliminatoria):
     partidos = PlayoffValladolid.query.filter_by(eliminatoria=eliminatoria).all()
     for partido in partidos:
@@ -942,6 +1041,30 @@ def playoffs_valladolid():
     for eliminatoria in eliminatorias:
         partidos = PlayoffValladolid.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos
+    partidos_schema = obtener_partidos_schema(eliminatorias)    
     return render_template(
-        "playoff/valladolid_playoff.html", datos_playoff=datos_playoff
+        "playoff/valladolid_playoff.html", 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(
+           schema_breadcrumb_equipo("valladolid")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valladolid",
+                "https://deportesdelaciudad.es/playoffs_valladolid"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "valladolid",
+                "https://deportesdelaciudad.es/playoffs_valladolid"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "valladolid",
+                "https://deportesdelaciudad.es/playoffs_valladolid"
+            )
+        )
     )

@@ -5,6 +5,7 @@ from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub, PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion, TemporadaSalvadorFem
@@ -235,7 +236,31 @@ def calendario_salvador_fem():
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_salvador_fem[equipo_contrario]['jornadas'][jornada['nombre']]['rol_salvador_fem'] = rol_salvador_fem
-    return render_template('equipos_vall/calendario_salvador_fem.html', tabla_partidos_salvador_fem=tabla_partidos_salvador_fem)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_salvador_fem.html', 
+        tabla_partidos_salvador_fem=tabla_partidos_salvador_fem,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_salvador_fem"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_salvador_fem"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_salvador_fem"
+            )
+        )
+    )
 # Jornadas El Salvador
 @salvador_fem_route_bp.route('/equipos_rugby/resultados_salvador_fem')
 def resultados_salvador_fem():
@@ -255,10 +280,31 @@ def resultados_salvador_fem():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_salvador_fem:
         jornada_activa = nuevos_datos_salvador_fem[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_salvador_fem)    
     return render_template(
         'equipos_vall/jornadas_salvador_fem.html',
         nuevos_datos_salvador_fem=nuevos_datos_salvador_fem,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_salvador_fem"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_salvador_fem"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_salvador_fem"
+            )
+        )
     )
 # Jornada 0 El Salvador
 @salvador_fem_route_bp.route('/admin/jornada0_salvador_fem', methods=['GET', 'POST'])
@@ -518,7 +564,20 @@ def clasif_analisis_salvador_fem():
         'equipos_vall/clasif_salvador_fem.html',
         clasificacion_general_indexed=clasificacion_general_indexed,
         grupoA2=grupoA_indexed,
-        grupoB2=grupoB_indexed
+        grupoB2=grupoB_indexed,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/clasif_salvador_fem"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/equipos_rugby/clasif_salvador_fem"
+            )
+        )
     )
 # TEMPORADAS Panteras
 @salvador_fem_route_bp.route('/admin/temporadas_salvador_fem')
@@ -669,7 +728,20 @@ def historial_salvador_fem():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Rugby",
-        equipo="El Salvador Fem."
+        equipo="El Salvador Fem.",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/salvador_fem/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/salvador_fem/historial"
+            )
+        )
   )
     
 # PALMARES EL SALVADOR FEM.
@@ -806,7 +878,31 @@ def playoffs_salvador_fem():
     for eliminatoria in eliminatorias:
         partidos = PlayoffSalvadorFem.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/salvador_fem_playoff.html', datos_playoff=datos_playoff)
+    partidos_schema = obtener_partidos_schema(eliminatorias)     
+    return render_template(
+        'playoff/salvador_fem_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/playoffs_salvador_fem"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/playoffs_salvador_fem"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador_fem",
+                "https://deportesdelaciudad.es/playoffs_salvador_fem"
+            )
+        )
+    )
 
 # COPA EL SALVADOR
 # Crear formulario de la Copa Salvador Fem.
@@ -891,5 +987,29 @@ def copas_salvador_fem():
     datos_copa = {}
     for eliminatoria in eliminatorias:
         partidos = CopaSalvadorFem.query.filter_by(encuentros=eliminatoria).all()
-        datos_copa[eliminatoria] = partidos   
-    return render_template('copas/salvador_fem_copa.html', datos_copa=datos_copa)
+        datos_copa[eliminatoria] = partidos 
+    partidos_schema = obtener_partidos_schema(eliminatorias)      
+    return render_template(
+        'copas/salvador_fem_copa.html', 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/copa_salvador_fem"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "salvador_fem",
+                "https://deportesdelaciudad.es/copa_salvador_fem"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "salvador_fem",
+                "https://deportesdelaciudad.es/copa_salvador_fem"
+            )     
+        )
+    )

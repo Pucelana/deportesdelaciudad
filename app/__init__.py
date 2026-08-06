@@ -10,7 +10,7 @@ from .routes.resultados import resultados_bp
 from .routes.uemc_route import uemc_route_bp
 from .routes.valladolid_route import valladolid_route_bp
 from .routes.promesas_route import promesas_route_bp
-from .routes.simancas_route import simancas_route_bp
+from .routes.rv_fem_route import rv_fem_route_bp
 from .routes.parquesol_route import parquesol_route_bp
 from .routes.ponce_route import ponce_route_bp
 from .routes.cdsi_vall_route import cdsi_vall_route_bp
@@ -72,7 +72,7 @@ def create_app():
     app.register_blueprint(uemc_route_bp)
     app.register_blueprint(valladolid_route_bp)
     app.register_blueprint(promesas_route_bp)
-    app.register_blueprint(simancas_route_bp)
+    app.register_blueprint(rv_fem_route_bp)
     app.register_blueprint(parquesol_route_bp)
     app.register_blueprint(ponce_route_bp)
     app.register_blueprint(cdsi_vall_route_bp)

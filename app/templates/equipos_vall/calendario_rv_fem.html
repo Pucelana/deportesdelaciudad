@@ -50,7 +50,7 @@ Consulta el calendario individual actualizada del RV Femenino.
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/simancas/historial"
+        href="/rv_fem/historial"
         class="text-decoration-none text-white text-analisis fs-6">Historial</a>
     </li>
   </ol>
@@ -81,7 +81,7 @@ Consulta el calendario individual actualizada del RV Femenino.
                         </tr>
                       </thead>
                       <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_simancas.items() %}
+                        {% for equipo, datos_equipo in tabla_partidos_rv_fem.items() %}
                         <tr>
                           <th class="equipo-mobile text-start">{{ equipo }}</th>
                           <td class="jorn_ida fw-bold">
@@ -100,10 +100,10 @@ Consulta el calendario individual actualizada del RV Femenino.
                             {% endif %}
                             {% endif %}
                           </td>
-                          <td class="resultadoA fw-bold">{{ tabla_partidos_simancas[equipo]['resultadoA'] }}</td>
-                          <td class="resultadoB fw-bold">{{ tabla_partidos_simancas[equipo]['resultadoB'] }}</td>
-                          <td class="resultadoAA fw-bold">{{ tabla_partidos_simancas[equipo]['resultadoAA'] }}</td>
-                          <td class="resultadoBB fw-bold">{{ tabla_partidos_simancas[equipo]['resultadoBB'] }}</td>
+                          <td class="resultadoA fw-bold">{{ tabla_partidos_rv_fem[equipo]['resultadoA'] }}</td>
+                          <td class="resultadoB fw-bold">{{ tabla_partidos_rv_fem[equipo]['resultadoB'] }}</td>
+                          <td class="resultadoAA fw-bold">{{ tabla_partidos_rv_fem[equipo]['resultadoAA'] }}</td>
+                          <td class="resultadoBB fw-bold">{{ tabla_partidos_rv_fem[equipo]['resultadoBB'] }}</td>
                           <td class="part1"></td>
                           <td class="average"></td>
                         </tr>

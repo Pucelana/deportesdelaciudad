@@ -6,6 +6,7 @@ from itertools import groupby
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.vcv import JornadaVCV, VCVPartido, VCVClub, PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion, TemporadaVCV
@@ -265,8 +266,32 @@ def calendario_vcv():
                         tabla_partidos_vcv[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["rol_vcv"] = rol_vcv
+    partidos_schema = obtener_partidos_schema(datos)                    
     return render_template(
-        "equipos_vall/calendario_vcv.html", tabla_partidos_vcv=tabla_partidos_vcv
+        "equipos_vall/calendario_vcv.html", 
+        tabla_partidos_vcv=tabla_partidos_vcv,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vcv")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/calendario_vcv"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/calendario_vcv"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/calendario_vcv"
+            )
+        )
     )
 # Jornadas VCV
 @vcv_route_bp.route('/equipos_voley/resultados_vcv')
@@ -287,10 +312,33 @@ def resultados_vcv():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_vcv:
         jornada_activa = nuevos_datos_vcv[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_vcv)    
     return render_template(
         'equipos_vall/jornadas_vcv.html',
         nuevos_datos_vcv=nuevos_datos_vcv,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vcv")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/resultados_vcv"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/resultados_vcv"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/resultados_vcv"
+            )
+        )
     )
 # Crear la clasificación de Univ. Valladolid VCV
 def generar_clasificacion_analisis_voley_vcv(data):
@@ -575,6 +623,21 @@ def clasif_analisis_vcv():
     return render_template(
         "equipos_vall/clasif_vcv.html",
         clasificacion_analisis_vcv=clasificacion_analisis_vcv,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vcv")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+               "vcv",
+               "https://deportesdelaciudad.es/equipos_voley/clasif_vcv"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vcv",
+                "https://deportesdelaciudad.es/equipos_voley/clasif_vcv"
+            )
+        )
     )
 @vcv_route_bp.route("/admin/jornada0_vcv", methods=["GET", "POST"])
 def jornada0_vcv():
@@ -744,7 +807,22 @@ def historial_vcv():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="voley",
-        equipo="Universidad VCV"
+        equipo="Universidad VCV",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vcv")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vcv",
+                "https://deportesdelaciudad.es/vcv/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vcv",
+                "https://deportesdelaciudad.es/vcv/historial"
+            )
+        )
   )
 
 # PALMARES UNIVERSIDAD VCV

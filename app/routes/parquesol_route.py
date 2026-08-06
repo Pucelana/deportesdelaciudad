@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol, PlayoffParquesol, TemporadaParquesol
@@ -200,7 +201,31 @@ def calendario_parquesol():
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_parquesol[equipo_contrario]['jornadas'][jornada['nombre']]['rol_parquesol'] = rol_parquesol
-    return render_template('equipos_vall/calendario_parquesol.html', tabla_partidos_parquesol=tabla_partidos_parquesol)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_parquesol.html', 
+        tabla_partidos_parquesol=tabla_partidos_parquesol,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("parquesol")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_parquesol"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_parquesol"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/calendario_parquesol"
+            )
+        )
+    )
 # Jornadas Parquesol
 @parquesol_route_bp.route('/equipos_futbol/resultados_parquesol')
 def resultados_parquesol():
@@ -220,10 +245,31 @@ def resultados_parquesol():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_parquesol:
         jornada_activa = nuevos_datos_parquesol[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_parquesol)    
     return render_template(
         'equipos_vall/jornadas_parquesol.html',
         nuevos_datos_parquesol=nuevos_datos_parquesol,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("parquesol")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_parquesol"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_parquesol"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/resultados_parquesol"
+            )
+        )
     )
 # Jornada 0 Parquesol
 @parquesol_route_bp.route('/admin/jornada0_parquesol', methods=['GET', 'POST'])
@@ -466,7 +512,21 @@ def clasif_analisis_parquesol():
         reverse=True
     )
     return render_template('equipos_vall/clasif_parquesol.html',
-        clasificacion_analisis_parquesol=clasificacion_analisis_parquesol)
+        clasificacion_analisis_parquesol=clasificacion_analisis_parquesol,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("parquesol")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/clasif_parquesol"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "parquesol",
+                "https://deportesdelaciudad.es/equipos_futbol/clasif_parquesol"
+            )
+        )
+    )
 # TEMPORADAS RV Promesas
 @parquesol_route_bp.route('/admin/temporadas_parquesol')
 def temporadas_parquesol():
@@ -617,8 +677,21 @@ def historial_parquesol():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Fútbol",
-        equipo="CD Parquesol"
-  )
+        equipo="CD Parquesol",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("parquesol")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "parquesol",
+                "https://deportesdelaciudad.es/parquesol/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "parquesol",
+                "https://deportesdelaciudad.es/parquesol/historial"
+            )
+        )
+    )
 
 # PALMARES CD PARQUESOL
 # Crear Palmares del CD Parquesol
@@ -744,7 +817,31 @@ def copas_parquesol():
         e: CopaParquesol.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
     }
-    return render_template('copas/parquesol_copa.html', datos_copa=datos_copa)
+    partidos_schema = obtener_partidos_schema(datos_copa)
+    return render_template(
+        'copas/parquesol_copa.html', 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("parquesol")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "parquesol",
+                "https://deportesdelaciudad.es/parquesol_copa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "parquesol",
+                "https://deportesdelaciudad.es/parquesol_copa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "parquesol",
+                "https://deportesdelaciudad.es/parquesol_copa/"
+            )
+        )
+    )
 
 # PLAYOFF ASCENSO RV Simancas
 # Crear formulario para los playoff
@@ -829,4 +926,28 @@ def playoffs_parquesol():
     for eliminatoria in eliminatorias:
         partidos = PlayoffParquesol.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos
-    return render_template('playoff/parquesol_playoff.html', datos_playoff=datos_playoff)
+    partidos_schema = obtener_partidos_schema(datos_playoff)    
+    return render_template(
+        'playoff/parquesol_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("parquesol")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "parquesol",
+                "https://deportesdelaciudad.es/playoffs_parquesol/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "parquesol",
+                "https://deportesdelaciudad.es/playoffs_parquesol/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "parquesol",
+                "https://deportesdelaciudad.es/playoffs_parquesol/"
+            )
+        )
+    )

@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_eventos, schema_partidos, schema_sports_team, schema_sports_competition
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.uemc import (
@@ -267,8 +268,31 @@ def calendario_uemc():
                         tabla_partidos_uemc[equipo_contrario]["jornadas"][
                             jornada["nombre"]
                         ]["rol_uemc"] = rol_uemc
+    partidos_schema = obtener_partidos_schema(datos)      
     return render_template(
-        "equipos_vall/calendario_uemc.html", tabla_partidos_uemc=tabla_partidos_uemc
+        "equipos_vall/calendario_uemc.html", 
+        tabla_partidos_uemc=tabla_partidos_uemc,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("uemc")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_uemc"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_uemc"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_uemc"
+            )
+        )
+                
     )
 
 
@@ -290,10 +314,34 @@ def resultados_uemc():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_uemc:
         jornada_activa = nuevos_datos_uemc[-1]["nombre"]
+        
+    # Schema SportsEvent
+    partidos_schema = obtener_partidos_schema(nuevos_datos_uemc)
+        
     return render_template(
         "equipos_vall/jornadas_uemc.html",
         nuevos_datos_uemc=nuevos_datos_uemc,
         jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("uemc")),
+        schema_team=jsonld(
+            schema_sports_team(
+            "uemc",
+            "https://deportesdelaciudad.es/equipos_basket/resultados_uemc"
+            )
+        ),
+        schema_competition=jsonld(
+                    schema_sports_competition(
+                        "uemc",
+                        "https://deportesdelaciudad.es/equipos_basket/resultados_uemc"
+                    )
+                ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_basket/resultados_uemc"
+            )
+        )
     )
 
 
@@ -595,10 +643,22 @@ def clasif_analisis_uemc():
 
     clasificacion_analisis_uemc.sort(key=lambda x: x["datos"]["puntos"], reverse=True)
     return render_template(
-        "equipos_vall/clasif_uemc.html",
-        clasificacion_analisis_uemc=clasificacion_analisis_uemc,
+            "equipos_vall/clasif_uemc.html",
+            clasificacion_analisis_uemc=clasificacion_analisis_uemc,
+            breadcrumb=jsonld(schema_breadcrumb_equipo("uemc")),
+            schema_team=jsonld(
+                schema_sports_team(
+                "uemc",
+                "https://deportesdelaciudad.es/equipos_basket/clasif_uemc"
+                )
+            ),
+            schema_competition=jsonld(
+                        schema_sports_competition(
+                            "uemc",
+                            "https://deportesdelaciudad.es/equipos_basket/clasif_uemc"
+                        )
+                    )
     )
-
 
 # TEMPORADAS ATL VALLADOLID
 @uemc_route_bp.route("/admin/temporadas_uemc")
@@ -608,7 +668,6 @@ def temporadas_uemc():
         "admin/temporadas/temporada_uemc.html", temporadas=temporadas
     )
 
-
 # ACTIVAR Y DESACTIVAR TEMPORADAS
 @uemc_route_bp.route("/activar_temporada_uemc/<int:id>")
 def activar_temporada_uemc(id):
@@ -617,7 +676,6 @@ def activar_temporada_uemc(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for("uemc_route_bp.temporadas_uemc"))
-
 
 # HISTORIAL UEMC
 # Creación del historial de temporadas del UEMC
@@ -656,16 +714,12 @@ def crear_historial_uemc():
         modificar_url="uemc_route_bp.modificar_historial_uemc",
         eliminar_url="uemc_route_bp.eliminar_historial_uemc",
     )
-
-
 @uemc_route_bp.route("/admin/eliminar_historial_uemc/<int:id>", methods=["POST"])
 def eliminar_historial_uemc(id):
     historial = Historial.query.get_or_404(id)
     db.session.delete(historial)
     db.session.commit()
     return redirect(url_for("uemc_route_bp.crear_historial_uemc"))
-
-
 # Modificar historial de temporadas del CBC Valladolid
 @uemc_route_bp.route("/admin/modificar_historial_uemc/<int:id>", methods=["POST"])
 def modificar_historial_uemc(id):
@@ -681,8 +735,6 @@ def modificar_historial_uemc(id):
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
     return redirect(url_for("uemc_route_bp.crear_historial_uemc"))
-
-
 # Ver Historial de temporadas del UEMC en la página principal
 @uemc_route_bp.route("/uemc/historial")
 def historial_uemc():
@@ -759,8 +811,20 @@ def historial_uemc():
         palmares=palmares,
         deporte="baloncesto",
         equipo="CBC Valladolid",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("uemc")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "uemc",
+                "https://deportesdelaciudad.es/uemc/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "uemc",
+                "https://deportesdelaciudad.es/uemc/historial"
+            )
+        )
     )
-
 
 # PALMARES UEMC
 # Crear Palmares del UEMC
@@ -792,7 +856,6 @@ def crear_palmares_uemc():
         modificar_url="uemc_route_bp.modificar_palmares_uemc",
         eliminar_url="uemc_route_bp.eliminar_palmares_uemc",
     )
-
 
 # Modificar Palmares del UEMC
 @uemc_route_bp.route("/admin/modificar_palmares_uemc/<int:id>", methods=["POST"])
@@ -1178,6 +1241,9 @@ def uemc_copa():
     equipos = EquiposCopaUEMC.query.order_by(
         EquiposCopaUEMC.grupo, EquiposCopaUEMC.equipo
     ).all()
+    partidos_jornadas = obtener_partidos_schema(jornadas)
+    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    partidos_schema = partidos_jornadas + partidos_eliminatorias
     return render_template(
         "copas/uemc_copa.html",
         jornadas=jornadas,
@@ -1185,6 +1251,26 @@ def uemc_copa():
         clasificaciones_grupos=clasificaciones_grupos,
         eliminatorias=eliminatorias,
         equipos=equipos,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("uemc")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "uemc",
+                "https://deportesdelaciudad.es/uemc_copa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "uemc",
+                "https://deportesdelaciudad.es/uemc_copa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "uemc",
+                "https://deportesdelaciudad.es/uemc_copa/"
+            )
+        )
     )
 
 
@@ -1232,8 +1318,6 @@ def crear_playoff_uemc():
         db.session.commit()
         return redirect(url_for("uemc_route_bp.ver_playoff_uemc"))
     return render_template("admin/playoffs/playoff_uemc.html")
-
-
 # Ver encuentros playoff en Admin
 @uemc_route_bp.route("/admin/playoff_uemc/")
 def ver_playoff_uemc():
@@ -1249,12 +1333,8 @@ def ver_playoff_uemc():
     return render_template(
         "admin/playoffs/playoff_uemc.html", datos_eliminatorias=datos_eliminatorias
     )
-
-
 # Modificar los partidos de los playoff
-@uemc_route_bp.route(
-    "/modificar_playoff_uemc/<string:eliminatoria>", methods=["GET", "POST"]
-)
+@uemc_route_bp.route("/modificar_playoff_uemc/<string:eliminatoria>", methods=["GET", "POST"])
 def modificar_playoff_uemc(eliminatoria):
     if request.method == "POST":
         num_partidos = int(request.form.get("num_partidos", 0))
@@ -1299,8 +1379,6 @@ def modificar_playoff_uemc(eliminatoria):
         return redirect(url_for("uemc_route_bp.ver_playoff_uemc"))
 
     return redirect(url_for("uemc_route_bp.ver_playoff_uemc"))
-
-
 # Eliminar los partidos de los playoff
 @uemc_route_bp.route("/eliminar_playoff_uemc/<string:eliminatoria>", methods=["POST"])
 def eliminar_playoff_uemc(eliminatoria):
@@ -1310,8 +1388,6 @@ def eliminar_playoff_uemc(eliminatoria):
     db.session.commit()
     flash(f"Eliminatoria {eliminatoria} eliminada correctamente", "success")
     return redirect(url_for("uemc_route_bp.ver_playoff_uemc"))
-
-
 # Mostrar los playoffs del UEMC
 @uemc_route_bp.route("/playoffs_uemc/")
 def playoffs_uemc():
@@ -1320,4 +1396,27 @@ def playoffs_uemc():
     for eliminatoria in eliminatorias:
         partidos = PlayoffUEMC.query.filter_by(eliminatoria=eliminatoria).all()
         datos_europa[eliminatoria] = partidos
-    return render_template("playoff/uemc_playoff.html", datos_europa=datos_europa)
+    partidos_schema = obtener_partidos_schema(datos_europa)    
+    return render_template("playoff/uemc_playoff.html", 
+                           datos_europa=datos_europa,
+                           breadcrumb=jsonld(schema_breadcrumb_equipo("uemc")),
+                           schema_team=jsonld(
+                               schema_sports_team(
+                                   "uemc",
+                                   "https://deportesdelaciudad.es/playoffs_uemc/"
+                               )
+                           ),
+                           schema_competition=jsonld(
+                                schema_sports_competition(
+                                    "uemc",
+                                    "https://deportesdelaciudad.es/playoffs_copa/"
+                                )
+                            ),
+                            schema_eventos=jsonld(
+                                schema_partidos(
+                                    partidos_schema,
+                                    "uemc",
+                                    "https://deportesdelaciudad.es/playoffs_copa/"
+                                )
+                            )
+                        )

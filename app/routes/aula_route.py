@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.aula import JornadaAula, AulaPartido, AulaClub, PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula, PermanenciaAula, JornadaPermanenciaAula, TemporadaAula
@@ -200,7 +201,29 @@ def calendario_aula():
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
-    return render_template('equipos_vall/calendario_aula.html', tabla_partidos_aula=tabla_partidos_aula)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template('equipos_vall/calendario_aula.html', tabla_partidos_aula=tabla_partidos_aula,
+                            breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+                            schema_team=jsonld(
+                                schema_sports_team(
+                                    "aula",
+                                    "https://deportesdelaciudad.es/equipos_balonmano/calendario_aula"
+                                )
+                            ),
+                            schema_competition=jsonld(
+                                schema_sports_competition(
+                                    "aula",
+                                    "https://deportesdelaciudad.es/equipos_balonmano/calendario_aula"
+                                )
+                            ),
+                            schema_eventos=jsonld(
+                                schema_partidos(
+                                    partidos_schema,
+                                    "aula",
+                                    "https://deportesdelaciudad.es/equipos_balonmano/calendario_aula"
+                                )
+                            )       
+    )
 # Jornadas Aula
 @aula_route_bp.route('/equipos_balonmano/resultados_aula')
 def resultados_aula():
@@ -220,10 +243,31 @@ def resultados_aula():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_aula:
         jornada_activa = nuevos_datos_aula[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_aula)    
     return render_template(
         'equipos_vall/jornadas_aula.html',
         nuevos_datos_aula=nuevos_datos_aula,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aula",
+                "https://deportesdelaciudad.es/equipos_balonmano/resultados_aula"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aula",
+                "https://deportesdelaciudad.es/equipos_balonmano/resultados_aula"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aula",
+                "https://deportesdelaciudad.es/equipos_balonmano/resultados_aula"
+            )
+        )
     )
 # Jornada 0 Aula
 @aula_route_bp.route('/admin/jornada0_aula', methods=['GET', 'POST'])
@@ -465,7 +509,21 @@ def clasif_analisis_aula():
         reverse=True
     )
     return render_template('equipos_vall/clasif_aula.html',
-        clasificacion_analisis_aula=clasificacion_analisis_aula)
+        clasificacion_analisis_aula=clasificacion_analisis_aula,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aula",
+                "https://deportesdelaciudad.es/equipos_balonmano/clasif_aula"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aula",
+                "https://deportesdelaciudad.es/equipos_balonmano/clasif_aula"
+            )
+        )
+    )
 # TEMPORADAS AULA VALLADOLID
 @aula_route_bp.route('/admin/temporadas_aula')
 def temporadas_aula():
@@ -615,8 +673,21 @@ def historial_aula():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Balonmano",
-        equipo="Aula Valladolid"
-  )
+        equipo="Aula Valladolid",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aula",
+                "https://deportesdelaciudad.es/aula/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aula",
+                "https://deportesdelaciudad.es/aula/historial"
+            )
+        )
+    )
 
 # PALMARES AULA VALLADOLID
 # Crear Palmares del Aula Valladolid
@@ -752,8 +823,31 @@ def playoffs_aula():
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffAula.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/aula_playoff.html', datos_playoff=datos_playoff)
+        datos_playoff[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(datos_playoff)     
+    return render_template('playoff/aula_playoff.html', 
+                        datos_playoff=datos_playoff,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "aula",
+                                "https://deportesdelaciudad.es/playoffs_aula/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "aula",
+                                "https://deportesdelaciudad.es/playoffs_aula/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "aula",
+                                "https://deportesdelaciudad.es/playoffs_aula/"
+                            )
+                        )
+    )
 
 #PLAYOFF PERMANENCIA AULA
 @aula_route_bp.route('/admin/crear_permanencia_aula', methods=['GET', 'POST'])
@@ -978,7 +1072,15 @@ def calendario_permanencia_aula():
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_aula[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aula'] = rol_aula
-    return render_template('permanencia/aula_play_permanencia.html', tabla_partidos_aula=tabla_partidos_aula, nuevos_datos_aula=nuevos_datos_aula)
+    return render_template('permanencia/aula_play_permanencia.html', tabla_partidos_aula=tabla_partidos_aula, nuevos_datos_aula=nuevos_datos_aula,
+                           breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+                            schema_team=jsonld(
+                                schema_sports_team(
+                                    "aula",
+                                    "https://deportesdelaciudad.es/historial_aula"
+                                )
+                            )
+    )
 # Crear la clasificación Aula
 def generar_clasificacion_permanencia_aula(
     data,
@@ -1373,10 +1475,31 @@ def aula_permanencia():
     # =========================
     # RENDER
     # =========================
+    partidos_schema = obtener_partidos_schema(obtener_datos_aula)
     return render_template(
         'permanencias/aula_permanencia.html',
         clasificacion_permanencia_aula=clasificacion_permanencia_aula,
-        nuevos_datos_aula=data_permanencia
+        nuevos_datos_aula=data_permanencia,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aula",
+                "https://deportesdelaciudad.es/aula_permanencia/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aula",
+                "https://deportesdelaciudad.es/aula_permanencia/"
+            ) 
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aula",
+                "https://deportesdelaciudad.es/aula_permanencia/"
+            )
+        )
     )
 
 # COPA AULA VALLADOLID
@@ -1461,7 +1584,30 @@ def copas_aula():
     for eliminatoria in eliminatorias:
         partidos = CopaAula.query.filter_by(eliminatoria=eliminatoria).all()
         datos_copa[eliminatoria] = partidos   
-    return render_template('copas/aula_copa.html', datos_copa=datos_copa)
+    partidos_schema = obtener_partidos_schema(datos_copa)    
+    return render_template('copas/aula_copa.html', 
+                        datos_copa=datos_copa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "aula",
+                                "https://deportesdelaciudad.es/copas_aula/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "aula",
+                                "https://deportesdelaciudad.es/copas_aula/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "aula",
+                                "https://deportesdelaciudad.es/copas_aula/"
+                            )
+                        )
+    )
 
 # SUPERCOPA IBÉRICA AULA VALLADOLID
 # Crear formulario para la supercopa
@@ -1541,8 +1687,30 @@ def supercopas_iberica_aula():
     datos_supercopa_iberica = {}
     for eliminatoria in eliminatorias:
         partidos = SupercopaIbericaAula.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_supercopa_iberica[eliminatoria] = partidos   
-    return render_template('supercopasIberica/aula_supercopa_iberica.html', datos_supercopa_iberica=datos_supercopa_iberica)
+        datos_supercopa_iberica[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(datos_supercopa_iberica)     
+    return render_template('supercopasIberica/aula_supercopa_iberica.html', datos_supercopa_iberica=datos_supercopa_iberica,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "aula",
+                                "https://deportesdelaciudad.es/supercopas_ibericas_aula/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "aula",
+                                "https://deportesdelaciudad.es/supercopas_ibericas_aula/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "aula",
+                                "https://deportesdelaciudad.es/suoercopas_ibericas_aula/"
+                            )
+                        )
+    )
 
 # EUROPA AULA VALLADOLID
 # Crear formulario para la copa
@@ -1626,5 +1794,28 @@ def europas_aula():
     datos_europa = {}
     for eliminatoria in eliminatorias:
         partidos = EuropaAula.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_europa[eliminatoria] = partidos   
-    return render_template('europa/aula_europa.html', datos_europa=datos_europa)     
+        datos_europa[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(datos_europa)     
+    return render_template('europa/aula_europa.html', 
+                        datos_europa=datos_europa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "aula",
+                                "https://deportesdelaciudad.es/europas_aula/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "aula",
+                                "https://deportesdelaciudad.es/europas_aula/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "aula",
+                                "https://deportesdelaciudad.es/europas_aula/"
+                            )
+                        )
+    )     

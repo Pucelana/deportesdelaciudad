@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub, PlayoffRecoletas, CopaRecoletas,SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas, TemporadaRecoletas
@@ -200,7 +201,31 @@ def calendario_recoletas():
                         tabla_partidos_recoletas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_recoletas[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_recoletas[equipo_contrario]['jornadas'][jornada['nombre']]['rol_recoletas'] = rol_recoletas
-    return render_template('equipos_vall/calendario_recoletas.html', tabla_partidos_recoletas=tabla_partidos_recoletas)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_recoletas.html', 
+        tabla_partidos_recoletas=tabla_partidos_recoletas,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/calendario_recoletas"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/calendario_recoletas"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/calendario_recoletas"
+            )
+        )
+    )
 # Jornadas Atl. Valladolid
 @recoletas_route_bp.route('/equipos_balonmano/resultados_recoletas')
 def resultados_recoletas():
@@ -220,10 +245,31 @@ def resultados_recoletas():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_recoletas:
         jornada_activa = nuevos_datos_recoletas[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_recoletas)    
     return render_template(
         'equipos_vall/jornadas_recoletas.html',
         nuevos_datos_recoletas=nuevos_datos_recoletas,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/resultados_recoletas"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                    "https://deportesdelaciudad.es/equipos_balonmano/resultados_recoletas"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/resultados_recoletas"
+            )
+        )
     )
 # Jornada 0 Atl.Valladolid
 @recoletas_route_bp.route('/admin/jornada0_recoletas', methods=['GET', 'POST'])
@@ -465,7 +511,21 @@ def clasif_recoletas():
         reverse=True
     )
     return render_template('equipos_vall/clasif_recoletas.html',
-        clasificacion_analisis_recoletas=clasificacion_analisis_recoletas)
+        clasificacion_analisis_recoletas=clasificacion_analisis_recoletas,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/clasif_recoletas"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/equipos_balonmano/clasif_recoletas"
+            )
+        )
+    )
 # TEMPORADAS ATL VALLADOLID
 @recoletas_route_bp.route('/admin/temporadas_recoletas')
 def temporadas_recoletas():
@@ -615,7 +675,20 @@ def historial_recoletas():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Balonmano",
-        equipo="Atl. Valladolid"
+        equipo="Atl. Valladolid",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/recoletas/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/recoletas/historial"
+            )
+        )
   )
 
 # PALMARES ATL. VALLADOLID
@@ -746,8 +819,32 @@ def playoffs_recoletas():
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/recoletas_playoff.html', datos_playoff=datos_playoff)    
+        datos_playoff[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(eliminatorias)     
+    return render_template(
+        'playoff/recoletas_playoff.html',
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/playoffs_recoletas/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/playoffs_recoletas/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/playoffs_reoletas/"
+            )
+        )
+    )    
     
 # COPA ATL.VALLADOLID
 # Crear formulario para la copa
@@ -828,7 +925,31 @@ def copas_recoletas():
     for eliminatoria in eliminatorias:
         partidos = CopaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
         datos_copa[eliminatoria] = partidos   
-    return render_template('copas/recoletas_copa.html', datos_copa=datos_copa)
+    partidos_schema = obtener_partidos_schema(eliminatorias)    
+    return render_template(
+        'copas/recoletas_copa.html', 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/copas_recoletas/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/copas_recoletas/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/copas_recoletas/"
+            )  
+        )
+    )
 
 # COPA DEL REY ATL.VALLADOLID
 # Crear formulario para la copa de españa
@@ -913,7 +1034,31 @@ def copas_rey_recoletas():
     for eliminatoria in eliminatorias:
         partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
         datos_copa_rey[eliminatoria] = partidos   
-    return render_template('copas/recoletas_copa_rey.html', datos_copa_rey=datos_copa_rey)
+    partidos_schema = obtener_partidos_schema(eliminatorias)    
+    return render_template(
+        'copas/recoletas_copa_rey.html', 
+        datos_copa_rey=datos_copa_rey,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/copas_rey_recoletas"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/copas_rey_recoletas"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/copas_rey_recoletas"
+            )
+        )
+    )
 
 # # SUPERCOPA IBÉRICA ATL.VALLADOLID
 # Crear formulario para la supercopa ibérica
@@ -994,7 +1139,31 @@ def supercopas_iberica_recoletas():
     for eliminatoria in eliminatorias:
         partidos = SupercopaIbericaRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
         datos_supercopa_iberica[eliminatoria] = partidos   
-    return render_template('supercopasIberica/recoletas_supercopa_iberica.html', datos_supercopa_iberica=datos_supercopa_iberica)
+    partidos_schema = obtener_partidos_schema(eliminatorias)
+    return render_template(
+        'supercopasIberica/recoletas_supercopa_iberica.html', 
+        datos_supercopa_iberica=datos_supercopa_iberica,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/supercopas_ibericas_recoletas/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/supercopas_ibericas_recoletas/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/supercopas_ibericas_recoletas/"
+            )
+        )
+    )
 
 # EUROPA ATL.VALLADOLID
 # Crear formulario para europa
@@ -1295,7 +1464,8 @@ def recoletas_europa():
         fase: eliminatorias[fase]
         for fase in orden_eliminatorias
         if fase in eliminatorias
-    }    
+    }  
+    partidos_schema = obtener_partidos_schema(partidos)  
     return render_template(
         'europa/recoletas_europa.html',
         equipos_por_encuentros=equipos_por_encuentros,
@@ -1303,5 +1473,25 @@ def recoletas_europa():
         eliminatorias=eliminatorias_ordenadas,
         preliminar=preliminar,
         clasificaciones_fase1=clasificaciones_fase1_ordenadas,
-        clasificaciones_fase2=clasificaciones_fase2_ordenadas
+        clasificaciones_fase2=clasificaciones_fase2_ordenadas,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "recoletas",
+                "https://deportesdelaciudad.es/recoletas_europa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "recoletas",
+                "https://deportesdelaciudad.es/recoletas_europa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "recoletas",
+                "https://deportesdelaciudad.es/recoletas_europa/"
+            )
+        )
     )

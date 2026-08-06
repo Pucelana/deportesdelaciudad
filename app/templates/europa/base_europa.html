@@ -1,115 +1,133 @@
 <!DOCTYPE html>
 <html lang="es">
   <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>{% block title %}Competiciones Europeas | Deportes de la Ciudad{% endblock %}</title>
+    <title>
+      {% block title %}Competiciones Europeas | Deportes de la Ciudad{% endblock
+      %}
+    </title>
 
-  <!-- SEO -->
-  <meta
-    name="description"
-    content="{% block description %}Toda la información sobre las competiciones europeas de los equipos deportivos de Valladolid: calendarios, resultados, clasificaciones, grupos y eliminatorias.{% endblock %}"
-  />
+    <!-- SEO -->
+    <meta
+      name="description"
+      content="{% block description %}Toda la información sobre las competiciones europeas de los equipos deportivos de Valladolid: calendarios, resultados, clasificaciones, grupos y eliminatorias.{% endblock %}"
+    />
 
-  <meta
-    name="keywords"
-    content="{% block keywords %}competiciones europeas, EuroCup, EuroLeague, EHF, Champions Cup, Copa de Europa, deporte Valladolid{% endblock %}"
-  />
+    <meta
+      name="keywords"
+      content="{% block keywords %}competiciones europeas, EuroCup, EuroLeague, EHF, Champions Cup, Copa de Europa, deporte Valladolid{% endblock %}"
+    />
 
-  <meta name="author" content="Deportes de la Ciudad" />
-  <meta name="robots" content="index, follow" />
+    <meta name="author" content="Deportes de la Ciudad" />
+    <meta name="robots" content="index, follow" />
 
-  <link rel="canonical" href="{{ request.url }}" />
+    <link rel="canonical" href="{{ request.url }}" />
 
-  <!-- Open Graph -->
-  <meta
-    property="og:title"
-    content="{% block og_title %}Competiciones Europeas | Deportes de la Ciudad{% endblock %}"
-  />
+    <!-- Open Graph -->
+    <meta
+      property="og:title"
+      content="{% block og_title %}Competiciones Europeas | Deportes de la Ciudad{% endblock %}"
+    />
 
-  <meta
-    property="og:description"
-    content="{% block og_description %}Consulta toda la actualidad de las competiciones europeas de los equipos de Valladolid.{% endblock %}"
-  />
+    <meta
+      property="og:description"
+      content="{% block og_description %}Consulta toda la actualidad de las competiciones europeas de los equipos de Valladolid.{% endblock %}"
+    />
 
-  <meta
-    property="og:image"
-    content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
-  />
+    <meta
+      property="og:image"
+      content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
+    />
 
-  <meta property="og:url" content="{{ request.url }}" />
-  <meta property="og:type" content="website" />
-  <meta property="og:site_name" content="Deportes de la Ciudad" />
-  <meta property="og:locale" content="es_ES" />
+    <meta property="og:url" content="{{ request.url }}" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Deportes de la Ciudad" />
+    <meta property="og:locale" content="es_ES" />
 
-  <!-- Twitter / X -->
-  <meta name="twitter:card" content="summary_large_image" />
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
 
-  <meta
-    name="twitter:title"
-    content="{% block twitter_title %}Competiciones Europeas | Deportes de la Ciudad{% endblock %}"
-  />
+    <meta
+      name="twitter:title"
+      content="{% block twitter_title %}Competiciones Europeas | Deportes de la Ciudad{% endblock %}"
+    />
 
-  <meta
-    name="twitter:description"
-    content="{% block twitter_description %}Consulta toda la actualidad de las competiciones europeas de los equipos de Valladolid.{% endblock %}"
-  />
+    <meta
+      name="twitter:description"
+      content="{% block twitter_description %}Consulta toda la actualidad de las competiciones europeas de los equipos de Valladolid.{% endblock %}"
+    />
 
-  <meta
-    name="twitter:image"
-    content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
-  />
+    <meta
+      name="twitter:image"
+      content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
+    />
 
-  <!-- PWA -->
-  <link
-    rel="manifest"
-    href="{{ url_for('static', filename='manifest.json') }}"
-  />
+    <!-- PWA -->
+    <link
+      rel="manifest"
+      href="{{ url_for('static', filename='manifest.json') }}"
+    />
 
-  <meta name="theme-color" content="#050505" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="theme-color" content="#050505" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 
-  <!-- Iconos -->
-  <link
-    rel="icon"
-    href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
-  />
+    <!-- Iconos -->
+    <link
+      rel="icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
 
-  <link
-    rel="apple-touch-icon"
-    href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
-  />
+    <link
+      rel="apple-touch-icon"
+      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+    />
 
-  <!-- Bootstrap -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
-    crossorigin="anonymous"
-  />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT"
+      crossorigin="anonymous"
+    />
 
-  <!-- CSS -->
-  <link
-    href="{{ url_for('static', filename='css/estilo.css') }}"
-    rel="stylesheet"
-  />
-  <script type="application/ld+json">
-    {{ schema_web|safe }}
-  </script>
+    <!-- CSS -->
+    <link
+      href="{{ url_for('static', filename='css/estilo.css') }}"
+      rel="stylesheet"
+    />
+    <script type="application/ld+json">
+      {{ schema_web|safe }}
+    </script>
 
-  {% block schema %}{% endblock %}
-
-  {% block head %}{% endblock %}
-</head>
+    {% if breadcrumb %}
+    <script type="application/ld+json">
+      {{ breadcrumb|safe }}
+    </script>
+    {% endif %} {% if schema_team %}
+    <script type="application/ld+json">
+      {{ schema_team|safe }}
+    </script>
+    {% endif %}
+    {% if schema_competition %}
+    <script type="application/ld+json">
+      {{ schema_competition|safe }}  
+    </script>
+    {% endif %} 
+    {% if schema_eventos %}
+    <script type="application/ld+json">
+      {{ schema_eventos|safe }}
+    </script>
+    {% endif %}
+    {% block schema %}{% endblock %} {% block head %}{% endblock %}
+  </head>
 
   <body class="calend_deportes">
-    {% block breadcrumb %}  {% endblock %}
-    <main class="container-lg mb-3">
-    {% block contenido %}  {% endblock %}
-    </main>
+    {% block breadcrumb %} {% endblock %}
+    <main class="container-lg mb-3">{% block contenido %} {% endblock %}</main>
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
@@ -128,6 +146,6 @@
     ></script>
     <script src="/static/js/slide.js"></script>
     <script src="/static/js/num_caracteres.js"></script>
-    {% block scripts %}  {% endblock %}
+    {% block scripts %} {% endblock %}
   </body>
-</html>  
+</html>

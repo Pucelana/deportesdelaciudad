@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.panteras import JornadaPanteras, PanterasPartido, PanterasClub, PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion, TemporadaPanteras
@@ -217,7 +218,31 @@ def calendario_panteras():
                         tabla_partidos_panteras[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_panteras[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_panteras[equipo_contrario]['jornadas'][jornada['nombre']]['rol_panteras'] = rol_panteras
-    return render_template('equipos_vall/calendario_panteras.html', tabla_partidos_panteras=tabla_partidos_panteras)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_panteras.html', 
+        tabla_partidos_panteras=tabla_partidos_panteras,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/calendario_panteras"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/calendario_panteras"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/calendario_panteras"
+            )
+        )
+    )
 # Jornadas Panteras Caja
 @panteras_route_bp.route('/equipos_hockey/resultados_panteras')
 def resultados_panteras():
@@ -237,10 +262,31 @@ def resultados_panteras():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_panteras:
         jornada_activa = nuevos_datos_panteras[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_panteras)    
     return render_template(
         'equipos_vall/jornadas_panteras.html',
         nuevos_datos_panteras=nuevos_datos_panteras,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/resultados_panteras"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/resultados_panteras"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/resultados_panteras"
+            )
+        )
     )
 # Jornada 0 Panteras Caja
 @panteras_route_bp.route('/admin/jornada0_panteras', methods=['GET', 'POST'])
@@ -415,7 +461,21 @@ def clasif_analisis_panteras():
         reverse=True
     )
     return render_template('equipos_vall/clasif_panteras.html',
-        clasificacion_analisis_panteras=clasificacion_analisis_panteras)
+        clasificacion_analisis_panteras=clasificacion_analisis_panteras,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/clasif_panteras"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/equipos_hockey/clasif_panteras"
+            )
+        )
+    )
 # TEMPORADAS Panteras
 @panteras_route_bp.route('/admin/temporadas_panteras')
 def temporadas_panteras():
@@ -565,8 +625,21 @@ def historial_panteras():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Hockey",
-        equipo="Panteras Caja Rural"
-  )
+        equipo="Panteras Caja Rural",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/panteras/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/panteras/historial"
+            )
+        )
+    )
 
 # PALMARES PANTERAS CAJA RURAL
 # Crear Palmares del Panteras Caja Rural
@@ -621,7 +694,6 @@ def eliminar_palmares_panteras(id):
     db.session.delete(titulo)
     db.session.commit()
     return redirect(url_for("panteras_route_bp.crear_palmares_panteras"))
-
 
 # PLAYOFF CPLV MUNIA PANTERAS
 # Crear formulario para los playoff
@@ -702,8 +774,32 @@ def playoffs_panteras():
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffPanteras.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/panteras_playoff.html', datos_playoff=datos_playoff)
+        datos_playoff[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(datos_playoff)     
+    return render_template(
+        'playoff/panteras_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/playoffs_panteras/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/playoffs_panteras/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "panteras",
+                "https://deportesdelaciudad.es/playoffs_panteras/"
+            )
+        )
+    )
     
 # COPA CPLV MUNIA PANTERAS
 # Crear formulario para la copa
@@ -784,8 +880,32 @@ def copas_panteras():
     datos_copa = {}
     for eliminatoria in eliminatorias:
         partidos = CopaPanteras.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_copa[eliminatoria] = partidos   
-    return render_template('copas/panteras_copa.html', datos_copa=datos_copa)
+        datos_copa[eliminatoria] = partidos 
+    partidos_schema = obtener_partidos_schema(datos_copa)      
+    return render_template(
+        'copas/panteras_copa.html', 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/copas_panteras/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/copas_panteras/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "panteras",
+                "https://deportesdelaciudad.es/copas_panteras/"
+            )
+        )
+    )
 
 # EUROPA CPLV MUNIA PANTERAS
 # Crear formulario para los grupos de Europa CPLV Munia Panteras
@@ -1060,9 +1180,34 @@ def panteras_europa():
             )
         )
         data_clasificaciones[grupo] = equipos_ordenados
+    partidos_partidos = obtener_partidos_schema(partidos)
+    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    partidos_schema = partidos_partidos + partidos_eliminatorias    
     return render_template(
-        'europa/panteras_europa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
-        clasificaciones=data_clasificaciones
+        'europa/panteras_europa.html', 
+        equipos_por_encuentros=equipos_por_encuentros, 
+        eliminatorias=eliminatorias,
+        clasificaciones=data_clasificaciones,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/panteras_europa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/panteras_europa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "panteras",
+                "https://deportesdelaciudad.es/panteras_europa/"
+            )
+        )
     )     
 
 # SUPERCOPA ESPAÑA CPLV MUNIA PANTERAS
@@ -1147,5 +1292,30 @@ def supercopas_panteras():
     datos_supercopa = {}
     for eliminatoria in eliminatorias:
         partidos = SupercopaPanteras.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_supercopa[eliminatoria] = partidos   
-    return render_template('supercopas/panteras_supercopa.html', datos_supercopa=datos_supercopa)     
+        datos_supercopa[eliminatoria] = partidos 
+    partidos_schema = obtener_partidos_schema(datos_supercopa)      
+    return render_template(
+        'supercopas/panteras_supercopa.html', 
+        datos_supercopa=datos_supercopa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("panteras")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "panteras",
+                "https://deportesdelaciudad.es/supercopas_panteras/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "panteras",
+                "https://deportesdelaciudad.es/supercopas_panteras/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "panteras",
+                "https://deportesdelaciudad.es/supercopas_panteras/"
+            )
+        )
+        
+    )     

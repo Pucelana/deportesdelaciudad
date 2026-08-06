@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.caja import JornadaCaja, CajaPartido, CajaClub, PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion, TemporadaCaja
@@ -217,7 +218,31 @@ def calendario_caja():
                         tabla_partidos_caja[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_caja[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_caja[equipo_contrario]['jornadas'][jornada['nombre']]['rol_caja'] = rol_caja
-    return render_template('equipos_vall/calendario_caja.html', tabla_partidos_caja=tabla_partidos_caja)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_caja.html', 
+        tabla_partidos_caja=tabla_partidos_caja,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/calendario_caja"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/calendario_caja"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/calendario_caja"
+            )
+        )
+    )
 # Jornadas CPLV Caja
 @caja_route_bp.route('/equipos_hockey/resultados_caja')
 def resultados_caja():
@@ -237,10 +262,31 @@ def resultados_caja():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_caja:
         jornada_activa = nuevos_datos_caja[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_caja)    
     return render_template(
         'equipos_vall/jornadas_caja.html',
         nuevos_datos_caja=nuevos_datos_caja,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/resultados_caja"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/resultados_caja"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/resultados_caja"
+            )
+        )
     )
 # Jornada 0 CPLV Caja
 @caja_route_bp.route('/admin/jornada0_caja', methods=['GET', 'POST'])
@@ -417,7 +463,21 @@ def clasif_analisis_caja():
         reverse=True
     )
     return render_template('equipos_vall/clasif_caja.html',
-        clasificacion_analisis_caja=clasificacion_analisis_caja)
+        clasificacion_analisis_caja=clasificacion_analisis_caja,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/clasif_caja"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/equipos_hockey/clasif_caja"
+            )
+        )
+    )
 # TEMPORADAS Caja
 @caja_route_bp.route('/admin/temporadas_caja')
 def temporadas_caja():
@@ -567,8 +627,21 @@ def historial_caja():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Hockey",
-        equipo="CPLV Caja Rural"
-  )
+        equipo="CPLV Caja Rural",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/caja/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/caja/historial"
+            )
+        )
+    )
 
 # PALMARES CPLV CAJA RURAL
 # Crear Palmares del CPLV Caja Rural
@@ -623,7 +696,6 @@ def eliminar_palmares_caja(id):
     db.session.delete(titulo)
     db.session.commit()
     return redirect(url_for("caja_route_bp.crear_palmares_caja"))
-
 
 # PLAYOFF CPLV CAJA RURAL
 # Crear formulario para los playoff
@@ -704,8 +776,32 @@ def playoffs_caja():
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffCaja.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/caja_playoff.html', datos_playoff=datos_playoff)
+        datos_playoff[eliminatoria] = partidos 
+    partidos_schema = obtener_partidos_schema(datos_playoff)      
+    return render_template(
+        'playoff/caja_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/playoffs_caja/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/playoffs_caja/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "caja",
+                "https://deportesdelaciudad.es/playoffs_caja/"
+            )
+        )
+    )
 
 # COPA CPLV CAJA
 # Crear formulario para la copa
@@ -786,8 +882,32 @@ def copas_caja():
     datos_copa = {}
     for eliminatoria in eliminatorias:
         partidos = CopaCaja.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_copa[eliminatoria] = partidos   
-    return render_template('copas/caja_copa.html', datos_copa=datos_copa)
+        datos_copa[eliminatoria] = partidos 
+    partidos_schema = obtener_partidos_schema(datos_copa)      
+    return render_template(
+        'copas/caja_copa.html', 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/copas_caja/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/copas_caja/"
+            )    
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "caja",
+                "https://deportesdelaciudad.es/copas_caja/"
+            )
+        )
+    )
 
 # EUROPA CPLV CAJA RURAL
 # Crear formulario para los grupos de Europa CPLV Caja Rural
@@ -1062,9 +1182,30 @@ def caja_europa():
             )
         )
         data_clasificaciones[grupo] = equipos_ordenados
+    partidos_schema = obtener_partidos_schema(partidos)    
     return render_template(
         'europa/caja_europa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
-        clasificaciones=data_clasificaciones
+        clasificaciones=data_clasificaciones,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "caja",
+                "https://deportesdelaciudad.es/caja_europa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "caja",
+                "https://deportesdelaciudad.es/caja_europa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "caja",
+                "https://deportesdelaciudad.es/caja_europa/"
+            )
+        )
     )    
 
 # SUPERCOPA ESPAÑA CPLV CAJA RURAL
@@ -1149,5 +1290,28 @@ def supercopas_caja():
     datos_supercopa = {}
     for eliminatoria in eliminatorias:
         partidos = SupercopaCaja.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_supercopa[eliminatoria] = partidos   
-    return render_template('supercopas/caja_supercopa.html', datos_supercopa=datos_supercopa)    
+        datos_supercopa[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(datos_supercopa)     
+    return render_template('supercopas/caja_supercopa.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("caja")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "caja",
+                                "https://deportesdelaciudad.es/supercopas_caja/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "caja",
+                                "https://deportesdelaciudad.es/supercopas_caja/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "caja",
+                                "https://deportesdelaciudad.es/supercopas_caja/"
+                            )
+                        )
+    )    

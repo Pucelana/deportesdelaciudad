@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.galvan import JornadaGalvan, GalvanPartido, GalvanClub, CopaGalvan, PlayoffGalvan, TemporadaGalvan
@@ -200,7 +201,31 @@ def calendario_galvan():
                         tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAAA'] = resultado_a
                         tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBBB'] = resultado_b
                         tabla_partidos_galvan[equipo_contrario]['jornadas'][jornada['nombre']]['rol_galvan'] = rol_galvan
-    return render_template('equipos_vall/calendario_galvan.html', tabla_partidos_galvan=tabla_partidos_galvan)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_galvan.html', 
+        tabla_partidos_galvan=tabla_partidos_galvan,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/calendario_galvan"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/calendario_galvan"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/calendario_galvan"
+            )
+        )
+    )
 # Jornadas Tierno Galvan
 @galvan_route_bp.route('/equipos_futsal/resultados_galvan')
 def resultados_galvan():
@@ -220,10 +245,31 @@ def resultados_galvan():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_galvan:
         jornada_activa = nuevos_datos_galvan[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_galvan)    
     return render_template(
         'equipos_vall/jornadas_galvan.html',
         nuevos_datos_galvan=nuevos_datos_galvan,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/resultados_galvan"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/resultados_galvan"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/resultados_galvan"
+            )
+        )
     )
 # Jornada 0 Tierno Galvan
 @galvan_route_bp.route('/admin/jornada0_galvan', methods=['GET', 'POST'])
@@ -465,7 +511,21 @@ def clasif_analisis_galvan():
         reverse=True
     )
     return render_template('equipos_vall/clasif_galvan.html',
-        clasificacion_analisis_galvan=clasificacion_analisis_galvan)
+        clasificacion_analisis_galvan=clasificacion_analisis_galvan,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/clasif_galvan"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "galvan",
+                "https://deportesdelaciudad.es/equipos_futsal/clasif_galvan"
+            )
+        )
+    )
 # TEMPORADAS Tierno Galvan
 @galvan_route_bp.route('/admin/temporadas_galvan')
 def temporadas_galvan():
@@ -619,8 +679,21 @@ def historial_galvan():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Fútbol sala",
-        equipo="Tierno Galván"
-  )
+        equipo="Tierno Galván",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "galvan",
+                "https://deportesdelaciudad.es/galvan/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "galvan",
+                "https://deportesdelaciudad.es/galvan/historial"
+            )
+        )
+    )
 
 # PALMARES TIERNO GALVAN
 # Crear Palmares del Tierno Galvan
@@ -672,7 +745,6 @@ def eliminar_palmares_galvan(id):
     db.session.delete(titulo)
     db.session.commit()
     return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
-
 
 # COPA DEL REY Tierno Galvan
 # Creación de las eliminatorias de copa
@@ -747,7 +819,31 @@ def copas_galvan():
         e: CopaGalvan.query.filter_by(eliminatoria=e).all()
         for e in eliminatorias
     }
-    return render_template('copas/galvan_copa.html', datos_copa=datos_copa)
+    partidos_schema = obtener_partidos_schema(datos_copa)
+    return render_template(
+        'copas/galvan_copa.html', 
+        datos_copa=datos_copa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "galvan",
+                "https://deportesdelaciudad.es/galvan_copa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "galvan",
+                "https://deportesdelaciudad.es/galvan_copa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "galvan",
+                "https://deportesdelaciudad.es/galvan_copa/"
+            )
+        )
+    )
 
 # PLAYOFF ASCENSO Tierno Galvan
 # Crear formulario para los playoff
@@ -832,4 +928,28 @@ def playoffs_galvan():
     for eliminatoria in eliminatorias:
         partidos = PlayoffGalvan.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos
-    return render_template('playoff/galvan_playoff.html', datos_playoff=datos_playoff)
+    partidos_schema = obtener_partidos_schema(datos_playoff)    
+    return render_template(
+        'playoff/galvan_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "galvan",
+                "https://deportesdelaciudad.es/playoffs_galvan/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "galvan",
+                "https://deportesdelaciudad.es/playoffs_galvan/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "galvan",
+                "https://deportesdelaciudad.es/playoffs_galvan/"
+            )
+        )
+    )

@@ -5,6 +5,7 @@ from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion, TemporadaVrac
@@ -239,7 +240,33 @@ def calendario_vrac():
                         tabla_partidos_vrac[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_vrac[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_vrac[equipo_contrario]['jornadas'][jornada['nombre']]['rol_vrac'] = rol_vrac
-    return render_template('equipos_vall/calendario_vrac.html', tabla_partidos_vrac=tabla_partidos_vrac)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template(
+        'equipos_vall/calendario_vrac.html', 
+        tabla_partidos_vrac=tabla_partidos_vrac,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vrac")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_vrac"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_vrac"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/calendario_vrac"
+            )
+        )
+    )
 # Jornadas VRAC
 @vrac_route_bp.route('/equipos_rugby/resultados_vrac')
 def resultados_vrac():
@@ -259,10 +286,33 @@ def resultados_vrac():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_vrac:
         jornada_activa = nuevos_datos_vrac[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_vrac)    
     return render_template(
         'equipos_vall/jornadas_vrac.html',
         nuevos_datos_vrac=nuevos_datos_vrac,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vrac")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_vrac"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/resultados_vrac"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/resutados_vrac"
+            )
+        )
     )
 # Jornada 0 Vrac
 @vrac_route_bp.route('/admin/jornada0_vrac', methods=['GET', 'POST'])
@@ -566,7 +616,22 @@ def clasif_analisis_vrac():
         'equipos_vall/clasif_vrac.html',
         clasificacion_general_indexed=clasificacion_general_indexed,
         grupoA2=grupoA_indexed,
-        grupoB2=grupoB_indexed
+        grupoB2=grupoB_indexed,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vrac")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/clasif_vrac"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vrac",
+                "https://deportesdelaciudad.es/equipos_rugby/clasif_vrac"
+            )
+        )
     )
 # TEMPORADAS Panteras
 @vrac_route_bp.route('/admin/temporadas_vrac')
@@ -717,8 +782,23 @@ def historial_vrac():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Rugby",
-        equipo="VRAC"
-  )
+        equipo="VRAC",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vrac")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vrac",
+                "https://deportesdelaciudad.es/vrac/historial"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vrac",
+                "https://deportesdelaciudad.es/vrac/historial"
+            )
+        )
+    )
     
 # PALMARES VRAC
 # Crear Palmares del VRAC
@@ -853,8 +933,34 @@ def playoffs_vrac():
     datos_playoff = {}
     for eliminatoria in eliminatorias:
         partidos = PlayoffVrac.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/vrac_playoff.html', datos_playoff=datos_playoff)
+        datos_playoff[eliminatoria] = partidos
+    partidos_schema = obtener_partidos_schema(eliminatorias)       
+    return render_template(
+        'playoff/vrac_playoff.html', 
+        datos_playoff=datos_playoff,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vrac")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vrac",
+                "https://deportesdelaciudad.es/playoffs_vrac"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vrac",
+                "https://deportesdelaciudad.es/playoffs_vrac"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "vrac",
+                "https://deportesdelaciudad.es/playoffs_vrac"
+            )
+        )
+    )
 
 # COPA DH VRAC
 # Crear formulario para los grupos de la Copa DH VRAC
@@ -1126,7 +1232,33 @@ def vrac_copa():
             )
         )
         data_clasificaciones[grupo] = equipos_ordenados
+    partidos_jornadas = obtener_partidos_schema(partidos)
+    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    partidos_schema = partidos_jornadas + partidos_eliminatorias    
     return render_template(
-        'copas/vrac_copa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
-        clasificaciones=data_clasificaciones
+        'copas/vrac_copa.html', equipos_por_encuentros=equipos_por_encuentros, 
+        eliminatorias=eliminatorias,
+        clasificaciones=data_clasificaciones,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("aula")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vrac",
+                "https://deportesdelaciudad.es/vrac_copa/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "vrac",
+                "https://deportesdelaciudad.es/vrac_copa/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "vrac",
+                "https://deportesdelaciudad.es/vrac_copa/"
+            )
+        )
     )

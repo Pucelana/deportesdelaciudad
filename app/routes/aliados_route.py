@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_team, schema_sports_competition
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
 from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados
@@ -202,7 +203,30 @@ def calendario_aliados():
                         tabla_partidos_aliados[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoAA'] = resultado_a
                         tabla_partidos_aliados[equipo_contrario]['jornadas'][jornada['nombre']]['resultadoBB'] = resultado_b
                         tabla_partidos_aliados[equipo_contrario]['jornadas'][jornada['nombre']]['rol_aliados'] = rol_aliados
-    return render_template('equipos_vall/calendario_aliados.html', tabla_partidos_aliados=tabla_partidos_aliados)
+    partidos_schema = obtener_partidos_schema(datos)                    
+    return render_template('equipos_vall/calendario_aliados.html', 
+                            tabla_partidos_aliados=tabla_partidos_aliados,
+                            breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                            schema_team=jsonld(
+                                schema_sports_team(
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/equipos_basket/calendario_aliados"
+                                )
+                            ),
+                            schema_competition=jsonld(
+                                schema_sports_competition(
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/equipos_basket/calendario_aliados"
+                                )
+                            ),
+                            schema_eventos=jsonld(
+                                schema_partidos(
+                                    partidos_schema,
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/equipos_basket/calendario_aliados"
+                                )
+                            )
+    )
 # Jornadas Alidos
 @aliados_route_bp.route('/equipos_basket/resultados_aliados')
 def resultados_aliados():
@@ -222,10 +246,31 @@ def resultados_aliados():
     # Si todas están completas mostrar la última
     if jornada_activa is None and nuevos_datos_aliados:
         jornada_activa = nuevos_datos_aliados[-1]['nombre']
+    partidos_schema = obtener_partidos_schema(nuevos_datos_aliados)    
     return render_template(
         'equipos_vall/jornadas_aliados.html',
         nuevos_datos_aliados=nuevos_datos_aliados,
-        jornada_activa=jornada_activa
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                schema_team=jsonld(
+                    schema_sports_team(
+                        "aliados",
+                        "https://deportesdelaciudad.es/equipos_basket/resultados_aliados"
+                    )
+                ),
+                schema_competition=jsonld(
+                    schema_sports_competition(
+                        "aliados",
+                        "https://deportesdelaciudad.es/equipos_basket/resultados_aliados"
+                    )
+                ),
+                schema_eventos=jsonld(
+                    schema_partidos(
+                        partidos_schema,
+                        "aliados",
+                        "https://deportesdelaciudad.es/equipos_basket/resultados_aliados"
+                    ) 
+                )
     )
 # Jornada 0 Aliados
 @aliados_route_bp.route('/admin/jornada0_aliados', methods=['GET', 'POST'])
@@ -532,7 +577,21 @@ def clasif_analisis_aliados():
         reverse=True
     )
     return render_template('equipos_vall/clasif_aliados.html',
-        clasificacion_analisis_aliados=clasificacion_analisis_aliados)
+        clasificacion_analisis_aliados=clasificacion_analisis_aliados,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                schema_team=jsonld(
+                    schema_sports_team(
+                        "aliados",
+                        "https://deportesdelaciudad.es/equipos_basket/clasif_aliados"
+                    )
+                ),
+                schema_competition=jsonld(
+                    schema_sports_competition(
+                        "aliados",
+                        "https://deportesdelaciudad.es/equipos_basket/calendario_aliados"
+                    )
+                )
+    )
 # TEMPORADAS ATL VALLADOLID
 @aliados_route_bp.route('/admin/temporadas_aliados')
 def temporadas_aliados():
@@ -684,8 +743,21 @@ def historial_aliados():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="baloncesto",
-        equipo="BSR Valladolid"
-  )
+        equipo="BSR Valladolid",
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                schema_team=jsonld(
+                    schema_sports_team(
+                        "aliados",
+                        "https://deportesdelaciudad.es/aliados/historial"
+                    )
+                ),
+                schema_competition=jsonld(
+                    schema_sports_competition(
+                        "aliados",
+                        "https://deportesdelaciudad.es/equipos_basket/calendario_aliados"
+                    )
+                )
+    )
 
 # PALMARES BSR VALLADOLID
 # Crear Palmares del BSR Valladolid
@@ -818,7 +890,30 @@ def playoffs_aliados():
     for eliminatoria in eliminatorias:
         partidos = PlayoffAliados.query.filter_by(eliminatoria=eliminatoria).all()
         datos_playoff[eliminatoria] = partidos   
-    return render_template('playoff/aliados_playoff.html', datos_playoff=datos_playoff)
+    partidos_schema = obtener_partidos_schema(datos_playoff)    
+    return render_template('playoff/aliados_playoff.html', 
+                            datos_playoff=datos_playoff,
+                            breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                            schema_team=jsonld(
+                                schema_sports_team(
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/playoffs_aliados/"
+                                )
+                            ),
+                            schema_competition=jsonld(
+                                schema_sports_competition(
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/playoffs_aliados"
+                                )
+                            ),
+                            schema_eventos=jsonld(
+                                schema_partidos(
+                                    partidos_schema,
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/playoffs_aliados"
+                                )
+                            )
+        )
 
 # COPA ALIADOS
 # Crear formulario para la copa
@@ -899,8 +994,31 @@ def copas_aliados():
     datos_copa = {}
     for eliminatoria in eliminatorias:
         partidos = CopaAliados.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_copa[eliminatoria] = partidos   
-    return render_template('copas/aliados_copa.html', datos_copa=datos_copa)
+        datos_copa[eliminatoria] = partidos  
+    partidos_schema = obtener_partidos_schema(datos_copa)     
+    return render_template('copas/aliados_copa.html', 
+                            datos_copa=datos_copa,
+                            breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                            schema_team=jsonld(
+                                schema_sports_team(
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/copas_aliados/"
+                                )
+                            ),
+                            schema_competition=jsonld(
+                                schema_sports_competition(
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/copas_aliados/"
+                                )
+                            ),
+                            schema_eventos=jsonld(
+                                schema_partidos(
+                                    partidos_schema,
+                                    "aliados",
+                                    "https://deportesdelaciudad.es/copas_aliados/"
+                                )
+                            )
+    )
 
 # SUPERCOPA ALIADOS
 # Crear formulario para la supercopa
@@ -981,7 +1099,30 @@ def supercopas_aliados():
     for eliminatoria in eliminatorias:
         partidos = SupercopaAliados.query.filter_by(eliminatoria=eliminatoria).all()
         datos_supercopa[eliminatoria] = partidos   
-    return render_template('supercopas/aliados_supercopa.html', datos_supercopa=datos_supercopa)      
+    partidos_schema = obtener_partidos_schema(datos_supercopa)    
+    return render_template('supercopas/aliados_supercopa.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "aliados",
+                                "https://deportesdelaciudad.es/supercopas_aliados/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "aliados",
+                                "https://deportesdelaciudad.es/supercopas_aliados/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "aliados",
+                                "https://deportesdelaciudad.es/supercopas_aliados/"
+                            )
+                        )
+    )      
 
 # EUROCUP ALIADOS
 @aliados_route_bp.route('/admin/crear_eurocup_aliados', methods=['GET', 'POST'])
@@ -1201,15 +1342,57 @@ def aliados_eurocup():
     clasificacion = recalcular_clasificacion(
         jornadas
     )
+    partidos_schema = obtener_partidos_schema(jornadas)
     return render_template(
         'europa/aliados_eurocup.html',
         jornadas=jornadas,
-        clasificacion=clasificacion
+        clasificacion=clasificacion,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aliados",
+                "https://deportesdelaciudad.es/aliados_eurocup/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aliados",
+                "https://deportesdelaciudad.es/aliados_eurocup/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aliados",
+                "https://deportesdelaciudad.es/aliados_eurocup/"
+            )
+        )        
     )
 @aliados_route_bp.route('/aliados_eurocup2')
 def aliados_eurocup2():
     eliminatorias = obtener_eliminatorias()
+    partidos_schema = obtener_partidos_schema(eliminatorias)
     return render_template(
         'europa/aliados_eurocup2.html',
-        eliminatorias=eliminatorias
+        eliminatorias=eliminatorias,
+        breadcrumb=jsonld(schema_breadcrumb_equipo("aliados")),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aliados",
+                "https://deportesdelaciudad.es/aliados_eurocup2"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aliados",
+                "https://deportesdelaciudad.es/aliados_eurocup2"
+            ) 
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aliados",
+                "https://deportesdelaciudad.es/aliados_eurocup2"
+            )
+        )
     )    
