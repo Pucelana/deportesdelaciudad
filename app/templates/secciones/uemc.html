@@ -27,6 +27,7 @@ Calendario, resultados, clasificación e información del CBC Valladolid.
 <section class="container-lg seccion_deportes">
   <div class="calend_deportes">
     <!-- BLOQUE 1 -->
+     {% if menu.get("liga") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center">
@@ -60,6 +61,8 @@ Calendario, resultados, clasificación e información del CBC Valladolid.
         </div>
       </div>
     </div>
+    {% endif %}
+    {% if menu.get("copa") %}
     <!-- BLOQUE 2 -->
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
@@ -70,6 +73,8 @@ Calendario, resultados, clasificación e información del CBC Valladolid.
         </div>
       </div>
     </div>
+    {% endif %}
+    {% if menu.get("playoff") %}
     <!-- BLOQUE 3 -->
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
@@ -80,6 +85,7 @@ Calendario, resultados, clasificación e información del CBC Valladolid.
         </div>
       </div>
     </div>
+    {% endif %}
   </div>
 </section>
 {% include 'componentes/bloque_comercial.html' %}

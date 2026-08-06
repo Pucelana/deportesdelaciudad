@@ -29,6 +29,7 @@ Calendario, resultados, clasificación e información del RV Promesas.
     <section class="seccion_deportes">
       <!-- Tarjeta -->
       <div class="calend_deportes">
+        {% if menu.get("liga") %}
         <div class="shadow-lg p-3 mb-1">
           <div class="row">
             <div class="col-12">
@@ -50,6 +51,13 @@ Calendario, resultados, clasificación e información del RV Promesas.
             </div>
           </div>
         </div>
+        {% endif %}
+        {% if menu.get("playoff") %}
+
+        {% endif %}
+        {% if menu.get("permanencia") %}
+
+        {% endif %}
       </div>
     </section>
   </div>

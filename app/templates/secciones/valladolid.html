@@ -28,6 +28,7 @@ Calendario, resultados, clasificación e información del Real Valladolid.
 </div>
 <section class="container-lg seccion_deportes">
   <div class="calend_deportes">
+    {% if menu.get("liga") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center">
@@ -53,6 +54,8 @@ Calendario, resultados, clasificación e información del Real Valladolid.
         </div>
       </div>
     </div>
+    {% endif %}
+    {% if menu.get("copa") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
@@ -61,6 +64,10 @@ Calendario, resultados, clasificación e información del Real Valladolid.
         </div>
       </div>
     </div>
+    {% endif %}
+    {% if menu.get("playoff") %}
+
+    {% endif %}
   </div>
 </section>
 {% include 'componentes/bloque_comercial.html' %}

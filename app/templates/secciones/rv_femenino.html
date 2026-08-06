@@ -24,6 +24,7 @@ Calendario, resultados, clasificación e información del RV Femenino.
 </div>
 <section class="container-lg seccion_deportes">
   <diV class="calend_deportes">
+    {% if menu.get("liga") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
@@ -39,22 +40,27 @@ Calendario, resultados, clasificación e información del RV Femenino.
         </div>
       </div>
     </div>
-    <!--<div class="shadow-lg pb-3 mb-2">
+    {% endif %}
+    {% if menu.get("copa") %}
+    <div class="shadow-lg pb-3 mb-2">
         <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
           <a href="/copas_simancas" class="text-decoration-none">
           <h2 class="text_uemc pt-2">Copa España</h2></a>
         </div>
       </div>
-    </div>-->
-      <!--<div class="shadow-lg pb-3 mb-2">
+    </div>
+    {% endif %}
+    {% if menu.get("playoff") %}
+      <div class="shadow-lg pb-3 mb-2">
         <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
           <a href="/playoffs_simancas" class="text-decoration-none">
           <h2 class="text_uemc pt-2">Playoffs</h2></a>
         </div>
       </div>
-    </div>-->
+    </div>
+    {% endif %}
   </diV>
 </section>
 {% include 'componentes/bloque_comercial.html' %}

@@ -24,6 +24,7 @@ Calendario, resultados, clasificación e información del Aula Valladolid.
 </div>
   <section class="container-lg seccion_deportes">
     <div class="calend_deportes">
+      {% if menu.get("liga") %}
       <div class="shadow-lg p-3 mb-2">
         <div class="row g-3 align-items-center">
           <div class="col-12 text-center">
@@ -39,30 +40,37 @@ Calendario, resultados, clasificación e información del Aula Valladolid.
           </div>
         </div>
       </div>
+      {% endif %}
+      {% if menu.get("copa") %}
       <div class="shadow-lg pb-3 mb-2">
         <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mt-2">
-          <a href="/copas_aula" class="text-decoration-none">
-          <h2 class="text_uemc pt-2">Copa España</h2></a>
+          <div class="col-12 text-center mt-2">
+            <a href="/copas_aula" class="text-decoration-none">
+            <h2 class="text_uemc pt-2">Copa España</h2></a>
+          </div>
         </div>
       </div>
-    </div>
-    <!--<div class="shadow-lg pb-3 mb-2">
+      {% endif %}
+      {% if menu.get("playoff") %}
+        <div class="shadow-lg pb-3 mb-2">
+          <div class="row g-3 align-items-center">
+            <div class="col-12 text-center mt-2">
+              <a href="/playoffs_aula" class="text-decoration-none">
+              <h2 class="text_uemc pt-2">Playoff</h2></a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if menu.get("permanencia") %}
+      <div class="shadow-lg pb-3 mb-2">
         <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mt-2">
-          <a href="/playoffs_aula" class="text-decoration-none">
-          <h2 class="text_uemc pt-2">Playoff</h2></a>
+          <div class="col-12 text-center mt-2">
+            <a href="/aula_permanencia" class="text-decoration-none">
+            <h2 class="text_uemc pt-2">Permanencia</h2></a>
+          </div>
         </div>
       </div>
-    </div>-->
-    <div class="shadow-lg pb-3 mb-2">
-        <div class="row g-3 align-items-center">
-        <div class="col-12 text-center mt-2">
-          <a href="/aula_permanencia" class="text-decoration-none">
-          <h2 class="text_uemc pt-2">Permanencia</h2></a>
-        </div>
-      </div>
-    </div>
+      {% endif %}
     </div>
   </section>
   {% include 'componentes/bloque_comercial.html' %}

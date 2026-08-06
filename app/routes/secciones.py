@@ -1,18 +1,28 @@
 from flask import Blueprint, render_template
 from app.models.comercial import COMERCIAL
+from app.seo.menu_secciones import MENU_SECCIONES
 from app.seo.schema import schema_breadcrumb_equipo,jsonld, schema_sports_team
 
 secciones_bp = Blueprint("secciones", __name__)
 
-def render_seccion(template, nombre, zona="seccion", breadcrumb=None, schema_team=None):
+def render_seccion(
+    template,
+    nombre,
+    zona="seccion",
+    breadcrumb=None,
+    schema_team=None,
+):
+
     comercial = COMERCIAL.get(nombre, {})
+    menu = MENU_SECCIONES.get(nombre, {})
 
     return render_template(
         template,
         comercial=comercial,
+        menu=menu,
         zona=zona,
         breadcrumb=breadcrumb,
-        schema_team=schema_team
+        schema_team=schema_team,
     )
 
 # Rutas de los equipos
