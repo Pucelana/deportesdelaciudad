@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title%}Clasificación | Ponce Valladolid CB | Deportes de la Ciudad{% endblock %} 
+{% block title%}Clasificación | Pucela Basket | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Clasificación actualizada del Ponce Valladolid CB: posición, victorias, derrotas, puntos, y analisis de objetivos.
+Clasificación actualizada del Pucela Basket: posición, victorias, derrotas, puntos, y analisis de objetivos.
 {% endblock %}
 
 {% block og_title %}
-Clasificación | Ponce Valladolid CB | Deportes de la Ciudad
+Clasificación | Pucela Basket | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Consulta la clasificación actualizada del Ponce Valladolid CB.
+Consulta la clasificación actualizada del Pucela Basket.
 {% endblock %}
 
 {% block twitter_title %}
-Clasificación | Ponce Valladolid CB | Deportes de la Ciudad
+Clasificación | Pucela Basket | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Consulta la clasificación actualizada del Ponce Valladolid CB.
+Consulta la clasificación actualizada del Pucela Basket.
 {% endblock %}
 
 {% block breadcrumb %}
@@ -27,7 +27,7 @@ Consulta la clasificación actualizada del Ponce Valladolid CB.
     <li class="breadcrumb-item">
       <a
         href="/seccion/ponce"
-        class="text-white text-decoration-none text-analisis fs-6">Ponce Valladolid CB</a>
+        class="text-white text-decoration-none text-analisis fs-6">Pucela Basket</a>
     </li>
     <li class="breadcrumb-item">
       <a
@@ -96,7 +96,7 @@ Consulta la clasificación actualizada del Ponce Valladolid CB.
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile text-start size_equipos2 {% if 'Ponce Valladolid CB' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start size_equipos2 {% if 'Pucela Basket' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>

@@ -88,7 +88,7 @@ equiposPlay.forEach((equipoData) => {
     nuevaFila.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor1}">${equipoData.index1}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipoData.equipo.includes("Ponce Valladolid CB") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
+    equipoData.equipo.includes("Pucela Basket") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="play-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="play-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="play-prox text-center equipo-mobile">${equipoData.proximidadAscenso}%</td>
@@ -145,7 +145,7 @@ equiposDesc.forEach((equipoData) => {
     nuevaFila.innerHTML = `
     <td class="text-center equipo-mobile ${claseColor2}">${equipoData.index2}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipoData.equipo.includes("Ponce Valladolid CB") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
+    equipoData.equipo.includes("Pucela Basket") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="desc-jug text-center equipo-mobile">${equipoData.partidosJugados}</td>
     <td class="desc-act text-center equipo-mobile">${equipoData.puntosActuales}</td>
     <td class="desc-prox text-center equipo-mobile">${equipoData.proxiSalvacion}%</td>

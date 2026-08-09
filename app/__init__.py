@@ -41,6 +41,7 @@ from .seo.sitemap_playoff import sitemap_playoff_bp
 from .seo.sitemap_historial import sitemap_historial_bp
 from .routes.usuarios_route import usuarios_route_bp
 from .routes.seo_routes import seo_bp
+from app.seo.social import SOCIAL
 
 def create_app():
     load_dotenv()
@@ -52,6 +53,10 @@ def create_app():
         return {
             "schema_web": jsonld(schema_website())
         }
+    
+    @app.context_processor
+    def inject_social():
+        return dict(SOCIAL=SOCIAL)    
     
     app.secret_key = 'sk_4F8v9u13sjd9sjd82018fh01hf01h'
     app.config.from_object('config.Config')

@@ -102,7 +102,7 @@ Consulta la clasificación actualizada del RV Femenino.
                   {% for equipo in clasificacion_analisis_rv_fem %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 3 %}pos-ehfec{% elif loop.index <= 8 %}pos-nada{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>

@@ -1,0 +1,21 @@
+.canal-whatsapp{
+    padding: 20px 0;
+    text-align: center;
+}
+
+.texto-canal{
+    color:#173a7a;
+    font-size:1.1rem;
+    font-weight:600;
+}
+
+@media (max-width: 576px){
+  .texto-canal{
+    font-size: 0.70em; 
+  }
+}
+@media (max-width: 768px) {
+  .texto-canal {
+    font-size: 0.9em;
+  } 
+}

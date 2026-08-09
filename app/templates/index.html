@@ -139,15 +139,15 @@
 
                     <li>
                       <a class="dropdown-item" href="/seccion/ponce">
-                        Ponce Valladolid
+                        Pucela Basket
                       </a>
                     </li>
 
-                    <li>
+                    <!--<li>
                       <a class="dropdown-item" href="/seccion/cdsi_vall">
                         CDSI Valladolid
                       </a>
-                    </li>
+                    </li>-->
 
                     <li>
                       <a class="dropdown-item" href="/seccion/aliados">
@@ -241,13 +241,13 @@
                   <ul class="dropdown-menu" aria-labelledby="menuFutbolSala">
                     <li>
                       <a class="dropdown-item" href="/seccion/galvan">
-                        C.D Tierno Galván
+                        Tierno Galván
                       </a>
                     </li>
 
                     <li>
                       <a class="dropdown-item" href="/seccion/vall_sala">
-                        FS Valladolid
+                        Valladolid SS
                       </a>
                     </li>
                   </ul>
@@ -397,15 +397,15 @@
 
                       <li>
                         <a class="dropdown-item" href="/seccion/ponce">
-                          Ponce Valladolid
+                          Pucela Basket
                         </a>
                       </li>
 
-                      <li>
+                      <!--<li>
                         <a class="dropdown-item" href="/seccion/cdsi_vall">
                           CDSI Valladolid
                         </a>
-                      </li>
+                      </li>-->
 
                       <li>
                         <a class="dropdown-item" href="/seccion/aliados">
@@ -632,16 +632,16 @@
                   class="escudo"
                   alt="CD San Jose"
                 />
-                <span class="escudo-nombre">CD San Jose</span>
+                <span class="escudo-nombre">CD San José</span>
               </a>
-              <a href="/seccion/cdsi_vall" class="escudo-link">
+              <!--<a href="/seccion/cdsi_vall" class="escudo-link">
                 <img
                   src="/static/img/cdsi_vall_sf.png"
                   class="escudo"
                   alt="CDSI Valladolid"
                 />
                 <span class="escudo-nombre">CDSI Valladolid</span>
-              </a>
+              </a>-->
               <a href="/seccion/salvador_fem" class="escudo-link">
                 <img
                   src="/static/img/salvador_sf.png"
@@ -672,7 +672,7 @@
                   class="escudo"
                   alt="C.D Tierno Galván"
                 />
-                <span class="escudo-nombre">C.D Tierno Galván</span>
+                <span class="escudo-nombre">Tierno Galván</span>
               </a>
               <a href="/seccion/panteras" class="escudo-link">
                 <img
@@ -694,9 +694,9 @@
                 <img
                   src="/static/img/vall_sala_sf.png"
                   class="escudo"
-                  alt="FS Valladolid"
+                  alt="Valladolid SS"
                 />
-                <span class="escudo-nombre">FS Valladolid</span>
+                <span class="escudo-nombre">Valladolid SS</span>
               </a>
               <a href="/seccion/promesas" class="escudo-link">
                 <img
@@ -734,9 +734,9 @@
                 <img
                   src="/static/img/ponce_sf.png"
                   class="escudo"
-                  alt="Ponce Valladolid"
+                  alt="Pucela Basket"
                 />
-                <span class="escudo-nombre">Ponce Valladolid</span>
+                <span class="escudo-nombre">Pucela Basket</span>
               </a>
               <a href="/seccion/valladolid" class="escudo-link">
                 <img
@@ -776,6 +776,16 @@
               </a>
             </div>
           </div>
+        </section>
+        <!-- Canal de WhatsApp -->
+        <section class="canal-whatsapp text-center py-3 my-3">
+          <span class="texto-canal">
+            📲<span class="texto-canal fw-bold">Únete al Canal Oficial de WhatsApp</span> y recibe al instante los resultados, clasificaciones, gráficas e historial del deporte de Valladolid.
+          </span>
+          <a href="{{ SOCIAL.whatsapp }}" target="_blank"
+            rel="noopener" class="btn btn-success ms-3">
+            <i class="bi bi-whatsapp"></i> Únete al canal
+          </a>
         </section>
         <section id="valladolid" class="container-fluid mt-3">
           <div class="netflix-track mb-3">
@@ -847,17 +857,18 @@
           <div class="footer-redes text-center mb-3">
             <h5 class="text-white fw-bold mb-2">Síguenos</h5>
             <div class="redes-iconos">
-              <a href="#" class="red-social" aria-label="Facebook">
-                <i class="bi bi-facebook"></i>
+              <a href="{{ SOCIAL.facebook }}" class="red-social" aria-label="Facebook">
+                <i class="bi bi-facebook text-white"></i>
               </a>
-              <a href="#" class="red-social" aria-label="Instagram">
-                <i class="bi bi-instagram"></i>
+              <a href="{{ SOCIAL.instagram }}" class="red-social" aria-label="Instagram">
+                <i class="bi bi-instagram text-white"></i>
               </a>
               <!--<a href="#" class="red-social" aria-label="TikTok">
                     <i class="bi bi-tiktok"></i>
                 </a>-->
-              <a href="#" class="red-social" aria-label="WhatsApp">
-                <i class="bi bi-whatsapp"></i>
+              <a href="{{ SOCIAL.whatsapp }}" target="_blank"
+                  rel="noopener" aria-label="Canal de WhatsApp">
+                  <i class="bi bi-whatsapp text-white"></i>
               </a>
               <!--<a href="#" class="red-social" aria-label="YouTube">
                     <i class="bi bi-youtube"></i>

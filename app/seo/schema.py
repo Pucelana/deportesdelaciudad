@@ -1,4 +1,5 @@
 from datetime import datetime
+from app.seo.social import SOCIAL
 import json
 
 BASE_URL = "https://deportesdelaciudad.es"
@@ -25,9 +26,15 @@ def schema_website():
                 "logo": {
                     "@type": "ImageObject",
                     "url": f"{BASE_URL}/static/img/logo.webp"
-                }
-            }
-
+                },
+                "sameAs": [
+                    url for url in [
+                        SOCIAL.get("facebook"),
+                        SOCIAL.get("instagram"),
+                        SOCIAL.get("whatsapp"),
+                    ] if url
+                ]
+            }   
         ]
     }
 
@@ -56,7 +63,7 @@ EQUIPOS = {
     },
 
     "ponce": {
-        "nombre": "Ponce Valladolid CB",
+        "nombre": "Pucela Basket Ponce Valladolid CB",
         "deporte": "Baloncesto",
         "liga": "Primera Nacional",
         "logo": "https://deportesdelaciudad.es/static/img/ponce_sf.png",

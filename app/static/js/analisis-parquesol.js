@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Segunda función para calcular el porcentaje al ascenso
 const filas = document.querySelectorAll("#tablaAscensoParquesol tbody tr");
-const partidosTotales = 22; // Cambiado a 22 partidos en la temporada
+const partidosTotales = 26; // Cambiado a 22 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFija = 96; // Ajusta este valor según tus necesidades
 const equipos = [];
@@ -84,9 +84,9 @@ tabla.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equipos.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor = '';
-    if (equipoData.index <= 1) {
+    if (equipoData.index <= 2) {
         claseColor = 'pos-ascen';
-    } else if (equipoData.index <=12) {
+    } else if (equipoData.index <=14) {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
@@ -158,7 +158,7 @@ equipo1s1.forEach((equipo1Data) => {
 
 // Cuarta función para calcular la permanencia
 const filas2 = document.querySelectorAll("#tablaDescParquesol tbody tr");
-const partidosTotales2 = 22; // Cambiado a 22 partidos en la temporada
+const partidosTotales2 = 26; // Cambiado a 22 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
 const proximidadFijar2 = 25; // Ajusta este valor según tus necesidades
 const equipos2 = [];
@@ -197,9 +197,9 @@ tabla2.innerHTML = ""; // Limpiar la tabla2 antes de actualizar
 equipos2.forEach((equipo2Data) => {
     const nuevaFila2 = document.createElement("tr");
     let claseColor2 = '';
-    if (equipo2Data.index2 <= 10) {
+    if (equipo2Data.index2 <= 12) {
         claseColor2 = 'pos-nada';
-    } else if (equipo2Data.index2 <=12) {
+    } else if (equipo2Data.index2 <=14) {
         claseColor2 = 'pos-desc';
     }
     nuevaFila2.innerHTML = `

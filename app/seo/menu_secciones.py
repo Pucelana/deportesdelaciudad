@@ -42,7 +42,7 @@ MENU_SECCIONES = {
             "playoff": False,
             "europa": False,
         },
-    "rv_promesas": {
+    "promesas": {
         "liga": True,
         "copa": False,
         "playoff": False,

@@ -102,7 +102,7 @@ Consulta la clasificación actualizada del CD Parquesol.
                 <tbody>
                   {% for equipo in clasificacion_analisis_parquesol %}
                   <tr>
-                    <td class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 12 %}pos-desc{% endif %}">
+                    <td class="equipo-mobile text-center {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 14 %}pos-desc{% endif %}">
                       {{ loop.index }}
                     </td>
                     <td
@@ -145,8 +145,8 @@ Consulta la clasificación actualizada del CD Parquesol.
             C(Contra); DG (Dif. Goles)
           </small>
           <small class="text-center mb-3">
-            Campeón<span class="badge bg-success ms-2">1</span> ; Descenso<span
-            class="badge bg-danger ms-2">11-12</span>
+            Ascenso<span class="badge bg-success ms-2">1-2</span> ; Descenso<span
+            class="badge bg-danger ms-2">13-14</span>
           </small>
         </div>
       </div>

@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -142,7 +143,7 @@ def obtener_datos_ponce(nombre_temporada=None):
 @ponce_route_bp.route('/equipos_basket/calendario_ponce')
 def calendario_ponce():
     datos = obtener_datos_ponce()
-    equipo_ponce = 'Ponce Valladolid CB'
+    equipo_ponce = NOMBRES_EQUIPOS["ponce"]
     tabla_partidos_ponce = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -152,9 +153,9 @@ def calendario_ponce():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
             # Verificamos si el Ponce está jugando
-            if equipo_local == equipo_ponce or equipo_visitante == equipo_ponce:
+            if equipo_local in equipo_ponce or equipo_visitante in equipo_ponce:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_ponce:
+                if equipo_local in equipo_ponce:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
