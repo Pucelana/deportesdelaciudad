@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title%}Clasificación | Panteras Caja Rural | Deportes de la Ciudad{% endblock %} 
+{% block title%}Clasificación | CPLV Panteras C.R | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Clasificación actualizada del Panteras Caja Rural: posición, victorias, derrotas, puntos, y analisis de objetivos.
+Clasificación actualizada del CPLV Panteras C.R: posición, victorias, derrotas, puntos, y analisis de objetivos.
 {% endblock %}
 
 {% block og_title %}
-Clasificación | Panteras Caja Rural | Deportes de la Ciudad
+Clasificación | CPLV Panteras C.R | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Consulta la clasificación actualizada del Panteras Caja Rural.
+Consulta la clasificación actualizada del CPLV Panteras C.R.
 {% endblock %}
 
 {% block twitter_title %}
-Clasificación | Panteras Caja Rural | Deportes de la Ciudad
+Clasificación | CPLV Panteras C.R | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Consulta la clasificación actualizada del Panteras Caja Rural.
+Consulta la clasificación actualizada del CPLV Panteras C.R.
 {% endblock %}
 
 {% block breadcrumb %}
@@ -28,7 +28,7 @@ Consulta la clasificación actualizada del Panteras Caja Rural.
       <a
         href="/seccion/panteras"
         class="text-white text-decoration-none text-analisis fs-6"
-        >Panteras Caja Rural</a
+        >CPLV Panteras C.R</a
       >
     </li>
     <li class="breadcrumb-item">
@@ -106,7 +106,7 @@ Consulta la clasificación actualizada del Panteras Caja Rural.
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile text-start size_equipos2 {% if 'Panteras Caja Rural' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start size_equipos2 {% if 'CPLV Panteras C.R' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>

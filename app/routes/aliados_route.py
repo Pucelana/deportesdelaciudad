@@ -611,6 +611,7 @@ def activar_temporada_aliados(id):
     db.session.commit()
     return redirect(url_for('aliados_route_bp.temporadas_aliados')) 
 
+
 # HISTORIAL BSR VALLADOLID
 # Creación del historial de temporadas del BSR Valladolid
 @aliados_route_bp.route("/admin/crear_historial_aliados", methods=["GET", "POST"])

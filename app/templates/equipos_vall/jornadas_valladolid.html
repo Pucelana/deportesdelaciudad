@@ -97,7 +97,7 @@ Resultados y marcadores del Real Valladolid jornada a jornada.
           <div class="card partido-mobile">
             <div class="card-body text-center">
               <small class="text-muted fw-bold">
-                {{ partido.fecha }} {{ partido.hora }}
+                {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
               </small>
 
               <div class="equipo-mobile">{{ partido.local }}</div>

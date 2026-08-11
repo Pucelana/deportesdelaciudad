@@ -16,8 +16,8 @@ MENU_SECCIONES = {
             "playoff": False,
         },
     "aliados": {
-            "liga": True,
-            "copa": True,
+            "liga": False,
+            "copa": False,
             "playoff": False,
             "final-four": False,
             "eurocup": False,
@@ -80,9 +80,9 @@ MENU_SECCIONES = {
         },
     "panteras": {
             "liga": True,
-            "copa": True,
+            "copa": False,
             "playoff": False,
-            "supercopa": False,
+            "supercopa": True,
             "europa": False,
         },
     "vrac": {

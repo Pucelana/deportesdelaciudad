@@ -18,4 +18,8 @@ NOMBRES_EQUIPOS = {
         "Fundación Aliados",
         "BSR Valladolid",
     ],
+    "panteras": [
+            "Panteras Caja Rural",
+            "CPLV Panteras C.R",
+        ],
 }

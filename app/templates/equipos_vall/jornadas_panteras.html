@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title %}Resultados | Panteras Caja Rural | Deportes de la Ciudad{% endblock %} 
+{% block title %}Resultados | CPLV Panteras C.R | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Resultados y marcadores del Panteras Caja Rural jornada a jornada.
+Resultados y marcadores del CPLV Panteras C.R jornada a jornada.
 {% endblock %}
 
 {% block og_title %}
-Resultados | Panteras Caja Rural | Deportes de la Ciudad
+Resultados | CPLV Panteras C.R | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Resultados y marcadores del Panteras Caja Rural jornada a jornada.
+Resultados y marcadores del CPLV Panteras C.R jornada a jornada.
 {% endblock %}
 
 {% block twitter_title %}
-Resultados | Panteras Caja Rural | Deportes de la Ciudad
+Resultados | CPLV Panteras C.R | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Resultados y marcadores del Panteras Caja Rural jornada a jornada.
+Resultados y marcadores del CPLV Panteras C.R jornada a jornada.
 {% endblock %}
 
 {% block breadcrumb %}
@@ -27,7 +27,7 @@ Resultados y marcadores del Panteras Caja Rural jornada a jornada.
     <li class="breadcrumb-item">
       <a
         href="/seccion/panteras"
-        class="text-white text-decoration-none text-analisis fs-6">Panteras Caja Rural</a>
+        class="text-white text-decoration-none text-analisis fs-6">CPLV Panteras C.R</a>
     </li>
     <li class="breadcrumb-item">
       <a
@@ -117,7 +117,7 @@ Resultados y marcadores del Panteras Caja Rural jornada a jornada.
           <div class="card partido-mobile">
             <div class="card-body text-center">
               <small class="text-muted fw-bold">
-                {{ partido.fecha }} {{ partido.hora }}
+                {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
               </small>
 
               <div class="equipo-mobile">{{ partido.local }}</div>

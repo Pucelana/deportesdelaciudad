@@ -16,72 +16,114 @@ Supercopa | Panteras Caja Rural | Deportes de la Ciudad
 {% block twitter_description %}
 Eliminatorias y resultados del Panteras Caja Rural.
 {% endblock %}
-
     {% block breadcrumb %}
     <nav aria-label="breadcrumb">
       <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
+        <li class="breadcrumb-item"><a href="/seccion/panteras" class="text-white text-decoration-none text-analisis fs-6">CPLV Panteras C.R</a></li>
         <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">Supercopa España</li>
       </ol>
     </nav>
     {% endblock %}
     {% block contenido %}
-    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-         <!-- Navegación -->
-      <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
-        {% for ronda in datos_supercopa.keys() %}
-        <a href="#" class="btn btn-outline-info btn-ronda" data-target="ronda{{ loop.index0 }}">{{
-          ronda|capitalize }}</a>
-        {% endfor %}
-      </div>
-      <!-- Contenedor de rondas -->
-      <div id="contenedor-rondas">
-        {% for ronda, partidos in datos_supercopa.items() %}
-        <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}" id="ronda{{ loop.index0 }}">
-          <div class="d-flex justify-content-center">
-            <div class="card tabla_copa mt-4" style="width: 55rem;">
-              <div class="card-body">
-                <h3 class="text-center text-white text-capitalize text-analisis fs-4">{{ ronda }}</h3>
-                <div class="row table-responsive">
-                  <div class="col-12">
-                    <table class="table border-secondary">
-                      {% for partido in partidos %}
-                      <tr>
-                        <td class="text-muted">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
-                        <td
-                          class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
-                          {{ partido.local }}</td>
-                        <td class="resultado-mobile">{{ partido.resultadoA }}</td>
-                        <td class="resultado-mobile">{{ partido.resultadoB }}</td>
-                        <td
-                          class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
-                          {{ partido.visitante }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
+<section class="container-lg flex-fill copa">
+  <!-- Navegación -->
+  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+    {% for ronda in datos_supercopa.keys() %}
+    <a
+      href="#"
+      class="btn fw-bold btn-slide btns-ronda"
+      data-target="ronda{{ loop.index0 }}"
+      >{{ ronda|capitalize }}</a
+    >
+    {% endfor %}
+  </div>
+  <!-- Contenedor de rondas -->
+  <div id="contenedor-rondas">
+    {% for ronda, partidos in datos_supercopa.items() %}
+    <div
+      class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+      id="ronda{{ loop.index0 }}"
+    >
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-2" style="width: 55rem">
+          <div class="card-body">
+            <h3
+              class="text-center text-white text-analisis fs-4 fw-bold text-capitalize"
+            >
+              {{ ronda }}
+            </h3>
+            <div class="table-responsive d-none d-md-block">
+              <table class="table border-secondary">
+                {% for partido in partidos %}
+                <tr>
+                  <td class="text-muted fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
+                  <td
+                    class="equipo-mobile {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
+                  >
+                    {{ partido.local }}
+                  </td>
+                  <td class="resultado-mobile">
+                    {% if partido.resultadoA is not none and partido.resultadoB
+                    is not none %} {{ partido.resultadoA }} - {{
+                    partido.resultadoB }} {% else %}
+                    <span class="text-muted">-</span>
+                    {% endif %}
+                  </td>
+                  <td
+                    class="equipo-mobile {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
+                  >
+                    {{ partido.visitante }}
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
+            </div>
+            <!-- MÓVIL -->
+            <div class="d-md-none cards-mobile">
+              {% for partido in partidos %}
+              <div class="card partido-mobile mb-2">
+                <div class="card-body text-center">
+                  <small class="text-muted fw-bold">
+                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                    }}{% endif %}
+                  </small>
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
+                  >
+                    {{ partido.local }}
+                  </div>
+                  <div class="resultado-mobile">
+                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                  </div>
+                  <div
+                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
+                  >
+                    {{ partido.visitante }}
                   </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
           </div>
         </div>
-        {% endfor %}
       </div>
-    </section>
-{% endblock %}
-{% block scripts %}    
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const botones = document.querySelectorAll(".btn-ronda");
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %} {% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-slide");
     const rondas = document.querySelectorAll(".ronda-item");
 
-    botones.forEach(boton => {
+    botones.forEach((boton) => {
       boton.addEventListener("click", function (e) {
         e.preventDefault();
 
         // Oculta todas las rondas
-        rondas.forEach(r => r.classList.add("d-none"));
-        rondas.forEach(r => r.classList.remove("d-block"));
+        rondas.forEach((r) => r.classList.add("d-none"));
+        rondas.forEach((r) => r.classList.remove("d-block"));
 
         // Activa solo la seleccionada
         const targetId = this.dataset.target;
@@ -92,10 +134,10 @@ Eliminatorias y resultados del Panteras Caja Rural.
         }
 
         // Opcional: marcar el botón activo
-        botones.forEach(b => b.classList.remove("active"));
+        botones.forEach((b) => b.classList.remove("active"));
         this.classList.add("active");
       });
     });
   });
-  </script>
+</script>
 {% endblock %}

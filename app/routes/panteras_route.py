@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -158,7 +159,7 @@ def obtener_datos_panteras(nombre_temporada=None):
 @panteras_route_bp.route('/equipos_hockey/calendario_panteras')
 def calendario_panteras():
     datos = obtener_datos_panteras()
-    equipo_panteras = 'Panteras Caja Rural'
+    equipo_panteras = NOMBRES_EQUIPOS["panteras"]
     tabla_partidos_panteras = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:

@@ -87,16 +87,16 @@ Consulta el calendario individual actualizada del RV Femenino.
                           <td class="jorn_ida fw-bold">
                             {% if datos_equipo.get('primer_enfrentamiento') %}
                             {{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_simancas'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_simancas'] }})
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_rv_fem'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_rv_fem'] }})
                             {% endif %}
                             {% endif %}
                           </td>
                           <td class="jorn_vuelta fw-bold">
                             {% if datos_equipo.get('segundo_enfrentamiento') %}
                             {{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_simancas'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_simancas'] }})
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_rv_fem'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_rv_fem'] }})
                             {% endif %}
                             {% endif %}
                           </td>

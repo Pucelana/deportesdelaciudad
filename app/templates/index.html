@@ -3,7 +3,9 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{% block title %}Deportes de la Ciudad | Valladolid{% endblock %}</title>
+    <title>
+      {% block title %}Deportes de la Ciudad | Valladolid{% endblock %}
+    </title>
     <!-- SEO -->
     <meta
       name="description"
@@ -81,7 +83,7 @@
     />
     <!-- Schema.org -->
     <script type="application/ld+json">
-    {{ schema_web|safe }}
+      {{ schema_web|safe }}
     </script>
   </head>
   <body class="body_secciones">
@@ -98,22 +100,29 @@
       </div>
     </div>
     <!-- Pantalla inicial -->
-     <h1 class="visually-hidden">
-      Deportes de la Ciudad | Resultados, clasificaciones y actualidad del deporte de Valladolid
+    <h1 class="visually-hidden">
+      Deportes de la Ciudad | Resultados, clasificaciones y actualidad del
+      deporte de Valladolid
     </h1>
     <p class="visually-hidden">
-      Toda la información del deporte de Valladolid: fútbol, baloncesto, balonmano, rugby, hockey, voleibol y mucho más.
+      Toda la información del deporte de Valladolid: fútbol, baloncesto,
+      balonmano, rugby, hockey, voleibol y mucho más.
     </p>
     <div id="contenido" class="d-flex flex-column">
       <!--HEADER ESCRITORIO-->
-      <header class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg">
+      <header
+        class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg"
+      >
         <section id="cabecera-escritorio">
           <nav class="navbar navbar-expand navbar-light">
             <div class="container-fluid">
               <ul class="navbar-nav me-auto">
                 <!-- INICIO -->
                 <li class="nav-item">
-                  <a class="nav-link text-white fw-bold text-menu-nav" href="/">
+                  <a
+                    class="nav-link fw-bold text-menu-seccion text-white text-menu-nav"
+                    href="/"
+                  >
                     Inicio
                   </a>
                 </li>
@@ -121,7 +130,7 @@
                 <!-- BALONCESTO -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuBaloncesto"
                     role="button"
@@ -161,7 +170,7 @@
                 <!-- BALONMANO -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuBalonmano"
                     role="button"
@@ -189,7 +198,7 @@
                 <!-- FÚTBOL -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuFutbol"
                     role="button"
@@ -229,7 +238,7 @@
                 <!-- FÚTBOL SALA -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuFutbolSala"
                     role="button"
@@ -257,7 +266,7 @@
                 <!-- HOCKEY -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuHockey"
                     role="button"
@@ -276,7 +285,7 @@
 
                     <li>
                       <a class="dropdown-item" href="/seccion/panteras">
-                        Panteras Caja Rural
+                        CPLV Panteras C.R
                       </a>
                     </li>
                   </ul>
@@ -285,7 +294,7 @@
                 <!-- RUGBY -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuRugby"
                     role="button"
@@ -317,7 +326,7 @@
                 <!-- VOLEY -->
                 <li class="nav-item dropdown">
                   <a
-                    class="nav-link dropdown-toggle text-white fw-bold text-menu-nav"
+                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
                     href="#"
                     id="menuVoley"
                     role="button"
@@ -374,13 +383,18 @@
                 <ul class="navbar-nav">
                   <!-- INICIO -->
                   <li class="nav-item">
-                    <a class="nav-link text-white fw-bold" href="/"> Inicio </a>
+                    <a
+                      class="nav-link fw-bold text-menu-seccion active"
+                      href="/"
+                    >
+                      Inicio
+                    </a>
                   </li>
 
                   <!-- BALONCESTO -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
                       href="#"
                       id="movilBaloncesto"
                       data-bs-toggle="dropdown"
@@ -419,7 +433,7 @@
                   <!-- BALONMANO -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccio text-white"
                       href="#"
                       id="movilBalonmano"
                       data-bs-toggle="dropdown"
@@ -446,7 +460,7 @@
                   <!-- FÚTBOL -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
                       href="#"
                       id="movilFutbol"
                       data-bs-toggle="dropdown"
@@ -485,7 +499,7 @@
                   <!-- FÚTBOL SALA -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
                       href="#"
                       id="movilFutbolSala"
                       data-bs-toggle="dropdown"
@@ -512,7 +526,7 @@
                   <!-- HOCKEY -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
                       href="#"
                       id="movilHockey"
                       data-bs-toggle="dropdown"
@@ -530,7 +544,7 @@
 
                       <li>
                         <a class="dropdown-item" href="/seccion/panteras">
-                          Panteras Caja Rural
+                          CPLV Panteras C.R
                         </a>
                       </li>
                     </ul>
@@ -539,7 +553,7 @@
                   <!-- RUGBY -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
                       href="#"
                       id="movilRugby"
                       data-bs-toggle="dropdown"
@@ -570,7 +584,7 @@
                   <!-- VOLEY -->
                   <li class="nav-item dropdown">
                     <a
-                      class="nav-link dropdown-toggle text-white fw-bold"
+                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
                       href="#"
                       id="movilVoley"
                       data-bs-toggle="dropdown"
@@ -599,10 +613,54 @@
           </nav>
 
           <!-- RRSS -->
-          <div class="footer-menu-social">
-            <a href="#" class="text-white" aria-label="Redes sociales">
+          <div class="footer-menu-social dropdown">
+            <a
+              href="#"
+              class="text-white"
+              aria-label="Redes sociales"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
               <i class="bi bi-share-fill"></i>
             </a>
+
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ SOCIAL.instagram }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-instagram me-2"></i>
+                  Instagram
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ SOCIAL.facebook }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-facebook me-2"></i>
+                  Facebook
+                </a>
+              </li>
+
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="{{ SOCIAL.whatsapp }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <i class="bi bi-whatsapp me-2"></i>
+                  WhatsApp
+                </a>
+              </li>
+            </ul>
           </div>
         </section>
       </header>
@@ -679,9 +737,9 @@
                 <img
                   src="/static/img/cplv_sf.png"
                   class="escudo"
-                  alt="Panteras Caja Rural"
+                  alt="CPLV Panteras C.R"
                 />
-                <span class="escudo-nombre">Panteras Caja Rural</span>
+                <span class="escudo-nombre">CPLV Panteras C.R</span>
               </a>
               <a href="/seccion/aliados" class="escudo-link">
                 <img
@@ -781,10 +839,18 @@
         <!-- Canal de WhatsApp -->
         <section class="canal-whatsapp text-center py-3 my-3">
           <span class="texto-canal">
-            📲<span class="texto-canal fw-bold">Únete al Canal Oficial de WhatsApp</span> y recibe al instante los resultados, clasificaciones, gráficas e historial del deporte de Valladolid.
+            📲<span class="texto-canal fw-bold"
+              >Únete al Canal Oficial de WhatsApp</span
+            >
+            y recibe al instante los resultados, clasificaciones, gráficas e
+            historial del deporte de Valladolid.
           </span>
-          <a href="{{ SOCIAL.whatsapp }}" target="_blank"
-            rel="noopener" class="btn btn-success ms-3">
+          <a
+            href="{{ SOCIAL.whatsapp }}"
+            target="_blank"
+            rel="noopener"
+            class="btn btn-success ms-3"
+          >
             <i class="bi bi-whatsapp"></i> Únete al canal
           </a>
         </section>
@@ -839,7 +905,7 @@
         <!-- Resultados flotantes en directo -->
         <!--<section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
       <div class="card shadow-lg border-0 w-25" id="directo-container">
-        <div class="card-header fs-5 bg-info text-white fw-bold text-center">
+        <div class="card-header fs-5 bg-info fw-bold text-menu-seccion text-center">
           🟢 Partidos en Directo
         </div>
         <div class="card-body bg-light p-2" id="directo-contenido">
@@ -856,20 +922,31 @@
         <div class="container-lg">
           <!-- REDES SOCIALES -->
           <div class="footer-redes text-center mb-3">
-            <h5 class="text-white fw-bold mb-2">Síguenos</h5>
+            <h5 class="fw-bold text-menu-seccion text-white mb-2">Síguenos</h5>
             <div class="redes-iconos">
-              <a href="{{ SOCIAL.facebook }}" class="red-social" aria-label="Facebook">
+              <a
+                href="{{ SOCIAL.facebook }}"
+                class="red-social"
+                aria-label="Facebook"
+              >
                 <i class="bi bi-facebook text-white"></i>
               </a>
-              <a href="{{ SOCIAL.instagram }}" class="red-social" aria-label="Instagram">
+              <a
+                href="{{ SOCIAL.instagram }}"
+                class="red-social"
+                aria-label="Instagram"
+              >
                 <i class="bi bi-instagram text-white"></i>
               </a>
               <!--<a href="#" class="red-social" aria-label="TikTok">
                     <i class="bi bi-tiktok"></i>
                 </a>-->
-              <a href="{{ SOCIAL.whatsapp }}" target="_blank"
-                  rel="noopener" aria-label="Canal de WhatsApp">
-                  <i class="bi bi-whatsapp text-white"></i>
+              <a
+                href="{{ SOCIAL.whatsapp }}"
+                class="red-social"
+                aria-label="Whatsapp"
+              >
+                <i class="bi bi-whatsapp text-white"></i>
               </a>
               <!--<a href="#" class="red-social" aria-label="YouTube">
                     <i class="bi bi-youtube"></i>
@@ -878,7 +955,7 @@
           </div>
           <!-- PATROCINADORES -->
           <!--<div class="footer-patrocinadores text-center mb-3">
-            <h5 class="text-white fw-bold mb-3">
+            <h5 class="fw-bold text-menu-seccion mb-3">
                 Patrocinadores
             </h5>
             <div class="logos-patrocinadores">
@@ -1277,7 +1354,8 @@
                 href="#contactanos-modal"
                 id="contacto-link"
                 class="text-decoration-none"
-                >contacto</a>
+                >contacto</a
+              >
               con nuestro equipo.
             </p>
           </div>
@@ -1285,7 +1363,8 @@
       </div>
       <div
         id="contactanos-modal"
-        class="custom-modal contactanos-modal text-dark">
+        class="custom-modal contactanos-modal text-dark"
+      >
         <!-- Contactanos -->
         <div class="custom-modal-content contactanos-content">
           <span class="custom-close" id="close-contactanos">&times;</span>
