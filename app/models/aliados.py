@@ -44,6 +44,36 @@ class AliadosClub(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # Definir la columna 'nombre' para el nombre del club
     nombre = db.Column(db.String(255), nullable=False)
+    
+class AliadosGrupo(db.Model):
+    __tablename__ = "aliados_grupos"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    nombre = db.Column(db.String(20), nullable=False)
+    fase = db.Column(db.String(20), nullable=False)
+    equipos = db.relationship(
+        "AliadosGrupoEquipo",
+        backref="grupo",
+        cascade="all, delete-orphan"
+    )
+    
+class AliadosGrupoEquipo(db.Model):
+    __tablename__ = "aliados_grupos_equipos"
+    id = db.Column(db.Integer, primary_key=True)
+    grupo_id = db.Column(
+        db.Integer,
+        db.ForeignKey(
+            "aliados_grupos.id",
+            ondelete="CASCADE"
+        ),
+        nullable=False
+    )
+
+    equipo = db.Column(
+        db.String(255),
+        nullable=False
+    )        
 
 class PlayoffAliados(db.Model):
     __tablename__ = 'playoff_aliados'

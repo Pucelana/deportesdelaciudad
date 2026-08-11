@@ -16,7 +16,7 @@ MENU_SECCIONES = {
             "playoff": False,
         },
     "aliados": {
-            "liga": False,
+            "liga": True,
             "copa": False,
             "playoff": False,
             "final-four": False,

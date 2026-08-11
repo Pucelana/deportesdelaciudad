@@ -38,6 +38,9 @@ function mostrarFormularioCDSIVall(){
 function mostrarFormularioAliados(){
   document.getElementById('form_partidos_aliados').style.display='block';
 }
+function mostrarFormularioAliadosNuevo(){
+  document.getElementById('form_partidos_aliados_nuevo').style.display='block';
+}
 // FÚTBOL
 function mostrarFormularioValladolid(){
   document.getElementById('form_partidos_valladolid').style.display='block';

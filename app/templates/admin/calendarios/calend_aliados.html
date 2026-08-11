@@ -11,6 +11,7 @@ Valladolid {% endblock %} {% block nav %}
   </li>
 </ol>
 {% endblock %} {% block contenido %}
+<!-- Formulario Anterior Temporada
 <section class="container-lg">
   <div class="d-flex justify-content-center mb-4">
     <button
@@ -20,7 +21,7 @@ Valladolid {% endblock %} {% block nav %}
       Crear Resultados
     </button>
   </div>
-  <!-- Formulario para los resultados de los partidos -->
+  <-- Formulario para los resultados de los partidos ->
   <div class="container-lg" id="form_partidos_aliados">
     <form
       method="POST"
@@ -43,7 +44,7 @@ Valladolid {% endblock %} {% block nav %}
           name="num_partidos"
         />
       </div>
-      {% for i in range(6) %}
+      {% for i in range(4) %}
       <div class="col-md-12">
         <label for="fecha1{{i}}">Primera fecha</label>
         <input type="text" class="form-control" id="fecha1{{i}}" name="fecha1{{i}}"/>
@@ -111,7 +112,394 @@ Valladolid {% endblock %} {% block nav %}
       </div>
     </form>
   </div>
+</section>-->
+<section class="container-lg">
+
+  <div class="d-flex justify-content-center mb-4">
+
+    <button
+      onclick="mostrarFormularioAliadosNuevo()"
+      class="btn btn-success text-center fs-3"
+    >
+      Crear Jornada
+    </button>
+
+  </div>
+
+
+  <!-- FORMULARIO NUEVO -->
+
+  <div
+    class="container-lg"
+    id="form_partidos_aliados_nuevo"
+  >
+
+    <form
+      method="POST"
+      action="{{ url_for('aliados_route_bp.crear_calendario_aliados_nuevo') }}"
+      class="row mb-3"
+    >
+
+      <!-- TEMPORADA -->
+
+      <div class="col-md-12 mb-2">
+
+        <label for="temporada">
+          Temporada
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="temporada"
+          name="temporada"
+          placeholder="Ejemplo: 2026/27"
+          required
+        >
+
+      </div>
+
+
+      <!-- JORNADA -->
+
+      <div class="col-md-12 mb-3">
+
+        <label for="jornada">
+          Jornada
+        </label>
+
+        <input
+          type="number"
+          class="form-control"
+          id="jornada"
+          name="jornada"
+          min="1"
+          placeholder="Ejemplo: 1"
+          required
+        >
+
+      </div>
+
+
+      <!-- 8 PARTIDOS FIJOS -->
+
+      <input type="hidden" name="num_partidos" value="8">
+
+
+      <!-- ========================= -->
+      <!-- GRUPO A -->
+      <!-- ========================= -->
+
+      <div class="col-12 mb-2">
+
+        <hr>
+
+        <h3 class="text-center fw-bold text-primary">
+          GRUPO A
+        </h3>
+
+        <hr>
+
+      </div>
+
+
+      <!-- PARTIDOS 1-4 -->
+
+      {% for i in range(4) %}
+
+      <div class="col-12">
+
+        <h4 class="text-center mt-3">
+          Partido {{ i + 1 }}
+        </h4>
+
+      </div>
+
+
+      <!-- FECHA -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="fecha{{ i }}">
+          Fecha
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="fecha{{ i }}"
+          name="fecha{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- HORA -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="hora{{ i }}">
+          Hora
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="hora{{ i }}"
+          name="hora{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- LOCAL -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="local{{ i }}">
+          Equipo Local
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="local{{ i }}"
+          name="local{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- RESULTADO LOCAL -->
+
+      <div class="col-md-1 mb-2">
+
+        <label for="resultadoA{{ i }}">
+          &nbsp;
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="resultadoA{{ i }}"
+          name="resultadoA{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- RESULTADO VISITANTE -->
+
+      <div class="col-md-1 mb-2">
+
+        <label for="resultadoB{{ i }}">
+          &nbsp;
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="resultadoB{{ i }}"
+          name="resultadoB{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- VISITANTE -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="visitante{{ i }}">
+          Equipo Visitante
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="visitante{{ i }}"
+          name="visitante{{ i }}"
+        >
+
+      </div>
+
+      {% endfor %}
+
+
+      <!-- ========================= -->
+      <!-- GRUPO B -->
+      <!-- ========================= -->
+
+      <div class="col-12 mt-4 mb-2">
+
+        <hr>
+
+        <h3 class="text-center fw-bold text-primary">
+          GRUPO B
+        </h3>
+
+        <hr>
+
+      </div>
+
+
+      <!-- PARTIDOS 5-8 -->
+
+      {% for i in range(4, 8) %}
+
+      <div class="col-12">
+
+        <h4 class="text-center mt-3">
+          Partido {{ i + 1 }}
+        </h4>
+
+      </div>
+
+
+      <!-- FECHA -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="fecha{{ i }}">
+          Fecha
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="fecha{{ i }}"
+          name="fecha{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- HORA -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="hora{{ i }}">
+          Hora
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="hora{{ i }}"
+          name="hora{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- LOCAL -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="local{{ i }}">
+          Equipo Local
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="local{{ i }}"
+          name="local{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- RESULTADO LOCAL -->
+
+      <div class="col-md-1 mb-2">
+
+        <label for="resultadoA{{ i }}">
+          &nbsp;
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="resultadoA{{ i }}"
+          name="resultadoA{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- RESULTADO VISITANTE -->
+
+      <div class="col-md-1 mb-2">
+
+        <label for="resultadoB{{ i }}">
+          &nbsp;
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="resultadoB{{ i }}"
+          name="resultadoB{{ i }}"
+        >
+
+      </div>
+
+
+      <!-- VISITANTE -->
+
+      <div class="col-md-5 mb-2">
+
+        <label for="visitante{{ i }}">
+          Equipo Visitante
+        </label>
+
+        <input
+          type="text"
+          class="form-control"
+          id="visitante{{ i }}"
+          name="visitante{{ i }}"
+        >
+
+      </div>
+
+      {% endfor %}
+
+
+      <!-- BOTONES -->
+
+      <div class="col-md-4 mt-3">
+
+        <button
+          class="btn btn-primary"
+          type="submit"
+        >
+          Guardar Jornada
+        </button>
+
+      </div>
+
+
+      <div class="col-md-4 mt-3">
+
+        <button
+          type="button"
+          onclick="cerrarFormularioAliadosNuevo()"
+          class="btn btn-danger"
+        >
+          Cerrar
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
 </section>
+
+
+
 <!--Visibilidad de los resultados-->
 <div class="container-fluid">
   <div class="row">

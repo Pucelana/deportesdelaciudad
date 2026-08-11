@@ -8,7 +8,7 @@ from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_team, schema_sports_competition
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados
+from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados, AliadosGrupo, AliadosGrupoEquipo
 
 aliados_route_bp = Blueprint('aliados_route_bp', __name__)
 
@@ -139,6 +139,89 @@ def obtener_datos_aliados(nombre_temporada=None):
             'partidos': partidos
         })
     return jornadas_con_partidos
+#Separar los partidos
+def preparar_resultados_aliados(datos):
+    """
+    Separa los partidos de cada jornada según el grupo
+    al que pertenecen los equipos.
+    """
+
+    # ============================================
+    # OBTENER GRUPOS A Y B
+    # ============================================
+
+    grupo_a = AliadosGrupo.query.filter_by(
+        nombre="A"
+    ).first()
+
+    grupo_b = AliadosGrupo.query.filter_by(
+        nombre="B"
+    ).first()
+
+    equipos_a = set()
+    equipos_b = set()
+
+    if grupo_a:
+        equipos_a = {
+            equipo.equipo.strip()
+            for equipo in grupo_a.equipos
+        }
+
+    if grupo_b:
+        equipos_b = {
+            equipo.equipo.strip()
+            for equipo in grupo_b.equipos
+        }
+
+    # ============================================
+    # PREPARAR JORNADAS
+    # ============================================
+
+    resultados = []
+
+    for jornada in datos:
+
+        partidos_a = []
+        partidos_b = []
+        partidos_otros = []
+
+        for partido in jornada['partidos']:
+
+            local = (partido.local or '').strip()
+            visitante = (partido.visitante or '').strip()
+
+            # ----------------------------
+            # GRUPO A
+            # ----------------------------
+
+            if local in equipos_a and visitante in equipos_a:
+
+                partidos_a.append(partido)
+
+            # ----------------------------
+            # GRUPO B
+            # ----------------------------
+
+            elif local in equipos_b and visitante in equipos_b:
+
+                partidos_b.append(partido)
+
+            # ----------------------------
+            # OTROS
+            # ----------------------------
+
+            else:
+
+                partidos_otros.append(partido)
+
+        resultados.append({
+            'nombre': jornada['nombre'],
+            'partidos_a': partidos_a,
+            'partidos_b': partidos_b,
+            'partidos_otros': partidos_otros
+        })
+
+    return resultados
 # Calendario Aliados
 @aliados_route_bp.route('/equipos_basket/calendario_aliados')
 def calendario_aliados():
@@ -610,6 +693,613 @@ def activar_temporada_aliados(id):
     temporada.activa = True
     db.session.commit()
     return redirect(url_for('aliados_route_bp.temporadas_aliados')) 
+
+
+#NUEVO FORMATO LIGA BSR VALLADOLID
+# GRUPOS NUEVO FORMATO ALIADOS
+@aliados_route_bp.route('/admin/grupos_aliados', methods=['GET'])
+def grupos_aliados():
+    grupos = (
+        AliadosGrupo.query
+        .order_by(
+            AliadosGrupo.fase.asc(),
+            AliadosGrupo.id.asc()
+        )
+        .all()
+    )
+
+    return render_template(
+        'admin/clubs/clubs_aliados.html',
+        grupos=grupos
+    )
+# Crear grupo
+@aliados_route_bp.route('/admin/crear_grupo_aliados', methods=['POST'])
+def crear_grupo_aliados():
+    nombre = request.form.get('nombre')
+    fase = request.form.get('fase')
+
+    if not nombre or not fase:
+        flash(
+            'Debes indicar el grupo y la fase.',
+            'warning'
+        )
+
+        return redirect(
+            url_for(
+                'aliados_route_bp.grupos_aliados'
+            )
+        )
+
+    # Evitar grupos duplicados
+    existe = AliadosGrupo.query.filter_by(
+        nombre=nombre,
+        fase=fase
+    ).first()
+
+    if existe:
+        flash(
+            'Ese grupo ya existe.',
+            'warning'
+        )
+
+        return redirect(
+            url_for(
+                'aliados_route_bp.grupos_aliados'
+            )
+        )
+
+    grupo = AliadosGrupo(
+        nombre=nombre,
+        fase=fase
+    )
+
+    db.session.add(grupo)
+    db.session.commit()
+
+    flash(
+        f'Grupo {nombre} creado correctamente.',
+        'success'
+    )
+
+    return redirect(
+        url_for(
+            'aliados_route_bp.grupos_aliados'
+        )
+    )    
+#Añadir equipo al grupo
+@aliados_route_bp.route('/admin/crear_equipo_grupo_aliados',methods=['POST'])
+def crear_equipo_grupo_aliados():
+    grupo_id = request.form.get('grupo_id')
+    equipo = request.form.get('equipo', '').strip()
+
+    if not grupo_id or not equipo:
+        flash(
+            'Debes indicar un equipo.',
+            'warning'
+        )
+
+        return redirect(
+            url_for(
+                'aliados_route_bp.grupos_aliados'
+            )
+        )
+
+    grupo = AliadosGrupo.query.get_or_404(grupo_id)
+
+    # No permitir más de 8 equipos
+    if len(grupo.equipos) >= 8:
+        flash(
+            'Este grupo ya tiene 8 equipos.',
+            'warning'
+        )
+
+        return redirect(
+            url_for(
+                'aliados_route_bp.grupos_aliados'
+            )
+        )
+
+    # Evitar que el mismo equipo esté dos veces en el grupo
+    existe = AliadosGrupoEquipo.query.filter_by(
+        grupo_id=grupo.id,
+        equipo=equipo
+    ).first()
+
+    if existe:
+        flash(
+            'Ese equipo ya está en este grupo.',
+            'warning'
+        )
+
+        return redirect(
+            url_for(
+                'aliados_route_bp.grupos_aliados'
+            )
+        )
+
+    nuevo_equipo = AliadosGrupoEquipo(
+        grupo_id=grupo.id,
+        equipo=equipo
+    )
+
+    db.session.add(nuevo_equipo)
+    db.session.commit()
+
+    flash(
+        f'{equipo} añadido al Grupo {grupo.nombre}.',
+        'success'
+    )
+
+    return redirect(
+        url_for(
+            'aliados_route_bp.grupos_aliados'
+        )
+    )    
+#Eliminar equipo
+@aliados_route_bp.route( '/admin/eliminar_equipo_grupo_aliados/<int:id>', methods=['POST'])
+def eliminar_equipo_grupo_aliados(id):
+    equipo = AliadosGrupoEquipo.query.get_or_404(id)
+    db.session.delete(equipo)
+    db.session.commit()
+    flash(
+        'Equipo eliminado del grupo.',
+        'success'
+    )
+    return redirect(url_for('aliados_route_bp.grupos_aliados')
+    )
+#Ver clasificación público
+@aliados_route_bp.route('/equipos_basket/clasifi_aliados')
+def clasifi_analisis_aliados():
+    # DATOS DE LA TEMPORADA ACTIVA
+    data = obtener_datos_aliados()
+    # OBTENER GRUPOS
+    grupo_a = AliadosGrupo.query.filter_by(nombre="A").first()
+    grupo_b = AliadosGrupo.query.filter_by(nombre="B").first()
+    equipos_a = []
+    equipos_b = []
+    if grupo_a:
+        equipos_a = [
+            equipo.equipo
+            for equipo in grupo_a.equipos
+        ]
+    if grupo_b:
+        equipos_b = [
+            equipo.equipo
+            for equipo in grupo_b.equipos
+        ]
+    # GENERAR CLASIFICACIONES
+    clasificacion_grupo_a = generar_clasificacion_grupo_aliados(
+        data,
+        equipos_a
+    )
+
+    clasificacion_grupo_b = generar_clasificacion_grupo_aliados(
+        data,
+        equipos_b
+    )
+    # RENDER
+    return render_template(
+        'equipos_vall/clasif_aliados.html',
+
+        clasificacion_grupo_a=clasificacion_grupo_a,
+        clasificacion_grupo_b=clasificacion_grupo_b,
+
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("aliados")
+        ),
+
+        schema_team=jsonld(
+            schema_sports_team(
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/clasifi_aliados"
+            )
+        ),
+
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_aliados"
+            )
+        )
+    )
+#Genera las clasificaciones    
+def generar_clasificacion_grupo_aliados(data, equipos_grupo):
+    clasificacion = {}
+    # CREAR LOS 8 EQUIPOS DEL GRUPO
+    for equipo in equipos_grupo:
+        clasificacion[equipo] = {
+            'equipo': equipo,
+            'jugados': 0,
+            'ganados': 0,
+            'perdidos': 0,
+            'favor': 0,
+            'contra': 0,
+            'diferencia_canastas': 0,
+            'puntos': 0
+        }
+    # RECORRER PARTIDOS
+    for jornada in data:
+        for partido in jornada['partidos']:
+            local = (partido.local or '').strip()
+            visitante = (partido.visitante or '').strip()
+            # Solo partidos entre equipos de ESTE grupo
+            if local not in clasificacion:
+                continue
+            if visitante not in clasificacion:
+                continue
+            # Sin resultado todavía
+            if partido.resultadoA in (None, ''):
+                continue
+            if partido.resultadoB in (None, ''):
+                continue
+            try:
+                resultado_local = int(partido.resultadoA)
+                resultado_visitante = int(partido.resultadoB)
+
+            except (ValueError, TypeError):
+                continue
+            # ESTADÍSTICAS GENERALES
+            clasificacion[local]['jugados'] += 1
+            clasificacion[visitante]['jugados'] += 1
+
+            clasificacion[local]['favor'] += resultado_local
+            clasificacion[local]['contra'] += resultado_visitante
+
+            clasificacion[visitante]['favor'] += resultado_visitante
+            clasificacion[visitante]['contra'] += resultado_local
+
+            diferencia = resultado_local - resultado_visitante
+
+            clasificacion[local]['diferencia_canastas'] += diferencia
+            clasificacion[visitante]['diferencia_canastas'] -= diferencia
+            # RESULTADO
+            if resultado_local > resultado_visitante:
+
+                clasificacion[local]['ganados'] += 1
+                clasificacion[local]['puntos'] += 2
+
+                clasificacion[visitante]['perdidos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+
+            elif resultado_visitante > resultado_local:
+
+                clasificacion[visitante]['ganados'] += 1
+                clasificacion[visitante]['puntos'] += 2
+
+                clasificacion[local]['perdidos'] += 1
+                clasificacion[local]['puntos'] += 1
+
+            else:
+
+                clasificacion[local]['puntos'] += 1
+                clasificacion[visitante]['puntos'] += 1
+    # ORDENAR CLASIFICACIÓN
+    clasificacion_ordenada = sorted(
+        clasificacion.values(),
+        key=lambda x: (
+            -x['puntos'],
+            -x['diferencia_canastas'],
+            -x['favor']
+        )
+    )
+    return clasificacion_ordenada    
+#Resultados Aliados
+@aliados_route_bp.route('/equipos_basket/resultados2_aliados')
+def resultados2_aliados():
+    datos = obtener_datos_aliados()
+    nuevos_datos_aliados = [
+        dato for dato in datos if dato
+    ]
+    # JORNADA ACTIVA
+    jornada_activa = None
+    for jornada in nuevos_datos_aliados:
+        jornada_completa = all(
+            p.resultadoA not in (None, "") and
+            p.resultadoB not in (None, "")
+            for p in jornada['partidos']
+        )
+        if not jornada_completa:
+            jornada_activa = jornada['nombre']
+            break
+    # Si todas están completas,
+    # mostrar la última
+    if jornada_activa is None and nuevos_datos_aliados:
+
+        jornada_activa = nuevos_datos_aliados[-1]['nombre']
+    # SEPARAR GRUPOS
+    resultados_preparados = preparar_resultados_aliados(
+        nuevos_datos_aliados
+    )
+    # SCHEMA
+    partidos_schema = obtener_partidos_schema(
+        nuevos_datos_aliados
+    )
+    return render_template(
+        'equipos_vall/jornadas_aliados.html',
+        nuevos_datos_aliados=nuevos_datos_aliados,
+        resultados_aliados=resultados_preparados,
+        jornada_activa=jornada_activa,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("aliados")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/resultados2_aliados"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/resultados2_aliados"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/resultados2_aliados"
+            )
+        )
+    )
+# NUEVO FORMATO ALIADOS - CREAR JORNADAS GRUPOS A/B
+@aliados_route_bp.route('/admin/crear_calendario_aliados_nuevo', methods=['GET', 'POST'])
+def crear_calendario_aliados_nuevo():
+
+    if request.method == 'POST':
+
+        temporada_nombre = request.form['temporada']
+        jornada_numero = request.form['jornada']
+
+        # Siempre tendremos 8 partidos:
+        # 1-4  -> Grupo A
+        # 5-8  -> Grupo B
+        num_partidos = 8
+
+        # Buscar temporada
+        temporada = TemporadaAliados.query.filter_by(
+            nombre=temporada_nombre
+        ).first()
+
+        # Crear temporada si no existe
+        if not temporada:
+            temporada = TemporadaAliados(
+                nombre=temporada_nombre,
+                activa=False
+            )
+            db.session.add(temporada)
+            db.session.flush()
+
+        # Nombre de la jornada
+        nombre_jornada = f"Jornada {jornada_numero}"
+
+        # Crear jornada
+        jornada = JornadaAliados(
+            nombre=nombre_jornada,
+            temporada_id=temporada.id
+        )
+
+        db.session.add(jornada)
+        db.session.flush()
+
+        # Crear los 8 partidos
+        for i in range(num_partidos):
+
+            partido = AliadosPartido(
+                jornada_id=jornada.id,
+                fecha=request.form.get(f'fecha{i}', ''),
+                hora=request.form.get(f'hora{i}', ''),
+                local=request.form.get(f'local{i}', ''),
+                resultadoA=request.form.get(f'resultadoA{i}', ''),
+                resultadoB=request.form.get(f'resultadoB{i}', ''),
+                visitante=request.form.get(f'visitante{i}', ''),
+                orden=i
+            )
+
+            db.session.add(partido)
+
+        db.session.commit()
+
+        return redirect(
+            url_for('aliados_route_bp.calendarios_aliados')
+        )
+
+    return render_template(
+        'admin/calendarios/calend_aliados_nuevo.html'
+    )
+#Calendario Nuevo Admin
+@aliados_route_bp.route('/admin/calendario_aliados_nuevo')
+def calendarios_aliados_nuevo():
+
+    temporada = TemporadaAliados.query.filter_by(
+        activa=True
+    ).first()
+
+    if temporada:
+
+        jornadas = (
+            JornadaAliados.query
+            .filter_by(temporada_id=temporada.id)
+            .filter(
+                JornadaAliados.nombre.like("Jornada % - %")
+            )
+            .order_by(JornadaAliados.id.asc())
+            .all()
+        )
+
+    else:
+
+        jornadas = []
+
+    for jornada in jornadas:
+
+        jornada.partidos = (
+            db.session.query(AliadosPartido)
+            .filter_by(jornada_id=jornada.id)
+            .order_by(AliadosPartido.orden.asc())
+            .all()
+        )
+
+    return render_template(
+        'admin/calendarios/calend_aliados_nuevo.html',
+        jornadas=jornadas
+    )    
+#Calendario Individual
+@aliados_route_bp.route('/equipos_basket/calendario_aliados_nuevo')
+def calendario_aliados_nuevo():
+
+    datos = obtener_datos_aliados()
+
+    equipo_aliados = 'BSR Valladolid'
+
+    tabla_partidos_aliados = []
+
+    for jornada in datos:
+
+        nombre_jornada = jornada['nombre']
+
+        # Obtener número de jornada
+        try:
+            numero_jornada = int(
+                nombre_jornada.replace('Jornada', '').strip()
+            )
+        except (ValueError, AttributeError):
+            continue
+
+        # -----------------------------------------
+        # DETERMINAR FASE
+        # -----------------------------------------
+
+        if numero_jornada <= 7:
+            fase = 'fase1'
+        else:
+            fase = 'fase2'
+
+        for partido in jornada['partidos']:
+
+            equipo_local = partido.local
+            equipo_visitante = partido.visitante
+
+            # -----------------------------------------
+            # SOLO PARTIDOS DEL BSR VALLADOLID
+            # -----------------------------------------
+
+            if (
+                equipo_local != equipo_aliados
+                and equipo_visitante != equipo_aliados
+            ):
+                continue
+
+            # -----------------------------------------
+            # PARTIDO DESDE EL PUNTO DE VISTA DEL BSR
+            # -----------------------------------------
+
+            if equipo_local == equipo_aliados:
+
+                equipo_contrario = equipo_visitante
+
+                resultado_aliados = partido.resultadoA
+                resultado_contrario = partido.resultadoB
+
+                rol_aliados = 'C'
+
+            else:
+
+                equipo_contrario = equipo_local
+
+                resultado_aliados = partido.resultadoB
+                resultado_contrario = partido.resultadoA
+
+                rol_aliados = 'F'
+
+            # -----------------------------------------
+            # GUARDAR EL ENFRENTAMIENTO
+            #
+            # NO AGRUPAMOS POR EQUIPO.
+            #
+            # Esto es importante:
+            #
+            # Fase 1:
+            # Econy -> Jornada 2
+            #
+            # Fase 2:
+            # Econy -> Jornada 9
+            #
+            # Son DOS enfrentamientos independientes.
+            # -----------------------------------------
+
+            tabla_partidos_aliados.append({
+
+                'equipo': equipo_contrario,
+
+                'jornada': nombre_jornada,
+
+                'numero_jornada': numero_jornada,
+
+                'fase': fase,
+
+                'resultado_aliados': resultado_aliados,
+
+                'resultado_contrario': resultado_contrario,
+
+                'rol_aliados': rol_aliados
+
+            })
+
+    # -----------------------------------------
+    # ORDENAR POR JORNADA
+    # -----------------------------------------
+
+    tabla_partidos_aliados.sort(
+        key=lambda x: x['numero_jornada']
+    )
+
+    # -----------------------------------------
+    # SCHEMA
+    # -----------------------------------------
+
+    partidos_schema = obtener_partidos_schema(datos)
+
+    return render_template(
+        'equipos_vall/calendario_aliados.html',
+
+        tabla_partidos_aliados=tabla_partidos_aliados,
+
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("aliados")
+        ),
+
+        schema_team=jsonld(
+            schema_sports_team(
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_aliados_nuevo"
+            )
+        ),
+
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_aliados_nuevo"
+            )
+        ),
+
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aliados",
+                "https://deportesdelaciudad.es/equipos_basket/calendario_aliados_nuevo"
+            )
+        )
+    )
+
+
+
+
+
+
+
+
+
 
 
 # HISTORIAL BSR VALLADOLID

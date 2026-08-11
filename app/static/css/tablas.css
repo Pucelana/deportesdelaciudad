@@ -18,6 +18,9 @@
 #form_partidos_aliados{
     display: none;
 }
+#form_partidos_aliados_nuevo{
+    display: none;
+}
 /* FÚTBOL */
 #form_partidos_valladolid{
     display: none;

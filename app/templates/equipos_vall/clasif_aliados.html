@@ -1,27 +1,13 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} {% block title
-%}Clasificación | BSR Valladolid | Deportes de la Ciudad{% endblock %} 
-
-{% block description %}
-Clasificación actualizada del BSR Valladolid: posición, victorias, derrotas, puntos, y analisis de objetivos.
-{% endblock %}
-
-{% block og_title %}
-Clasificación | BSR Valladolid | Deportes de la Ciudad
-{% endblock %}
-
-{% block og_description %}
-Consulta la clasificación actualizada del BSR Valladolid.
-{% endblock %}
-
-{% block twitter_title %}
-Clasificación | BSR Valladolid | Deportes de la Ciudad
-{% endblock %}
-
-{% block twitter_description %}
-Consulta la clasificación actualizada del BSR Valladolid.
-{% endblock %}
-
-{% block breadcrumb %}
+%}Clasificación | BSR Valladolid | Deportes de la Ciudad{% endblock %} {% block
+description %} Clasificación actualizada del BSR Valladolid: posición,
+victorias, derrotas, puntos, y analisis de objetivos. {% endblock %} {% block
+og_title %} Clasificación | BSR Valladolid | Deportes de la Ciudad {% endblock
+%} {% block og_description %} Consulta la clasificación actualizada del BSR
+Valladolid. {% endblock %} {% block twitter_title %} Clasificación | BSR
+Valladolid | Deportes de la Ciudad {% endblock %} {% block twitter_description
+%} Consulta la clasificación actualizada del BSR Valladolid. {% endblock %} {%
+block breadcrumb %}
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ms-1">
     <li class="breadcrumb-item">
@@ -33,7 +19,7 @@ Consulta la clasificación actualizada del BSR Valladolid.
     </li>
     <li class="breadcrumb-item">
       <a
-        href="/equipos_basket/calendario_aliados"
+        href="/equipos_basket/calendario_aliados_nuevo"
         class="text-white text-decoration-none text-analisis fs-6"
         >Calendario Ind.</a
       >
@@ -45,12 +31,18 @@ Consulta la clasificación actualizada del BSR Valladolid.
         >Resultados</a
       >
     </li>
-    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+    <li
+      class="breadcrumb-item active text-dark text-analisis fs-6"
+      aria-current="page"
+    >
       Clasificaciones
     </li>
     <li class="breadcrumb-item">
-      <a href="/aliados/historial"
-        class="text-decoration-none text-white text-analisis fs-6">Historial</a>
+      <a
+        href="/aliados/historial"
+        class="text-decoration-none text-white text-analisis fs-6"
+        >Historial</a
+      >
     </li>
   </ol>
 </nav>
@@ -58,33 +50,32 @@ Consulta la clasificación actualizada del BSR Valladolid.
 <section class="container-lg mb-5 flex-fill copa">
   <!-- Navegador personalizado -->
   <div class="d-flex justify-content-center my-2 gap-1">
-    <button
-      class="btn btn-outline-light tab-btn active"
-      data-tab="clasificacion"
-    >
-      Clasificación
+    <button class="btn btn-outline-light tab-btn active" data-tab="grupoA">
+      Grupo A
     </button>
-    <button class="btn btn-outline-light tab-btn" data-tab="playoff">
-      PlayOff
+    <button class="btn btn-outline-light tab-btn" data-tab="grupoB">
+      Grupo B
     </button>
-    <button class="btn btn-outline-light tab-btn" data-tab="europa">
-      Europa
+    <!--<button class="btn btn-outline-light tab-btn" data-tab="play-in">
+      Play-in
     </button>
-    <button class="btn btn-outline-light tab-btn" data-tab="descenso">
-      Descenso
+    <button class="btn btn-outline-light tab-btn" data-tab="oro">
+      Grupo Oro
     </button>
+    <button class="btn btn-outline-light tab-btn" data-tab="plata">
+      Grupo Plata
+    </button>-->
   </div>
   <div class="tab-container">
-    <div class="tab-pane active" id="clasificacion">
-      <!--Tabla Clasificación-->
+    <div class="tab-pane active" id="grupoA">
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                División de Honor BSR
+                División de Honor BSR — Grupo A
               </h3>
-              <table id="tablaClasificacion" class="table">
+              <table class="table">
                 <thead>
                   <tr>
                     <th></th>
@@ -93,121 +84,205 @@ Consulta la clasificación actualizada del BSR Valladolid.
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">P</th>
                     <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      C
+                    </th>
+
                     <th class="equipo-mobile text-center">DP</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">PT</th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PT
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for equipo in clasificacion_analisis_aliados %}
+                  {% for equipo in clasificacion_grupo_a %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 11 %}pos-promo{% elif loop.index <= 12 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 5 %} pos-ascen {% elif loop.index <= 7 %} pos-playoff {% else %} pos-nada {% endif %}"
                     >
                       {{ loop.index }}
                     </td>
+
                     <td
-                      class="equipo-mobile text-start size_equipos2 {% if 'BSR Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start size_equipos2 {% if 'BSR Valladolid' in equipo['equipo'] %} equipo-pucela {% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center jugados">
-                      {{ equipo['datos']['jugados'] }}
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center ganados">
-                      {{ equipo['datos']['ganados'] }}
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center perdidos">
-                      {{ equipo['datos']['perdidos'] }}
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['perdidos'] }}
                     </td>
-                    <td class="equipo-mobile text-center favor d-none d-md-table-cell">
-                      {{ equipo['datos']['favor'] }}
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['favor'] }}
                     </td>
-                    <td class="equipo-mobile text-center contra d-none d-md-table-cell">
-                      {{ equipo['datos']['contra']}}
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['contra'] }}
                     </td>
-                    <td class="equipo-mobile text-center dife">
-                      {{ equipo['datos']['diferencia_canastas'] }}
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['diferencia_canastas'] }}
                     </td>
-                    <td class="equipo-mobile text-center puntos d-none d-md-table-cell">
-                      {{ equipo['datos']['puntos'] }}
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['puntos'] }}
                     </td>
                   </tr>
+
                   {% endfor %}
                 </tbody>
               </table>
             </div>
           </div>
+
           <small class="text-center">
-            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif. Puntos); PT(Puntos)
+            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif.
+            Puntos); PT(Puntos)
           </small>
-          <small class="text-center mb-3">Europa<span class="badge bg-success ms-2">1</span>; PlayOffs
-            (Título)<span class="badge bg-success ms-2">1-4</span> ; Prom.
-            (Descenso)<span class="badge ms-2" style="background-color: #ff7171">11</span>; 
-            Descenso<span class="badge bg-danger ms-2">12</span>
+
+          <small class="text-center mb-3">
+            Grupo Oro
+            <span class="badge bg-success ms-2">1-5</span>
+
+            ; Play-in
+            <span class="badge bg-warning ms-2">6-7</span>
+
+            ; Grupo Plata
+            <span class="badge bg-secondary ms-2">8</span>
           </small>
         </div>
       </div>
     </div>
-    <div class="tab-pane" id="playoff">
-      <!--Tabla PlayOff-->
+    <div class="tab-pane active" id="grupoB">
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                PlayOff al Título
+                División de Honor BSR — Grupo B
               </h3>
-              <table id="tablaPlayAliados" class="table">
+              <table class="table">
                 <thead>
                   <tr>
                     <th></th>
                     <th class="equipo-mobile text-start">Equipos</th>
                     <th class="equipo-mobile text-center">J</th>
                     <th class="equipo-mobile text-center">G</th>
-                    <th class="equipo-mobile text-center">%</th>
-                    <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
+                    <th class="equipo-mobile text-center">P</th>
+                    <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      C
+                    </th>
+
+                    <th class="equipo-mobile text-center">DP</th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PT
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for equipo in clasificacion_analisis_aliados %}
+                  {% for equipo in clasificacion_grupo_b %}
                   <tr>
-                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
-                    <td class="equipo-mobile text-start fs-5 size_equipos2">
+                    <td
+                      class="equipo-mobile text-center {% if loop.index <= 1 %} pos-ascen {% elif loop.index <= 3 %} pos-playoff {% else %} pos-nada {% endif %}"
+                    >
+                      {{ loop.index }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-start size_equipos2 {% if 'BSR Valladolid' in equipo['equipo'] %} equipo-pucela {% endif %}"
+                    >
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center play-jug">
-                      {{ equipo['datos']['jugados'] }}
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center play-act">
-                      {{ equipo['datos']['ganados'] }}
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center play-prox"></td>
-                    <td class="equipo-mobile text-center play-mate"></td>
-                    <td class="equipo-mobile text-center play-opti d-none d-md-table-cell"></td>
-                    <td class="equipo-mobile text-center play-pesi d-none d-md-table-cell"></td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['perdidos'] }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['favor'] }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['contra'] }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['diferencia_canastas'] }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['puntos'] }}
+                    </td>
                   </tr>
+
                   {% endfor %}
                 </tbody>
               </table>
             </div>
           </div>
+          <small class="text-center">
+            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif.
+            Puntos); PT(Puntos)
+          </small>
           <small class="text-center mb-3">
-            J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)
+            Grupo Oro
+            <span class="badge bg-success ms-2">1</span>
+            ; Play-in
+            <span class="badge bg-warning ms-2">2-3</span>
+            ; Grupo Plata
+            <span class="badge bg-secondary ms-2">4-8</span>
           </small>
         </div>
       </div>
     </div>
-    <div class="tab-pane" id="europa">
+    <div class="tab-pane" id="play-in">
       <!--Tabla Descenso-->
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                Eurocup
+                Play-In
               </h3>
               <table id="tablaEuroAliados" class="table">
                 <thead>
@@ -218,14 +293,24 @@ Consulta la clasificación actualizada del BSR Valladolid.
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      Op
+                    </th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      Pes
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {% for equipo in clasificacion_analisis_aliados %}
                   <tr>
-                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td class="equipo-mobile text-center">
+                      {{ equipo.index }}
+                    </td>
                     <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo['equipo'] }}
                     </td>
@@ -237,8 +322,12 @@ Consulta la clasificación actualizada del BSR Valladolid.
                     </td>
                     <td class="equipo-mobile text-center euro-prox"></td>
                     <td class="equipo-mobile text-center euro-mate"></td>
-                    <td class="equipo-mobile text-center euro-opti d-none d-md-table-cell"></td>
-                    <td class="equipo-mobile text-center euro-pesi d-none d-md-table-cell"></td>
+                    <td
+                      class="equipo-mobile text-center euro-opti d-none d-md-table-cell"
+                    ></td>
+                    <td
+                      class="equipo-mobile text-center euro-pesi d-none d-md-table-cell"
+                    ></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -246,19 +335,20 @@ Consulta la clasificación actualizada del BSR Valladolid.
             </div>
           </div>
           <small class="text-center mb-3">
-            J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)
+            J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos);
+            Op(Optimista); Pes(Pesimista)
           </small>
         </div>
       </div>
     </div>
-    <div class="tab-pane" id="descenso">
+    <div class="tab-pane" id="oro">
       <!--Tabla Descenso-->
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                Liga BSR 1ª División
+                División de Honor BSR - Grupo Oro
               </h3>
               <table id="tablaDescAliados" class="table">
                 <thead>
@@ -269,14 +359,26 @@ Consulta la clasificación actualizada del BSR Valladolid.
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">%</th>
                     <th class="equipo-mobile text-center">Mat</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">Op</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">Pes</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      Op
+                    </th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      Pes
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for equipo in clasificacion_analisis_aliados %}
+                  {% for equipo in clasificacion_oro %}
                   <tr>
-                    <td class="equipo-mobile text-center">{{ equipo.index }}</td>
+                    <td
+                      class="equipo-mobile text-center {% if loop.index <= 6 %} pos-ascen {% else %} pos-nada {% endif %}"
+                    >
+                      {{ loop.index }}
+                    </td>
                     <td class="equipo-mobile text-start size_equipos2">
                       {{ equipo['equipo'] }}
                     </td>
@@ -288,8 +390,12 @@ Consulta la clasificación actualizada del BSR Valladolid.
                     </td>
                     <td class="equipo-mobile text-center desc-prox"></td>
                     <td class="equipo-mobile text-center desc-mate"></td>
-                    <td class="equipo-mobile text-center desc-opti d-none d-md-table-cell"></td>
-                    <td class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"></td>
+                    <td
+                      class="equipo-mobile text-center desc-opti d-none d-md-table-cell"
+                    ></td>
+                    <td
+                      class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"
+                    ></td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -297,8 +403,92 @@ Consulta la clasificación actualizada del BSR Valladolid.
             </div>
           </div>
           <small class="text-center mb-3">
-            J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos); Op(Optimista); Pes(Pesimista)
+            J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos);
+            Op(Optimista); Pes(Pesimista)
           </small>
+          <small class="text-center mb-3">
+            Final-Six
+            <span class="badge bg-success ms-2">1-6</span>
+            ; Nada
+            <span class="badge bg-warning ms-2">7-8</span>
+          </small>
+        </div>
+      </div>
+      <div class="tab-pane" id="plata">
+        <!--Tabla Descenso-->
+        <div class="d-flex justify-content-center">
+          <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
+            <div class="card-body">
+              <div class="table-responsive">
+                <h3 class="text-center text-white fw-bold text-analisis fs-4">
+                  División de Honor BSR - Grupo Plata
+                </h3>
+                <table id="tablaDescAliados" class="table">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th class="equipo-mobile text-start">Equipos</th>
+                      <th class="equipo-mobile text-center">J</th>
+                      <th class="equipo-mobile text-center">G</th>
+                      <th class="equipo-mobile text-center">%</th>
+                      <th class="equipo-mobile text-center">Mat</th>
+                      <th
+                        class="equipo-mobile text-center d-none d-md-table-cell"
+                      >
+                        Op
+                      </th>
+                      <th
+                        class="equipo-mobile text-center d-none d-md-table-cell"
+                      >
+                        Pes
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for equipo in clasificacion_plata %}
+                    <tr>
+                      <td
+                      class="equipo-mobile text-center {% if loop.index <= 6 %} pos-nada {% else %} pos-desc {% endif %}"
+                    >
+                      {{ loop.index }}
+                    </td>
+                      <td class="equipo-mobile text-center">
+                        {{ equipo.index }}
+                      </td>
+                      <td class="equipo-mobile text-start size_equipos2">
+                        {{ equipo['equipo'] }}
+                      </td>
+                      <td class="equipo-mobile text-center desc-jug">
+                        {{ equipo['datos']['jugados'] }}
+                      </td>
+                      <td class="equipo-mobile text-center desc-act">
+                        {{ equipo['datos']['ganados'] }}
+                      </td>
+                      <td class="equipo-mobile text-center desc-prox"></td>
+                      <td class="equipo-mobile text-center desc-mate"></td>
+                      <td
+                        class="equipo-mobile text-center desc-opti d-none d-md-table-cell"
+                      ></td>
+                      <td
+                        class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"
+                      ></td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <small class="text-center mb-3">
+              J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos);
+              Op(Optimista); Pes(Pesimista)
+            </small>
+            <small class="text-center mb-3">
+            Final-Six
+            <span class="badge bg-secondary ms-2">1-6</span>
+            ; Nada
+            <span class="badge bg-danger ms-2">7-8</span>
+          </small>
+          </div>
         </div>
       </div>
     </div>
