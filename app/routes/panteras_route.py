@@ -169,9 +169,9 @@ def calendario_panteras():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
             # Verificamos si el Caja está jugando
-            if equipo_local == equipo_panteras or equipo_visitante == equipo_panteras:
+            if equipo_local in equipo_panteras or equipo_visitante in equipo_panteras:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_panteras:
+                if equipo_local in equipo_panteras:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante

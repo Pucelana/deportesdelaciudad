@@ -98,3 +98,110 @@
     }
 
 }
+
+/* =========================================================
+   SELECTOR DE JORNADAS
+   ========================================================= */
+
+/* Por defecto ocultamos el selector móvil */
+.selector-jornadas-movil {
+    display: none;
+}
+
+
+/* =========================================================
+   MÓVIL
+   ========================================================= */
+
+@media (max-width: 920px) {
+
+    .selector-jornadas-escritorio {
+        display: none !important;
+    }
+
+    .selector-jornadas-movil {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 3px;
+        width: 100%;
+        margin: 15px 0;
+        padding: 0 2px;
+        box-sizing: border-box;
+    }
+
+    /* Lista de las jornadas */
+    .jornadas-movil-lista {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2px;
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    /* Botones de jornada */
+    .jornadas-movil-lista .btn-jornada {
+        flex: 0 0 24px;
+        width: 24px;
+        min-width: 24px;
+        height: 32px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 0;
+
+        border-radius: 5px;
+
+        font-size: 13px;
+        font-weight: 600;
+
+        background: #ffffff;
+        color: #1f4f8f !important;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+
+        box-sizing: border-box;
+    }
+
+    /* Jornada activa */
+    .jornadas-movil-lista .btn-jornada.active {
+        background: #975bbe;
+        color: #ffffff !important;
+        font-weight: 700;
+    }
+
+    /* Flechas */
+    .flecha-jornada {
+        flex: 0 0 25px;
+
+        width: 27px;
+        min-width: 27px;
+        height: 27px;
+
+        padding: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: none;
+        border-radius: 5px;
+
+        background:white;
+        color: #975bbe;
+
+        font-size: 20px;
+        line-height: 1;
+
+        cursor: pointer;
+    }
+
+    .flecha-jornada:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+
+}

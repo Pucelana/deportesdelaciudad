@@ -54,15 +54,61 @@ Resultados y marcadores del Aula Valladolid jornada a jornada.
 </nav>
 {% endblock %} {% block contenido %}
 <!-- BOTONES JORNADAS -->
-<div class="section-botones d-flex justify-content-center flex-wrap gap-2 my-3">
-  {% for goles in nuevos_datos_aula %}
-  <a
-    href="#"
-    class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
-    data-target="jornada{{ loop.index }}">
-    {{ loop.index }}
-  </a>
-  {% endfor %}
+<!-- SELECTOR DE JORNADAS -->
+<div class="selector-jornadas">
+
+  <!-- Selector móvil -->
+  <div class="selector-jornadas-movil">
+
+    <button
+      type="button"
+      class="flecha-jornada"
+      id="jornadaAnterior"
+      aria-label="Jornadas anteriores"
+    >
+      ‹
+    </button>
+
+    <div class="jornadas-movil-lista" id="jornadasMovilLista">
+      {% for goles in nuevos_datos_aula %}
+        <a
+          href="#"
+          class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
+          data-target="jornada{{ loop.index }}"
+          data-jornada="{{ loop.index }}"
+        >
+          {{ loop.index }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <button
+      type="button"
+      class="flecha-jornada"
+      id="jornadaSiguiente"
+      aria-label="Jornadas siguientes"
+    >
+      ›
+    </button>
+
+  </div>
+
+
+  <!-- Selector escritorio -->
+  <div class="selector-jornadas-escritorio d-flex justify-content-center flex-wrap gap-2 my-3">
+
+    {% for goles in nuevos_datos_aula %}
+      <a
+        href="#"
+        class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
+        data-target="jornada{{ loop.index }}"
+      >
+        {{ loop.index }}
+      </a>
+    {% endfor %}
+
+  </div>
+
 </div>
 
 <!-- CONTENEDOR JORNADAS -->
@@ -124,32 +170,164 @@ Resultados y marcadores del Aula Valladolid jornada a jornada.
 </div>
 {% endblock %} {% block scripts %}
 <script>
-  document.querySelectorAll(".btn-jornada").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
+document.addEventListener("DOMContentLoaded", function () {
 
-      const targetId = this.dataset.target;
+    /* =====================================================
+       SELECCIÓN DE JORNADA
+       ===================================================== */
 
-      // 🔵 botones activos
-      document.querySelectorAll(".btn-jornada").forEach((b) => {
-        b.classList.remove("active");
-      });
-      this.classList.add("active");
+    document.querySelectorAll(".btn-jornada").forEach((btn) => {
 
-      // 🔴 ocultar todas las jornadas
-      document.querySelectorAll(".jornada-contenido").forEach((j) => {
-        j.classList.add("d-none");
-        j.classList.remove("active");
-      });
+        btn.addEventListener("click", function (e) {
 
-      // 🟢 mostrar seleccionada
-      const target = document.getElementById(targetId);
+            e.preventDefault();
 
-      if (target) {
-        target.classList.remove("d-none");
-        target.classList.add("active");
-      }
+            const targetId = this.dataset.target;
+
+            // 🔵 botones activos
+            document.querySelectorAll(".btn-jornada").forEach((b) => {
+                b.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+
+            // 🔴 ocultar todas las jornadas
+            document.querySelectorAll(".jornada-contenido").forEach((j) => {
+                j.classList.add("d-none");
+                j.classList.remove("active");
+            });
+
+
+            // 🟢 mostrar seleccionada
+            const target = document.getElementById(targetId);
+
+            if (target) {
+                target.classList.remove("d-none");
+                target.classList.add("active");
+            }
+
+        });
+
     });
-  });
+
+
+    /* =====================================================
+       NAVEGACIÓN DE JORNADAS EN MÓVIL
+       ===================================================== */
+
+    const lista = document.getElementById("jornadasMovilLista");
+    const anterior = document.getElementById("jornadaAnterior");
+    const siguiente = document.getElementById("jornadaSiguiente");
+
+    // Si no estamos en móvil / no existe el selector,
+    // no hacemos nada.
+    if (!lista || !anterior || !siguiente) {
+        return;
+    }
+
+
+    const jornadas = Array.from(
+        lista.querySelectorAll(".btn-jornada")
+    );
+
+    const JORNADAS_POR_BLOQUE = 10;
+
+    let bloqueActual = 0;
+
+    const totalBloques = Math.ceil(
+        jornadas.length / JORNADAS_POR_BLOQUE
+    );
+
+
+    /* =====================================================
+       MOSTRAR BLOQUE DE 10
+       ===================================================== */
+
+    function mostrarBloque() {
+
+        const inicio = bloqueActual * JORNADAS_POR_BLOQUE;
+        const fin = inicio + JORNADAS_POR_BLOQUE;
+
+        jornadas.forEach((jornada, index) => {
+
+            if (index >= inicio && index < fin) {
+                jornada.style.display = "flex";
+            } else {
+                jornada.style.display = "none";
+            }
+
+        });
+
+
+        // Flecha anterior
+        anterior.disabled = bloqueActual === 0;
+
+
+        // Flecha siguiente
+        siguiente.disabled =
+            bloqueActual === totalBloques - 1;
+    }
+
+
+    /* =====================================================
+       BUSCAR JORNADA ACTIVA
+       ===================================================== */
+
+    const jornadaActiva = jornadas.findIndex(
+        jornada => jornada.classList.contains("active")
+    );
+
+
+    if (jornadaActiva !== -1) {
+
+        bloqueActual = Math.floor(
+            jornadaActiva / JORNADAS_POR_BLOQUE
+        );
+
+    }
+
+
+    /* =====================================================
+       JORNADAS ANTERIORES
+       ===================================================== */
+
+    anterior.addEventListener("click", function () {
+
+        if (bloqueActual > 0) {
+
+            bloqueActual--;
+
+            mostrarBloque();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       JORNADAS SIGUIENTES
+       ===================================================== */
+
+    siguiente.addEventListener("click", function () {
+
+        if (bloqueActual < totalBloques - 1) {
+
+            bloqueActual++;
+
+            mostrarBloque();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       INICIALIZAR
+       ===================================================== */
+
+    mostrarBloque();
+
+});
 </script>
 {% endblock %}
