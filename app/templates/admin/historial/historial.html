@@ -252,7 +252,7 @@ Historial - {{ equipo }}
 
                                 <option value="">--</option>
 
-                                {% for c in ["No","1ª ronda","2ª ronda","Octavos","Cuartos","Semifinal","Final","Campeón"] %}
+                                {% for c in ["No","1ª ronda","2ª ronda","Dieciseisavos","Octavos","Cuartos","Semifinal","Final","Campeón"] %}
 
                                 <option value="{{ c }}"
                                     {% if temporada.copa == c %}selected{% endif %}>
@@ -267,7 +267,7 @@ Historial - {{ equipo }}
                             <label class="form-label">Europa</label>
                             <select name="europa" class="form-select">
                                 <option value="">--</option>
-                                {% for c in ["No","1ª ronda","2ª ronda","Octavos","8º","7º","Cuartos","6º","5º","Semifinal","4º","3º","Final","Campeón"] %}
+                                {% for c in ["No","1ª ronda","2ª ronda","Dieciseisavos","Octavos","8º","7º","Cuartos","6º","5º","Semifinal","4º","3º","Final","Campeón"] %}
                                 <option value="{{ c }}"
                                     {% if temporada.europa == c %}selected{% endif %}>
                                     {{ c }}

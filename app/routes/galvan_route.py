@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -141,7 +142,7 @@ def obtener_datos_galvan(nombre_temporada=None):
 @galvan_route_bp.route('/equipos_futsal/calendario_galvan')
 def calendario_galvan():
     datos = obtener_datos_galvan()
-    equipo_galvan = 'Tierno Galván'
+    equipo_galvan = NOMBRES_EQUIPOS["galvan"]
     tabla_partidos_galvan = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -151,9 +152,9 @@ def calendario_galvan():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
             # Verificamos si el UEMC está jugando
-            if equipo_local == equipo_galvan or equipo_visitante == equipo_galvan:
+            if equipo_local in equipo_galvan or equipo_visitante in equipo_galvan:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_galvan:
+                if equipo_local in equipo_galvan:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante

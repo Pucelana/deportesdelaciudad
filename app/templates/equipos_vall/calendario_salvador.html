@@ -60,16 +60,16 @@ Consulta el calendario individual actualizada de El Salvador.
                 <thead>
                   <tr class="text-center text-dark">
                     <th></th>
-                    <th colspan="1">Jornadas</th>
-                    <th colspan="2">Resultados</th>
+                    <th colspan="2">Jornadas</th>
+                    <th colspan="4">Resultados</th>
                     <!--<th colspan="2">Partidos</th>-->
                   </tr>
                   <tr class="text-center text-dark">
                     <th scope="col">Equipos</th>
                     <th class="text-center">Ida</th>
-                    <!--<th>Vlt</th>-->
+                    <th>Vlt</th>
                     <th class="text-center" colspan="2">Ida</th>
-                    <!--<th colspan="2">Vlt</th>-->
+                    <th colspan="2">Vlt</th>
                     <th>Pts</th>
                     <!--<th>PP</th>-->
                     <th>Avrg</th>
@@ -89,7 +89,7 @@ Consulta el calendario individual actualizada de El Salvador.
                       datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_salvador']
                       }}) {% endif %} {% endif %}
                     </td>
-                    <!--<td class="jorn_vuelta fw-bold">
+                    <td class="jorn_vuelta fw-bold">
                       {% if datos_equipo.get('segundo_enfrentamiento') %} {{
                       datos_equipo['segundo_enfrentamiento']|replace('Jornada','')
                       }} {% if
@@ -97,7 +97,7 @@ Consulta el calendario individual actualizada de El Salvador.
                       %} ({{
                       datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_salvador']
                       }}) {% endif %} {% endif %}
-                    </td>-->
+                    </td>
                     <td class="resultadoA fw-bold">
                       {{ tabla_partidos_salvador[equipo]['resultadoA'] }}
                     </td>
@@ -107,10 +107,10 @@ Consulta el calendario individual actualizada de El Salvador.
                     <td class="part1"></td>
                     <td class="average"></td>
                     <td class="resultadoAA fw-bold">
-                      <!--{{ tabla_partidos_salvador[equipo]['resultadoAA'] }}-->
+                      {{ tabla_partidos_salvador[equipo]['resultadoAA'] }}
                     </td>
                     <td class="resultadoBB fw-bold">
-                      <!--{{ tabla_partidos_salvador[equipo]['resultadoBB'] }}-->
+                      {{ tabla_partidos_salvador[equipo]['resultadoBB'] }}
                     </td>
                     
                   </tr>

@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title%}Clasificación | FS Valladolid | Deportes de la Ciudad{% endblock %} 
+{% block title%}Clasificación | Valladolid S.S | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Clasificación actualizada del FS Valladolid: posición, victorias, derrotas, puntos, y analisis de objetivos.
+Clasificación actualizada del Valladolid S.S: posición, victorias, derrotas, puntos, y analisis de objetivos.
 {% endblock %}
 
 {% block og_title %}
-Clasificación | FS Valladolid | Deportes de la Ciudad
+Clasificación | Valladolid S.S | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Consulta la clasificación actualizada del FS Valladolid.
+Consulta la clasificación actualizada del Valladolid S.S.
 {% endblock %}
 
 {% block twitter_title %}
-Clasificación | FS Valladolid | Deportes de la Ciudad
+Clasificación | Valladolid S.S | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Consulta la clasificación actualizada del FS Valladolid.
+Consulta la clasificación actualizada del Valladolid S.S.
 {% endblock %}
 
 {% block breadcrumb %}
@@ -28,7 +28,7 @@ Consulta la clasificación actualizada del FS Valladolid.
       <a
         href="/seccion/vall_sala"
         class="text-white text-decoration-none text-analisis fs-6"
-        >FS Valladolid</a
+        >Valladolid S.S</a
       >
     </li>
     <li class="breadcrumb-item">
@@ -99,12 +99,12 @@ Consulta la clasificación actualizada del FS Valladolid.
                   {% for equipo in clasificacion_analisis_vall_sala %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 14 %}pos-nada{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 13 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile text-start size_equipos2 {% if 'FS Valladolid' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start size_equipos2 {% if 'Valladolid S.S' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>
@@ -142,7 +142,7 @@ Consulta la clasificación actualizada del FS Valladolid.
             PT(Puntos); J(Jugados); G(Ganados); E(Empatados); P(Perdidos); F(Favor);C(Contra); DG(Dif. Goles)
           </small>
           <small class="text-center mb-3">
-            Playoff (Ascenso)<span class="badge bg-success ms-2">1-4</span>
+            Playoff (Ascenso)<span class="badge bg-success ms-2">1-4</span>; Descenso<span class="badge bg-danger">14-16</span>
           </small>
         </div>
       </div>

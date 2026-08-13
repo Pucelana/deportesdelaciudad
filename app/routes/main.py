@@ -22,4 +22,12 @@ NOMBRES_EQUIPOS = {
             "Panteras Caja Rural",
             "CPLV Panteras C.R",
         ],
+    "vall_sala": [
+                "FS Valladolid",
+                "Valladolid S.S",
+            ],
+    "galvan": [
+                    "C.D Tierno Galván",
+                    "Tierno Galván",
+                ],
 }

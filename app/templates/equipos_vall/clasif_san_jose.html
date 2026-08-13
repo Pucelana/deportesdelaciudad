@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title%}Clasificación | CD San Jose | Deportes de la Ciudad{% endblock %} 
+{% block title%}Clasificación | CD San José | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Clasificación actualizada del CD San Jose: posición, victorias, derrotas, puntos, y analisis de objetivos.
+Clasificación actualizada del CD San José: posición, victorias, derrotas, puntos, y analisis de objetivos.
 {% endblock %}
 
 {% block og_title %}
-Clasificación | CD San Jose | Deportes de la Ciudad
+Clasificación | CD San José | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Consulta la clasificación actualizada del CD San Jose.
+Consulta la clasificación actualizada del CD San José.
 {% endblock %}
 
 {% block twitter_title %}
-Clasificación | CD San Jose | Deportes de la Ciudad
+Clasificación | CD San José | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Consulta la clasificación actualizada del CD San Jose.
+Consulta la clasificación actualizada del CD San José.
 {% endblock %}
 
 {% block breadcrumb %}
@@ -28,7 +28,7 @@ Consulta la clasificación actualizada del CD San Jose.
       <a
         href="/seccion/san_jose"
         class="text-white text-decoration-none text-analisis fs-6"
-        >CD San Jose</a
+        >CD San José</a
       >
     </li>
     <li class="breadcrumb-item">
@@ -94,7 +94,7 @@ Consulta la clasificación actualizada del CD San Jose.
                             <td
                               class="fw-bold {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="fw-bold text-white size_equipos {% if 'CD San Jose Rojo' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="fw-bold text-white size_equipos {% if 'CD San José Rojo' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos fw-bold">{{ equipo.datos.puntos }}</td>
                             <td class="jugados fw-bold ">{{ equipo.datos.jugados }}</td>
                             <td class="ganados3 fw-bold">{{ equipo.datos.ganados3 }}</td>

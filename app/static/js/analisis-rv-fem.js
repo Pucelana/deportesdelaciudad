@@ -152,7 +152,7 @@ equipo1s1.forEach((equipo1Data) => {
         claseColor1 = 'pos-nada';
     } else if (equipo1Data.index1 <= 3) {
         claseColor1 = 'pos-playoff';
-    } else if (equipo1Data.index1 <= 8) {
+    } else if (equipo1Data.index1 <= 14) {
         claseColor1 = 'pos-nada';
     }     
     nuevaFila1.innerHTML = `

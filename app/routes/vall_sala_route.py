@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -154,7 +155,7 @@ def obtener_datos_vall_sala(nombre_temporada=None):
 @vall_sala_route_bp.route("/equipos_futsal/calendario_vall_sala")
 def calendario_vall_sala():
     datos = obtener_datos_vall_sala()
-    equipo_vall_sala = "FS Valladolid"
+    equipo_vall_sala = NOMBRES_EQUIPOS["vall_sala"]
     tabla_partidos_vall_sala = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -164,9 +165,9 @@ def calendario_vall_sala():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB
             # Verificamos si el Valladolid S.S está jugando
-            if equipo_local == equipo_vall_sala or equipo_visitante == equipo_vall_sala:
+            if equipo_local in equipo_vall_sala or equipo_visitante in equipo_vall_sala:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_vall_sala:
+                if equipo_local in equipo_vall_sala:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
