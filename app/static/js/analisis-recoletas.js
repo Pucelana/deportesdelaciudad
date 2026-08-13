@@ -2,7 +2,7 @@
 const filas = document.querySelectorAll("#tablaChampionRecoletas tbody tr");
 const partidosTotales = 30; // Cambiado a 30 partidos en la temporada
 const puntosPorGanar = 2; // Cambiado a 3 puntos por partido ganado
-const proximidadFija = 99; // Ajusta este valor según tus necesidades
+const proximidadFija = 55; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila, indice) => {
@@ -17,8 +17,8 @@ filas.forEach((fila, indice) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso = partidosTotales - partidosJugados;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * puntosPorGanar, puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 4, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -6, puntosParaAscenso);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 2, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -3, puntosParaAscenso);
     equipos.push({
         index:index,
         equipo,
@@ -62,7 +62,7 @@ equipos.forEach((equipoData) => {
 const filas3 = document.querySelectorAll("#tablaEuropaRecoletas tbody tr");
 const partidosTotales3 = 30; // Cambiado a 30 partidos en la temporada
 const puntosPorGanar3 = 2; // Cambiado a 3 puntos por partido ganado
-const proximidadFija3 = 75; // Ajusta este valor según tus necesidades
+const proximidadFija3 = 45; // Ajusta este valor según tus necesidades
 const equipos3 = [];
 let index3 = 1;
 filas3.forEach((fila, indice) => {
@@ -70,15 +70,15 @@ filas3.forEach((fila, indice) => {
     const partidosJugados3 = parseInt(fila.querySelector(`.euro-jug`).textContent);
     const puntosActuales3 = parseInt(fila.querySelector(`.euro-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso3 = Math.round((proximidadFija3 / 100) * partidosTotales3 * puntosPorGanar3);
+    const puntosParaAscenso3 = proximidadFija3;
     // Calcular la proximidad de ascenso
     const puntosQueFaltan3 = Math.max(0, puntosParaAscenso3 - puntosActuales3);
     const proximidadDeAscenso3 = Math.min(((puntosParaAscenso3 - puntosQueFaltan3) / puntosParaAscenso3) * 100, 100);
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso3 = partidosTotales3 - partidosJugados3;
     const partidosGanadosMatematicos3 = Math.min(puntosActuales3 + partidosRestantesAscenso3 * puntosPorGanar3, puntosParaAscenso3);
-    const partidosGanadosPesimistas3 = Math.min(partidosGanadosMatematicos3 - 3, puntosParaAscenso3);
-    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -5, puntosParaAscenso3);
+    const partidosGanadosPesimistas3 = Math.min(partidosGanadosMatematicos3 - 2, puntosParaAscenso3);
+    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -3, puntosParaAscenso3);
     equipos3.push({
         index3: index3,
         equipo3,
@@ -124,7 +124,7 @@ equipos3.forEach((equipo3Data) => {
 const filas1 = document.querySelectorAll("#tablaPromoRecoletas tbody tr");
 const partidosTotales1 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar1 = 2; // Cambiado a 3 puntos por partido ganado
-const proximidadFija1 = 56; // Ajusta este valor según tus necesidades
+const proximidadFija1 = 22; // Ajusta este valor según tus necesidades
 const equipo1s1 = [];
 let index1 = 1;
 filas1.forEach((fila, indice) => {
@@ -133,7 +133,7 @@ filas1.forEach((fila, indice) => {
     const puntosActuales1 = parseInt(fila.querySelector(`.promo-act`).textContent);
 
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso1 = Math.round((proximidadFija1 / 100) * partidosTotales1 * puntosPorGanar1);
+    const puntosParaAscenso1 = proximidadFija1;
 
     // Calcular la proximidad de ascenso
     const puntosQueFaltan1 = Math.max(0, puntosParaAscenso1 - puntosActuales1);
@@ -142,8 +142,8 @@ filas1.forEach((fila, indice) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso1 = partidosTotales1 - partidosJugados1;
     const partidosGanadosMatematicos1 = Math.min(puntosActuales1 + partidosRestantesAscenso1 * puntosPorGanar1, puntosParaAscenso1);
-    const partidosGanadosPesimistas1 = Math.min(partidosGanadosMatematicos1 - 10, puntosParaAscenso1);
-    const partidosGanadosOptimistas1 = Math.min(partidosGanadosMatematicos1 -12, puntosParaAscenso1);
+    const partidosGanadosPesimistas1 = Math.min(partidosGanadosMatematicos1 - 2, puntosParaAscenso1);
+    const partidosGanadosOptimistas1 = Math.min(partidosGanadosMatematicos1 -3, puntosParaAscenso1);
 
     equipo1s1.push({
         index1: index1,
@@ -190,7 +190,7 @@ equipo1s1.forEach((equipo1Data) => {
 const filas2 = document.querySelectorAll("#tablaDescRecoletas tbody tr");
 const partidosTotales2 = 30; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 2; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 55; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 20; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
@@ -208,8 +208,8 @@ filas2.forEach((fila, indice) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesPermanencia = partidosTotales2 - partidosJugados2;
     const partidosGanadosMatematicos2 = Math.min(puntosActuales2 + partidosRestantesPermanencia * puntosPorGanar2, puntosPermanencia2);
-    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 10, puntosPermanencia2);
-    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -12, puntosPermanencia2);
+    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 2, puntosPermanencia2);
+    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -3, puntosPermanencia2);
 
     equipos2.push({
         index2: index2,

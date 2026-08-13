@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const filas = document.querySelectorAll("#tablaAscensoParquesol tbody tr");
 const partidosTotales = 26; // Cambiado a 22 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFija = 96; // Ajusta este valor según tus necesidades
+const proximidadFija = 60; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila) => {
@@ -55,15 +55,15 @@ filas.forEach((fila) => {
     const partidosJugados = parseInt(fila.querySelector(`.jugados1`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.pts-act1`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso = Math.round((proximidadFija / 100) * partidosTotales * puntosPorGanar);
+    const puntosParaAscenso = proximidadFija;
     // Calcular la proximidad de ascenso
     const puntosQueFaltan = Math.max(0, puntosParaAscenso - puntosActuales);
     const proximidadDeAscenso = Math.min(((puntosParaAscenso - puntosQueFaltan) / puntosParaAscenso) * 100, 100);
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso = partidosTotales - partidosJugados;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * puntosPorGanar, puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 3, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -6, puntosParaAscenso);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 1, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -2, puntosParaAscenso);
     equipos.push({
         index: index,
         equipo,
@@ -160,7 +160,7 @@ equipo1s1.forEach((equipo1Data) => {
 const filas2 = document.querySelectorAll("#tablaDescParquesol tbody tr");
 const partidosTotales2 = 26; // Cambiado a 22 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 25; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 35; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila) => {

@@ -41,7 +41,7 @@
 const filas1 = document.querySelectorAll("#tablaPlayPonce tbody tr");
 const partidosTotales1 = 26; // Total de partidos en la temporada
 const partidosPorGanar1 = 1; // Cantidad de puntos por partido ganado
-const partidosPlayOff = 23; // Número de partidos para llegar a los playoffs
+const partidosPlayOff = 20; // Número de partidos para llegar a los playoffs
 const equiposPlay = [];
 let index1 = 1;
 filas1.forEach((fila) => {
@@ -50,7 +50,7 @@ filas1.forEach((fila) => {
     const puntosActuales = parseInt(fila.querySelector(`.play-act`).textContent);
 
     //const partidosRestantes = partidosTotales1 - partidosJugados;
-    const puntosParaPlayoffs = partidosPlayOff * partidosPorGanar1;
+    const puntosParaPlayoffs = partidosPlayOff;
 
     const puntosFaltantes = Math.max(0, puntosParaPlayoffs - puntosActuales);
     const proximidadAscenso = Math.min(((puntosParaPlayoffs - puntosFaltantes) / puntosParaPlayoffs) * 100, 100);
@@ -103,14 +103,14 @@ equiposPlay.forEach((equipoData) => {
 const filas2 = document.querySelectorAll("#tablaDescPonce tbody tr");
 const partidosTotales2 = 26; // Total de partidos en la temporada
 const partidosPorGanar2 = 1; // Cantidad de puntos por partido ganado
-const partidosDescenso = 8;
+const partidosDescenso = 10;
 const equiposDesc = [];
 let index2 = 1;
 filas2.forEach((fila) => {
     const equipo = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.desc-act`).textContent);
-    const puntosParaSalvar = partidosDescenso * partidosPorGanar2;
+    const puntosParaSalvar = partidosDescenso;
     const puntosFaltan = Math.max((0, puntosParaSalvar - puntosActuales));
     const proxiSalvacion = Math.min(((puntosParaSalvar - puntosFaltan) / puntosParaSalvar) * 100, 100);
     const partidosRestantesSalvacion = partidosDescenso;

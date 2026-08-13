@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const filas = document.querySelectorAll("#tablaAscensoPromesas tbody tr");
 const partidosTotales = 34; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFija = 89; // Ajusta este valor según tus necesidades
+const proximidadFija = 72; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila) => {
@@ -55,15 +55,15 @@ filas.forEach((fila) => {
     const partidosJugados = parseInt(fila.querySelector(`.jugados1`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.pts-act1`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso = Math.round((proximidadFija / 100) * partidosTotales * puntosPorGanar);
+    const puntosParaAscenso = proximidadFija;
     // Calcular la proximidad de ascenso
     const puntosQueFaltan = Math.max(0, puntosParaAscenso - puntosActuales);
     const proximidadDeAscenso = Math.min(((puntosParaAscenso - puntosQueFaltan) / puntosParaAscenso) * 100, 100);
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso = partidosTotales - partidosJugados;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * puntosPorGanar, puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 6, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -10, puntosParaAscenso);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 2, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -3, puntosParaAscenso);
     equipos.push({
         index: index,
         equipo,
@@ -107,7 +107,7 @@ equipos.forEach((equipoData) => {
 const filas1 = document.querySelectorAll("#tablaPlayPromesas tbody tr");
 const partidosTotales1 = 34; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar1 = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFija1 = 70; // Ajusta este valor según tus necesidades
+const proximidadFija1 = 65; // Ajusta este valor según tus necesidades
 const equipos1 = [];
 let index1 = 1;
 filas1.forEach((fila) => {
@@ -122,8 +122,8 @@ filas1.forEach((fila) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso1 = partidosTotales1 - partidosJugados1;
     const partidosGanadosMatematicos1 = Math.min(puntosActuales1 + partidosRestantesAscenso1 * puntosPorGanar1, puntosParaAscenso1);
-    const partidosGanadosPesimistas1 = Math.min(partidosGanadosMatematicos1 - 3, puntosParaAscenso1);
-    const partidosGanadosOptimistas1 = Math.min(partidosGanadosMatematicos1 -6, puntosParaAscenso1);
+    const partidosGanadosPesimistas1 = Math.min(partidosGanadosMatematicos1 - 2, puntosParaAscenso1);
+    const partidosGanadosOptimistas1 = Math.min(partidosGanadosMatematicos1 -3, puntosParaAscenso1);
     equipos1.push({
         index1 : index1,
         equipo1,
@@ -169,7 +169,7 @@ equipos1.forEach((equipo1Data) => {
 const filas2 = document.querySelectorAll("#tablaDescPromesas tbody tr");
 const partidosTotales2 = 34; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 62; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 48; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
@@ -177,15 +177,15 @@ filas2.forEach((fila, indice) => {
     const partidosJugados2 = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales2 = parseInt(fila.querySelector(`.desc-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosPermanencia2 = Math.round((proximidadFijar2 / 100) * partidosTotales2 * puntosPorGanar2);
+    const puntosPermanencia2 = proximidadFijar2;
     // Calcular la proximidad de ascenso
     const puntosQueFaltan2 = Math.max(0, puntosPermanencia2 - puntosActuales2);
     const proxiPermanencia = Math.min(((puntosPermanencia2 - puntosQueFaltan2) / puntosPermanencia2) * 100, 100);
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesPermanencia = partidosTotales2 - partidosJugados2;
     const partidosGanadosMatematicos2 = Math.min(puntosActuales2 + partidosRestantesPermanencia * puntosPorGanar2, puntosPermanencia2);
-    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 13, puntosPermanencia2);
-    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -17, puntosPermanencia2);
+    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 2, puntosPermanencia2);
+    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -3, puntosPermanencia2);
     equipos2.push({
         index2: index2,
         equipo2,

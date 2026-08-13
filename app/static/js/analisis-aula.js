@@ -96,7 +96,7 @@ equipos.forEach((equipoData) => {
 const filas3 = document.querySelectorAll("#tablaAscAula tbody tr");
 const partidosTotales3 = 26; // Cambiado a 26 partidos en la temporada
 const puntosPorGanar3 = 2; // Cambiado a 2 puntos por partido ganado
-const proximidadFija3 = 52; // Ajusta este valor según tus necesidades
+const proximidadFija3 = 45; // Ajusta este valor según tus necesidades
 const equipos3 = [];
 let index3 = 1;
 filas3.forEach((fila, indice) => {
@@ -105,7 +105,7 @@ filas3.forEach((fila, indice) => {
     const puntosActuales3 = parseInt(fila.querySelector(`.play-act`).textContent);
 
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso3 = Math.round((proximidadFija3 / 100) * partidosTotales3 * puntosPorGanar3);
+    const puntosParaAscenso3 = proximidadFija3;
 
     // Calcular la proximidad de ascenso
     const puntosQueFaltan3 = Math.max(0, puntosParaAscenso3 - puntosActuales3);
@@ -115,7 +115,7 @@ filas3.forEach((fila, indice) => {
     const partidosRestantesAscenso3 = partidosTotales3 - partidosJugados3;
     const partidosGanadosMatematicos3 = Math.min(puntosActuales3 + partidosRestantesAscenso3 * puntosPorGanar3, puntosParaAscenso3);
     const partidosGanadosPesimistas3 = Math.min(partidosGanadosMatematicos3 - 2, puntosParaAscenso3);
-    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -4, puntosParaAscenso3);
+    const partidosGanadosOptimistas3 = Math.min(partidosGanadosMatematicos3 -3, puntosParaAscenso3);
 
     equipos3.push({
         index3:index3,
@@ -160,7 +160,7 @@ equipos3.forEach((equipo3Data) => {
 const filas1 = document.querySelectorAll("#tablaPlayAula tbody tr");
 const partidosTotales1 = 26; // Cambiado a 26 partidos en la temporada
 const puntosPorGanar1 = 2; // Cambiado a 2 puntos por partido ganado
-const proximidadFija1 = 52; // Ajusta este valor según tus necesidades
+const proximidadFija1 = 35; // Ajusta este valor según tus necesidades
 const equipos1 = [];
 let index1 = 1;
 filas1.forEach((fila, indice) => {
@@ -169,7 +169,7 @@ filas1.forEach((fila, indice) => {
     const puntosActuales1 = parseInt(fila.querySelector(`.play-act`).textContent);
 
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso1 = Math.round((proximidadFija1 / 100) * partidosTotales1 * puntosPorGanar1);
+    const puntosParaAscenso1 = proximidadFija1;
 
     // Calcular la proximidad de ascenso
     const puntosQueFaltan1 = Math.max(0, puntosParaAscenso1 - puntosActuales1);
@@ -226,7 +226,7 @@ equipos1.forEach((equipo1Data) => {
 const filas2 = document.querySelectorAll("#tablaDescAula tbody tr");
 const partidosTotales2 = 26; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 2; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 48; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 28; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {
@@ -235,7 +235,7 @@ filas2.forEach((fila, indice) => {
     const puntosActuales2 = parseInt(fila.querySelector(`.desc-act`).textContent);
 
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosPermanencia2 = Math.round((proximidadFijar2 / 100) * partidosTotales2 * puntosPorGanar2);
+    const puntosPermanencia2 = proximidadFijar2;
 
     // Calcular la proximidad de ascenso
     const puntosQueFaltan2 = Math.max(0, puntosPermanencia2 - puntosActuales2);
@@ -245,7 +245,7 @@ filas2.forEach((fila, indice) => {
     const partidosRestantesPermanencia = partidosTotales2 - partidosJugados2;
     const partidosGanadosMatematicos2 = Math.min(puntosActuales2 + partidosRestantesPermanencia * puntosPorGanar2, puntosPermanencia2);
     const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 - 2, puntosPermanencia2);
-    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -4, puntosPermanencia2);
+    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -3, puntosPermanencia2);
 
     equipos2.push({
         index2: index2,

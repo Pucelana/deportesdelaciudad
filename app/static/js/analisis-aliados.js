@@ -100,7 +100,7 @@ filas1.forEach((fila, indice) => {
     const puntosActuales = parseInt(fila.querySelector(`.play-act`).textContent);
 
     //const partidosRestantes = partidosTotales1 - partidosJugados;
-    const puntosParaPlayoffs = partidosPlayOff * partidosPorGanar1;
+    const puntosParaPlayoffs = partidosPlayOff;
 
     const puntosFaltantes = Math.max(0, puntosParaPlayoffs - puntosActuales);
     const proximidadAscenso = Math.min(((puntosParaPlayoffs - puntosFaltantes) / puntosParaPlayoffs) * 100, 100);
@@ -161,7 +161,7 @@ filas2.forEach((fila, indice) => {
     const partidosJugados = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.desc-act`).textContent);
 
-    const puntosParaSalvar = partidosDescenso * partidosPorGanar2;
+    const puntosParaSalvar = partidosDescenso;
 
     const puntosFaltan = Math.max((0, puntosParaSalvar - puntosActuales));
     const proxiSalvacion = Math.min(((puntosParaSalvar - puntosFaltan) / puntosParaSalvar) * 100, 100);
@@ -223,7 +223,7 @@ filas3.forEach((fila, indice) => {
     const equipo3 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados3 = parseInt(fila.querySelector(`.euro-jug`).textContent);
     const puntosActuales3 = parseInt(fila.querySelector(`.euro-act`).textContent);
-    const puntosParaEuro = partidosEuro * partidosPorGanar3;
+    const puntosParaEuro = partidosEuro;
     const puntosFaltan3 = Math.max((0, puntosParaEuro - puntosActuales3));
     const proxiEuro = Math.min(((puntosParaEuro - puntosFaltan3) / puntosParaEuro) * 100, 100);
     const partidosRestantesEuro = partidosEuro;

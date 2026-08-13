@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 const filas = document.querySelectorAll("#tablaPlayJose tbody tr");
 const partidosTotales = 22; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFija =66; // Ajusta este valor según tus necesidades
+const proximidadFija =60; // Ajusta este valor según tus necesidades
 const equipos = [];
 let index = 1;
 filas.forEach((fila) => {
@@ -55,15 +55,15 @@ filas.forEach((fila) => {
     const partidosJugados = parseInt(fila.querySelector(`.play-jug`).textContent);
     const puntosActuales = parseInt(fila.querySelector(`.play-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
-    const puntosParaAscenso = Math.round((proximidadFija / 100) * partidosTotales * puntosPorGanar);
+    const puntosParaAscenso = proximidadFija;
     // Calcular la proximidad de ascenso
     const puntosQueFaltan = Math.max(0, puntosParaAscenso - puntosActuales);
     const proximidadDeAscenso = Math.min(((puntosParaAscenso - puntosQueFaltan) / puntosParaAscenso) * 100, 100);
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesAscenso = partidosTotales - partidosJugados;
     const partidosGanadosMatematicos = Math.min(puntosActuales + partidosRestantesAscenso * puntosPorGanar, puntosParaAscenso);
-    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 3, puntosParaAscenso);
-    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -5, puntosParaAscenso);
+    const partidosGanadosPesimistas = Math.min(partidosGanadosMatematicos - 1, puntosParaAscenso);
+    const partidosGanadosOptimistas = Math.min(partidosGanadosMatematicos -2, puntosParaAscenso);
     equipos.push({
         index: index,
         equipo,
@@ -90,15 +90,15 @@ equipos.forEach((equipoData) => {
         claseColor = 'pos-nada';
     }
     nuevaFila.innerHTML = `
-    <td class="fw-bold text-center ${claseColor}">${equipoData.index}</td>
+    <td class="equipo-mobile text-center ${claseColor}">${equipoData.index}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipoData.equipo.includes("CD San Jose Rojo") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
-    <td class="play-jug fw-bold text-center">${equipoData.partidosJugados}</td>
-    <td class="play-pts fw-bold text-center">${equipoData.puntosActuales}</td>
-    <td class="play-proxi fw-bold text-center">${equipoData.proximidadDeAscenso}%</td>
-    <td class="play-mate fw-bold text-center">${equipoData.partidosGanadosMatematicos}</td>
-    <td class="play-opti fw-bold text-center">${equipoData.partidosGanadosOptimistas}</td>
-    <td class="play-pesi fw-bold text-center">${equipoData.partidosGanadosPesimistas}</td>
+    equipoData.equipo.includes("CD San José") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
+    <td class="play-jug equipo-mobile text-center">${equipoData.partidosJugados}</td>
+    <td class="play-pts equipo-mobile text-center">${equipoData.puntosActuales}</td>
+    <td class="play-proxi equipo-mobile text-center">${equipoData.proximidadDeAscenso}%</td>
+    <td class="play-mate equipo-mobile text-center d-none d-md-table-cell">${equipoData.partidosGanadosMatematicos}</td>
+    <td class="play-opti equipo-mobile text-center d-none d-md-table-cell">${equipoData.partidosGanadosOptimistas}</td>
+    <td class="play-pesi equipo-mobile text-center d-none d-md-table-cell">${equipoData.partidosGanadosPesimistas}</td>
     `;
     tabla.appendChild(nuevaFila);
 });
@@ -164,13 +164,13 @@ equipos1.forEach((equipo1Data) => {
 
 // Cuarta función para calcular la permanencia
 const filas2 = document.querySelectorAll("#tablaDescJose tbody tr");
-const partidosTotales2 = 42; // Cambiado a 42 partidos en la temporada
+const partidosTotales2 = 22; // Cambiado a 42 partidos en la temporada
 const puntosPorGanar2 = 3; // Cambiado a 3 puntos por partido ganado
-const proximidadFijar2 = 46.5; // Ajusta este valor según tus necesidades
+const proximidadFijar2 = 22; // Ajusta este valor según tus necesidades
 const equipos2 = [];
 let index2 = 1;
 filas2.forEach((fila) => {
-    const equipo2 = fila.querySelector(`.size_equipos`).textContent;
+    const equipo2 = fila.querySelector(`.size_equipos2`).textContent;
     const partidosJugados2 = parseInt(fila.querySelector(`.desc-jug`).textContent);
     const puntosActuales2 = parseInt(fila.querySelector(`.desc-act`).textContent);
     // Calcular puntos necesarios para alcanzar la proximidad fija
@@ -181,8 +181,8 @@ filas2.forEach((fila) => {
     // Calcular los partidos ganados matemáticos, optimistas y pesimistas
     const partidosRestantesPermanencia = partidosTotales2 - partidosJugados2;
     const partidosGanadosMatematicos2 = Math.min(puntosActuales2 + partidosRestantesPermanencia * puntosPorGanar2, puntosPermanencia2);
-    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 -3, puntosPermanencia2);
-    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -5, puntosPermanencia2);
+    const partidosGanadosPesimistas2 = Math.min(partidosGanadosMatematicos2 -1, puntosPermanencia2);
+    const partidosGanadosOptimistas2 = Math.min(partidosGanadosMatematicos2 -2, puntosPermanencia2);
     equipos2.push({
         index2: index2,
         equipo2,
@@ -209,15 +209,15 @@ equipos2.forEach((equipo2Data) => {
         claseColor2 = 'pos-desc';
     }
     nuevaFila2.innerHTML = `
-    <td class="fw-bold text-center ${claseColor2}">${equipo2Data.index2}</td>
+    <td class="equipo-mobile text-center ${claseColor2}">${equipo2Data.index2}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipo2Data.equipo2.includes("CD San Jose Rojo") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
-    <td class="desc-jug fw-bold text-center">${equipo2Data.partidosJugados2}</td>
-    <td class="desc-act fw-bold text-center">${equipo2Data.puntosActuales2}</td>
-    <td class="desc-prox fw-bold text-center">${equipo2Data.proxiPermanencia}%</td>
-    <td class="desc-mate fw-bold text-center">${equipo2Data.partidosGanadosMatematicos2}</td>
-    <td class="desc-opti fw-bold text-center">${equipo2Data.partidosGanadosOptimistas2}</td>
-    <td class="desc-pesi fw-bold text-center">${equipo2Data.partidosGanadosPesimistas2}</td>
+    equipo2Data.equipo2.includes("CD San José") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
+    <td class="desc-jug equipo-mobile text-center">${equipo2Data.partidosJugados2}</td>
+    <td class="desc-act equipo-mobile text-center">${equipo2Data.puntosActuales2}</td>
+    <td class="desc-prox equipo-mobile text-center">${equipo2Data.proxiPermanencia}%</td>
+    <td class="desc-mate equipo-mobile text-center d-none d-md-table-cell">${equipo2Data.partidosGanadosMatematicos2}</td>
+    <td class="desc-opti equipo-mobile text-center d-none d-md-table-cell">${equipo2Data.partidosGanadosOptimistas2}</td>
+    <td class="desc-pesi equipo-mobile text-center d-none d-md-table-cell">${equipo2Data.partidosGanadosPesimistas2}</td>
     `;
     tabla2.appendChild(nuevaFila2);
 });

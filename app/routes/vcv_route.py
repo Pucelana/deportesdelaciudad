@@ -615,6 +615,8 @@ def clasif_analisis_vcv():
                         "perdidos0": 0,
                         "favor": 0,
                         "contra": 0,
+                        "pf": 0,
+                        "pc": 0,
                         "diferencia_puntos": 0,
                     },
                 }

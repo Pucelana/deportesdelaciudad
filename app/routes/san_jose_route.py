@@ -6,6 +6,7 @@ from functools import cmp_to_key
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -172,7 +173,7 @@ def obtener_datos_san_jose(nombre_temporada=None):
 @san_jose_route_bp.route("/equipos_voley/calendario_san_jose")
 def calendario_san_jose():
     datos = obtener_datos_san_jose()
-    equipo_san_jose = "CD San José"
+    equipo_san_jose = NOMBRES_EQUIPOS["san_jose"]
     tabla_partidos_san_jose = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -182,9 +183,9 @@ def calendario_san_jose():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB
             # Verificamos si el Caja está jugando
-            if equipo_local == equipo_san_jose or equipo_visitante == equipo_san_jose:
+            if equipo_local in equipo_san_jose or equipo_visitante in equipo_san_jose:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_san_jose:
+                if equipo_local in equipo_san_jose:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
@@ -624,6 +625,8 @@ def clasif_analisis_san_jose():
                         "perdidos0": 0,
                         "favor": 0,
                         "contra": 0,
+                        "pf":0,
+                        "pc":0,
                         "diferencia_puntos": 0,
                     },
                 }
@@ -690,7 +693,7 @@ def crear_historial_san_jose():
     if request.method == "POST":
         historial = Historial(
             deporte="voley",
-            equipo="CD San Jose",
+            equipo="CD San José",
             temporada=request.form.get("temporada"),
             liga=request.form.get("liga"),
             puntos=request.form.get("puntos"),
@@ -706,7 +709,7 @@ def crear_historial_san_jose():
         db.session.commit()
         return redirect(url_for("san_jose_route_bp.crear_historial_san_jose"))
     historial = (
-        Historial.query.filter_by(deporte="voley", equipo="CD San Jose")
+        Historial.query.filter_by(deporte="voley", equipo="CD San José")
         .order_by(Historial.temporada.desc())
         .all()
     )
@@ -716,7 +719,7 @@ def crear_historial_san_jose():
         historial=historial,
         temporadas=temporadas,
         deporte="voley",
-        equipo="CD San Jose",
+        equipo="CD San José",
         crear_url="san_jose_route_bp.crear_historial_san_jose",
         modificar_url="san_jose_route_bp.modificar_historial_san_jose",
         eliminar_url="san_jose_route_bp.eliminar_historial_san_jose",
@@ -748,7 +751,7 @@ def modificar_historial_san_jose(id):
 @san_jose_route_bp.route("/san_jose/historial")
 def historial_san_jose():
     historial = (
-        Historial.query.filter_by(deporte="voley", equipo="CD San Jose")
+        Historial.query.filter_by(deporte="voley", equipo="CD San José")
         .order_by(Historial.temporada.desc())
         .all()
     )
@@ -769,7 +772,7 @@ def historial_san_jose():
         "#20B2AA",
     ]
     titulos = (
-        Palmaress.query.filter_by(deporte="voley", equipo="CD San Jose")
+        Palmaress.query.filter_by(deporte="voley", equipo="CD San José")
         .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
@@ -789,7 +792,7 @@ def historial_san_jose():
             continue
         labels, puntos = obtener_evolucion_puntos(
             jornadas,
-            "CD San Jose",
+            "CD San José",
             generar_clasificacion_analisis_voley_san_jose,
             "puntos",
         )
@@ -816,7 +819,7 @@ def historial_san_jose():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="voley",
-        equipo="CD San Jose",
+        equipo="CD San José",
         breadcrumb=jsonld(schema_breadcrumb_equipo("san_jose")),
         schema_team=jsonld(
             schema_sports_team("san_jose", "https://deportesdelaciudad.es/san_jose/historial")
@@ -836,7 +839,7 @@ def crear_palmares_san_jose():
     if request.method == "POST":
         titulo = Palmaress(
             deporte="voley",
-            equipo="CD San Jose",
+            equipo="CD San José",
             temporada=request.form.get("temporada"),
             competicion=request.form.get("competicion"),
             imagen=request.form.get("imagen"),
@@ -846,7 +849,7 @@ def crear_palmares_san_jose():
         db.session.commit()
         return redirect(url_for("san_jose_route_bp.crear_palmares_san_jose"))
     palmares = (
-        Palmaress.query.filter_by(deporte="voley", equipo="CD San Jose")
+        Palmaress.query.filter_by(deporte="voley", equipo="CD San José")
         .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
@@ -854,7 +857,7 @@ def crear_palmares_san_jose():
         "admin/historial/palmares.html",
         palmares=palmares,
         deporte="Voley",
-        equipo="CD San Jose",
+        equipo="CD San José",
         crear_url="san_jose_route_bp.crear_palmares_san_jose",
         modificar_url="san_jose_route_bp.modificar_palmares_san_jose",
         eliminar_url="san_jose_route_bp.eliminar_palmares_san_jose",

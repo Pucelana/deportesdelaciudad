@@ -41,7 +41,7 @@
 const filas = document.querySelectorAll("#tablaAscenso tbody tr");
 const partidosTotales = 26; // Total de partidos en la temporada
 const partidosPorGanar = 1; // Cantidad de puntos por partido ganado
-const puntosAscenso = 20; // Puntos relativos para quedar primero
+const puntosAscenso = 22; // Puntos relativos para quedar primero
 const equipos = [];
 let index = 1;
 filas.forEach((fila, indice) => {
@@ -156,7 +156,7 @@ equiposPlay.forEach((equipoData) => {
 const filas2 = document.querySelectorAll("#tablaDescUemc tbody tr");
 const partidosTotales2 = 26; // Total de partidos en la temporada
 const partidosPorGanar2 = 1; // Cantidad de puntos por partido ganado
-const partidosDescenso = 10;
+const partidosDescenso = 11;
 const equiposDesc = [];
 let index2 = 1;
 filas2.forEach((fila, indice) => {

@@ -30,4 +30,8 @@ NOMBRES_EQUIPOS = {
                     "C.D Tierno Galván",
                     "Tierno Galván",
                 ],
+    "san_jose": [
+                        "CD San Jose Rojo",
+                        "CD San José",
+                    ],
 }
