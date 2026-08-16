@@ -61,7 +61,7 @@ def create_app():
     def inject_social():
         return dict(SOCIAL=SOCIAL)    
     
-    app.secret_key = 'sk_4F8v9u13sjd9sjd82018fh01hf01h'
+    app.secret_key = os.environ.get("SECRET_KEY")
     app.config.from_object('config.Config')
     
     app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
