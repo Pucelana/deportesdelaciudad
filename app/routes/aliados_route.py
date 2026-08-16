@@ -694,7 +694,6 @@ def activar_temporada_aliados(id):
     db.session.commit()
     return redirect(url_for('aliados_route_bp.temporadas_aliados')) 
 
-
 #NUEVO FORMATO LIGA BSR VALLADOLID
 # GRUPOS NUEVO FORMATO ALIADOS
 @aliados_route_bp.route('/admin/grupos_aliados', methods=['GET'])
@@ -1291,16 +1290,6 @@ def calendario_aliados_nuevo():
             )
         )
     )
-
-
-
-
-
-
-
-
-
-
 
 # HISTORIAL BSR VALLADOLID
 # Creación del historial de temporadas del BSR Valladolid
