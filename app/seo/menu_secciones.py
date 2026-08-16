@@ -46,6 +46,7 @@ MENU_SECCIONES = {
         "liga": True,
         "copa": False,
         "playoff": False,
+        "permanencia": False,
     },
     "rv_fem": {
             "liga": True,

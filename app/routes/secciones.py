@@ -1,9 +1,28 @@
 from flask import Blueprint, render_template
+from app.extensions import db
 from app.models.comercial import COMERCIAL
 from app.seo.menu_secciones import MENU_SECCIONES
+from app.models.menu_competiciones import (
+    SeccionConfig,
+    CompeticionConfig,
+)
+from app.models.menu_competiciones import SeccionConfig
 from app.seo.schema import schema_breadcrumb_equipo,jsonld, schema_sports_team
 
 secciones_bp = Blueprint("secciones", __name__)
+
+def obtener_menu_seccion(nombre):
+    seccion = SeccionConfig.query.filter_by(nombre=nombre).first()
+
+    if not seccion:
+        return MENU_SECCIONES.get(nombre, {})
+
+    menu = {}
+
+    for competicion in seccion.competiciones:
+        menu[competicion.nombre] = competicion.activa
+
+    return menu
 
 def render_seccion(
     template,
@@ -14,8 +33,15 @@ def render_seccion(
 ):
 
     comercial = COMERCIAL.get(nombre, {})
-    menu = MENU_SECCIONES.get(nombre, {})
 
+    seccion = SeccionConfig.query.filter_by(nombre=nombre).first()
+
+    menu = {}
+
+    if seccion:
+        for competicion in seccion.competiciones:
+            menu[competicion.nombre] = competicion.activa
+         
     return render_template(
         template,
         comercial=comercial,
@@ -62,7 +88,7 @@ def seccion_ponce():
 def seccion_cdsi_vall():
     return render_seccion(
         "secciones/cdsi_vall.html", 
-        "vall_sala",
+        "cdsi_vall",
         breadcrumb=jsonld(
             schema_breadcrumb_equipo("cdsi_vall")
         ),

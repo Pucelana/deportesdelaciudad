@@ -1,0 +1,261 @@
+{% extends 'admin/calendarios/base_calend.html' %}
+
+{% block title %}
+    Administrar secciones y competiciones
+{% endblock %}
+
+{% block nav %}
+    <ol class="breadcrumb ms-1">
+        <li class="breadcrumb-item">
+            <a href="/admin/pub_marcadores"
+               class="text-white text-decoration-none">
+                Inicio
+            </a>
+        </li>
+
+        <li class="breadcrumb-item active text-dark"
+            aria-current="page">
+            Secciones y competiciones
+        </li>
+    </ol>
+{% endblock %}
+
+
+{% block contenido %}
+
+<section class="container-lg">
+
+    <!-- TÍTULO -->
+    <div class="text-center mb-4">
+
+        <h1 class="fw-bold">
+            Secciones y competiciones
+        </h1>
+
+        <p class="text-muted">
+            Abre o cierra las secciones y las competiciones
+            que quieres mostrar en la web.
+        </p>
+
+    </div>
+
+
+    <!-- FORMULARIO -->
+    <form method="POST"
+          action="{{ url_for('menu_competiciones.menu_competiciones') }}">
+
+
+        {% for seccion in secciones %}
+
+        <div class="card card_admin mb-4">
+
+            <!-- CABECERA DE LA SECCIÓN -->
+
+            <div class="card-header">
+
+                <div class="row align-items-center">
+
+                    <div class="col-md-8">
+
+                        <h3 class="mb-0 fw-bold">
+
+                            {{ nombres_secciones.get(
+                                seccion.nombre,
+                                seccion.nombre|replace("_", " ")|title
+                            ) }}
+
+                        </h3>
+
+                        <small class="text-muted">
+                            {{ seccion.nombre }}
+                        </small>
+
+                    </div>
+
+
+                    <!-- ACTIVAR / DESACTIVAR SECCIÓN -->
+
+                    <div class="col-md-4 text-md-end mt-2 mt-md-0">
+
+                        <div class="form-check form-switch
+                                    d-inline-flex
+                                    align-items-center">
+
+                            <input
+                                class="form-check-input me-2"
+                                type="checkbox"
+                                role="switch"
+                                name="secciones_activas"
+                                value="{{ seccion.id }}"
+                                id="seccion_{{ seccion.id }}"
+                                {% if seccion.activa %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <label
+                                class="form-check-label fw-bold"
+                                for="seccion_{{ seccion.id }}"
+                            >
+                                Sección activa
+                            </label>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- COMPETICIONES -->
+
+            <div class="card-body">
+
+                {% if seccion.competiciones %}
+
+                <div class="row">
+
+                    {% for competicion in seccion.competiciones %}
+
+                    <div class="col-md-6 col-lg-4 mb-3">
+
+                        <div class="border rounded p-3 h-100">
+
+                            <div class="d-flex
+                                        justify-content-between
+                                        align-items-center">
+
+                                <div>
+
+                                    <span class="fw-bold">
+
+                                        {{ competicion.nombre
+                                            |replace("_", " ")
+                                            |title
+                                        }}
+
+                                    </span>
+
+                                </div>
+
+
+                                <!-- ACTIVAR / DESACTIVAR COMPETICIÓN -->
+
+                                <div class="form-check form-switch">
+
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        role="switch"
+                                        name="competiciones_activas"
+                                        value="{{ competicion.id }}"
+                                        id="competicion_{{ competicion.id }}"
+                                        {% if competicion.activa %}
+                                            checked
+                                        {% endif %}
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                {% else %}
+
+                    <p class="text-muted mb-0">
+                        Esta sección no tiene competiciones configuradas.
+                    </p>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+
+        <!-- BOTÓN GUARDAR -->
+
+        <div class="d-flex
+                    justify-content-center
+                    gap-3
+                    mb-5">
+
+            <button
+                type="submit"
+                class="btn btn-success fs-5 px-5"
+            >
+                Guardar cambios
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+    /*
+     * Si se desactiva una sección completa,
+     * desactivamos visualmente sus competiciones.
+     *
+     * No guardamos nada aquí:
+     * el guardado real lo hace Flask.
+     */
+
+    document.querySelectorAll(
+        'input[name="secciones_activas"]'
+    ).forEach(function(seccionCheckbox) {
+
+        seccionCheckbox.addEventListener(
+            'change',
+            function() {
+
+                const card =
+                    this.closest('.card');
+
+                if (!card) {
+                    return;
+                }
+
+                const competiciones =
+                    card.querySelectorAll(
+                        'input[name="competiciones_activas"]'
+                    );
+
+                competiciones.forEach(
+                    function(competicion) {
+
+                        if (!seccionCheckbox.checked) {
+
+                            competicion.checked = false;
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    });
+
+</script>
+
+{% endblock %}
