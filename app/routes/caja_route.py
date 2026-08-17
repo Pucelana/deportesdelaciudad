@@ -1182,7 +1182,17 @@ def caja_europa():
             )
         )
         data_clasificaciones[grupo] = equipos_ordenados
-    partidos_schema = obtener_partidos_schema(partidos)    
+    partidos_partidos = obtener_partidos_schema(partidos)
+    # Extraer los partidos reales de las eliminatorias
+    partidos_eliminatorias_lista = []
+    for fase in eliminatorias.values():
+        partidos_eliminatorias_lista.extend(
+        fase.get("partidos", [])
+    )
+    partidos_eliminatorias = obtener_partidos_schema(
+        partidos_eliminatorias_lista
+    )
+    partidos_schema = partidos_partidos + partidos_eliminatorias     
     return render_template(
         'europa/caja_europa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
         clasificaciones=data_clasificaciones,

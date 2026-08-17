@@ -1182,7 +1182,15 @@ def panteras_europa():
         )
         data_clasificaciones[grupo] = equipos_ordenados
     partidos_partidos = obtener_partidos_schema(partidos)
-    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    # Extraer los partidos reales de las eliminatorias
+    partidos_eliminatorias_lista = []
+    for fase in eliminatorias.values():
+        partidos_eliminatorias_lista.extend(
+        fase.get("partidos", [])
+    )
+    partidos_eliminatorias = obtener_partidos_schema(
+        partidos_eliminatorias_lista
+    )
     partidos_schema = partidos_partidos + partidos_eliminatorias    
     return render_template(
         'europa/panteras_europa.html', 
