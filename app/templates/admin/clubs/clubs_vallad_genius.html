@@ -1,5 +1,5 @@
-{% extends 'admin/clubs/base_clubs.html' %} {% block title %} Clubs - BSR
-Valladolid {% endblock %} {% block nav %}
+{% extends 'admin/clubs/base_clubs.html' %} {% block title %} Clubs - Real
+ValladoliDi {% endblock %} {% block nav %}
 <ol class="breadcrumb ms-1">
   <li class="breadcrumb-item">
     <a href="/admin/pub_marcadores" class="text-white text-decoration-none"
@@ -7,14 +7,14 @@ Valladolid {% endblock %} {% block nav %}
     >
   </li>
   <li class="breadcrumb-item active text-dark" aria-current="page">
-    BSR Valladolid
+    Real ValladoliDi
   </li>
 </ol>
 {% endblock %} 
 {% block section %}
 <!-- NUEVO FORMATO ALIADOS - GRUPOS -->
 <div class="container-lg">
-  <h2 class="text-center mb-4">Grupos Aliados</h2>
+  <h2 class="text-center mb-4">Grupos ValladoliDi</h2>
   <!-- CREAR GRUPO -->
   <div class="card card_admin mb-4">
     <div class="card-body">
@@ -22,7 +22,7 @@ Valladolid {% endblock %} {% block nav %}
 
       <form
         method="POST"
-        action="{{ url_for('aliados_route_bp.crear_grupo_aliados') }}"
+        action="{{ url_for('vallad_genius_route_bp.crear_grupo_vallad_genius') }}"
         class="row g-3"
       >
         <div class="col-md-12">
@@ -31,38 +31,19 @@ Valladolid {% endblock %} {% block nav %}
           <select class="form-select" id="fase" name="fase" required>
             <option value="Primera fase">Primera fase</option>
           </select>
-          <select class="form-select" id="play-in" name="play-in" required>
-            <option value="Play-in">Play-in</option>
-          </select>
-          <select class="form-select" id="fase2" name="fase2" required>
-            <option value="Segunda fase">Segunda fase</option>
-          </select>
         </div>
 
         <div class="col-md-12">
-          <label for="nombre" class="form-label"> Grupo </label>
+          <label for="nombre" class="form-label"> Grupos </label>
 
           <select class="form-select" id="nombre" name="nombre" required>
-            <option value="A">Grupo A</option>
+            <option value="respeto">Respeto</option>
 
-            <option value="B">Grupo B</option>
+            <option value="deportividad">Deportividad</option>
+
+            <option value="compañerismo">Compañerismo</option>
           </select>
         </div>
-        <label for="nombre" class="form-label"> Play-in </label>
-
-          <select class="form-select" id="nombre" name="nombre" required>
-            <option value="play-in">Play-in</option>
-          </select>
-        </div>
-        <label for="nombre" class="form-label"> Fase 2 </label>
-
-          <select class="form-select" id="nombre" name="nombre" required>
-            <option value="oro">Grupo Oro</option>
-
-            <option value="plata">Grupo Plata</option>
-          </select>
-        </div>
-
         <div class="col-12 text-center">
           <button type="submit" class="btn btn-primary">Crear grupo</button>
         </div>
@@ -80,14 +61,14 @@ Valladolid {% endblock %} {% block nav %}
             <strong>{{ grupo.fase }}</strong>
           </div>
           <span class="badge bg-secondary mt-2">
-            {{ grupo.equipos|length }}/8 equipos
+            {{ grupo.equipos|length }}/17 equipos
           </span>
         </div>
         <div class="card-body">
           <!-- AÑADIR EQUIPO -->
           <form
             method="POST"
-            action="{{ url_for('aliados_route_bp.crear_equipo_grupo_aliados') }}"
+            action="{{ url_for('vallad_genius_route_bp.crear_equipo_grupo_vallad_genius') }}"
             class="row g-2 mb-3"
           >
             <input type="hidden" name="grupo_id" value="{{ grupo.id }}" />
@@ -124,7 +105,7 @@ Valladolid {% endblock %} {% block nav %}
                   <td class="fw-bold">{{ equipo.equipo }}</td>
                   <td class="text-center">
                     <form
-                      action="{{ url_for('aliados_route_bp.eliminar_equipo_grupo_aliados',
+                      action="{{ url_for('vallad_genius_route_bp.eliminar_equipo_grupo_vallad_genius',
                                 id=equipo.id) }}"
                       method="POST"
                     >
@@ -156,52 +137,3 @@ Valladolid {% endblock %} {% block nav %}
   </div>
 </div>
 {% endblock %}
-
-<!--TEMPORADA ANTERIOR
-
-      <-- Formulario para los resultados de los partidos ->
-      <div class="container-lg">
-        <form method="POST" action="/admin/jornada0_aliados" class="row mb-3">
-          <div class="col-md-12">
-            <label for="equipo">Nombre Equipos</label>
-            <input type="text" class="form-control" id="equipo" name="equipo">
-          </div>      
-          <div class="col-md-4 mt-2">
-            <button class="btn btn-primary" type="submit">Agregar</button>
-          </div>    
-        </form>
-      </div>
-
-    <--Visibilidad de los Equipos->
-      <h2 class="text-center">Clubs:</h2>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12 col-lg-12">
-            <div class="card card_admin mb-3">
-              <div class="table-responsive">
-                <table class="table">
-                  <thead>
-                    <tr class="text-center">
-                      <td colspan="5" class="text-center fw-bold text-primary fs-1">Equipos</td>
-                    </tr>
-                  </thead>
-                  <tbody">
-                    {% for club in clubs %}
-                    <tr class="text-center">
-                      <td class="text-center fw-bold">{{ club['nombre'] }}</td>
-                      <td>
-                        <!- Botón para cada equipo ->
-                        <form action="{{ url_for('aliados_route_bp.eliminar_club_aliados', club_id=club.id) }}" method="POST">
-                          <input type="hidden" name="index" value="{{ index }}">
-                          <button type="submit" class="btn btn-danger">Borrar</button>
-                      </form>
-                      </td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div> 
-            </div>
-          </div>
-        </div>
-      </div>-->

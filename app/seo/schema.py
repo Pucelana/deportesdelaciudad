@@ -103,6 +103,13 @@ EQUIPOS = {
         "liga": "Segunda División",
         "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.png",
     },
+    
+    "valladoliDi": {
+            "nombre": "Real ValladoliDi",
+            "deporte": "Fútbol",
+            "liga": "Liga Genius",
+            "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.png",
+        },
 
     "promesas": {
         "nombre": "RV Promesas",
@@ -226,6 +233,10 @@ COMPETICIONES = {
         "nombre": "Liga Hypermotion",
         "deporte": "Soccer",
     },
+    "valladoliDi": {
+            "nombre": "Liga Genius",
+            "deporte": "Soccer",
+        },
 
     "promesas": {
         "nombre": "Segunda Federación",
@@ -297,6 +308,7 @@ DEPORTES = {
     "aula": "Balonmano",
     "recoletas": "Balonmano",
     "valladolid": "Fútbol",
+    "valladoliDi": "Fútbol",
     "promesas": "Fútbol",
     "parquesol": "Fútbol",
     "rv_fem": "Fútbol",

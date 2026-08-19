@@ -196,6 +196,22 @@ def seccion_valladolid():
         )
     )
 
+@secciones_bp.route("/seccion/vallad_genius")
+def seccion_vallad_genius():
+    return render_seccion(
+        "secciones/vallad_genius.html", 
+        "valladoliDi",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valladoliDi")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valladoliDi",
+                "https://deportesdelaciudad.es/seccion/vallad_genius"
+            )
+        )
+    )
+
 @secciones_bp.route("/seccion/promesas")
 def seccion_promesas():
     return render_seccion(

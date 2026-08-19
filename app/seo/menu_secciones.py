@@ -42,6 +42,9 @@ MENU_SECCIONES = {
             "playoff": False,
             "europa": False,
         },
+    "valladoliDi": {
+                "liga": True,
+            },
     "promesas": {
         "liga": True,
         "copa": False,

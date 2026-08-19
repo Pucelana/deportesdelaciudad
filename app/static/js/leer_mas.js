@@ -45,6 +45,9 @@ function mostrarFormularioAliadosNuevo(){
 function mostrarFormularioValladolid(){
   document.getElementById('form_partidos_valladolid').style.display='block';
 }
+function mostrarFormularioValladoliDi(){
+  document.getElementById('form_partidos_vallad_genius').style.display='block';
+}
 function mostrarFormularioPromesas(){
   document.getElementById('form_partidos_promesas').style.display='block';
 }
