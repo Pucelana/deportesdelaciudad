@@ -1,0 +1,327 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} 
+{% block title %}Resultados | Real ValladoliDi | Deportes de la Ciudad{% endblock %} 
+
+{% block description %}
+Resultados y marcadores del Real ValladoliDi jornada a jornada.
+{% endblock %}
+
+{% block og_title %}
+Resultados | Real ValladoliDi | Deportes de la Ciudad
+{% endblock %}
+
+{% block og_description %}
+Resultados y marcadores del Real ValladoliDi jornada a jornada.
+{% endblock %}
+
+{% block twitter_title %}
+Resultados | Real ValladoliDi | Deportes de la Ciudad
+{% endblock %}
+
+{% block twitter_description %}
+Resultados y marcadores del Real ValladoliDi jornada a jornada.
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6">Real ValladoliDi</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_futbol/calendario_vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6">Calendario Ind.</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      Resultados
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_futbol/clasif_vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/vallad_genius/historial"
+        class="text-decoration-none text-white text-analisis fs-6">Historial</a>
+    </li>
+  </ol>
+</nav>
+{% endblock %} {% block contenido %}
+<!-- BOTONES JORNADAS -->
+<!-- SELECTOR DE JORNADAS -->
+<div class="selector-jornadas">
+
+  <!-- Selector móvil -->
+  <div class="selector-jornadas-movil">
+
+    <button
+      type="button"
+      class="flecha-jornada"
+      id="jornadaAnterior"
+      aria-label="Jornadas anteriores"
+    >
+      ‹
+    </button>
+
+    <div class="jornadas-movil-lista" id="jornadasMovilLista">
+      {% for goles in nuevos_datos_vallad_genius %}
+        <a
+          href="#"
+          class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
+          data-target="jornada{{ loop.index }}"
+          data-jornada="{{ loop.index }}"
+        >
+          {{ loop.index }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <button
+      type="button"
+      class="flecha-jornada"
+      id="jornadaSiguiente"
+      aria-label="Jornadas siguientes"
+    >
+      ›
+    </button>
+
+  </div>
+
+
+  <!-- Selector escritorio -->
+  <div class="selector-jornadas-escritorio d-flex justify-content-center flex-wrap gap-2 my-3">
+
+    {% for goles in nuevos_datos_vallad_genius %}
+      <a
+        href="#"
+        class="btn-jornada text-decoration-none text-white {% if goles.nombre == jornada_activa %}active{% endif %}"
+        data-target="jornada{{ loop.index }}"
+      >
+        {{ loop.index }}
+      </a>
+    {% endfor %}
+
+  </div>
+
+</div>
+
+<!-- CONTENEDOR JORNADAS -->
+<div id="contenedor-jornadas">
+  {% for goles in nuevos_datos_vallad_genius %}
+  <div
+    id="jornada{{ loop.index }}"
+    class="jornada-contenido {% if goles.nombre != jornada_activa %}d-none{% endif %}">
+    <div class="card tabla_equipos_aula w-100 mx-auto" style="max-width: 55rem;">
+      <h3 class="text-center text-white mb-3 fondo_jornadas fw-bold">{{ goles.nombre }}</h3>
+      <div class="card-body">
+        <!-- TABLET / PC -->
+        <div
+          class="table-responsive d-flex justify-content-center d-none d-md-block">
+          <table class="table table-bordered tabla_equipos">
+            <tbody>
+              {% for partido in goles.partidos %}
+              <tr>
+                <td class="text-muted fw-bold">
+                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
+                </td>
+                <td class="equipo-mobile fs-5">{{ partido.local }}</td>
+                <td class="resultado-mobile fs-5">{{ partido.resultadoA }}</td>
+                <td class="resultado-mobile fs-5">{{ partido.resultadoB }}</td>
+                <td class="equipo-mobile fs-5">{{ partido.visitante }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- MÓVIL -->
+        <div class="d-block d-md-none cards-mobile">
+          {% for partido in goles.partidos %}
+          <div class="card partido-mobile">
+            <div class="card-body text-center">
+              <small class="text-muted fw-bold">
+                {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}
+              </small>
+
+              <div class="equipo-mobile">{{ partido.local }}</div>
+
+              <div class="resultado-mobile">
+                {{ partido.resultadoA }} - {{ partido.resultadoB }}
+              </div>
+
+              <div class="equipo-mobile">{{ partido.visitante }}</div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %} 
+{% block scripts %} 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =====================================================
+       SELECCIÓN DE JORNADA
+       ===================================================== */
+
+    document.querySelectorAll(".btn-jornada").forEach((btn) => {
+
+        btn.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            const targetId = this.dataset.target;
+
+            // 🔵 botones activos
+            document.querySelectorAll(".btn-jornada").forEach((b) => {
+                b.classList.remove("active");
+            });
+
+            this.classList.add("active");
+
+
+            // 🔴 ocultar todas las jornadas
+            document.querySelectorAll(".jornada-contenido").forEach((j) => {
+                j.classList.add("d-none");
+                j.classList.remove("active");
+            });
+
+
+            // 🟢 mostrar seleccionada
+            const target = document.getElementById(targetId);
+
+            if (target) {
+                target.classList.remove("d-none");
+                target.classList.add("active");
+            }
+
+        });
+
+    });
+
+
+    /* =====================================================
+       NAVEGACIÓN DE JORNADAS EN MÓVIL
+       ===================================================== */
+
+    const lista = document.getElementById("jornadasMovilLista");
+    const anterior = document.getElementById("jornadaAnterior");
+    const siguiente = document.getElementById("jornadaSiguiente");
+
+    // Si no estamos en móvil / no existe el selector,
+    // no hacemos nada.
+    if (!lista || !anterior || !siguiente) {
+        return;
+    }
+
+
+    const jornadas = Array.from(
+        lista.querySelectorAll(".btn-jornada")
+    );
+
+    const JORNADAS_POR_BLOQUE = 10;
+
+    let bloqueActual = 0;
+
+    const totalBloques = Math.ceil(
+        jornadas.length / JORNADAS_POR_BLOQUE
+    );
+
+
+    /* =====================================================
+       MOSTRAR BLOQUE DE 10
+       ===================================================== */
+
+    function mostrarBloque() {
+
+        const inicio = bloqueActual * JORNADAS_POR_BLOQUE;
+        const fin = inicio + JORNADAS_POR_BLOQUE;
+
+        jornadas.forEach((jornada, index) => {
+
+            if (index >= inicio && index < fin) {
+                jornada.style.display = "flex";
+            } else {
+                jornada.style.display = "none";
+            }
+
+        });
+
+
+        // Flecha anterior
+        anterior.disabled = bloqueActual === 0;
+
+
+        // Flecha siguiente
+        siguiente.disabled =
+            bloqueActual === totalBloques - 1;
+    }
+
+
+    /* =====================================================
+       BUSCAR JORNADA ACTIVA
+       ===================================================== */
+
+    const jornadaActiva = jornadas.findIndex(
+        jornada => jornada.classList.contains("active")
+    );
+
+
+    if (jornadaActiva !== -1) {
+
+        bloqueActual = Math.floor(
+            jornadaActiva / JORNADAS_POR_BLOQUE
+        );
+
+    }
+
+
+    /* =====================================================
+       JORNADAS ANTERIORES
+       ===================================================== */
+
+    anterior.addEventListener("click", function () {
+
+        if (bloqueActual > 0) {
+
+            bloqueActual--;
+
+            mostrarBloque();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       JORNADAS SIGUIENTES
+       ===================================================== */
+
+    siguiente.addEventListener("click", function () {
+
+        if (bloqueActual < totalBloques - 1) {
+
+            bloqueActual++;
+
+            mostrarBloque();
+
+        }
+
+    });
+
+
+    /* =====================================================
+       INICIALIZAR
+       ===================================================== */
+
+    mostrarBloque();
+
+});
+</script>
+{% endblock %}

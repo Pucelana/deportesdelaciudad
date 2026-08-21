@@ -136,6 +136,7 @@ def obtener_datos_aliados(nombre_temporada=None):
         )
         jornadas_con_partidos.append({
             'nombre': jornada.nombre,
+            'fase': jornada.fase,
             'partidos': partidos
         })
     return jornadas_con_partidos
@@ -846,6 +847,25 @@ def eliminar_equipo_grupo_aliados(id):
     )
     return redirect(url_for('aliados_route_bp.grupos_aliados')
     )
+#Eliminar grupos
+@aliados_route_bp.route('/admin/eliminar_grupo_aliados/<int:id>',methods=['POST'])
+def eliminar_grupo_aliados(id):
+
+    grupo = AliadosGrupo.query.get_or_404(id)
+
+    db.session.delete(grupo)
+    db.session.commit()
+
+    flash(
+        f'Grupo {grupo.nombre} eliminado correctamente.',
+        'success'
+    )
+
+    return redirect(
+        url_for(
+            'aliados_route_bp.grupos_aliados'
+        )
+    )
 #Ver clasificación público
 @aliados_route_bp.route('/equipos_basket/clasifi_aliados')
 def clasifi_analisis_aliados():
@@ -854,8 +874,13 @@ def clasifi_analisis_aliados():
     # OBTENER GRUPOS
     grupo_a = AliadosGrupo.query.filter_by(nombre="A").first()
     grupo_b = AliadosGrupo.query.filter_by(nombre="B").first()
+    grupo_oro = AliadosGrupo.query.filter_by(nombre="Oro", fase="segunda_fase").first()
+    grupo_plata = AliadosGrupo.query.filter_by(nombre="Plata", fase="segunda_fase").first()
     equipos_a = []
     equipos_b = []
+    equipos_oro = []
+    equipos_plata = []
+    
     if grupo_a:
         equipos_a = [
             equipo.equipo
@@ -866,22 +891,53 @@ def clasifi_analisis_aliados():
             equipo.equipo
             for equipo in grupo_b.equipos
         ]
+    if grupo_oro:
+        equipos_oro = [
+            equipo.equipo
+            for equipo in grupo_oro.equipos
+        ]
+    if grupo_plata:
+        equipos_plata = [
+            equipo.equipo
+            for equipo in grupo_plata.equipos
+        ]    
     # GENERAR CLASIFICACIONES
     clasificacion_grupo_a = generar_clasificacion_grupo_aliados(
         data,
-        equipos_a
+        equipos_a,
+        fase="primera_fase"
     )
 
     clasificacion_grupo_b = generar_clasificacion_grupo_aliados(
         data,
-        equipos_b
+        equipos_b,
+        fase="primera_fase"
     )
+    clasificacion_grupo_oro = generar_clasificacion_grupo_aliados(
+        data,
+        equipos_oro,
+        fase="segunda_fase"
+    )
+    clasificacion_grupo_plata = generar_clasificacion_grupo_aliados(
+        data,
+        equipos_plata,
+        fase="segunda_fase"
+    )
+    # PARTIDOS DEL PLAY-IN
+    partidos_play_in = []
+
+    for jornada in data:
+        if jornada['fase'] == 'play_in':
+            partidos_play_in.extend(jornada['partidos'])
     # RENDER
     return render_template(
         'equipos_vall/clasif_aliados.html',
 
         clasificacion_grupo_a=clasificacion_grupo_a,
         clasificacion_grupo_b=clasificacion_grupo_b,
+        clasificacion_grupo_oro=clasificacion_grupo_oro,
+        clasificacion_grupo_plata=clasificacion_grupo_plata,
+        partidos_play_in=partidos_play_in,
 
         breadcrumb=jsonld(
             schema_breadcrumb_equipo("aliados")
@@ -902,7 +958,7 @@ def clasifi_analisis_aliados():
         )
     )
 #Genera las clasificaciones    
-def generar_clasificacion_grupo_aliados(data, equipos_grupo):
+def generar_clasificacion_grupo_aliados(data, equipos_grupo, fase=None):
     clasificacion = {}
     # CREAR LOS 8 EQUIPOS DEL GRUPO
     for equipo in equipos_grupo:
@@ -918,6 +974,8 @@ def generar_clasificacion_grupo_aliados(data, equipos_grupo):
         }
     # RECORRER PARTIDOS
     for jornada in data:
+        if fase is not None and jornada['fase'] != fase:
+            continue
         for partido in jornada['partidos']:
             local = (partido.local or '').strip()
             visitante = (partido.visitante or '').strip()
@@ -1049,11 +1107,15 @@ def crear_calendario_aliados_nuevo():
 
         temporada_nombre = request.form['temporada']
         jornada_numero = request.form['jornada']
+        fase = request.form['fase']
 
         # Siempre tendremos 8 partidos:
         # 1-4  -> Grupo A
         # 5-8  -> Grupo B
-        num_partidos = 8
+        if fase == 'play_in':
+            num_partidos = 2
+        else:
+            num_partidos = 8
 
         # Buscar temporada
         temporada = TemporadaAliados.query.filter_by(
@@ -1075,7 +1137,9 @@ def crear_calendario_aliados_nuevo():
         # Crear jornada
         jornada = JornadaAliados(
             nombre=nombre_jornada,
-            temporada_id=temporada.id
+            
+            temporada_id=temporada.id,
+            fase=fase
         )
 
         db.session.add(jornada)
@@ -1156,7 +1220,9 @@ def calendario_aliados_nuevo():
     for jornada in datos:
 
         nombre_jornada = jornada['nombre']
-
+        fase = jornada['fase']
+        if fase not in ('primera_fase', 'segunda_fase'):
+            continue
         # Obtener número de jornada
         try:
             numero_jornada = int(

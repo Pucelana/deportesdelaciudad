@@ -1,139 +1,57 @@
-{% extends 'admin/clubs/base_clubs.html' %} {% block title %} Clubs - Real
-ValladoliDi {% endblock %} {% block nav %}
-<ol class="breadcrumb ms-1">
-  <li class="breadcrumb-item">
-    <a href="/admin/pub_marcadores" class="text-white text-decoration-none"
-      >Inicio</a
-    >
-  </li>
-  <li class="breadcrumb-item active text-dark" aria-current="page">
-    Real ValladoliDi
-  </li>
-</ol>
-{% endblock %} 
+{% extends 'admin/clubs/base_clubs.html' %}
+{% block title %} Clubs - Real ValladoliDi {% endblock %}
+{% block nav %}
+    <ol class="breadcrumb ms-1">
+      <li class="breadcrumb-item"><a href="/admin/pub_marcadores" class="text-white text-decoration-none">Inicio</a></li>
+      <li class="breadcrumb-item active text-dark" aria-current="page">Real ValladoliDi</li>
+    </ol>
+{% endblock %}
 {% block section %}
-<!-- NUEVO FORMATO ALIADOS - GRUPOS -->
-<div class="container-lg">
-  <h2 class="text-center mb-4">Grupos ValladoliDi</h2>
-  <!-- CREAR GRUPO -->
-  <div class="card card_admin mb-4">
-    <div class="card-body">
-      <h4 class="text-center text-primary mb-3">Crear grupo</h4>
-
-      <form
-        method="POST"
-        action="{{ url_for('vallad_genius_route_bp.crear_grupo_vallad_genius') }}"
-        class="row g-3"
-      >
-        <div class="col-md-12">
-          <label for="fase" class="form-label"> Fase </label>
-
-          <select class="form-select" id="fase" name="fase" required>
-            <option value="Primera fase">Primera fase</option>
-          </select>
-        </div>
-
-        <div class="col-md-12">
-          <label for="nombre" class="form-label"> Grupos </label>
-
-          <select class="form-select" id="nombre" name="nombre" required>
-            <option value="respeto">Respeto</option>
-
-            <option value="deportividad">Deportividad</option>
-
-            <option value="compañerismo">Compañerismo</option>
-          </select>
-        </div>
-        <div class="col-12 text-center">
-          <button type="submit" class="btn btn-primary">Crear grupo</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  <!-- GRUPOS EXISTENTES -->
-  <div class="row">
-    {% for grupo in grupos %}
-    <div class="col-12 col-lg-6 mb-4">
-      <div class="card card_admin h-100">
-        <div class="card-header text-center">
-          <h3 class="text-primary mb-1">Grupo {{ grupo.nombre }}</h3>
-          <div>
-            <strong>{{ grupo.fase }}</strong>
-          </div>
-          <span class="badge bg-secondary mt-2">
-            {{ grupo.equipos|length }}/17 equipos
-          </span>
-        </div>
-        <div class="card-body">
-          <!-- AÑADIR EQUIPO -->
-          <form
-            method="POST"
-            action="{{ url_for('vallad_genius_route_bp.crear_equipo_grupo_vallad_genius') }}"
-            class="row g-2 mb-3"
-          >
-            <input type="hidden" name="grupo_id" value="{{ grupo.id }}" />
-            <div class="col-8">
-              <input
-                type="text"
-                class="form-control"
-                name="equipo"
-                placeholder="Nombre del equipo"
-                required
-              />
+      <!-- Formulario para los resultados de los partidos -->
+      <div class="container-lg">
+        <form method="POST" action="/admin/jornada0_vallad_genius" class="row mb-3">
+          <div class="col-md-12">
+            <label for="equipo">Nombre Equipos</label>
+            <input type="text" class="form-control" id="equipo" name="equipo">
+          </div>      
+          <div class="col-md-4 mt-2">
+            <button class="btn btn-primary" type="submit">Agregar</button>
+          </div>    
+        </form>
+      </div>
+{% endblock %}
+{% block contenido %}
+    <!--Visibilidad de los Equipos-->
+      <h2 class="text-center">Clubs:</h2>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12 col-lg-12">
+            <div class="card card_admin mb-3">
+              <div class="table-responsive">
+                <table class="table">
+                  <thead>
+                    <tr class="text-center">
+                      <td colspan="5" class="text-center fw-bold text-primary fs-1">Equipos</td>
+                    </tr>
+                  </thead>
+                  <tbody">
+                  {% for club in clubs %}
+                  <tr class="text-center">
+                    <td class="text-center fw-bold">{{ club['nombre'] }}</td>
+                    <td>
+                      <!-- Botón para cada equipo -->
+                      <form action="{{ url_for('vallad_genius_route_bp.eliminar_club_vallad_genius', club_id=club.id) }}" method="POST">
+                        <input type="hidden" name="index" value="{{ index }}">
+                        <button type="submit" class="btn btn-danger">Borrar</button>
+                      </form>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                  </tbody>
+                </table>
+              </div> 
             </div>
-            <div class="col-4">
-              <button type="submit" class="btn btn-success w-100">
-                Añadir
-              </button>
-            </div>
-          </form>
-          <!-- LISTADO DE EQUIPOS -->
-          {% if grupo.equipos %}
-          <div class="table-responsive">
-            <table class="table table-sm align-middle">
-              <thead>
-                <tr class="text-center">
-                  <th>#</th>
-                  <th>Equipo</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for equipo in grupo.equipos %}
-                <tr>
-                  <td class="text-center fw-bold">{{ loop.index }}</td>
-                  <td class="fw-bold">{{ equipo.equipo }}</td>
-                  <td class="text-center">
-                    <form
-                      action="{{ url_for('vallad_genius_route_bp.eliminar_equipo_grupo_vallad_genius',
-                                id=equipo.id) }}"
-                      method="POST"
-                    >
-                      <button type="submit" class="btn btn-danger btn-sm">
-                        Borrar
-                      </button>
-                    </form>
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
           </div>
-          {% else %}
-          <div class="alert alert-secondary text-center">
-            Todavía no hay equipos en este grupo.
-          </div>
-          {% endif %}
         </div>
       </div>
-    </div>
-    {% else %}
-    <div class="col-12">
-      <div class="alert alert-warning text-center">
-        Todavía no hay grupos creados para esta temporada.
-      </div>
-    </div>
-    {% endfor %}
-  </div>
-</div>
 {% endblock %}

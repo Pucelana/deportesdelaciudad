@@ -114,392 +114,126 @@ Valladolid {% endblock %} {% block nav %}
   </div>
 </section>-->
 <section class="container-lg">
-
   <div class="d-flex justify-content-center mb-4">
-
-    <button
-      onclick="mostrarFormularioAliadosNuevo()"
-      class="btn btn-success text-center fs-3"
-    >
+    <button onclick="mostrarFormularioAliadosNuevo()"
+      class="btn btn-success text-center fs-3">
       Crear Jornada
     </button>
-
   </div>
-
-
   <!-- FORMULARIO NUEVO -->
+  <div class="container-lg" id="form_partidos_aliados_nuevo">
 
-  <div
-    class="container-lg"
-    id="form_partidos_aliados_nuevo"
+  <form
+    method="POST"
+    action="{{ url_for('aliados_route_bp.crear_calendario_aliados_nuevo') }}"
+    class="row mb-3"
   >
 
-    <form
-      method="POST"
-      action="{{ url_for('aliados_route_bp.crear_calendario_aliados_nuevo') }}"
-      class="row mb-3"
+    <!-- TEMPORADA -->
+    <div class="col-md-12 mb-2">
+      <label for="temporada">
+        Temporada
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="temporada"
+        name="temporada"
+        placeholder="Ejemplo: 2026/27"
+        required
+      >
+    </div>
+
+
+    <!-- FASE -->
+    <div class="col-md-12 mb-2">
+      <label for="fase">
+        Fase
+      </label>
+
+      <select
+        class="form-select"
+        id="fase"
+        name="fase"
+        required
+      >
+        <option value="">
+          Selecciona una fase
+        </option>
+
+        <option value="primera_fase">
+          Primera fase
+        </option>
+
+        <option value="play_in">
+          Play-In
+        </option>
+
+        <option value="segunda_fase">
+          Segunda fase
+        </option>
+      </select>
+    </div>
+
+
+    <!-- JORNADA -->
+    <div class="col-md-12 mb-3">
+      <label for="jornada">
+        Jornada
+      </label>
+
+      <input
+        type="text"
+        class="form-control"
+        id="jornada"
+        name="jornada"
+        placeholder="Ejemplo: 1"
+        required
+      >
+    </div>
+
+
+    <!-- NUMERO DE PARTIDOS -->
+    <input
+      type="hidden"
+      name="num_partidos"
+      id="num_partidos"
+      value="0"
     >
 
-      <!-- TEMPORADA -->
 
-      <div class="col-md-12 mb-2">
-
-        <label for="temporada">
-          Temporada
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="temporada"
-          name="temporada"
-          placeholder="Ejemplo: 2026/27"
-          required
-        >
-
-      </div>
-
-
-      <!-- JORNADA -->
-
-      <div class="col-md-12 mb-3">
-
-        <label for="jornada">
-          Jornada
-        </label>
-
-        <input
-          type="number"
-          class="form-control"
-          id="jornada"
-          name="jornada"
-          min="1"
-          placeholder="Ejemplo: 1"
-          required
-        >
-
-      </div>
-
-
-      <!-- 8 PARTIDOS FIJOS -->
-
-      <input type="hidden" name="num_partidos" value="8">
-
-
-      <!-- ========================= -->
-      <!-- GRUPO A -->
-      <!-- ========================= -->
-
-      <div class="col-12 mb-2">
-
-        <hr>
-
-        <h3 class="text-center fw-bold text-primary">
-          GRUPO A
-        </h3>
-
-        <hr>
-
-      </div>
-
-
-      <!-- PARTIDOS 1-4 -->
-
-      {% for i in range(4) %}
-
-      <div class="col-12">
-
-        <h4 class="text-center mt-3">
-          Partido {{ i + 1 }}
-        </h4>
-
-      </div>
-
-
-      <!-- FECHA -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="fecha{{ i }}">
-          Fecha
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="fecha{{ i }}"
-          name="fecha{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- HORA -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="hora{{ i }}">
-          Hora
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="hora{{ i }}"
-          name="hora{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- LOCAL -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="local{{ i }}">
-          Equipo Local
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="local{{ i }}"
-          name="local{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- RESULTADO LOCAL -->
-
-      <div class="col-md-1 mb-2">
-
-        <label for="resultadoA{{ i }}">
-          &nbsp;
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="resultadoA{{ i }}"
-          name="resultadoA{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- RESULTADO VISITANTE -->
-
-      <div class="col-md-1 mb-2">
-
-        <label for="resultadoB{{ i }}">
-          &nbsp;
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="resultadoB{{ i }}"
-          name="resultadoB{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- VISITANTE -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="visitante{{ i }}">
-          Equipo Visitante
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="visitante{{ i }}"
-          name="visitante{{ i }}"
-        >
-
-      </div>
-
-      {% endfor %}
-
-
-      <!-- ========================= -->
-      <!-- GRUPO B -->
-      <!-- ========================= -->
-
-      <div class="col-12 mt-4 mb-2">
-
-        <hr>
-
-        <h3 class="text-center fw-bold text-primary">
-          GRUPO B
-        </h3>
-
-        <hr>
-
-      </div>
-
-
-      <!-- PARTIDOS 5-8 -->
-
-      {% for i in range(4, 8) %}
-
-      <div class="col-12">
-
-        <h4 class="text-center mt-3">
-          Partido {{ i + 1 }}
-        </h4>
-
-      </div>
-
-
-      <!-- FECHA -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="fecha{{ i }}">
-          Fecha
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="fecha{{ i }}"
-          name="fecha{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- HORA -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="hora{{ i }}">
-          Hora
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="hora{{ i }}"
-          name="hora{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- LOCAL -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="local{{ i }}">
-          Equipo Local
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="local{{ i }}"
-          name="local{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- RESULTADO LOCAL -->
-
-      <div class="col-md-1 mb-2">
-
-        <label for="resultadoA{{ i }}">
-          &nbsp;
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="resultadoA{{ i }}"
-          name="resultadoA{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- RESULTADO VISITANTE -->
-
-      <div class="col-md-1 mb-2">
-
-        <label for="resultadoB{{ i }}">
-          &nbsp;
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="resultadoB{{ i }}"
-          name="resultadoB{{ i }}"
-        >
-
-      </div>
-
-
-      <!-- VISITANTE -->
-
-      <div class="col-md-5 mb-2">
-
-        <label for="visitante{{ i }}">
-          Equipo Visitante
-        </label>
-
-        <input
-          type="text"
-          class="form-control"
-          id="visitante{{ i }}"
-          name="visitante{{ i }}"
-        >
-
-      </div>
-
-      {% endfor %}
-
-
-      <!-- BOTONES -->
-
-      <div class="col-md-4 mt-3">
-
-        <button
-          class="btn btn-primary"
-          type="submit"
-        >
-          Guardar Jornada
-        </button>
-
-      </div>
-
-
-      <div class="col-md-4 mt-3">
-
-        <button
-          type="button"
-          onclick="cerrarFormularioAliadosNuevo()"
-          class="btn btn-danger"
-        >
-          Cerrar
-        </button>
-
-      </div>
-
-    </form>
-
-  </div>
-
+    <!-- AQUÍ JAVASCRIPT CREARÁ LOS PARTIDOS -->
+    <div
+      class="col-12"
+      id="contenedor_partidos"
+    ></div>
+
+
+    <!-- BOTONES -->
+    <div class="col-md-4 mt-3">
+      <button
+        class="btn btn-primary"
+        type="submit"
+      >
+        Guardar Jornada
+      </button>
+    </div>
+
+    <div class="col-md-4 mt-3">
+      <button
+        type="button"
+        onclick="cerrarFormularioAliadosNuevo()"
+        class="btn btn-danger"
+      >
+        Cerrar
+      </button>
+    </div>
+
+  </form>
+
+</div>
 </section>
-
-
-
 <!--Visibilidad de los resultados-->
 <div class="container-fluid">
   <div class="row">
@@ -705,6 +439,181 @@ Valladolid {% endblock %} {% block nav %}
             ? "table-row-group"
             : "none";
       }
+    }
+  }
+  const fase = document.getElementById("fase");
+  const contenedorPartidos = document.getElementById("contenedor_partidos");
+  const numPartidos = document.getElementById("num_partidos");
+
+  fase.addEventListener("change", function () {
+
+    const valor = this.value;
+
+    contenedorPartidos.innerHTML = "";
+
+    if (valor === "primera_fase") {
+
+      numPartidos.value = 8;
+
+      crearGrupo("GRUPO A", 0, 4);
+      crearGrupo("GRUPO B", 4, 8);
+
+    } else if (valor === "play_in") {
+
+      numPartidos.value = 2;
+
+      crearGrupo("PLAY-IN", 0, 2);
+
+    } else if (valor === "segunda_fase") {
+
+      numPartidos.value = 8;
+
+      crearGrupo("GRUPO ORO", 0, 4);
+      crearGrupo("GRUPO PLATA", 4, 8);
+
+    } else {
+
+      numPartidos.value = 0;
+
+    }
+  });
+
+
+  function crearGrupo(nombreGrupo, inicio, fin) {
+
+    const separador = document.createElement("div");
+
+    separador.className = "col-12 mt-4 mb-2";
+
+    separador.innerHTML = `
+      <hr>
+      <h3 class="text-center fw-bold text-primary">
+        ${nombreGrupo}
+      </h3>
+      <hr>
+    `;
+
+    contenedorPartidos.appendChild(separador);
+
+
+    for (let i = inicio; i < fin; i++) {
+
+      const partido = document.createElement("div");
+
+      partido.className = "row";
+
+      partido.innerHTML = `
+
+        <div class="col-12">
+          <h4 class="text-center mt-3">
+            Partido ${i + 1}
+          </h4>
+        </div>
+
+
+        <!-- FECHA -->
+        <div class="col-md-5 mb-2">
+
+          <label for="fecha${i}">
+            Fecha
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="fecha${i}"
+            name="fecha${i}"
+          >
+
+        </div>
+
+
+        <!-- HORA -->
+        <div class="col-md-5 mb-2">
+
+          <label for="hora${i}">
+            Hora
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="hora${i}"
+            name="hora${i}"
+          >
+
+        </div>
+
+
+        <!-- LOCAL -->
+        <div class="col-md-5 mb-2">
+
+          <label for="local${i}">
+            Equipo Local
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="local${i}"
+            name="local${i}"
+          >
+
+        </div>
+
+
+        <!-- RESULTADO LOCAL -->
+        <div class="col-md-1 mb-2">
+
+          <label for="resultadoA${i}">
+            &nbsp;
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="resultadoA${i}"
+            name="resultadoA${i}"
+          >
+
+        </div>
+
+
+        <!-- RESULTADO VISITANTE -->
+        <div class="col-md-1 mb-2">
+
+          <label for="resultadoB${i}">
+            &nbsp;
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="resultadoB${i}"
+            name="resultadoB${i}"
+          >
+
+        </div>
+
+
+        <!-- VISITANTE -->
+        <div class="col-md-5 mb-2">
+
+          <label for="visitante${i}">
+            Equipo Visitante
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            id="visitante${i}"
+            name="visitante${i}"
+          >
+
+        </div>
+      `;
+
+      contenedorPartidos.appendChild(partido);
     }
   }
 </script>

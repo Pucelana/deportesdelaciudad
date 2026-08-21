@@ -20,6 +20,7 @@ class JornadaAliados(db.Model):
         nullable=False
     )
     nombre = db.Column(db.String(255), nullable=False)
+    fase = db.Column( db.String(30), nullable=False)
     partidos = db.relationship(
         "AliadosPartido",
         backref="jornada",

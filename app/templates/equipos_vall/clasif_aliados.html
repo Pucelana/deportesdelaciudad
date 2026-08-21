@@ -56,7 +56,7 @@ block breadcrumb %}
     <button class="btn btn-outline-light tab-btn" data-tab="grupoB">
       Grupo B
     </button>
-    <!--<button class="btn btn-outline-light tab-btn" data-tab="play-in">
+    <button class="btn btn-outline-light tab-btn" data-tab="play-in">
       Play-in
     </button>
     <button class="btn btn-outline-light tab-btn" data-tab="oro">
@@ -64,7 +64,7 @@ block breadcrumb %}
     </button>
     <button class="btn btn-outline-light tab-btn" data-tab="plata">
       Grupo Plata
-    </button>-->
+    </button>
   </div>
   <div class="tab-container">
     <div class="tab-pane active" id="grupoA">
@@ -73,7 +73,7 @@ block breadcrumb %}
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                División de Honor BSR — Grupo A
+                Grupo A
               </h3>
               <table class="table">
                 <thead>
@@ -83,7 +83,11 @@ block breadcrumb %}
                     <th class="equipo-mobile text-center">J</th>
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">P</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      F
+                    </th>
                     <th
                       class="equipo-mobile text-center d-none d-md-table-cell"
                     >
@@ -173,13 +177,13 @@ block breadcrumb %}
         </div>
       </div>
     </div>
-    <div class="tab-pane active" id="grupoB">
+    <div class="tab-pane" id="grupoB">
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                División de Honor BSR — Grupo B
+                Grupo B
               </h3>
               <table class="table">
                 <thead>
@@ -189,7 +193,11 @@ block breadcrumb %}
                     <th class="equipo-mobile text-center">J</th>
                     <th class="equipo-mobile text-center">G</th>
                     <th class="equipo-mobile text-center">P</th>
-                    <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      F
+                    </th>
                     <th
                       class="equipo-mobile text-center d-none d-md-table-cell"
                     >
@@ -276,224 +284,253 @@ block breadcrumb %}
       </div>
     </div>
     <div class="tab-pane" id="play-in">
-      <!--Tabla Descenso-->
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
-            <div class="table-responsive">
-              <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                Play-In
-              </h3>
-              <table id="tablaEuroAliados" class="table">
-                <thead>
-                  <tr>
-                    <th></th>
-                    <th class="equipo-mobile text-start">Equipos</th>
-                    <th class="equipo-mobile text-center">J</th>
-                    <th class="equipo-mobile text-center">G</th>
-                    <th class="equipo-mobile text-center">%</th>
-                    <th class="equipo-mobile text-center">Mat</th>
-                    <th
-                      class="equipo-mobile text-center d-none d-md-table-cell"
-                    >
-                      Op
-                    </th>
-                    <th
-                      class="equipo-mobile text-center d-none d-md-table-cell"
-                    >
-                      Pes
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for equipo in clasificacion_analisis_aliados %}
-                  <tr>
-                    <td class="equipo-mobile text-center">
-                      {{ equipo.index }}
-                    </td>
-                    <td class="equipo-mobile text-start size_equipos2">
-                      {{ equipo['equipo'] }}
-                    </td>
-                    <td class="equipo-mobile text-center euro-jug">
-                      {{ equipo['datos']['jugados'] }}
-                    </td>
-                    <td class="equipo-mobile text-center euro-act">
-                      {{ equipo['datos']['ganados'] }}
-                    </td>
-                    <td class="equipo-mobile text-center euro-prox"></td>
-                    <td class="equipo-mobile text-center euro-mate"></td>
-                    <td
-                      class="equipo-mobile text-center euro-opti d-none d-md-table-cell"
-                    ></td>
-                    <td
-                      class="equipo-mobile text-center euro-pesi d-none d-md-table-cell"
-                    ></td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
+            <h3 class="text-center text-white fw-bold text-analisis fs-4 mb-4">
+              Play-In
+            </h3>
+            <div class="row justify-content-center">
+              {% for partido in partidos_play_in %}
+              <div class="col-md-5 mb-4">
+                <div class="card h-100">
+                  <div class="card-header text-center fw-bold">
+                    Eliminatoria {{ loop.index }}
+                  </div>
+                  <div class="card-body">
+                    <div class="text-center mb-2">
+                      <small>
+                        {{ partido.fecha }}{% if partido.hora %} · {{
+                        partido.hora }}{% endif %}
+                      </small>
+                    </div>
+                    <div class="row align-items-center text-center">
+                      <div class="col-7 text-start fw-bold">
+                        {{ partido.local }}
+                      </div>
+                      <div class="col-2 fw-bold">
+                        {{ partido.resultadoA if partido.resultadoA not in
+                        [None, ''] else '-' }}
+                      </div>
+                      <div class="col-3"></div>
+                      <div class="col-7 text-start fw-bold">
+                        {{ partido.visitante }}
+                      </div>
+                      <div class="col-2 fw-bold">
+                        {{ partido.resultadoB if partido.resultadoB not in
+                        [None, ''] else '-' }}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% else %}
+              <div class="col-12 text-center">
+                <p class="text-white">
+                  Todavía no hay eliminatorias de Play-In.
+                </p>
+              </div>
+              {% endfor %}
             </div>
           </div>
-          <small class="text-center mb-3">
-            J(Jugados); PT(Puntos); %(Proximidad); Mat(Matemáticos);
-            Op(Optimista); Pes(Pesimista)
-          </small>
         </div>
       </div>
     </div>
     <div class="tab-pane" id="oro">
-      <!--Tabla Descenso-->
       <div class="d-flex justify-content-center">
         <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                División de Honor BSR - Grupo Oro
+                Grupo Oro
               </h3>
-              <table id="tablaDescAliados" class="table">
+              <table class="table">
                 <thead>
                   <tr>
                     <th></th>
                     <th class="equipo-mobile text-start">Equipos</th>
                     <th class="equipo-mobile text-center">J</th>
                     <th class="equipo-mobile text-center">G</th>
-                    <th class="equipo-mobile text-center">%</th>
-                    <th class="equipo-mobile text-center">Mat</th>
+                    <th class="equipo-mobile text-center">P</th>
                     <th
                       class="equipo-mobile text-center d-none d-md-table-cell"
                     >
-                      Op
+                      F
                     </th>
                     <th
                       class="equipo-mobile text-center d-none d-md-table-cell"
                     >
-                      Pes
+                      C
+                    </th>
+
+                    <th class="equipo-mobile text-center">DP</th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PT
                     </th>
                   </tr>
                 </thead>
                 <tbody>
-                  {% for equipo in clasificacion_oro %}
+                  {% for equipo in clasificacion_grupo_oro %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 6 %} pos-ascen {% else %} pos-nada {% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 6 %} pos-ascen {% elif loop.index <= 8 %} pos-nada {% endif %}"
                     >
                       {{ loop.index }}
                     </td>
-                    <td class="equipo-mobile text-start size_equipos2">
+                    <td
+                      class="equipo-mobile text-start size_equipos2 {% if 'BSR Valladolid' in equipo['equipo'] %} equipo-pucela {% endif %}"
+                    >
                       {{ equipo['equipo'] }}
                     </td>
-                    <td class="equipo-mobile text-center desc-jug">
-                      {{ equipo['datos']['jugados'] }}
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center desc-act">
-                      {{ equipo['datos']['ganados'] }}
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center desc-prox"></td>
-                    <td class="equipo-mobile text-center desc-mate"></td>
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['perdidos'] }}
+                    </td>
                     <td
-                      class="equipo-mobile text-center desc-opti d-none d-md-table-cell"
-                    ></td>
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['favor'] }}
+                    </td>
                     <td
-                      class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"
-                    ></td>
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['contra'] }}
+                    </td>
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['diferencia_canastas'] }}
+                    </td>
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['puntos'] }}
+                    </td>
                   </tr>
                   {% endfor %}
                 </tbody>
               </table>
             </div>
           </div>
-          <small class="text-center mb-3">
-            J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos);
-            Op(Optimista); Pes(Pesimista)
+          <small class="text-center">
+            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif.
+            Puntos); PT(Puntos)
           </small>
           <small class="text-center mb-3">
             Final-Six
             <span class="badge bg-success ms-2">1-6</span>
-            ; Nada
-            <span class="badge bg-warning ms-2">7-8</span>
           </small>
         </div>
       </div>
-      <div class="tab-pane" id="plata">
-        <!--Tabla Descenso-->
-        <div class="d-flex justify-content-center">
-          <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
-            <div class="card-body">
-              <div class="table-responsive">
-                <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                  División de Honor BSR - Grupo Plata
-                </h3>
-                <table id="tablaDescAliados" class="table">
-                  <thead>
-                    <tr>
-                      <th></th>
-                      <th class="equipo-mobile text-start">Equipos</th>
-                      <th class="equipo-mobile text-center">J</th>
-                      <th class="equipo-mobile text-center">G</th>
-                      <th class="equipo-mobile text-center">%</th>
-                      <th class="equipo-mobile text-center">Mat</th>
-                      <th
-                        class="equipo-mobile text-center d-none d-md-table-cell"
-                      >
-                        Op
-                      </th>
-                      <th
-                        class="equipo-mobile text-center d-none d-md-table-cell"
-                      >
-                        Pes
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for equipo in clasificacion_plata %}
-                    <tr>
-                      <td
-                      class="equipo-mobile text-center {% if loop.index <= 6 %} pos-nada {% else %} pos-desc {% endif %}"
+    </div>
+    <div class="tab-pane" id="plata">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis fs-4">
+                Grupo Plata
+              </h3>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">P</th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      F
+                    </th>
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      C
+                    </th>
+
+                    <th class="equipo-mobile text-center">DP</th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PT
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo in clasificacion_grupo_plata %}
+                  <tr>
+                    <td
+                      class="equipo-mobile text-center {% if loop.index <= 6 %} pos-nada {% elif loop.index <= 8 %} pos-desc {% endif %}"
                     >
                       {{ loop.index }}
                     </td>
-                      <td class="equipo-mobile text-center">
-                        {{ equipo.index }}
-                      </td>
-                      <td class="equipo-mobile text-start size_equipos2">
-                        {{ equipo['equipo'] }}
-                      </td>
-                      <td class="equipo-mobile text-center desc-jug">
-                        {{ equipo['datos']['jugados'] }}
-                      </td>
-                      <td class="equipo-mobile text-center desc-act">
-                        {{ equipo['datos']['ganados'] }}
-                      </td>
-                      <td class="equipo-mobile text-center desc-prox"></td>
-                      <td class="equipo-mobile text-center desc-mate"></td>
-                      <td
-                        class="equipo-mobile text-center desc-opti d-none d-md-table-cell"
-                      ></td>
-                      <td
-                        class="equipo-mobile text-center desc-pesi d-none d-md-table-cell"
-                      ></td>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
-              </div>
+
+                    <td
+                      class="equipo-mobile text-start size_equipos2 {% if 'BSR Valladolid' in equipo['equipo'] %} equipo-pucela {% endif %}"
+                    >
+                      {{ equipo['equipo'] }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['jugados'] }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['ganados'] }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['perdidos'] }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['favor'] }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['contra'] }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo['diferencia_canastas'] }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      {{ equipo['puntos'] }}
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+              </table>
             </div>
-            <small class="text-center mb-3">
-              J(Jugados); G(Ganados); %(Proximidad); Mat(Matemáticos);
-              Op(Optimista); Pes(Pesimista)
-            </small>
-            <small class="text-center mb-3">
-            Final-Six
-            <span class="badge bg-secondary ms-2">1-6</span>
-            ; Nada
-            <span class="badge bg-danger ms-2">7-8</span>
-          </small>
           </div>
+          <small class="text-center">
+            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif.
+            Puntos); PT(Puntos)
+          </small>
+          <small class="text-center mb-3">
+            Descenso
+            <span class="badge bg-success ms-2">7-8</span>
+          </small>
         </div>
       </div>
     </div>
   </div>
 </section>
-{% endblock %} {% block scripts %}
-<script src="/static/js/analisis-aliados.js"></script>
-{% endblock %}
+{% endblock %} {% block scripts %} {% endblock %}

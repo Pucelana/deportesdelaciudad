@@ -4,7 +4,7 @@ from app.models.historial import Historial, Palmaress
 from app.models.horario import Horario
 from app.models.uemc import JornadaUEMC, UEMCPartido, UEMCClub, CopaUEMC, Clasificacion, PlayoffUEMC, TemporadaUEMC, EquiposCopaUEMC
 from app.models.valladolid import JornadaValladolid, ValladolidPartido, ValladolidClub, CopaValladolid,  PlayoffValladolid, TemporadaValladolid
-from app.models.vallad_genius import JornadaValladGenius, ValladGeniusPartido, ValladGeniusClub, TemporadaValladGenius, ValladGeniusGrupoEquipo, ValladGeniusGrupo
+from app.models.vallad_genius import TemporadaValladGenius, JornadaValladGenius, ValladGeniusPartido, ValladGeniusClub
 from app.models.promesas import JornadaPromesas, PromesasPartido, PromesasClub,  PlayoffPromesas, TemporadaPromesas
 from app.models.rv_fem import JornadaSimancas, SimancasPartido, SimancasClub, CopaSimancas,  PlayoffSimancas, TemporadaSimancas
 from app.models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol,  PlayoffParquesol, TemporadaParquesol

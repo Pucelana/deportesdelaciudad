@@ -1,0 +1,272 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} {% block
+title%}Clasificación | Real ValladoliDi | Deportes de la Ciudad{% endblock %} {%
+block description %} Clasificación Competividad y Fair Play actualizada del Real
+ValladoliDi: posición, victorias, derrotas, puntos, y analisis de objetivos. {%
+endblock %} {% block og_title %} Clasificación | Real ValladoliDi | Deportes de
+la Ciudad {% endblock %} {% block og_description %} Consulta la clasificación
+ompetividad y fair play actualizada del Real ValladoliDi. {% endblock %} {%
+block twitter_title %} Clasificación | Real ValladoliDi | Deportes de la Ciudad
+{% endblock %} {% block twitter_description %} Consulta la clasificación
+competividad y fair play actualizada del BSR ValladoliDi. {% endblock %} {%
+block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Real ValladoliDi</a
+      >
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_futbol/calendario_vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Calendario Ind.</a
+      >
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_futbol/resultados_vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6"
+        >Resultados</a
+      >
+    </li>
+    <li
+      class="breadcrumb-item active text-dark text-analisis fs-6"
+      aria-current="page"
+    >
+      Clasificaciones
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/vallad_genius/historial"
+        class="text-decoration-none text-white text-analisis fs-6"
+        >Historial</a
+      >
+    </li>
+  </ol>
+</nav>
+{% endblock %} {% block contenido %}
+
+<section class="container-lg mb-5 flex-fill copa">
+  <!-- Navegador personalizado -->
+  <div class="d-flex justify-content-center my-2 gap-1">
+    <button
+      class="btn btn-outline-light tab-btn active"
+      data-tab="clasificacion1"
+    >
+      Clasificación Competitividad
+    </button>
+
+    <button class="btn btn-outline-light tab-btn" data-tab="clasificacion2">
+      Clasificación Fair Play
+    </button>
+  </div>
+
+  <div class="tab-container">
+    <!-- ===================================================== -->
+    <!-- COMPETITIVIDAD -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane active" id="clasificacion1">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis fs-4">
+                Respeto
+              </h3>
+
+              <table id="tablaClasifValladGenius" class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+
+                    <th class="equipo-mobile text-start">Equipos</th>
+
+                    <th class="equipo-mobile text-center">PTS</th>
+
+                    <th class="equipo-mobile text-center">PJ</th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PG
+                    </th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PE
+                    </th>
+
+                    <th
+                      class="equipo-mobile text-center d-none d-md-table-cell"
+                    >
+                      PP
+                    </th>
+
+                    <th class="equipo-mobile text-center">PTG</th>
+
+                    <th class="equipo-mobile text-center">PTE</th>
+
+                    <th class="equipo-mobile text-center">PTP</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for equipo in clasificacion_analisis_vallad_genius %}
+
+                  <tr>
+                    <!-- POSICIÓN -->
+                    <td
+                      class="equipo-mobile text-center {% if loop.index == 1 %} pos-ascen {% elif loop.index <= 17 %} pos-nada {% endif %}"
+                    >
+                      {{ loop.index }}
+                    </td>
+
+                    <!-- EQUIPO -->
+                    <td
+                      class="equipo-mobile text-start size_equipos2 {% if 'R.ValladoliDi' in equipo['equipo'] %} equipo-pucela {% endif %}"
+                    >
+                      {{ equipo.equipo }}
+                    </td>
+
+                    <!-- PUNTOS -->
+                    <td class="equipo-mobile text-center puntos">
+                      {{ equipo.datos.puntos }}
+                    </td>
+
+                    <!-- PARTIDOS JUGADOS -->
+                    <td class="equipo-mobile text-center jugados">
+                      {{ equipo.datos.jugados }}
+                    </td>
+
+                    <!-- PARTIDOS GANADOS -->
+                    <td
+                      class="equipo-mobile text-center ganados d-none d-md-table-cell"
+                    >
+                      {{ equipo.datos.ganados }}
+                    </td>
+
+                    <!-- PARTIDOS EMPATADOS -->
+                    <td
+                      class="equipo-mobile text-center empatados d-none d-md-table-cell"
+                    >
+                      {{ equipo.datos.empatados }}
+                    </td>
+
+                    <!-- PARTIDOS PERDIDOS -->
+                    <td
+                      class="equipo-mobile text-center perdidos d-none d-md-table-cell"
+                    >
+                      {{ equipo.datos.perdidos }}
+                    </td>
+
+                    <!-- PARTES GANADAS -->
+                    <td class="equipo-mobile text-center ptg">
+                      {{ equipo.datos.ptg }}
+                    </td>
+
+                    <!-- PARTES EMPATADAS -->
+                    <td class="equipo-mobile text-center pte">
+                      {{ equipo.datos.pte }}
+                    </td>
+
+                    <!-- PARTES PERDIDAS -->
+                    <td class="equipo-mobile text-center ptp">
+                      {{ equipo.datos.ptp }}
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <small class="text-center">
+            PTS(Puntos); PJ(Partidos Jugados); PG(Partidos Ganados); PE(Partidos
+            Empatados); PP(Partidos Perdidos); PTG(Partes Ganadas); PTE(Partes
+            Empatadas); PTP(Partes Perdidas)
+          </small>
+
+          <small class="text-center mb-3">
+            Campeón
+            <span class="badge bg-success ms-2">1</span>
+          </small>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- FAIR PLAY -->
+    <!-- ===================================================== -->
+
+    <div class="tab-pane" id="clasificacion2">
+      <div class="d-flex justify-content-center">
+        <div
+          class="card tabla_equipos_aula w-100 mx-auto"
+          style="max-width: 55rem"
+        >
+          <div class="card-body">
+            <div class="table-responsive">
+              <h3 class="text-center text-white fw-bold text-analisis fs-4">
+                Fair Play
+              </h3>
+
+              <table id="tablaFairValladGenius" class="table">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">PJ</th>
+                    <th class="equipo-mobile text-center">PFP</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for equipo in clasificacion_fair_play_vallad_genius %}
+
+                  <tr>
+                    <td class="equipo-mobile text-center {% if loop.index == 1 %} pos-ascen {% elif loop.index <= 17 %} pos-nada {% endif %}">{{ loop.index }}</td>
+
+                    <td
+                      class="equipo-mobile text-start size_equipos2 {% if 'R.ValladoliDi' in equipo['equipo'] %} equipo-pucela {% endif %}"
+                    >
+                      {{ equipo.equipo }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo.datos.jugados }}
+                    </td>
+
+                    <td class="equipo-mobile text-center">
+                      {{ equipo.datos.pfp }}
+                    </td>
+                  </tr>
+
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <small class="text-center mb-3">
+            PJ(Partidos Jugados); PFP(Puntos Fair Play)
+          </small>
+
+          <small class="text-center mb-3">
+            Campeón
+            <span class="badge bg-success ms-2">1</span>
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %} {% block scripts %}
+
+{% endblock %}

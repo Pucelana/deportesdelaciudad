@@ -28,6 +28,7 @@ NOMBRES_SECCIONES = {
     "aula": "Aula Valladolid",
     "recoletas": "Atl. Valladolid",
     "valladolid": "Real Valladolid",
+    "valladoliDi": "Real ValladoliDi",
     "promesas": "RV Promesas",
     "caja": "CPLV Caja Rural",
     "panteras": "CPLV Panteras C.R",

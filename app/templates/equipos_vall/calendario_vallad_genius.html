@@ -1,0 +1,132 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} 
+{% block title %}Calendario Individual | Real ValladoliDi | Deportes de la Ciudad{% endblock %} 
+
+{% block description %}
+Calendario Individual del Real ValladoliDi: equipos a los que se enfrenta, ida y vuelta, resultados, puntos y average.
+{% endblock %}
+
+{% block og_title %}
+Calendario Individual | Real ValladoliDi | Deportes de la Ciudad
+{% endblock %}
+
+{% block og_description %}
+Consulta el calendario individual actualizado del Real ValladoliDi.
+{% endblock %}
+
+{% block twitter_title %}
+Calendario Individual | Real ValladoliDi | Deportes de la Ciudad
+{% endblock %}
+
+{% block twitter_description %}
+Consulta el calendario individual actualizada del Real ValladoliDi.
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6">Real ValladoliDi</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      Calendario Ind.
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_futbol/resultados_vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_futbol/clasif_vallad_genius"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/vallad_genius/historial"
+        class="text-decoration-none text-white text-analisis fs-6">Historial</a>
+    </li>
+  </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+
+<div class="d-flex justify-content-center">
+  <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-bordered tabla_equipos tabla_valladolid">
+
+          <thead>
+            <tr class="text-center text-dark">
+              <th>Jornada</th>
+              <th>Equipo</th>
+              <th>L/V</th>
+              <th>Resultado</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            {% for partido in tabla_partidos_vallad_genius %}
+
+            <tr>
+
+              <td class="text-center fw-bold text-secondary">
+                {{ partido['jornada']|replace('Jornada', '') }}
+              </td>
+
+              <td class="equipo-mobile text-start">
+                {{ partido['equipo'] }}
+              </td>
+
+              <td class="text-center fw-bold text-secondary">
+                {{ partido['rol'] }}
+              </td>
+
+              <td class="text-center fw-bold">
+
+                {% if partido['resultado_vallad_genius'] not in (None, '')
+                and partido['resultado_rival'] not in (None, '') %}
+
+                  {{ partido['resultado_vallad_genius'] }}
+                  -
+                  {{ partido['resultado_rival'] }}
+
+                {% else %}
+
+                  -
+
+                {% endif %}
+
+              </td>
+
+            </tr>
+
+            {% else %}
+
+            <tr>
+              <td colspan="4" class="text-center">
+                No hay partidos disponibles.
+              </td>
+            </tr>
+
+            {% endfor %}
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+{% block scripts %}
+ 
+{% endblock %}

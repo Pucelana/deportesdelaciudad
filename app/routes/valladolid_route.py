@@ -737,6 +737,7 @@ def historial_valladolid():
             continue
 
         labels, puntos = obtener_evolucion_puntos(
+                
             jornadas, "R.Valladolid", generar_clasificacion_analisis_futbol_valladolid,"puntos"
         )
         labels_jornadas = labels

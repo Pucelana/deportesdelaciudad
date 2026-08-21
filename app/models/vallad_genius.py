@@ -35,6 +35,9 @@ class ValladGeniusPartido(db.Model):
     local = db.Column(db.String(255))
     resultadoA = db.Column(db.String(120))
     resultadoB = db.Column(db.String(120))
+    # Puntos Fair Play
+    pfp_local = db.Column(db.Integer)
+    pfp_visitante = db.Column(db.Integer)
     visitante = db.Column(db.String(255))
     orden = db.Column(db.Integer)   
 
@@ -43,34 +46,4 @@ class ValladGeniusClub(db.Model):
     # Definir la columna ID
     id = db.Column(db.Integer, primary_key=True)
     # Definir la columna 'nombre' para el nombre del club
-    nombre = db.Column(db.String(255), nullable=False)
-    
-class ValladGeniusGrupo(db.Model):
-    __tablename__ = "vallad_genius_grupos"
-
-    id = db.Column(db.Integer, primary_key=True)
-
-    nombre = db.Column(db.String(20), nullable=False)
-    fase = db.Column(db.String(20), nullable=False)
-    equipos = db.relationship(
-        "ValladGeniusGrupoEquipo",
-        backref="grupo",
-        cascade="all, delete-orphan"
-    )
-    
-class ValladGeniusGrupoEquipo(db.Model):
-    __tablename__ = "vallad_genius_grupos_equipos"
-    id = db.Column(db.Integer, primary_key=True)
-    grupo_id = db.Column(
-        db.Integer,
-        db.ForeignKey(
-            "vallad_genius_grupos.id",
-            ondelete="CASCADE"
-        ),
-        nullable=False
-    )
-
-    equipo = db.Column(
-        db.String(255),
-        nullable=False
-    )    
+    nombre = db.Column(db.String(255), nullable=False)   

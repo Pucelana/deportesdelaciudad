@@ -43,10 +43,44 @@ Conoce el sistema de competición del fútbol masculino y femenino.
       </div>
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-3 gap-3">
-        <button class="btn btn-outline-light tab-btn active" data-tab="femenino">Femenino</button>
+        <button class="btn btn-outline-light tab-btn active" data-tab="discapacidad">Genuine</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="femenino">Femenino</button>
         <button class="btn btn-outline-light tab-btn" data-tab="masculino">Masculino</button>
       </div>
         <div class="tab-container">
+          <div class="tab-pane active" id="discapacidad"><!-- Sistema liga - Fútbol discapacidad -->
+            <div class="d-flex justify-content-center">
+              <div class="card sistema_ligas shadow" style="width: 80rem;">
+                <div class="card-body">
+                  <h2 class="tipo_sistema text-analisis">Fútbol Discapacidad</h2>
+                  <div class="row d-flex justify-content-center">
+                    <div class="col-lg-12"><!-- Liga Genuine -->
+                      <div class="contenedor">
+                        <div class="categoria shadow">
+                          <h3 class="fw-bold fs-1 text-analisis">Liga Genuine</h3>
+                          <p class="fw-bold text-analisis fs-4"></p>
+                          <ul class="horizontal-list">
+                            <li class="federacion">
+                              <div class="texto-adicional text-analisis fs-5">
+                                <strong class="text-analisis fs-4 text-dark">Organización de la Categoría</strong>
+                                <p class="text-analisis fs-5">La competición la disputan unos 50 equipos, distribuidos en 3 grupos, 'Compañerismo', 'Deportividad' y 'Respeto'. Y cada grupo tiene sus dos clasificaciones, Competitividad y Fai play, se juega en 4 fines de semana en diferentes sedes.</p>
+                                <strong class="text-analisis fs-4 text-dark">Campeón en Competitividad</strong>
+                                <p class="text-analisis fs-5">Entre los 4 fines de semana en total jugarán unos 9 ó 10 partidos. Los partidos se parten en 4 partes y al final cuentan las partes ganadas, en la clasificación se puntúa 3pts ganado, 2pts empatado, 1pt perdido. El que mejor puntuación obtenga al final de la competición sera el campeón.</p>
+                                <strong class="text-analisis fs-4 text-dark">Campeós en Fair Play</strong>
+                                <p class="text-analisis fs-5">Es otra clasificación en la cual se iran sumando puntos que al final del partido seran los que otorguen los arbitros, la afición, el rival, se restarán de los puntos negativos si hubiera habido, y se van sumando a la tabla de fair play, el que mejor puntuación tenga al final de la competición será el campeón. </p>
+                              </div>
+                              <a href="#" class="mostrar-enlace text-decoration-none text-analisis fs-6 text-primary"
+                                onclick="mostrarTexto(this); return false;">Leer más</a>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="tab-pane active" id="femenino"><!-- Sistema liga - Fútbol Femenino -->
             <div class="d-flex justify-content-center">
               <div class="card sistema_ligas shadow" style="width: 80rem;">
