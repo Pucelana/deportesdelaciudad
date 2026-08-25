@@ -152,5 +152,125 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+// ==========================================
+// SERVICE WORKER - PWA
+// ==========================================
+
+if ("serviceWorker" in navigator) {
+
+    window.addEventListener("load", () => {
+
+        navigator.serviceWorker.register("/service-worker.js")
+            .then(registration => {
+
+                console.log(
+                    "Service Worker registrado correctamente:",
+                    registration.scope
+                );
+
+            })
+            .catch(error => {
+
+                console.error(
+                    "Error registrando el Service Worker:",
+                    error
+                );
+
+            });
+
+    });
+
+}
 
 
+// ==========================================
+// INSTALACIÓN PWA
+// ==========================================
+
+let deferredPrompt = null;
+
+
+// Detectar que Chrome permite instalar la web
+window.addEventListener("beforeinstallprompt", (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    console.log("La web se puede instalar como PWA");
+
+    const aviso = document.getElementById("avisoInstalacionPWA");
+
+    if (aviso) {
+        aviso.style.display = "block";
+    }
+
+});
+
+
+// ==========================================
+// BOTÓN INSTALAR
+// ==========================================
+
+document.addEventListener("click", async function (e) {
+
+    if (e.target.closest("#btnInstalarPWA")) {
+
+        console.log("BOTÓN INSTALAR PULSADO");
+
+        if (!deferredPrompt) {
+
+            console.log("No existe deferredPrompt");
+
+            return;
+        }
+
+        deferredPrompt.prompt();
+
+        const resultado = await deferredPrompt.userChoice;
+
+        console.log(
+            "Resultado instalación:",
+            resultado.outcome
+        );
+
+        deferredPrompt = null;
+
+        const aviso = document.getElementById("avisoInstalacionPWA");
+
+        if (aviso) {
+            aviso.style.display = "none";
+        }
+
+    }
+
+});
+
+
+// ==========================================
+// BOTÓN CERRAR
+// ==========================================
+
+document.addEventListener("click", function (e) {
+
+    if (e.target.closest("#btnCerrarPWA")) {
+
+        console.log("BOTÓN CERRAR PULSADO");
+
+        const aviso = document.getElementById("avisoInstalacionPWA");
+
+        if (aviso) {
+
+            aviso.style.display = "none";
+
+            console.log("AVISO PWA OCULTADO");
+
+        } else {
+
+            console.log("NO SE ENCONTRÓ EL AVISO PWA");
+
+        }
+
+    }
+
+});

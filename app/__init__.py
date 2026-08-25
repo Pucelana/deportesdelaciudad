@@ -44,6 +44,7 @@ from .routes.usuarios_route import usuarios_route_bp
 from .routes.seo_routes import seo_bp
 from app.seo.social import SOCIAL
 from .routes.menu_competiciones_route import menu_competiciones_bp
+from .routes.service_worker_route import service_worker_bp
 from app.utils.sincronizar_menu import sincronizar_menu_competiciones
 from .seo.sitemap_index import sitemap_index_bp
 
@@ -118,6 +119,7 @@ def create_app():
     app.register_blueprint(usuarios_route_bp)
     app.register_blueprint(seo_bp)
     app.register_blueprint(menu_competiciones_bp)
+    app.register_blueprint(service_worker_bp)
     print("\n========== RUTAS REGISTRADAS ==========\n")
 
     for rule in sorted(app.url_map.iter_rules(), key=lambda r: r.rule):

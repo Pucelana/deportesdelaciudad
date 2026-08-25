@@ -110,8 +110,13 @@
     </p>
     <div id="contenido" class="d-flex flex-column">
       <!--HEADER ESCRITORIO-->
-      <header class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg">
-        <section id="cabecera-escritorio" class="d-flex justify-content-between align-items-center">
+      <header
+        class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg"
+      >
+        <section
+          id="cabecera-escritorio"
+          class="d-flex justify-content-between align-items-center"
+        >
           <nav class="navbar navbar-expand navbar-light">
             <div class="container-fluid">
               <ul class="navbar-nav me-auto">
@@ -889,7 +894,7 @@
                 <img src="/static/img/vrac_sf.png" class="escudo" alt="VRAC" />
                 <span class="escudo-nombre">VRAC</span>
               </a>
-               <a href="/seccion/vallad_genius" class="escudo-link">
+              <a href="/seccion/vallad_genius" class="escudo-link">
                 <img
                   src="/static/img/pucela_sf.png"
                   class="escudo"
@@ -930,8 +935,8 @@
                   {% if date.seccion == "Fútbol" %} ⚽ {% elif date.seccion ==
                   "Baloncesto" %} 🏀 {% elif date.seccion == "Balonmano" %} 🤾
                   {% elif date.seccion == "Rugby" %} 🏉 {% elif date.seccion ==
-                  "Hockey Línea" %} 🏑 {% elif date.seccion == "Voleibol" %} 🏐 {%
-                  elif date.seccion == "Fútbol Sala" %} 🥅 {% endif %} {{
+                  "Hockey Línea" %} 🏑 {% elif date.seccion == "Voleibol" %} 🏐
+                  {% elif date.seccion == "Fútbol Sala" %} 🥅 {% endif %} {{
                   date.seccion }}
                 </div>
                 <!-- Cuerpo -->
@@ -1150,7 +1155,10 @@
           </p>
         </div>
       </div>
-      <div id="politica-privacidad-modal" class="custom-modal politica-privacidad-modal text-dark">
+      <div
+        id="politica-privacidad-modal"
+        class="custom-modal politica-privacidad-modal text-dark"
+      >
         <div class="custom-modal-content politica-privacidad-content">
           <span class="custom-close" id="close-politica-privacidad"
             >&times;</span
@@ -1203,9 +1211,8 @@
           </p>
           <p>
             Para obtener información detallada sobre las cookies utilizadas en
-            este sitio web, puede consultar nuestra <strong
-              >Política de Cookies</strong
-            >.
+            este sitio web, puede consultar nuestra
+            <strong>Política de Cookies</strong>.
           </p>
           <h3><strong>5. Enlaces a terceros</strong></h3>
           <p>
@@ -1677,5 +1684,31 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 3000);
       });
     </script>
+    <!-- Aviso instalación PWA -->
+    <div id="avisoInstalacionPWA" class="aviso-instalacion-pwa" style="display: none;">
+      <div class="aviso-pwa-contenido">
+        <div class="aviso-pwa-texto">
+          <div class="aviso-pwa-icono">📱
+          <strong class="equipo-mobile">Instalar la web</strong></div>
+          <p class="equipo-mobile fs-6"></p>
+        </div>
+
+        <div class="pwa-botones">
+
+            <button id="btnInstalarPWA" type="button">
+                Instalar
+            </button>
+
+            <button
+                id="btnCerrarPWA"
+                type="button"
+                class="btn-cerrar-pwa"
+                aria-label="Cerrar">
+                x
+            </button>
+
+        </div>
+      </div>
+    </div>
   </body>
 </html>
