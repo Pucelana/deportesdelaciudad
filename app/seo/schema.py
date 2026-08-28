@@ -402,9 +402,9 @@ def schema_sports_event(
         "@type": "SportsEvent",
         "name": nombre,
         "sport": deporte,
-        "startDate": fecha_iso,
         "url": url,
         "eventStatus": estado,
+
         "competitor": [
             {
                 "@type": "SportsTeam",
@@ -415,15 +415,21 @@ def schema_sports_event(
                 "name": visitante,
             },
         ],
+
         "location": {
             "@type": "Place",
             "name": local
         },
+
         "superEvent": {
             "@type": "SportsCompetition",
             "name": competicion
         }
     }
+
+    # Solo añadimos startDate si tenemos una fecha válida
+    if fecha_iso:
+        evento["startDate"] = fecha_iso
 
     if (
         resultado_local not in (None, "", " ")
@@ -442,6 +448,7 @@ def schema_sports_event(
 
         evento["homeScore"] = resultado_local
         evento["awayScore"] = resultado_visitante
+
         evento["eventStatus"] = "https://schema.org/EventCompleted"
 
     return evento
@@ -460,6 +467,8 @@ def schema_partidos(partidos, slug, url_base):
 
     eventos = []
 
+    from datetime import datetime
+
     for partido in partidos:
 
         if not partido.local or not partido.visitante:
@@ -471,29 +480,56 @@ def schema_partidos(partidos, slug, url_base):
 
         if partido.fecha:
 
-            try:
+            fecha_obj = None
 
+            # Intentamos diferentes formatos de fecha
+            formatos_fecha = [
+                "%d.%m.%y",   # 25.09.26
+                "%d.%m.%Y",   # 25.09.2026
+                "%d/%m/%Y",   # 25/09/2026
+                "%d/%m/%y",   # 25/09/26
+            ]
+
+            for formato in formatos_fecha:
+
+                try:
+                    fecha_obj = datetime.strptime(
+                        str(partido.fecha).strip(),
+                        formato
+                    )
+
+                    break
+
+                except ValueError:
+                    continue
+
+            if fecha_obj:
+
+                # Si tenemos hora
                 if partido.hora not in (None, "", " "):
 
-                    from datetime import datetime
+                    try:
 
-                    fecha_iso = datetime.strptime(
-                        f"{partido.fecha} {partido.hora}",
-                        "%d/%m/%Y %H:%M"
-                    ).isoformat()
+                        hora_obj = datetime.strptime(
+                            str(partido.hora).strip(),
+                            "%H:%M"
+                        ).time()
+
+                        fecha_hora = datetime.combine(
+                            fecha_obj.date(),
+                            hora_obj
+                        )
+
+                        fecha_iso = fecha_hora.isoformat()
+
+                    except ValueError:
+
+                        fecha_iso = fecha_obj.date().isoformat()
 
                 else:
 
-                    from datetime import datetime
-
-                    fecha_iso = datetime.strptime(
-                        partido.fecha,
-                        "%d/%m/%Y"
-                    ).date().isoformat()
-
-            except Exception:
-
-                fecha_iso = None
+                    # Solo fecha, sin inventar hora
+                    fecha_iso = fecha_obj.date().isoformat()
 
         eventos.append(
 
