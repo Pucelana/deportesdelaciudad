@@ -1219,7 +1219,15 @@ def salvador_copa():
         )
         data_clasificaciones[grupo] = equipos_ordenados
     partidos_jornadas = obtener_partidos_schema(partidos)
-    partidos_eliminatorias = obtener_partidos_schema(eliminatorias)
+    # Extraer los partidos reales de las eliminatorias
+    partidos_eliminatorias_lista = []
+    for fase in eliminatorias.values():
+        partidos_eliminatorias_lista.extend(
+        fase.get("partidos", [])
+    )
+    partidos_eliminatorias = obtener_partidos_schema(
+        partidos_eliminatorias_lista
+    )
     partidos_schema = partidos_jornadas + partidos_eliminatorias    
     return render_template(
         'copas/salvador_copa.html', equipos_por_encuentros=equipos_por_encuentros, eliminatorias=eliminatorias,
