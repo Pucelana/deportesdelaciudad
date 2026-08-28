@@ -34,4 +34,8 @@ NOMBRES_EQUIPOS = {
                         "CD San Jose Rojo",
                         "CD San José",
                     ],
+    "salvador": [
+                            "CR El Salvador",
+                            "El Salvador",
+                        ],
 }

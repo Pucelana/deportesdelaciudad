@@ -178,7 +178,7 @@ def separar_fases(data):
 @salvador_route_bp.route('/equipos_rugby/calendario_salvador')
 def calendario_salvador():
     datos = obtener_datos_salvador()
-    equipo_salvador = 'El Salvador'
+    equipo_salvador = 'CR El Salvador'
     tabla_partidos_salvador = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
