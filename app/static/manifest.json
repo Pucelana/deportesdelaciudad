@@ -1,7 +1,7 @@
 {
   "name": "Deportes de la Ciudad",
   "short_name": "Deportes",
-  "start_url": "/",
+  "start_url": "/?utm_source=pwa&utm_medium=app",
   "scope": "/",
   "display": "standalone",
   "background_color": "#050505",
