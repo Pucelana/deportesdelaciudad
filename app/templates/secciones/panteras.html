@@ -51,11 +51,29 @@ Calendario, resultados, clasificación e información del CPLV Panteras C.R.
       </div>
     </div>
     {% endif %}
+    {% if menu.get("playoff") %}
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center">
+          <a href="/playoff_panteras" class="text-decoration-none"><h2 class="text_uemc pt-2">Playoffs</h2></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     {% if menu.get("supercopa") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center">
           <a href="/supercopas_panteras" class="text-decoration-none"><h2 class="text_uemc pt-2">Supercopa de España</h2></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if menu.get("europa") %}
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center">
+          <a href="/europa_panteras" class="text-decoration-none"><h2 class="text_uemc pt-2">Europa</h2></a>
         </div>
       </div>
     </div>

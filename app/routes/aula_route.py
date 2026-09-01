@@ -1475,7 +1475,9 @@ def aula_permanencia():
     # =========================
     # RENDER
     # =========================
-    partidos_schema = obtener_partidos_schema(obtener_datos_aula)
+    partidos_partidos = obtener_partidos_schema(partidos)
+    # Extraer los partidos reales de las eliminatorias
+    partidos_schema = partidos_partidos 
     return render_template(
         'permanencias/aula_permanencia.html',
         clasificacion_permanencia_aula=clasificacion_permanencia_aula,

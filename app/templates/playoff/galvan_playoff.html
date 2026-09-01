@@ -1,32 +1,37 @@
 {% extends "playoff/base_playoff.html" %} 
-{% block title %}PlayOff | RV Femenino | Deportes de la Ciudad{% endblock %}
+{% block title %}PlayOff | C.D Tierno Galván | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Cuadro, eliminatorias, cruces y resultados de los playoffs del RV Femenino.
+Cuadro, eliminatorias, cruces y resultados de los playoffs del C.D Tierno Galván.
 {% endblock %}
 {% block og_title %}
-Playoffs | RV Femenino | Deportes de la Ciudad
+Playoffs | C.D Tierno Galván | Deportes de la Ciudad
 {% endblock %}
 {% block og_description %}
-Sigue las eliminatorias y resultados de los playoffs del RV Femenino.
+Sigue las eliminatorias y resultados de los playoffs del C.D Tierno Galván.
 {% endblock %}
 {% block twitter_title %}
-Playoffs | RV Femenino | Deportes de la Ciudad
+Playoffs | C.D Tierno Galván | Deportes de la Ciudad
 {% endblock %}
 {% block twitter_description %}
-Sigue las eliminatorias y resultados de los playoffs del RV Femenino.
+Sigue las eliminatorias y resultados de los playoffs del C.D Tierno Galván.
 {% endblock %}
 
-    {% block breadcrumb %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/rv_fem" class="text-white text-decoration-none">RV Femenino</a></li>
-        <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">PlayOffs</li>
-      </ol>
-    </nav>
-    {% endblock %}
-    {% block contenido %}
-    <section class="container-lg flex-fill copa">
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a href="/seccion/galvan" class="text-white text-decoration-none">C.D Tierno Galván</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      PlayOff
+    </li>
+  </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+<section class="container-lg flex-fill copa">
+  <!-- Eliminatorias -->
   <!-- Navegación -->
   <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
     {% for ronda in datos_playoff.keys() %}
@@ -49,15 +54,15 @@ Sigue las eliminatorias y resultados de los playoffs del RV Femenino.
         <div class="card tabla_copa mt-2" style="width: 55rem">
           <div class="card-body">
             <h3
-              class="text-center text-white text-analisis fs-4 fw-bold text-capitalize"
+              class="text-center text-white text-analisis fw-bold text-capitalize"
             >
               {{ ronda }}
             </h3>
             <div class="table-responsive d-none d-md-block">
               <table class="table border-secondary">
                 {% for partido in partidos %}
-                <tr>
-                  <td class="tex-muted fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
+                <tr class="text-center">
+                  <td class="text-muted fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
                   <td
                     class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
                   >
@@ -114,7 +119,7 @@ Sigue las eliminatorias y resultados de los playoffs del RV Femenino.
 </section>
 {% endblock %} {% block scripts %}
 <script>
-   document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     const botones = document.querySelectorAll(".btn-slide");
     const rondas = document.querySelectorAll(".ronda-item");
 
