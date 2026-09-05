@@ -1281,7 +1281,6 @@ def modificar_supercopa_panteras(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash('Supercopa actualizado correctamente', 'success')
         return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('panteras_route_bp.ver_supercopa_panteras'))
