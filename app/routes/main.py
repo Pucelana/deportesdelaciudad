@@ -31,11 +31,11 @@ NOMBRES_EQUIPOS = {
                     "Tierno Galván",
                 ],
     "san_jose": [
-                        "CD San Jose Rojo",
-                        "CD San José",
-                    ],
+                    "CD San Jose Rojo",
+                    "CD San José",
+                ],
     "salvador": [
-                            "CR El Salvador",
-                            "El Salvador",
-                        ],
+                    "CR El Salvador",
+                    "El Salvador",
+                ],
 }
