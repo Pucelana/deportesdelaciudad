@@ -882,17 +882,14 @@ def crear_equipo_copa_uemc():
     grupo = request.form.get("grupo")
     equipo = request.form.get("equipo")
     if not grupo or not equipo:
-        flash("Debes indicar grupo y equipo", "warning")
         return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
     # Evitar duplicados
     existe = EquiposCopaUEMC.query.filter_by(grupo=grupo, equipo=equipo).first()
     if existe:
-        flash("Ese equipo ya existe en ese grupo", "warning")
         return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
     nuevo_equipo = EquiposCopaUEMC(grupo=grupo, equipo=equipo)
     db.session.add(nuevo_equipo)
     db.session.commit()
-    flash("Equipo añadido correctamente", "success")
     return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
 # Modificar equipo Copa UEMC
 @uemc_route_bp.route("/modificar_equipo_copa_uemc/<int:id>", methods=["POST"])
@@ -901,7 +898,6 @@ def modificar_equipo_copa_uemc(id):
     equipo.grupo = request.form.get("grupo")
     equipo.equipo = request.form.get("equipo")
     db.session.commit()
-    flash("Equipo modificado correctamente", "success")
     return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
 # Eliminar equipo Copa UEMC
 @uemc_route_bp.route("/eliminar_equipo_copa_uemc/<int:id>", methods=["POST"])
@@ -909,7 +905,6 @@ def eliminar_equipo_copa_uemc(id):
     equipo = EquiposCopaUEMC.query.get_or_404(id)
     db.session.delete(equipo)
     db.session.commit()
-    flash("Equipo eliminado correctamente", "success")
     return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
 # Crear formulario para los grupos de la Copa UEMC
 @uemc_route_bp.route("/admin/crear_copa_uemc", methods=["GET", "POST"])
@@ -1215,11 +1210,9 @@ def modificar_copa_uemc(encuentros):
                 partido.visitante = request.form.get(f"visitante{i}", partido.visitante)
                 partido.encuentros = encuentros
         db.session.commit()
-        flash("Partidos modificados correctamente", "success")
     except Exception as e:
         db.session.rollback()
         print(f"Error al modificar partidos: {e}")
-        flash("Hubo un error al modificar los partidos", "error")
     return redirect(url_for("uemc_route_bp.ver_copa_uemc"))
 # Eliminar partidos Copa UEMC
 @uemc_route_bp.route("/eliminar_copa_uemc/<string:identificador>", methods=["POST"])
@@ -1375,7 +1368,6 @@ def modificar_playoff_uemc(eliminatoria):
             partido_obj.orden = i
 
         db.session.commit()
-        flash("Playoff actualizado correctamente", "success")
         return redirect(url_for("uemc_route_bp.ver_playoff_uemc"))
 
     return redirect(url_for("uemc_route_bp.ver_playoff_uemc"))
