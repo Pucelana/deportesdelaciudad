@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title%}Clasificación | C.D Tierno Galván | Deportes de la Ciudad{% endblock %} 
+{% block title%}Clasificación | Valladolid Tierno Galván | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Clasificación actualizada del C.D Tierno Galván: posición, victorias, derrotas, puntos, y analisis de objetivos.
+Clasificación actualizada del Valladolid Tierno Galván: posición, victorias, derrotas, puntos, y analisis de objetivos.
 {% endblock %}
 
 {% block og_title %}
-Clasificación | C.D Tierno Galván | Deportes de la Ciudad
+Clasificación | Valladolid Tierno Galván | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Consulta la clasificación actualizada del C.D Tierno Galván.
+Consulta la clasificación actualizada del Valladolid Tierno Galván.
 {% endblock %}
 
 {% block twitter_title %}
-Clasificación | C.D Tierno Galván | Deportes de la Ciudad
+Clasificación | Valladolid Tierno Galván | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Consulta la clasificación actualizada del C.D Tierno Galván.
+Consulta la clasificación actualizada del Valladolid Tierno Galván.
 {% endblock %}
 
 {% block breadcrumb %}
@@ -28,7 +28,7 @@ Consulta la clasificación actualizada del C.D Tierno Galván.
       <a
         href="/seccion/galvan"
         class="text-white text-decoration-none text-analisis fs-6"
-        >C.D Tierno Galván</a>
+        >Valladolid Tierno Galván</a>
     </li>
     <li class="breadcrumb-item">
       <a
@@ -103,7 +103,7 @@ Consulta la clasificación actualizada del C.D Tierno Galván.
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile size_equipos2 text-start {% if 'C.D Tierno Galván' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile size_equipos2 text-start {% if 'Valladolid Tierno Galván' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>

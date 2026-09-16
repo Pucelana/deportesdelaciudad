@@ -29,6 +29,8 @@ NOMBRES_EQUIPOS = {
     "galvan": [
                     "C.D Tierno Galván",
                     "Tierno Galván",
+                    "VTG FS",
+                    "Valladolid TG",
                 ],
     "san_jose": [
                     "CD San Jose Rojo",
