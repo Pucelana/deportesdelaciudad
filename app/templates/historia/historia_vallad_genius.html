@@ -170,7 +170,8 @@ Evolución histórica, temporadas, estadísticas y palmarés del Real ValladoliD
     <div class="card mt-5 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
         <h5 class="text-center mb-1">Evolución puntos jornadas</h5>
-        <canvas id="graficoJornadas" data-labels='{{ labels_jornadas|tojson }}'
+        <canvas id="graficoJornadas" 
+          data-labels='{{ labels_jornadas|tojson }}'
           data-datasets='{{ datasets_jornadas|tojson }}'
         ></canvas>
       </div>

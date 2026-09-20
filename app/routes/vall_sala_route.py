@@ -714,7 +714,7 @@ def historial_vall_sala():
             continue
         labels, puntos = obtener_evolucion_puntos(
             jornadas,
-            "FS Valladolid",
+            "vall_sala",
             generar_clasificacion_analisis_futsal_vall_sala,
             "puntos",
         )

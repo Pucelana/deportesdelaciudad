@@ -1,3 +1,4 @@
+from app.routes.main import NOMBRES_EQUIPOS
 def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion, campo="puntos"):
     labels = []
     valores = []
@@ -15,10 +16,15 @@ def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion, cam
             jornadas_acumuladas.append(jornada)
             labels.append(jornada["nombre"])
         clasificacion = funcion_clasificacion(jornadas_acumuladas)
+        nombres_validos = NOMBRES_EQUIPOS.get(
+            nombre_equipo,
+            [nombre_equipo]
+        )
+
         equipo = next(
             (
                 e for e in clasificacion
-                if e["equipo"] == nombre_equipo
+                if e["equipo"] in nombres_validos
             ),
             None
         )

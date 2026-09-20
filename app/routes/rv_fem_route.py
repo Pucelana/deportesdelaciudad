@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -153,7 +154,7 @@ def obtener_datos_rv_fem(nombre_temporada=None):
 @rv_fem_route_bp.route("/equipos_futbol/calendario_rv_fem")
 def calendario_rv_fem():
     datos = obtener_datos_rv_fem()
-    equipo_rv_fem = "RV Femenino"
+    equipo_rv_fem = NOMBRES_EQUIPOS["rv_fem"]
     tabla_partidos_rv_fem = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -163,9 +164,9 @@ def calendario_rv_fem():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB
             # Verificamos si el UEMC está jugando
-            if equipo_local == equipo_rv_fem or equipo_visitante == equipo_rv_fem:
+            if equipo_local in equipo_rv_fem or equipo_visitante in equipo_rv_fem:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_rv_fem:
+                if equipo_local in equipo_rv_fem:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
@@ -716,7 +717,7 @@ def historial_promesas():
 
         labels, puntos = obtener_evolucion_puntos(
             jornadas,
-            "RV Femenino",
+            "rv_fem",
             generar_clasificacion_analisis_futbol_rv_fem,
             "puntos",
         )

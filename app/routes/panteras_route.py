@@ -601,7 +601,7 @@ def historial_panteras():
         if not jornadas:
             continue
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "Panteras Caja Rural", generar_clasificacion_analisis_hockey_panteras,"puntos"
+            jornadas, "panteras", generar_clasificacion_analisis_hockey_panteras,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

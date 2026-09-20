@@ -748,7 +748,7 @@ def historial_salvador():
         if not jornadas:
             continue
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "El Salvador", generar_clasificacion_analisis_rugby_salvador,"puntos"
+            jornadas, "salvador", generar_clasificacion_analisis_rugby_salvador,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

@@ -552,7 +552,7 @@ def activar_temporada_galvan(id):
 def crear_historial_galvan():
     if request.method == "POST":
         historial = Historial(
-            deporte="futbol sala",
+            deporte="Fútbol sala",
             equipo="Tierno Galván",
             temporada=request.form.get("temporada"),
             liga=request.form.get("liga"),
@@ -631,7 +631,7 @@ def historial_galvan():
     ]
     titulos = (Palmaress.query.filter_by(
             deporte="futbol sala",
-            equipo="Tierno Galván"
+            equipo="Tierno Galvan"
         ).order_by(Palmaress.orden.asc(),Palmaress.temporada.desc()).all())
     palmares = OrderedDict()
     for titulo in titulos:
@@ -653,7 +653,7 @@ def historial_galvan():
             continue
 
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "Tierno Galván", generar_clasificacion_analisis_futsal_galvan,"puntos"
+            jornadas, "galvan", generar_clasificacion_analisis_futsal_galvan,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(
@@ -680,7 +680,7 @@ def historial_galvan():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Fútbol sala",
-        equipo="Tierno Galván",
+        equipo="Tierno Galvan",
         breadcrumb=jsonld(schema_breadcrumb_equipo("galvan")),
         schema_team=jsonld(
             schema_sports_team(

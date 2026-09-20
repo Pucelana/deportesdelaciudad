@@ -717,7 +717,7 @@ def historial_ponce():
             continue
         
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "Ponce Valladolid CB", generar_clasificacion_analisis_baloncesto_ponce,"ganados"
+            jornadas, "ponce", generar_clasificacion_analisis_baloncesto_ponce,"ganados"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

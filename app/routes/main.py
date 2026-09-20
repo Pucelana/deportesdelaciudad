@@ -7,12 +7,14 @@ NOMBRES_EQUIPOS = {
         "Pucela Basket",
         "Pucela Basket Ponce Valladolid",
     ],
-    "real_valladolid": [
+    "valladolid": [
         "Real Valladolid CF",
+        "R.Valladolid",
+        "Real Valladolid",
     ],
     "rv_fem": [
         "Real Valladolid Femenino",
-        "Real Valladolid Simancas",
+        "RV Femenino",
     ],
     "aliados": [
         "Fundación Aliados",

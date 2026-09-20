@@ -5,6 +5,7 @@ from collections import OrderedDict
 from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_partidos, schema_sports_competition, schema_sports_team, schema_breadcrumb_equipo
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -162,7 +163,7 @@ def obtener_datos_valladolid(nombre_temporada=None):
 @valladolid_route_bp.route("/equipos_futbol/calendario_valladolid")
 def calendario_valladolid():
     datos = obtener_datos_valladolid()
-    equipo_valladolid = "R.Valladolid"
+    equipo_valladolid = NOMBRES_EQUIPOS["valladolid"]
     tabla_partidos_valladolid = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -173,11 +174,11 @@ def calendario_valladolid():
             resultado_visitante = partido.resultadoB
             # Verificamos si el UEMC está jugando
             if (
-                equipo_local == equipo_valladolid
-                or equipo_visitante == equipo_valladolid
+                equipo_local in equipo_valladolid
+                or equipo_visitante in equipo_valladolid
             ):
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_valladolid:
+                if equipo_local in equipo_valladolid:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante
@@ -738,7 +739,7 @@ def historial_valladolid():
 
         labels, puntos = obtener_evolucion_puntos(
                 
-            jornadas, "R.Valladolid", generar_clasificacion_analisis_futbol_valladolid,"puntos"
+            jornadas, "valladolid", generar_clasificacion_analisis_futbol_valladolid,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

@@ -63,7 +63,7 @@ EQUIPOS = {
     },
 
     "ponce": {
-        "nombre": "Pucela Basket Ponce Valladolid CB",
+        "nombre": "Pucela Basket",
         "deporte": "Baloncesto",
         "liga": "Primera Nacional",
         "logo": "https://deportesdelaciudad.es/static/img/ponce_sf.png",
@@ -161,21 +161,21 @@ EQUIPOS = {
     },
 
     "panteras": {
-        "nombre": "Panteras Caja Rural",
+        "nombre": "CPLV Panteras C.R",
         "deporte": "Hockey Línea",
         "liga": "Liga Élite Iberdrola",
         "logo": "https://deportesdelaciudad.es/static/img/cplv_sf.png",
     },
 
     "galvan": {
-        "nombre": "Tierno Galván",
+        "nombre": "Valladolid Tierno Galván",
         "deporte": "Fútbol Sala",
         "liga": "Segunda División B",
         "logo": "https://deportesdelaciudad.es/static/img/galvan_sf.png",
     },
 
     "vall_sala": {
-        "nombre": "FS Valladolid",
+        "nombre": "Valladolid S.S",
         "deporte": "Fútbol Sala",
         "liga": "Primera Regional",
         "logo": "https://deportesdelaciudad.es/static/img/vall_sala_sf.png",
