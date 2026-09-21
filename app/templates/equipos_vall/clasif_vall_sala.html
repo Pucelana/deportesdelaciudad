@@ -1,24 +1,24 @@
 {% extends "equipos_vall/base_equipos_vall.html" %} 
-{% block title%}Clasificación | Valladolid S.S | Deportes de la Ciudad{% endblock %} 
+{% block title%}Clasificación | Valladolid S.S. | Deportes de la Ciudad{% endblock %} 
 
 {% block description %}
-Clasificación actualizada del Valladolid S.S: posición, victorias, derrotas, puntos, y analisis de objetivos.
+Clasificación actualizada del Valladolid S.S.: posición, victorias, derrotas, puntos, y analisis de objetivos.
 {% endblock %}
 
 {% block og_title %}
-Clasificación | Valladolid S.S | Deportes de la Ciudad
+Clasificación | Valladolid S.S. | Deportes de la Ciudad
 {% endblock %}
 
 {% block og_description %}
-Consulta la clasificación actualizada del Valladolid S.S.
+Consulta la clasificación actualizada del Valladolid S.S..
 {% endblock %}
 
 {% block twitter_title %}
-Clasificación | Valladolid S.S | Deportes de la Ciudad
+Clasificación | Valladolid S.S. | Deportes de la Ciudad
 {% endblock %}
 
 {% block twitter_description %}
-Consulta la clasificación actualizada del Valladolid S.S.
+Consulta la clasificación actualizada del Valladolid S.S..
 {% endblock %}
 
 {% block breadcrumb %}
@@ -28,7 +28,7 @@ Consulta la clasificación actualizada del Valladolid S.S.
       <a
         href="/seccion/vall_sala"
         class="text-white text-decoration-none text-analisis fs-6"
-        >Valladolid S.S</a
+        >Valladolid S.S.</a
       >
     </li>
     <li class="breadcrumb-item">
@@ -104,7 +104,7 @@ Consulta la clasificación actualizada del Valladolid S.S.
                       {{ loop.index }}
                     </td>
                     <td
-                      class="equipo-mobile text-start size_equipos2 {% if 'Valladolid S.S' in equipo['equipo'] %}equipo-pucela{% endif %}"
+                      class="equipo-mobile text-start size_equipos2 {% if 'Valladolid S.S.' in equipo['equipo'] %}equipo-pucela{% endif %}"
                     >
                       {{ equipo['equipo'] }}
                     </td>

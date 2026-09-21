@@ -26,7 +26,7 @@ NOMBRES_EQUIPOS = {
         ],
     "vall_sala": [
                 "FS Valladolid",
-                "Valladolid S.S",
+                "Valladolid S.S.",
             ],
     "galvan": [
                     "C.D Tierno Galván",
