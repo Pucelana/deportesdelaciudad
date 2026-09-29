@@ -1022,7 +1022,6 @@ def modificar_playoff_valladolid(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash("Playoff actualizado correctamente", "success")
         return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
@@ -1033,7 +1032,6 @@ def eliminar_playoff_valladolid(eliminatoria):
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
-    flash(f"Eliminatoria {eliminatoria} eliminada correctamente", "success")
     return redirect(url_for("valladolid_route_bp.ver_playoff_valladolid"))
 # Mostrar los playoffs del Real Valladolid
 @valladolid_route_bp.route("/playoffs_valladolid/")

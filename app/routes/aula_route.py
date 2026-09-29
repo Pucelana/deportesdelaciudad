@@ -1565,7 +1565,6 @@ def modificar_copa_aula(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash('Copa actualizado correctamente', 'success')
         return redirect(url_for('aula_route_bp.ver_copa_aula'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('aula_route_bp.ver_copa_aula'))
@@ -1576,7 +1575,6 @@ def eliminar_copa_aula(eliminatoria):
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
     return redirect(url_for('aula_route_bp.ver_copa_aula'))
 # Mostrar la copa del Aliados
 @aula_route_bp.route('/copas_aula/')

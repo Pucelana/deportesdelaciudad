@@ -169,10 +169,6 @@ def menu_competiciones():
 
         db.session.commit()
 
-        flash(
-            "Menú de secciones y competiciones actualizado correctamente.",
-            "success",
-        )
 
         return redirect(
             url_for(
