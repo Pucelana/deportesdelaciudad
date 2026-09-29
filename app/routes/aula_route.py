@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from flask import Blueprint, render_template, request, redirect, url_for, jsonify
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -803,7 +803,6 @@ def modificar_playoff_aula(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash('Playoff actualizado correctamente', 'success')
         return redirect(url_for('aula_route_bp.ver_playoff_aula'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('aula_route_bp.ver_playoff_aula'))
@@ -814,7 +813,6 @@ def eliminar_playoff_aula(eliminatoria):
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
     return redirect(url_for('aula_route_bp.ver_playoff_aula'))
 # Mostrar los playoffs del Aula
 @aula_route_bp.route('/playoffs_aula/')
@@ -1667,7 +1665,6 @@ def modificar_supercopa_iberica_aula(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash('Supercopa Ibérica actualizado correctamente', 'success')
         return redirect(url_for('aula_route_bp.ver_supercopa_iberica_aula'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('aula_route_bp.ver_supercopa_iberica_aula'))
@@ -1678,7 +1675,6 @@ def eliminar_supercopa_iberica_aula(eliminatoria):
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
     return redirect(url_for('aula_route_bp.ver_supercopa_iberica_aula'))
 # Mostrar la supercopa del Aula
 @aula_route_bp.route('/supercopas_ibericas_aula/')
@@ -1774,7 +1770,6 @@ def modificar_europa_aula(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash('Europa actualizado correctamente', 'success')
         return redirect(url_for('aula_route_bp.ver_europa_aula'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('aula_route_bp.ver_europa_aula'))
@@ -1785,7 +1780,6 @@ def eliminar_europa_aula(eliminatoria):
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
     return redirect(url_for('aula_route_bp.ver_europa_aula'))
 # Mostrar europa de Aula Valladolid
 @aula_route_bp.route('/europas_aula/')
