@@ -279,7 +279,7 @@ Sigue las eliminatorias y resultados de la copa de españa del CBC Valladolid.
                   </small>
 
                   <div
-                    class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
+                    class="equipo-mobile {% if partido.resultadoA |int > partido.resultadoB |int %}ganador{% endif %}"
                   >
                     {{ partido.local }}
                   </div>
@@ -289,7 +289,7 @@ Sigue las eliminatorias y resultados de la copa de españa del CBC Valladolid.
                   </div>
 
                   <div
-                    class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
+                    class="equipo-mobile {% if partido.resultadoA |int < partido.resultadoB |int %}ganador{% endif %}"
                   >
                     {{ partido.visitante }}
                   </div>
