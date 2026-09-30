@@ -38,7 +38,7 @@
 
     <meta
       property="og:image"
-      content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
+      content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.webp{% endblock %}"
     />
 
     <meta property="og:url" content="{{ request.url }}" />
@@ -61,7 +61,7 @@
 
     <meta
       name="twitter:image"
-      content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.png{% endblock %}"
+      content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.webp{% endblock %}"
     />
 
     <!-- PWA -->
@@ -79,13 +79,17 @@
     <!-- Iconos -->
     <link
       rel="icon"
-      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+      href="{{ url_for('static', filename='img/logo-deportes2.webp') }}"
     />
 
     <link
       rel="apple-touch-icon"
-      href="{{ url_for('static', filename='img/logo-deportes2.png') }}"
+      href="{{ url_for('static', filename='img/logo-deportes2.webp') }}"
     />
+    <!-- GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Dancing+Script:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
 
     <!-- Bootstrap -->
     <link
@@ -97,7 +101,7 @@
 
     <!-- CSS -->
     <link
-      href="{{ url_for('static', filename='css/estilo.css') }}"
+      href="{{ url_for('static', filename='css/estilo.min.css') }}"
       rel="stylesheet"
     />
     {% block schema %} 
@@ -136,7 +140,7 @@
         </div>
         <div class="col-12 col-md-6">
           <img
-            src="/static/img/logo-deportes2.png"
+            src="/static/img/logo-deportes2.webp"
             class="img-fluid logo-footer"
             alt="deportesdelaciudad"
           />
