@@ -121,13 +121,13 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
                       {{ partido.fecha }} {% if partido.hora %} - {{
                       partido.hora }}{% endif %}
                     </td>
-                    <td class="equipo-mobile text-center {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                    <td class="equipo-mobile text-center {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.local }}
                     </td>
                     <td class="resultado-mobile text-center">
                       {{ partido.resultadoA }} - {{ partido.resultadoB }}
                     </td>
-                    <td class="equipo-mobile text-center {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                    <td class="equipo-mobile text-center {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.visitante }}
                     </td>
                   </tr>
@@ -145,13 +145,13 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
                     }}{% endif %}
                   </small>
 
-                  <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                  <div class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.local }}
                   </div>
                   <div class="resultado-mobile">
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
                   </div>
-                  <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                  <div class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.visitante }}
                   </div>
                 </div>
@@ -183,7 +183,7 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
                   <td class="text-white">{{ partido.fecha }}</td>
                   <td class="text-white">{{ partido.hora }}</td>
                   <td
-                    class="text-copa fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-danger{% endif %}"
+                    class="text-copa fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-danger{% endif %}"
                   >
                     {{ partido.local }}
                   </td>
@@ -194,7 +194,7 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
                     {{ partido.resultadoB }}
                   </td>
                   <td
-                    class="text-copa fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-danger{% endif %}"
+                    class="text-copa fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-danger{% endif %}"
                   >
                     {{ partido.visitante }}
                   </td>
@@ -213,7 +213,7 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
                   </small>
 
                   <div
-                    class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
+                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
                   >
                     {{ partido.local }}
                   </div>
@@ -223,7 +223,7 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
                   </div>
 
                   <div
-                    class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
+                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
                   >
                     {{ partido.visitante }}
                   </div>

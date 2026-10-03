@@ -121,13 +121,13 @@ Sigue las eliminatorias y resultados de la copa de la reina de El Salvador.
                       {{ partido.fecha }} {% if partido.hora %} - {{
                       partido.hora }}{% endif %}
                     </td>
-                    <td class="equipo-mobile text-center {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                    <td class="equipo-mobile text-center {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.local }}
                     </td>
                     <td class="resultado-mobile text-center">
                       {{ partido.resultadoA }} - {{ partido.resultadoB }}
                     </td>
-                    <td class="equipo-mobile text-center {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                    <td class="equipo-mobile text-center {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.visitante }}
                     </td>
                   </tr>
@@ -145,13 +145,13 @@ Sigue las eliminatorias y resultados de la copa de la reina de El Salvador.
                     }}{% endif %}
                   </small>
 
-                  <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                  <div class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.local }}
                   </div>
                   <div class="resultado-mobile">
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
                   </div>
-                  <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                  <div class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.visitante }}
                   </div>
                 </div>
@@ -182,11 +182,11 @@ Sigue las eliminatorias y resultados de la copa de la reina de El Salvador.
                       {{ partido.fecha }} {% if partido.hora %} - {{
                       partido.hora }}{% endif %}
                     </td>
-                    <td class="fw-bold {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                    <td class="fw-bold {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.local }}
                     </td>
                     <td>{{ partido.resultadoA }} - {{ partido.resultadoB }}</td>
-                    <td class="fw-bold {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                    <td class="fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
                       {{ partido.visitante }}
                     </td>
                   </tr>
@@ -203,13 +203,13 @@ Sigue las eliminatorias y resultados de la copa de la reina de El Salvador.
                     {{ partido.fecha }} {% if partido.hora %} - {{
                     partido.hora}}{% endif %}
                   </small>
-                  <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                  <div class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.local }}
                   </div>
                   <div class="resultado-mobile">
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
                   </div>
-                  <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                  <div class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.visitante }}
                   </div>
                 </div>
