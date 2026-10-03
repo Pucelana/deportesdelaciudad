@@ -19,6 +19,9 @@
           <option value="grupoB">Grupo B</option>
           <option value="grupoC">Grupo C</option>
           <option value="grupoD">Grupo D</option>
+          <option value="grupoE">Grupo E</option>
+          <option value="grupoF">Grupo F</option>
+          <option value="cuartos">Cuartos</option>
           <option value="semifinales">Semifinales</option>
           <option value="final">Final</option>
         </select>
@@ -150,7 +153,9 @@
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
         if (selectedOption.startsWith("grupo")) {
-          numPartidos = 10;
+          numPartidos = 3;
+        } else if (selectedOption === "cuartos") {
+          numPartidos = 4;
         } else if (selectedOption === "semifinales") {
           numPartidos = 2;
         } else if (selectedOption === "final") {

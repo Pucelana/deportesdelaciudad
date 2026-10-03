@@ -60,108 +60,104 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
   <!-- Contenido Clasificaciones y Eliminatorias -->
   <div id="contenedor-secciones">
     <!-- Clasificaciones -->
-    {% for grupo in clasificaciones.keys() %}
+    {% for grupo, equipos in clasificaciones.items() %}
     <div
       class="seccion-slide {% if loop.first %}d-block{% else %}d-none{% endif %}"
       id="grupo{{ loop.index0 }}"
     >
       <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 55rem">
+        <div class="card tabla_copa mt-4 w-100" style="max-width: 55rem">
           <div class="card-body">
-            <h3 class="text-center text-white text-analisis fs-4">
-              Clasificación {{ grupo }}
+            <h3
+              class="text-center text-white text-analisis fs-4 text-capitalize"
+            >
+              {{ grupo }}
             </h3>
-            <table class="table border-secondary text-white text-center">
+
+            <table
+              class="table border-secondary text-white text-center tabla-clasificacion"
+            >
               <thead>
-                <tr>
-                  <th>#</th>
+                <tr class="text-center">
+                  <th></th>
                   <th class="equipo-mobile text-start">Equipo</th>
-                  <th class="equipo-mobile text-center">J</th>
-                  <th class="equipo-mobile text-center d-none d-md-table-cell">
-                    G
-                  </th>
-                  <th class="equipo-mobile text-center d-none d-md-table-cell">
-                    P
-                  </th>
                   <th class="equipo-mobile text-center">PT</th>
+                  <th class="equipo-mobile text-center">J</th>
+                  <th class="equipo-mobile text-center">G</th>
+                  <th class="equipo-mobile text-center">E</th>
+                  <th class="equipo-mobile text-center">P</th>
                 </tr>
               </thead>
               <tbody>
                 {% for equipo, stats in equipos %}
                 <tr>
-                  <td class="equipo-mobile text-center">{{ loop.index }}</td>
-                  <td class="equipo-mobie text-start">{{ equipo }}</td>
-                  <td class="equipo-mobile text-center">{{ stats.jugados }}</td>
-                  <td class="equipo-mobile text-center d-none d-md-table-cell">
-                    {{ stats.ganados }}
+                  <td class="equipo-mobile fw-bold text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 5 %}pos-nada{% endif %}">
+                    {{ loop.index }}
                   </td>
-                  <td class="equipo-mobile text-center d-none d-md-table-cell">
+                  <td class="equipo-mobile text-center">{{ equipo }}</td>
+                  <td class="equipo-mobile text-center">{{ stats.puntos }}</td>
+                  <td class="equipo-mobile text-center">{{ stats.jugados }}</td>
+                  <td class="equipo-mobile text-center">{{ stats.ganados }}</td>
+                  <td class="equipo-mobile text-center">
+                    {{ stats.empatados }}
+                  </td>
+                  <td class="equipo-mobile text-center">
                     {{ stats.perdidos }}
                   </td>
-                  <td class="equipo-mobile text-center">{{ stats.puntos }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
             </table>
-          </div>
-          <h4 class="text-white mt-4 text-analisis fs-4">
-            Partidos {{ grupo }}
-          </h4>
-          <div class="table-responsive d-none d-md-block">
-            <table class="table border-secondary text-white text-center">
-              <tbody>
-                {% for partido in equipos_por_encuentros[grupo].partidos %}
-                <tr>
-                  <td class="text-muted">
-                    {{ partido.fecha }} {% if partido.hora %} - {{
-                    partido.hora}}{% endif %}
-                  </td>
-                  <td
-                    class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                  >
+            <h4 class="text-analisis text-white fs-4 mt-4">
+              Partidos {{ grupo }}
+            </h4>
+            <!-- PC / TABLET -->
+            <div class="table-responsive d-none d-md-block">
+              <table class="table border-secondary text-white text-center">
+                <tbody>
+                  {% for partido in equipos_por_encuentros[grupo].partidos %}
+                  <tr>
+                    <td class="text-muted fw-bold">
+                      {{ partido.fecha }} {% if partido.hora %} - {{
+                      partido.hora }}{% endif %}
+                    </td>
+                    <td class="equipo-mobile text-center {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+                    <td class="resultado-mobile text-center">
+                      {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                    </td>
+                    <td class="equipo-mobile text-center {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            <!-- MÓVIL -->
+            <div class="d-md-none cards-mobile">
+              {% for partido in equipos_por_encuentros[grupo].partidos %}
+              <div class="card partido-mobile mb-2">
+                <div class="card-body text-center">
+                  <small class="text-muted fw-bold">
+                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
+                    }}{% endif %}
+                  </small>
+
+                  <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
                     {{ partido.local }}
-                  </td>
-                  <td class="resultado-mobile">
+                  </div>
+                  <div class="resultado-mobile">
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                  </td>
-                  <td
-                    class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                  >
+                  </div>
+                  <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
                     {{ partido.visitante }}
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <!-- MÓVIL -->
-          <div class="d-md-none cards-mobile">
-            {% for partido in partidos %}
-            <div class="card partido-mobile mb-2">
-              <div class="card-body text-center">
-                <small class="text-muted fw-bold">
-                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                  }}{% endif %}
-                </small>
-
-                <div
-                  class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
-                >
-                  {{ partido.local }}
-                </div>
-
-                <div class="resultado-mobile">
-                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                </div>
-
-                <div
-                  class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
-                >
-                  {{ partido.visitante }}
+                  </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
-            {% endfor %}
           </div>
         </div>
       </div>

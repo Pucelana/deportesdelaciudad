@@ -1091,10 +1091,10 @@ def obtener_equipos_desde_bd(partidos):
     # Obtener todos los partidos de la base de datos
     partidos = CopaVrac.query.order_by(CopaVrac.id).all()
     # Definir los grupos y fases de eliminatorias
-    grupos = {'grupoA', 'grupoB', 'grupoC', 'grupoD'}
-    fases_eliminatorias = {'semifinales', 'final'}
+    grupos = {'grupoA', 'grupoB', 'grupoC', 'grupoD', 'grupoE', 'grupoF'}
+    fases_eliminatorias = {'cuartos','semifinales', 'final'}
     equipos_por_encuentros = {}
-    eliminatorias = {'semifinales': {'partidos': []}, 'final': {'partidos': []}}
+    eliminatorias = {'cuartos': {'partidos': []}, 'semifinales': {'partidos': []}, 'final': {'partidos': []}}
     for partido in partidos:
         # Asumimos que 'encuentros' es un campo que puede ser 'grupoA', 'cuartos', etc.
         grupo_o_fase = partido.encuentros
@@ -1129,8 +1129,11 @@ def formatear_partidos_por_encuentros(partidos):
         'grupoB': {'id': 2, 'encuentros': 'grupoB', 'partidos': []},
         'grupoC': {'id': 3, 'encuentros': 'grupoC', 'partidos': []},
         'grupoD': {'id': 4, 'encuentros': 'grupoD', 'partidos': []},
-        'semifinales': {'id': 5, 'encuentros': 'semifinales', 'partidos': []},
-        'final': {'id': 6, 'encuentros': 'final', 'partidos': []}
+        'grupoE': {'id': 5, 'encuentros': 'grupoE', 'partidos': []},
+        'grupoF': {'id': 6, 'encuentros': 'grupoF', 'partidos': []},
+        'cuartos': {'id': 7, 'encuentros': 'cuartos', 'partidos': []},
+        'semifinales': {'id': 8, 'encuentros': 'semifinales', 'partidos': []},
+        'final': {'id': 9, 'encuentros': 'final', 'partidos': []}
     }
     for partido in partidos:
         # Si el objeto 'partido' es de SQLAlchemy, accedemos a sus atributos con punto
@@ -1185,7 +1188,7 @@ def modificar_copa_vrac(encuentros):
 @vrac_route_bp.route('/eliminar_copa_vrac/<string:identificador>', methods=['POST'])
 def eliminar_copa_vrac(identificador):
     try:
-        if identificador.startswith('grupo') or identificador in ['semifinales', 'final']:
+        if identificador.startswith('grupo') or identificador in ['cuartos','semifinales', 'final']:
             partidos = CopaVrac.query.filter_by(encuentros=identificador).all()
             for partido in partidos:
                 db.session.delete(partido)
@@ -1204,7 +1207,7 @@ def vrac_copa():
     equipos_por_encuentros, eliminatorias = obtener_equipos_desde_bd(partidos)
     clasificaciones, enfrentamientos_directos = recalcular_clasificaciones(partidos)
     # Definir fases eliminatorias que no deben entrar en las clasificaciones por grupo
-    fases_eliminatorias = {'semifinales', 'final'}
+    fases_eliminatorias = {'cuartos','semifinales', 'final'}
     data_clasificaciones = {}
     for grupo, equipos in clasificaciones.items():
         if grupo in fases_eliminatorias:
