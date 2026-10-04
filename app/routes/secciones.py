@@ -196,6 +196,22 @@ def seccion_valladolid():
         )
     )
 
+@secciones_bp.route("/seccion/tordesillas")
+def seccion_tordesillas():
+    return render_seccion(
+        "secciones/tordesillas.html", 
+        "tordesillas",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("tordesillas")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "tordesillas",
+                "https://deportesdelaciudad.es/seccion/tordesillas"
+            )
+        )
+    )
+
 @secciones_bp.route("/seccion/vallad_genius")
 def seccion_vallad_genius():
     return render_seccion(

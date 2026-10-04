@@ -12,6 +12,11 @@ NOMBRES_EQUIPOS = {
         "R.Valladolid",
         "Real Valladolid",
     ],
+    "tordesillas": [
+            "Atl.Tordesillas",
+            "Tordesillas",
+            "Atl. Tordesillas",
+        ],
     "rv_fem": [
         "Real Valladolid Femenino",
         "RV Femenino",

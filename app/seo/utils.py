@@ -199,6 +199,8 @@ def categoria(url):
         "futbol" in url
         or "valladolid" in url
         or "promesas" in url
+        or "rv_fem" in url
+        or "tordesillas" in url
         or "simancas" in url
         or "parquesol" in url
     ):

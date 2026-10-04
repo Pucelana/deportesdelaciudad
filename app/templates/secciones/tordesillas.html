@@ -1,0 +1,74 @@
+{% extends 'secciones/base.html' %} 
+{% block titulo %} Atl.Tordesillas{%endblock %}
+
+{% block description %}
+Toda la información del Real tordesillas: calendario, resultados, clasificación, historial y actualidad del equipo.
+{% endblock %}
+{% block og_title %}
+Atl.Tordesillas | Deportes de la Ciudad
+{% endblock %}
+{% block og_description %}
+Calendario, resultados, clasificación e información del Atl.Tordesillas.
+{% endblock %}
+{% block twitter_title %}
+Atl.Tordesillas | Deportes de la Ciudad
+{% endblock %}
+{% block twitter_description %}
+Calendario, resultados, clasificación e información del Atl.Tordesillas.
+{% endblock %}
+
+{% block contenido %}
+<div class="team-header">
+  <h1 class="responsive-title">Atl.Tordesillas</h1>
+  <img
+    src="/static/img/torde_sf.webp"
+    alt="Atl.Tordesillas"
+    class="responsive-logo"
+  />
+</div>
+<section class="container-lg seccion_deportes">
+  <div class="calend_deportes">
+    {% if menu.get("liga") %}
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center">
+          <h3 class="text_uemc">2° RFEF (Grp-5)</h3>
+        </div>
+        <div class="tu-contenedor-h5">
+          <a
+            href="/equipos_futbol/calendario_tordesillas"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Calendario Ind.</h5></a>
+          <a
+            href="/equipos_futbol/resultados_tordesillas"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Resultados</h5></a>
+          <a
+            href="/equipos_futbol/clasif_tordesillas"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Clasificaciones</h5></a>
+          <a
+            href="/tordesillas/historial"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Historial</h5></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if menu.get("copa") %}
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center mt-2">
+          <a href="/tordesillas_copa" class="text-decoration-none">
+          <h2 class="text_uemc pt-3">Copa del Rey</h2></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if menu.get("playoff") %}
+
+    {% endif %}
+  </div>
+</section>
+{% include 'componentes/bloque_comercial.html' %}
+{% endblock %}

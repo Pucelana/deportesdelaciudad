@@ -94,7 +94,7 @@ Consulta la clasificación actualizada del CD San José.
                             <td
                               class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% endif %}">
                               {{ loop.index }}</td>
-                            <td class="equipo-mobile text-start size_equipos2 {% if 'CD San José Rojo' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
+                            <td class="equipo-mobile text-start size_equipos2 {% if 'CD San José' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos equipo-mobile text-center">{{ equipo.datos.puntos }}</td>
                             <td class="jugados equipo-mobile text-center">{{ equipo.datos.jugados }}</td>
                             <td class="ganados3 equipo-mobile text-center d-none d-md-table-cell">{{ equipo.datos.ganados3 }}</td>

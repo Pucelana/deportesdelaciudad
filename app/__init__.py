@@ -9,6 +9,7 @@ from .routes.secciones import secciones_bp
 from .routes.resultados import resultados_bp
 from .routes.uemc_route import uemc_route_bp
 from .routes.valladolid_route import valladolid_route_bp
+from .routes.tordesillas_route import tordesillas_route_bp
 from .routes.promesas_route import promesas_route_bp
 from .routes.rv_fem_route import rv_fem_route_bp
 from .routes.parquesol_route import parquesol_route_bp
@@ -85,6 +86,7 @@ def create_app():
     app.register_blueprint(resultados_bp)
     app.register_blueprint(uemc_route_bp)
     app.register_blueprint(valladolid_route_bp)
+    app.register_blueprint(tordesillas_route_bp)
     app.register_blueprint(promesas_route_bp)
     app.register_blueprint(rv_fem_route_bp)
     app.register_blueprint(parquesol_route_bp)

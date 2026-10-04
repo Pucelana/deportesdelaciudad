@@ -51,6 +51,12 @@ MENU_SECCIONES = {
         "playoff": False,
         "permanencia": False,
     },
+    "tordesillas": {
+            "liga": True,
+            "copa": False,
+            "playoff": False,
+            "permanencia": False,
+        },
     "rv_fem": {
             "liga": True,
             "copa": False,

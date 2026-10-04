@@ -29,6 +29,7 @@ NOMBRES_SECCIONES = {
     "recoletas": "Atl. Valladolid",
     "valladolid": "Real Valladolid",
     "valladoliDi": "Real ValladoliDi",
+    "tordesillas": "Atl.Tordesillas",
     "promesas": "RV Promesas",
     "caja": "CPLV Caja Rural",
     "panteras": "CPLV Panteras C.R",

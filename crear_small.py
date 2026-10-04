@@ -14,6 +14,7 @@ ESCUDOS = [
     "aliados_sf.webp",
     "vall_sala_sf.webp",
     "aula_sf.webp",
+    "torde_sf.webp",
     "cbc_sf.webp",
     "pucela_basket_sf.webp",
     "reco_fs.webp",

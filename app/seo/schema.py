@@ -59,140 +59,146 @@ EQUIPOS = {
         "nombre": "CBC Valladolid",
         "deporte": "Baloncesto",
         "liga": "Segunda FEB",
-        "logo": "https://deportesdelaciudad.es/static/img/cbc_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/cbc_sf.webp",
     },
 
     "ponce": {
         "nombre": "Pucela Basket",
         "deporte": "Baloncesto",
         "liga": "Primera Nacional",
-        "logo": "https://deportesdelaciudad.es/static/img/ponce_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/ponce_sf.webp",
     },
 
     "cdsi_vall": {
         "nombre": "CDSI Valladolid",
         "deporte": "Baloncesto",
         "liga": "Primera Nacional",
-        "logo": "https://deportesdelaciudad.es/static/img/cdsi_vall_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/cdsi_vall_sf.webp",
     },
 
     "aliados": {
         "nombre": "BSR Valladolid",
         "deporte": "Baloncesto en silla",
         "liga": "División de Honor",
-        "logo": "https://deportesdelaciudad.es/static/img/aliados_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/aliados_sf.webp",
     },
 
     "aula": {
         "nombre": "Aula Valladolid",
         "deporte": "Balonmano",
         "liga": "División de Oro",
-        "logo": "https://deportesdelaciudad.es/static/img/aula_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/aula_sf.webp",
     },
 
     "recoletas": {
         "nombre": "Atl. Valladolid",
         "deporte": "Balonmano",
         "liga": "Liga ASOBAL",
-        "logo": "https://deportesdelaciudad.es/static/img/reco_fs.png",
+        "logo": "https://deportesdelaciudad.es/static/img/reco_fs.webp",
     },
 
     "valladolid": {
         "nombre": "Real Valladolid",
         "deporte": "Fútbol",
         "liga": "Segunda División",
-        "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.webp",
     },
     
     "valladoliDi": {
             "nombre": "Real ValladoliDi",
             "deporte": "Fútbol",
             "liga": "Liga Genius",
-            "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.png",
+            "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.webp",
         },
 
     "promesas": {
         "nombre": "RV Promesas",
         "deporte": "Fútbol",
         "liga": "Segunda Federación",
-        "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.webp",
     },
+    "tordesillas": {
+            "nombre": "Atl.Tordesillas",
+            "deporte": "Fútbol",
+            "liga": "Segunda División",
+            "logo": "https://deportesdelaciudad.es/static/img/torde_sf.webp",
+        },
 
     "rv_fem": {
         "nombre": "RV Femenino",
         "deporte": "Fútbol",
         "liga": "Liga Gonalpi",
-        "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/pucela_sf.webp",
     },
 
     "parquesol": {
         "nombre": "CD Parquesol",
         "deporte": "Fútbol",
         "liga": "Tercera Federación Femenina",
-        "logo": "https://deportesdelaciudad.es/static/img/parquesol_sf1.png",
+        "logo": "https://deportesdelaciudad.es/static/img/parquesol_sf1.webp",
     },
 
     "vrac": {
         "nombre": "VRAC",
         "deporte": "Rugby",
         "liga": "División de Honor",
-        "logo": "https://deportesdelaciudad.es/static/img/vrac_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/vrac_sf.webp",
     },
 
     "salvador": {
         "nombre": "El Salvador",
         "deporte": "Rugby",
         "liga": "División de Honor",
-        "logo": "https://deportesdelaciudad.es/static/img/salvador_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/salvador_sf.webp",
     },
 
     "salvador_fem": {
         "nombre": "El Salvador Femenino",
         "deporte": "Rugby",
         "liga": "Liga Iberdrola",
-        "logo": "https://deportesdelaciudad.es/static/img/salvador_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/salvador_sf.webp",
     },
 
     "caja": {
         "nombre": "CPLV Caja Rural",
         "deporte": "Hockey Línea",
         "liga": "Liga Élite",
-        "logo": "https://deportesdelaciudad.es/static/img/cplv_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/cplv_sf.webp",
     },
 
     "panteras": {
         "nombre": "CPLV Panteras C.R",
         "deporte": "Hockey Línea",
         "liga": "Liga Élite Iberdrola",
-        "logo": "https://deportesdelaciudad.es/static/img/cplv_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/cplv_sf.webp",
     },
 
     "galvan": {
         "nombre": "Valladolid Tierno Galván",
         "deporte": "Fútbol Sala",
         "liga": "Segunda División B",
-        "logo": "https://deportesdelaciudad.es/static/img/galvan_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/galvan_sf.webp",
     },
 
     "vall_sala": {
         "nombre": "Valladolid S.S",
         "deporte": "Fútbol Sala",
         "liga": "Primera Regional",
-        "logo": "https://deportesdelaciudad.es/static/img/vall_sala_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/vall_sala_sf.webp",
     },
 
     "vcv": {
         "nombre": "Universidad VCV",
         "deporte": "Voleibol",
         "liga": "Superliga 2",
-        "logo": "https://deportesdelaciudad.es/static/img/valla_voley_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/valla_voley_sf.webp",
     },
 
     "san_jose": {
         "nombre": "CD San José",
         "deporte": "Voleibol",
         "liga": "Primera Nacional",
-        "logo": "https://deportesdelaciudad.es/static/img/san_jose_sf.png",
+        "logo": "https://deportesdelaciudad.es/static/img/san_jose_sf.webp",
     },
 
 }   
@@ -242,6 +248,10 @@ COMPETICIONES = {
         "nombre": "Segunda Federación",
         "deporte": "Soccer",
     },
+    "tordesillas": {
+            "nombre": "Segunda Federación",
+            "deporte": "Soccer",
+        },
 
     "rv_fem": {
         "nombre": "Liga Gonalpi",
@@ -310,6 +320,7 @@ DEPORTES = {
     "valladolid": "Fútbol",
     "valladoliDi": "Fútbol",
     "promesas": "Fútbol",
+    "tordesillas": "Fútbol",
     "parquesol": "Fútbol",
     "rv_fem": "Fútbol",
     "vrac": "Rugby",

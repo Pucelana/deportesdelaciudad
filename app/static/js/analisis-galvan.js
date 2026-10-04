@@ -92,7 +92,7 @@ equipos.forEach((equipoData) => {
     nuevaFila.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor}">${equipoData.index}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipoData.equipo.includes("Tierno Galván") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
+    equipoData.equipo.includes("VTG") ? "equipo-pucela" : ""}">${equipoData.equipo}</td>
     <td class="jugados1 equipo-mobile text-center">${equipoData.partidosJugados}</td>
     <td class="pts-act1 equipo-mobile text-center">${equipoData.puntosActuales}</td>
     <td class="proxi1 equipo-mobile text-center">${equipoData.proximidadDeAscenso}%</td>
@@ -217,7 +217,7 @@ equipos2.forEach((equipo2Data) => {
     nuevaFila2.innerHTML = `
     <td class="equipo-mobile text-center ${claseColor2}">${equipo2Data.index2}</td>
     <td class="equipo-mobile text-start size_equipos2 ${
-    equipo2Data.equipo2.includes("Tierno Galván") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
+    equipo2Data.equipo2.includes("VTG") ? "equipo-pucela" : ""}">${equipo2Data.equipo2}</td>
     <td class="desc-jug equipo-mobile text-center">${equipo2Data.partidosJugados2}</td>
     <td class="desc-act equipo-mobile text-center">${equipo2Data.puntosActuales2}</td>
     <td class="desc-prox equipo-mobile text-center">${equipo2Data.proxiPermanencia}%</td>
