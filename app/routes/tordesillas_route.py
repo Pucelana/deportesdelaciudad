@@ -758,7 +758,7 @@ def historial_tordesillas():
         
 
     return render_template(
-        "historia/historia_valladolid.html",
+        "historia/historia_tordesillas.html",
         historial=historial,
         labels_temporadas=labels_temporadas,
         puntos_temporadas=puntos_temporadas,

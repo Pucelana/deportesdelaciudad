@@ -1,0 +1,136 @@
+{% extends "copas/base_copa.html" %}
+{% block title %}Copa del Rey | Atl.Tordesillas | Deportes de la Ciudad{% endblock %}
+
+{% block description %}
+Cuadros, eliminatorias, cruces y resultados de la copa del rey del Atl.Tordesillas.
+{% endblock %}
+{% block og_title %}
+Copa del Rey | Atl.Tordesillas | Deportes de la Ciudad
+{% endblock %}
+{% block og_description %}
+Sigue las eliminatorias y resultados de la copa del rey del Atl.Tordesillas.
+{% endblock %}
+{% block twitter_title %}
+Copa del Rey | Atl.Tordesillas | Deportes de la Ciudad
+{% endblock %}
+{% block twitter_description %}
+Sigue las eliminatorias y resultados de la copa de la reina del Atl.Tordesillas.
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item">
+      <a href="/seccion/tordesillas" class="text-white text-decoration-none text-analisis fs-6">
+        Atl.Tordesillas
+      </a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6">
+      Copa del Rey
+    </li>
+  </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+<!-- Botones de rondas -->
+<div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+  {% for ronda in datos_copa.keys() %}
+  <a href="#"
+     class="btn btn-slide btns-ronda"
+     data-target="ronda{{ loop.index0 }}">
+    {{ ronda|capitalize }}
+  </a>
+  {% endfor %}
+</div>
+<!-- RONDAS -->
+<div id="contenedor-rondas">
+  {% for ronda, partidos in datos_copa.items() %}
+  <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+       id="ronda{{ loop.index0 }}">
+    <div class="d-flex justify-content-center">
+      <div class="card tabla_copa mt-4 w-100" style="max-width: 55rem">
+        <div class="card-body">
+          <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
+            {{ ronda }}
+          </h3>
+          <!-- TABLET / PC -->
+          <div class="table-responsive d-none d-md-block">
+            <table class="table border-secondary">
+              <tbody>
+                {% for partido in partidos %}
+                <tr>
+                  <td class="text-muted fw-bold fs-5">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
+                  <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">{{ partido.local }}</td>
+                  <td class="resultado-mobile fw-bold fs-5">{{ partido.resultadoA }}</td>
+                  <td class="resultado-mobile fw-bold fs-5">{{ partido.resultadoB }}</td>
+                  <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">{{ partido.visitante }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- MÓVIL -->
+          <div class="d-md-none cards-mobile">
+            {% for partido in partidos %}
+            <div class="card partido-mobile mb-2">
+              <div class="card-body text-center">
+
+                <small class="text-muted fw-bold">
+                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora }}{% endif %}
+                </small>
+
+                <div class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
+                  {{ partido.local }}
+                </div>
+
+                <div class="resultado-mobile">
+                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                </div>
+
+                <div class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
+                  {{ partido.visitante }}
+                </div>
+
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-slide");
+    const rondas = document.querySelectorAll(".ronda-item");
+
+    botones.forEach((boton) => {
+      boton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        // Oculta todas las rondas
+        rondas.forEach((r) => r.classList.add("d-none"));
+        rondas.forEach((r) => r.classList.remove("d-block"));
+
+        // Activa solo la seleccionada
+        const targetId = this.dataset.target;
+        const targetDiv = document.getElementById(targetId);
+        if (targetDiv) {
+          targetDiv.classList.remove("d-none");
+          targetDiv.classList.add("d-block");
+        }
+
+        // Opcional: marcar el botón activo
+        botones.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
+      });
+    });
+  });
+</script>
+{% endblock %}

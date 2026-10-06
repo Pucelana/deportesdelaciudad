@@ -226,11 +226,11 @@
                       </a>
                     </li>
 
-                    <!--<li>
+                    <li>
                       <a class="dropdown-item" href="/seccion/tordesillas">
                         Atl.Tordesillas
                       </a>
-                    </li>-->
+                    </li>
 
                     <li>
                       <a class="dropdown-item" href="/seccion/rv_femenino">
@@ -333,7 +333,7 @@
 
                     <li>
                       <a class="dropdown-item" href="/seccion/salvador_fem">
-                        El Salvador Fem.
+                        El Salvador R.C.
                       </a>
                     </li>
                   </ul>
@@ -356,6 +356,16 @@
                     <li>
                       <a class="dropdown-item" href="/seccion/vcv">
                         Universidad VCV
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/seccion/vacceas">
+                        VCV Vacceas
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="/seccion/valcyl">
+                        Valcyl VCV
                       </a>
                     </li>
 
@@ -557,11 +567,11 @@
                         </a>
                       </li>
 
-                      <!---<li>
+                      <li>
                         <a class="dropdown-item" href="/seccion/tordesillas">
                           Atl.Tordesillas
                         </a>
-                      </li>-->
+                      </li>
 
                       <li>
                         <a class="dropdown-item" href="/seccion/rv_femenino">
@@ -661,7 +671,7 @@
 
                       <li>
                         <a class="dropdown-item" href="/seccion/salvador_fem">
-                          El Salvador Fem.
+                          El Salvador R.C.
                         </a>
                       </li>
                     </ul>
@@ -683,6 +693,16 @@
                       <li>
                         <a class="dropdown-item" href="/seccion/vcv">
                           Universidad VCV
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/seccion/vacceas">
+                          VCV Vacceas
+                        </a>
+                      </li>
+                      <li>
+                        <a class="dropdown-item" href="/seccion/valcyl">
+                          Valcyl VCV
                         </a>
                       </li>
 
@@ -782,6 +802,14 @@
               class="container-lg d-flex justify-content-center flex-wrap gap-2"
             >
               <!-- Reemplazá los src con las rutas de tus escudos -->
+              <a href="/seccion/vacceas" class="escudo-link">
+                <img
+                  src="/static/img/valla_voley_sf-small.webp"
+                  class="escudo"
+                  alt="VCV Vacceas"
+                />
+                <span class="escudo-nombre">VCV Vacceas</span>
+              </a>
               <a href="/seccion/san_jose" class="escudo-link">
                 <img
                   src="/static/img/san_jose_sf-small.webp"
@@ -802,9 +830,9 @@
                 <img
                   src="/static/img/salvador_sf-small.webp"
                   class="escudo"
-                  alt="El Salvador Fem."
+                  alt="El Salvador R.C."
                 />
-                <span class="escudo-nombre">El Salvador Fem.</span>
+                <span class="escudo-nombre">El Salvador R.C.</span>
               </a>
               <a href="/seccion/parquesol" class="escudo-link">
                 <img
@@ -854,6 +882,14 @@
                 />
                 <span class="escudo-nombre">Valladolid S.S.</span>
               </a>
+              <a href="/seccion/valcyl" class="escudo-link">
+                <img
+                  src="/static/img/valla_voley_sf-small.webp"
+                  class="escudo"
+                  alt="Valcyl VCV"
+                />
+                <span class="escudo-nombre">Valcyl VCV</span>
+              </a>
               <a href="/seccion/promesas" class="escudo-link">
                 <img
                   src="/static/img/pucela_sf-small.webp"
@@ -862,14 +898,14 @@
                 />
                 <span class="escudo-nombre">RV Promesas</span>
               </a>
-              <!--<a href="/seccion/tordesillas" class="escudo-link">
+              <a href="/seccion/tordesillas" class="escudo-link">
                 <img
                   src="/static/img/torde_sf-small.webp"
                   class="escudo"
                   alt="Atl.Tordesillas"
                 />
                 <span class="escudo-nombre">Atl.Tordesillas</span>
-              </a>-->
+              </a>
               <a href="/seccion/aula" class="escudo-link">
                 <img
                   src="/static/img/aula_sf-small.webp"
@@ -1022,7 +1058,7 @@
           🟢 Partidos en Directo
         </div>
         <div class="card-body bg-light p-2" id="directo-contenido">
-          <!- Las cards se insertarán aquí ->
+          <!-- Las cards se insertarán aquí -->
         </div>
         <div class="card-footer text-center bg-light">
           <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
@@ -1506,92 +1542,6 @@
         </div>
       </div>
     </div>
-    <!-- Modal Registro -->
-    <!--<div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true"
-    data-bs-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <form method="POST" action="{{ url_for('usuarios_route_bp.register') }}">
-          <div class="modal-header">
-            <h5 class="modal-title" id="registroModalLabel">Crear Cuenta</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="usuario" class="form-label text-dark">Nombre</label>
-              <input type="text" id="usuario" name="usuario" class="form-control" autocomplete="username" required>
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label text-dark">Correo</label>
-              <input type="email" id="email" name="email" class="form-control" autocomplete="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label text-dark">Contraseña</label>
-              <input type="password" id="password" name="password" class="form-control" required>
-            </div>
-            <div class="mb-3">
-              <label for="confirmar_password" class="form-label text-dark">Confirmar contraseña</label>
-              <input type="password" id="confirmar_password" name="confirmar_password" class="form-control"
-                required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Registrarse</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>-->
-    <!-- Modal Login -->
-    <!--<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true"
-    data-bs-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <form method="POST" action="{{ url_for('usuarios_route_bp.login') }}">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="loginModalLabel">Iniciar Sesión</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label for="email" class="form-label text-dark">Correo</label>
-              <input type="email" name="email" class="form-control" autocomplete="email" required>
-            </div>
-            <div class="mb-3">
-              <label for="password" class="form-label text-dark">Contraseña</label>
-              <input type="password" name="password" class="form-control" autocomplete="current-password" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>-->
-    <!-- Modal para confirmar la baja -->
-    <!--<div class="modal fade" id="bajaModal" tabindex="-1" aria-labelledby="bajaModalLabel" aria-hidden="true"              data-bs-backdrop="false">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-danger">
-        <div class="modal-header bg-danger text-white">
-          <h5 class="modal-title" id="bajaModalLabel">¿Estás seguro?</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-        </div>
-        <div class="modal-body">
-          Esta acción eliminará tu cuenta <strong>de forma permanente</strong>. No podrás recuperarla después.
-          <br><br>¿Deseas continuar?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="{{ url_for('usuarios_route_bp.darse_de_baja') }}" method="POST">
-            {% if current_user.is_authenticated and current_user.is_authenticated %}
-           
-            {% endif %}
-            <button type="submit" class="btn btn-danger">Sí, eliminar mi cuenta</button>
-          </form>
-        </div>
-      </div>
-    </div>-->
     <script
       src="https://code.jquery.com/jquery-3.7.1.min.js"
       integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="

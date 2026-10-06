@@ -23,6 +23,8 @@ NOMBRES_SECCIONES = {
     "ponce": "Pucela Basket",
     "cdsi_vall": "CDSI Valladolid",
     "vcv": "Universidad VCV",
+    "vacceas": "VCV Vacceas",
+    "valcyl": "VCV Valcyl",
     "san_jose": "CD San José",
     "aliados": "BSR Valladolid",
     "aula": "Aula Valladolid",

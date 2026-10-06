@@ -211,6 +211,8 @@ def categoria(url):
     if (
         "vcv" in url
         or "san_jose" in url
+        or "vacceas" in url
+        or "valcyl" in url
     ):
         return "voley"
 

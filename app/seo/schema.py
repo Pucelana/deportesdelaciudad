@@ -153,7 +153,7 @@ EQUIPOS = {
     },
 
     "salvador_fem": {
-        "nombre": "El Salvador Femenino",
+        "nombre": "El Salvador R.C.",
         "deporte": "Rugby",
         "liga": "Liga Iberdrola",
         "logo": "https://deportesdelaciudad.es/static/img/salvador_sf.webp",
@@ -193,6 +193,20 @@ EQUIPOS = {
         "liga": "Superliga 2",
         "logo": "https://deportesdelaciudad.es/static/img/valla_voley_sf.webp",
     },
+
+    "vacceas": {
+            "nombre": "VCV Vacceas",
+            "deporte": "Voleibol",
+            "liga": "Primera Nacional Femenina",
+            "logo": "https://deportesdelaciudad.es/static/img/valla_voley_sf.webp",
+        },
+
+    "valcyl": {
+            "nombre": "Valcyl",
+            "deporte": "Voleibol",
+            "liga": "Primera Nacional Masculina",
+            "logo": "https://deportesdelaciudad.es/static/img/valla_voley_sf.webp",
+        },    
 
     "san_jose": {
         "nombre": "CD San José",
@@ -303,8 +317,18 @@ COMPETICIONES = {
         "deporte": "Volleyball",
     },
 
+    "vacceas": {
+            "nombre": "Pimera Nacional Femenina",
+            "deporte": "Volleyball",
+        },
+
+    "valcyl": {
+            "nombre": "Primera Nacional Masculina",
+            "deporte": "Volleyball",
+        },
+
     "san_jose": {
-        "nombre": "Primera Nacional",
+        "nombre": "Primera Nacional Femenina",
         "deporte": "Volleyball",
     },
 
@@ -331,6 +355,8 @@ DEPORTES = {
     "galvan": "Fútbol Sala",
     "vall_sala": "Fútbol Sala",
     "vcv": "Voleibol",
+    "vacceas": "Voleibol",
+    "valcyl": "Voleibol",
     "san_jose": "Voleibol",
 }   
     

@@ -292,6 +292,38 @@ def seccion_vrac():
         )
     )
 
+@secciones_bp.route("/seccion/vacceas")
+def seccion_vacceas():
+    return render_seccion(
+        "secciones/vacceas.html", 
+        "vacceas",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("vacceas")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "vacceas",
+                "https://deportesdelaciudad.es/seccion/vacceas"
+            )
+        )
+    )
+
+@secciones_bp.route("/seccion/valcyl")
+def seccion_valcyl():
+    return render_seccion(
+        "secciones/valcyl.html", 
+        "valcyl",
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("valcyl")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "valcyl",
+                "https://deportesdelaciudad.es/seccion/valcyl"
+            )
+        )
+    )
+
 @secciones_bp.route("/seccion/salvador")
 def seccion_salvador():
     return render_seccion(

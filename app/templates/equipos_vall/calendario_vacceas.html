@@ -1,0 +1,227 @@
+{% extends "equipos_vall/base_equipos_vall.html" %} 
+{% block title %}Calendario Individual | VCV Vacceas | Deportes de la Ciudad{% endblock %} 
+
+{% block description %}
+Calendario Individual del VCV Vacceas: equipos a los que se enfrenta, ida y vuelta, resultados, puntos y average.
+{% endblock %}
+
+{% block og_title %}
+Calendario Individual | VCV Vacceas | Deportes de la Ciudad
+{% endblock %}
+
+{% block og_description %}
+Consulta el calendario individual actualizado del VCV Vacceas.
+{% endblock %}
+
+{% block twitter_title %}
+Calendario Individual | VCV Vacceas | Deportes de la Ciudad
+{% endblock %}
+
+{% block twitter_description %}
+Consulta el calendario individual actualizada del VCV Vacceas.
+{% endblock %}
+
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a
+        href="/seccion/vacceas"
+        class="text-white text-decoration-none text-analisis fs-6">VCV Vacceas</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      Calendario Ind.
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_voley/resultados_vacceas"
+        class="text-white text-decoration-none text-analisis fs-6">Resultados</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/equipos_voley/clasif_vacceas"
+        class="text-white text-decoration-none text-analisis fs-6">Clasificaciones</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a
+        href="/vacceas/historial"
+        class="text-decoration-none text-white text-analisis fs-6">Historial</a>
+    </li>
+  </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+<section class="container-lg mb-5 flex-fill copa">
+      <!--<div class="d-flex justify-content-center my-2 gap-2">
+        <button class="btn btn-outline-light tab-btn active" data-tab="calendario">Calendario</button>
+        <button class="btn btn-outline-light tab-btn" data-tab="resultados">Resultados</button>
+      </div>-->
+            <!--Tabla Calendario El Salvador Fem-->
+            <div class="d-flex justify-content-center">
+              <div class="card tabla_equipos_aula w-100" style="max-width: 60rem;">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <table class="table table-bordered tabla_equipos tabla_vacceas">
+                      <thead>
+                        <tr class="text-center text-dark">
+                          <th></th>
+                          <th colspan="2">Jornadas</th>
+                          <th colspan="4">Resultados</th>
+                          <!--<th colspan="2">Partidos</th>-->
+                        </tr>
+                        <tr class="text-center text-dark">
+                          <th scope="col">Equipos</th>
+                          <th>Ida</th>
+                          <th>Vlt</th>
+                          <th colspan="2">Ida</th>
+                          <th colspan="2">Vlt</th>
+                          <th>Pts</th>
+                          <!--<th>PP</th>-->
+                          <th>Avrg</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for equipo, datos_equipo in tabla_partidos_vacceas.items() %}
+                        <tr class="text-center">
+                          <th class="text-white size_equipos">{{ equipo }}</th>
+                          <td class="jorn_ida fw-bold">
+                            {% if datos_equipo.get('primer_enfrentamiento') %}
+                            {{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vacceas'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_vacceas'] }})
+                            {% endif %}
+                            {% endif %}
+                          </td>
+                          <td class="jorn_vuelta fw-bold">
+                            {% if datos_equipo.get('segundo_enfrentamiento') %}
+                            {{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vacceas'] %}
+                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_vacceas'] }})
+                            {% endif %}
+                            {% endif %}
+                          </td>
+                          <td class="resultadoA fw-bold">{{ tabla_partidos_vacceas[equipo]['resultadoA'] }}</td>
+                          <td class="resultadoB fw-bold">{{ tabla_partidos_vacceas[equipo]['resultadoB'] }}</td>
+                          <td class="resultadoAA fw-bold">{{ tabla_partidos_vacceas[equipo]['resultadoAA'] }}</td>
+                          <td class="resultadoBB fw-bold">{{ tabla_partidos_vacceas[equipo]['resultadoBB'] }}</td>
+                          <td class="part1"></td>
+                          <td class="average"></td>
+                        </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+    </section>
+{% endblock %}
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Seleccionar todas las filas de la tabla
+      var filas = document.querySelectorAll('.tabla_vacceas tbody tr');
+      // Iterar sobre cada fila
+      filas.forEach(function (fila) {
+        // Obtener el nombre del equipo de la fila actual
+        var equipo = fila.querySelector('th').textContent.trim();
+        // Obtener la jornada de ida y determinar si el equipo juega en casa o como visitante
+        var jornadaIdaElement = fila.querySelector('.jorn_ida');
+        var esLocalIda = false; // Por defecto, asumimos que el equipo juega como visitante en la jornada de ida
+        if (jornadaIdaElement) {
+          var jornadaIda = jornadaIdaElement.textContent.trim();
+          if (jornadaIda.includes('C')) {
+            esLocalIda = true;
+          }
+        }
+        // Obtener la jornada de vuelta y determinar si el equipo juega en casa o como visitante
+        var jornadaVueltaElement = fila.querySelector('.jorn_vuelta');
+        var esLocalVuelta = false; // Por defecto, asumimos que el equipo juega como visitante en la jornada de vuelta
+        if (jornadaVueltaElement) {
+          var jornadaVuelta = jornadaVueltaElement.textContent.trim();
+          if (jornadaVuelta.includes('C')) {
+            esLocalVuelta = true;
+          }
+        }
+        // Obtener los valores de los resultados de la fila
+        var resultadoA = parseInt(fila.querySelector('.resultadoA').textContent);
+        var resultadoB = parseInt(fila.querySelector('.resultadoB').textContent);
+        var resultadoAA = parseInt(fila.querySelector('.resultadoAA').textContent);
+        var resultadoBB = parseInt(fila.querySelector('.resultadoBB').textContent);
+        // Comparar los resultados y asignar los puntajes correspondientes
+        var part1 = fila.querySelector('.part1');
+        var average = fila.querySelector('.average');
+
+        // Función para asignar los puntajes
+        function asignarPuntaje(resultadoLocal, resultadoVisitante) {
+          if (resultadoLocal === 3 && resultadoVisitante <= 1) {
+            return 3;
+          } else if (resultadoLocal === 3 && resultadoVisitante === 2) {
+            return 2;
+          } else if (resultadoLocal === 2 && resultadoVisitante === 3) {
+            return 1;
+          } else {
+            return 0;
+          }
+        }
+
+        // Lógica para asignar los puntajes de la jornada de ida
+        var puntajeIda = 0;
+        if (esLocalIda) {
+          puntajeIda = asignarPuntaje(resultadoA, resultadoB);
+        } else {
+          puntajeIda = asignarPuntaje(resultadoB, resultadoA);
+        }
+
+        // Lógica para asignar los puntajes de la jornada de vuelta
+        var puntajeVuelta = 0;
+        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
+          if (esLocalVuelta) {
+            puntajeVuelta = asignarPuntaje(resultadoAA, resultadoBB);
+          } else {
+            puntajeVuelta = asignarPuntaje(resultadoBB, resultadoAA);
+          }
+        }
+
+        // Sumar los puntajes de ambas jornadas
+        var puntajeTotal = puntajeIda + puntajeVuelta;
+
+        // Actualizar el puntaje en la tabla
+        part1.textContent = puntajeTotal;
+        part1.style.color = 'blue'; // Color del puntaje
+
+        // Lógica para calcular las diferencias de goles de ambas jornadas
+        var diferenciaGolesIda = 0;
+        var diferenciaGolesVuelta = 0;
+        if (esLocalIda) {
+          diferenciaGolesIda = resultadoA - resultadoB;
+        } else {
+          diferenciaGolesIda = resultadoB - resultadoA;
+        }
+        if (!isNaN(resultadoAA) && !isNaN(resultadoBB)) {
+          if (esLocalVuelta) {
+            diferenciaGolesVuelta = resultadoAA - resultadoBB;
+          } else {
+            diferenciaGolesVuelta = resultadoBB - resultadoAA;
+          }
+        }
+        var averageTotal = diferenciaGolesIda + diferenciaGolesVuelta;
+        if (!isNaN(averageTotal)) {
+          // Asignar el valor del average total a la celda 'average'
+          average.textContent = averageTotal;
+          // Determinar el color de la celda 'average' según la diferencia de goles
+          if (averageTotal > 0) {
+            average.style.color = 'green'; // Equipo A ganó
+          } else if (averageTotal < 0) {
+            average.style.color = 'red'; // Equipo A perdió
+          } else {
+            average.style.color = 'black'; // Empate
+          }
+        } else {
+          // Si averageTotal es NaN, dejar la celda vacía
+          average.textContent = '';
+        }
+      });
+    });
+  </script>
+{% endblock %}

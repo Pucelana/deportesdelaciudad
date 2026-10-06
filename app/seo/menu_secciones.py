@@ -122,6 +122,18 @@ MENU_SECCIONES = {
             "playoff": False,
             "europa": False,
         },
+    "vacceas": {
+                "liga": True,
+                "copa": False,
+                "playoff": False,
+                "europa": False,
+            },
+    "valcyl": {
+                "liga": True,
+                "copa": False,
+                "playoff": False,
+                "europa": False,
+            },            
     "san_jose": {
             "liga": True,
             "copa": False,

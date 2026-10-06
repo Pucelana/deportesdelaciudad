@@ -51,6 +51,9 @@ function mostrarFormularioValladoliDi(){
 function mostrarFormularioPromesas(){
   document.getElementById('form_partidos_promesas').style.display='block';
 }
+function mostrarFormularioTordesillas(){
+  document.getElementById('form_partidos_tordesillas').style.display='block';
+}
 function mostrarFormularioSimancas(){
   document.getElementById('form_partidos_promesas').style.display='block';
 }
@@ -64,9 +67,7 @@ function mostrarFormularioVallSala(){
 function mostrarFormularioGalvan(){
   document.getElementById('form_partidos_galvan').style.display='block';
 }
-/*function mostrarFormularioValladolidFsf(){
-  document.getElementById('form_partidos_valladolidfsf').style.display='block';
-}*/
+
 // BALONMANO
 function mostrarFormularioAula(){
   document.getElementById('form_partidos_aula').style.display='block';
@@ -100,6 +101,12 @@ function mostrarFormularioSalvadorFem(){
 // VOLEIBOL
 function mostrarFormularioVcv(){
   document.getElementById('form_partidos_vcv').style.display='block';
+}
+function mostrarFormularioVacceas(){
+  document.getElementById('form_partidos_vacceas').style.display='block';
+}
+function mostrarFormularioValcyl(){
+  document.getElementById('form_partidos_valcyl').style.display='block';
 }
 function mostrarFormularioJose(){
   document.getElementById('form_partidos_san_jose').style.display='block';

@@ -14,7 +14,6 @@ from .routes.promesas_route import promesas_route_bp
 from .routes.rv_fem_route import rv_fem_route_bp
 from .routes.parquesol_route import parquesol_route_bp
 from .routes.ponce_route import ponce_route_bp
-from .routes.cdsi_vall_route import cdsi_vall_route_bp
 from .routes.aliados_route import aliados_route_bp
 from .routes.aula_route import aula_route_bp
 from .routes.recoletas_route import recoletas_route_bp
@@ -27,6 +26,8 @@ from .routes.vallad_genius_route import vallad_genius_route_bp
 from .routes.salvador_route import salvador_route_bp
 from .routes.salvador_fem_route import salvador_fem_route_bp
 from .routes.vcv_route import vcv_route_bp
+from .routes.vacceas_route import vacceas_route_bp
+from .routes.valcyl_route import valcyl_route_bp
 from .routes.san_jose_route import san_jose_route_bp
 from .seo.sitemap_index import sitemap_index_bp
 from .seo.sitemap_general import sitemap_general_bp
@@ -41,7 +42,6 @@ from .seo.sitemap_copa import sitemap_copa_bp
 from .seo.sitemap_europa import sitemap_europa_bp
 from .seo.sitemap_playoff import sitemap_playoff_bp
 from .seo.sitemap_historial import sitemap_historial_bp
-from .routes.usuarios_route import usuarios_route_bp
 from .routes.seo_routes import seo_bp
 from app.seo.social import SOCIAL
 from .routes.menu_competiciones_route import menu_competiciones_bp
@@ -91,7 +91,6 @@ def create_app():
     app.register_blueprint(rv_fem_route_bp)
     app.register_blueprint(parquesol_route_bp)
     app.register_blueprint(ponce_route_bp)
-    app.register_blueprint(cdsi_vall_route_bp)
     app.register_blueprint(aliados_route_bp)
     app.register_blueprint(aula_route_bp)
     app.register_blueprint(recoletas_route_bp)
@@ -104,6 +103,8 @@ def create_app():
     app.register_blueprint(salvador_route_bp)
     app.register_blueprint(salvador_fem_route_bp)
     app.register_blueprint(vcv_route_bp)
+    app.register_blueprint(vacceas_route_bp)
+    app.register_blueprint(valcyl_route_bp)
     app.register_blueprint(san_jose_route_bp)
     app.register_blueprint(sitemap_index_bp)
     app.register_blueprint(sitemap_general_bp)
@@ -118,7 +119,6 @@ def create_app():
     app.register_blueprint(sitemap_europa_bp)
     app.register_blueprint(sitemap_playoff_bp)
     app.register_blueprint(sitemap_historial_bp)
-    app.register_blueprint(usuarios_route_bp)
     app.register_blueprint(seo_bp)
     app.register_blueprint(menu_competiciones_bp)
     app.register_blueprint(service_worker_bp)

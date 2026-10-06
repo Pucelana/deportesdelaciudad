@@ -1,0 +1,160 @@
+.admin_temporadas{
+    width:90%;
+    margin:40px auto;
+}
+
+.admin_temporadas h2{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.tabla_temporadas{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 0 10px rgba(0,0,0,.15);
+}
+
+.tabla_temporadas th{
+    background:#1f4e79;
+    color:white;
+    padding:14px;
+    text-align:center;
+}
+
+.tabla_temporadas td{
+    padding:14px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+}
+
+.tabla_temporadas tr:hover{
+    background:#f6f6f6;
+}
+
+.estado_activa{
+    color:#0a8f2d;
+    font-weight:bold;
+}
+
+.estado_inactiva{
+    color:#777;
+}
+
+.btn_activar{
+    display:inline-block;
+    padding:8px 18px;
+    background:#28a745;
+    color:white;
+    text-decoration:none;
+    border-radius:6px;
+    transition:.2s;
+}
+
+.btn_activar:hover{
+    background:#1f8136;
+}
+
+.temporada_actual{
+    font-size:22px;
+    font-weight:bold;
+    color: black;
+}
+
+/* TABLAS */
+.table-responsive {
+    overflow-x: auto;
+}
+.table {
+    width: 100%;
+    border-collapse: collapse;
+}
+/* BALONCESTO */
+#form_partidos_uemc{
+    display: none;
+}
+#form_partidos_ponce{
+    display: none;
+}
+#form_partidos_cdsi_vall{
+    display: none;
+}
+#form_partidos_aliados{
+    display: none;
+}
+#form_partidos_aliados_nuevo{
+    display: none;
+}
+/* FÚTBOL */
+#form_partidos_valladolid{
+    display: none;
+}
+#form_partidos_vallad_genius{
+    display: none;
+}
+#form_partidos_promesas{
+    display: none;
+}
+#form_partidos_tordesillas{
+    display: none;
+}
+#form_partidos_simancas{
+    display: none;
+}
+#form_partidos_parquesol{
+    display: none;
+}
+/* FÚTBOL SALA */
+#form_partidos_galvan{
+    display: none;
+}
+#form_partidos_vall_sala{
+    display: none;
+}
+/* BALONMANO */
+#form_partidos_aula{
+    display: none;
+}
+#form_permanencia_aula{
+    display: none;
+}
+#form_partidos_recoletas{
+    display: none;
+}
+/* RUGBY */
+#form_partidos_salvador{
+    display: none;
+}
+#form_partidos_salvador_fem{
+    display: none;
+}
+#form_partidos_vrac{
+    display: none;
+}
+#form_partidos_salvador_fem{
+    display: none;
+}
+/* HOCKEY */
+#form_partidos_caja{
+    display: none;
+}
+#form_partidos_panteras{
+    display: none;
+}
+/* VOLEIBOL */
+#form_partidos_vcv{
+    display: none;
+}
+#form_partidos_vacceas{
+    display: none;
+}
+#form_partidos_valcyl{
+    display: none;
+}
+#form_partidos_san_jose{
+    display: none;
+}
+/* HISTORIAL */
+#form_historial{
+    display: none;
+}

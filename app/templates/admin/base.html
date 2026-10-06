@@ -54,11 +54,12 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Clubs Partic.</a>
           <div class="dropdown-menu" aria-labelledby="dropdownId">
             <a class="dropdown-item" href="/admin/jornada0_uemc">CBC Valladolid</a>
-            <a class="dropdown-item" href="/admin/jornada0_ponce">Ponce Valladolid</a>
-            <a class="dropdown-item" href="/admin/jornada0_cdsi_vall">CDSI Valladolid</a>
+            <a class="dropdown-item" href="/admin/jornada0_ponce">Pucela Basket</a>
+            <!--<a class="dropdown-item" href="/admin/jornada0_cdsi_vall">CDSI Valladolid</a>-->
             <a class="dropdown-item" href="/admin/jornada0_aliados">BSR Valladolid</a>
             <a class="dropdown-item" href="/admin/jornada0_valladolid">Real Valladolid</a>
             <a class="dropdown-item" href="/admin/jornada0_promesas">RV Promesas</a>
+            <a class="dropdown-item" href="/admin/jornada0_tordesillas">Atl.Tordesillas</a>
             <a class="dropdown-item" href="/admin/jornada0_rv_fem">RV Femenino</a>
              <a class="dropdown-item" href="/admin/jornada0_parquesol">CD Parquesol</a>
              <a class="dropdown-item" href="/admin/jornada0_vallad_genius">Real ValladoliDi</a>
@@ -72,6 +73,8 @@
             <a class="dropdown-item" href="/admin/jornada0_caja">CPLV Caja Rural</a>
             <a class="dropdown-item" href="/admin/jornada0_panteras">Panteras Caja Rural</a>
             <a class="dropdown-item" href="/admin/jornada0_vcv">Universidad VCV</a>
+            <a class="dropdown-item" href="/admin/jornada0_vacceas">VCV Vacceas</a>
+            <a class="dropdown-item" href="/admin/jornada0_valcyl">Valcyl VCV</a>
             <a class="dropdown-item" href="/admin/jornada0_san_jose">CD San Jose</a>
           </div>
       </li>
@@ -79,11 +82,11 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Historial</a>
           <div class="dropdown-menu" aria-labelledby="dropdownId">
             <a class="dropdown-item" href="{{ url_for('uemc_route_bp.crear_historial_uemc') }}">CBC Valladolid</a>
-            <a class="dropdown-item" href="{{ url_for('ponce_route_bp.crear_historial_ponce') }}">Ponce Valladolid</a>
-            <a class="dropdown-item" href="{{ url_for('cdsi_vall_route_bp.crear_historial_cdsi_vall') }}">CDSI Valladolid</a>
+            <a class="dropdown-item" href="{{ url_for('ponce_route_bp.crear_historial_ponce') }}">Pucela Basket</a>
             <a class="dropdown-item" href="{{ url_for('aliados_route_bp.crear_historial_aliados') }}">BSR Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('valladolid_route_bp.crear_historial_valladolid') }}">Real Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('promesas_route_bp.crear_historial_promesas') }}">RV Promesas</a>
+            <a class="dropdown-item" href="{{ url_for('tordesillas_route_bp.crear_historial_tordesillas') }}">Atl.Tordesillas</a>
             <a class="dropdown-item" href="{{ url_for('rv_fem_route_bp.crear_historial_rv_fem') }}">RV Femenino</a>
             <a class="dropdown-item" href="{{ url_for('parquesol_route_bp.crear_historial_parquesol') }}">CD Parquesol</a>
             <a class="dropdown-item" href="{{ url_for('vallad_genius_route_bp.crear_historial_vallad_genius') }}">Real ValladoliDi</a>
@@ -97,6 +100,8 @@
             <a class="dropdown-item" href="{{ url_for('caja_route_bp.crear_historial_caja') }}">CPLV Caja Rural</a>
             <a class="dropdown-item" href="{{ url_for('panteras_route_bp.crear_historial_panteras') }}">Panteras Caja Rural</a>
             <a class="dropdown-item" href="{{ url_for('vcv_route_bp.crear_historial_vcv') }}">Universidad VCV</a>
+            <a class="dropdown-item" href="{{ url_for('vacceas_route_bp.crear_historial_vacceas') }}">VCV Vacceas</a>
+            <a class="dropdown-item" href="{{ url_for('valcyl_route_bp.crear_historial_valcyl') }}">Valcyl VCV</a>
             <a class="dropdown-item" href="{{ url_for('san_jose_route_bp.crear_historial_san_jose') }}">CD San Jose</a>
           </div>
       </li>
@@ -104,11 +109,11 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Palmares</a>
           <div class="dropdown-menu" aria-labelledby="dropdownId">
             <a class="dropdown-item" href="{{ url_for('uemc_route_bp.crear_palmares_uemc') }}">CBC Valladolid</a>
-            <a class="dropdown-item" href="{{ url_for('ponce_route_bp.crear_palmares_ponce') }}">Ponce Valladolid</a>
-            <a class="dropdown-item" href="{{ url_for('cdsi_vall_route_bp.crear_palmares_cdsi_vall') }}">CDSI Valladolid</a>
+            <a class="dropdown-item" href="{{ url_for('ponce_route_bp.crear_palmares_ponce') }}">Pucela Basket</a>
             <a class="dropdown-item" href="{{ url_for('aliados_route_bp.crear_palmares_aliados') }}">BSR Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('valladolid_route_bp.crear_palmares_valladolid') }}">Real Valladolid</a>
             <a class="dropdown-item" href="{{ url_for('promesas_route_bp.crear_palmares_promesas') }}">RV Promesas</a>
+            <a class="dropdown-item" href="{{ url_for('tordesillas_route_bp.crear_palmares_tordesillas') }}">Atl.Tordesillas</a>
             <a class="dropdown-item" href="{{ url_for('rv_fem_route_bp.crear_palmares_rv_fem') }}">RV Femenino</a>
              <a class="dropdown-item" href="{{ url_for('parquesol_route_bp.crear_palmares_parquesol') }}">CD Parquesol</a>
              <a class="dropdown-item" href="{{ url_for('vallad_genius_route_bp.crear_palmares_vallad_genius') }}">Real ValladoliDi</a>
@@ -122,6 +127,8 @@
             <a class="dropdown-item" href="{{ url_for('caja_route_bp.crear_palmares_caja') }}">CPLV Caja Rural</a>
             <a class="dropdown-item" href="{{ url_for('panteras_route_bp.crear_palmares_panteras') }}">Panteras Caja Rural</a>
             <a class="dropdown-item" href="{{ url_for('vcv_route_bp.crear_palmares_vcv') }}">Universidad VCV</a>
+            <a class="dropdown-item" href="{{ url_for('vacceas_route_bp.crear_palmares_vacceas') }}">VCV Vacceas</a>
+            <a class="dropdown-item" href="{{ url_for('valcyl_route_bp.crear_palmares_valcyl') }}">Valcyl VCV</a>
             <a class="dropdown-item" href="{{ url_for('san_jose_route_bp.crear_palmares_san_jose') }}">CD San Jose</a>
           </div>
       </li>
@@ -129,18 +136,17 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Temporadas</a>
           <div class="dropdown-menu" aria-labelledby="dropdownId">
             <a class="dropdown-item" href="/admin/temporadas_uemc">CBC Valladolid</a>
-            <!--<a class="dropdown-item" href="/admin/jornada0_uemc_copa">UEMC Valladolid (Copa)</a>-->
-            <a class="dropdown-item" href="/admin/temporadas_ponce">Ponce Valladolid</a>
-            <a class="dropdown-item" href="/admin/temporadas_cdsi_vall">CDSI Valladolid</a>
+            <a class="dropdown-item" href="/admin/temporadas_ponce">Pucela Basket</a>
+            <!--<a class="dropdown-item" href="/admin/temporadas_cdsi_vall">CDSI Valladolid</a>-->
             <a class="dropdown-item" href="/admin/temporadas_aliados">BSR Valladolid</a>
             <a class="dropdown-item" href="/admin/temporadas_valladolid">Real Valladolid</a>
             <a class="dropdown-item" href="/admin/temporadas_promesas">RV Promesas</a>
+            <a class="dropdown-item" href="/admin/temporadas_tordesillas">Atl.Tordesillas</a>
             <a class="dropdown-item" href="/admin/temporadas_rv_fem">RV Femenino</a>
              <a class="dropdown-item" href="/admin/temporadas_parquesol">CD Parquesol</a>
              <a class="dropdown-item" href="/admin/temporadas_vallad_genius">Real ValladoliDi</a>
             <a class="dropdown-item" href="/admin/temporadas_vall_sala">Valladolid S.S</a>
             <a class="dropdown-item" href="/admin/temporadas_galvan">C.D Tierno Galván</a>
-            <a class="dropdown-item" href="/admin/temporadas_valladolidfsf">Atl.Valladolid T.G</a>
             <a class="dropdown-item" href="/admin/temporadas_aula">Aula Valladolid</a>
             <a class="dropdown-item" href="/admin/temporadas_recoletas">Atl.Valladolid</a>
             <a class="dropdown-item" href="/admin/temporadas_vrac">VRAC</a>
@@ -149,6 +155,8 @@
             <a class="dropdown-item" href="/admin/temporadas_caja">CPLV Caja Rural</a>
             <a class="dropdown-item" href="/admin/temporadas_panteras">Panteras Caja Rural</a>
             <a class="dropdown-item" href="/admin/temporadas_vcv">Universidad VCV</a>
+            <a class="dropdown-item" href="/admin/temporadas_vacceas">VCV Vacceas</a>
+            <a class="dropdown-item" href="/admin/temporadas_valcyl">Valcyl VCV</a>
             <a class="dropdown-item" href="/admin/temporadas_san_jose">CD San Jose</a>
           </div>
       </li>
@@ -156,17 +164,17 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Partidos</a>
           <div class="dropdown-menu" aria-labelledby="dropdownId">
             <a class="dropdown-item" href="/admin/calendario_uemc">CBC Valladolid</a>
-            <a class="dropdown-item" href="/admin/calendario_ponce">Ponce Valladolid</a>
-            <a class="dropdown-item" href="/admin/calendario_cdsi_vall">CDSI Valladolid</a>
+            <a class="dropdown-item" href="/admin/calendario_ponce">Pucela Basket</a>
+            <!--<a class="dropdown-item" href="/admin/calendario_cdsi_vall">CDSI Valladolid</a>-->
             <a class="dropdown-item" href="/admin/calendario_aliados">BSR Valladolid</a>
             <a class="dropdown-item" href="/admin/calendario_valladolid">Real Valladolid</a>
             <a class="dropdown-item" href="/admin/calendario_promesas">RV Promesas</a>
+            <a class="dropdown-item" href="/admin/calendario_tordesillas">Atl.Tordesillas</a>
             <a class="dropdown-item" href="/admin/calendario_rv_fem">RV Femenino</a>
             <a class="dropdown-item" href="/admin/calendario_parquesol">CD Parquesol</a>
             <a class="dropdown-item" href="/admin/calendario_vallad_genius">Real ValladoliDi</a>
             <a class="dropdown-item" href="/admin/calendarios_galvan">C.D Tierno Galván</a>
             <a class="dropdown-item" href="/admin/calendarios_vall_sala">Valladolid S.S</a>
-            <a class="dropdown-item" href="/admin/calendario_valladolidfsf">Atl.Valladolid T.G</a>
             <a class="dropdown-item" href="/admin/calendario_aula">Aula Valladolid</a>
             <a class="dropdown-item" href="/admin/calendario_recoletas">Atl.Valladolid</a>
             <a class="dropdown-item" href="/admin/calendario_vrac">VRAC</a>
@@ -175,6 +183,8 @@
             <a class="dropdown-item" href="/admin/calendario_caja">CPLV Caja Rural</a>
             <a class="dropdown-item" href="/admin/calendario_panteras">Panteras Caja Rural</a>
             <a class="dropdown-item" href="/admin/calendario_vcv">Universidad VCV</a>
+            <a class="dropdown-item" href="/admin/calendario_vacceas">VCV Vacceas</a>
+            <a class="dropdown-item" href="/admin/calendario_valcyl">Valcyl VCV</a>
             <a class="dropdown-item" href="/admin/calendario_san_jose">CD San Jose</a>
           </div>
       </li>
@@ -182,11 +192,12 @@
         <a class="nav-link dropdown-toggle" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">PlayOffs</a>
           <div class="dropdown-menu" aria-labelledby="dropdownId">
             <a class="dropdown-item" href="/admin/playoff_uemc/">CBC Valladolid</a>
-            <a class="dropdown-item" href="/admin/playoff_ponce/">Ponce Valladolid</a>
-            <a class="dropdown-item" href="/admin/playoff_cdsi_vall/">CDSI Valladolid</a>
+            <a class="dropdown-item" href="/admin/playoff_ponce/">Pucela Basket</a>
+            <!--<a class="dropdown-item" href="/admin/playoff_cdsi_vall/">CDSI Valladolid</a>-->
             <a class="dropdown-item" href="/admin/playoff_aliados/">BSR Valladolid</a>
             <a class="dropdown-item" href="/admin/playoff_valladolid/">Real Valladolid</a>
             <a class="dropdown-item" href="/admin/playoff_promesas/">RV Promesas</a>
+            <a class="dropdown-item" href="/admin/playoff_tordesillas/">Atl.Tordesillas</a>
             <a class="dropdown-item" href="/admin/playoff_rv_fem/">RV Femenino</a>
             <a class="dropdown-item" href="/admin/playoff_parquesol/">CD Parquesol</a>
             <a class="dropdown-item" href="/admin/playoff_aula/">Aula Valladolid</a>
@@ -198,6 +209,8 @@
             <a class="dropdown-item" href="/admin/playoff_panteras/">CPLV Munia Panteras</a>
             <a class="dropdown-item" href="/admin/playoff_galvan/">C.D Tierno Galván</a>
             <a class="dropdown-item" href="/admin/playoff_vcv/">Universidad VCV</a>
+            <a class="dropdown-item" href="/admin/playoff_vacceas/">VCV Vacceas</a>
+            <a class="dropdown-item" href="/admin/playoff_valcyl/">Valcyl VCV</a>
             <a class="dropdown-item" href="/admin/playoff_san_jose/">CD San Jose</a>
           </div>
       </li>
@@ -211,6 +224,7 @@
             <a class="dropdown-item" href="/admin/permanencia_aliados/">BSR Valladolid</a>
             <a class="dropdown-item" href="/admin/permanencia_valladolid/">Real Valladolid</a>
             <a class="dropdown-item" href="/admin/permanencia_promesas/">RV Promesas</a>
+            <a class="dropdown-item" href="/admin/permanencia_tordesillas/">Atl.Tordesillas</a>
             <a class="dropdown-item" href="/admin/permanencia_simancas/">RV Femenino</a>
             <a class="dropdown-item" href="/admin/permanencia_parquesol/">CD Parquesol</a>
             
@@ -232,6 +246,7 @@
             <!--<a class="dropdown-item" href="">Pucela Basket</a>-->
             <a class="dropdown-item" href="/admin/copa_aliados/">BSR Valladolid</a>
             <a class="dropdown-item" href="/admin/copa_valladolid/">Real Valladolid</a>
+            <a class="dropdown-item" href="/admin/copa_tordesillas/">Atl.Tordesillas</a>
             <a class="dropdown-item" href="/admin/copa_rv_fem/">RV Femenino</a>
             <a class="dropdown-item" href="/admin/copa_parquesol/">CD Parquesol</a>
             <a class="dropdown-item" href="/admin/copa_aula/">Aula Valladolid</a>
@@ -244,6 +259,8 @@
             <a class="dropdown-item" href="/admin/copa_panteras/">CPLV Munia Panteras</a>
             <a class="dropdown-item" href="/admin/copa_galvan/">C.D Tierno Galván</a>
             <a class="dropdown-item" href="/admin/copa_vcv/">Universidad VCV</a>
+            <a class="dropdown-item" href="/admin/copa_vacceas/">VCV Vacceas</a>
+            <a class="dropdown-item" href="/admin/copa_valcyl/">Valcyl VCV</a>
             <a class="dropdown-item" href="/admin/copa_san_jose/">CD San Jose</a>
           </div>
       </li>

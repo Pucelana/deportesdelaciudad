@@ -80,7 +80,7 @@ def actualizar_directo(id):
     partido.resultado1 = request.form.get('resultado1')
     partido.resultado2 = request.form.get('resultado2')
     db.session.commit()
-    return redirect(request.referrer or url_for('resultados.admin_resultados'))
+    return redirect(request.referrer or url_for('resultados.pub_marcadores'))
 # Eliminar marcador
 @resultados_bp.route('/eliminar_resultado/<int:id>', methods=['POST'])
 def eliminar_resultado(id):

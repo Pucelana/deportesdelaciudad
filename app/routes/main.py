@@ -43,8 +43,21 @@ NOMBRES_EQUIPOS = {
                     "CD San Jose Rojo",
                     "CD San José",
                 ],
+    "vacceas": [
+                        "VCV Vacceas",
+                    ],
+    "valcyl": [
+                        "Valcyl VCV",
+                    ],
+    "vcv": [
+                        "Universidad VCV",
+                    ],                                            
     "salvador": [
                     "CR El Salvador",
                     "El Salvador",
                 ],
+    "salvador_fem": [
+                        "El Salvador Fem.",
+                        "El Salvador R.C.",
+                    ],            
 }

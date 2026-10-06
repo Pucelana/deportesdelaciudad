@@ -1,4 +1,21 @@
-.modal-content{
+/* Para que el texto no aparezca entero y se pueda usar leer mas */
+.card_coments .coment_text{
+    max-height: 80px;
+    overflow: hidden;
+  }
+  .card_coments .leer_mas{
+    display: none;
+  }
+  .card_coments.expand .coment_text{
+    max-height: none;
+  }
+  .card_coments.expand .leer_mas{
+    display: none;
+  }
+  /* Fin leer mas */
+
+  /* MODAL */
+  .modal-content{
     width: 150%;
     max-width: 900px;
 }

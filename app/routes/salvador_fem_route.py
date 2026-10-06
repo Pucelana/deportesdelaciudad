@@ -5,6 +5,7 @@ from collections import OrderedDict
 from itertools import groupby
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
+from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
@@ -176,7 +177,7 @@ def separar_fases(data):
 @salvador_fem_route_bp.route('/equipos_rugby/calendario_salvador_fem')
 def calendario_salvador_fem():
     datos = obtener_datos_salvador_fem()
-    equipo_salvador_fem = 'El Salvador Fem.'
+    equipo_salvador_fem = NOMBRES_EQUIPOS["salvador_fem"]
     tabla_partidos_salvador_fem = {}
     # Iteramos sobre cada jornada y partido
     for jornada in datos:
@@ -186,9 +187,9 @@ def calendario_salvador_fem():
             resultado_local = partido.resultadoA
             resultado_visitante = partido.resultadoB                 
             # Verificamos si el Caja está jugando
-            if equipo_local == equipo_salvador_fem or equipo_visitante == equipo_salvador_fem:
+            if equipo_local in equipo_salvador_fem or equipo_visitante in equipo_salvador_fem:
                 # Determinamos el equipo contrario y los resultados
-                if equipo_local == equipo_salvador_fem:
+                if equipo_local in equipo_salvador_fem:
                     equipo_contrario = equipo_visitante
                     resultado_a = resultado_local
                     resultado_b = resultado_visitante

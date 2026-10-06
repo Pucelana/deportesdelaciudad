@@ -1,0 +1,78 @@
+{% extends 'secciones/base.html' %} 
+{% block titulo %} Valcyl VCV {% endblock%}
+
+{% block description %}
+Toda la información del Valcyl VCV: calendario, resultados, clasificación, historial y actualidad del equipo.
+{% endblock %}
+{% block og_title %}
+Valcyl VCV | Deportes de la Ciudad
+{% endblock %}
+{% block og_description %}
+Calendario, resultados, clasificación e información del Valcyl VCV.
+{% endblock %}
+{% block twitter_title %}
+Valcyl VCV | Deportes de la Ciudad
+{% endblock %}
+{% block twitter_description %}
+Calendario, resultados, clasificación e información del Valcyl VCV.
+{% endblock %}
+
+{% block contenido %}
+<div class="team-header">
+  <h1 class="responsive-title">Valcyl VCV</h1>
+  <img
+    src="/static/img/valla_voley_sf.webp"
+    alt="Valcyl VCV"
+    class="responsive-logo"
+  />
+</div>
+<section class="container-lg seccion_deportes">
+  <div class="calend_deportes">
+    {% if menu.get("liga") %}
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center">
+          <h2 class="text_uemc">1ª División Masc. (Grp-A)</h2>
+        </div>
+        <div class="tu-contenedor-h5">
+          <a
+            href="/equipos_voley/calendario_valcyl"
+            class="text-decoration-none text-white"
+          >
+            <h5 class="small-option fw-bold">Calendario Ind.</h5></a
+          >
+          <a
+            href="/equipos_voley/resultados_valcyl"
+            class="text-decoration-none text-white"
+          >
+            <h5 class="small-option fw-bold">Resultados</h5></a
+          >
+          <a
+            href="/equipos_voley/clasif_valcyl"
+            class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Clasificaciones</h5></a>
+          <a href="/valcyl/historial" class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Historial</h5>
+          </a>
+
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if menu.get("playoff") %}
+    <div class="shadow-lg pb-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center mt-2">
+          <a href="/playoffs_valcyl" class="text-decoration-none">
+            <h2 class="text_uemc pt-2">Playoff</h2></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+    {% if menu.get("copa") %}
+
+    {% endif %}
+  </div>
+</section>
+{% include 'componentes/bloque_comercial.html' %}
+{% endblock %}
