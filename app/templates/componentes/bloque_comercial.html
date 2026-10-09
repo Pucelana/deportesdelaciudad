@@ -18,7 +18,7 @@
 
 {% if amazon_productos %}
 
-<section class="recomendaciones-deportivas container-lg mt-5 mb-4">
+<section class="recomendaciones-deportivas container-lg mt-2 mb-2">
 
     <div class="recomendaciones-titulo text-center mb-4">
 
@@ -46,7 +46,7 @@
                     <img
                         src="{{ url_for(
                             'static',
-                            filename='img/recomendaciones/' ~ producto.imagen
+                            filename='img/amazon/' ~ producto.imagen
                         ) }}"
                         alt="{{ producto.alt }}"
                         class="img-fluid"

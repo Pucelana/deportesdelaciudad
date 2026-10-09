@@ -1,7 +1,13 @@
 COMERCIAL = {
     "uemc": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "SENSTON Balón de Baloncesto Adulto",
+                "descripcion": "Balón de tamaño 7 Interior, exterior para adultos. Resistente al desgaste, con excelente agarre y control estable.",
+                "imagen": "balon-senston.webp",
+                "alt": "SENSTON Balón de baloncesto Adulto",
+                "url": "https://link.amazon/B0bPncsTk"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -36,42 +42,13 @@ COMERCIAL = {
     },
     "ponce": {
         "amazon": {
-            "seccion": [],
-            "calendario": [],
-            "resultados": [],
-            "clasificacion": [],
-            "historial": [],
-            "temporadas": [],
-            "puntos": [],
-            "palmares": [],
-            "sistema_ligas": [],
-        },
-        "publicidad": {
-            "seccion": False,
-            "calendario": False,
-            "resultados": False,
-            "clasificacion": False,
-            "historial": False,
-            "temporadas": False,
-            "puntos": False,
-            "palmares": False,
-            "sistema_ligas": False,
-        },
-        "patrocinador": {
-            "seccion": None,
-            "calendario": None,
-            "resultados": None,
-            "clasificacion": None,
-            "historial": None,
-            "temporadas": None,
-            "puntos": None,
-            "palmares": None,
-            "sistema_ligas": None,
-        },
-    },
-    "cdsi": {
-        "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "YAHEETECH Canasta de Baloncesto",
+                "descripcion": "Canasta para exteriores portátil, altura ajustable 182-213 cm. Con ruedas, base de lastre, para niños y adultos.",
+                "imagen": "canasta-ext.webp",
+                "alt": "YAHEETECH Canasta de baloncesto",
+                "url": "https://link.amazon/B0f0HOi4Z"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -106,7 +83,13 @@ COMERCIAL = {
     },
     "aliados": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "FILA Marked Flow Mujer",
+                "descripcion": "Zapatillas baloncesto mujer, con amortiguación alta y suela antideslizante. Transpirables para entrenamientos y competición.",
+                "imagen": "zapatillas-fila.webp",
+                "alt": "FILA Marked Flow Mujer",
+                "url": "https://link.amazon/B0czi71Lb"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -141,7 +124,13 @@ COMERCIAL = {
     },
     "aula": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "HUMMEL hmlCLASSIC EnergizerHB",
+                "descripcion": "Balón de balonmano oficial, tamaño 3, para adultos y jóvenes. Con superficie de goma antideslizante y duradera.",
+                "imagen": "balon-balonmano.webp",
+                "alt": "HUMMEL hmlCLASSIC EnergizerHB",
+                "url": "https://link.amazon/B0czi71Lb"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -176,7 +165,13 @@ COMERCIAL = {
     },
     "recoletas": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "EULANT Rodilleras",
+                "descripcion": "Usables para la mayoría de deportes, como balonmano, voleibol, baloncesto y fútbol. Con espuma de alta densidad para protección y comodidad.",
+                "imagen": "balon-balonmano.webp",
+                "alt": "EULANT Rodilleras",
+                "url": "https://link.amazon/B010B94ym"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -211,7 +206,13 @@ COMERCIAL = {
     },
     "valladolid": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "DUNLOP Porterias Fútbol",
+                "descripcion": "Juego de 2 mini porterías plegables de fútbol de 44x44cm, Kit de entrenamiento para niños y adultos, interior y exterior. ",
+                "imagen": "porterias.webp",
+                "alt": "DUNLOP Porterias Fútbol",
+                "url": "https://link.amazon/B0dFkS0Rg"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -246,7 +247,13 @@ COMERCIAL = {
     },
     "rv_fem": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "BEAST RAGE Guantes de portero niño",
+                "descripcion": "Guantes de portero para niños y jóvenes, con agarre y protección. Ideales para entrenamientos y partidos de fútbol.",
+                "imagen": "guantes.webp",
+                "alt": "BEAST RAGE Guantes de portero niño",
+                "url": "https://link.amazon/B0evnPp8S"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -281,7 +288,13 @@ COMERCIAL = {
     },
     "promesas": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "HY-PRO Uefa Champions League Fútbol",
+                "descripcion": "Balón de fútbol oficial de la UEFA Champions League, tamaño 5, cosido a máquina, para entrenamientos y partidos de competición.",
+                "imagen": "balonuefa2.webp",
+                "alt": "HY-PRO Uefa Champions League Fútbol",
+                "url": "https://link.amazon/B09uudoqy"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -316,7 +329,13 @@ COMERCIAL = {
     },
     "tordesillas": {
             "amazon": {
-                "seccion": [],
+                "seccion": [{
+                    "titulo": "GILTEN Mini Espinilleras",
+                    "descripcion": "Mini espinilleras para niños y jóvenes estilo minimalista, protección para fútbol y fútbol sala de 12x7,5cm.",
+                    "imagen": "espinilleras.webp",
+                    "alt": "GILTEN Mini Espinilleras",
+                    "url": "https://link.amazon/B00uaF6OY"
+                }],
                 "calendario": [],
                 "resultados": [],
                 "clasificacion": [],
@@ -351,7 +370,13 @@ COMERCIAL = {
         },
     "parquesol": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "ROSEFLOWER Pizarra Entrenador Fútbol",
+                "descripcion": "Pizarra táctica magnética para entrenadores de fútbol, con rotulador y borrador. Ideal para planificar estrategias y tácticas de juego.",
+                "imagen": "entrenador-pizarra.webp",
+                "alt": "ROSEFLOWER Pizarra Entrenador Fútbol",
+                "url": "https://link.amazon/B078ELFyh"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -386,7 +411,13 @@ COMERCIAL = {
     },
     "valladoliDi": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "GVOLATEE Accesorios Entrenamiento Fútbol",
+                "descripcion": "Kit de entrenamiento de fútbol con conos, vallas y escaleras de agilidad. Ideal para mejorar la velocidad, coordinación y habilidades técnicas.",
+                "imagen": "acces-entre.webp",
+                "alt": "GVOLATEE Accesorios Entrenamiento Fútbol",
+                "url": "https://link.amazon/B0i15PbUr"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -421,7 +452,13 @@ COMERCIAL = {
     },
     "galvan": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "KASIAN Balón Fútbol Pro KS444",
+                "descripcion": "Balón resistente de alto rendimiento con tecnología Hypercell. Ideal para    entrenamientos y partidos de competición",
+                "imagen": "balon-kasian.webp",
+                "alt": "KASIAN Balón Fútbol Pro",
+                "url": "https://link.amazon/B0enBxFve"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -456,7 +493,13 @@ COMERCIAL = {
     },
     "vall_sala": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "Bolsa Unisex deportiva OSFA",
+                "descripcion": "Bolsa de deporte ligera y duradera, ideal para llevar tus pertenencias al gimnasio o a tus actividades deportivas.",
+                "imagen": "bolsa_futsal.webp",
+                "alt": "Bolsa Unisex deportiva OSFA",
+                "url": "https://link.amazon/B0iWBEGMy"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -491,7 +534,13 @@ COMERCIAL = {
     },
     "caja": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "JHDZ Ganchos Colgadores Hockey ",
+                "descripcion": "Ganchos colgadores de hockey para organizar y almacenar tu ropa de hockey de manera eficiente, de 5 ganchos y portatil",
+                "imagen": "perche-hockey.webp",
+                "alt": "JHDZ Ganchos Colgadores Hockey",
+                "url": "https://link.amazon/B0fFlBNhl"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -526,7 +575,13 @@ COMERCIAL = {
     },
     "panteras": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "BAUER XR Patines Hockey Línea",
+                "descripcion": "Patines de hockey en línea para adultos, con ruedas de alta calidad y diseño ergonómico para un rendimiento óptimo en la pista.",
+                "imagen": "patines.webp",
+                "alt": "BAUER XR Patines Hockey Línea",
+                "url": "https://link.amazon/B0jebIpIk"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -561,7 +616,13 @@ COMERCIAL = {
     },
     "vrac": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "OPRO Protector Bucal Rugby",
+                "descripcion": "Protector bucal de rugby para protección durante los partidos y entrenamientos, excelente comodidad, protección y ajuste.",
+                "imagen": "prot-bucal.webp",
+                "alt": "OPRO Protector Bucal Rugby",
+                "url": "https://link.amazon/B03FKQQ4k"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -596,7 +657,13 @@ COMERCIAL = {
     },
     "salvador": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "GILBERT RUGBY Lampara de mesita",
+                "descripcion": "Lámpara de noche original de pelota de rugby, luz de escritorio. Ideal para decoración de dormitorio, sala de estar y oficina.",
+                "imagen": "lampara-rugby.webp",
+                "alt": "GILBERT RUGBY Lampara de mesita",
+                "url": "https://link.amazon/B07DpFYDA"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -631,7 +698,13 @@ COMERCIAL = {
     },
     "salvador_fem": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "PHOENIX RAZE Bota Rugby Niño",
+                "descripcion": "Botas de rugby para niños duradera y atemperal. Ajuste regularpara el jugador de todo terreno.",
+                "imagen": "botas-rugby.webp",
+                "alt": "PHOENIX RAZE Bota Rugby Niño",
+                "url": "https://link.amazon/B0emBL5ir"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -666,7 +739,13 @@ COMERCIAL = {
     },
     "vcv": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "MIZUNO Mangas Voleibol",
+                "descripcion": "Mangas de voleibol de alta calidad y unisex .",
+                "imagen": "manguito.webp",
+                "alt": "MIZUNO Mangas Voleibol",
+                "url": "https://link.amazon/B00nBY77g"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],
@@ -701,7 +780,13 @@ COMERCIAL = {
     },
     "vacceas": {
             "amazon": {
-                "seccion": [],
+                "seccion": [{
+                    "titulo": "MONDO Pelota Voleibol Niño",
+                    "descripcion": "Pelota de voleibol para niños, tamaño 5, ligera y resistente. Ideal todo tipo de superficie, tanto exterior como interior.",
+                    "imagen": "balon-voley.webp",
+                    "alt": "MONDO Pelota Voleibol Niño",
+                    "url": "https://link.amazon/B07Tfv0LU"
+                }],
                 "calendario": [],
                 "resultados": [],
                 "clasificacion": [],
@@ -736,7 +821,13 @@ COMERCIAL = {
         },
     "valcyl": {
             "amazon": {
-                "seccion": [],
+                "seccion": [{
+                    "titulo": "NEWBYINN Red de Rebote Voleibol",
+                    "descripcion": "Equipo de entrenamiento de voleibol con red de rebote, ideal para mejorar la técnica, con 5 ángulos de rebote ajustable, 7x4cm.",
+                    "imagen": "red-voley.webp",
+                    "alt": "NEWBYINN Red de Rebote Voleibol",
+                    "url": "https://link.amazon/B037fFEXe"
+                }],
                 "calendario": [],
                 "resultados": [],
                 "clasificacion": [],
@@ -771,7 +862,13 @@ COMERCIAL = {
         },    
     "san_jose": {
         "amazon": {
-            "seccion": [],
+            "seccion": [{
+                "titulo": "FLINTRONIC Rodilleras Voleibol",
+                "descripcion": "Protección para la rodilla, esponja eva de 20mm de grosor, antideslizante para rodillas voleibol, ajustables",
+                "imagen": "rodilleras.webp",
+                "alt": "FLINTRONIC Rodilleras Voleibol",
+                "url": "https://link.amazon/B0hEw1BLp"
+            }],
             "calendario": [],
             "resultados": [],
             "clasificacion": [],

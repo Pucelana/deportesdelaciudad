@@ -10,11 +10,13 @@
     color: white;
     font-size: clamp(1.5rem, 3vw, 2.2rem);
     margin-bottom: 8px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .recomendaciones-titulo p {
     color: rgba(255, 255, 255, 0.85);
     margin-bottom: 0;
     font-size: 0.95rem;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 /* CARD */
 .recomendacion-card {
@@ -56,6 +58,7 @@
 .recomendacion-card .card-body {
     color: white;
     padding: 16px;
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 .recomendacion-card h3 {
     color: white;
@@ -70,8 +73,8 @@
 .btn-recomendacion {
     display: inline-block;
     border: 1px solid rgba(255, 255, 255, 0.35);
-    background: rgba(255, 255, 255, 0.12);
-    color: white;
+    background: #4260c1;
+    color: rgb(255, 255, 255);
     font-weight: 700;
     border-radius: 10px;
     padding: 8px 18px;
@@ -81,21 +84,22 @@
         transform 0.25s ease;
 }
 .btn-recomendacion:hover {
-    background: white;
-    color: #6f42c1;
+    background: white !important;
+    color: #4260c1 !important;
     transform: translateY(-1px);
 }
 /* AVISO AFILIACIÓN */
 .recomendaciones-aviso {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.70);
+    text-shadow: 0 0 6px rgba(0,0,0,0.70);
 }
 /* MÓVIL */
 @media (max-width: 576px) {
 
     .recomendaciones-deportivas {
-        padding: 15px 10px;
-        margin-top: 2rem !important;
+        padding: 10px 10px;
+        margin-top: 0.5rem !important;
     }
 
     .recomendaciones-titulo h2 {
@@ -130,8 +134,13 @@
     }
 
     .recomendacion-card h3 {
-        font-size: 0.95rem;
-        margin-bottom: 5px;
+        color: white;
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        text-align: center;
+        line-height: 1.3;
     }
 
     .recomendacion-card p {
