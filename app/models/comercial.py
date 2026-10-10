@@ -166,11 +166,11 @@ COMERCIAL = {
     "recoletas": {
         "amazon": {
             "seccion": [{
-                "titulo": "EULANT Rodilleras",
-                "descripcion": "Usables para la mayoría de deportes, como balonmano, voleibol, baloncesto y fútbol. Con espuma de alta densidad para protección y comodidad.",
-                "imagen": "balon-balonmano.webp",
-                "alt": "EULANT Rodilleras",
-                "url": "https://link.amazon/B010B94ym"
+                "titulo": "KEMPA Pantalón Portero Balonmano",
+                "descripcion": "Pantalón de portero de balonmano, con material transpirable y diseño ergonómico para mayor movilidad.",
+                "imagen": "panta-balonmano.webp",
+                "alt": "KEMPA Pantalón Portero Balonmano",
+                "url": "https://link.amazon/B0b122qg4"
             }],
             "calendario": [],
             "resultados": [],
