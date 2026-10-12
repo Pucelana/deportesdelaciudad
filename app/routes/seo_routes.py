@@ -5,3 +5,7 @@ seo_bp = Blueprint("seo", __name__)
 @seo_bp.route("/robots.txt")
 def robots():
     return send_from_directory("static", "robots.txt")
+
+@seo_bp.route("/ads.txt")
+def ads_txt():
+    return send_from_directory("static", "ads.txt")    
