@@ -79,6 +79,7 @@ Consulta la clasificación actualizada del VRAC.
                       <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
                       <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
                       <th class="equipo-mobile text-center">DG</th>
+                      <th class="equipo-mobile text-center">B</th>
                       <!--<th>B</th>-->
                     </tr>
                   </thead>
@@ -97,14 +98,14 @@ Consulta la clasificación actualizada del VRAC.
                       <td class="favor equipo-mobile text-center d-none d-md-table-cell">{{ equipo['datos']['favor'] }}</td>
                       <td class="contra equipo-mobile text-center d-none d-md-table-cell">{{ equipo['datos']['contra']}}</td>
                       <td class="diferencia_goles equipo-mobile text-center">{{ equipo['datos']['diferencia_goles'] }}</td>
-                      <!--<td class="bonus fw-bold">{{ equipo['datos']['bonus'] }}</td>-->
+                      <td class="bonus equipo-mobile text-center">{{ equipo['datos']['bonus'] }}</td>
                     </tr>
                     {% endfor %}
                   </tbody>
                 </table>
               </div>
             </div>
-            <small class="text-center">PT(Puntos);J (Jugados); G(Ganados); E(Empatados); P(Perdidos); F(Favor); C(Contra); DG(Dif. Goles); B (Bonus)</small>
+            <small class="text-center">PT(Puntos);J(Jugados);G(Ganados);E(Empatados);P(Perdidos);F(Favor); C(Contra);DG(Dif.Goles);B(Bonus)</small>
             <small class="text-center mb-3">Grupo A<span class="badge bg-success ms-2">1-6</span> ; Grupo B<span
               class="badge bg-secondary ms-2">7-12</span></small>
           </div>

@@ -102,7 +102,7 @@ Consulta la clasificación actualizada de El Salvador R.C..
                     <th class="equipo-mobile text-center d-none d-md-table-cell">F</th>
                     <th class="equipo-mobile text-center d-none d-md-table-cell">C</th>
                     <th class="equipo-mobile text-center">DG</th>
-                    <!--<th>B</th>-->
+                    <th class="equipo-mobile text-center">B</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -121,28 +121,28 @@ Consulta la clasificación actualizada de El Salvador R.C..
                     <td class="equipo-mobile text-center fs-5 puntos fw-bold">
                       {{ equipo['datos']['puntos'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 jugados fw-bold">
+                    <td class="equipo-mobile text-center jugados fw-bold">
                       {{ equipo['datos']['jugados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 ganados fw-bold">
+                    <td class="equipo-mobile text-center ganados fw-bold">
                       {{ equipo['datos']['ganados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 empatados fw-bold">
+                    <td class="equipo-mobile text-center empatados fw-bold">
                       {{ equipo['datos']['empatados'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 perdidos fw-bold">
+                    <td class="equipo-mobile text-center perdidos fw-bold">
                       {{ equipo['datos']['perdidos'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 favor fw-bold d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center favor fw-bold d-none d-md-table-cell">
                       {{ equipo['datos']['favor'] }}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 contra fw-bold d-none d-md-table-cell">
+                    <td class="equipo-mobile text-center contra fw-bold d-none d-md-table-cell">
                       {{ equipo['datos']['contra']}}
                     </td>
-                    <td class="equipo-mobile text-center fs-5 diferencia_goles fw-bold">
+                    <td class="equipo-mobile text-center diferencia_goles fw-bold">
                       {{ equipo['datos']['diferencia_goles'] }}
                     </td>
-                    <!--<td class="bonus fw-bold">{{ equipo['datos']['bonus'] }}</td>-->
+                    <td class="bonus equipo-mobile text-center">{{ equipo['datos']['bonus'] }}</td>
                   </tr>
                   {% endfor %}
                 </tbody>
@@ -151,7 +151,7 @@ Consulta la clasificación actualizada de El Salvador R.C..
           </div>
           <small class="text-center">
             PT(Puntos); J(Jugados); G(Ganados); E(Empatados); P(Perdidos);
-            F(Favor); C(Contra); DG(Dif. Goles)
+            F(Favor); C(Contra); DG(Dif. Goles); B(Bonus)
           </small>
           <small class="text-center mb-3">
             PlayOff Título<span class="badge bg-success ms-1">1-4</span> ;
