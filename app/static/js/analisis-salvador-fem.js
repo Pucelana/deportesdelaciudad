@@ -98,11 +98,11 @@ tabla2.innerHTML = ""; // Limpiar la tabla antes de actualizar
 equiposDesc.forEach((equipoData) => {
     const nuevaFila = document.createElement("tr");
     let claseColor2 = '';
-    if (equipoData.index2 <= 6) {
+    if (equipoData.index2 <= 7) {
         claseColor2 = 'pos-nada';
-    }    else if (equipoData.index2 <=7) {
+    }    else if (equipoData.index2 <=8) {
         claseColor2 = 'pos-promo';
-    } else if (equipoData.index2 <=8) {
+    } else if (equipoData.index2 <=9) {
         claseColor2 = 'pos-desc';
     }
     nuevaFila.innerHTML = `

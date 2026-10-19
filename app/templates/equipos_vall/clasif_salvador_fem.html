@@ -109,7 +109,7 @@ Consulta la clasificación actualizada de El Salvador R.C..
                   {% for equipo in clasificacion_general_indexed %}
                   <tr class="text-center">
                     <td
-                      class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 6 %}pos-nada {% elif equipo.index <= 7 %}pos-promo{% elif equipo.index <= 8 %}pos-desc{% endif %}"
+                      class="fw-bold {% if equipo.index <= 4 %}pos-ascen{% elif equipo.index <= 7 %}pos-nada {% elif equipo.index <= 8 %}pos-promo{% elif equipo.index <= 9 %}pos-desc{% endif %}"
                     >
                       {{ equipo.index }}
                     </td>
@@ -155,11 +155,11 @@ Consulta la clasificación actualizada de El Salvador R.C..
           </small>
           <small class="text-center mb-3">
             PlayOff Título<span class="badge bg-success ms-1">1-4</span> ;
-            Nada<span class="badge bg-secondary ms-1">5-6</span>; Promoción<span
+            Nada<span class="badge bg-secondary ms-1">5-7</span>; Promoción<span
               class="badge"
               style="background-color: #ff7171"
-              >7</span
-            >; Descenso<span class="badge bg-danger ms-1">8</span>
+              >8</span
+            >; Descenso<span class="badge bg-danger ms-1">9</span>
           </small>
         </div>
       </div>

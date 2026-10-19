@@ -32,7 +32,7 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
       >
     </li>
     <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
-      Eurocup 1 - Grp-A
+      Eurocup 1 - Grp-B
     </li>
   </ol>
 </nav>
@@ -91,7 +91,7 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
                   {% for equipo, stats in clasificacion %}
                   <tr>
                     <td
-                      class="equipo-mobile fw-bold fs-5 text-center {% if loop.index <= 2 %}pos-ascen{% elif loop.index <= 5 %}pos-nada{% endif %}"
+                      class="equipo-mobile fw-bold fs-5 text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <=4 %}pos-playoff{% elif loop.index <= 5 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
@@ -117,6 +117,21 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
               </table>
             </div>
           </div>
+          <small class="text-center">
+            J(Jugados); G(Ganados); P(Perdidos); F(Favor); C(Contra); DP(Dif.
+            Puntos); PT(Puntos)
+          </small>
+
+          <small class="text-center mb-3">
+            Champions Cup
+            <span class="badge bg-success ms-2">1</span>
+
+            ; EuroCup1
+            <span class="badge bg-warning ms-2">2-4</span>
+
+            ; EuroCup2
+            <span class="badge bg-danger ms-2">5</span>
+          </small>
         </div>
       </div>
     </div>

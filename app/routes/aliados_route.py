@@ -8,7 +8,7 @@ from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_team, schema_sports_competition
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados, AliadosGrupo, AliadosGrupoEquipo
+from ..models.aliados import JornadaAliados, AliadosPartido, AliadosClub, PlayoffAliados, CopaAliados, SupercopaAliados, EurocupAliados, JornadaEurocup, TemporadaAliados, AliadosGrupo, AliadosGrupoEquipo, EurocupEquipo
 
 aliados_route_bp = Blueprint('aliados_route_bp', __name__)
 
@@ -1871,6 +1871,7 @@ def supercopas_aliados():
     )      
 
 # EUROCUP ALIADOS
+
 @aliados_route_bp.route('/admin/crear_eurocup_aliados', methods=['GET', 'POST'])
 def crear_eurocup_aliados():
     if request.method == 'POST':
@@ -1902,18 +1903,59 @@ def crear_eurocup_aliados():
         return redirect(url_for('aliados_route_bp.ver_eurocup_aliados'))
     # Renderizar el formulario para crear la copa UEMC
     return render_template('admin/europa/eurocup_aliados.html')
+# Ver y administrar los equipos de la Eurocup Aliados
+@aliados_route_bp.route('/admin/equipos_eurocup_aliados', methods=['GET', 'POST'])
+def administrar_equipos_eurocup_aliados():
+    if request.method == 'POST':
+        nombre_equipo = request.form.get('equipo', '').strip()
+
+        if nombre_equipo:
+            existente = EurocupEquipo.query.filter_by(
+                equipo=nombre_equipo
+            ).first()
+
+            if not existente:
+                nuevo_equipo = EurocupEquipo(equipo=nombre_equipo)
+                db.session.add(nuevo_equipo)
+                db.session.commit()
+
+        return redirect(url_for(
+            'aliados_route_bp.ver_eurocup_aliados'
+        ))
+    equipos = EurocupEquipo.query.order_by(
+        EurocupEquipo.equipo.asc()
+    ).all()
+
+    return render_template(
+        'admin/europa/eurocup_aliados.html',
+        equipos=equipos
+    )
+
+# Eliminar un equipo de la Eurocup Aliados
+@aliados_route_bp.route('/admin/eliminar_equipo_eurocup_aliados/<int:id>',methods=['POST'])
+def eliminar_equipo_eurocup_aliados(id):
+    equipo = EurocupEquipo.query.get_or_404(id)
+
+    db.session.delete(equipo)
+    db.session.commit()
+
+    return redirect(url_for(
+        'aliados_route_bp.ver_eurocup_aliados'
+    ))
 # Ver la Eurocup Aliados en Admin (crear/editar partidos)
 @aliados_route_bp.route('/admin/eurocup_aliados/')
 def ver_eurocup_aliados():
     # Definimos todas las jornadas de la fase regular
-    jornadas = ['dia_1', 'dia_2']
+    jornadas = ['dia_1', 'dia_2', 'dia_3', 'dia_4']
     # Y las fases de eliminatorias
     fases_eliminatorias = ['partido1', 'partido2', 'partido3', '7º-8º', '5º-6º', 'semifinales', '3º-4º' , 'final']
     # Diccionario para la fase regular
     datos_jornadas = {j: EurocupAliados.query.filter_by(encuentros=j).order_by(EurocupAliados.id).all() for j in jornadas}
     # Diccionario para eliminatorias
     datos_eliminatorias = {f: EurocupAliados.query.filter_by(encuentros=f).order_by(EurocupAliados.id).all() for f in fases_eliminatorias}
-    return render_template('admin/europa/eurocup_aliados.html',datos_jornadas=datos_jornadas, datos_eliminatorias=datos_eliminatorias)
+    equipos = EurocupEquipo.query.order_by(
+        EurocupEquipo.equipo.asc()).all()
+    return render_template('admin/europa/eurocup_aliados.html',datos_jornadas=datos_jornadas, datos_eliminatorias=datos_eliminatorias, equipos=equipos)
 # Actualizar clasificación de los grupos
 def actualizar_clasificacion(local, resultado_local, resultado_visitante, visitante):
     # Convertir los resultados a enteros
@@ -1955,11 +1997,13 @@ def obtener_jornadas_liga():
 
     jornadas = {
         'dia_1': [],
-        'dia_2': []
+        'dia_2': [],
+        'dia_3': [],
+        'dia_4': []
     }
 
     partidos = EurocupAliados.query.filter(
-        EurocupAliados.encuentros.in_(['dia_1', 'dia_2'])
+        EurocupAliados.encuentros.in_(['dia_1', 'dia_2', 'dia_3', 'dia_4'])
     ).order_by(
         EurocupAliados.orden,
         EurocupAliados.id
@@ -1984,47 +2028,57 @@ def obtener_eliminatorias():
 
     return eliminatorias
 # Recalcular clasificación
+# Recalcular clasificación incluyendo equipos sin partidos
 def recalcular_clasificacion(jornadas):
     clasificacion = {}
+    
+    # 1. Traer todos los equipos oficiales registrados en la base de datos
+    equipos_registrados = EurocupEquipo.query.order_by(EurocupEquipo.equipo.asc()).all()
+    
+    # 2. Inicializar cada equipo registrado en la clasificación con estadísticas en 0
+    for eq in equipos_registrados:
+        nombre_eq = eq.equipo.strip()
+        clasificacion[nombre_eq] = {
+            'equipo': nombre_eq,
+            'jugados': 0,
+            'ganados': 0,
+            'perdidos': 0,
+            'puntos': 0,
+            'favor': 0,
+            'contra': 0
+        }
 
-    for jornadas, partidos in jornadas.items():
+    # 3. Procesar los partidos para ir sumando las estadísticas reales
+    for nombre_jornada, partidos in jornadas.items():
         for p in partidos:
             if not p.local or not p.visitante:
                 continue
-            
+                
             local = p.local.strip()
             visitante = p.visitante.strip()
-
+            
+            # Salvaguarda por si hay algún equipo escrito en partidos que no se registró en EurocupEquipo
             if local not in clasificacion:
-                clasificacion[local] = {
-                    'equipo': local, 'jugados': 0, 'ganados': 0,
-                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
-                }
-
+                clasificacion[local] = {'equipo': local, 'jugados': 0, 'ganados': 0, 'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0}
             if visitante not in clasificacion:
-                clasificacion[visitante] = {
-                    'equipo': visitante, 'jugados': 0, 'ganados': 0,
-                    'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0
-                }
-
-            # 👉 si no hay resultado, NO se calcula nada más
+                clasificacion[visitante] = {'equipo': visitante, 'jugados': 0, 'ganados': 0, 'perdidos': 0, 'puntos': 0, 'favor': 0, 'contra': 0}
+            
+            # 👉 Si no hay resultado válido asignado, saltamos el cálculo de puntos pero el equipo ya existe en el diccionario
             if not p.resultadoA or not p.resultadoB:
                 continue
-
             if not p.resultadoA.isdigit() or not p.resultadoB.isdigit():
                 continue
-
+                
             resA = int(p.resultadoA)
             resB = int(p.resultadoB)
-
+            
             clasificacion[local]['jugados'] += 1
             clasificacion[visitante]['jugados'] += 1
-
             clasificacion[local]['favor'] += resA
             clasificacion[local]['contra'] += resB
             clasificacion[visitante]['favor'] += resB
             clasificacion[visitante]['contra'] += resA
-
+            
             if resA > resB:
                 clasificacion[local]['ganados'] += 1
                 clasificacion[local]['puntos'] += 2
@@ -2038,7 +2092,8 @@ def recalcular_clasificacion(jornadas):
             else:
                 clasificacion[local]['puntos'] += 1
                 clasificacion[visitante]['puntos'] += 1
-
+                
+    # 4. Ordenar la clasificación final por los criterios establecidos
     clasificacion_ordenada = sorted(
         clasificacion.items(),
         key=lambda x: (
@@ -2047,8 +2102,9 @@ def recalcular_clasificacion(jornadas):
             -x[1]["favor"]
         )
     )
+    
+    return clasificacion_ordenada, equipos_registrados
 
-    return clasificacion_ordenada
 # Modificar los partidos de los playoff
 @aliados_route_bp.route('/modificar_eurocup_aliados/<string:encuentros>', methods=['POST'])
 def modificar_eurocup_aliados(encuentros):
@@ -2085,9 +2141,7 @@ def eliminar_eurocup_aliados(identificador):
 @aliados_route_bp.route('/aliados_eurocup/')
 def aliados_eurocup():
     jornadas = obtener_jornadas_liga()
-    clasificacion = recalcular_clasificacion(
-        jornadas
-    )
+    clasificacion, _ = recalcular_clasificacion(jornadas)
     partidos_schema = obtener_partidos_schema(jornadas)
     return render_template(
         'europa/aliados_eurocup.html',

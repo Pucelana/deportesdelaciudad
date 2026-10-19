@@ -8,6 +8,62 @@
     </ol>
 {% endblock %}
 {% block contenido %}
+  <section class="container-lg py-4">
+  <h2 class="text-center mb-4">Equipos Eurocup Aliados</h2>
+
+  <form method="POST"
+        action="{{ url_for('aliados_route_bp.administrar_equipos_eurocup_aliados') }}"
+        class="row g-2 mb-4">
+
+    <div class="col-md-9">
+      <label for="equipo" class="form-label">Nombre del equipo</label>
+      <input type="text"
+             class="form-control"
+             id="equipo"
+             name="equipo"
+             maxlength="100"
+             required>
+    </div>
+
+    <div class="col-md-3 d-flex align-items-end">
+      <button type="submit" class="btn btn-primary w-100">
+        Añadir equipo
+      </button>
+    </div>
+  </form>
+
+  <h3 class="mb-3">Equipos registrados</h3>
+
+  {% if equipos %}
+    <div class="table-responsive">
+      <table class="table table-bordered align-middle">
+        <thead>
+          <tr>
+            <th>Equipo</th>
+            <th class="text-center">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for equipo in equipos %}
+            <tr>
+              <td>{{ equipo.equipo }}</td>
+              <td class="text-center">
+                <form method="POST"
+                      action="{{ url_for('aliados_route_bp.eliminar_equipo_eurocup_aliados', id=equipo.id) }}">
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    Eliminar
+                  </button>
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-center">Todavía no hay equipos registrados.</p>
+  {% endif %}
+  </section>
   <section class="container-lg">
     <!-- Formulario para los resultados de los partidos -->
     <div class="container-lg d-flex justify-content-center">
@@ -17,6 +73,8 @@
         <select id="encuentros" name="encuentros">
           <option value="dia_1">Día 1</option>
           <option value="dia_2">Día 2</option>
+          <option value="dia_3">Día 3</option>
+          <option value="dia_4">Día 4</option>
           <option value="partido1">Partido 1</option>
           <option value="partido2">Partido 2</option>
           <option value="partido3">Partido 3</option>
@@ -93,7 +151,9 @@
     <!-- Modificar partido -->
       <button type="button" class="btn btn-sm btn-info text-white" data-bs-toggle="modal" data-bs-target="#modal-{{ fase }}">Modificar</button>
     <!-- Borrar partido -->
-      <form method="POST" action="{{ url_for('aliados_route_bp.eliminar_eurocup_aliados', identificador=jornada) }}">
+      <form method="POST"
+        action="{{ url_for('aliados_route_bp.eliminar_eurocup_aliados', identificador=fase) }}"
+        onsubmit="return confirm('¿Quieres borrar todos los partidos de esta fase?');">
         <button type="submit" class="btn btn-sm btn-danger">Borrar</button>
       </form>
     </div>
@@ -229,8 +289,8 @@
         var selectedOption = selectEliminatoria.value;
         // Determinar el número de partidos según la etapa seleccionada
         var numPartidos;
-        if (selectedOption.startsWith("dia_1") || selectedOption.startsWith("dia_2")) { 
-          numPartidos = 5;
+        if (selectedOption.startsWith("dia_1") || selectedOption.startsWith("dia_2") || selectedOption.startsWith("dia_3") || selectedOption.startsWith("dia_4") )  { 
+          numPartidos = 3;
         } else if (selectedOption === "partido1") {
           numPartidos = 8;
         } else if (selectedOption === "partido2") {

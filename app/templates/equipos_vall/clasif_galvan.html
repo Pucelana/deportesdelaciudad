@@ -98,7 +98,7 @@ Consulta la clasificación actualizada del Valladolid Tierno Galván.
                   {% for equipo in clasificacion_analisis_galvan %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>

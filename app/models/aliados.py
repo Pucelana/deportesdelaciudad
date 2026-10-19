@@ -137,7 +137,13 @@ class EurocupAliados(db.Model):
     resultadoA = db.Column(db.String(120))  # Resultado del equipo local
     resultadoB = db.Column(db.String(120))  # Resultado del equipo visitante
     visitante = db.Column(db.String(255))
-    orden = db.Column(db.Integer)      
+    orden = db.Column(db.Integer)   
+
+class EurocupEquipo(db.Model):
+    __tablename__ = 'eurocup_equipos'
+
+    id = db.Column(db.Integer, primary_key=True)
+    equipo = db.Column(db.String(100), nullable=False, unique=True)       
     
 
           

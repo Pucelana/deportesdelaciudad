@@ -99,7 +99,7 @@ Consulta la clasificación actualizada del Valladolid S.S..
                   {% for equipo in clasificacion_analisis_vall_sala %}
                   <tr>
                     <td
-                      class="equipo-mobile text-center {% if loop.index <= 3 %}pos-ascen{% elif loop.index <= 13 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}"
+                      class="equipo-mobile text-center {% if loop.index <= 1 %}pos-ascen{% elif loop.index <= 14 %}pos-nada{% elif loop.index <= 16 %}pos-desc{% endif %}"
                     >
                       {{ loop.index }}
                     </td>
@@ -142,7 +142,7 @@ Consulta la clasificación actualizada del Valladolid S.S..
             PT(Puntos); J(Jugados); G(Ganados); E(Empatados); P(Perdidos); F(Favor);C(Contra); DG(Dif. Goles)
           </small>
           <small class="text-center mb-3">
-            Playoff (Ascenso)<span class="badge bg-success ms-2">1-4</span>; Descenso<span class="badge bg-danger">14-16</span>
+            Playoff (Ascenso)<span class="badge bg-success ms-2">1</span>; Descenso<span class="badge bg-danger">15-16</span>
           </small>
         </div>
       </div>
