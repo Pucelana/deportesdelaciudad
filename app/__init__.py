@@ -42,12 +42,14 @@ from .seo.sitemap_copa import sitemap_copa_bp
 from .seo.sitemap_europa import sitemap_europa_bp
 from .seo.sitemap_playoff import sitemap_playoff_bp
 from .seo.sitemap_historial import sitemap_historial_bp
+from .seo.sitemap_resumenes import sitemap_resumenes_bp
 from .routes.seo_routes import seo_bp
 from app.seo.social import SOCIAL
 from .routes.menu_competiciones_route import menu_competiciones_bp
 from .routes.service_worker_route import service_worker_bp
 from app.utils.sincronizar_menu import sincronizar_menu_competiciones
 from .seo.sitemap_index import sitemap_index_bp
+from .routes.resumenes_route import resumenes_route_bp
 
 def create_app():
     load_dotenv()
@@ -119,9 +121,11 @@ def create_app():
     app.register_blueprint(sitemap_europa_bp)
     app.register_blueprint(sitemap_playoff_bp)
     app.register_blueprint(sitemap_historial_bp)
+    app.register_blueprint(sitemap_resumenes_bp)
     app.register_blueprint(seo_bp)
     app.register_blueprint(menu_competiciones_bp)
     app.register_blueprint(service_worker_bp)
+    app.register_blueprint(resumenes_route_bp)
     print("\n========== RUTAS REGISTRADAS ==========\n")
 
     for rule in sorted(app.url_map.iter_rules(), key=lambda r: r.rule):

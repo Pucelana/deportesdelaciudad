@@ -1,0 +1,155 @@
+
+{% extends "admin/resumenes/base_resumen.html" %}
+
+{% block title %}
+    Administrar resúmenes | Deportes de la Ciudad
+{% endblock %}
+
+{% block nav %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-1">
+        <li class="breadcrumb-item">
+            <a href="/admin/pub_marcadores" class="text-white text-decoration-none text-analisis fs-6">Inicio</a>
+        </li>
+        <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+            Resumen Jornada
+        </li>
+    </ol>
+</nav>
+<div class="container mt-3">
+    <a href="{{ url_for('resumenes_route_bp.crear_resumen_jornada') }}"
+       class="btn btn-primary btn-sm">
+        + Crear resumen
+    </a>
+</div>
+{% endblock %}
+
+{% block contenido %}
+<div class="container-lg my-4">
+
+    <h2 class="text-center mb-4">Administrar resúmenes de jornada</h2>
+
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+        {% for categoria, mensaje in mensajes %}
+            <div class="alert alert-{{ categoria }}" role="alert">
+                {{ mensaje }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <form method="GET"
+          action="{{ url_for('resumenes_route_bp.ver_resumenes_admin') }}"
+          class="card card-body mb-4">
+
+        <h3 class="h5 mb-3">Filtrar resúmenes</h3>
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="fecha" class="form-label">Fecha</label>
+                <input type="date"
+                       class="form-control"
+                       id="fecha"
+                       name="fecha"
+                       value="{{ fecha_filtro }}">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="deporte" class="form-label">Deporte</label>
+                <input type="text"
+                       class="form-control"
+                       id="deporte"
+                       name="deporte"
+                       value="{{ deporte_filtro }}"
+                       placeholder="Ej.: Balonmano">
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="equipo" class="form-label">Equipo</label>
+                <input type="text"
+                       class="form-control"
+                       id="equipo"
+                       name="equipo"
+                       value="{{ equipo_filtro }}"
+                       placeholder="Nombre del equipo">
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">
+                Buscar
+            </button>
+
+            <a href="{{ url_for('resumenes_route_bp.ver_resumenes_admin') }}"
+               class="btn btn-outline-secondary">
+                Limpiar filtros
+            </a>
+        </div>
+    </form>
+
+    <p>
+        <strong>Total de resúmenes encontrados:</strong>
+        {{ resumenes|length }}
+    </p>
+
+    {% if resumenes %}
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Deporte</th>
+                        <th>Equipo</th>
+                        <th>Titular</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for resumen in resumenes %}
+                    <tr>
+                        <td>{{ resumen.fecha.strftime('%d/%m/%Y') }}</td>
+                        <td>{{ resumen.deporte }}</td>
+                        <td>{{ resumen.equipo }}</td>
+                        <td>{{ resumen.titular }}</td>
+
+                        <td>
+                            {% if resumen.publicado %}
+                                <span class="badge bg-success">Publicado</span>
+                            {% else %}
+                                <span class="badge bg-secondary">Borrador</span>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <div class="d-flex flex-wrap gap-2">
+                                <a href="{{ url_for('resumenes_route_bp.modificar_resumen_jornada', id=resumen.id) }}"
+                                   class="btn btn-sm btn-outline-primary">
+                                    Editar
+                                </a>
+
+                                <form method="POST"
+                                      action="{{ url_for('resumenes_route_bp.eliminar_resumen_jornada', id=resumen.id) }}"
+                                      onsubmit="return confirm('¿Seguro que quieres eliminar este resumen? Esta acción no se puede deshacer.');">
+
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-danger">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            Todavía no hay resúmenes que mostrar con estos filtros.
+            Puedes crear el primero con el botón «Crear resumen».
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

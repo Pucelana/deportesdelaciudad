@@ -43,3 +43,55 @@
     font-size: 0.70em;
   }
 }
+
+/* CSS RESUMEN JORNADA */
+
+.texto-resumen-formato {
+    white-space: pre-line;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+/* Tablas de resúmenes en tablet y PC */
+.resumenes-tabla-escritorio {
+    width: 100%;
+    max-width: 100%;
+}
+
+.resumenes-tabla-escritorio .tabla_equipos {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.resumenes-tabla-escritorio .tabla_equipos th,
+.resumenes-tabla-escritorio .tabla_equipos td {
+    overflow-wrap: anywhere;
+    word-wrap: break-word;
+}
+
+/* Texto de los resúmenes */
+.texto-resumen-formato {
+    white-space: pre-line;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+/* Evitar que la tabla móvil supere el ancho disponible */
+@media (max-width: 767.98px) {
+    .tab-container,
+    .tab-pane,
+    .tab-pane section,
+    .tab-pane .tabla_equipos {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .tab-pane .tabla_equipos {
+        table-layout: fixed;
+    }
+
+    .tab-pane .tabla_equipos td {
+        overflow-wrap: anywhere;
+        word-wrap: break-word;
+    }
+}

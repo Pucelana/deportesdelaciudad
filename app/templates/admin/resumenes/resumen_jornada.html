@@ -1,0 +1,137 @@
+{% extends "admin/resumenes/base_resumen.html" %}
+
+{% block title %}
+{{ accion }} resumen | Deportes de la Ciudad
+{% endblock %}
+
+{% block nav %}
+<div class="container mt-3">
+
+    <a href="{{ url_for('resumenes_route_bp.ver_resumenes_admin') }}" class="btn btn-outline-secondary btn-sm">
+        ← Volver a los resúmenes
+    </a>
+</div>
+{% endblock %}
+
+{% block contenido %}
+<div class="container my-4" style="max-width: 850px;">
+
+    <h2 class="text-center mb-4">
+        {{ accion }} resumen de jornada
+    </h2>
+
+    {% with mensajes = get_flashed_messages(with_categories=true) %}
+    {% for categoria, mensaje in mensajes %}
+    <div class="alert alert-{{ categoria }}" role="alert">
+        {{ mensaje }}
+    </div>
+    {% endfor %}
+    {% endwith %}
+
+    <form method="POST"
+        action="{% if resumen %}{{ url_for('resumenes_route_bp.modificar_resumen_jornada', id=resumen.id) }}{% else %}{{ url_for('resumenes_route_bp.crear_resumen_jornada') }}{% endif %}">
+
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label for="fecha" class="form-label">Fecha del partido *</label>
+                <input type="date" class="form-control" id="fecha" name="fecha"
+                    value="{{ resumen.fecha.isoformat() if resumen and resumen.fecha else '' }}" required>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="fecha_inicio" class="form-label">Inicio del periodo *</label>
+                <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio"
+                    value="{{ resumen.fecha_inicio.isoformat() if resumen and resumen.fecha_inicio else '' }}" required>
+            </div>
+
+            <div class="col-md-4 mb-3">
+                <label for="fecha_fin" class="form-label">Fin del periodo *</label>
+                <input type="date" class="form-control" id="fecha_fin" name="fecha_fin"
+                    value="{{ resumen.fecha_fin.isoformat() if resumen and resumen.fecha_fin else '' }}" required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="deporte" class="form-label">Deporte *</label>
+                <input type="text" class="form-control" id="deporte" name="deporte" maxlength="30"
+                    value="{{ resumen.deporte if resumen else '' }}" placeholder="Ej.: Baloncesto" required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="equipo" class="form-label">Equipo de Valladolid *</label>
+            <input type="text" class="form-control" id="equipo" name="equipo" maxlength="80"
+                value="{{ resumen.equipo if resumen else '' }}" placeholder="Ej.: UEMC Valladolid" required>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="competicion" class="form-label">Competición</label>
+                <input type="text" class="form-control" id="competicion" name="competicion" maxlength="100"
+                    value="{{ resumen.competicion or '' if resumen else '' }}" placeholder="Ej.: Primera FEB">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="temporada" class="form-label">Temporada</label>
+                <input type="text" class="form-control" id="temporada" name="temporada" maxlength="20"
+                    value="{{ resumen.temporada or '' if resumen else '' }}" placeholder="Ej.: 2026/2027">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="jornada" class="form-label">Jornada</label>
+                <input type="text" class="form-control" id="jornada" name="jornada" maxlength="30"
+                    value="{{ resumen.jornada or '' if resumen else '' }}" placeholder="Ej.: Jornada 3">
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="rival" class="form-label">Rival</label>
+                <input type="text" class="form-control" id="rival" name="rival" maxlength="100"
+                    value="{{ resumen.rival or '' if resumen else '' }}">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="resultado" class="form-label">Resultado</label>
+            <input type="text" class="form-control" id="resultado" name="resultado" maxlength="30"
+                value="{{ resumen.resultado or '' if resumen else '' }}" placeholder="Ej.: 82-75">
+        </div>
+
+        <div class="mb-3">
+            <label for="titular" class="form-label">Titular *</label>
+            <input type="text" class="form-control" id="titular" name="titular" maxlength="200"
+                value="{{ resumen.titular if resumen else '' }}" placeholder="Titular del resumen del equipo" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="contenido" class="form-label">
+                Texto del resumen *
+            </label>
+            <textarea class="form-control" id="contenido" name="contenido" rows="8" required
+                placeholder="Escribe aquí la crónica del partido...">{{ resumen.contenido if resumen else '' }}</textarea>
+        </div>
+
+        <div class="form-check mb-4">
+            <input class="form-check-input" type="checkbox" id="publicado" name="publicado" {% if resumen is none or
+                resumen.publicado %}checked{% endif %}>
+            <label class="form-check-label" for="publicado">
+                Publicar el resumen
+            </label>
+            <div class="form-text">
+                Si desmarcas esta casilla, el resumen quedará como borrador.
+            </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2">
+            <button type="submit" class="btn btn-primary">
+                {{ accion }} resumen
+            </button>
+
+            <a href="{{ url_for('resumenes_route_bp.ver_resumenes_admin') }}" class="btn btn-outline-secondary">
+                Cancelar
+            </a>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

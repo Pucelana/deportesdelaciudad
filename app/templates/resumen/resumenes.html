@@ -1,0 +1,325 @@
+{% extends "resumen/base_resu.html" %}
+
+{% block title %}
+Resumen deportivo de Valladolid | Deportes de la Ciudad
+{% endblock %}
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-1">
+        <li class="breadcrumb-item">
+            <a href="/" class="text-white text-decoration-none text-analisis fs-6">Inicio</a>
+        </li>
+        <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+            Resumen Jornada
+        </li>
+    </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+
+<div class="container my-2">
+
+    <!-- TÍTULO PRINCIPAL -->
+    <h1 class="text-center mb-2 responsive-title">
+        Resumen deportivo de Valladolid
+    </h1>
+
+    <p class="text-center mb-3">
+        Repasamos los resultados y lo más destacado de los equipos
+        de Valladolid, semana a semana.
+    </p>
+
+    {% if fecha_seleccionada %}
+
+    <!-- SELECTOR DE FECHAS -->
+    <div class="selector-jornadas">
+
+        <div class="selector-jornadas-escritorio d-flex justify-content-center align-items-center flex-wrap gap-3 my-2">
+
+            {% if fecha_anterior %}
+            <a href="{{ url_for(
+                'resumenes_route_bp.pagina_resumenes',
+                fecha=fecha_anterior.isoformat()
+            ) }}" class="btn-jornada text-decoration-none text-white fs-6">
+                ‹ Anterior
+            </a>
+            {% endif %}
+
+            <span class="fw-bold fs-5">
+                {{ fecha_seleccionada.strftime('%d/%m') }} - {{ fecha_fin_seleccionada.strftime('%d/%m') }}
+            </span>
+
+            {% if fecha_siguiente %}
+            <a href="{{ url_for(
+                'resumenes_route_bp.pagina_resumenes',
+                fecha=fecha_siguiente.isoformat()
+            ) }}" class="btn-jornada text-decoration-none text-white fs-6">
+                Siguiente ›
+            </a>
+            {% endif %}
+
+        </div>
+
+        <!-- HISTORIAL DE FECHAS -->
+        {% if fechas_disponibles|length > 1 %}
+        <div class="text-center mb-4">
+
+            <label id="historialFechas" class="form-label">
+                Consultar otra semana
+            </label>
+
+            <select class="form-select mx-auto" style="max-width: 150px;" id="selector-periodo"
+                onchange="if (this.value) window.location.href=this.value;">
+                {% for periodo in periodos_disponibles %}
+                <option value="{{ url_for('resumenes_route_bp.pagina_resumenes', fecha=periodo.inicio.isoformat()) }}"
+                    {% if periodo.inicio==fecha_seleccionada %}selected{% endif %}>
+                    {{ periodo.inicio.strftime('%d/%m') }} - {{ periodo.fin.strftime('%d/%m') }}
+                </option>
+                {% endfor %}
+            </select>
+
+        </div>
+        {% endif %}
+
+    </div>
+
+    <!-- RESÚMENES POR DEPORTE -->
+    <!-- RESÚMENES POR DEPORTE CON PESTAÑAS -->
+    <div class="resumenes-tabs">
+
+        <!-- BOTONES DE DEPORTES -->
+        <div class="d-flex justify-content-center flex-wrap my-2 gap-1">
+            {% for deporte, resumenes in resumenes_por_deporte.items() %}
+            <button type="button" class="btn btn-outline-light tab-btn {% if loop.first %}active{% endif %}"
+                data-tab="resumen-deporte-{{ loop.index }}">
+                {{ deporte }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <!-- CONTENIDO DE CADA DEPORTE -->
+        <div class="tab-container">
+
+            {% for deporte, resumenes in resumenes_por_deporte.items() %}
+
+            <div class="tab-pane {% if loop.first %}active{% else %}d-none{% endif %}"
+                id="resumen-deporte-{{ loop.index }}">
+
+                <section class="mb-3">
+
+                    <h2 class="text-center fondo_jornadas text-white fw-bold p-1 mb-0 fs-4">
+                        {{ deporte }}
+                    </h2>
+
+                    <!-- TABLET / PC -->
+                    <div class="table-responsive resumenes-tabla-escritorio d-none d-md-block">
+
+                        <table class="table table-bordered tabla_equipos align-middle mb-0">
+                            <thead>
+                                <tr class="text-center">
+                                    <th style="width: 15%;">Equipo</th>
+                                    <th style="width: 20%;">Partido</th>
+                                    <th>Resumen de la jornada</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for resumen in resumenes %}
+                                <tr>
+                                    <td class="fw-bold text-center">
+                                        {{ resumen.equipo }}
+                                    </td>
+
+                                    <td class="text-center">
+                                        {% if resumen.rival %}
+                                        {{ resumen.rival }}
+                                        {% endif %}
+
+                                        {% if resumen.resultado %}
+                                        <div class="fs-6 fw-bold">
+                                            {{ resumen.resultado }}
+                                        </div>
+                                        {% endif %}
+
+                                        {% if resumen.competicion %}
+                                        <small class="text-muted">
+                                            {{ resumen.competicion }}
+                                        </small>
+                                        {% endif %}
+                                    </td>
+
+                                    <td>
+                                        <h3 class="h6 fw-bold">
+                                            {{ resumen.titular }}
+                                        </h3>
+
+                                        <div class="contenido-resumen">
+                                            <div class="texto-resumen texto-resumen-formato">{{ resumen.contenido }}</div>
+                                            <button type="button" class="btn btn-link p-0 boton-leer-mas">
+                                                Leer más
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                    <!-- MÓVIL -->
+                    <div class="d-block d-md-none">
+
+                        <table class="table table-bordered tabla_equipos align-middle mb-0">
+                            <tbody>
+                                {% for resumen in resumenes %}
+                                <tr>
+                                    <td>
+                                        <h3 class="h5 fw-bold">
+                                            {{ resumen.equipo }}
+                                        </h3>
+
+                                        {% if resumen.rival %}
+                                        <div>{{ resumen.rival }}</div>
+                                        {% endif %}
+
+                                        {% if resumen.resultado %}
+                                        <div class="fw-bold">
+                                            Resultado: {{ resumen.resultado }}
+                                        </div>
+                                        {% endif %}
+
+                                        {% if resumen.competicion %}
+                                        <small class="text-muted">
+                                            {{ resumen.competicion }}
+                                        </small>
+                                        {% endif %}
+
+                                        <h4 class="h6 fw-bold mt-3">
+                                            {{ resumen.titular }}
+                                        </h4>
+
+                                        <div class="contenido-resumen">
+                                            <div class="texto-resumen texto-resumen-formato">{{ resumen.contenido }}</div>
+                                            <button type="button" class="btn btn-link p-0 boton-leer-mas">
+                                                Leer más
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Selector de fechas
+        const selector = document.getElementById("historialFechas");
+
+        if (selector) {
+            selector.addEventListener("change", function () {
+                if (this.value) {
+                    window.location.href = this.value;
+                }
+            });
+        }
+
+        // Mostrar las primeras 50 palabras y desplegar el resto
+        document.querySelectorAll(".contenido-resumen").forEach(function (bloque) {
+
+            const texto = bloque.querySelector(".texto-resumen");
+            const boton = bloque.querySelector(".boton-leer-mas");
+
+            const contenidoCompleto = texto.textContent.trim();
+            const palabras = contenidoCompleto.split(/\s+/);
+
+            if (palabras.length <= 25) {
+                boton.hidden = true;
+                return;
+            }
+
+            const contenidoCorto = palabras.slice(0, 25).join(" ") + "...";
+
+            texto.textContent = contenidoCorto;
+
+            boton.addEventListener("click", function () {
+
+                const expandido = boton.dataset.expandido === "true";
+
+                if (expandido) {
+                    texto.textContent = contenidoCorto;
+                    boton.textContent = "Leer más";
+                    boton.dataset.expandido = "false";
+                } else {
+                    texto.textContent = contenidoCompleto;
+                    boton.textContent = "Leer menos";
+                    boton.dataset.expandido = "true";
+                }
+
+            });
+
+        });
+
+    });
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".resumenes-tabs").forEach(function (grupo) {
+
+        const botones = grupo.querySelectorAll(".tab-btn");
+        const paneles = grupo.querySelectorAll(".tab-pane");
+
+        botones.forEach(function (boton) {
+
+            boton.addEventListener("click", function () {
+
+                const idPanel = boton.dataset.tab;
+
+                paneles.forEach(function (panel) {
+                    panel.classList.add("d-none");
+                    panel.classList.remove("active");
+                });
+
+                botones.forEach(function (otroBoton) {
+                    otroBoton.classList.remove("active");
+                });
+
+                const panelActivo = grupo.querySelector("#" + idPanel);
+
+                if (panelActivo) {
+                    panelActivo.classList.remove("d-none");
+                    panelActivo.classList.add("active");
+                    boton.classList.add("active");
+                }
+
+            });
+
+        });
+
+    });
+
+});
+</script>
+
+{% endblock %}
