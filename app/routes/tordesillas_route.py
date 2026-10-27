@@ -927,13 +927,46 @@ def copas_tordesillas():
         "semifinales",
         "final",
     ]
-    datos_copa = {
-        e: CopaTordesillas.query.filter_by(eliminatoria=e).all() for e in eliminatorias
+    
+    max_partidos_por_eliminatoria = {
+        "ronda1": 55,
+        "ronda2": 28,
+        "ronda3": 14,
+        "ronda4": 8,
+        "octavos": 8,
+        "cuartos": 4,
+        "semifinales": 2,
+        "final": 1,
     }
+    
+    # Obtener los partidos de todas las rondas
+    datos_copa = {}
+    
+    for eliminatoria in eliminatorias:
+    
+        partidos = CopaTordesillas.query.filter_by(
+            eliminatoria=eliminatoria
+        ).all()
+    
+        datos_copa[eliminatoria] = partidos
+    
+    # La primera ronda es la seleccionada por defecto
+    ronda_actual = eliminatorias[0]
+    
+    for eliminatoria in eliminatorias:
+        partidos = datos_copa[eliminatoria]
+    
+        if partidos and all(
+            partido.local and partido.local.strip()
+            and partido.visitante and partido.visitante.strip()
+            for partido in partidos
+        ):
+            ronda_actual = eliminatoria
     partidos_schema = obtener_partidos_schema(eliminatorias)
     return render_template(
         "copas/tordesillas_copa.html", 
         datos_copa=datos_copa,
+        ronda_actual=ronda_actual,
         breadcrumb=jsonld(
             schema_breadcrumb_equipo("tordesillas")
         ),

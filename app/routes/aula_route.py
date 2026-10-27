@@ -1577,34 +1577,58 @@ def eliminar_copa_aula(eliminatoria):
 # Mostrar la copa del Aliados
 @aula_route_bp.route('/copas_aula/')
 def copas_aula():
-    eliminatorias = ['fase1' ,'fase2', 'cuartos', 'semifinales', 'final']
+    eliminatorias = ['fase1', 'fase2', 'cuartos', 'semifinales', 'final']
+
     datos_copa = {}
+
     for eliminatoria in eliminatorias:
-        partidos = CopaAula.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_copa[eliminatoria] = partidos   
-    partidos_schema = obtener_partidos_schema(datos_copa)    
-    return render_template('copas/aula_copa.html', 
-                        datos_copa=datos_copa,
-                        breadcrumb=jsonld(schema_breadcrumb_equipo("aula")),
-                        schema_team=jsonld(
-                            schema_sports_team(
-                                "aula",
-                                "https://deportesdelaciudad.es/copas_aula/"
-                            )
-                        ),
-                        schema_competition=jsonld(
-                            schema_sports_competition(
-                                "aula",
-                                "https://deportesdelaciudad.es/copas_aula/"
-                            )
-                        ),
-                        schema_eventos=jsonld(
-                            schema_partidos(
-                                partidos_schema,
-                                "aula",
-                                "https://deportesdelaciudad.es/copas_aula/"
-                            )
-                        )
+        partidos = CopaAula.query.filter_by(
+            eliminatoria=eliminatoria
+        ).all()
+
+        datos_copa[eliminatoria] = partidos
+
+    # Seleccionar la última ronda que tenga todos sus enfrentamientos cargados
+    ronda_actual = eliminatorias[0]
+
+    for eliminatoria in eliminatorias:
+        partidos = datos_copa[eliminatoria]
+
+        if partidos and all(
+            partido.local and partido.local.strip()
+            and partido.visitante and partido.visitante.strip()
+            for partido in partidos
+        ):
+            ronda_actual = eliminatoria
+
+    partidos_schema = obtener_partidos_schema(datos_copa)
+
+    return render_template(
+        'copas/aula_copa.html',
+        datos_copa=datos_copa,
+        ronda_actual=ronda_actual,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("aula")
+        ),
+        schema_team=jsonld(
+            schema_sports_team(
+                "aula",
+                "https://deportesdelaciudad.es/copas_aula/"
+            )
+        ),
+        schema_competition=jsonld(
+            schema_sports_competition(
+                "aula",
+                "https://deportesdelaciudad.es/copas_aula/"
+            )
+        ),
+        schema_eventos=jsonld(
+            schema_partidos(
+                partidos_schema,
+                "aula",
+                "https://deportesdelaciudad.es/copas_aula/"
+            )
+        )
     )
 
 # SUPERCOPA IBÉRICA AULA VALLADOLID

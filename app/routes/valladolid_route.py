@@ -955,59 +955,14 @@ def copas_valladolid():
     # La primera ronda es la seleccionada por defecto
     ronda_actual = eliminatorias[0]
 
-    for i, eliminatoria in enumerate(eliminatorias):
+    for eliminatoria in eliminatorias:
         partidos = datos_copa[eliminatoria]
-        max_partidos = max_partidos_por_eliminatoria[eliminatoria]
 
-        # Comprobar si están cargados todos los enfrentamientos
-        enfrentamientos_completos = (
-            len(partidos) == max_partidos
-            and all(
-                partido.local and partido.local.strip()
-                and partido.visitante and partido.visitante.strip()
-                for partido in partidos
-            )
-        )
-
-        # Si la ronda no tiene todos los enfrentamientos, es la actual
-        if not enfrentamientos_completos:
-            ronda_actual = eliminatoria
-            break
-
-        # Comprobar si todos los partidos tienen resultado
-        resultados_completos = all(
-            partido.resultadoA is not None
-            and str(partido.resultadoA).strip() != ''
-            and partido.resultadoB is not None
-            and str(partido.resultadoB).strip() != ''
+        if partidos and all(
+            partido.local and partido.local.strip()
+            and partido.visitante and partido.visitante.strip()
             for partido in partidos
-        )
-
-        # Si faltan resultados, mantener esta ronda seleccionada
-        if not resultados_completos:
-            ronda_actual = eliminatoria
-            break
-
-        # Si esta ronda está terminada, comprobar la siguiente
-        if i + 1 < len(eliminatorias):
-            siguiente_eliminatoria = eliminatorias[i + 1]
-            partidos_siguiente = datos_copa[siguiente_eliminatoria]
-
-            siguiente_completa = (
-                len(partidos_siguiente) == max_partidos_por_eliminatoria[siguiente_eliminatoria]
-                and all(
-                    partido.local and partido.local.strip()
-                    and partido.visitante and partido.visitante.strip()
-                    for partido in partidos_siguiente
-                )
-            )
-
-            if siguiente_completa:
-                ronda_actual = siguiente_eliminatoria
-            else:
-                ronda_actual = eliminatoria
-                break
-        else:
+        ):
             ronda_actual = eliminatoria
 
     partidos_schema = obtener_partidos_schema(eliminatorias)

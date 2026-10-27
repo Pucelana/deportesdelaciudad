@@ -1194,58 +1194,24 @@ def copas_rey_recoletas():
     datos_copa_rey = {}
 
     for eliminatoria in eliminatorias:
-
-        partidos = CopaReyRecoletas.query.filter_by(
+    
+        partidos = CopaRecoletas.query.filter_by(
             eliminatoria=eliminatoria
-        ).order_by(CopaReyRecoletas.orden).all()
-
+        ).all()
+    
         datos_copa_rey[eliminatoria] = partidos
-
-    # La primera ronda será la seleccionada por defecto
+    
+    # La primera ronda es la seleccionada por defecto
     ronda_actual = eliminatorias[0]
-
-    for i, eliminatoria in enumerate(eliminatorias):
-
+    
+    for eliminatoria in eliminatorias:
         partidos = datos_copa_rey[eliminatoria]
-
-        max_partidos = max_partidos_por_eliminatoria[eliminatoria]
-
-        # Comprobar que están definidos todos los enfrentamientos
-        enfrentamientos_completos = (
-            len(partidos) == max_partidos
-            and all(
-                partido.local
-                and partido.local.strip()
-                and partido.visitante
-                and partido.visitante.strip()
-                for partido in partidos
-            )
-        )
-
-        # Si faltan enfrentamientos, esta es la ronda actual
-        if not enfrentamientos_completos:
-            ronda_actual = eliminatoria
-            break
-
-        # Comprobar que todos los partidos tienen sus dos resultados
-        resultados_completos = all(
-            partido.resultadoA is not None
-            and str(partido.resultadoA).strip() != ''
-            and partido.resultadoB is not None
-            and str(partido.resultadoB).strip() != ''
+    
+        if partidos and all(
+            partido.local and partido.local.strip()
+            and partido.visitante and partido.visitante.strip()
             for partido in partidos
-        )
-
-        # Si falta algún resultado, mantener esta ronda seleccionada
-        if not resultados_completos:
-            ronda_actual = eliminatoria
-            break
-
-        # Si la ronda está terminada, seleccionar la siguiente
-        if i + 1 < len(eliminatorias):
-            ronda_actual = eliminatorias[i + 1]
-        else:
-            # Si la final está terminada, mantener seleccionada la final
+        ):
             ronda_actual = eliminatoria
 
     # Datos estructurados de los partidos
