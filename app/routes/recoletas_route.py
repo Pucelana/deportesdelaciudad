@@ -1195,7 +1195,7 @@ def copas_rey_recoletas():
 
     for eliminatoria in eliminatorias:
     
-        partidos = CopaRecoletas.query.filter_by(
+        partidos = CopaReyRecoletas.query.filter_by(
             eliminatoria=eliminatoria
         ).all()
     
