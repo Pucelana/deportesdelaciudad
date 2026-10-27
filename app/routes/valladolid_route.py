@@ -915,8 +915,10 @@ def eliminar_copa_valladolid(eliminatoria):
     db.session.commit()
     return redirect(url_for("valladolid_route_bp.ver_copa_valladolid"))
 # Ver las eliminatorias en la página principal Copa
+
 @valladolid_route_bp.route("/valladolid_copa/")
 def copas_valladolid():
+
     eliminatorias = [
         "ronda1",
         "ronda2",
@@ -927,13 +929,93 @@ def copas_valladolid():
         "semifinales",
         "final",
     ]
-    datos_copa = {
-        e: CopaValladolid.query.filter_by(eliminatoria=e).all() for e in eliminatorias
+
+    max_partidos_por_eliminatoria = {
+        "ronda1": 55,
+        "ronda2": 28,
+        "ronda3": 14,
+        "ronda4": 8,
+        "octavos": 8,
+        "cuartos": 4,
+        "semifinales": 2,
+        "final": 1,
     }
+
+    # Obtener los partidos de todas las rondas
+    datos_copa = {}
+
+    for eliminatoria in eliminatorias:
+
+        partidos = CopaValladolid.query.filter_by(
+            eliminatoria=eliminatoria
+        ).all()
+
+        datos_copa[eliminatoria] = partidos
+
+    # La primera ronda es la seleccionada por defecto
+    ronda_actual = eliminatorias[0]
+
+    for i, eliminatoria in enumerate(eliminatorias):
+        partidos = datos_copa[eliminatoria]
+        max_partidos = max_partidos_por_eliminatoria[eliminatoria]
+
+        # Comprobar si están cargados todos los enfrentamientos
+        enfrentamientos_completos = (
+            len(partidos) == max_partidos
+            and all(
+                partido.local and partido.local.strip()
+                and partido.visitante and partido.visitante.strip()
+                for partido in partidos
+            )
+        )
+
+        # Si la ronda no tiene todos los enfrentamientos, es la actual
+        if not enfrentamientos_completos:
+            ronda_actual = eliminatoria
+            break
+
+        # Comprobar si todos los partidos tienen resultado
+        resultados_completos = all(
+            partido.resultadoA is not None
+            and str(partido.resultadoA).strip() != ''
+            and partido.resultadoB is not None
+            and str(partido.resultadoB).strip() != ''
+            for partido in partidos
+        )
+
+        # Si faltan resultados, mantener esta ronda seleccionada
+        if not resultados_completos:
+            ronda_actual = eliminatoria
+            break
+
+        # Si esta ronda está terminada, comprobar la siguiente
+        if i + 1 < len(eliminatorias):
+            siguiente_eliminatoria = eliminatorias[i + 1]
+            partidos_siguiente = datos_copa[siguiente_eliminatoria]
+
+            siguiente_completa = (
+                len(partidos_siguiente) == max_partidos_por_eliminatoria[siguiente_eliminatoria]
+                and all(
+                    partido.local and partido.local.strip()
+                    and partido.visitante and partido.visitante.strip()
+                    for partido in partidos_siguiente
+                )
+            )
+
+            if siguiente_completa:
+                ronda_actual = siguiente_eliminatoria
+            else:
+                ronda_actual = eliminatoria
+                break
+        else:
+            ronda_actual = eliminatoria
+
     partidos_schema = obtener_partidos_schema(eliminatorias)
+
     return render_template(
-        "copas/valladolid_copa.html", 
+        "copas/valladolid_copa.html",
         datos_copa=datos_copa,
+        ronda_actual=ronda_actual,
         breadcrumb=jsonld(
             schema_breadcrumb_equipo("valladolid")
         ),
@@ -957,6 +1039,7 @@ def copas_valladolid():
             )
         )
     )
+
 
 # PLAYOFF ASCENSO REAL VALLADOLID
 # Crear formulario para los playoff

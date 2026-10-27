@@ -952,93 +952,312 @@ def copas_recoletas():
     )
 
 # COPA DEL REY ATL.VALLADOLID
-# Crear formulario para la copa de españa
+# CREAR PARTIDOS DE LA COPA DEL REY DEL RECOLETAS
 @recoletas_route_bp.route('/admin/crear_copa_rey_recoletas', methods=['GET', 'POST'])
 def crear_copa_rey_recoletas():
+
+    eliminatorias = ['ronda1', 'ronda2', 'octavos', 'cuartos', 'semifinales', 'final']
+
+    max_partidos_por_eliminatoria = {
+        'ronda1': 12,
+        'ronda2': 6,
+        'octavos': 8,
+        'cuartos': 4,
+        'semifinales': 2,
+        'final': 1
+    }
+
     if request.method == 'POST':
-        eliminatoria = request.form.get('eliminatoria')       
-        max_partidos = {
-            'ronda1': 12,
-            'ronda2': 6,
-            'octavos': 8,
-            'cuartos': 4,
-            'semifinales': 2,
-            'final': 1
-        }.get(eliminatoria, 0)
-        num_partidos_str = request.form.get('num_partidos', '0').strip()
-        num_partidos = int(num_partidos_str) if num_partidos_str else 0
-        if num_partidos < 0 or num_partidos > max_partidos:
-            return "Número de partidos no válido"
-        for i in range(num_partidos):
-            partido = CopaReyRecoletas(
-                eliminatoria = eliminatoria,
-                fecha = request.form.get(f'fecha{i}', ''),
-                hora = request.form.get(f'hora{i}', ''),
-                local = request.form.get(f'local{i}', ''),
-                resultadoA = request.form.get(f'resultadoA{i}', ''),
-                resultadoB = request.form.get(f'resultadoB{i}', ''),
-                visitante = request.form.get(f'visitante{i}', '')
-            )
-            db.session.add(partido)
-        db.session.commit()
+
+        eliminatoria = request.form.get('eliminatoria', '').strip()
+
+        if eliminatoria not in eliminatorias:
+            return "Eliminatoria no válida", 400
+
+        try:
+            num_partidos = int(request.form.get('num_partidos', '0'))
+        except (ValueError, TypeError):
+            return "Número de partidos no válido", 400
+
+        max_partidos = max_partidos_por_eliminatoria[eliminatoria]
+
+        if num_partidos < 1 or num_partidos > max_partidos:
+            return "Número de partidos no válido", 400
+
+        try:
+            for i in range(num_partidos):
+
+                partido = CopaReyRecoletas(
+                    eliminatoria=eliminatoria,
+                    fecha=request.form.get(f'fecha{i}', '').strip(),
+                    hora=request.form.get(f'hora{i}', '').strip(),
+                    local=request.form.get(f'local{i}', '').strip(),
+                    resultadoA=request.form.get(f'resultadoA{i}', '').strip(),
+                    resultadoB=request.form.get(f'resultadoB{i}', '').strip(),
+                    visitante=request.form.get(f'visitante{i}', '').strip(),
+                    orden=i
+                )
+
+                db.session.add(partido)
+
+            db.session.commit()
+
+        except Exception:
+            db.session.rollback()
+            raise
+
         return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
-    return render_template('admin/copa/copa_rey_recoletas.html')
-# Ver encuentros copa en Admin
+
+    datos_eliminatorias = {}
+
+    for eliminatoria in eliminatorias:
+        partidos = CopaReyRecoletas.query.filter_by(
+            eliminatoria=eliminatoria
+        ).order_by(CopaReyRecoletas.orden).all()
+
+        datos_eliminatorias[eliminatoria] = partidos
+
+    return render_template(
+        'admin/copa/copa_rey_recoletas.html',
+        datos_eliminatorias=datos_eliminatorias
+    )
+
+
+# VER LOS PARTIDOS DE LA COPA EN ADMINISTRACIÓN
 @recoletas_route_bp.route('/admin/copa_rey_recoletas/')
 def ver_copa_rey_recoletas():
-    eliminatorias = ['ronda1','ronda2','octavos','cuartos','semifinales', 'final']
+
+    eliminatorias = [
+        'ronda1',
+        'ronda2',
+        'octavos',
+        'cuartos',
+        'semifinales',
+        'final'
+    ]
+
     datos_eliminatorias = {}
+
     for eliminatoria in eliminatorias:
-        partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).order_by(CopaReyRecoletas.orden).all()
+
+        partidos = CopaReyRecoletas.query.filter_by(
+            eliminatoria=eliminatoria
+        ).order_by(CopaReyRecoletas.orden).all()
+
         datos_eliminatorias[eliminatoria] = partidos
-    return render_template('admin/copa/copa_rey_recoletas.html', datos_eliminatorias=datos_eliminatorias)
-# Modificar los partidos de la copa
-@recoletas_route_bp.route('/modificar_copa_rey_recoletas/<string:eliminatoria>', methods=['GET', 'POST'])
+
+    return render_template(
+        'admin/copa/copa_rey_recoletas.html',
+        datos_eliminatorias=datos_eliminatorias
+    )
+
+
+# MODIFICAR LOS PARTIDOS DE LA COPA DEL REY
+@recoletas_route_bp.route(
+    '/modificar_copa_rey_recoletas/<string:eliminatoria>',
+    methods=['GET', 'POST']
+)
 def modificar_copa_rey_recoletas(eliminatoria):
+
+    eliminatorias_validas = [
+        'ronda1',
+        'ronda2',
+        'octavos',
+        'cuartos',
+        'semifinales',
+        'final'
+    ]
+
+    if eliminatoria not in eliminatorias_validas:
+        return "Eliminatoria no válida", 400
+
     if request.method == 'POST':
-        num_partidos = int(request.form.get('num_partidos', 0))
-        for i in range(num_partidos):
-            partido_id = request.form.get(f'partido_id{i}')
-            if not partido_id:
-                continue
-            partido_obj = CopaRecoletas.query.get(int(partido_id))
-            if not partido_obj:
-                continue
-            partido_obj.fecha = request.form.get(f'fecha{i}', '')
-            partido_obj.hora = request.form.get(f'hora{i}', '')
-            partido_obj.local = request.form.get(f'local{i}', '')
-            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
-            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
-            partido_obj.visitante = request.form.get(f'visitante{i}', '')
-            partido_obj.orden = i
-        # Commit para guardar los cambios
-        db.session.commit()
-        flash('Copa actualizado correctamente', 'success')
-        return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
-    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
-    return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
-# Eliminar los partidos de la copa
-@recoletas_route_bp.route('/eliminar_copa_rey_recoletas/<string:eliminatoria>', methods=['POST'])
+
+        try:
+            num_partidos = int(request.form.get('num_partidos', '0'))
+
+            if num_partidos < 1:
+                return "Número de partidos no válido", 400
+
+            for i in range(num_partidos):
+
+                partido_id = request.form.get(f'partido_id{i}')
+
+                if not partido_id:
+                    continue
+
+                partido_obj = db.session.get(
+                    CopaReyRecoletas,
+                    int(partido_id)
+                )
+
+                if partido_obj is None:
+                    continue
+
+                # Evitar modificar partidos de otra eliminatoria
+                if partido_obj.eliminatoria != eliminatoria:
+                    continue
+
+                partido_obj.fecha = request.form.get(
+                    f'fecha{i}', ''
+                ).strip()
+
+                partido_obj.hora = request.form.get(
+                    f'hora{i}', ''
+                ).strip()
+
+                partido_obj.local = request.form.get(
+                    f'local{i}', ''
+                ).strip()
+
+                partido_obj.resultadoA = request.form.get(
+                    f'resultadoA{i}', ''
+                ).strip()
+
+                partido_obj.resultadoB = request.form.get(
+                    f'resultadoB{i}', ''
+                ).strip()
+
+                partido_obj.visitante = request.form.get(
+                    f'visitante{i}', ''
+                ).strip()
+
+                partido_obj.orden = i
+
+            db.session.commit()
+
+        except (ValueError, TypeError):
+            db.session.rollback()
+            return "Error: revisa los datos de los partidos.", 400
+
+        except Exception:
+            db.session.rollback()
+            raise
+
+        return redirect(
+            url_for('recoletas_route_bp.ver_copa_rey_recoletas')
+        )
+
+    return redirect(
+        url_for('recoletas_route_bp.ver_copa_rey_recoletas')
+    )
+
+
+# ELIMINAR LOS PARTIDOS DE UNA ELIMINATORIA
+@recoletas_route_bp.route('/eliminar_copa_rey_recoletas/<string:eliminatoria>',methods=['POST'])
 def eliminar_copa_rey_recoletas(eliminatoria):
-    partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
+    eliminatorias_validas = [
+        'ronda1',
+        'ronda2',
+        'octavos',
+        'cuartos',
+        'semifinales',
+        'final'
+    ]
+    if eliminatoria not in eliminatorias_validas:
+        return "Eliminatoria no válida", 400
+
+    partidos = CopaReyRecoletas.query.filter_by(
+        eliminatoria=eliminatoria).all()
+
     for partido in partidos:
         db.session.delete(partido)
+
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
-    return redirect(url_for('recoletas_route_bp.ver_copa_rey_recoletas'))
+
+    return redirect(
+        url_for('recoletas_route_bp.ver_copa_rey_recoletas')
+    )
 # Mostrar la copa del Atl.Valladolid
 @recoletas_route_bp.route('/copas_rey_recoletas/')
 def copas_rey_recoletas():
-    eliminatorias = ['ronda1','ronda2','octavos','cuartos','semifinales', 'final']
+
+    eliminatorias = [
+        'ronda1',
+        'ronda2',
+        'octavos',
+        'cuartos',
+        'semifinales',
+        'final'
+    ]
+
+    max_partidos_por_eliminatoria = {
+        'ronda1': 12,
+        'ronda2': 6,
+        'octavos': 8,
+        'cuartos': 4,
+        'semifinales': 2,
+        'final': 1
+    }
+
+    # Obtener los partidos de todas las eliminatorias
     datos_copa_rey = {}
+
     for eliminatoria in eliminatorias:
-        partidos = CopaReyRecoletas.query.filter_by(eliminatoria=eliminatoria).all()
-        datos_copa_rey[eliminatoria] = partidos   
-    partidos_schema = obtener_partidos_schema(eliminatorias)    
+
+        partidos = CopaReyRecoletas.query.filter_by(
+            eliminatoria=eliminatoria
+        ).order_by(CopaReyRecoletas.orden).all()
+
+        datos_copa_rey[eliminatoria] = partidos
+
+    # La primera ronda será la seleccionada por defecto
+    ronda_actual = eliminatorias[0]
+
+    for i, eliminatoria in enumerate(eliminatorias):
+
+        partidos = datos_copa_rey[eliminatoria]
+
+        max_partidos = max_partidos_por_eliminatoria[eliminatoria]
+
+        # Comprobar que están definidos todos los enfrentamientos
+        enfrentamientos_completos = (
+            len(partidos) == max_partidos
+            and all(
+                partido.local
+                and partido.local.strip()
+                and partido.visitante
+                and partido.visitante.strip()
+                for partido in partidos
+            )
+        )
+
+        # Si faltan enfrentamientos, esta es la ronda actual
+        if not enfrentamientos_completos:
+            ronda_actual = eliminatoria
+            break
+
+        # Comprobar que todos los partidos tienen sus dos resultados
+        resultados_completos = all(
+            partido.resultadoA is not None
+            and str(partido.resultadoA).strip() != ''
+            and partido.resultadoB is not None
+            and str(partido.resultadoB).strip() != ''
+            for partido in partidos
+        )
+
+        # Si falta algún resultado, mantener esta ronda seleccionada
+        if not resultados_completos:
+            ronda_actual = eliminatoria
+            break
+
+        # Si la ronda está terminada, seleccionar la siguiente
+        if i + 1 < len(eliminatorias):
+            ronda_actual = eliminatorias[i + 1]
+        else:
+            # Si la final está terminada, mantener seleccionada la final
+            ronda_actual = eliminatoria
+
+    # Datos estructurados de los partidos
+    partidos_schema = obtener_partidos_schema(eliminatorias)
+
     return render_template(
-        'copas/recoletas_copa_rey.html', 
+        'copas/recoletas_copa_rey.html',
         datos_copa_rey=datos_copa_rey,
-        breadcrumb=jsonld(schema_breadcrumb_equipo("recoletas")),
+        ronda_actual=ronda_actual,
+        breadcrumb=jsonld(
+            schema_breadcrumb_equipo("recoletas")
+        ),
         schema_team=jsonld(
             schema_sports_team(
                 "recoletas",

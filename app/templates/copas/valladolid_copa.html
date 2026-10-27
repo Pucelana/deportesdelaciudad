@@ -34,18 +34,22 @@ Sigue las eliminatorias y resultados de la copa de la reina del Real Valladolid.
 {% block contenido %}
 <!-- Botones de rondas -->
 <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
-  {% for ronda in datos_copa.keys() %}
-  <a href="#"
-     class="btn btn-slide btns-ronda"
-     data-target="ronda{{ loop.index0 }}">
-    {{ ronda|capitalize }}
-  </a>
-  {% endfor %}
+
+    {% for ronda in datos_copa.keys() %}
+
+    <a href="#"
+       class="btn btn-slide btns-ronda {% if ronda == ronda_actual %}active{% endif %}"
+       data-target="ronda{{ loop.index0 }}">
+        {{ ronda|capitalize }}
+    </a>
+
+    {% endfor %}
+
 </div>
 <!-- RONDAS -->
 <div id="contenedor-rondas">
   {% for ronda, partidos in datos_copa.items() %}
-  <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
+  <div class="ronda-item {% if ronda == ronda_actual %}d-block{% else %}d-none{% endif %}"
        id="ronda{{ loop.index0 }}">
     <div class="d-flex justify-content-center">
       <div class="card tabla_copa mt-4 w-100" style="max-width: 55rem">
@@ -107,30 +111,50 @@ Sigue las eliminatorias y resultados de la copa de la reina del Real Valladolid.
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+
     const botones = document.querySelectorAll(".btn-slide");
     const rondas = document.querySelectorAll(".ronda-item");
 
-    botones.forEach((boton) => {
-      boton.addEventListener("click", function (e) {
-        e.preventDefault();
+    function mostrarRonda(targetId, botonActivo) {
 
-        // Oculta todas las rondas
-        rondas.forEach((r) => r.classList.add("d-none"));
-        rondas.forEach((r) => r.classList.remove("d-block"));
+        rondas.forEach((ronda) => {
+            ronda.classList.remove("d-block");
+            ronda.classList.add("d-none");
+        });
 
-        // Activa solo la seleccionada
-        const targetId = this.dataset.target;
-        const targetDiv = document.getElementById(targetId);
-        if (targetDiv) {
-          targetDiv.classList.remove("d-none");
-          targetDiv.classList.add("d-block");
+        const rondaSeleccionada = document.getElementById(targetId);
+
+        if (rondaSeleccionada) {
+            rondaSeleccionada.classList.remove("d-none");
+            rondaSeleccionada.classList.add("d-block");
         }
 
-        // Opcional: marcar el botón activo
-        botones.forEach((b) => b.classList.remove("active"));
-        this.classList.add("active");
-      });
+        botones.forEach((boton) => {
+            boton.classList.remove("active");
+        });
+
+        if (botonActivo) {
+            botonActivo.classList.add("active");
+        }
+    }
+
+    botones.forEach((boton) => {
+
+        boton.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            mostrarRonda(this.dataset.target, this);
+        });
+
     });
-  });
+
+    // Mantener la ronda seleccionada por Flask al cargar la página
+    const botonActivo = document.querySelector(".btn-slide.active");
+
+    if (botonActivo) {
+        mostrarRonda(botonActivo.dataset.target, botonActivo);
+    }
+
+});
 </script>
 {% endblock %}
