@@ -21,3 +21,305 @@
     padding: 1%;
 }
 
+/* TARJETA RESUMEN DE TEMPORADA */
+.tarjeta-temporada {
+    display: flex;
+    align-items: center;
+    background: #fff0fa;
+    border-radius: 12px;
+    padding: 14px 18px;
+    color: #240039;
+    border:2px solid rgba(255,255,255,.9);
+    background: linear-gradient(135deg,
+    #C3AEEB 0%,
+    #E4C9E6 35%,
+    #F3DDEB 65%,
+    #F8EEF4 100%);
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 10px 25px rgba(0,0,0,.18);
+}
+
+/* ZONA DE ESTADÍSTICAS */
+.temporada-estadisticas {
+    flex: 1;
+    min-width: 0;
+    padding-right: 18px;
+}
+
+.titulo-temporada {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1.75rem;
+    font-weight: 800;
+    margin: 0 0 7px;
+    color: #510078;
+}
+
+.temporada-posicion {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+}
+
+.temporada-posicion strong,
+.temporada-datos strong {
+    font-weight: 800;
+}
+
+.separador-estadistica {
+    color: #510078;
+}
+
+/* DATOS DE LA TEMPORADA */
+.temporada-datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 9px;
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1rem;
+}
+
+/* ÚLTIMO RESULTADO */
+.temporada-ultimo-resultado {
+    width: 115px;
+    min-width: 115px;
+    border-left: 2px solid #d78be9;
+    padding-left: 15px;
+    text-align: center;
+}
+
+.etiqueta-ultimo-resultado {
+    font-family: 'Lucida Sans Unicode';
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #510078;
+    margin-bottom: 1px;
+}
+
+.ultimo-marcador {
+    display: inline-block;
+    background: #7200a8;
+    color: white;
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1.1rem;
+    font-weight: 800;
+    padding: 3px 13px;
+    border-radius: 5px;
+    margin-bottom: 3px;
+}
+
+.ultimo-equipos {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.equipo-ultimo {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    overflow-wrap: anywhere;
+}
+.ultimo-competicion {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1rem;
+    font-weight: 800;
+    color: #7200a8;
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+/* ADAPTACIÓN MÓVIL */
+@media (max-width: 576px) {
+    .tarjeta-temporada {
+        padding: 10px 8px;
+    }
+
+    .temporada-estadisticas {
+        padding-right: 7px;
+    }
+
+    .titulo-temporada {
+        font-size: 1rem;
+    }
+
+    .temporada-posicion {
+        font-size: 0.75rem;
+        gap: 3px;
+    }
+
+    .temporada-datos {
+        font-size: 0.65rem;
+        gap: 2px 4px;
+    }
+
+    .temporada-ultimo-resultado {
+        width: 100px;
+        min-width: 100px;
+        padding-left: 7px;
+    }
+
+    .etiqueta-ultimo-resultado {
+        font-size: 0.68rem;
+    }
+
+    .ultimo-marcador {
+        font-size: 0.9rem;
+        padding: 2px 6px;
+    }
+
+    .ultimo-equipo {
+        font-size: 0.70rem;
+        gap: 0px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+    }
+    .ultimo-competicion {
+        display: block;
+        font-size: 0.70rem;
+        margin: 5px 0 0;
+        padding: 0;
+        line-height: 1;
+    }
+    .equipo-ultimo {
+        font-size: 0.70rem;
+    }
+}
+/* AJUSTE TABLET */
+@media (min-width: 577px) and (max-width: 991px) {
+
+    .tarjeta-temporada {
+        gap: 12px;
+        padding: 12px 14px;
+    }
+
+    .temporada-estadisticas {
+        flex: 1;
+        padding-right: 5px;
+    }
+
+    .temporada-ultimo-resultado {
+        width: 145px;
+        min-width: 145px;
+        padding-left: 12px;
+    }
+
+    .temporada-datos {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 5px 8px;
+    }
+
+    .equipo-ultimo {
+        font-size: 0.8rem;
+    }
+}
+
+/* TABLET Y ORDENADOR */
+@media (min-width: 577px) {
+
+    .tarjeta-temporada {
+        gap: 15px;
+        padding: 14px 18px;
+    }
+
+    /* ZONA IZQUIERDA */
+    .temporada-estadisticas {
+        flex: 1;
+        min-width: 0;
+        padding-right: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .titulo-temporada {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+
+    .temporada-posicion {
+        justify-content: center;
+        margin-bottom: 8px;
+    }
+
+    .temporada-datos {
+        justify-content: center;
+        gap: 5px 14px;
+        font-size: 0.95rem;
+    }
+
+    /* ZONA DERECHA */
+    .temporada-ultimo-resultado {
+        width: 175px;
+        min-width: 175px;
+        padding-left: 18px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-right: 20px;
+    }
+
+    .etiqueta-ultimo-resultado {
+        font-size: 0.85rem;
+        margin-bottom: 7px;
+    }
+
+    .ultimo-marcador {
+        font-size: 1.35rem;
+        padding: 5px 18px;
+        margin-bottom: 7px;
+    }
+
+    .ultimo-equipos {
+        gap: 6px;
+    }
+
+    .equipo-ultimo {
+        font-size: 0.85rem;
+    }
+}
+/* AJUSTE EXCLUSIVO TABLET */
+@media (min-width: 577px) and (max-width: 991px) {
+
+    .temporada-estadisticas {
+        align-items: center;
+    }
+
+    .titulo-temporada {
+        font-size: 1.4rem;
+        margin-bottom: 8px;
+    }
+
+    .temporada-posicion {
+        justify-content: center;
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+    }
+
+    .temporada-datos {
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: center;
+        gap: 5px 10px;
+        font-size: 0.78rem;
+        white-space: nowrap;
+    }
+
+    .temporada-ultimo-resultado {
+        width: 145px;
+        min-width: 145px;
+        margin-right: 20px;
+    }
+}
+
+

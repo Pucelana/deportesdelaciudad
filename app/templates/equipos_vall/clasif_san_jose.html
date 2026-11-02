@@ -92,7 +92,7 @@ Consulta la clasificación actualizada del CD San José.
                           {% for equipo in clasificacion_analisis_san_jose %}
                           <tr class="text-center">
                             <td
-                              class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 12 %}pos-nada{% endif %}">
+                              class="equipo-mobile text-center {% if loop.index <= 4 %}pos-ascen{% elif loop.index <= 10 %}pos-nada{% elif loop.index <= 12 %}pos-desc{% endif %}">
                               {{ loop.index }}</td>
                             <td class="equipo-mobile text-start size_equipos2 {% if 'CD San José' in equipo['equipo'] %}equipo-pucela{% endif %}">{{ equipo.equipo }}</td>
                             <td class="puntos equipo-mobile text-center">{{ equipo.datos.puntos }}</td>

@@ -1,4 +1,4 @@
-{% extends 'secciones/base.html' %} 
+{% extends 'secciones/base.html' %}
 {% block titulo %} Atl.Tordesillas{%endblock %}
 
 {% block description %}
@@ -20,14 +20,86 @@ Calendario, resultados, clasificación e información del Atl.Tordesillas.
 {% block contenido %}
 <div class="team-header">
   <h1 class="responsive-title">Atl.Tordesillas</h1>
-  <img
-    src="/static/img/torde_sf.webp"
-    alt="Atl.Tordesillas"
-    class="responsive-logo"
-  />
+  <img src="/static/img/torde_sf.webp" alt="Atl.Tordesillas" class="responsive-logo" />
 </div>
 <section class="container-lg seccion_deportes">
   <div class="calend_deportes">
+    <!-- RESUMEN DE TEMPORADA -->
+    <div class="tarjeta-temporada mb-3">
+
+      <div class="temporada-estadisticas">
+
+        <h2 class="titulo-temporada">
+          Así va la temporada 26/27
+        </h2>
+
+        <!-- POSICIÓN Y PUNTOS -->
+        <div class="temporada-posicion">
+          <span>
+            Posición:
+            <strong>{{ posicion_liga | default('--') }}</strong>
+          </span>
+
+          <span class="separador-estadistica">|</span>
+
+          <span>
+            Puntos:
+            <strong>{{ puntos_liga | default('--') }}</strong>
+          </span>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <div class="temporada-datos">
+
+          <span>
+            Partidos:
+            <strong>{{ partidos_jugados | default('--') }}</strong>
+          </span>
+
+          <span>
+            Victorias:
+            <strong>{{ victorias | default('--') }}</strong>
+          </span>
+
+          <span>
+            Empates:
+            <strong>{{ empates | default('--') }}</strong>
+          </span>
+
+          <span>
+            Derrotas:
+            <strong>{{ derrotas | default('--') }}</strong>
+          </span>
+        </div>
+      </div>
+
+      <!-- ÚLTIMO RESULTADO -->
+      <div class="temporada-ultimo-resultado">
+
+        <span class="etiqueta-ultimo-resultado">
+          Último resultado
+        </span>
+        <span class="ultimo-competicion">
+          {{ ultimo_competicion }}
+        </span>
+
+        <div class="ultimo-equipos">
+          <span class="equipo-ultimo">
+            {{ ultimo_local }}
+          </span>
+
+          <div class="ultimo-marcador">
+            {{ ultimo_goles_local }} - {{ ultimo_goles_visitante }}
+          </div>
+
+          <span class="equipo-ultimo">
+            {{ ultimo_visitante }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
     {% if menu.get("liga") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
@@ -35,22 +107,18 @@ Calendario, resultados, clasificación e información del Atl.Tordesillas.
           <h3 class="text_uemc">2° RFEF (Grp-5)</h3>
         </div>
         <div class="tu-contenedor-h5">
-          <a
-            href="/equipos_futbol/calendario_tordesillas"
-            class="text-decoration-none text-white">
-            <h5 class="small-option fw-bold">Calendario Ind.</h5></a>
-          <a
-            href="/equipos_futbol/resultados_tordesillas"
-            class="text-decoration-none text-white">
-            <h5 class="small-option fw-bold">Resultados</h5></a>
-          <a
-            href="/equipos_futbol/clasif_tordesillas"
-            class="text-decoration-none text-white">
-            <h5 class="small-option fw-bold">Clasificaciones</h5></a>
-          <a
-            href="/tordesillas/historial"
-            class="text-decoration-none text-white">
-            <h5 class="small-option fw-bold">Historial</h5></a>
+          <a href="/equipos_futbol/calendario_tordesillas" class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Calendario Ind.</h5>
+          </a>
+          <a href="/equipos_futbol/resultados_tordesillas" class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Resultados</h5>
+          </a>
+          <a href="/equipos_futbol/clasif_tordesillas" class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Clasificaciones</h5>
+          </a>
+          <a href="/tordesillas/historial" class="text-decoration-none text-white">
+            <h5 class="small-option fw-bold">Historial</h5>
+          </a>
         </div>
       </div>
     </div>
@@ -60,7 +128,8 @@ Calendario, resultados, clasificación e información del Atl.Tordesillas.
       <div class="row g-3 align-items-center">
         <div class="col-12 text-center mt-2">
           <a href="/tordesillas_copa" class="text-decoration-none">
-          <h2 class="text_uemc pt-3">Copa del Rey</h2></a>
+            <h2 class="text_uemc pt-3">Copa del Rey</h2>
+          </a>
         </div>
       </div>
     </div>

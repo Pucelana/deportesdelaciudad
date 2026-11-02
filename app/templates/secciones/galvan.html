@@ -7,6 +7,82 @@
 </div>
 <section class="container-lg seccion_deportes">
   <diV class="calend_deportes">
+    <!-- RESUMEN DE TEMPORADA -->
+    <div class="tarjeta-temporada mb-3">
+
+      <div class="temporada-estadisticas">
+
+        <h2 class="titulo-temporada">
+          Así va la temporada 26/27
+        </h2>
+
+        <!-- POSICIÓN Y PUNTOS -->
+        <div class="temporada-posicion">
+          <span>
+            Posición:
+            <strong>{{ posicion_liga | default('--') }}</strong>
+          </span>
+
+          <span class="separador-estadistica">|</span>
+
+          <span>
+            Puntos:
+            <strong>{{ puntos_liga | default('--') }}</strong>
+          </span>
+        </div>
+
+        <!-- ESTADÍSTICAS -->
+        <div class="temporada-datos">
+
+          <span>
+            Partidos:
+            <strong>{{ partidos_jugados | default('--') }}</strong>
+          </span>
+
+          <span>
+            Victorias:
+            <strong>{{ victorias | default('--') }}</strong>
+          </span>
+
+          <span>
+            Empates:
+            <strong>{{ empates | default('--') }}</strong>
+          </span>
+
+          <span>
+            Derrotas:
+            <strong>{{ derrotas | default('--') }}</strong>
+          </span>
+        </div>
+      </div>
+
+      <!-- ÚLTIMO RESULTADO -->
+      <div class="temporada-ultimo-resultado">
+
+        <span class="etiqueta-ultimo-resultado">
+          Último resultado
+        </span>
+        <span class="ultimo-competicion">
+          {{ ultimo_competicion }}
+        </span>
+
+        <div class="ultimo-equipos">
+          <span class="equipo-ultimo">
+            {{ ultimo_local }}
+          </span>
+
+          <div class="ultimo-marcador">
+            {{ ultimo_goles_local }} - {{ ultimo_goles_visitante }}
+          </div>
+
+          <span class="equipo-ultimo">
+            {{ ultimo_visitante }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
     {% if menu.get("liga") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">
