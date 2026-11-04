@@ -51,6 +51,11 @@ Evolución histórica, temporadas, estadísticas y palmarés del Valladolid Tier
     <a href="#" class="btn btn-outline-light tab-btn" data-tab="titulos">Palmares</a>
   </div>
   <div id="resumen" class="tab-pane active">
+    <h3 class="equipo-mobile text-center">HISTORIAL VALLADOLID TIERNO GALVÁN</h3>
+    <small class="texto-intro-calendario">
+      Consulta la trayectoria del Valladolid Tierno Galván temporada a temporada, con sus clasificaciones, los puntos obtenidos y
+      los títulos conseguidos en las distintas competiciones.
+    </small>
     <div class="card tabla_copa mx-auto w-100  historial-desktop" style="max-width: 75rem">
       <div class="card-body">
         <div class="table-responsive">
@@ -109,6 +114,11 @@ Evolución histórica, temporadas, estadísticas y palmarés del Valladolid Tier
     </div>
   </div>
   <div id="grafico" class="tab-pane">
+    <h3 class="equipo-mobile text-center">PUNTOS TEMPORADA VALLADOLID TIerno GALVÁN</h3>
+    <small class="texto-intro-calendario">
+      Consulta la trayectoria del Valladolid Tierno GALVÁN temporada a temporada, comparando los puntos conseguidos en cada
+      campaña y teniendo en cuenta la categoría en la que compitió el equipo.
+    </small>
     <div class="card mt-3 mx-auto w-100" style="max-width: 75rem">
       <div class="card-body grafico-historial">
         <h5 class="text-center mb-1">Evolución puntos temporada</h5>
@@ -121,9 +131,13 @@ Evolución histórica, temporadas, estadísticas y palmarés del Valladolid Tier
     </div>
   </div>
   <div id="grafico2" class="tab-pane">
+    <h3 class="equipo-mobile text-center">PUNTOS JORNADAS VALLADOLID TIerno GALVÁN</h3>
+    <small class="texto-intro-calendario">
+      Consulta la evolución del Valladolid Tierno GALVÁN jornada a jornada, comparando los puntos acumulados en cada temporada y
+      observando cómo progresa el equipo a lo largo de la competición.
+    </small>
     <div class="d-flex justify-content-center flex-wrap gap-2 mb-2">
       {% for dataset in datasets_jornadas %}
-
       <div class="form-check">
         <input
           class="form-check-input temporada-check"
@@ -150,25 +164,45 @@ Evolución histórica, temporadas, estadísticas y palmarés del Valladolid Tier
   </div>
   <div id="titulos" class="tab-pane">
     <div class="container-lg">
-        {% for competicion, titulos in palmares.items() %}
-        <div class="palmares-bloque mb-4">
-            <div class="palmares-titulo">
-                {{ competicion }}
-            </div>
-            <div class="palmares-trofeos">
-                {% for titulo in titulos %}
-                <div class="trofeo-item">
-                    <img
-                        src="{{ url_for('static', filename='img/trofeos/' ~ titulo.imagen) }}"
-                        width="28">
-                    <div class="temporada">
-                        {{ titulo.temporada }}
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
+      <div class="text-center mb-4">
+        <h3 class="equipo-mobile">PALMARÉS DEL VALLADOLID TIERNO GALVÁN</h3>
+        <small class="texto-intro-historial">
+          Repasa los títulos y los logros deportivos conseguidos por el
+          Valladolid Tierno Galván a lo largo de su historia en las distintas
+          competiciones.
+        </small>
+      </div>
+
+      {% if palmares %}
+      {% for competicion, titulos in palmares.items() %}
+      <div class="palmares-bloque mb-4">
+        <div class="palmares-titulo">
+          {{ competicion }}
         </div>
-        {% endfor %}
+
+        <div class="palmares-trofeos">
+          {% for titulo in titulos %}
+          <div class="trofeo-item">
+            <img src="{{ url_for('static', filename='img/trofeos/' ~ titulo.imagen) }}" width="28" alt="Trofeo">
+            <div class="temporada">
+              {{ titulo.temporada }}
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+      {% else %}
+      <div class="card tabla_copa mx-auto text-center">
+        <div class="card-body py-4">
+          <div class="fs-1 mb-2">🏆</div>
+          <h5 class="mb-2">Sin títulos registrados</h5>
+          <p class="mb-0">
+            Actualmente no hay títulos registrados en el palmarés de este equipo. Aquí podrás consultar sus campeonatos y logros deportivos cuando los haya.
+          </p>
+        </div>
+      </div>
+      {% endif %}
     </div>
   </div>
 </div>

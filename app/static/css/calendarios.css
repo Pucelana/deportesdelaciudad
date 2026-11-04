@@ -208,4 +208,11 @@
     line-height: 1.6;
     margin-bottom: 5px;
 }
+.texto-intro-historial {
+    max-width: 75rem;
+    width: 95%;
+    margin: 0 auto 25px;
+    text-align: left;
+    line-height: 1.6;
+}
 
