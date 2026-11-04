@@ -51,66 +51,69 @@ Consulta el calendario individual actualizada del Atl.Tordesillas.
 </nav>
 {% endblock %}
 {% block contenido %}
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-bordered tabla_equipos tabla_tordesillas">
-                      <thead>
-                        <tr class="text-center text-dark">
-                          <th></th>
-                          <th colspan="2">Jornadas</th>
-                          <th colspan="4">Resultados</th>
-                          <!--<th colspan=""></th>-->
-                        </tr>
-                        <tr class="text-center text-dark">
-                          <th scope="col">Equipos</th>
-                          <th>Ida</th>
-                          <th>Vlt</th>
-                          <th colspan="2">Ida</th>
-                          <th colspan="2">Vlt</th>
-                          <th>Pts</th>
-                          <!--<th>Vlt</th>-->
-                          <th>Avrg</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for equipo, datos_equipo in tabla_partidos_tordesillas.items() %}
-                        <tr>
-                          <th class="equipo-mobile text-start">{{ equipo }}</th>
-                          <td class="jorn_ida fw-bold">
-                            {% if datos_equipo.get('primer_enfrentamiento') %}
-                            {{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_tordesillas'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_tordesillas'] }})
-                            {% endif %}
-                            {% endif %}
-                          </td>
-                          <td class="jorn_vuelta fw-bold">
-                            {% if datos_equipo.get('segundo_enfrentamiento') %}
-                            {{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
-                            {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_tordesillas'] %}
-                            ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_tordesillas'] }})
-                            {% endif %}
-                            {% endif %}
-                          </td>
-                          <td class="resultadoA fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoA'] }}</td>
-                          <td class="resultadoB fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoB'] }}</td>
-                          <td class="resultadoAA fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoAA'] }}</td>
-                          <td class="resultadoBB fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoBB'] }}</td>
-                          <td class="part1"></td>
-                          <td class="average"></td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-    </section>
+<div class="contenedor-calendario-individual">
+  <h3 class="equipo-mobile">CALENDARIO INDIVIDUAL 26/27</h3>
+  <small class="texto-intro-calendario">
+    Consulta el calendario completo del equipo en Liga, jornada a jornada, con todos sus rivales y si disputa cada encuentro en casa o fuera. Una herramienta para seguir los enfrentamientos directos y comprobar el average particular frente a sus rivales.
+  </small>
+  <div class="d-flex justify-content-center">
+    <div class="card tabla_equipos_aula w-100" style="max-width: 55rem;">
+      <div class="card-body">
+        <div class="table-responsive">
+          <table class="table table-bordered tabla_equipos tabla_tordesillas">
+            <thead>
+              <tr class="text-center text-dark">
+                <th></th>
+                <th colspan="2">Jornadas</th>
+                <th colspan="4">Resultados</th>
+                <!--<th colspan=""></th>-->
+                </tr>
+                <tr class="text-center text-dark">
+                <th scope="col">Equipos</th>
+                <th>Ida</th>
+                <th>Vlt</th>
+                <th colspan="2">Ida</th>
+                <th colspan="2">Vlt</th>
+                <th>Pts</th>
+                <!--<th>Vlt</th>-->
+                <th>Avrg</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for equipo, datos_equipo in tabla_partidos_tordesillas.items() %}
+              <tr>
+                <th class="equipo-mobile text-start">{{ equipo }}</th>
+                <td class="jorn_ida fw-bold">
+                  {% if datos_equipo.get('primer_enfrentamiento') %}
+                  {{ datos_equipo['primer_enfrentamiento']|replace('Jornada','') }}
+                  {% if datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_tordesillas'] %}
+                  ({{ datos_equipo['jornadas'][datos_equipo['primer_enfrentamiento']]['rol_tordesillas'] }})
+                  {% endif %}
+                  {% endif %}
+                </td>
+                <td class="jorn_vuelta fw-bold">
+                  {% if datos_equipo.get('segundo_enfrentamiento') %}
+                  {{ datos_equipo['segundo_enfrentamiento']|replace('Jornada','') }}
+                  {% if datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_tordesillas'] %}
+                  ({{ datos_equipo['jornadas'][datos_equipo['segundo_enfrentamiento']]['rol_tordesillas'] }})                      {% endif %}
+                  {% endif %}
+                </td>
+                <td class="resultadoA fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoA'] }}</td>
+                <td class="resultadoB fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoB'] }}</td>
+                <td class="resultadoAA fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoAA'] }}</td>
+                <td class="resultadoBB fw-bold">{{ tabla_partidos_tordesillas[equipo]['resultadoBB'] }}</td>
+                <td class="part1"></td>
+                <td class="average"></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 {% block scripts %}
  <script>

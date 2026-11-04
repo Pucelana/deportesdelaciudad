@@ -122,7 +122,14 @@ Resultados y marcadores del Valladolid S.S. jornada a jornada.
 </div>
 
 <!-- CONTENEDOR JORNADAS -->
-<div id="contenedor-jornadas">
+<div class="contenedor-calendario-individual">
+
+    <h3 class="equipo-mobile">RESULTADOS 26/27</h3>
+
+    <small class="texto-intro-calendario">
+      Consulta los resultados de cada jornada de Liga de todos los equipos de la competición. Sigue los encuentros disputados y compara los resultados de tus rivales jornada a jornada.
+    </small> 
+ <div id="contenedor-jornadas">
   {% for goles in nuevos_datos_vall_sala %}
   <div
     id="jornada{{ loop.index }}"
@@ -176,6 +183,7 @@ Resultados y marcadores del Valladolid S.S. jornada a jornada.
       </div>
     </div>
   </div>
+ </div>  
   {% endfor %}
 </div>
 {% endblock %} 

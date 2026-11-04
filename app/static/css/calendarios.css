@@ -193,3 +193,19 @@
     color: #747474;
 }
 
+.contenedor-calendario-individual {
+    max-width: 880px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.contenedor-calendario-individual h3 {
+    text-align: center;
+}
+
+.texto-intro-calendario {
+    text-align: left;
+    line-height: 1.6;
+    margin-bottom: 5px;
+}
+

@@ -57,19 +57,12 @@ Consulta el calendario individual actualizada del Atl. Valladolid.
 </nav>
 {% endblock %} 
 {% block contenido %}
-<!--<div class="d-flex justify-content-center my-2 gap-2">
-  <a
-    href="{{ url_for('recoletas_route_bp.calendario_recoletas') }}"
-    class="btn btn-outline-light btn-tab active">
-    Calendario
-  </a>
-  <a
-    href="{{ url_for('recoletas_route_bp.resultados_recoletas') }}"
-    class="btn btn-outline-light btn-tab">
-    Resultados
-  </a>
-</div>-->
-<div class="d-flex justify-content-center">
+<div class="contenedor-calendario-individual">
+              <h3 class="equipo-mobile">CALENDARIO INDIVIDUAL 26/27</h3>
+                <small class="texto-intro-calendario">
+                  Consulta el calendario completo del equipo en Liga, jornada a jornada, con todos sus rivales y si disputa cada encuentro en casa o fuera. Una herramienta para seguir los enfrentamientos directos y comprobar el average particular frente a sus rivales.
+                </small>
+ <div class="d-flex justify-content-center">
   <!--Tabla Calendario-->
   <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
     <div class="card-body">
@@ -136,7 +129,8 @@ Consulta el calendario individual actualizada del Atl. Valladolid.
       </div>
     </div>
   </div>
-</div>
+ </div>
+</div> 
 
 {% endblock %} {% block scripts %}
 <script>

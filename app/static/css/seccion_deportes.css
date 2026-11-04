@@ -323,3 +323,177 @@
 }
 
 
+/* PANEL DE ACTUALIDAD */
+.panel-actualidad {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: stretch;
+    border:2px solid rgba(255,255,255,.9);
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    padding: 20px;
+    overflow: hidden;
+}
+
+.actualidad-bloque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 12px 20px;
+    min-width: 0;
+}
+
+/* LÍNEA SEPARADORA CENTRAL */
+.actualidad-resumen {
+    border-right: 2px solid rgba(114, 0, 168, 0.25);
+}
+
+.actualidad-bloque h3 {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #7200a8;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+.actualidad-bloque h4 {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 12px;
+    overflow-wrap: anywhere;
+}
+
+.enlace-actualidad {
+    font-family: 'Lucida Sans Unicode';
+    color: #7200a8;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+.enlace-actualidad:hover {
+    font-family: 'Lucida Sans Unicode';
+    text-decoration: underline;
+}
+
+/* PRÓXIMO PARTIDO */
+.proximo-equipos {
+    font-family: 'Lucida Sans Unicode';
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.proximo-equipos strong {
+    font-family: 'Lucida Sans Unicode';
+    color: #7200a8;
+    font-size: 0.85rem;
+}
+
+.proximo-jornada {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 10px 0 2px;
+}
+
+.proximo-hora {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #7200a8;
+    margin: 0;
+}
+
+.actualidad-sin-datos {
+    font-family: 'Lucida Sans Unicode';
+    font-size: 0.85rem;
+    color: #666;
+    margin: 0;
+}
+
+.actualidad-proximo {
+    font-family: 'Lucida Sans Unicode';
+    border-left: 2px solid rgba(114, 0, 168, 0.25);
+}
+
+.boton-calendario-individual {
+    font-family: 'Lucida Sans Unicode';
+    display: inline-block;
+    margin-top: 15px;
+    background: #7200a8;
+    color: white;
+    padding: 5px 16px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.2s ease;
+}
+
+.boton-calendario-individual:hover {
+    background: white;
+    color: #7200a8;
+}
+
+/* TABLET Y MÓVIL */
+@media (max-width: 768px) {
+    .panel-actualidad {
+        padding: 12px;
+    }
+
+    .actualidad-bloque {
+        padding: 12px 10px;
+    }
+
+    .actualidad-bloque h4 {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .panel-actualidad {
+        padding: 10px;
+    }
+
+    .actualidad-bloque {
+        padding: 10px 7px;
+    }
+
+    .actualidad-bloque h3 {
+        font-size: 0.6rem;
+        margin-bottom: 3px;
+    }
+
+    .actualidad-bloque h4 {
+        font-size: 0.75rem;
+    }
+
+    .proximo-equipos {
+        font-size: 0.75rem;
+    }
+
+    .proximo-jornada {
+        font-size: 0.72rem;
+    }
+
+    .proximo-hora {
+        font-size: 0.85rem;
+    }
+
+    .boton-calendario-individual {
+        font-size: 0.70rem;
+        padding: 4px 8px;
+        margin-top: 6px;
+    }
+}
+
+

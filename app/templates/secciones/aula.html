@@ -71,6 +71,9 @@ Calendario, resultados, clasificación e información del Aula Valladolid.
             <strong>{{ derrotas | default('--') }}</strong>
           </span>
         </div>
+        <a href="/equipos_balonmano/clasif_aula" class="enlace-actualidad">
+          Ver Clasificación →
+        </a>
       </div>
 
       <!-- ÚLTIMO RESULTADO -->
@@ -95,6 +98,9 @@ Calendario, resultados, clasificación e información del Aula Valladolid.
           <span class="equipo-ultimo">
             {{ ultimo_visitante }}
           </span>
+          <a href="/equipos_balonmano/resultados_aula" class="enlace-actualidad">
+            Resultados →
+          </a>
         </div>
 
       </div>
@@ -156,6 +162,53 @@ Calendario, resultados, clasificación e información del Aula Valladolid.
       </div>
     </div>
     {% endif %}
+    <!-- ACTUALIDAD: ÚLTIMO RESUMEN Y PRÓXIMO PARTIDO -->
+    <div class="panel-actualidad">
+
+      <!-- ÚLTIMO RESUMEN -->
+      <div class="actualidad-bloque actualidad-resumen">
+        <h3>Último resumen</h3>
+
+        {% if ultimo_resumen_titular %}
+        <h4>{{ ultimo_resumen_titular }}</h4>
+
+        <a href="{{ ultimo_resumen_url }}" class="enlace-actualidad">
+          Leer resumen →
+        </a>
+        {% else %}
+        <p class="actualidad-sin-datos">
+          Todavía no hay resúmenes publicados.
+        </p>
+        {% endif %}
+      </div>
+
+      <!-- PRÓXIMO PARTIDO -->
+      <div class="actualidad-bloque actualidad-proximo">
+        <h3>Próximo partido</h3>
+
+        {% if proximo_local %}
+        <div class="proximo-equipos">
+          <span>{{ proximo_local }}</span>
+          <strong>VS</strong>
+          <span>{{ proximo_visitante }}</span>
+        </div>
+
+        <p class="proximo-jornada">
+          {{ proximo_jornada }} · {{ proximo_fecha }}
+        </p>
+
+        <p class="proximo-hora">{{ proximo_hora }}h</p>
+        {% else %}
+        <p class="actualidad-sin-datos">
+          No hay próximos partidos programados.
+        </p>
+        {% endif %}
+
+        <a href="/equipos_balonmano/calendario_aula" class="enlace-actualidad">
+          Ver Calendario →
+        </a>
+      </div>
+    </div>
   </div>
 </section>
 {% include 'componentes/bloque_comercial.html' %}

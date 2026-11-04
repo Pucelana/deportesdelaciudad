@@ -91,7 +91,8 @@ Resumen deportivo de Valladolid | Deportes de la Ciudad
         <div class="d-flex justify-content-center flex-wrap my-2 gap-1">
             {% for deporte, resumenes in resumenes_por_deporte.items() %}
             <button type="button" class="btn btn-outline-light tab-btn {% if loop.first %}active{% endif %}"
-                data-tab="resumen-deporte-{{ loop.index }}">
+                data-tab="resumen-deporte-{{ loop.index }}"
+                data-deporte="{{ deporte|lower }}">
                 {{ deporte }}
             </button>
             {% endfor %}
@@ -290,32 +291,69 @@ document.addEventListener("DOMContentLoaded", function () {
         const botones = grupo.querySelectorAll(".tab-btn");
         const paneles = grupo.querySelectorAll(".tab-pane");
 
+        function activarPestana(boton) {
+
+            const idPanel = boton.dataset.tab;
+
+            paneles.forEach(function (panel) {
+                panel.classList.add("d-none");
+                panel.classList.remove("active");
+            });
+
+            botones.forEach(function (otroBoton) {
+                otroBoton.classList.remove("active");
+            });
+
+            const panelActivo = grupo.querySelector("#" + idPanel);
+
+            if (panelActivo) {
+                panelActivo.classList.remove("d-none");
+                panelActivo.classList.add("active");
+                boton.classList.add("active");
+            }
+        }
+
+        // Activación manual al pulsar una pestaña
         botones.forEach(function (boton) {
 
             boton.addEventListener("click", function () {
-
-                const idPanel = boton.dataset.tab;
-
-                paneles.forEach(function (panel) {
-                    panel.classList.add("d-none");
-                    panel.classList.remove("active");
-                });
-
-                botones.forEach(function (otroBoton) {
-                    otroBoton.classList.remove("active");
-                });
-
-                const panelActivo = grupo.querySelector("#" + idPanel);
-
-                if (panelActivo) {
-                    panelActivo.classList.remove("d-none");
-                    panelActivo.classList.add("active");
-                    boton.classList.add("active");
-                }
-
+                activarPestana(boton);
             });
 
         });
+
+        // Leer el deporte indicado en la URL
+        function activarDesdeURL() {
+
+            const deporteURL = decodeURIComponent(
+                window.location.hash.substring(1)
+            );
+
+            if (!deporteURL) {
+                return;
+            }
+
+            const normalizar = texto => texto
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "-");
+
+            const botonDestino = Array.from(botones).find(function (boton) {
+                return normalizar(boton.dataset.deporte) ===
+                       normalizar(deporteURL);
+            });
+
+            if (botonDestino) {
+                activarPestana(botonDestino);
+            }
+        }
+
+        // Activar la pestaña al cargar la página
+        activarDesdeURL();
+
+        // También si cambia el fragmento de la URL
+        window.addEventListener("hashchange", activarDesdeURL);
 
     });
 

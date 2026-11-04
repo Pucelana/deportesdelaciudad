@@ -56,6 +56,13 @@ Consulta la clasificación actualizada del CPLV Panteras C.R.
 </nav>
 {% endblock %} {% block contenido %}
 <section class="container-lg mb-5 flex-fill copa">
+ <div class="contenedor-calendario-individual">
+
+    <h3 class="equipo-mobile">CLASIFICACIÓN Y OBJETIVOS 26/27</h3>
+
+    <small class="texto-intro-calendario">
+      Consulta la clasificación de la Liga Élite Iberdrola, la puntuación y las estadísticas de todos los equipos. Sigue la lucha por los playoff al título y la permanencia, y comprueba el porcentaje del CPLV Panteras respecto a cada uno de los objetivos.
+    </small>  
   <!-- Navegador personalizado -->
   <div class="d-flex justify-content-center my-2 gap-1">
     <button
@@ -79,7 +86,7 @@ Consulta la clasificación actualizada del CPLV Panteras C.R.
           <div class="card-body">
             <div class="table-responsive">
               <h3 class="text-center text-white fw-bold text-analisis fs-4">
-                Liga Élite Femenina
+                Liga Élite Iberdrola
               </h3>
               <table id="tablaClasificacion" class="table">
                 <thead>
@@ -257,6 +264,7 @@ Consulta la clasificación actualizada del CPLV Panteras C.R.
       </div>
     </div>
   </div>
+ </div>  
 </section>
 {% endblock %} {% block scripts %}
 <script src="/static/js/analisis-panteras.js"></script>

@@ -56,7 +56,14 @@ Consulta la clasificación actualizada de El Salvador.
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
-  <section class="container-lg mb-5 flex-fill copa">
+<section class="container-lg mb-5 flex-fill copa">
+  <div class="contenedor-calendario-individual">
+
+      <h3 class="equipo-mobile">CLASIFICACIÓN Y OBJETIVOS 26/27</h3>
+
+      <small class="texto-intro-calendario">
+        Consulta la clasificación de División de Honor, la puntuación y las estadísticas de todos los equipos. Sigue la lucha porlos playoffs y la permanencia, y comprueba el porcentaje del RC El Salvador respecto a cada uno de los objetivos.
+      </small>
         <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-2 gap-2">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
@@ -318,7 +325,8 @@ Consulta la clasificación actualizada de El Salvador.
             </div>
           </div>-->
     </div>
-  </section>
+  </div>  
+</section>
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/analisis-salvador.js"></script>

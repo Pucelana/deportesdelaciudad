@@ -54,7 +54,13 @@ Consulta la clasificación actualizada del Aula Valladolid.
 </nav>
 {% endblock %} 
 {% block contenido %} 
-    <section class="container-lg mb-5 flex-fill">
+  <section class="container-lg mb-5 flex-fill">
+    <div class="contenedor-calendario-individual">
+
+      <h3 class="equipo-mobile">CLASIFICACIÓN Y OBJETIVOS 26/27</h3>
+      <small class="texto-intro-calendario">
+        Consulta la clasificación de División Honor Oro, la puntuación y las estadísticas de todos los equipos. Sigue la lucha por el ascenso directo, las plazas de playoff y la permanencia, y comprueba el porcentaje del Aula Valladolid respecto a cada uno de los objetivos.
+      </small>
       <!-- Navegador personalizado -->
       <div class="d-flex justify-content-center my-2 gap-1">
         <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
@@ -283,7 +289,8 @@ Consulta la clasificación actualizada del Aula Valladolid.
           </div>-->
         </div>
       </div>
-    </section>
+    </div>  
+  </section>
     {% endblock %}
     {% block scripts %}
      <script src="/static/js/analisis-aula.js"></script>

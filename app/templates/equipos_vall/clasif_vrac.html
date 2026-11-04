@@ -50,7 +50,14 @@ Consulta la clasificación actualizada del VRAC.
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
- <section class="container-lg mb-5 flex-fill copa">
+<section class="container-lg mb-5 flex-fill copa">
+  <div class="contenedor-calendario-individual">
+
+      <h3 class="equipo-mobile">CLASIFICACIÓN Y OBJETIVOS 26/27</h3>
+
+      <small class="texto-intro-calendario">
+        Consulta la clasificación de División de Honor, la puntuación y las estadísticas de todos los equipos. Sigue la lucha por los playoffs al asecnso y la permanencia, y comprueba el porcentaje del VRAC respecto a cada uno de los objetivos.
+      </small>
     <!-- Navegador personalizado -->
     <div class="d-flex justify-content-center my-2 gap-1">
       <button class="btn btn-outline-light tab-btn active" data-tab="clasificacion">Clasificación</button>
@@ -314,7 +321,9 @@ Consulta la clasificación actualizada del VRAC.
               </div>
             </div>
           </div>-->
-  </section>
+      </div>
+    </div>
+</section>
 {% endblock %}
 {% block scripts %}
 <script src="/static/js/analisis-vrac.js"></script>
