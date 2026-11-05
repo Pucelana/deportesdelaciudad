@@ -1,154 +1,399 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>
-      {% block title %}Deportes de la Ciudad | Valladolid{% endblock %}
-    </title>
-    <!-- SEO -->
-    <meta
-      name="description"
-      content="{% block description %}Deportes de Valladolid: resultados, clasificaciones, calendarios, noticias y actualidad del fútbol, baloncesto, balonmano, rugby, hockey, voleibol y mucho más.{% endblock %}"
-    />
-    <meta
-      name="keywords"
-      content="{% block keywords %}deportes Valladolid, deporte Valladolid, resultados deportivos, clasificaciones, calendarios, fútbol Valladolid, baloncesto Valladolid, balonmano Valladolid{% endblock %}"
-    />
-    <meta name="author" content="Deportes de la Ciudad" />
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="{{ request.base_url }}" />
-    <!-- OPEN GRAPH -->
-    <meta
-      property="og:title"
-      content="{% block og_title %}Deportes de la Ciudad | Valladolid{% endblock %}"
-    />
-    <meta
-      property="og:description"
-      content="{% block og_description %}Deportes de Valladolid: resultados, clasificaciones, calendarios y actualidad deportiva.{% endblock %}"
-    />
-    <meta
-      property="og:image"
-      content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.webp{% endblock %}"
-    />
-    <meta property="og:url" content="{{ request.url }}" />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Deportes de la Ciudad" />
+<head>
 
-    <!-- TWITTER -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta
-      name="twitter:title"
-      content="{% block twitter_title %}Deportes de la Ciudad | Valladolid{% endblock %}"
-    />
-    <meta
-      name="twitter:description"
-      content="{% block twitter_description %}Deportes de Valladolid: resultados, clasificaciones, calendarios y actualidad deportiva.{% endblock %}"
-    />
-    <meta
-      name="twitter:image"
-      content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.webp{% endblock %}"
-    />
-    <!-- PWA -->
-    <link
-      rel="manifest"
-      href="{{ url_for('static', filename='manifest.json') }}"
-    />
-    <meta name="theme-color" content="#050505" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    {% include 'includes/google_analytics.html' %}
-    <!-- GOOGLE ADSENSE -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2708543499191832" crossorigin="anonymous"></script>
-    <!-- ICONOS -->
-    <link
-      rel="icon"
-      href="{{ url_for('static', filename='img/logo-deportes2.webp') }}"
-    />
-    <link
-      rel="apple-touch-icon"
-      href="{{ url_for('static', filename='img/logo-deportes2.webp') }}"
-    />
-    <!-- GOOGLE FONTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Dancing+Script:wght@400;700&family=Indie+Flower&display=swap" rel="stylesheet">
-    <!-- CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <link
-      href="{{ url_for('static', filename='css/estilo.min.css') }}"
-      rel="stylesheet"
-    />
-    <!-- Schema.org -->
-    <script type="application/ld+json">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>
+    {% block title %}Deportes de la Ciudad | Valladolid{% endblock %}
+  </title>
+  <!-- SEO -->
+  <meta name="description"
+    content="{% block description %}Deportes de Valladolid: resultados, clasificaciones, calendarios, noticias y actualidad del fútbol, baloncesto, balonmano, rugby, hockey, voleibol y mucho más.{% endblock %}" />
+  <meta name="keywords"
+    content="{% block keywords %}deportes Valladolid, deporte Valladolid, resultados deportivos, clasificaciones, calendarios, fútbol Valladolid, baloncesto Valladolid, balonmano Valladolid{% endblock %}" />
+  <meta name="author" content="Deportes de la Ciudad" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="{{ request.base_url }}" />
+  <!-- OPEN GRAPH -->
+  <meta property="og:title" content="{% block og_title %}Deportes de la Ciudad | Valladolid{% endblock %}" />
+  <meta property="og:description"
+    content="{% block og_description %}Deportes de Valladolid: resultados, clasificaciones, calendarios y actualidad deportiva.{% endblock %}" />
+  <meta property="og:image"
+    content="{% block og_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.webp{% endblock %}" />
+  <meta property="og:url" content="{{ request.url }}" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Deportes de la Ciudad" />
+
+  <!-- TWITTER -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{% block twitter_title %}Deportes de la Ciudad | Valladolid{% endblock %}" />
+  <meta name="twitter:description"
+    content="{% block twitter_description %}Deportes de Valladolid: resultados, clasificaciones, calendarios y actualidad deportiva.{% endblock %}" />
+  <meta name="twitter:image"
+    content="{% block twitter_image %}https://deportesdelaciudad.es/static/img/logo-deportes2.webp{% endblock %}" />
+  <!-- PWA -->
+  <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}" />
+  <meta name="theme-color" content="#050505" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  {% include 'includes/google_analytics.html' %}
+  <!-- GOOGLE ADSENSE -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2708543499191832"
+    crossorigin="anonymous"></script>
+  <!-- ICONOS -->
+  <link rel="icon" href="{{ url_for('static', filename='img/logo-deportes2.webp') }}" />
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='img/logo-deportes2.webp') }}" />
+  <!-- GOOGLE FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@500&family=Dancing+Script:wght@400;700&family=Indie+Flower&display=swap"
+    rel="stylesheet">
+  <!-- CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link href="{{ url_for('static', filename='css/estilo.min.css') }}" rel="stylesheet" />
+  <!-- Schema.org -->
+  <script type="application/ld+json">
       {{ schema_web|safe }}
     </script>
-  </head>
-  <body class="body_secciones">
-    <div id="splash">
-      <div class="splash-bg"></div>
-      <div class="splash-content">
-        <img
-          src="/static/img/logo-deportes2.webp"
-          class="splash-logo"
-          alt="logo"
-        />
-        <h1 class="splash-title">deportesdelaciudad</h1>
-        <p class="splash-sub">Deporte local · Corazón urbano</p>
-      </div>
+</head>
+
+<body class="body_secciones">
+  <div id="splash">
+    <div class="splash-bg"></div>
+    <div class="splash-content">
+      <img src="/static/img/logo-deportes2.webp" class="splash-logo" alt="logo" />
+      <h1 class="splash-title">deportesdelaciudad</h1>
+      <p class="splash-sub">Deporte local · Corazón urbano</p>
     </div>
-    <!-- Pantalla inicial -->
-    <h1 class="visually-hidden">
-      Deportes de la Ciudad | Resultados, clasificaciones y actualidad del
-      deporte de Valladolid
-    </h1>
-    <p class="visually-hidden">
-      Toda la información del deporte de Valladolid: fútbol, baloncesto,
-      balonmano, rugby, hockey, voleibol y mucho más.
-    </p>
-    <div id="contenido" class="d-flex flex-column">
-      <!--HEADER ESCRITORIO-->
-      <header
-        class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg"
-      >
-        <section
-          id="cabecera-escritorio"
-          class="d-flex justify-content-between align-items-center"
-        >
-          <nav class="navbar navbar-expand navbar-light">
-            <div class="container-fluid">
-              <ul class="navbar-nav me-auto">
+  </div>
+  <!-- Pantalla inicial -->
+  <h1 class="visually-hidden">
+    Deportes de la Ciudad | Resultados, clasificaciones y actualidad del
+    deporte de Valladolid
+  </h1>
+  <p class="visually-hidden">
+    Toda la información del deporte de Valladolid: fútbol, baloncesto,
+    balonmano, rugby, hockey, voleibol y mucho más.
+  </p>
+  <div id="contenido" class="d-flex flex-column">
+    <!--HEADER ESCRITORIO-->
+    <header class="container-fluid d-none d-lg-block bg-menu sticky-top shadow-lg">
+      <section id="cabecera-escritorio" class="d-flex justify-content-between align-items-center">
+        <nav class="navbar navbar-expand navbar-light">
+          <div class="container-fluid">
+            <ul class="navbar-nav me-auto">
+              <!-- INICIO -->
+              <li class="nav-item">
+                <a class="nav-link fw-bold text-menu-seccion text-white text-menu-nav" href="/">
+                  Inicio
+                </a>
+              </li>
+
+              <!-- BALONCESTO -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuBaloncesto" role="button" data-bs-toggle="dropdown" aria-expanded="false">Baloncesto
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuBaloncesto">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/uemc">
+                      CBC Valladolid
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/ponce">
+                      Pucela Basket
+                    </a>
+                  </li>
+
+                  <!--<li>
+                      <a class="dropdown-item" href="/seccion/cdsi_vall">
+                        CDSI Valladolid
+                      </a>
+                    </li>-->
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/aliados">
+                      BSR Valladolid
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- BALONMANO -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuBalonmano" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Balonmano
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuBalonmano">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/aula">
+                      Aula Valladolid
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/recoletas">
+                      Atl. Valladolid
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- FÚTBOL -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuFutbol" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Fútbol
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuFutbol">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/valladolid">
+                      Real Valladolid
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/promesas">
+                      RV Promesas
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/tordesillas">
+                      Atl.Tordesillas
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/rv_femenino">
+                      RV Femenino
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/parquesol">
+                      CD Parquesol
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vallad_genius">
+                      Real ValladoliDi
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- FÚTBOL SALA -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuFutbolSala" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Fútbol Sala
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuFutbolSala">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/galvan">
+                      Valladolid Tierno Galván
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vall_sala">
+                      Valladolid Sport Sala
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- HOCKEY -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuHockey" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Hockey
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuHockey">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/caja">
+                      CPLV Caja Rural
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/panteras">
+                      CPLV Panteras C.R
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- RUGBY -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuRugby" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Rugby
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuRugby">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vrac"> VRAC </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/salvador">
+                      CR El Salvador
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/salvador_fem">
+                      El Salvador R.C.
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- VOLEY -->
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuVoley" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Voley
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuVoley">
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vcv">
+                      Universidad VCV
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/vacceas">
+                      VCV Vacceas
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="/seccion/valcyl">
+                      Valcyl VCV
+                    </a>
+                  </li>
+
+                  <li>
+                    <a class="dropdown-item" href="/seccion/san_jose">
+                      CD San José
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                  id="menuVoley" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Resumen
+                </a>
+
+                <ul class="dropdown-menu" aria-labelledby="menuVoley">
+                  <li>
+                    <a class="dropdown-item" href="/resumenes">
+                      Resumen Jornada
+                    </a>
+                  </li>
+                  <!--<li>
+                      <a class="dropdown-item" href="#">
+                        VCV Vacceas
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        Valcyl VCV
+                      </a>
+                    </li>
+
+                    <li>
+                      <a class="dropdown-item" href="#">
+                        CD San José
+                      </a>
+                    </li>
+                  </ul>-->
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!-- RRSS -->
+        <div class="footer-menu-social dropdown">
+          <a href="#" class="text-white" aria-label="Redes sociales" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-share-fill"></i>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.threads }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-threads me-2"></i>
+                Threads
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.instagram }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-instagram me-2"></i>
+                Instagram
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.facebook }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-facebook me-2"></i>
+                Facebook
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.whatsapp }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-whatsapp me-2"></i>
+                WhatsApp
+              </a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </header>
+
+    <!--  HEADER MÓVIL -->
+
+    <header class="container-fluid d-lg-none bg-menu sticky-top">
+      <section id="cabecera-movil" class="d-flex justify-content-between align-items-center">
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuMovil"
+              aria-controls="menuMovil" aria-expanded="false" aria-label="Abrir menú">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="menuMovil">
+              <ul class="navbar-nav">
                 <!-- INICIO -->
                 <li class="nav-item">
-                  <a
-                    class="nav-link fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="/"
-                  >
+                  <a class="nav-link fw-bold text-menu-seccion active" href="/">
                     Inicio
                   </a>
                 </li>
 
                 <!-- BALONCESTO -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuBaloncesto"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">Baloncesto
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilBaloncesto"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Baloncesto
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuBaloncesto">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/uemc">
                         CBC Valladolid
@@ -162,10 +407,10 @@
                     </li>
 
                     <!--<li>
-                      <a class="dropdown-item" href="/seccion/cdsi_vall">
-                        CDSI Valladolid
-                      </a>
-                    </li>-->
+                        <a class="dropdown-item" href="/seccion/cdsi_vall">
+                          CDSI Valladolid
+                        </a>
+                      </li>-->
 
                     <li>
                       <a class="dropdown-item" href="/seccion/aliados">
@@ -177,18 +422,12 @@
 
                 <!-- BALONMANO -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuBalonmano"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilBalonmano"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Balonmano
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuBalonmano">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/aula">
                         Aula Valladolid
@@ -205,18 +444,12 @@
 
                 <!-- FÚTBOL -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuFutbol"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilFutbol"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Fútbol
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuFutbol">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/valladolid">
                         Real Valladolid
@@ -256,18 +489,12 @@
 
                 <!-- FÚTBOL SALA -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuFutbolSala"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilFutbolSala"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Fútbol Sala
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuFutbolSala">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/galvan">
                         Valladolid Tierno Galván
@@ -284,18 +511,12 @@
 
                 <!-- HOCKEY -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuHockey"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilHockey"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Hockey
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuHockey">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/caja">
                         CPLV Caja Rural
@@ -312,18 +533,12 @@
 
                 <!-- RUGBY -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuRugby"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilRugby"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Rugby
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuRugby">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/vrac"> VRAC </a>
                     </li>
@@ -344,18 +559,12 @@
 
                 <!-- VOLEY -->
                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuVoley"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white" href="#" id="movilVoley"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     Voley
                   </a>
 
-                  <ul class="dropdown-menu" aria-labelledby="menuVoley">
+                  <ul class="dropdown-menu">
                     <li>
                       <a class="dropdown-item" href="/seccion/vcv">
                         Universidad VCV
@@ -379,388 +588,9 @@
                     </li>
                   </ul>
                 </li>
-                 <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="menuVoley"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    Resumen
-                  </a>
-
-                  <ul class="dropdown-menu" aria-labelledby="menuVoley">
-                    <li>
-                      <a class="dropdown-item" href="/resumenes">
-                        Resumen Jornada
-                      </a>
-                    </li>
-                    <!--<li>
-                      <a class="dropdown-item" href="#">
-                        VCV Vacceas
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        Valcyl VCV
-                      </a>
-                    </li>
-
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        CD San José
-                      </a>
-                    </li>
-                  </ul>-->
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <!-- RRSS -->
-          <div class="footer-menu-social dropdown">
-            <a
-              href="#"
-              class="text-white"
-              aria-label="Redes sociales"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="bi bi-share-fill"></i>
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.threads }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-threads me-2"></i>
-                  Threads
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.instagram }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-instagram me-2"></i>
-                  Instagram
-                </a>
-              </li>
-
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.facebook }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-facebook me-2"></i>
-                  Facebook
-                </a>
-              </li>
-
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.whatsapp }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-whatsapp me-2"></i>
-                  WhatsApp
-                </a>
-              </li>
-            </ul>
-          </div>
-        </section>
-      </header>
-
-      <!--  HEADER MÓVIL -->
-
-      <header class="container-fluid d-lg-none bg-menu sticky-top">
-        <section
-          id="cabecera-movil"
-          class="d-flex justify-content-between align-items-center"
-        >
-          <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-              <button
-                class="navbar-toggler"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#menuMovil"
-                aria-controls="menuMovil"
-                aria-expanded="false"
-                aria-label="Abrir menú"
-              >
-                <span class="navbar-toggler-icon"></span>
-              </button>
-
-              <div class="collapse navbar-collapse" id="menuMovil">
-                <ul class="navbar-nav">
-                  <!-- INICIO -->
-                  <li class="nav-item">
-                    <a
-                      class="nav-link fw-bold text-menu-seccion active"
-                      href="/"
-                    >
-                      Inicio
-                    </a>
-                  </li>
-
-                  <!-- BALONCESTO -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilBaloncesto"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Baloncesto
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/uemc">
-                          CBC Valladolid
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/ponce">
-                          Pucela Basket
-                        </a>
-                      </li>
-
-                      <!--<li>
-                        <a class="dropdown-item" href="/seccion/cdsi_vall">
-                          CDSI Valladolid
-                        </a>
-                      </li>-->
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/aliados">
-                          BSR Valladolid
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- BALONMANO -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilBalonmano"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Balonmano
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/aula">
-                          Aula Valladolid
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/recoletas">
-                          Atl. Valladolid
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- FÚTBOL -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilFutbol"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Fútbol
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/valladolid">
-                          Real Valladolid
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/promesas">
-                          RV Promesas
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/tordesillas">
-                          Atl.Tordesillas
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/rv_femenino">
-                          RV Femenino
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/parquesol">
-                          CD Parquesol
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/seccion/vallad_genius">
-                          Real ValladoliDi
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- FÚTBOL SALA -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilFutbolSala"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Fútbol Sala
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/galvan">
-                          Valladolid Tierno Galván
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/vall_sala">
-                          Valladolid Sport Sala
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- HOCKEY -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilHockey"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Hockey
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/caja">
-                          CPLV Caja Rural
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/panteras">
-                          CPLV Panteras C.R
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- RUGBY -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilRugby"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Rugby
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/vrac"> VRAC </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/salvador">
-                          CR El Salvador
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/salvador_fem">
-                          El Salvador R.C.
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-
-                  <!-- VOLEY -->
-                  <li class="nav-item dropdown">
-                    <a
-                      class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white"
-                      href="#"
-                      id="movilVoley"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      Voley
-                    </a>
-
-                    <ul class="dropdown-menu">
-                      <li>
-                        <a class="dropdown-item" href="/seccion/vcv">
-                          Universidad VCV
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/seccion/vacceas">
-                          VCV Vacceas
-                        </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="/seccion/valcyl">
-                          Valcyl VCV
-                        </a>
-                      </li>
-
-                      <li>
-                        <a class="dropdown-item" href="/seccion/san_jose">
-                          CD San José
-                        </a>
-                      </li>
-                    </ul>
-                  </li>
-                   <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav"
-                    href="#"
-                    id="mmoviResumen"
-                    role="button"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle fw-bold text-menu-seccion text-white text-menu-nav" href="#"
+                    id="mmoviResumen" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Resumen
                   </a>
 
@@ -788,96 +618,65 @@
                     </li>-->
                   </ul>
                 </li>
-                </ul>
-              </div>
+              </ul>
             </div>
-          </nav>
-
-          <!-- RRSS -->
-          <div class="footer-menu-social dropdown">
-            <a
-              href="#"
-              class="text-white"
-              aria-label="Redes sociales"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              <i class="bi bi-share-fill"></i>
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end">
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.threads }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-threads me-2"></i>
-                  Threads
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.instagram }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-instagram me-2"></i>
-                  Instagram
-                </a>
-              </li>
-
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.facebook }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-facebook me-2"></i>
-                  Facebook
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="{{ SOCIAL.whatsapp }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <i class="bi bi-whatsapp me-2"></i>
-                  WhatsApp
-                </a>
-              </li>
-              
-            </ul>
           </div>
-        </section>
-      </header>
-      <!-- Fin header 2 -->
-      <!--Carrusel-->
-      <main class="">
-        <section class="hero-home container">
-          <!--<div class="hero-texto">
+        </nav>
+
+        <!-- RRSS -->
+        <div class="footer-menu-social dropdown">
+          <a href="#" class="text-white" aria-label="Redes sociales" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-share-fill"></i>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.threads }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-threads me-2"></i>
+                Threads
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.instagram }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-instagram me-2"></i>
+                Instagram
+              </a>
+            </li>
+
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.facebook }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-facebook me-2"></i>
+                Facebook
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ SOCIAL.whatsapp }}" target="_blank" rel="noopener noreferrer">
+                <i class="bi bi-whatsapp me-2"></i>
+                WhatsApp
+              </a>
+            </li>
+
+          </ul>
+        </div>
+      </section>
+    </header>
+    <!-- Fin header 2 -->
+    <!--Carrusel-->
+    <main class="">
+      <section class="hero-home container">
+        <!--<div class="hero-texto">
           <h1>deportesdelaciudad</h1>
           <p>deporte local, corazón urbano</p>
         </div>-->
-          <div class="hero-logo">
-            <img
-              src="{{ url_for('static', filename='img/deporteciudad_sf1.webp') }}"
-              alt="Deportes de la Ciudad"
-            />
-          </div>
-        </section>
-        <section id="escudos-wrapper" class="container-fluid">
-          <div class="escudos-container mt-2 mb-2">
-            <div
-              class="container-lg d-flex justify-content-center flex-wrap gap-2"
-            >
-              <!-- Reemplazá los src con las rutas de tus escudos -->
-              <!--<a href="#" class="escudo-link">
+        <div class="hero-logo">
+          <img src="{{ url_for('static', filename='img/deporteciudad_sf1.webp') }}" alt="Deportes de la Ciudad" />
+        </div>
+      </section>
+      <section id="escudos-wrapper" class="container-fluid">
+        <div class="escudos-container mt-2 mb-2">
+          <div class="container-lg d-flex justify-content-center flex-wrap gap-2">
+            <!-- Reemplazá los src con las rutas de tus escudos -->
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/valla_voley_sf-small.webp"
                   class="escudo"
@@ -885,15 +684,11 @@
                 />
                 <span class="escudo-nombre">VCV Vacceas</span>
               </a>-->
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/san_jose_sf-small.webp"
-                  class="escudo"
-                  alt="CD San Jose"
-                />
-                <span class=""></span>
-              </a>
-              <!--<a href="/seccion/cdsi_vall" class="escudo-link">
+            <a href="#" class="escudo-link">
+              <img src="/static/img/san_jose_sf-small.webp" class="escudo" alt="CD San Jose" />
+              <span class=""></span>
+            </a>
+            <!--<a href="/seccion/cdsi_vall" class="escudo-link">
                 <img
                   src="/static/img/cdsi_vall_sf.png"
                   class="escudo"
@@ -901,7 +696,7 @@
                 />
                 <span class="escudo-nombre">CDSI Valladolid</span>
               </a>-->
-              <!--<a href="#" class="escudo-link">
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/salvador_sf-small.webp"
                   class="escudo"
@@ -909,15 +704,11 @@
                 />
                 <span class="escudo-nombre">El Salvador R.C.</span>
               </a>-->
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/parquesol_sf1-small.webp"
-                  class="escudo"
-                  alt="CD Parquesol"
-                />
-                <span class=""></span>
-              </a>
-              <!--<a href="#" class="escudo-link">
+            <a href="#" class="escudo-link">
+              <img src="/static/img/parquesol_sf1-small.webp" class="escudo" alt="CD Parquesol" />
+              <span class=""></span>
+            </a>
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/pucela_sf-small.webp"
                   class="escudo"
@@ -925,15 +716,11 @@
                 />
                 <span class="escudo-nombre">RV Femenino</span>
               </a>-->
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/galvan_sf-small.webp"
-                  class="escudo"
-                  alt="Valladolid Tierno Galván"
-                />
-                <span class=""></span>
-              </a>
-              <!--<a href="#" class="escudo-link">
+            <a href="#" class="escudo-link">
+              <img src="/static/img/galvan_sf-small.webp" class="escudo" alt="Valladolid Tierno Galván" />
+              <span class=""></span>
+            </a>
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/cplv_sf-small.webp"
                   class="escudo"
@@ -941,23 +728,15 @@
                 />
                 <span class="escudo-nombre">CPLV Panteras C.R</span>
               </a>-->
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/aliados_sf-small.webp"
-                  class="escudo"
-                  alt="BSR Valladolid"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/vall_sala_sf-small.webp"
-                  class="escudo"
-                  alt="Valladolid SS"
-                />
-                <span class=""></span>
-              </a>
-              <!--<a href="#" class="escudo-link">
+            <a href="#" class="escudo-link">
+              <img src="/static/img/aliados_sf-small.webp" class="escudo" alt="BSR Valladolid" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/vall_sala_sf-small.webp" class="escudo" alt="Valladolid SS" />
+              <span class=""></span>
+            </a>
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/valla_voley_sf-small.webp"
                   class="escudo"
@@ -965,7 +744,7 @@
                 />
                 <span class="escudo-nombre">Valcyl VCV</span>
               </a>-->
-              <!--<a href="#" class="escudo-link">
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/pucela_sf-small.webp"
                   class="escudo"
@@ -973,83 +752,47 @@
                 />
                 <span class="escudo-nombre">RV Promesas</span>
               </a>-->
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/torde_sf-small.webp"
-                  class="escudo"
-                  alt="Atl.Tordesillas"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/aula_sf-small.webp"
-                  class="escudo"
-                  alt="Aula Valladolid"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/cplv_sf-small.webp"
-                  class="escudo"
-                  alt="CPLV Caja Rural"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/cbc_sf-small.webp"
-                  class="escudo"
-                  alt="CBC Valladolid"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/pucela_basket_sf-small.webp"
-                  class="escudo"
-                  alt="Pucela Basket"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/pucela_sf-small.webp"
-                  class="escudo"
-                  alt="Real Valladolid"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/reco_fs-small.webp"
-                  class="escudo"
-                  alt="Atl.Valladolid"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/salvador_sf-small.webp"
-                  class="escudo"
-                  alt="CR El Salvador"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img
-                  src="/static/img/valla_voley_sf-small.webp"
-                  class="escudo"
-                  alt="Universidad VCV"
-                />
-                <span class=""></span>
-              </a>
-              <a href="#" class="escudo-link">
-                <img src="/static/img/vrac_sf-small.webp" class="escudo" alt="VRAC" />
-                <span class=""></span>
-              </a>
-              <!--<a href="#" class="escudo-link">
+            <a href="#" class="escudo-link">
+              <img src="/static/img/torde_sf-small.webp" class="escudo" alt="Atl.Tordesillas" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/aula_sf-small.webp" class="escudo" alt="Aula Valladolid" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/cplv_sf-small.webp" class="escudo" alt="CPLV Caja Rural" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/cbc_sf-small.webp" class="escudo" alt="CBC Valladolid" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/pucela_basket_sf-small.webp" class="escudo" alt="Pucela Basket" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/pucela_sf-small.webp" class="escudo" alt="Real Valladolid" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/reco_fs-small.webp" class="escudo" alt="Atl.Valladolid" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/salvador_sf-small.webp" class="escudo" alt="CR El Salvador" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/valla_voley_sf-small.webp" class="escudo" alt="Universidad VCV" />
+              <span class=""></span>
+            </a>
+            <a href="#" class="escudo-link">
+              <img src="/static/img/vrac_sf-small.webp" class="escudo" alt="VRAC" />
+              <span class=""></span>
+            </a>
+            <!--<a href="#" class="escudo-link">
                 <img
                   src="/static/img/pucela_sf-small.webp"
                   class="escudo"
@@ -1057,135 +800,106 @@
                 />
                 <span class="escudo-nombre">Real ValladoliDi</span>
               </a>-->
-            </div>
           </div>
-        </section>
-        <!-- Canal de WhatsApp -->
-        <section class="canal-whatsapp text-center py-3 my-3">
-          <span class="texto-canal">
-            📲<span class="texto-canal fw-bold"
-              >Únete al Canal Oficial de WhatsApp</span
-            >
-            y recibe al instante los resultados, clasificaciones, gráficas e
-            historial del deporte de Valladolid.
-          </span>
-          <a
-            href="{{ SOCIAL.whatsapp }}"
-            target="_blank"
-            rel="noopener"
-            class="btn btn-success ms-3"
-          >
-            <i class="bi bi-whatsapp"></i> Únete al canal
-          </a>
-        </section>
-        <section id="valladolid" class="container-fluid mt-3">
-          <div class="netflix-track mb-3">
-            {% if ver_publicacion %} {% for date in ver_publicacion %}
-            <div class="netflix-item">
-              <div class="card partido-card">
-                <!-- Cabecera -->
-                <div
-                  class="card-header deporte-header  {{ date.seccion|lower|replace(' ','-') }}"
-                >
-                  {% if date.seccion == "Fútbol" %} ⚽ {% elif date.seccion ==
-                  "Baloncesto" %} 🏀 {% elif date.seccion == "Balonmano" %} 🤾
-                  {% elif date.seccion == "Rugby" %} 🏉 {% elif date.seccion ==
-                  "Hockey Línea" %} 🏑 {% elif date.seccion == "Voleibol" %} 🏐
-                  {% elif date.seccion == "Fútbol Sala" %} 🥅 {% endif %} {{
-                  date.seccion }}
+        </div>
+      </section>
+      <!-- Canal de WhatsApp -->
+      <section class="canal-whatsapp text-center py-3 my-3">
+        <span class="texto-canal">
+          📲<span class="texto-canal fw-bold">Únete al Canal Oficial de WhatsApp</span>
+          y recibe al instante los resultados, clasificaciones, gráficas e
+          historial del deporte de Valladolid.
+        </span>
+        <a href="{{ SOCIAL.whatsapp }}" target="_blank" rel="noopener" class="btn btn-success ms-3">
+          <i class="bi bi-whatsapp"></i> Únete al canal
+        </a>
+      </section>
+      <section id="valladolid" class="container-fluid mt-3">
+        <div class="netflix-track mb-3">
+          {% if ver_publicacion %} {% for date in ver_publicacion %}
+          <div class="netflix-item">
+            <div class="card partido-card">
+              <!-- Cabecera -->
+              <div class="card-header deporte-header  {{ date.seccion|lower|replace(' ','-') }}">
+                {% if date.seccion == "Fútbol" %} ⚽ {% elif date.seccion ==
+                "Baloncesto" %} 🏀 {% elif date.seccion == "Balonmano" %} 🤾
+                {% elif date.seccion == "Rugby" %} 🏉 {% elif date.seccion ==
+                "Hockey Línea" %} 🏑 {% elif date.seccion == "Voleibol" %} 🏐
+                {% elif date.seccion == "Fútbol Sala" %} 🥅 {% endif %} {{
+                date.seccion }}
+              </div>
+              <!-- Cuerpo -->
+              <div class="card-body">
+                <h6 class="text-center fw-bold text-primary mb-3">
+                  {{ date.liga }}
+                </h6>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="equipos-mobile"> {{ date.equipoA }} </span>
+                  <span class="resultados-mobile">
+                    {{ date.resultado1 }}
+                  </span>
                 </div>
-                <!-- Cuerpo -->
-                <div class="card-body">
-                  <h6 class="text-center fw-bold text-primary mb-3">
-                    {{ date.liga }}
-                  </h6>
-                  <div
-                    class="d-flex justify-content-between align-items-center mb-2"
-                  >
-                    <span class="equipos-mobile"> {{ date.equipoA }} </span>
-                    <span class="resultados-mobile">
-                      {{ date.resultado1 }}
-                    </span>
-                  </div>
-                  <div
-                    class="d-flex justify-content-between align-items-center mb-2"
-                  >
-                    <span class="equipos-mobile"> {{ date.equipoB }} </span>
-                    <span class="resultados-mobile">
-                      {{ date.resultado2 }}
-                    </span>
-                  </div>
-                  <div class="text-center">
-                    <small class="text-primary fw-bold">
-                      📅 {{ date.fecha_partido }}
-                    </small>
-                  </div>
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                  <span class="equipos-mobile"> {{ date.equipoB }} </span>
+                  <span class="resultados-mobile">
+                    {{ date.resultado2 }}
+                  </span>
+                </div>
+                <div class="text-center">
+                  <small class="text-primary fw-bold">
+                    📅 {{ date.fecha_partido }}
+                  </small>
                 </div>
               </div>
             </div>
-            {% endfor %} {% endif %}
           </div>
-        </section>
-        <!-- Resultados flotantes en directo -->
-        <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
-      <div class="card shadow-lg border-0 w-25" id="directo-container">
-        <div class="card-header fs-5 bg-info fw-bold text-menu-seccion text-center">
-          🟢 Partidos en Directo
+          {% endfor %} {% endif %}
         </div>
-        <div class="card-body bg-light p-2" id="directo-contenido">
-          <!-- Las cards se insertarán aquí -->
+      </section>
+      <!-- Resultados flotantes en directo -->
+      <section id="en-direct" class="container-fluid d-flex justify-content-center align-items-center">
+        <div class="card shadow-lg border-0 w-25" id="directo-container">
+          <div class="card-header fs-5 bg-info fw-bold text-menu-seccion text-center">
+            🟢 Partidos en Directo
+          </div>
+          <div class="card-body bg-light p-2" id="directo-contenido">
+            <!-- Las cards se insertarán aquí -->
+          </div>
+          <div class="card-footer text-center bg-light">
+            <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
+          </div>
         </div>
-        <div class="card-footer text-center bg-light">
-          <button class="btn btn-secondary btn-sm" onclick="cerrarModalDirecto()">Cerrar</button>
-        </div>
-      </div>
-     </section>
-        <!--Logos Escudos-->
-      </main>
-      <footer class="container-fluid mt-auto footer-seccion py-3">
-        <div class="container-lg">
-          <!-- REDES SOCIALES -->
-          <div class="footer-redes text-center mb-3">
-            <h5 class="fw-bold text-menu-seccion text-white mb-2">Síguenos</h5>
-            <div class="redes-iconos">
-              <a
-                href="{{ SOCIAL.facebook }}"
-                class="red-social"
-                aria-label="Facebook"
-              >
-                <i class="bi bi-facebook text-white"></i>
-              </a>
-              <a
-                href="{{ SOCIAL.instagram }}"
-                class="red-social"
-                aria-label="Instagram"
-              >
-                <i class="bi bi-instagram text-white"></i>
-              </a>
-              <!--<a href="#" class="red-social" aria-label="TikTok">
+      </section>
+      <!--Logos Escudos-->
+    </main>
+    <footer class="container-fluid mt-auto footer-seccion py-3">
+      <div class="container-lg">
+        <!-- REDES SOCIALES -->
+        <div class="footer-redes text-center mb-3">
+          <h5 class="fw-bold text-menu-seccion text-white mb-2">Síguenos</h5>
+          <div class="redes-iconos">
+            <a href="{{ SOCIAL.facebook }}" class="red-social" aria-label="Facebook">
+              <i class="bi bi-facebook text-white"></i>
+            </a>
+            <a href="{{ SOCIAL.instagram }}" class="red-social" aria-label="Instagram">
+              <i class="bi bi-instagram text-white"></i>
+            </a>
+            <!--<a href="#" class="red-social" aria-label="TikTok">
                     <i class="bi bi-tiktok"></i>
                 </a>-->
-              <a
-                href="{{ SOCIAL.whatsapp }}"
-                class="red-social"
-                aria-label="Whatsapp"
-              >
-                <i class="bi bi-whatsapp text-white"></i>
-              </a>
-              <a
-                href="{{ SOCIAL.threads }}"
-                class="red-social"
-                aria-label="Threads"
-              >
-                <i class="bi bi-threads text-white"></i>
-              </a>
-              <!--<a href="#" class="red-social" aria-label="YouTube">
+            <a href="{{ SOCIAL.whatsapp }}" class="red-social" aria-label="Whatsapp">
+              <i class="bi bi-whatsapp text-white"></i>
+            </a>
+            <a href="{{ SOCIAL.threads }}" class="red-social" aria-label="Threads">
+              <i class="bi bi-threads text-white"></i>
+            </a>
+            <!--<a href="#" class="red-social" aria-label="YouTube">
                     <i class="bi bi-youtube"></i>
                 </a>-->
-            </div>
           </div>
-          <!-- PATROCINADORES -->
-          <!--<div class="footer-patrocinadores text-center mb-3">
+        </div>
+        <!-- PATROCINADORES -->
+        <!--<div class="footer-patrocinadores text-center mb-3">
             <h5 class="fw-bold text-menu-seccion mb-3">
                 Patrocinadores
             </h5>
@@ -1202,242 +916,278 @@
                 ->
             </div>
         </div>-->
-          <!-- SEPARADOR -->
-          <div class="footer-separador mb-2"></div>
-          <!-- INFORMACIÓN -->
-          <div class="row align-items-center">
-            <div
-              class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-2 mb-lg-0"
-            >
-              <h4 class="text-white text-footer fw-bold mb-0">
-                deportesdelaciudad &copy; 2026
-              </h4>
-            </div>
-            <div
-              class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-2 mb-lg-0"
-            >
-              <a href="#" id="nosotros-link" class="text-decoration-none">
-                <h5 class="text-white text-footer ms-1 mb-1">Nosotros -</h5>
-              </a>
-              <a href="#" id="contactanos-link" class="text-decoration-none">
-                <h5 class="text-white ms-1 mb-1">Contáctanos -</h5>
-              </a>
-              <a href="#" id="aviso-legal-link" class="text-decoration-none">
-                <h5 class="text-white text-footer ms-1 mb-1">Aviso legal -</h5>
-              </a>
-              <a
-                href="#"
-                id="politica-privacidad-link"
-                class="text-decoration-none"
-              >
-                <h5 class="text-white text-footer ms-1 mb-1">Privacidad -</h5>
-              </a>
-              <a
-                href="#"
-                id="politica-cookies-link"
-                class="text-decoration-none"
-              >
-                <h5 class="text-white text-footer ms-1 mb-1">Cookies</h5>
-              </a>
-            </div>
-            <div
-              class="col-12 col-lg-2 d-flex justify-content-center align-items-center"
-            >
-              <img
-                src="{{ url_for('static', filename='img/logo-deportes2.webp') }}"
-                class="img-fluid logo-footer"
-                alt="Deportes de la Ciudad"
-              />
-            </div>
+        <!-- SEPARADOR -->
+        <div class="footer-separador mb-2"></div>
+        <!-- INFORMACIÓN -->
+        <div class="row align-items-center">
+          <div class="col-12 col-lg-3 d-flex justify-content-center align-items-center mb-2 mb-lg-0">
+            <h4 class="text-white text-footer fw-bold mb-0">
+              deportesdelaciudad &copy; 2026
+            </h4>
+          </div>
+          <div class="col-12 col-lg-7 d-flex flex-wrap justify-content-center align-items-center mb-2 mb-lg-0">
+            <a href="#" id="nosotros-link" class="text-decoration-none">
+              <h5 class="text-white text-footer ms-1 mb-1">Nosotros -</h5>
+            </a>
+            <a href="#" id="contactanos-link" class="text-decoration-none">
+              <h5 class="text-white ms-1 mb-1">Contáctanos -</h5>
+            </a>
+            <a href="#" id="aviso-legal-link" class="text-decoration-none">
+              <h5 class="text-white text-footer ms-1 mb-1">Aviso legal -</h5>
+            </a>
+            <a href="#" id="politica-privacidad-link" class="text-decoration-none">
+              <h5 class="text-white text-footer ms-1 mb-1">Privacidad -</h5>
+            </a>
+            <a href="#" id="politica-cookies-link" class="text-decoration-none">
+              <h5 class="text-white text-footer ms-1 mb-1">Cookies</h5>
+            </a>
+          </div>
+          <div class="col-12 col-lg-2 d-flex justify-content-center align-items-center">
+            <img src="{{ url_for('static', filename='img/logo-deportes2.webp') }}" class="img-fluid logo-footer"
+              alt="Deportes de la Ciudad" />
           </div>
         </div>
-      </footer>
-      <!-- Modales -->
-      <div
-        id="aviso-legal-modal"
-        class="custom-modal aviso-legal-modal text-dark"
-      >
-        <!-- Aviso Legal -->
-        <div class="custom-modal-content aviso-legal-content">
-          <span class="custom-close" id="close-aviso-legal">&times;</span>
-          <h2 class="text-center fs-1 pb-3"><strong>Aviso Legal</strong></h2>
-          <h3><strong>Datos Identificativos</strong></h3>
-          <p><strong>Nombre del sitio:</strong> deportesdelaciudad.es</p>
-          <p><strong>Titular:</strong> Vanesa Acebes Juarez</p>
-          <p><strong>Nif:</strong> 44914916X</p>
-          <p>
-            <strong>Dirección:</strong> Santovenia de Pisuerga (Valladolid),
-            España
-          </p>
-          <p>
-            <strong>Correo electrónico:</strong
-            ><a href="mailto:deportedelaciudad26@gmail.com">
-              deportesdelaciudad26@gmail.com</a
-            >
-          </p>
-          <h3><strong>Condiciones de Uso</strong></h3>
-          <p>
-            El uso de este sitio web implica la aceptación de las siguientes
-            condiciones. Si no está de acuerdo con ellas, por favor no utilice
-            este sitio web.
-          </p>
-          <h3><strong>Responsabilidad sobre el Contenido</strong></h3>
-          <p>
-            La información publicada en este sitio web tiene carácter informativo y se elabora a partir de datos de competiciones deportivas y fuentes relacionadas. Aunque procuramos mantenerla actualizada y ofrecer información precisa, pueden producirse errores u omisiones, así como cambios en los resultados, calendarios y clasificaciones. Recomendamos consultar las fuentes oficiales de cada competición para confirmar cualquier dato relevante.
-          </p>
-          <h3><strong>Propiedad Intelectual</strong></h3>
-          <p>
-            Los textos y contenidos originales elaborados para este sitio web
-            son propiedad de su titular. Las imágenes, logotipos, escudos y
-            demás elementos gráficos pertenecen a sus respectivos titulares o se
-            utilizan conforme a las condiciones aplicables. Queda prohibida la
-            reproducción de los contenidos originales de este sitio web sin
-            autorización.
-          </p>
-          <h3><strong>Enlaces Externos</strong></h3>
-          <p>
-            Este sitio web puede contener enlaces a otros sitios web. El
-            propietario no se responsabiliza del contenido de estos sitios
-            externos.
-          </p>
-          <h3><strong>Afiliación y publicidad</strong></h3>
-          <p>
-            Este sitio web puede contener enlaces de afiliación y publicidad de
-            terceros. Algunos de estos enlaces pueden generar una comisión para
-            el titular del sitio cuando el usuario realiza una compra o
-            interacción a través de ellos, sin que esto suponga un coste
-            adicional para el usuario.
-          </p>
-          <p>
-            En calidad de Afiliado de Amazon, obtengo ingresos por las compras
-            adscritas que cumplen los requisitos aplicables.
-          </p>
-        </div>
       </div>
-      <div
-        id="politica-privacidad-modal"
-        class="custom-modal politica-privacidad-modal text-dark"
-      >
-        <div class="custom-modal-content politica-privacidad-content">
-          <span class="custom-close" id="close-politica-privacidad"
-            >&times;</span
-          >
-          <h2 class="text-center fs-1 pb-3">
-            <strong>Política de Privacidad</strong>
-          </h2>
-          <h3><strong>1. Responsable</strong></h3>
-          <p>
-            El responsable de este sitio web es el titular indicado en el
-            <strong>Aviso Legal</strong> de deportesdelaciudad.es.
-          </p>
-          <p>
-            Para cualquier cuestión relacionada con la privacidad puede ponerse
-            en contacto a través del correo electrónico:<a
-              href="mailto:deportesdelaciudad26@gmail.com"
-            >
-              deportesdelaciudad26@gmail.com</a
-            >
-          </p>
-          <h3><strong>2. Recogida de datos personales</strong></h3>
-          <p>
-            Actualmente, deportesdelaciudad.es es un sitio web de carácter
-            informativo y no dispone de sistemas de registro de usuarios,
-            cuentas personales, boletines de suscripción ni formularios
-            destinados a recopilar y almacenar datos personales de los usuarios.
-          </p>
-          <p>
-            Por tanto, el sitio web no solicita ni recopila directamente
-            información personal de los usuarios para crear perfiles, cuentas o
-            bases de datos de usuarios.
-          </p>
-          <h3><strong>3. Contacto por correo electrónico</strong></h3>
-          <p>
-            El sitio web proporciona una dirección de correo electrónico para
-            que los usuarios puedan realizar consultas, sugerencias o ponerse en
-            contacto con el responsable del sitio.
-          </p>
-          <p>
-            Si un usuario decide contactar voluntariamente por correo
-            electrónico, los datos incluidos en dicho mensaje serán tratados
-            únicamente con la finalidad de atender y responder a la consulta
-            realizada.
-          </p>
-          <h3><strong>4. Cookies</strong></h3>
-          <p>
-            El funcionamiento del sitio web puede requerir determinadas cookies
-            técnicas o de sesión necesarias para prestar correctamente algunos
-            servicios y facilitar la navegación.
-          </p>
-          <p>
-            Para obtener información detallada sobre las cookies utilizadas en
-            este sitio web, puede consultar nuestra
-            <strong>Política de Cookies</strong>.
-          </p>
-          <h3><strong>5. Enlaces a terceros</strong></h3>
-          <p>
-            Este sitio web puede contener enlaces a páginas web de terceros,
-            deportesdelaciudad.es no es responsable de las políticas de
-            privacidad ni del tratamiento de datos que realicen dichos sitios.
-            Se recomienda consultar sus respectivas políticas de privacidad
-            antes de facilitar cualquier información personal.
-          </p>
-          <h3><strong>6. Derechos de los usuarios</strong></h3>
-          <p>
-            En caso de que una persona facilite voluntariamente datos personales
-            mediante comunicación por correo electrónico, podrá ejercer los
-            derechos que le correspondan conforme a la normativa aplicable,
-            dirigiéndose a:
-          </p>
-          <p class="text-center">
-            <a href="mailto:deportesdelaciudad26@gmail.com">
-              deportesdelaciudad26@gmail.com</a
-            >
-          </p>
-          <h3><strong>7. Actualización de la política</strong></h3>
-          <p>
-            Esta Política de Privacidad podrá ser modificada cuando cambien las
-            funcionalidades del sitio web, los servicios utilizados o la
-            normativa aplicable.
-          </p>
-          <p><strong>Última actualización:</strong> 28/07/2026</p>
-        </div>
+    </footer>
+    <!-- Modales -->
+    <div id="aviso-legal-modal" class="custom-modal aviso-legal-modal text-dark">
+      <!-- Aviso Legal -->
+      <div class="custom-modal-content aviso-legal-content">
+        <span class="custom-close" id="close-aviso-legal">&times;</span>
+        <h2 class="text-center fs-1 pb-3"><strong>Aviso Legal</strong></h2>
+        <h3><strong>Datos Identificativos</strong></h3>
+        <p><strong>Nombre del sitio:</strong> deportesdelaciudad.es</p>
+        <p><strong>Titular:</strong> Vanesa Acebes Juarez</p>
+        <p><strong>Nif:</strong> 44914916X</p>
+        <p>
+          <strong>Dirección:</strong> Santovenia de Pisuerga (Valladolid),
+          España
+        </p>
+        <p>
+          <strong>Correo electrónico:</strong><a href="mailto:deportedelaciudad26@gmail.com">
+            deportesdelaciudad26@gmail.com</a>
+        </p>
+        <h3><strong>Condiciones de Uso</strong></h3>
+        <p>
+          El uso de este sitio web implica la aceptación de las siguientes
+          condiciones. Si no está de acuerdo con ellas, por favor no utilice
+          este sitio web.
+        </p>
+        <h3><strong>Responsabilidad sobre el Contenido</strong></h3>
+        <p>
+          La información publicada en este sitio web tiene carácter informativo y se elabora a partir de datos de
+          competiciones deportivas y fuentes relacionadas. Aunque procuramos mantenerla actualizada y ofrecer
+          información precisa, pueden producirse errores u omisiones, así como cambios en los resultados, calendarios y
+          clasificaciones. Recomendamos consultar las fuentes oficiales de cada competición para confirmar cualquier
+          dato relevante.
+        </p>
+        <h3><strong>Propiedad Intelectual</strong></h3>
+        <p>
+          Los textos y contenidos originales elaborados para este sitio web
+          son propiedad de su titular. Las imágenes, logotipos, escudos y
+          demás elementos gráficos pertenecen a sus respectivos titulares o se
+          utilizan conforme a las condiciones aplicables. Queda prohibida la
+          reproducción de los contenidos originales de este sitio web sin
+          autorización.
+        </p>
+        <h3><strong>Enlaces Externos</strong></h3>
+        <p>
+          Este sitio web puede contener enlaces a otros sitios web. El
+          propietario no se responsabiliza del contenido de estos sitios
+          externos.
+        </p>
+        <h3><strong>Afiliación y publicidad</strong></h3>
+        <p>
+          Este sitio web puede contener enlaces de afiliación y publicidad de
+          terceros. Algunos de estos enlaces pueden generar una comisión para
+          el titular del sitio cuando el usuario realiza una compra o
+          interacción a través de ellos, sin que esto suponga un coste
+          adicional para el usuario.
+        </p>
+        <p>
+          En calidad de Afiliado de Amazon, obtengo ingresos por las compras
+          adscritas que cumplen los requisitos aplicables.
+        </p>
       </div>
-      <div
-        id="politica-cookies-modal"
-        class="custom-modal politica-cookies-modal text-dark"
-      >
-        <!-- Política de Cookies -->
-        <div class="custom-modal-content politica-cookies-content">
-          <span class="custom-close" id="close-politica-cookies">&times;</span>
-          <h2 class="text-center fs-1 pb-3"><strong>Cookies</strong></h2>
-          <p>
-            En eldeportedelaciudad, utilizamos cookies para mejorar su
-            experiencia en nuestro sitio web. Esta política de cookies explica
-            qué son las cookies, cómo las usamos y cómo puede gestionarlas.
-          </p>
-          <h3><strong>Qué son las cookies</strong></h3>
-          <p>
-            Las cookies son pequeños archivos de texto que se almacenan en su
-            dispositivo cuando visita nuestro sitio web. Nos ayudan a recordar
-            sus preferencias y a mejorar su experiencia de usuario.
-          </p>
-          <h3><strong>Propósito de las cookies</strong></h3>
-          <p>
-            Las cookies nos ayudan a mejorar nuestro sitio web, proporcionar una
-            mejor experiencia de usuario y analizar el tráfico del sitio.
-          </p>
-          <h3><strong>Gestión de cookies</strong></h3>
-          <p>
-            Usted puede gestionar sus preferencias de cookies a través de la
-            configuración de su navegador. Puede aceptar, rechazar o eliminar
-            cookies siguiendo las instrucciones específicas de su navegador.
-          </p>
-          <p>
-            Para más información sobre cómo gestionar cookies, visite
-            <a href="https://www.aepd.es">AboutCookies.org</a>.
-          </p>
-          <p>Última actualización: 28/07/2026</p>
-        </div>
+    </div>
+    <div id="politica-privacidad-modal" class="custom-modal politica-privacidad-modal text-dark">
+      <div class="custom-modal-content politica-privacidad-content">
+        <span class="custom-close" id="close-politica-privacidad">&times;</span>
+        <h2 class="text-center fs-1 pb-3">
+          <strong>Política de Privacidad</strong>
+        </h2>
+        <h3><strong>1. Responsable</strong></h3>
+        <p>
+          El responsable de este sitio web es el titular indicado en el
+          <strong>Aviso Legal</strong> de deportesdelaciudad.es.
+        </p>
+        <p>
+          Para cualquier cuestión relacionada con la privacidad puede ponerse
+          en contacto a través del correo electrónico:<a href="mailto:deportesdelaciudad26@gmail.com">
+            deportesdelaciudad26@gmail.com</a>
+        </p>
+        <h3><strong>2. Recogida de datos personales</strong></h3>
+        <p>
+          Actualmente, deportesdelaciudad.es es un sitio web de carácter
+          informativo y no dispone de sistemas de registro de usuarios,
+          cuentas personales, boletines de suscripción ni formularios
+          destinados a recopilar y almacenar datos personales de los usuarios.
+        </p>
+        <p>
+          Por tanto, el sitio web no solicita ni recopila directamente
+          información personal de los usuarios para crear perfiles, cuentas o
+          bases de datos de usuarios.
+        </p>
+        <h3><strong>3. Contacto por correo electrónico</strong></h3>
+        <p>
+          El sitio web proporciona una dirección de correo electrónico para
+          que los usuarios puedan realizar consultas, sugerencias o ponerse en
+          contacto con el responsable del sitio.
+        </p>
+        <p>
+          Si un usuario decide contactar voluntariamente por correo
+          electrónico, los datos incluidos en dicho mensaje serán tratados
+          únicamente con la finalidad de atender y responder a la consulta
+          realizada.
+        </p>
+        <h3><strong>4. Cookies</strong></h3>
+        <p>
+          El funcionamiento del sitio web puede requerir determinadas cookies
+          técnicas o de sesión necesarias para prestar correctamente algunos
+          servicios y facilitar la navegación.
+        </p>
+        <p>
+          Para obtener información detallada sobre las cookies utilizadas en
+          este sitio web, puede consultar nuestra
+          <strong>Política de Cookies</strong>.
+        </p>
+        <h3><strong>5. Enlaces a terceros</strong></h3>
+        <p>
+          Este sitio web puede contener enlaces a páginas web de terceros,
+          deportesdelaciudad.es no es responsable de las políticas de
+          privacidad ni del tratamiento de datos que realicen dichos sitios.
+          Se recomienda consultar sus respectivas políticas de privacidad
+          antes de facilitar cualquier información personal.
+        </p>
+        <h3><strong>6. Derechos de los usuarios</strong></h3>
+        <p>
+          En caso de que una persona facilite voluntariamente datos personales
+          mediante comunicación por correo electrónico, podrá ejercer los
+          derechos que le correspondan conforme a la normativa aplicable,
+          dirigiéndose a:
+        </p>
+        <p class="text-center">
+          <a href="mailto:deportesdelaciudad26@gmail.com">
+            deportesdelaciudad26@gmail.com</a>
+        </p>
+        <h3><strong>7. Actualización de la política</strong></h3>
+        <p>
+          Esta Política de Privacidad podrá ser modificada cuando cambien las
+          funcionalidades del sitio web, los servicios utilizados o la
+          normativa aplicable.
+        </p>
+        <p><strong>Última actualización:</strong> 28/07/2026</p>
+      </div>
+    </div>
+    <div id="politica-cookies-modal" class="custom-modal politica-cookies-modal text-dark">
+      <!-- Política de Cookies -->
+      <div class="custom-modal-content politica-cookies-content">
+        <span class="custom-close" id="close-politica-cookies">&times;</span>
+
+        <h2 class="text-center fs-1 pb-3">
+          <strong>Política de cookies</strong>
+        </h2>
+
+        <p>
+          En <strong>Deportes de la Ciudad</strong> utilizamos cookies y tecnologías similares
+          para garantizar el funcionamiento de la página web, analizar su uso y,
+          cuando corresponda, gestionar la publicidad. Esta política explica qué son
+          las cookies, qué tipos pueden utilizarse y cómo puedes gestionar tus preferencias.
+        </p>
+
+        <h3><strong>¿Qué son las cookies?</strong></h3>
+
+        <p>
+          Las cookies son pequeños archivos que se almacenan en el dispositivo del
+          usuario cuando visita una página web. Permiten recordar determinadas
+          preferencias, facilitar la navegación y obtener información sobre el uso
+          del sitio web.
+        </p>
+
+        <h3><strong>¿Qué tipos de cookies utilizamos?</strong></h3>
+
+        <p>
+          En Deportes de la Ciudad pueden utilizarse las siguientes categorías de cookies:
+        </p>
+
+        <p>
+          <strong>Cookies técnicas o necesarias:</strong>
+          permiten el funcionamiento básico de la página web, la navegación y el uso
+          de sus diferentes servicios. Estas cookies no requieren consentimiento cuando
+          son estrictamente necesarias para prestar el servicio solicitado.
+        </p>
+
+        <p>
+          <strong>Cookies de análisis:</strong>
+          permiten conocer cómo utilizan los visitantes la página web, qué apartados
+          consultan y cómo interactúan con sus contenidos. Para estas mediciones
+          podemos utilizar Google Analytics, con el fin de obtener estadísticas y
+          mejorar el funcionamiento y los contenidos del sitio.
+        </p>
+
+        <p>
+          <strong>Cookies publicitarias:</strong>
+          si se incorpora publicidad mediante Google AdSense, podrán utilizarse
+          cookies y tecnologías similares para gestionar la publicidad, medir su
+          rendimiento y, cuando el usuario lo autorice, personalizar los anuncios.
+        </p>
+
+        <h3><strong>Cookies de terceros</strong></h3>
+
+        <p>
+          Algunos servicios externos utilizados en la web, como Google Analytics
+          o, en su caso, Google AdSense, pueden utilizar sus propias cookies
+          y tecnologías de almacenamiento. Estos servicios se rigen también por
+          sus respectivas políticas de privacidad.
+        </p>
+
+        <p>
+          Puedes consultar más información en las
+          <a href="https://policies.google.com/privacy?hl=es" target="_blank" rel="noopener noreferrer">
+            políticas de privacidad de Google
+          </a>.
+        </p>
+
+        <h3><strong>Gestión y configuración de cookies</strong></h3>
+
+        <p>
+          Puedes aceptar, rechazar o configurar las cookies no necesarias mediante
+          las opciones disponibles en el aviso o panel de configuración de cookies
+          de la página web.
+        </p>
+
+        <p>
+          También puedes eliminar o bloquear las cookies desde la configuración
+          de tu navegador. Ten en cuenta que desactivar determinadas cookies
+          puede afectar al funcionamiento de algunos servicios.
+        </p>
+
+        <p>
+          Para obtener más información sobre el uso de cookies y tus derechos,
+          puedes consultar la
+          <a href="https://www.aepd.es/" target="_blank" rel="noopener noreferrer">
+            Agencia Española de Protección de Datos (AEPD)
+          </a>.
+        </p>
+
+        <h3><strong>Actualizaciones de esta política</strong></h3>
+
+        <p>
+          Esta política podrá actualizarse cuando se incorporen nuevos servicios,
+          herramientas o tecnologías que impliquen el uso de cookies en la página web.
+        </p>
+
+        <p>Última actualización: 05/11/2026</p>
       </div>
       <div id="nosotros-modal" class="custom-modal nosotros-modal text-dark">
         <!-- Nosotros -->
@@ -1445,8 +1195,8 @@
           <span class="custom-close" id="close-nosotros">&times;</span>
           <h2 class="text-center fs-1 pb-3"><strong>Nosotros</strong></h2>
           <p>
-            Bienvenid@s a <strong><i>deportesdelaciudad</i></strong
-            >, nos apasiona ofrecer la mejor información y cobertura sobre los
+            Bienvenid@s a <strong><i>deportesdelaciudad</i></strong>, nos apasiona ofrecer la mejor información y
+            cobertura sobre los
             deportes de <i>Valladolid</i> que más te gustan. Hemos creado una
             plataforma completa que abarca diversos deportes y competiciones,
             proporcionando a nuestros usuarios acceso fácil a calendarios,
@@ -1507,12 +1257,12 @@
             </p>
             <h5>Baloncesto Femenino</h5>
             <p>
-              Liga Femenina Endesa, Liga Femenina Challange, Liga Femenina 2, 1ª
+              Liga Femenina Endesa, Liga Femenina Challenge, Liga Femenina 2, 1ª
               División Femenina, Euroliga Femenina y Eurocopa Femenina
             </p>
             <h5>Baloncesto Masculino</h5>
             <p>
-              Liga ACB, Liga Leb Oro, Liga Leb Plata, Liga EBA, 1ª División
+              Liga ACB, Liga Primera FEB, Liga Segunda FEB, Liga EBA, 1ª División
               Nacional, Euroliga y Eurocup.
             </p>
             <h5>Balonmano Femenino</h5>
@@ -1523,7 +1273,7 @@
             <h5>Balonmano Masculino</h5>
             <p>
               Liga Asobal, División Honor Plata, 1ª División Nacional, 2ª
-              División Nacional, Territoriales Autónomicas, EHF Champions League
+              División Nacional, Territoriales Autonómicas, EHF Champions League
               y EHF European League.
             </p>
             <!--<h5>Fútbol Adaptado</h5>
@@ -1573,7 +1323,7 @@
             <h5>Voleibol Masculino</h5>
             <p>
               Superliga Masculina, Superliga Masculina 2, 1ª División Masculina,
-              CEV Champions League, Challange Cup.
+              CEV Champions League, Challenge Cup.
             </p>
           </div>
           <div>
@@ -1581,21 +1331,13 @@
               ¡Explora y disfruta del deporte con nosotros! Estamos
               comprometidos a ofrecerte la mejor experiencia deportiva en línea.
               Si tienes alguna pregunta o sugerencia, no dudes en ponerte en
-              <a
-                href="#contactanos-modal"
-                id="contacto-link"
-                class="text-decoration-none"
-                >contacto</a
-              >
+              <a href="#contactanos-modal" id="contacto-link" class="text-decoration-none">contacto</a>
               con nuestro equipo.
             </p>
           </div>
         </div>
       </div>
-      <div
-        id="contactanos-modal"
-        class="custom-modal contactanos-modal text-dark"
-      >
+      <div id="contactanos-modal" class="custom-modal contactanos-modal text-dark">
         <!-- Contactanos -->
         <div class="custom-modal-content contactanos-content">
           <span class="custom-close" id="close-contactanos">&times;</span>
@@ -1605,40 +1347,31 @@
             que se nos haya pasado a nosotros. Para cualquier pregunta,
             sugerencia o información adicional contacta con nosotros
             directamente a nuestro gmail de la página
-            <a
-              href="mailto:deportesdelaciudad26@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.es&body=Hola, me pongo en contacto con vosotros para......"
-              class="fs-5 text-center d-flex justify-content-center pt-3"
-              >deportesdelaciudad26@gmail.com</a
-            >
+            <a href="mailto:deportesdelaciudad26@gmail.com?subject=Mi consulta desde la página web deportesdelaciudad.es&body=Hola, me pongo en contacto con vosotros para......"
+              class="fs-5 text-center d-flex justify-content-center pt-3">deportesdelaciudad26@gmail.com</a>
           </p>
         </div>
       </div>
     </div>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.min.js"
-      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
-      crossorigin="anonymous"
-    ></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+      integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Bootstrap JavaScript Libraries -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
       integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+      crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
       integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
       crossorigin="anonymous"></script>
     <script src="/static/js/script.js"></script>
     <script src="/static/js/leer_mas.js"></script>
     <script src="/static/js/proteccion-datos.js"></script>
     <script>
-    let indexActual = 0;
-    let partidosGuardados = [];
-    function mostrarPartido(partido, contenedor) {
-      const card = document.createElement('div');
-      card.className = 'body-directo mb-2 p-3 rounded fade';
-      card.innerHTML = `
+      let indexActual = 0;
+      let partidosGuardados = [];
+      function mostrarPartido(partido, contenedor) {
+        const card = document.createElement('div');
+        card.className = 'body-directo mb-2 p-3 rounded fade';
+        card.innerHTML = `
     <div class="directo-card">
     <div class="liga text-center mb-2">
       ${partido.liga}
@@ -1659,78 +1392,78 @@
     </div>
   </div>`;
 
-      contenedor.innerHTML = '';
-      contenedor.appendChild(card);
-      void card.offsetWidth; // fuerza reflow para reiniciar transición
-      card.classList.add('show');
-    }
-
-    function cargarPartidosEnDirecto() {
-      fetch('/api/partidos_directo')
-        .then(response => response.json())
-        .then(data => {
-          const contenedor = document.getElementById('directo-contenido');
-          const seccion = document.getElementById('en-direct');
-
-          // Chequea si existen los elementos antes de manipularlos
-          if (!contenedor || !seccion) {
-            return;
-          }
-
-          if (data.length === 0) {
-            seccion.classList.remove('visible');
-            partidosGuardados = [];
-            indexActual = 0;
-            contenedor.innerHTML = '';
-            return;
-          }
-
-          seccion.classList.add('visible');
-          partidosGuardados = data; // guardamos para el carrusel
-          indexActual = 0; // reiniciamos index
-          mostrarPartido(partidosGuardados[indexActual], contenedor);
-        })
-        .catch(error => {
-          console.error('Error al cargar partidos en directo:', error);
-        });
-    }
-
-    // Función para cambiar de partido cada 10 segundos
-    function iniciarCarrusel() {
-      setInterval(() => {
-        const contenedor = document.getElementById('directo-contenido');
-        if (contenedor && partidosGuardados.length > 1) {
-          indexActual = (indexActual + 1) % partidosGuardados.length;
-          mostrarPartido(partidosGuardados[indexActual], contenedor);
-        }
-      }, 5000); // 10 segundos
-    }
-
-    function cerrarModalDirecto() {
-      const seccion = document.getElementById('en-direct');
-      if (seccion) {
-        seccion.style.setProperty('display', 'none', 'important');
+        contenedor.innerHTML = '';
+        contenedor.appendChild(card);
+        void card.offsetWidth; // fuerza reflow para reiniciar transición
+        card.classList.add('show');
       }
-    }
-    function mostrarDirectos() {
-  const directos = document.getElementById("en-direct");
-  directos.classList.add("visible");
-}
 
-// Cerrar sección
-function cerrarModalDirecto() {
-  const seccion = document.getElementById('en-direct');
-  if (seccion) {
-    seccion.classList.remove('visible');
-  }
-}
+      function cargarPartidosEnDirecto() {
+        fetch('/api/partidos_directo')
+          .then(response => response.json())
+          .then(data => {
+            const contenedor = document.getElementById('directo-contenido');
+            const seccion = document.getElementById('en-direct');
 
-// Ejecutar cuando el DOM esté listo
-document.addEventListener("DOMContentLoaded", function () {
-  cargarPartidosEnDirecto();
-  setInterval(cargarPartidosEnDirecto, 15000); // refrescar cada 15s
-  iniciarCarrusel();
-});
+            // Chequea si existen los elementos antes de manipularlos
+            if (!contenedor || !seccion) {
+              return;
+            }
+
+            if (data.length === 0) {
+              seccion.classList.remove('visible');
+              partidosGuardados = [];
+              indexActual = 0;
+              contenedor.innerHTML = '';
+              return;
+            }
+
+            seccion.classList.add('visible');
+            partidosGuardados = data; // guardamos para el carrusel
+            indexActual = 0; // reiniciamos index
+            mostrarPartido(partidosGuardados[indexActual], contenedor);
+          })
+          .catch(error => {
+            console.error('Error al cargar partidos en directo:', error);
+          });
+      }
+
+      // Función para cambiar de partido cada 10 segundos
+      function iniciarCarrusel() {
+        setInterval(() => {
+          const contenedor = document.getElementById('directo-contenido');
+          if (contenedor && partidosGuardados.length > 1) {
+            indexActual = (indexActual + 1) % partidosGuardados.length;
+            mostrarPartido(partidosGuardados[indexActual], contenedor);
+          }
+        }, 5000); // 10 segundos
+      }
+
+      function cerrarModalDirecto() {
+        const seccion = document.getElementById('en-direct');
+        if (seccion) {
+          seccion.style.setProperty('display', 'none', 'important');
+        }
+      }
+      function mostrarDirectos() {
+        const directos = document.getElementById("en-direct");
+        directos.classList.add("visible");
+      }
+
+      // Cerrar sección
+      function cerrarModalDirecto() {
+        const seccion = document.getElementById('en-direct');
+        if (seccion) {
+          seccion.classList.remove('visible');
+        }
+      }
+
+      // Ejecutar cuando el DOM esté listo
+      document.addEventListener("DOMContentLoaded", function () {
+        cargarPartidosEnDirecto();
+        setInterval(cargarPartidosEnDirecto, 15000); // refrescar cada 15s
+        iniciarCarrusel();
+      });
     </script>
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -1761,26 +1494,24 @@ document.addEventListener("DOMContentLoaded", function () {
       <div class="aviso-pwa-contenido">
         <div class="aviso-pwa-texto">
           <div class="aviso-pwa-icono">📱
-          <strong class="equipo-mobile">Instalar la web</strong></div>
+            <strong class="equipo-mobile">Instalar la web</strong>
+          </div>
           <p class="equipo-mobile fs-6"></p>
         </div>
 
         <div class="pwa-botones">
 
-            <button id="btnInstalarPWA" type="button">
-                Instalar
-            </button>
+          <button id="btnInstalarPWA" type="button">
+            Instalar
+          </button>
 
-            <button
-                id="btnCerrarPWA"
-                type="button"
-                class="btn-cerrar-pwa"
-                aria-label="Cerrar">
-                x
-            </button>
+          <button id="btnCerrarPWA" type="button" class="btn-cerrar-pwa" aria-label="Cerrar">
+            x
+          </button>
 
         </div>
       </div>
     </div>
-  </body>
+</body>
+
 </html>
