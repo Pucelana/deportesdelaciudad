@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
 from datetime import datetime
+from sqlalchemy.orm import selectinload
 from collections import defaultdict
 from collections import OrderedDict
 from functools import cmp_to_key
@@ -7,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_partidos, schema_sports_competition, schema_sports_team, schema_breadcrumb_equipo
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_futbol
 from ..models.historial import Historial, Palmaress
 from ..models.valladolid import (
     JornadaValladolid,
@@ -730,6 +731,22 @@ def historial_valladolid():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaValladolid.query.order_by(TemporadaValladolid.id).all()
+    todas_jornadas = (
+    JornadaValladolid.query
+    .options(selectinload(JornadaValladolid.partidos))
+    .order_by(
+        JornadaValladolid.temporada_id.asc(),
+        JornadaValladolid.id.asc()
+    )
+    .all()
+)
+
+    jornadas_por_temporada = {}
+
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -754,18 +771,14 @@ def historial_valladolid():
 
     for i, temporada in enumerate(temporadas):
 
-        jornadas = (
-            JornadaValladolid.query.filter_by(temporada_id=temporada.id)
-            .order_by(JornadaValladolid.id)
-            .all()
-        )
+        jornadas = jornadas_por_temporada.get(temporada.id, [])
 
         if not jornadas:
             continue
 
-        labels, puntos = obtener_evolucion_puntos(
+        labels, puntos = obtener_evolucion_puntos_futbol(
                 
-            jornadas, "valladolid", generar_clasificacion_analisis_futbol_valladolid,"puntos"
+            jornadas, "valladolid"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

@@ -34,6 +34,66 @@ def obtener_evolucion_puntos(jornadas, nombre_equipo, funcion_clasificacion, cam
             valores.append(0)
     return labels, valores
 
+def obtener_evolucion_puntos_futbol(jornadas, nombre_equipo):
+    labels = []
+    valores = []
+    puntos_acumulados = 0
+
+    nombres_validos = NOMBRES_EQUIPOS.get(
+        nombre_equipo,
+        [nombre_equipo]
+    )
+
+    nombres_validos = set(nombres_validos)
+
+    for jornada in jornadas:
+
+        # Obtener nombre y partidos
+        if hasattr(jornada, "partidos"):
+            nombre_jornada = jornada.nombre
+            partidos = jornada.partidos
+        else:
+            nombre_jornada = jornada["nombre"]
+            partidos = jornada["partidos"]
+
+        # Recorrer los partidos de la jornada
+        for partido in partidos:
+
+            local = partido.local
+            visitante = partido.visitante
+
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
+
+            if r1 in (None, "") or r2 in (None, ""):
+                continue
+
+            try:
+                r1 = int(r1)
+                r2 = int(r2)
+            except (ValueError, TypeError):
+                continue
+
+            # Puntos del Real Valladolid
+            if local in nombres_validos:
+
+                if r1 > r2:
+                    puntos_acumulados += 3
+                elif r1 == r2:
+                    puntos_acumulados += 1
+
+            elif visitante in nombres_validos:
+
+                if r2 > r1:
+                    puntos_acumulados += 3
+                elif r1 == r2:
+                    puntos_acumulados += 1
+
+        labels.append(nombre_jornada)
+        valores.append(puntos_acumulados)
+
+    return labels, valores
+
 from app.extensions import db
 
 class Historial(db.Model):
