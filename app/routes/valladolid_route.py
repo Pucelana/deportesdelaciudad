@@ -147,18 +147,44 @@ def obtener_datos_valladolid(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaValladolid.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaValladolid.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaValladolid.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            ValladolidPartido.query.filter_by(jornada_id=jornada.id)
-            .order_by(ValladolidPartido.orden.asc())
-            .all()
+
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+
+    if not jornadas:
+        return []
+
+    ids_jornadas = [jornada.id for jornada in jornadas]
+
+    partidos = (
+        ValladolidPartido.query
+        .filter(ValladolidPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            ValladolidPartido.jornada_id.asc(),
+            ValladolidPartido.orden.asc()
         )
-        jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
-    return jornadas_con_partidos
+        .all()
+    )
+
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Real Valladolid
 @valladolid_route_bp.route("/equipos_futbol/calendario_valladolid")
 def calendario_valladolid():
