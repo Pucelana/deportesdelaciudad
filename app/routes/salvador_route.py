@@ -9,7 +9,7 @@ from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador
+from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador, SupercopaSalvador
 
 salvador_route_bp = Blueprint('salvador_route_bp', __name__)
 
@@ -175,7 +175,7 @@ def separar_fases(data):
             fase_regular.append(jornada)
 
     return fase_regular, fase_liguilla
-# Calendario Vrac
+# Calendario salvador
 @salvador_route_bp.route('/equipos_rugby/calendario_salvador')
 def calendario_salvador():
     datos = obtener_datos_salvador()
@@ -410,7 +410,7 @@ def generar_clasificacion_analisis_rugby_salvador(data):
             clasificacion[local]['diferencia_goles'] += (a - b)
             clasificacion[visitante]['diferencia_goles'] += (b - a)
             for equipo, datos in clasificacion.items():
-                if equipo == "VRAC":
+                if equipo == "salvador":
                     print(datos)
     
     return [
@@ -951,7 +951,7 @@ def playoffs_salvador():
     )
 
 # COPA EL SALVADOR
-# Crear formulario para los grupos de la Copa DH VRAC
+# Crear formulario para los grupos de la Copa DH salvador
 @salvador_route_bp.route('/admin/crear_copa_salvador', methods=['GET', 'POST'])
 def crear_copa_salvador():
     if request.method == 'POST':
@@ -1171,7 +1171,7 @@ def modificar_copa_salvador(encuentros):
             print(f"Error al modificar partidos: {e}")
             flash('Hubo un error al modificar los partidos', 'error')
         return redirect(url_for('salvador_route_bp.ver_copa_salvador'))
-# Eliminar partidos Copa DH VRAC
+# Eliminar partidos Copa DH salvador
 @salvador_route_bp.route('/eliminar_copa_salvador/<string:identificador>', methods=['POST'])
 def eliminar_copa_salvador(identificador):
     try:
@@ -1187,7 +1187,7 @@ def eliminar_copa_salvador(identificador):
         db.session.rollback()
         flash(f'Error al eliminar partidos: {str(e)}', 'error')
     return redirect(url_for('salvador_route_bp.ver_copa_salvador'))
-# Ruta para mostrar la Copa DH VRAC
+# Ruta para mostrar la Copa DH salvador
 @salvador_route_bp.route('/salvador_copa/')
 def salvador_copa():
     partidos = obtener_copa_salvador()
@@ -1256,4 +1256,205 @@ def salvador_copa():
                 "https://deportesdelaciudad.es/salvador_copa"
             )
         )
+    )
+# SUPERCOPA salvador
+# Crear formulario para la supercopa
+@salvador_route_bp.route('/admin/crear_supercopa_salvador', methods=['GET', 'POST'])
+def crear_supercopa_aliados():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = SupercopaSalvador(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('salvador_route_bp.ver_supercopa_salvador'))
+    return render_template('admin/supercopa/supercopa_salvador.html')
+# Ver encuentros supercopa en Admin
+@salvador_route_bp.route('/admin/supercopa_salvador/')
+def ver_supercopa_salvador():
+    eliminatorias = ['final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaSalvador.query.filter_by(eliminatoria=eliminatoria).order_by(SupercopaSalvador.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/supercopa/supercopa_salvador.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la supercopa
+@salvador_route_bp.route('/modificar_supercopa_salvador/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_supercopa_salvador(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = SupercopaSalvador.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        return redirect(url_for('salvador_route_bp.ver_supercopa_salvador'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('salvador_route_bp.ver_supercopa_salvador'))
+# Eliminar los partidos de la copa
+@salvador_route_bp.route('/eliminar_supercopa_salvador/<string:eliminatoria>', methods=['POST'])
+def eliminar_supercopa_salvador(eliminatoria):
+    partidos = SupercopaSalvador.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    return redirect(url_for('salvador_route_bp.ver_supercopa_salvador'))
+# Mostrar la supercopa del salvador
+@salvador_route_bp.route('/supercopas_salvador/')
+def supercopas_salvador():
+    eliminatorias = ['final']
+    datos_supercopa = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaSalvador.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_supercopa[eliminatoria] = partidos   
+    partidos_schema = obtener_partidos_schema(datos_supercopa)    
+    return render_template('supercopas/salvador_supercopa.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "salvador",
+                                "https://deportesdelaciudad.es/supercopas_salvador/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "salvador",
+                                "https://deportesdelaciudad.es/supercopas_salvador/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "salvador",
+                                "https://deportesdelaciudad.es/supercopas_salvador/"
+                            )
+                        )
+    )
+
+# SUPERCOPA IBERICA salvador
+# Crear formulario para la supercopa
+@salvador_route_bp.route('/admin/crear_supercopa_iberica_salvador', methods=['GET', 'POST'])
+def crear_supercopa_iberica_aliados():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = SupercopaIbericaSalvador(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('salvador_route_bp.ver_supercopa_iberica_salvador'))
+    return render_template('admin/supercopaIberica/supercopa_iberica_salvador.html')
+# Ver encuentros supercopa en Admin
+@salvador_route_bp.route('/admin/supercopa_iberica_salvador/')
+def ver_supercopa_iberica_salvador():
+    eliminatorias = ['final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaIbericaSalvador.query.filter_by(eliminatoria=eliminatoria).order_by(SupercopaIbericaSalvador.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/supercopaIberica/supercopa_iberica_salvador.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la supercopa
+@salvador_route_bp.route('/modificar_supercopa_iberica_salvador/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_supercopa_iberica_salvador(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = SupercopaIbericaSalvador.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        return redirect(url_for('salvador_route_bp.ver_supercopa_iberica_salvador'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('salvador_route_bp.ver_supercopa_iberica_salvador'))
+# Eliminar los partidos de la copa
+@salvador_route_bp.route('/eliminar_supercopa_iberica_salvador/<string:eliminatoria>', methods=['POST'])
+def eliminar_supercopa_iberica_salvador(eliminatoria):
+    partidos = SupercopaIbericaSalvador.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    return redirect(url_for('salvador_route_bp.ver_supercopa_iberica_salvador'))
+# Mostrar la supercopa del salvador
+@salvador_route_bp.route('/supercopa_iberica_salvador/')
+def supercopa_iberica_salvador():
+    eliminatorias = ['final']
+    datos_supercopa = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaIbericaSalvador.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_supercopa[eliminatoria] = partidos   
+    partidos_schema = obtener_partidos_schema(datos_supercopa)    
+    return render_template('supercopasIberica/salvador_supercopa_iberica.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "salvador",
+                                "https://deportesdelaciudad.es/supercopa_iberica_salvador/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "salvador",
+                                "https://deportesdelaciudad.es/supercopa_iberica_salvador/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "salvador",
+                                "https://deportesdelaciudad.es/supercopa_iberica_salvador/"
+                            )
+                        )
     )

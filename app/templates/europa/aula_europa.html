@@ -1,5 +1,5 @@
-{% extends "europa/base_europa.html" %} 
-{% block title %}EHF | Aula Valladolid | Deportes de la Ciudad{% endblock %} 
+{% extends "europa/base_europa.html" %}
+{% block title %}EHF | Aula Valladolid | Deportes de la Ciudad{% endblock %}
 
 {% block description %}
 Resultados, calendario, clasificación y grupos del Aula Valladolid en la EHF.
@@ -33,31 +33,60 @@ Sigue la participación del Aula Valladolid en la EHF.
   </ol>
 </nav>
 {% endblock %}
+```jinja
 {% block contenido %}
 <section class="container-lg flex-fill copa">
-  <!-- Eliminatorias -->
+
+  <!-- Encabezado -->
+  <div class="text-center mb-4 mt-3">
+    <h3 class="text-white equipo-mobile">
+      EUROPA 26/27
+    </h3>
+
+    <small class="texto-intro-historial">
+      Consulta la participación del Aula en las competiciones europeas,
+      con sus resultados, emparejamientos y eliminatorias.
+    </small>
+  </div>
+
+  <!-- Comprobar rondas con partidos y seleccionar la última -->
+  {% set ns = namespace(ronda_actual=none) %}
+
+  {% for ronda, partidos in datos_europa.items() %}
+  {% if partidos %}
+  {% set ns.ronda_actual = ronda %}
+  {% endif %}
+  {% endfor %}
+
+  {% set rondas_con_partidos = datos_europa.values() | select | list %}
+
+  {% if rondas_con_partidos %}
+
   <!-- Navegación -->
   <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
-    {% for ronda in datos_europa.keys() %}
-    <a
-      href="#"
-      class="btn btn-outline-info btn-ronda"
-      data-target="ronda{{ loop.index0 }}"
-      >{{ ronda|capitalize }}</a
-    >
+    {% for ronda, partidos in datos_europa.items() if partidos %}
+    <a href="#" class="btn btn-outline-info btn-ronda {% if ronda == ns.ronda_actual %}active{% endif %}"
+      data-target="ronda{{ loop.index0 }}">
+      {{ ronda|capitalize }}
+    </a>
     {% endfor %}
   </div>
+
   <!-- Contenedor de rondas -->
   <div id="contenedor-rondas">
-    {% for ronda, partidos in datos_europa.items() %}
-    <div class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}" id="ronda{{ loop.index0 }}">
+
+    {% for ronda, partidos in datos_europa.items() if partidos %}
+    <div class="ronda-item {% if ronda == ns.ronda_actual %}d-block{% else %}d-none{% endif %}"
+      id="ronda{{ loop.index0 }}">
+
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-2 w-100" style="max-width: 55rem">
           <div class="card-body">
-            <h3
-              class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
+
+            <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
               {{ ronda }}
             </h3>
+
             <!-- TABLET / PC -->
             <div class="table-responsive d-none d-md-block">
               <table class="table border-secondary">
@@ -65,23 +94,25 @@ Sigue la participación del Aula Valladolid en la EHF.
                   {% for partido in partidos %}
                   <tr class="text-center">
                     <td class="text-muted fw-bold fs-5">
-                      {{ partido.fecha }} {% if partido.hora %} - {{
-                      partido.hora }}{% endif %}
+                      {{ partido.fecha }}
+                      {% if partido.hora %} - {{ partido.hora }}{% endif %}
                     </td>
+
                     <td
-                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                    >
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
                       {{ partido.local }}
                     </td>
+
                     <td class="resultado-mobile fw-bold fs-5">
                       {{ partido.resultadoA }}
                     </td>
+
                     <td class="resultado-mobile fw-bold fs-5">
                       {{ partido.resultadoB }}
                     </td>
+
                     <td
-                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                    >
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
                       {{ partido.visitante }}
                     </td>
                   </tr>
@@ -89,19 +120,19 @@ Sigue la participación del Aula Valladolid en la EHF.
                 </tbody>
               </table>
             </div>
+
             <!-- MÓVIL -->
             <div class="d-md-none cards-mobile">
               {% for partido in partidos %}
               <div class="card partido-mobile mb-2">
                 <div class="card-body text-center">
+
                   <small class="text-muted fw-bold">
-                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                    }}{% endif %}
+                    {{ partido.fecha }}
+                    {% if partido.hora %} - {{ partido.hora }}{% endif %}
                   </small>
 
-                  <div
-                    class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
-                  >
+                  <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
                     {{ partido.local }}
                   </div>
 
@@ -109,49 +140,69 @@ Sigue la participación del Aula Valladolid en la EHF.
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
                   </div>
 
-                  <div
-                    class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
-                  >
+                  <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
                     {{ partido.visitante }}
                   </div>
+
                 </div>
               </div>
               {% endfor %}
             </div>
+
           </div>
         </div>
       </div>
     </div>
     {% endfor %}
+
   </div>
-  {% endblock %} {% block scripts %}
-  <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      const botones = document.querySelectorAll(".btn-slide");
-      const rondas = document.querySelectorAll(".ronda-item");
 
-      botones.forEach((boton) => {
-        boton.addEventListener("click", function (e) {
-          e.preventDefault();
+  {% else %}
 
-          // Oculta todas las rondas
-          rondas.forEach((r) => r.classList.add("d-none"));
-          rondas.forEach((r) => r.classList.remove("d-block"));
+  <!-- Mensaje cuando todavía no hay partidos -->
+  <div class="text-center text-white mt-5 mb-5">
+    <h4 class="text-analisis fs-4">
+      EL AULA NO PARTICIPA EN EUROPA ESTA TEMPORADA
+    </h4>
 
-          // Activa solo la seleccionada
-          const targetId = this.dataset.target;
-          const targetDiv = document.getElementById(targetId);
-          if (targetDiv) {
-            targetDiv.classList.remove("d-none");
-            targetDiv.classList.add("d-block");
-          }
+    <p>
+      El equipo no disputa competiciones europeas durante la temporada 26/27.
+      Aquí podrás consultar sus resultados europeos cuando vuelva a participar.
+    </p>
+  </div>
 
-          // Opcional: marcar el botón activo
-          botones.forEach((b) => b.classList.remove("active"));
-          this.classList.add("active");
+  {% endif %}
+
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const botones = document.querySelectorAll(".btn-ronda");
+    const rondas = document.querySelectorAll(".ronda-item");
+
+    botones.forEach(boton => {
+      boton.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        const objetivo = this.dataset.target;
+
+        botones.forEach(btn => btn.classList.remove("active"));
+        rondas.forEach(ronda => {
+          ronda.classList.remove("d-block");
+          ronda.classList.add("d-none");
         });
+
+        this.classList.add("active");
+
+        const rondaSeleccionada = document.getElementById(objetivo);
+
+        if (rondaSeleccionada) {
+          rondaSeleccionada.classList.remove("d-none");
+          rondaSeleccionada.classList.add("d-block");
+        }
       });
     });
-  </script>
-  {% endblock %}
-</section>
+  });
+</script>
+{% endblock %}
+```

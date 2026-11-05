@@ -1,90 +1,209 @@
-{% extends "supercopas/base_supercopa.html" %} 
+{% extends "supercopas/base_supercopa.html" %}
+
 {% block title %}SuperCopa - BSR Valladolid{% endblock %}
 
 {% block description %}
 Toda la información de la Supercopa del BSR Valladolid: eliminatorias y resultados.
 {% endblock %}
+
 {% block og_title %}
 Supercopa | BSR Valladolid | Deportes de la Ciudad
 {% endblock %}
+
 {% block og_description %}
 Eliminatorias y resultados del BSR Valladolid.
 {% endblock %}
+
 {% block twitter_title %}
 Supercopa | BSR Valladolid | Deportes de la Ciudad
 {% endblock %}
+
 {% block twitter_description %}
 Eliminatorias y resultados del BSR Valladolid.
 {% endblock %}
 
-    {% block breadcrumb %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/" class="text-white text-decoration-none">Inicio</a></li>
-        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Fundación Aliados</li>
-      </ol>
-    </nav>
-    {% endblock %}
-    {% block contenido %}
-    <section class="container-lg flex-fill copa"><!-- Eliminatorias -->
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-4" style="width: 70rem;">
-          <div class="card-body">
-            <div class="row table-responsive">
-              <div class="col-12">
-                <div class="">
-                  {% for ronda, partidos in datos_supercopa.items() %}
-                  <p class="text-center fw-bold text-white fs-3">{{ ronda|capitalize }}</p>
-                  <div class="texto-adicional text-center" data-ronda="{{ loop.index }}">
-                    <table class="table border-secondary">
-                      {% for partido in partidos %}
-                      <tr class="text-center">
-                        <td class="text-center text-white">{{ partido.fecha }}</td>
-                        <td class="text-center text-white">{{ partido.hora }}</td>
-                        <td
-                          class="text-center text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
-                          {{ partido.local }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoA }}</td>
-                        <td class="text-center text-white fw-bold fs-5">{{ partido.resultadoB }}</td>
-                        <td
-                          class="text-center text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
-                          {{ partido.visitante }}</td>
-                      </tr>
-                      {% endfor %}
-                    </table>
-                  </div>
-                  <a href="#" class="mostrar-enlace text-decoration-none text-info fw-bold"
-                    data-ronda="{{ loop.index }}">Ver Partidos</a>
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item">
+      <a href="/seccion/aliados" class="text-white text-decoration-none text-analisis fs-6">BSR Valladolid</a>
+    </li>
+    <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa</li>
+  </ol>
+</nav>
+{% endblock %}
+
+{% block contenido %}
+
+{% set ns = namespace(hay_partidos=false, ronda_actual=none) %}
+
+{% for ronda, partidos in datos_supercopa.items() %}
+{% if partidos %}
+{% set ns.hay_partidos = true %}
+{% set ns.ronda_actual = ronda %}
+{% endif %}
+{% endfor %}
+
+<section class="container-lg flex-fill copa">
+
+  <!-- TÍTULO E INTRODUCCIÓN -->
+  <div class="text-center mb-4 mt-3">
+    <h3 class="text-white equipo-mobile">
+      SUPERCOPA DE ESPAÑA 26/27
+    </h3>
+
+    <small class="texto-intro-historial">
+      Consulta la participación del BSR Valladolid en la Supercopa de España, con los emparejamientos, resultados y
+      eliminatorias de la competición.
+    </small>
+  </div>
+
+  {% if ns.hay_partidos %}
+
+  <!-- NAVEGACIÓN -->
+  <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+
+    {% for ronda, partidos in datos_supercopa.items() if partidos %}
+    <a href="#" class="btn btns-ronda btn-slide {% if ronda == ns.ronda_actual %}active{% endif %}"
+      data-target="ronda{{ loop.index0 }}">
+      {{ ronda|capitalize }}
+    </a>
+    {% endfor %}
+
+  </div>
+
+  <!-- ELIMINATORIAS -->
+  <div class="d-flex justify-content-center">
+    <div class="card tabla_copa mt-2" style="width: 70rem;">
+      <div class="card-body">
+
+        <div class="row table-responsive">
+          <div class="col-12">
+
+            {% for ronda, partidos in datos_supercopa.items() if partidos %}
+
+            <div id="ronda{{ loop.index0 }}"
+              class="ronda-item {% if ronda == ns.ronda_actual %}d-block{% else %}d-none{% endif %}">
+
+              <p class="text-center fw-bold text-white fs-3">
+                {{ ronda|capitalize }}
+              </p>
+
+              <div class="text-center">
+                <table class="table border-secondary">
+
+                  {% for partido in partidos %}
+                  <tr class="text-center">
+
+                    <td class="text-muted fw-bold">
+                      {{ partido.fecha }}
+                    </td>
+
+                    <td class="text-muted fw-bold">
+                      {{ partido.hora }}
+                    </td>
+
+                    <td
+                      class="text-center equipo-mobile fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+
+                    <td class="text-center resultado-mobile fw-bold fs-5">
+                      {% if partido.resultadoA is not none %}
+                      {{ partido.resultadoA }}
+                      {% else %}
+                      -
+                      {% endif %}
+                    </td>
+
+                    <td class="text-center resultado-mobile fw-bold fs-5">
+                      {% if partido.resultadoB is not none %}
+                      {{ partido.resultadoB }}
+                      {% else %}
+                      -
+                      {% endif %}
+                    </td>
+
+                    <td
+                      class="text-center equipo-mobile fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+
+                  </tr>
                   {% endfor %}
-                </div>
+
+                </table>
               </div>
+
             </div>
+
+            {% endfor %}
+
           </div>
         </div>
+
       </div>
-    </section>
-{% endblock %}    
-{% block scripts %}    
-  <script>
-    $(document).ready(function() {
-      $('.mostrar-enlace').click(function(e) {
+    </div>
+  </div>
+
+  {% else %}
+
+  <!-- SIN PARTIDOS -->
+  <div class="card tabla_copa mx-auto text-center" style="max-width: 55rem">
+    <div class="card-body py-4">
+      🏆
+
+      <h4 class="text-analisis fs-4">
+        LA SUPERCOPA TODAVÍA NO HA COMENZADO
+      </h4>
+
+      <p>
+        Todavía no hay partidos registrados de la competición.
+        Aquí podrás consultar las semifinales, la final y sus resultados
+        a medida que avance el torneo.
+      </p>
+    </div>
+  </div>
+
+  {% endif %}
+
+</section>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const botones = document.querySelectorAll(".btn-slide");
+    const rondas = document.querySelectorAll(".ronda-item");
+
+    botones.forEach((boton) => {
+      boton.addEventListener("click", function (e) {
         e.preventDefault();
-        var enlace = $(this);
-        var ronda = enlace.data('ronda');
-        var textoAdicional = $('.texto-adicional[data-ronda="' + ronda + '"]');        
-        // Ocultar todos los demás divs de texto adicional excepto el actual
-        $('.texto-adicional').not(textoAdicional).hide();        
-        // Toggle para mostrar u ocultar el texto adicional de la ronda específica
-        textoAdicional.toggle();        
-        // Cambiar el texto de todos los enlaces "Ver Partidos" excepto el actual
-        $('.mostrar-enlace').not(enlace).text('Ver Partidos');        
-        // Cambiar el texto del enlace actual
-        if (textoAdicional.is(':visible')) {
-          enlace.text('Ocultar');
-        } else {
-          enlace.text('Ver Partidos');
+
+        // Ocultar todas las rondas
+        rondas.forEach((r) => {
+          r.classList.add("d-none");
+          r.classList.remove("d-block");
+        });
+
+        // Mostrar la ronda seleccionada
+        const targetId = this.dataset.target;
+        const targetDiv = document.getElementById(targetId);
+
+        if (targetDiv) {
+          targetDiv.classList.remove("d-none");
+          targetDiv.classList.add("d-block");
         }
+
+        // Actualizar botón activo
+        botones.forEach((b) => b.classList.remove("active"));
+        this.classList.add("active");
       });
     });
-  </script>
+
+  });
+</script>
 {% endblock %}

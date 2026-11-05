@@ -1,4 +1,4 @@
-{% extends "permanencias/base_perma.html" %} 
+{% extends "permanencias/base_perma.html" %}
 {% block title %}Permanencia | Aula Valladolid | Deportes de la Ciudad{% endblock %}
 
 {% block description %}
@@ -17,223 +17,291 @@ Permanencia | Aula Valladolid | Deportes de la Ciudad
 Sigue las eliminatorias y resultados de la permanencia del Aula Valladolid.
 {% endblock %}
 
-      {% block breadcrumb %}
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ps-2 pt-2">
-          <li class="breadcrumb-item">
-            <a
-              href="/seccion/aula"
-              class="text-white text-decoration-none text-analisis fs-6"
-              >Aula Valladolid</a
-            >
-          </li>
-          <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
-            Permanencia
-          </li>
-        </ol>
-      </nav>
-      {% endblock %}
-      {% block contenido %}
-      <!-- Navegación -->
-      <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
-        <a
-          href="#"
-          class="btn btns-ronda btn-slide active"
-          data-target="clasificacion"
-        >
-          Clasificación
-        </a>
-        <!-- Jornadas -->
-        {% for jornada in nuevos_datos_aula %}
-        <a
-          href="#"
-          class="btn btns-ronda btn-slide"
-          data-target="{{ jornada.nombre }}"
-        >
-          {{ jornada.nombre }}
-        </a>
-        {% endfor %}
-      </div>
-      <section class="container-lg mb-5 flex-fill">
-        <!-- Contenido Clasificaciones y Eliminatorias -->
-        <div id="contenedor-secciones">
-          <div class="seccion-slide d-block" id="clasificacion">
-            <div class="d-flex justify-content-center">
-              <div
-                class="card tabla_equipos_aula w-100"
-                style="max-width: 55rem"
-              >
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <h3 class="text_uemc text-center text-white fs-4">
-                      Clasificación General
-                    </h3>
-                    <table
-                      class="table border-secondary text-white text-center">
-                      <thead>
-                        <tr>
-                          <th></th>
-                          <th class="equipo-mobile text-start">Equipos</th>
-                          <th class="equipo-mobile text-center">PT</th>
-                          <th class="equipo-mobile text-center">J</th>
-                          <th class="equipo-mobile text-center">G</th>
-                          <th class="equipo-mobile text-center">E</th>
-                          <th class="equipo-mobile text-center">P</th>
-                          <th class="equipo-mobile text-center">GF</th>
-                          <th class="equipo-mobile text-center">GC</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for equipo in clasificacion_permanencia_aula %}
-                        <tr>
-                          <td
-                            class="equipo-mobile text-center fs-5 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}"
-                          >
-                            {{ loop.index }}
-                          </td>
-                          <td class="equipo-mobile text-start size_equuipos">
-                            {{ equipo.equipo }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.puntos }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.jugados }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.ganados }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.empatados }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.perdidos }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.favor }}
-                          </td>
-                          <td class="equipo-mobile text-center fw-bold fs-5">
-                            {{ equipo.datos.contra }}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% for jornada in nuevos_datos_aula %}
-          <div class="seccion-slide d-none" id="{{ jornada.nombre }}">
-            <div class="d-flex justify-content-center">
-              <div
-                class="card tabla_equipos_aula w-100"
-                style="max-width: 55rem"
-              >
-                <div class="card-body">
-                  <h3 class="text_uemc fs-4 fw-bold text-center text-white mb-3">
-                    {{ jornada.nombre }}
-                  </h3>
-
-                  <!-- TABLA TABLET Y PC -->
-                  <div class="table-responsive d-none d-md-block">
-                    <table
-                      class="table border-secondary text-white text-center">
-                      <tbody>
-                        {% for partido in jornada.partidos %}
-                        <tr>
-                          <td class="text-muted fs-5 fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
-                          <td
-                            class="equipo-mobile fs-5 fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
-                          >
-                            {{ partido.local }}
-                          </td>
-
-                          <td class="resultado-mobile fw-bold fs-5">
-                            {% if partido.resultadoA and partido.resultadoB %}
-                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                            {% else %} - {% endif %}
-                          </td>
-
-                          <td
-                            class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
-                          >
-                            {{ partido.visitante }}
-                          </td>
-                        </tr>
-                        {% endfor %}
-                      </tbody>
-                    </table>
-                  </div>
-                  <!-- CARDS MÓVIL -->
-                  <div class="d-md-none cards-mobile">
-                    {% for partido in jornada.partidos %}
-                    <div class="card partido-mobile">
-                      <div class="card-body">
-                        <div class="text-center mb-2">
-                          <small class="text-muted fw-bold">
-                            {{ partido.fecha }} · {{ partido.hora }}
-                          </small>
-                        </div>
-
-                        <div class="text-center">
-                          <div
-                            class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
-                          >
-                            {{ partido.local }}
-                          </div>
-
-                          <div class="resultado-mobile">
-                            {% if partido.resultadoA and partido.resultadoB %}
-                            {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                            {% else %} - {% endif %}
-                          </div>
-
-                          <div
-                            class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
-                          >
-                            {{ partido.visitante }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </section>
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item">
+      <a href="/seccion/aula" class="text-white text-decoration-none text-analisis fs-6">Aula Valladolid</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      Permanencia
+    </li>
+  </ol>
+</nav>
 {% endblock %}
+{% block contenido %}
+
+{% set ns = namespace(jornada_actual=none) %}
+
+{% for jornada in nuevos_datos_aula %}
+{% if jornada.partidos %}
+{% set ns.jornada_actual = jornada.nombre %}
+{% endif %}
+{% endfor %}
+
+{% set jornadas_con_partidos = nuevos_datos_aula | selectattr('partidos') | list %}
+
+<!-- TÍTULO E INTRODUCCIÓN -->
+<div class="container-lg mt-3">
+  <div class="text-center mb-4">
+    <h3 class="text-white equipo-mobile">
+      PERMANENCIA 26/27
+    </h3>
+
+    <small class="texto-intro-historial">
+      Consulta la clasificación y los resultados del Aula en la fase de permanencia. Aquí podrás seguir la evolución del
+      equipo jornada a jornada.
+    </small>
+  </div>
+</div>
+
+<!-- NAVEGACIÓN -->
+<div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+
+  <a href="#" class="btn btns-ronda btn-slide {% if ns.jornada_actual is none %}active{% endif %}"
+    data-target="clasificacion">
+    Clasificación
+  </a>
+
+  {% for jornada in nuevos_datos_aula if jornada.partidos %}
+  <a href="#" class="btn btns-ronda btn-slide {% if jornada.nombre == ns.jornada_actual %}active{% endif %}"
+    data-target="jornada{{ loop.index0 }}">
+    {{ jornada.nombre }}
+  </a>
+  {% endfor %}
+
+</div>
+
+<section class="container-lg mb-5 flex-fill">
+
+  <div id="contenedor-secciones">
+
+    <!-- CLASIFICACIÓN -->
+    <div class="seccion-slide {% if ns.jornada_actual is none %}d-block{% else %}d-none{% endif %}" id="clasificacion">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
+          <div class="card-body">
+            <div class="table-responsive">
+
+              <h3 class="text_uemc text-center text-white fs-4">
+                Clasificación General
+              </h3>
+
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th></th>
+                    <th class="equipo-mobile text-start">Equipos</th>
+                    <th class="equipo-mobile text-center">PT</th>
+                    <th class="equipo-mobile text-center">J</th>
+                    <th class="equipo-mobile text-center">G</th>
+                    <th class="equipo-mobile text-center">E</th>
+                    <th class="equipo-mobile text-center">P</th>
+                    <th class="equipo-mobile text-center">GF</th>
+                    <th class="equipo-mobile text-center">GC</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {% for equipo in clasificacion_permanencia_aula %}
+                  <tr>
+                    <td
+                      class="equipo-mobile text-center fs-5 {% if loop.index <= 3 %}pos-nada{% elif loop.index <= 4 %}pos-desc{% endif %}">
+                      {{ loop.index }}
+                    </td>
+
+                    <td class="equipo-mobile text-start size_equuipos">
+                      {{ equipo.equipo }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.puntos }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.jugados }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.ganados }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.empatados }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.perdidos }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.favor }}
+                    </td>
+
+                    <td class="equipo-mobile text-center fw-bold fs-5">
+                      {{ equipo.datos.contra }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JORNADAS -->
+    {% for jornada in nuevos_datos_aula %}
+    {% if jornada.partidos %}
+
+    <div class="seccion-slide {% if jornada.nombre == ns.jornada_actual %}d-block{% else %}d-none{% endif %}"
+      id="jornada{{ loop.index0 }}">
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_equipos_aula w-100" style="max-width: 55rem">
+          <div class="card-body">
+
+            <h3 class="text_uemc fs-4 fw-bold text-center text-white mb-3">
+              {{ jornada.nombre }}
+            </h3>
+
+            <!-- TABLA TABLET Y PC -->
+            <div class="table-responsive d-none d-md-block">
+              <table class="table border-secondary text-white text-center">
+                <tbody>
+                  {% for partido in jornada.partidos %}
+                  <tr>
+                    <td class="text-muted fs-5 fw-bold">
+                      {{ partido.fecha }}
+                      {% if partido.hora %}
+                      - {{ partido.hora }}
+                      {% endif %}
+                    </td>
+
+                    <td
+                      class="equipo-mobile fs-5 fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+
+                    <td class="resultado-mobile fw-bold fs-5">
+                      {% if partido.resultadoA and partido.resultadoB %}
+                      {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                      {% else %}
+                      -
+                      {% endif %}
+                    </td>
+
+                    <td
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- CARDS MÓVIL -->
+            <div class="d-md-none cards-mobile">
+              {% for partido in jornada.partidos %}
+              <div class="card partido-mobile">
+                <div class="card-body">
+
+                  <div class="text-center mb-2">
+                    <small class="text-muted fw-bold">
+                      {{ partido.fecha }}
+                      {% if partido.hora %}
+                      · {{ partido.hora }}
+                      {% endif %}
+                    </small>
+                  </div>
+
+                  <div class="text-center">
+
+                    <div
+                      class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
+                      {{ partido.local }}
+                    </div>
+
+                    <div class="resultado-mobile">
+                      {% if partido.resultadoA and partido.resultadoB %}
+                      {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                      {% else %}
+                      -
+                      {% endif %}
+                    </div>
+
+                    <div
+                      class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
+                      {{ partido.visitante }}
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+
+    <!-- SIN JORNADAS -->
+    {% if not jornadas_con_partidos %}
+    <div class="card tabla_copa mx-auto text-center" style="max-width: 55rem">
+      <div class="card-body py-4">🏆
+        <h4 class="text-analisis fs-4">
+          EUROPA TODAVÍA NO HA COMENZADO
+        </h4>
+
+        <p>
+          Todavía no hay partidos registrados de la competición europea.
+          Aquí podrás consultar las clasificaciones, resultados y eliminatorias
+          a medida que avance el torneo.
+        </p>
+      </div>
+    </div>
+    {% endif %}
+
+  </div>
+</section>
+
+{% endblock %}
+
 {% block scripts %}
-    <script>
-      document.querySelectorAll(".btn-slide").forEach((button) => {
-        button.addEventListener("click", (e) => {
-          e.preventDefault();
-          const targetId = button.dataset.target;
+<script>
+  document.querySelectorAll(".btn-slide").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
 
-          // Ocultar todas las secciones
-          document.querySelectorAll(".seccion-slide").forEach((section) => {
-            section.classList.add("d-none");
-            section.classList.remove("d-block");
-          });
+      const targetId = button.dataset.target;
 
-          // Mostrar la sección deseada
-          const targetSection = document.getElementById(targetId);
-          if (targetSection) {
-            targetSection.classList.remove("d-none");
-            targetSection.classList.add("d-block");
-          }
-
-          // Actualizar clase activa en los botones
-          document
-            .querySelectorAll(".btn-slide")
-            .forEach((btn) => btn.classList.remove("active"));
-          button.classList.add("active");
-        });
+      // Ocultar todas las secciones
+      document.querySelectorAll(".seccion-slide").forEach((section) => {
+        section.classList.add("d-none");
+        section.classList.remove("d-block");
       });
-    </script>
+
+      // Mostrar la sección deseada
+      const targetSection = document.getElementById(targetId);
+
+      if (targetSection) {
+        targetSection.classList.remove("d-none");
+        targetSection.classList.add("d-block");
+      }
+
+      // Actualizar botón activo
+      document.querySelectorAll(".btn-slide").forEach((btn) => {
+        btn.classList.remove("active");
+      });
+
+      button.classList.add("active");
+    });
+  });
+</script>
 {% endblock %}

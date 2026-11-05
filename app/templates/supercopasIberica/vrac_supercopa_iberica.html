@@ -1,4 +1,4 @@
-{% extends "supercopas/base_supercopa.html" %} 
+{% extends "supercopas/base_supercopa.html" %}
 {% block title %}SuperCopaIberica - VRAC{% endblock %}
 
 {% block description %}
@@ -16,12 +16,135 @@ SuperCopaIberica | VRAC | Deportes de la Ciudad
 {% block twitter_description %}
 Final del VRAC.
 {% endblock %}
-
-{% block breadcrumb %} {% endblock %}
-
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb ms-1">
+        <li class="breadcrumb-item"><a href="/seccion/vrac"
+                class="text-white text-decoration-none text-analisis fs-6">VRAC</a></li>
+        <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa</li>
+    </ol>
+</nav>
+{% endblock %}
 {% block contenido %}
 
-{% endblock %}
-{% block scripts %}
+{% set ns = namespace(hay_partidos=false) %}
 
+{% for partidos in datos_supercopa.values() %}
+{% if partidos %}
+{% set ns.hay_partidos = true %}
+{% endif %}
+{% endfor %}
+
+<section class="container-lg flex-fill copa">
+
+    <!-- TÍTULO E INTRODUCCIÓN -->
+    <div class="text-center mb-4 mt-3">
+        <h3 class="text-white equipo-mobile">
+            SUPERCOPA IBERICA 26/27
+        </h3>
+
+        <small class="texto-intro-historial">
+            Consulta el encuentro de la Supercopa Iberica que disputará el VRAC Quesos Entrepinares, con su fecha, horario y resultado.
+        </small>
+    </div>
+
+    {% if ns.hay_partidos %}
+
+    <!-- PARTIDO -->
+    <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-2" style="width: 70rem;">
+            <div class="card-body">
+
+                <div class="row table-responsive">
+                    <div class="col-12">
+
+                        {% for ronda, partidos in datos_supercopa.items() %}
+                        {% if partidos %}
+
+                        <div>
+                            <p class="text-center fw-bold text-white fs-3">
+                                {{ ronda|capitalize }}
+                            </p>
+
+                            <div class="text-center">
+                                <table class="table border-secondary">
+
+                                    {% for partido in partidos %}
+                                    <tr class="text-center">
+
+                                        <td class="text-muted fw-bold">
+                                            {{ partido.fecha }}
+                                        </td>
+
+                                        <td class="text-muted fw-bold">
+                                            {{ partido.hora }}
+                                        </td>
+
+                                        <td
+                                            class="text-center equipo-mobile fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
+                                            {{ partido.local }}
+                                        </td>
+
+                                        <td class="text-center resultado-mobile fw-bold fs-5">
+                                            {% if partido.resultadoA is not none %}
+                                            {{ partido.resultadoA }}
+                                            {% else %}
+                                            -
+                                            {% endif %}
+                                        </td>
+
+                                        <td class="text-center resultado-mobile fw-bold fs-5">
+                                            {% if partido.resultadoB is not none %}
+                                            {{ partido.resultadoB }}
+                                            {% else %}
+                                            -
+                                            {% endif %}
+                                        </td>
+
+                                        <td
+                                            class="text-center equipo-mobile fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
+                                            {{ partido.visitante }}
+                                        </td>
+
+                                    </tr>
+                                    {% endfor %}
+
+                                </table>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                        {% endfor %}
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+
+    <!-- SIN PARTIDO -->
+    <div class="card tabla_copa mx-auto text-center" style="max-width: 55rem">
+        <div class="card-body py-4">🏆
+            <h4 class="text-analisis fs-4">
+                SUPERCOPA IBERICA TODAVÍA NO HA COMENZADO
+            </h4>
+
+            <p>
+                Todavía no hay partidos registrados de la competición europea.
+                Aquí podrás consultar las clasificaciones, resultados y eliminatorias
+                a medida que avance el torneo.
+            </p>
+        </div>
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
 {% endblock %}

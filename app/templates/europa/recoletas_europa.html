@@ -1,4 +1,4 @@
-{% extends "europa/base_europa.html" %} 
+{% extends "europa/base_europa.html" %}
 {% block title %}Europa | Atl. Valladolid | Deportes de la Ciudad{% endblock %}
 
 {% block description %}
@@ -21,320 +21,448 @@ EHF | Atl. Valladolid | Deportes de la Ciudad
 Sigue la participación del Atl. Valladolid en la EHF.
 {% endblock %}
 
-      {% block breadcrumb %}
-      <nav aria-label="breadcrumb">
-        <ol class="breadcrumb ps-2 pt-2">
-          <li class="breadcrumb-item">
-            <a href="/seccion/recoletas" class="text-white text-decoration-none text-analisis fs-6">Atl. Valladolid</a>
-          </li>
-          <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
-            Europa
-          </li>
-        </ol>
-      </nav>
-      {% endblock %}
-      {% block contenido %}
-      <!-- Navegación -->
-      <div class="d-flex justify-content-center my-2 gap-2 flex-wrap">
-        <a
-          href="#"
-          class="btn btns-ronda btn-slide"
-          data-target="preliminar"
-        >
-          Preliminar
-        </a>
-        {% for grupo in clasificaciones_fase1.keys() %}
-        <a
-          href="#"
-          class="btn btns-ronda btn-slide {% if loop.first %}active{% endif %}"
-          data-target="grupo{{ loop.index0 }}"
-        >
-          {{ grupo }}
-        </a>
-        {% endfor %} {% for grupo in clasificaciones_fase2.keys() %}
-        <a
-          href="#"
-          class="btn btns-ronda btn-slide"
-          data-target="segunda{{ loop.index0 }}"
-        >
-          {{ grupo }}
-        </a>
-        {% endfor %} {% for ronda in eliminatorias.keys() %}
-        <a
-          href="#"
-          class="btn btns-ronda btn-slide"
-          data-target="eliminatoria{{ loop.index0 }}"
-        >
-          {{ ronda|capitalize }}
-        </a>
-        {% endfor %}
-      </div>
-      <section class="container-lg flex-fill copa_uemc">
-        <div id="contenedor-secciones">
-          <!-- Preliminar -->
-          <div class="seccion-slide d-none" id="preliminar">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text-center text-white">Preliminar</h3>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Local</th>
-                        <th>Resultado</th>
-                        <th>Visitante</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for partido in preliminar.partidos %}
-                      <tr>
-                        <td>{{ partido.fecha }}</td>
-                        <td>{{ partido.hora }}</td>
-                        <td
-                          class="text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                        >
-                          {{ partido.local }}
-                        </td>
-                        <td>
-                          {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                        </td>
-                        <td
-                          class="text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                        >
-                          {{ partido.visitante }}
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Clasificaciones: Grupos Iniciales -->
-          {% for grupo, equipos in clasificaciones_fase1.items() %}
-          <div class="seccion-slide d-none" id="grupo{{ loop.index0 }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text-center text-white">{{ grupo }}</h3>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Equipo</th>
-                        <th>PJ</th>
-                        <th>PG</th>
-                        <th>PE</th>
-                        <th>PP</th>
-                        <th>PTS</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for equipo, stats in equipos %}
-                      <tr>
-                        <td>{{ loop.index }}</td>
-                        <td class="fw-bold">{{ equipo }}</td>
-                        <td>{{ stats.jugados }}</td>
-                        <td>{{ stats.ganados }}</td>
-                        <td>{{ stats.empatados }}</td>
-                        <td>{{ stats.perdidos }}</td>
-                        <td>{{ stats.puntos }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-                <table class="table border-secondary text-white text-center">
-                  <thead>
-                    <tr>
-                      <th>Fecha</th>
-                      <th>Hora</th>
-                      <th>Local</th>
-                      <th>Resultado</th>
-                      <th>Visitante</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% if grupo in equipos_por_encuentros %} {% for partido in
-                    equipos_por_encuentros[grupo]['partidos'] %}
-                    <tr>
-                      <td>{{ partido.fecha }}</td>
-                      <td>{{ partido.hora }}</td>
-                      <td
-                        class="text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                      >
-                        {{ partido.local }}
-                      </td>
-                      <td>
-                        {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                      </td>
-                      <td
-                        class="text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                      >
-                        {{ partido.visitante }}
-                      </td>
-                    </tr>
-                    {% endfor %} {% endif %}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-
-          <!-- Segunda Fase -->
-          {% for grupo, equipos in clasificaciones_fase2.items() %}
-          <div class="seccion-slide d-none" id="segunda{{ loop.index0 }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text-center text-white">{{ grupo }}</h3>
-
-                  <!-- Tabla de clasificación -->
-
-                  <h5 class="text-white text-center">Clasificación</h5>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th>#</th>
-                        <th>Equipo</th>
-                        <th>PJ</th>
-                        <th>PG</th>
-                        <th>PE</th>
-                        <th>PP</th>
-                        <th>PTS</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for equipo, datos in equipos %}
-                      <tr>
-                        <td>{{ loop.index }}</td>
-                        <td class="text-start text-copa fw-bold">
-                          {{ equipo }}
-                        </td>
-                        <td>{{ datos.jugados }}</td>
-                        <td>{{ datos.ganados }}</td>
-                        <td>{{ datos.empatados }}</td>
-                        <td>{{ datos.perdidos }}</td>
-                        <td>{{ datos.puntos }}</td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-
-                  <!-- Tabla de partidos -->
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Local</th>
-                        <th>Resultado</th>
-                        <th>Visitante</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% if grupo in segunda_fase %} {% for partido in
-                      segunda_fase[grupo]["partidos"] %}
-                      <tr>
-                        <td>{{ partido.fecha }}</td>
-                        <td>{{ partido.hora }}</td>
-                        <td
-                          class="text-copa fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}"
-                        >
-                          {{ partido.local }}
-                        </td>
-                        <td>
-                          {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                        </td>
-                        <td
-                          class="text-copa fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}"
-                        >
-                          {{ partido.visitante }}
-                        </td>
-                      </tr>
-                      {% endfor %} {% endif %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-
-          <!-- Eliminatorias -->
-          {% for ronda in eliminatorias.keys() %}
-          <div class="seccion-slide d-none" id="eliminatoria{{ loop.index0 }}">
-            <div class="d-flex justify-content-center">
-              <div class="card tabla_copa mt-4" style="width: 70rem">
-                <div class="card-body">
-                  <h3 class="text-center text-white text-capitalize">
-                    {{ ronda | capitalize }}
-                  </h3>
-                  <table class="table border-secondary text-white text-center">
-                    <thead>
-                      <tr>
-                        <th>Fecha</th>
-                        <th>Hora</th>
-                        <th>Local</th>
-                        <th>Goles</th>
-                        <th>Goles</th>
-                        <th>Visitante</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for partido in eliminatorias[ronda].partidos %}
-                      <tr>
-                        <td>{{ partido.fecha }}</td>
-                        <td>{{ partido.hora }}</td>
-                        <td
-                          class="text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                        >
-                          {{ partido.local }}
-                        </td>
-                        <td>{{ partido.resultadoA }}</td>
-                        <td>{{ partido.resultadoB }}</td>
-                        <td
-                          class="text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                        >
-                          {{ partido.visitante }}
-                        </td>
-                      </tr>
-                      {% endfor %}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </section>
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ps-2 pt-2">
+    <li class="breadcrumb-item">
+      <a href="/seccion/recoletas" class="text-white text-decoration-none text-analisis fs-6">Atl. Valladolid</a>
+    </li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
+      Europa
+    </li>
+  </ol>
+</nav>
 {% endblock %}
-{% block scripts %}      
-    <script>
-      document.querySelectorAll(".btn-slide").forEach((btn) => {
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          const target = this.dataset.target;
+{% block contenido %}
+<section class="container-lg flex-fill copa_uemc">
 
-          // Ocultar todas
-          document
-            .querySelectorAll(".seccion-slide")
-            .forEach((sec) => sec.classList.add("d-none"));
+  <!-- Encabezado -->
+  <div class="text-center mb-4 mt-3">
+    <h3 class="text-white equipo-mobile">
+      EUROPA 26/27
+    </h3>
 
-          // Mostrar la elegida
-          document.getElementById(target).classList.remove("d-none");
+    <small class="texto-intro-historial">
+      Consulta la participación del Atlético Valladolid en Europa,
+      con sus resultados, clasificaciones, fases de grupos y eliminatorias.
+    </small>
+  </div>
 
-          // Marcar botón activo
-          document
-            .querySelectorAll(".btn-slide")
-            .forEach((b) => b.classList.remove("active"));
-          this.classList.add("active");
-        });
+  <!-- Detectar la última fase con partidos -->
+  {% set ns = namespace(seccion_actual=none, indice_actual=none) %}
+
+  {% if preliminar.partidos %}
+  {% set ns.seccion_actual = 'preliminar' %}
+  {% set ns.indice_actual = 0 %}
+  {% endif %}
+
+  {% for grupo, equipos in clasificaciones_fase1.items() %}
+  {% if grupo in equipos_por_encuentros and equipos_por_encuentros[grupo]['partidos'] %}
+  {% set ns.seccion_actual = 'grupo' ~ loop.index0 %}
+  {% set ns.indice_actual = loop.index0 %}
+  {% endif %}
+  {% endfor %}
+
+  {% for grupo, equipos in clasificaciones_fase2.items() %}
+  {% if grupo in segunda_fase and segunda_fase[grupo]['partidos'] %}
+  {% set ns.seccion_actual = 'segunda' ~ loop.index0 %}
+  {% set ns.indice_actual = loop.index0 %}
+  {% endif %}
+  {% endfor %}
+
+  {% for ronda, datos in eliminatorias.items() %}
+  {% if datos['partidos'] %}
+  {% set ns.seccion_actual = 'eliminatoria' ~ loop.index0 %}
+  {% set ns.indice_actual = loop.index0 %}
+  {% endif %}
+  {% endfor %}
+
+  <!-- Comprobar si existe algún partido -->
+  {% set hay_partidos = namespace(valor=false) %}
+
+  {% if preliminar.partidos %}
+  {% set hay_partidos.valor = true %}
+  {% endif %}
+
+  {% for grupo, equipos in clasificaciones_fase1.items() %}
+  {% if grupo in equipos_por_encuentros and equipos_por_encuentros[grupo]['partidos'] %}
+  {% set hay_partidos.valor = true %}
+  {% endif %}
+  {% endfor %}
+
+  {% for grupo, equipos in clasificaciones_fase2.items() %}
+  {% if grupo in segunda_fase and segunda_fase[grupo]['partidos'] %}
+  {% set hay_partidos.valor = true %}
+  {% endif %}
+  {% endfor %}
+
+  {% for ronda, datos in eliminatorias.items() %}
+  {% if datos['partidos'] %}
+  {% set hay_partidos.valor = true %}
+  {% endif %}
+  {% endfor %}
+
+  {% if hay_partidos.valor %}
+
+  <!-- Navegación -->
+  <div class="d-flex justify-content-center my-2 gap-2 flex-wrap">
+
+    {% if preliminar.partidos %}
+    <a href="#" class="btn btns-ronda btn-slide {% if ns.seccion_actual == 'preliminar' %}active{% endif %}"
+      data-target="preliminar">
+      Preliminar
+    </a>
+    {% endif %}
+
+    {% for grupo, equipos in clasificaciones_fase1.items() %}
+    {% if grupo in equipos_por_encuentros and equipos_por_encuentros[grupo]['partidos'] %}
+    <a href="#" class="btn btns-ronda btn-slide {% if ns.seccion_actual == 'grupo' ~ loop.index0 %}active{% endif %}"
+      data-target="grupo{{ loop.index0 }}">
+      {{ grupo }}
+    </a>
+    {% endif %}
+    {% endfor %}
+
+    {% for grupo, equipos in clasificaciones_fase2.items() %}
+    {% if grupo in segunda_fase and segunda_fase[grupo]['partidos'] %}
+    <a href="#" class="btn btns-ronda btn-slide {% if ns.seccion_actual == 'segunda' ~ loop.index0 %}active{% endif %}"
+      data-target="segunda{{ loop.index0 }}">
+      {{ grupo }}
+    </a>
+    {% endif %}
+    {% endfor %}
+
+    {% for ronda, datos in eliminatorias.items() if datos['partidos'] %}
+    <a href="#"
+      class="btn btns-ronda btn-slide {% if ns.seccion_actual == 'eliminatoria' ~ loop.index0 %}active{% endif %}"
+      data-target="eliminatoria{{ loop.index0 }}">
+      {{ ronda|capitalize }}
+    </a>
+    {% endfor %}
+
+  </div>
+
+  <div id="contenedor-secciones">
+
+    <!-- Preliminar -->
+    {% if preliminar.partidos %}
+    <div class="seccion-slide {% if ns.seccion_actual == 'preliminar' %}d-block{% else %}d-none{% endif %}"
+      id="preliminar">
+
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+
+            <h3 class="text-center text-white">Preliminar</h3>
+
+            <div class="table-responsive">
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Resultado</th>
+                    <th>Visitante</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for partido in preliminar.partidos %}
+                  <tr>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.hora }}</td>
+                    <td class="text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+                    <td>
+                      {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                    </td>
+                    <td class="text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Primera fase -->
+    {% for grupo, equipos in clasificaciones_fase1.items() %}
+    {% if grupo in equipos_por_encuentros and equipos_por_encuentros[grupo]['partidos'] %}
+
+    <div class="seccion-slide {% if ns.seccion_actual == 'grupo' ~ loop.index0 %}d-block{% else %}d-none{% endif %}"
+      id="grupo{{ loop.index0 }}">
+
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+
+            <h3 class="text-center text-white">{{ grupo }}</h3>
+
+            <div class="table-responsive">
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Equipo</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>PTS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo, stats in equipos %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td class="fw-bold">{{ equipo }}</td>
+                    <td>{{ stats.jugados }}</td>
+                    <td>{{ stats.ganados }}</td>
+                    <td>{{ stats.empatados }}</td>
+                    <td>{{ stats.perdidos }}</td>
+                    <td>{{ stats.puntos }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Resultado</th>
+                    <th>Visitante</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for partido in equipos_por_encuentros[grupo]['partidos'] %}
+                  <tr>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.hora }}</td>
+                    <td class="text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+                    <td>
+                      {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                    </td>
+                    <td class="text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+
+    <!-- Segunda fase -->
+    {% for grupo, equipos in clasificaciones_fase2.items() %}
+    {% if grupo in segunda_fase and segunda_fase[grupo]['partidos'] %}
+
+    <div class="seccion-slide {% if ns.seccion_actual == 'segunda' ~ loop.index0 %}d-block{% else %}d-none{% endif %}"
+      id="segunda{{ loop.index0 }}">
+
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+
+            <h3 class="text-center text-white">{{ grupo }}</h3>
+
+            <h5 class="text-white text-center">Clasificación</h5>
+
+            <div class="table-responsive">
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Equipo</th>
+                    <th>PJ</th>
+                    <th>PG</th>
+                    <th>PE</th>
+                    <th>PP</th>
+                    <th>PTS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for equipo, datos in equipos %}
+                  <tr>
+                    <td>{{ loop.index }}</td>
+                    <td class="text-start text-copa fw-bold">{{ equipo }}</td>
+                    <td>{{ datos.jugados }}</td>
+                    <td>{{ datos.ganados }}</td>
+                    <td>{{ datos.empatados }}</td>
+                    <td>{{ datos.perdidos }}</td>
+                    <td>{{ datos.puntos }}</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <div class="table-responsive">
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Resultado</th>
+                    <th>Visitante</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for partido in segunda_fase[grupo]['partidos'] %}
+                  <tr>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.hora }}</td>
+                    <td
+                      class="text-copa fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+                    <td>
+                      {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                    </td>
+                    <td
+                      class="text-copa fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endif %}
+    {% endfor %}
+
+    <!-- Eliminatorias -->
+    {% for ronda, datos in eliminatorias.items() if datos['partidos'] %}
+
+    <div
+      class="seccion-slide {% if ns.seccion_actual == 'eliminatoria' ~ loop.index0 %}d-block{% else %}d-none{% endif %}"
+      id="eliminatoria{{ loop.index0 }}">
+
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-4" style="width: 70rem">
+          <div class="card-body">
+
+            <h3 class="text-center text-white text-capitalize">
+              {{ ronda|capitalize }}
+            </h3>
+
+            <div class="table-responsive">
+              <table class="table border-secondary text-white text-center">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Hora</th>
+                    <th>Local</th>
+                    <th>Goles</th>
+                    <th>Goles</th>
+                    <th>Visitante</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for partido in datos['partidos'] %}
+                  <tr>
+                    <td>{{ partido.fecha }}</td>
+                    <td>{{ partido.hora }}</td>
+                    <td class="text-copa fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+                    <td>{{ partido.resultadoA }}</td>
+                    <td>{{ partido.resultadoB }}</td>
+                    <td class="text-copa fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% endfor %}
+
+  </div>
+
+  {% else %}
+
+  <!-- Sin partidos -->
+  <div class="card tabla_copa mx-auto text-center"
+         style="max-width: 55rem">
+    <div class="card-body py-4">🏆     
+      <h4 class="text-analisis fs-4">
+        EUROPA TODAVÍA NO HA COMENZADO
+      </h4>
+
+      <p>
+        Todavía no hay partidos registrados de la competición europea.
+        Aquí podrás consultar las clasificaciones, resultados y eliminatorias
+        a medida que avance el torneo.
+      </p>
+    </div>
+  </div> 
+
+  {% endif %}
+
+</section>
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+  document.querySelectorAll(".btn-slide").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const target = this.dataset.target;
+
+      document.querySelectorAll(".seccion-slide").forEach((sec) => {
+        sec.classList.add("d-none");
+        sec.classList.remove("d-block");
       });
-    </script>
+
+      const seccionSeleccionada = document.getElementById(target);
+
+      if (seccionSeleccionada) {
+        seccionSeleccionada.classList.remove("d-none");
+        seccionSeleccionada.classList.add("d-block");
+      }
+
+      document.querySelectorAll(".btn-slide").forEach((b) => {
+        b.classList.remove("active");
+      });
+
+      this.classList.add("active");
+    });
+  });
+</script>
 {% endblock %}

@@ -156,6 +156,16 @@ Calendario, resultados, clasificación e información del VRAC.
       </div>
     </div>
     {% endif %}
+    {% if menu.get("supercopa") %}
+    <div class="shadow-lg p-3 mb-2">
+      <div class="row g-3 align-items-center">
+        <div class="col-12 text-center mt-2">
+          <a href="/supercopas_vrac" class="text-decoration-none">
+          <h2 class="text_uemc pt-3">SuperCopa</h2></a>
+        </div>
+      </div>
+    </div>
+    {% endif %}
     {% if menu.get("copa_iberica") %}
     <div class="shadow-lg p-3 mb-2">
       <div class="row g-3 align-items-center">

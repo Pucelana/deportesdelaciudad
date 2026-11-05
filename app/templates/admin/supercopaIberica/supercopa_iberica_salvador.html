@@ -1,36 +1,21 @@
-<!doctype html>
-<html lang="es">
-
-<head>
-    <title>Supercopa Ibérica - Aula Valladolid</title>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Área de administración del sitio web.">
-    <meta name="robots" content="noindex, nofollow">
-    <!-- Bootstrap CSS v5.2.1 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
-    <link href="/static/css/estilo.css" rel="stylesheet" type="text/css">
-    <!-- Favicon -->
-    <link rel="icon" type="image/jpg" href="/static/img/logo.png" />
-</head>
-<body class="body_admin">
+{% extends 'admin/supercopaIberica/base_superIberica.html' %}
+{% block title %} SuperCopa Iberica - CR El Salvador {% endblock %}
+{% block nav %}
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb ps-2 pt-2">
             <li class="breadcrumb-item"><a href="/admin/pub_marcadores"
                     class="text-white text-decoration-none">Inicio</a>
             </li>
-            <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Ibérica Aula Valladolid</li>
+            <li class="breadcrumb-item active text-dark" aria-current="page">Supercopa Ibérica CR El Salvador</li>
         </ol>
     </nav>
     <header>
-        <h1 class="text-center mb-5">Supercopa Ibérica Aula Valladolid 25/26</h1>
+        <h1 class="text-center mb-5">Supercopa Ibérica CR El Salvador25/26</h1>
     </header>
     <section class="container-lg">
         <!-- Formulario para los resultados de los partidos -->
         <div class="container-lg d-flex justify-content-center">
-            <form id="form_playoff_ponce" method="POST" action="/admin/crear_supercopa_iberica_aula" class="row mb-3">
+            <form id="form_playoff_ponce" method="POST" action="/admin/crear_supercopa_iberica_salvador" class="row mb-3">
                 <!-- Selección de etapa del torneo -->
                 <label for="encuentros">Etapa del Torneo:</label>
                 <select id="eliminatoria" name="eliminatoria">
@@ -73,7 +58,7 @@
                 class="btn btn-info text-white border-0 rounded px-2 me-2" data-bs-toggle="modal"
                 data-bs-target="#modal{{ loop.index }}">Modificar</button>
             <form method="POST"
-                action="{{ url_for('aula_route_bp.eliminar_supercopa_iberica_aula', eliminatoria=eliminatoria) }}">
+                action="{{ url_for('salvador_route_bp.eliminar_supercopa_iberica_salvador', eliminatoria=eliminatoria) }}">
                 <button type="submit" class="btn btn-danger">Borrar</button>
             </form>
         </div>
@@ -95,7 +80,7 @@
                 </div>
                 <div class="modal-body">
                     <form method="POST"
-                        action="{{ url_for('aula_route_bp.modificar_supercopa_iberica_aula', eliminatoria=eliminatoria) }}">
+                        action="{{ url_for('salvador_route_bp.modificar_supercopa_iberica_salvador', eliminatoria=eliminatoria) }}">
                         <input type="hidden" name="eliminatoria" value="{{ eliminatoria }}">
                         <input type="hidden" name="num_partidos" value="{{ partidos|length }}">
                         {% for partido in partidos %}

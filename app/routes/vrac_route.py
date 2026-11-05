@@ -8,7 +8,7 @@ from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion, TemporadaVrac
+from ..models.vrac import JornadaVrac, VracPartido, VracClub, PlayoffVrac, CopaVrac, SupercopaIbericaVrac, EuropaVrac, Clasificacion, TemporadaVrac, SupercopaVrac
 
 vrac_route_bp = Blueprint('vrac_route_bp', __name__)
 
@@ -1272,4 +1272,204 @@ def vrac_copa():
                 "https://deportesdelaciudad.es/vrac_copa/"
             )
         )
+    )
+# SUPERCOPA VRAC
+# Crear formulario para la supercopa
+@vrac_route_bp.route('/admin/crear_supercopa_vrac', methods=['GET', 'POST'])
+def crear_supercopa_aliados():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = SupercopaVrac(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('vrac_route_bp.ver_supercopa_vrac'))
+    return render_template('admin/supercopa/supercopa_vrac.html')
+# Ver encuentros supercopa en Admin
+@vrac_route_bp.route('/admin/supercopa_vrac/')
+def ver_supercopa_vrac():
+    eliminatorias = ['final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaVrac.query.filter_by(eliminatoria=eliminatoria).order_by(SupercopaVrac.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/supercopa/supercopa_vrac.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la supercopa
+@vrac_route_bp.route('/modificar_supercopa_vrac/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_supercopa_vrac(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = SupercopaVrac.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        return redirect(url_for('vrac_route_bp.ver_supercopa_vrac'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('vrac_route_bp.ver_supercopa_vrac'))
+# Eliminar los partidos de la copa
+@vrac_route_bp.route('/eliminar_supercopa_vrac/<string:eliminatoria>', methods=['POST'])
+def eliminar_supercopa_vrac(eliminatoria):
+    partidos = SupercopaVrac.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    return redirect(url_for('vrac_route_bp.ver_supercopa_vrac'))
+# Mostrar la supercopa del VRAC
+@vrac_route_bp.route('/supercopas_vrac/')
+def supercopas_vrac():
+    eliminatorias = ['final']
+    datos_supercopa = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaVrac.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_supercopa[eliminatoria] = partidos   
+    partidos_schema = obtener_partidos_schema(datos_supercopa)    
+    return render_template('supercopas/vrac_supercopa.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("vrac")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "vrac",
+                                "https://deportesdelaciudad.es/supercopas_vrac/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "vrac",
+                                "https://deportesdelaciudad.es/supercopas_vrac/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "vrac",
+                                "https://deportesdelaciudad.es/supercopas_vrac/"
+                            )
+                        )
+    )
+# SUPERCOPA IBERICA VRAC
+# Crear formulario para la supercopa
+@vrac_route_bp.route('/admin/crear_supercopa_iberica_vrac', methods=['GET', 'POST'])
+def crear_supercopa_iberica_aliados():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = SupercopaIbericaVrac(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('vrac_route_bp.ver_supercopa_iberica_vrac'))
+    return render_template('admin/supercopaIberica/supercopa_iberica_vrac.html')
+# Ver encuentros supercopa en Admin
+@vrac_route_bp.route('/admin/supercopa_iberica_vrac/')
+def ver_supercopa_iberica_vrac():
+    eliminatorias = ['final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaIbericaVrac.query.filter_by(eliminatoria=eliminatoria).order_by(SupercopaIbericaVrac.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/supercopaIberica/supercopa_iberica_vrac.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la supercopa
+@vrac_route_bp.route('/modificar_supercopa_iberica_vrac/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_supercopa_iberica_vrac(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = SupercopaIbericaVrac.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        return redirect(url_for('vrac_route_bp.ver_supercopa_iberica_vrac'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('vrac_route_bp.ver_supercopa_iberica_vrac'))
+# Eliminar los partidos de la copa
+@vrac_route_bp.route('/eliminar_supercopa_iberica_vrac/<string:eliminatoria>', methods=['POST'])
+def eliminar_supercopa_iberica_vrac(eliminatoria):
+    partidos = SupercopaIbericaVrac.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    return redirect(url_for('vrac_route_bp.ver_supercopa_iberica_vrac'))
+# Mostrar la supercopa del VRAC
+@vrac_route_bp.route('/supercopa_iberica_vrac/')
+def supercopa_iberica_vrac():
+    eliminatorias = ['final']
+    datos_supercopa = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaIbericaVrac.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_supercopa[eliminatoria] = partidos   
+    partidos_schema = obtener_partidos_schema(datos_supercopa)    
+    return render_template('supercopasIberica/vrac_supercopa_iberica.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("vrac")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "vrac",
+                                "https://deportesdelaciudad.es/supercopa_iberica_vrac/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "vrac",
+                                "https://deportesdelaciudad.es/supercopa_iberica_vrac/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "vrac",
+                                "https://deportesdelaciudad.es/supercopa_iberica_vrac/"
+                            )
+                        )
     )

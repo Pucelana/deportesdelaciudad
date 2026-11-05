@@ -32,129 +32,178 @@ Sigue las eliminatorias y resultados de la copa de la reina del Atl.Tordesillas.
 </nav>
 {% endblock %}
 {% block contenido %}
-<!-- Botones de rondas -->
-<div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+<div class="container-lg mt-3">
 
-    {% for ronda in datos_copa.keys() %}
+  <div class="text-center mb-4">
+    <h3 class="text-white equipo-mobile">
+      COPA 26/27
+    </h3>
 
-    <a href="#"
-       class="btn btn-slide btns-ronda {% if ronda == ronda_actual %}active{% endif %}"
-       data-target="ronda{{ loop.index0 }}">
-        {{ ronda|capitalize }}
-    </a>
+    <small class="texto-intro-historial">
+      Consulta la participación del Atlético Tordesillas en la Copa,
+      con los emparejamientos, resultados y eliminatorias de
+      la competición. Se actualizará a medida
+      que avance el torneo.
+    </small>
+  </div>
 
-    {% endfor %}
+  {% set rondas_con_partidos = datos_copa.values() | select | list %}
+  {% set ns = namespace(ronda_actual=none) %}
 
-</div>
-<!-- RONDAS -->
-<div id="contenedor-rondas">
   {% for ronda, partidos in datos_copa.items() %}
-  <div class="ronda-item {% if ronda == ronda_actual %}d-block{% else %}d-none{% endif %}"
-       id="ronda{{ loop.index0 }}">
-    <div class="d-flex justify-content-center">
-      <div class="card tabla_copa mt-4 w-100" style="max-width: 55rem">
-        <div class="card-body">
-          <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
-            {{ ronda }}
-          </h3>
-          <!-- TABLET / PC -->
-          <div class="table-responsive d-none d-md-block">
-            <table class="table border-secondary">
-              <tbody>
-                {% for partido in partidos %}
-                <tr>
-                  <td class="text-muted fw-bold fs-5">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
-                  <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">{{ partido.local }}</td>
-                  <td class="resultado-mobile fw-bold fs-5">{{ partido.resultadoA }}</td>
-                  <td class="resultado-mobile fw-bold fs-5">{{ partido.resultadoB }}</td>
-                  <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">{{ partido.visitante }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <!-- MÓVIL -->
-          <div class="d-md-none cards-mobile">
-            {% for partido in partidos %}
-            <div class="card partido-mobile mb-2">
-              <div class="card-body text-center">
+    {% if partidos %}
+        {% set ns.ronda_actual = loop.index0 %}
+    {% endif %}
+  {% endfor %}
 
-                <small class="text-muted fw-bold">
-                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora }}{% endif %}
-                </small>
+  {% if rondas_con_partidos %}
 
-                <div class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
-                  {{ partido.local }}
+    <!-- BOTONES DE RONDAS -->
+    <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+      {% for ronda, partidos in datos_copa.items() if partidos %}
+        <a href="#"
+           class="btn btn-slide btns-ronda {% if loop.index0 == ns.ronda_actual %}active{% endif %}"
+           data-target="ronda{{ loop.index0 }}">
+          {{ ronda|capitalize }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- RONDAS -->
+    <div id="contenedor-rondas">
+      {% for ronda, partidos in datos_copa.items() if partidos %}
+        <div class="ronda-item {% if loop.index0 == ns.ronda_actual %}d-block{% else %}d-none{% endif %}"
+             id="ronda{{ loop.index0 }}">
+
+          <div class="d-flex justify-content-center">
+            <div class="card tabla_copa mt-2 w-100"
+                 style="max-width: 55rem">
+
+              <div class="card-body">
+
+                <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-3">
+                  {{ ronda }}
+                </h3>
+
+                <!-- TABLET / PC -->
+                <div class="table-responsive d-none d-md-block">
+                  <table class="table border-secondary">
+                    <tbody>
+                      {% for partido in partidos %}
+                        <tr>
+                          <td class="text-muted fw-bold fs-5">
+                            {{ partido.fecha }}
+                            {% if partido.hora %} - {{ partido.hora }}{% endif %}
+                          </td>
+
+                          <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                            {{ partido.local }}
+                          </td>
+
+                          <td class="resultado-mobile fw-bold fs-5">
+                            {{ partido.resultadoA }}
+                          </td>
+
+                          <td class="resultado-mobile fw-bold fs-5">
+                            {{ partido.resultadoB }}
+                          </td>
+
+                          <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                            {{ partido.visitante }}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
 
-                <div class="resultado-mobile">
-                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                </div>
+                <!-- MÓVIL -->
+                <div class="d-md-none cards-mobile">
+                  {% for partido in partidos %}
+                    <div class="card partido-mobile mb-2">
+                      <div class="card-body text-center">
 
-                <div class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
-                  {{ partido.visitante }}
+                        <small class="text-muted fw-bold">
+                          {{ partido.fecha }}
+                          {% if partido.hora %} - {{ partido.hora }}{% endif %}
+                        </small>
+
+                        <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                          {{ partido.local }}
+                        </div>
+
+                        <div class="resultado-mobile">
+                          {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                        </div>
+
+                        <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                          {{ partido.visitante }}
+                        </div>
+
+                      </div>
+                    </div>
+                  {% endfor %}
                 </div>
 
               </div>
             </div>
-            {% endfor %}
           </div>
-
         </div>
+      {% endfor %}
+    </div>
+
+  {% else %}
+
+    <!-- COPA SIN COMENZAR -->
+    <div class="card tabla_copa mx-auto text-center"
+         style="max-width: 55rem">
+      <div class="card-body py-4">🏆
+
+        <h5 class="text-white mb-2">
+          LA COPA NO HA COMENZADO
+        </h5>
+
+        <p class="mb-0">
+          La competición copera todavía no ha comenzado
+          para el Atlético Tordesillas. Próximamente podrás consultar
+          aquí los emparejamientos y resultados de las eliminatorias.
+        </p>
+
       </div>
     </div>
 
-  </div>
-  {% endfor %}
+  {% endif %}
+
 </div>
 {% endblock %}
+
 {% block scripts %}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+  const botones = document.querySelectorAll(".btn-slide");
+  const rondas = document.querySelectorAll(".ronda-item");
 
-    const botones = document.querySelectorAll(".btn-slide");
-    const rondas = document.querySelectorAll(".ronda-item");
+  botones.forEach((boton) => {
+    boton.addEventListener("click", function (e) {
+      e.preventDefault();
 
-    function mostrarRonda(targetId, botonActivo) {
+      rondas.forEach((r) => {
+        r.classList.add("d-none");
+        r.classList.remove("d-block");
+      });
 
-        rondas.forEach((ronda) => {
-            ronda.classList.remove("d-block");
-            ronda.classList.add("d-none");
-        });
+      const targetId = this.dataset.target;
+      const targetDiv = document.getElementById(targetId);
 
-        const rondaSeleccionada = document.getElementById(targetId);
+      if (targetDiv) {
+        targetDiv.classList.remove("d-none");
+        targetDiv.classList.add("d-block");
+      }
 
-        if (rondaSeleccionada) {
-            rondaSeleccionada.classList.remove("d-none");
-            rondaSeleccionada.classList.add("d-block");
-        }
-
-        botones.forEach((boton) => {
-            boton.classList.remove("active");
-        });
-
-        if (botonActivo) {
-            botonActivo.classList.add("active");
-        }
-    }
-
-    botones.forEach((boton) => {
-
-        boton.addEventListener("click", function (e) {
-            e.preventDefault();
-
-            mostrarRonda(this.dataset.target, this);
-        });
-
+      botones.forEach((b) => b.classList.remove("active"));
+      this.classList.add("active");
     });
-
-    // Mantener la ronda seleccionada por Flask al cargar la página
-    const botonActivo = document.querySelector(".btn-slide.active");
-
-    if (botonActivo) {
-        mostrarRonda(botonActivo.dataset.target, botonActivo);
-    }
-
+  });
 });
 </script>
 {% endblock %}

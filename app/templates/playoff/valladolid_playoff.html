@@ -1,4 +1,4 @@
-{% extends "playoff/base_playoff.html" %} 
+{% extends "playoff/base_playoff.html" %}
 {% block title %}PlayOff | Real Valladolid | Deportes de la Ciudad{% endblock %}
 
 {% block description %}
@@ -17,104 +17,182 @@ Playoffs | Real Valladolid | Deportes de la Ciudad
 Sigue las eliminatorias y resultados de los playoffs del Real Valladolid.
 {% endblock %}
 
-    {% block breadcrumb %}
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb ms-1">
-        <li class="breadcrumb-item"><a href="/seccion/valladolid" class="text-white text-decoration-none">Real Valladolid</a></li>
-        <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">PlayOff</li>
-      </ol>
-    </nav>
-    {% endblock %}
-    {% block contenido %}
-    <section class="container-lg flex-fill copa">
-  <!-- Navegación -->
-  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
-    {% for ronda in datos_playoff.keys() %}
-    <a
-      href="#"
-      class="btn fw-bold btn-slide btns-ronda"
-      data-target="ronda{{ loop.index0 }}"
-      >{{ ronda|capitalize }}</a
-    >
-    {% endfor %}
+{% block breadcrumb %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb ms-1">
+    <li class="breadcrumb-item"><a href="/seccion/valladolid" class="text-white text-decoration-none">Real
+        Valladolid</a></li>
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">PlayOff</li>
+  </ol>
+</nav>
+{% endblock %}
+{% block contenido %}
+
+{% set ns = namespace(ronda_actual=none) %}
+
+{% for ronda, partidos in datos_playoff.items() %}
+{% if partidos %}
+{% set ns.ronda_actual = ronda %}
+{% endif %}
+{% endfor %}
+
+{% set rondas_con_partidos = datos_playoff.values() | select | list %}
+
+<section class="container-lg flex-fill copa">
+
+  <!-- TÍTULO E INTRODUCCIÓN -->
+  <div class="text-center mb-4 mt-3">
+    <h3 class="text-white equipo-mobile">
+      PLAYOFF 26/27
+    </h3>
+
+    <small class="texto-intro-historial">
+      Consulta los emparejamientos, resultados y eliminatorias del playoff. Se actualizará a medida que avance la
+      competición.
+    </small>
   </div>
-  <!-- Contenedor de rondas -->
+
+  {% if rondas_con_partidos %}
+
+  <!-- NAVEGACIÓN -->
+  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+
+    {% for ronda, partidos in datos_playoff.items() if partidos %}
+    <a href="#" class="btn fw-bold btn-slide btns-ronda {% if ronda == ns.ronda_actual %}active{% endif %}"
+      data-target="ronda{{ loop.index0 }}">
+      {{ ronda|capitalize }}
+    </a>
+    {% endfor %}
+
+  </div>
+
+  <!-- CONTENEDOR DE RONDAS -->
   <div id="contenedor-rondas">
+
     {% for ronda, partidos in datos_playoff.items() %}
-    <div
-      class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
-      id="ronda{{ loop.index0 }}"
-    >
+    {% if partidos %}
+
+    <div class="ronda-item {% if ronda == ns.ronda_actual %}d-block{% else %}d-none{% endif %}"
+      id="ronda{{ loop.index0 }}">
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-2" style="width: 55rem">
           <div class="card-body">
-            <h3
-              class="text-center text-white text-analisis fs-4 fw-bold text-capitalize"
-            >
+
+            <h3 class="text-center text-white text-analisis fs-4 fw-bold text-capitalize">
               {{ ronda }}
             </h3>
+
+            <!-- TABLA TABLET Y PC -->
             <div class="table-responsive d-none d-md-block">
               <table class="table border-secondary">
                 {% for partido in partidos %}
                 <tr class="text-center">
-                  <td class="text-muted fw-bold">{{ partido.fecha }} {% if partido.hora %} - {{ partido.hora}}{% endif %}</td>
+
+                  <td class="text-muted fw-bold">
+                    {{ partido.fecha }}
+                    {% if partido.hora %}
+                    - {{ partido.hora }}
+                    {% endif %}
+                  </td>
+
                   <td
-                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
-                  >
+                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
                     {{ partido.local }}
                   </td>
-                  <td class="resultado-mobile fw-bold fs-5">
-                    {% if partido.resultadoA is not none and partido.resultadoB
-                    is not none %} {{ partido.resultadoA }} - {{
-                    partido.resultadoB }} {% else %}
+
+                  <td class="resultado-mobile fs-5" colspan="2">
+                    {% if partido.resultadoA is not none and partido.resultadoB is not none %}
+                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                    {% else %}
                     <span class="text-muted">-</span>
                     {% endif %}
                   </td>
+
                   <td
-                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
-                  >
+                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
                     {{ partido.visitante }}
                   </td>
+
                 </tr>
                 {% endfor %}
               </table>
             </div>
-            <!-- MÓVIL -->
+
+            <!-- CARDS MÓVIL -->
             <div class="d-md-none cards-mobile">
+
               {% for partido in partidos %}
               <div class="card partido-mobile mb-2">
                 <div class="card-body text-center">
+
                   <small class="text-muted fw-bold">
-                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                    }}{% endif %}
+                    {{ partido.fecha }}
+                    {% if partido.hora %}
+                    - {{ partido.hora }}
+                    {% endif %}
                   </small>
+
                   <div
-                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
-                  >
+                    class="equipo-mobile {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.local }}
                   </div>
+
                   <div class="resultado-mobile">
+                    {% if partido.resultadoA is not none and partido.resultadoB is not none %}
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                    {% else %}
+                    -
+                    {% endif %}
                   </div>
+
                   <div
-                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
-                  >
+                    class="equipo-mobile {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.visitante }}
                   </div>
+
                 </div>
               </div>
               {% endfor %}
+
             </div>
+
           </div>
         </div>
       </div>
     </div>
+
+    {% endif %}
     {% endfor %}
+
   </div>
+
+  {% else %}
+
+  <!-- PLAYOFF SIN COMENZAR -->
+  <div class="card tabla_copa mx-auto text-center" style="max-width: 55rem">
+    <div class="card-body py-4">🏆
+      <h4 class="text-analisis fs-4">
+        EUROPA TODAVÍA NO HA COMENZADO
+      </h4>
+
+      <p>
+        Todavía no hay partidos registrados de la competición europea.
+        Aquí podrás consultar las clasificaciones, resultados y eliminatorias
+        a medida que avance el torneo.
+      </p>
+    </div>
+  </div>
+
+  {% endif %}
+
 </section>
-{% endblock %} {% block scripts %}
+
+{% endblock %}
+
+{% block scripts %}
 <script>
-   document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
+
     const botones = document.querySelectorAll(".btn-slide");
     const rondas = document.querySelectorAll(".ronda-item");
 
@@ -122,23 +200,27 @@ Sigue las eliminatorias y resultados de los playoffs del Real Valladolid.
       boton.addEventListener("click", function (e) {
         e.preventDefault();
 
-        // Oculta todas las rondas
-        rondas.forEach((r) => r.classList.add("d-none"));
-        rondas.forEach((r) => r.classList.remove("d-block"));
+        // Ocultar todas las rondas
+        rondas.forEach((r) => {
+          r.classList.add("d-none");
+          r.classList.remove("d-block");
+        });
 
-        // Activa solo la seleccionada
+        // Mostrar la ronda seleccionada
         const targetId = this.dataset.target;
         const targetDiv = document.getElementById(targetId);
+
         if (targetDiv) {
           targetDiv.classList.remove("d-none");
           targetDiv.classList.add("d-block");
         }
 
-        // Opcional: marcar el botón activo
+        // Actualizar botón activo
         botones.forEach((b) => b.classList.remove("active"));
         this.classList.add("active");
       });
     });
+
   });
 </script>
-{% endblock %}  
+{% endblock %}

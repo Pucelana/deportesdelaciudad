@@ -9,12 +9,12 @@ from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
 from ..models.historial import obtener_evolucion_puntos
 from ..models.historial import Historial, Palmaress
-from ..models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub, PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion, TemporadaSalvadorFem
+from ..models.salvador_fem import JornadaSalvadorFem, SalvadorFemPartido, SalvadorFemClub, PlayoffSalvadorFem, CopaSalvadorFem, SupercopaIbericaSalvadorFem, EuropaSalvadorFem, Clasificacion, TemporadaSalvadorFem, SupercopaSalvadorFem
 
 salvador_fem_route_bp = Blueprint('salvador_fem_route_bp', __name__)
 
-# LIGA SALVADOR
-# Crear el calendario Salvador Fem.
+# LIGA salvador fem
+# Crear el calendario salvador_fem Fem.
 @salvador_fem_route_bp.route('/admin/crear_calendario_salvador_fem', methods=['GET', 'POST'])
 def ingresar_resultado_salvador_fem():
     if request.method == 'POST':
@@ -68,7 +68,7 @@ def ingresar_resultado_salvador_fem():
         return redirect(url_for('salvador_fem_route_bp.calendarios_salvador_fem'))
     # Si es un GET, renderizamos el formulario de creación
     return render_template('admin/calendarios/calend_salvador_fem.html')
-# Ver calendario Salvador en Admin
+# Ver calendario salvador_fem en Admin
 @salvador_fem_route_bp.route('/admin/calendario_salvador_fem')
 def calendarios_salvador_fem():
     temporada = TemporadaSalvadorFem.query.filter_by(activa=True).first()
@@ -136,7 +136,7 @@ def eliminar_jornada_salvador_fem(id):
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for('salvador_fem_route_bp.calendarios_salvador_fem'))
-# Obtener datos Salvador
+# Obtener datos salvador_fem
 def obtener_datos_salvador_fem(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaSalvadorFem.query.filter_by(activa=True).first()
@@ -173,7 +173,7 @@ def separar_fases(data):
             fase_regular.append(jornada)
 
     return fase_regular, fase_liguilla
-# Calendario Salvador Fem
+# Calendario salvador_fem Fem
 @salvador_fem_route_bp.route('/equipos_rugby/calendario_salvador_fem')
 def calendario_salvador_fem():
     datos = obtener_datos_salvador_fem()
@@ -262,7 +262,7 @@ def calendario_salvador_fem():
             )
         )
     )
-# Jornadas El Salvador
+# Jornadas El salvador_fem
 @salvador_fem_route_bp.route('/equipos_rugby/resultados_salvador_fem')
 def resultados_salvador_fem():
     datos = obtener_datos_salvador_fem()
@@ -307,7 +307,7 @@ def resultados_salvador_fem():
             )
         )
     )
-# Jornada 0 El Salvador
+# Jornada 0 El salvador_fem
 @salvador_fem_route_bp.route('/admin/jornada0_salvador_fem', methods=['GET', 'POST'])
 def jornada0_salvador_fem():
     if request.method == 'POST':
@@ -599,8 +599,8 @@ def activar_temporada_salvador_fem(id):
     db.session.commit()
     return redirect(url_for('salvador_fem_route_bp.temporadas_salvador_fem')) 
 
-# HISTORIAL EL SALVADOR FEM.
-# Creación del historial de temporadas de El Salvador Fem.
+# HISTORIAL EL salvador_fem FEM.
+# Creación del historial de temporadas de El salvador_fem Fem.
 @salvador_fem_route_bp.route("/admin/crear_historial_salvador_fem", methods=["GET", "POST"])
 def crear_historial_salvador_fem():
     if request.method == "POST":
@@ -639,14 +639,14 @@ def crear_historial_salvador_fem():
         modificar_url="salvador_fem_route_bp.modificar_historial_salvador_fem",
         eliminar_url="salvador_fem_route_bp.eliminar_historial_salvador_fem"
     )
-# Eliminar historial de temporadas de El Salvador Fem
+# Eliminar historial de temporadas de El salvador_fem Fem
 @salvador_fem_route_bp.route("/admin/eliminar_historial_salvador_fem/<int:id>", methods=["POST"])
 def eliminar_historial_salvador_fem(id):
     historial = Historial.query.get_or_404(id)
     db.session.delete(historial)
     db.session.commit()
     return redirect(url_for("salvador_fem_route_bp.crear_historial_salvador_fem"))
-# Modificar historial de temporadas de El Salvador Fem
+# Modificar historial de temporadas de El salvador_fem Fem
 @salvador_fem_route_bp.route("/admin/modificar_historial_salvador_fem/<int:id>", methods=["POST"])
 def modificar_historial_salvador_fem(id):
     historial = Historial.query.get_or_404(id)
@@ -704,7 +704,7 @@ def historial_salvador_fem():
         if not jornadas:
             continue
         labels, puntos = obtener_evolucion_puntos(
-            jornadas, "El Salvador Fem.", generar_clasificacion_analisis_rugby_salvador_fem,"puntos"
+            jornadas, "salvador_fem", generar_clasificacion_analisis_rugby_salvador_fem,"puntos"
         )
         labels_jornadas = labels
         datasets_jornadas.append(
@@ -745,8 +745,8 @@ def historial_salvador_fem():
         )
   )
     
-# PALMARES EL SALVADOR FEM.
-# Crear Palmares de El Salvador Fem
+# PALMARES EL salvador_fem FEM.
+# Crear Palmares de El salvador_fem Fem
 @salvador_fem_route_bp.route("/admin/crear_palmares_salvador_fem", methods=["GET", "POST"])
 def crear_palmares_salvador_fem():
     if request.method == "POST":
@@ -781,7 +781,7 @@ def crear_palmares_salvador_fem():
         modificar_url="salvador_fem_route_bp.modificar_palmares_salvador_fem",
         eliminar_url="salvador_fem_route_bp.eliminar_palmares_salvador_fem",
     )
-# Modificar Palmares de El Salvador Fem.
+# Modificar Palmares de El salvador_fem Fem.
 @salvador_fem_route_bp.route("/admin/modificar_palmares_salvador_fem/<int:id>", methods=["POST"])
 def modificar_palmares_salvador_fem(id):
     titulo = Palmaress.query.get_or_404(id)
@@ -791,7 +791,7 @@ def modificar_palmares_salvador_fem(id):
     titulo.orden = request.form.get("orden")
     db.session.commit()
     return redirect(url_for("salvador_fem_route_bp.crear_palmares_salvador_fem"))
-# Eliminar Palmares de El Salvador Fem
+# Eliminar Palmares de El salvador_fem Fem
 @salvador_fem_route_bp.route("/admin/eliminar_palmares_salvador_fem/<int:id>", methods=["POST"])
 def eliminar_palmares_salvador_fem(id):
     titulo = Palmaress.query.get_or_404(id)
@@ -799,7 +799,7 @@ def eliminar_palmares_salvador_fem(id):
     db.session.commit()
     return redirect(url_for("salvador_fem_route_bp.crear_palmares_salvador_fem"))
 
-# PLAYOFF SALVADOR
+# PLAYOFF salvador_fem
 # Crear formulario para los playoff
 @salvador_fem_route_bp.route('/admin/crear_playoff_salvador_fem', methods=['GET', 'POST'])
 def crear_playoff_salvador_fem():
@@ -905,8 +905,8 @@ def playoffs_salvador_fem():
         )
     )
 
-# COPA EL SALVADOR
-# Crear formulario de la Copa Salvador Fem.
+# COPA EL salvador_fem
+# Crear formulario de la Copa salvador_fem Fem.
 @salvador_fem_route_bp.route('/admin/crear_copa_salvador_fem', methods=['GET', 'POST'])
 def crear_copa_salvador_fem():
     if request.method == 'POST':
@@ -1013,4 +1013,105 @@ def copas_salvador_fem():
                 "https://deportesdelaciudad.es/copa_salvador_fem"
             )     
         )
+    )
+
+# SUPERCOPA salvador_fem
+# Crear formulario para la supercopa
+@salvador_fem_route_bp.route('/admin/crear_supercopa_salvador_fem', methods=['GET', 'POST'])
+def crear_supercopa_aliados():
+    if request.method == 'POST':
+        eliminatoria = request.form.get('eliminatoria')       
+        max_partidos = {
+            'final': 1
+        }.get(eliminatoria, 0)
+        num_partidos_str = request.form.get('num_partidos', '0').strip()
+        num_partidos = int(num_partidos_str) if num_partidos_str else 0
+        if num_partidos < 0 or num_partidos > max_partidos:
+            return "Número de partidos no válido"
+        for i in range(num_partidos):
+            partido = SupercopaSalvadorFem(
+                eliminatoria = eliminatoria,
+                fecha = request.form.get(f'fecha{i}', ''),
+                hora = request.form.get(f'hora{i}', ''),
+                local = request.form.get(f'local{i}', ''),
+                resultadoA = request.form.get(f'resultadoA{i}', ''),
+                resultadoB = request.form.get(f'resultadoB{i}', ''),
+                visitante = request.form.get(f'visitante{i}', '')
+            )
+            db.session.add(partido)
+        db.session.commit()
+        return redirect(url_for('salvador_fem_route_bp.ver_supercopa_salvador_fem'))
+    return render_template('admin/supercopa/supercopa_salvador_fem.html')
+# Ver encuentros supercopa en Admin
+@salvador_fem_route_bp.route('/admin/supercopa_salvador_fem/')
+def ver_supercopa_salvador_fem():
+    eliminatorias = ['final']
+    datos_eliminatorias = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaSalvadorFem.query.filter_by(eliminatoria=eliminatoria).order_by(SupercopaSalvadorFem.orden).all()
+        datos_eliminatorias[eliminatoria] = partidos
+    return render_template('admin/supercopa/supercopa_salvador_fem.html', datos_eliminatorias=datos_eliminatorias)
+# Modificar los partidos de la supercopa
+@salvador_fem_route_bp.route('/modificar_supercopa_salvador_fem/<string:eliminatoria>', methods=['GET', 'POST'])
+def modificar_supercopa_salvador_fem(eliminatoria):
+    if request.method == 'POST':
+        num_partidos = int(request.form.get('num_partidos', 0))
+        for i in range(num_partidos):
+            partido_id = request.form.get(f'partido_id{i}')
+            if not partido_id:
+                continue
+            partido_obj = SupercopaSalvadorFem.query.get(int(partido_id))
+            if not partido_obj:
+                continue
+            partido_obj.fecha = request.form.get(f'fecha{i}', '')
+            partido_obj.hora = request.form.get(f'hora{i}', '')
+            partido_obj.local = request.form.get(f'local{i}', '')
+            partido_obj.resultadoA = request.form.get(f'resultadoA{i}', '')
+            partido_obj.resultadoB = request.form.get(f'resultadoB{i}', '')
+            partido_obj.visitante = request.form.get(f'visitante{i}', '')
+            partido_obj.orden = i
+        # Commit para guardar los cambios
+        db.session.commit()
+        return redirect(url_for('salvador_fem_route_bp.ver_supercopa_salvador_fem'))
+    # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
+    return redirect(url_for('salvador_fem_route_bp.ver_supercopa_salvador_fem'))
+# Eliminar los partidos de la copa
+@salvador_fem_route_bp.route('/eliminar_supercopa_salvador_fem/<string:eliminatoria>', methods=['POST'])
+def eliminar_supercopa_salvador_fem(eliminatoria):
+    partidos = SupercopaSalvadorFem.query.filter_by(eliminatoria=eliminatoria).all()
+    for partido in partidos:
+        db.session.delete(partido)
+    db.session.commit()
+    return redirect(url_for('salvador_fem_route_bp.ver_supercopa_salvador_fem'))
+# Mostrar la supercopa del salvador_fem
+@salvador_fem_route_bp.route('/supercopas_salvador_fem/')
+def supercopas_salvador_fem():
+    eliminatorias = ['final']
+    datos_supercopa = {}
+    for eliminatoria in eliminatorias:
+        partidos = SupercopaSalvadorFem.query.filter_by(eliminatoria=eliminatoria).all()
+        datos_supercopa[eliminatoria] = partidos   
+    partidos_schema = obtener_partidos_schema(datos_supercopa)    
+    return render_template('supercopas/salvador_fem_supercopa.html', 
+                        datos_supercopa=datos_supercopa,
+                        breadcrumb=jsonld(schema_breadcrumb_equipo("salvador_fem")),
+                        schema_team=jsonld(
+                            schema_sports_team(
+                                "salvador_fem",
+                                "https://deportesdelaciudad.es/supercopas_salvador_fem/"
+                            )
+                        ),
+                        schema_competition=jsonld(
+                            schema_sports_competition(
+                                "salvador_fem",
+                                "https://deportesdelaciudad.es/supercopas_salvador_fem/"
+                            )
+                        ),
+                        schema_eventos=jsonld(
+                            schema_partidos(
+                                partidos_schema,
+                                "salvador_fem",
+                                "https://deportesdelaciudad.es/supercopas_salvador_fem/"
+                            )
+                        )
     )

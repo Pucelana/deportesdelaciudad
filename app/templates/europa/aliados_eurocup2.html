@@ -1,5 +1,5 @@
-{% extends "europa/base_europa.html" %} 
-{% block title %}Eurocup2 | BSR Valladolid | Deportes de la Ciudad{% endblock %} 
+{% extends "europa/base_europa.html" %}
+{% block title %}Eurocup2 | BSR Valladolid | Deportes de la Ciudad{% endblock %}
 
 {% block description %}
 Resultados, calendario, clasificación y grupos del BSR Valladolid en la EuroCup 2.
@@ -25,140 +25,212 @@ Sigue la participación del BSR Valladolid en la EuroCup 2.
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb ps-2 pt-2">
     <li class="breadcrumb-item">
-      <a
-        href="/seccion/aliados"
-        class="text-white text-decoration-none text-analisis fs-6"
-        >BSR Valladolid</a
-      >
+      <a href="/seccion/aliados" class="text-white text-decoration-none text-analisis fs-6">BSR Valladolid</a>
     </li>
-    <li
-      class="breadcrumb-item active text-dark text-analisis fs-6"
-      aria-current="page"
-    >
+    <li class="breadcrumb-item active text-dark text-analisis fs-6" aria-current="page">
       Eurocup 2 - Final
     </li>
   </ol>
 </nav>
 {% endblock %}
 {% block contenido %}
-<!-- Navegación -->
-<div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
-  <!-- Eliminatorias -->
-  {% for ronda in eliminatorias.keys() %}
-  <a
-    href="#"
-    class="btn btns-ronda btn-slide"
-    data-target="ronda{{ loop.index0 }}"
-  >
-    {{ ronda|capitalize }}
-  </a>
-  {% endfor %}
-</div>
-<div id="contenedor-rondas">
-  {% for ronda, partidos in eliminatorias.items() %}
-  <div
-    class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
-    id="ronda{{ loop.index0 }}"
-  >
-    <div class="d-flex justify-content-center">
-      <div class="card tabla_copa mt-2 w-100" style="max-width: 55rem">
-        <div class="card-body">
-          <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
-            {{ ronda }}
-          </h3>
-          <!-- TABLET / PC -->
-          <div class="table-responsive d-none d-md-block">
-            <table class="table border-secondary">
-              <tbody>
-                {% for partido in partidos %}
-                <tr class="text-center">
-                  <td class="text-muted fw-bold fs-5">
-                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                    }}{% endif %}
-                  </td>
-                  <td
-                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}"
-                  >
-                    {{ partido.local }}
-                  </td>
-                  <td class="resultado-mobile fw-bold fs-5">
-                    {{ partido.resultadoA }}
-                  </td>
-                  <td class="resultado-mobile fw-bold fs-5">
-                    {{ partido.resultadoB }}
-                  </td>
-                  <td
-                    class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}"
-                  >
-                    {{ partido.visitante }}
-                  </td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          </div>
-          <!-- MÓVIL -->
-          <div class="d-md-none cards-mobile">
-            {% for partido in partidos %}
-            <div class="card partido-mobile mb-2">
-              <div class="card-body text-center">
-                <small class="text-muted fw-bold">
-                  {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                  }}{% endif %}
-                </small>
+{% set ns = namespace(ronda_actual=none) %}
+{% for ronda, partidos in eliminatorias.items() %}
+{% if partidos %}
+{% set ns.ronda_actual = ronda %}
+{% endif %}
+{% endfor %}
+{% set rondas_con_partidos = eliminatorias.values() | select | list %}
+<!-- Encabezado -->
+<div class="container-lg mt-3">
 
-                <div
-                  class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}"
-                >
-                  {{ partido.local }}
-                </div>
+  <div class="text-center mb-4">
+    <h3 class="text-white equipo-mobile">
+      EUROCUP2 26/27
+    </h3>
 
-                <div class="resultado-mobile">
-                  {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                </div>
+    <small class="texto-intro-historial">
+      Consulta la participación de BSR Valladolid en la Eurocup2,
+      con los emparejamientos, resultados y eliminatorias de
+      la competición. Se actualizará a medida que avance el torneo.
+    </small>
+  </div>
 
-                <div
-                  class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}"
-                >
-                  {{ partido.visitante }}
-                </div>
-              </div>
+  {% if rondas_con_partidos %}
+
+  <!-- Navegación -->
+  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
+
+    {% for ronda, partidos in eliminatorias.items() if partidos %}
+    <a href="#" class="btn btns-ronda btn-slide {% if ronda == ns.ronda_actual %}active{% endif %}"
+      data-target="ronda{{ loop.index0 }}">
+      {{ ronda|capitalize }}
+    </a>
+    {% endfor %}
+
+  </div>
+
+  <!-- Contenido de las rondas -->
+  <div id="contenedor-rondas">
+
+    {% for ronda, partidos in eliminatorias.items() if partidos %}
+
+    <div class="ronda-item {% if ronda == ns.ronda_actual %}d-block{% else %}d-none{% endif %}"
+      id="ronda{{ loop.index0 }}">
+
+      <div class="d-flex justify-content-center">
+        <div class="card tabla_copa mt-2 w-100" style="max-width: 55rem">
+
+          <div class="card-body">
+
+            <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-4">
+              {{ ronda }}
+            </h3>
+
+            <!-- TABLET / PC -->
+            <div class="table-responsive d-none d-md-block">
+
+              <table class="table border-secondary">
+                <tbody>
+
+                  {% for partido in partidos %}
+                  <tr class="text-center">
+
+                    <td class="text-muted fw-bold fs-5">
+                      {{ partido.fecha }}
+                      {% if partido.hora %}
+                      - {{ partido.hora }}
+                      {% endif %}
+                    </td>
+
+                    <td
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+
+                    <td class="resultado-mobile fw-bold fs-5">
+                      {{ partido.resultadoA }}
+                    </td>
+
+                    <td class="resultado-mobile fw-bold fs-5">
+                      {{ partido.resultadoB }}
+                    </td>
+
+                    <td
+                      class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+
+                </tbody>
+              </table>
+
             </div>
-            {% endfor %}
+
+            <!-- MÓVIL -->
+            <div class="d-md-none cards-mobile">
+
+              {% for partido in partidos %}
+              <div class="card partido-mobile mb-2">
+
+                <div class="card-body text-center">
+
+                  <small class="text-muted fw-bold">
+                    {{ partido.fecha }}
+                    {% if partido.hora %}
+                    - {{ partido.hora }}
+                    {% endif %}
+                  </small>
+
+                  <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                    {{ partido.local }}
+                  </div>
+
+                  <div class="resultado-mobile">
+                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                  </div>
+
+                  <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                    {{ partido.visitante }}
+                  </div>
+
+                </div>
+
+              </div>
+              {% endfor %}
+
+            </div>
+
           </div>
         </div>
       </div>
+
     </div>
+
+    {% endfor %}
+
   </div>
-  {% endfor %}
+
+  {% else %}
+
+  <!-- Copa sin comenzar -->
+  <div class="text-center text-white mt-5 mb-5">
+
+    <h4 class="text-analisis fs-4">
+      LA COPA TODAVÍA NO HA COMENZADO
+    </h4>
+
+    <p>
+      Los emparejamientos y resultados de BSR Valladolid
+      estarán disponibles cuando se inicie la competición.
+    </p>
+
+  </div>
+
+  {% endif %}
+
 </div>
-{% endblock %} {% block scripts %}
+
+{% endblock %}
+
+{% block scripts %}
+
 <script>
   document.addEventListener("DOMContentLoaded", function () {
+
     const botones = document.querySelectorAll(".btn-slide");
     const rondas = document.querySelectorAll(".ronda-item");
 
     botones.forEach((boton) => {
+
       boton.addEventListener("click", function (e) {
         e.preventDefault();
 
-        // Oculta todas las rondas
-        rondas.forEach((r) => r.classList.add("d-none"));
-        rondas.forEach((r) => r.classList.remove("d-block"));
+        // Ocultar todas las rondas
+        rondas.forEach((r) => {
+          r.classList.add("d-none");
+          r.classList.remove("d-block");
+        });
 
-        // Activa solo la seleccionada
+        // Mostrar la ronda seleccionada
         const targetId = this.dataset.target;
         const targetDiv = document.getElementById(targetId);
+
         if (targetDiv) {
           targetDiv.classList.remove("d-none");
           targetDiv.classList.add("d-block");
         }
 
-        // Opcional: marcar el botón activo
+        // Actualizar botón activo
         botones.forEach((b) => b.classList.remove("active"));
         this.classList.add("active");
+
       });
+
     });
+
   });
 </script>
 {% endblock %}

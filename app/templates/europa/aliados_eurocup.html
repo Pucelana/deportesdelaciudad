@@ -38,11 +38,18 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
 </nav>
 {% endblock %}
 {% block contenido %}
+{% set ns = namespace(jornada_actual=none) %}
+
+{% for jornada, partidos in jornadas.items() %}
+    {% if partidos %}
+        {% set ns.jornada_actual = jornada %}
+    {% endif %}
+{% endfor %}
 <!-- Navegación -->
 <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
   <a
     href="#"
-    class="btn btns-ronda btn-slide active"
+    class="btn btns-ronda btn-slide {% if ns.jornada_actual is none %}active{% endif %}"
     data-target="clasificacion"
   >
     Clasificación
@@ -51,7 +58,7 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
   {% for jornada, partidos in jornadas.items() %}
   <a
     href="#"
-    class="btn btns-ronda btn-slide"
+    class="btn btns-ronda btn-slide {% if jornada == ns.jornada_actual %}active{% endif %}"
     data-target="{{ jornada }}"
   >
     {{ jornada|replace('_',' ')|title }}
@@ -61,7 +68,7 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
 <section class="container-lg flex-fill copa_uemc">
   <!-- Contenido Clasificaciones y Eliminatorias -->
   <div id="contenedor-secciones">
-    <div class="seccion-slide d-block" id="clasificacion">
+    <div class="seccion-slide {% if ns.jornada_actual is none %}d-block{% else %}d-none{% endif %}" id="clasificacion">
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-2" style="width: 55rem">
           <div class="card-body">
@@ -136,7 +143,7 @@ Sigue la participación del BSR Valladolid en la EuroCup 1.
       </div>
     </div>
     {% for jornada, partidos in jornadas.items() %}
-    <div class="seccion-slide d-none" id="{{ jornada }}">
+    <div class="seccion-slide {% if jornada == ns.jornada_actual %}d-block{% else %}d-none{% endif %}" id="{{ jornada }}">
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 55rem">
           <div class="card-body">

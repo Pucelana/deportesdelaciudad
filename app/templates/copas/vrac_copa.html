@@ -36,33 +36,55 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
   </ol>
 </nav>
 {% endblock %} {% block contenido %}
+{% set ns = namespace(ronda_actual=none) %}
+
+{% for ronda, datos in eliminatorias.items() %}
+    {% if datos['partidos'] %}
+        {% set ns.ronda_actual = ronda %}
+    {% endif %}
+{% endfor %}
 <!-- Navegación -->
-<div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+<div class="container-lg mt-3">
+
+  <div class="text-center mb-4">
+    <h3 class="text-white equipo-mobile">
+      COPA 26/27
+    </h3>
+
+    <small class="texto-intro-historial">
+      Consulta la participación del VRAC en la Copa,
+      con los emparejamientos, resultados y eliminatorias de
+      la competición. Se actualizará a medida
+      que avance el torneo.
+    </small>
+  </div>
+ <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
   {% for grupo in clasificaciones.keys() %}
   <a
     href="#"
-    class="btn btns-ronda btn-slide {% if loop.first %}active{% endif %}"
+    class="btn btns-ronda btn-slide {% if ns.ronda_actual is none and loop.first %}active{% endif %}"
     data-target="grupo{{ loop.index0 }}"
   >
     {{ grupo }}
   </a>
-  {% endfor %} {% for ronda in eliminatorias.keys() %}
+  {% endfor %} {% for ronda, datos in eliminatorias.items() if datos['partidos'] %}
   <a
     href="#"
-    class="btn btns-ronda btn-slide"
+    class="btn btns-ronda btn-slide {% if ronda == ns.ronda_actual %}active{% endif %}"
     data-target="ronda{{ loop.index0 }}"
   >
     {{ ronda|capitalize }}
   </a>
   {% endfor %}
-</div>
-<section class="container-lg flex-fill copa_uemc">
+ </div>
+ <section class="container-lg flex-fill copa_uemc">
   <!-- Contenido Clasificaciones y Eliminatorias -->
   <div id="contenedor-secciones">
     <!-- Clasificaciones -->
+    <!-- Clasificaciones -->
     {% for grupo, equipos in clasificaciones.items() %}
     <div
-      class="seccion-slide {% if loop.first %}d-block{% else %}d-none{% endif %}"
+      class="seccion-slide {% if ns.ronda_actual is none and loop.first %}d-block{% else %}d-none{% endif %}"
       id="grupo{{ loop.index0 }}"
     >
       <div class="d-flex justify-content-center">
@@ -163,43 +185,35 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
       </div>
     </div>
     {% endfor %}
-
     <!-- Eliminatorias -->
-    {% for ronda, datos in eliminatorias.items() %} {% set partidos =
+    {% for ronda, datos in eliminatorias.items() if datos['partidos'] %} {% set partidos =
     datos['partidos'] %}
-    <div class="seccion-slide d-none" id="ronda{{ loop.index0 }}">
+    <div class="seccion-slide {% if ronda == ns.ronda_actual %}d-block{% else %}d-none{% endif %}" id="ronda{{ loop.index0 }}">
       <div class="d-flex justify-content-center">
         <div class="card tabla_copa mt-4" style="width: 70rem">
           <div class="card-body">
-            <h3
-              class="text-center text-white text-capitalize text-analisis fw-bold"
-            >
+            <h3 class="text-center text-white text-capitalize text-analisis fs-4 fw-bold">
               {{ ronda }}
             </h3>
             <div class="table-responsive d-none d-md-block">
-              <table class="table border-secondary text-white text-center">
-                {% for partido in partidos %}
-                <tr class="text-center">
-                  <td class="text-white">{{ partido.fecha }}</td>
-                  <td class="text-white">{{ partido.hora }}</td>
-                  <td
-                    class="text-copa fw-bold fs-5 {% if partido.resultadoA|int < partido.resultadoB|int %}text-danger{% endif %}"
-                  >
-                    {{ partido.local }}
-                  </td>
-                  <td class="text-white fw-bold fs-5">
-                    {{ partido.resultadoA }}
-                  </td>
-                  <td class="text-white fw-bold fs-5">
-                    {{ partido.resultadoB }}
-                  </td>
-                  <td
-                    class="text-copa fw-bold fs-5 {% if partido.resultadoA|int > partido.resultadoB|int %}text-danger{% endif %}"
-                  >
-                    {{ partido.visitante }}
-                  </td>
-                </tr>
-                {% endfor %}
+              <table class="table border-secondary text-center text-white">
+                <tbody>
+                  {% for partido in partidos %}
+                  <tr>
+                    <td>
+                      {{ partido.fecha }} {% if partido.hora %} - {{
+                      partido.hora }}{% endif %}
+                    </td>
+                    <td class="fw-bold {% if partido.resultadoA|int < partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.local }}
+                    </td>
+                    <td>{{ partido.resultadoA }} - {{ partido.resultadoB }}</td>
+                    <td class="fw-bold {% if partido.resultadoA|int > partido.resultadoB|int %}text-dark{% endif %}">
+                      {{ partido.visitante }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
               </table>
             </div>
             <!-- MÓVIL -->
@@ -208,23 +222,16 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
               <div class="card partido-mobile mb-2">
                 <div class="card-body text-center">
                   <small class="text-muted fw-bold">
-                    {{ partido.fecha }} {% if partido.hora %}· {{ partido.hora
-                    }}{% endif %}
+                    {{ partido.fecha }} {% if partido.hora %} - {{
+                    partido.hora}}{% endif %}
                   </small>
-
-                  <div
-                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
-                  >
+                  <div class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.local }}
                   </div>
-
                   <div class="resultado-mobile">
                     {{ partido.resultadoA }} - {{ partido.resultadoB }}
                   </div>
-
-                  <div
-                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
-                  >
+                  <div class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}">
                     {{ partido.visitante }}
                   </div>
                 </div>
@@ -237,27 +244,25 @@ Sigue las eliminatorias y resultados de la copa de la reina del VRAC.
     </div>
     {% endfor %}
   </div>
-</section>
+ </section>
+</div> 
 {% endblock %} {% block scripts %}
 <script>
   document.querySelectorAll(".btn-slide").forEach((button) => {
     button.addEventListener("click", (e) => {
       e.preventDefault();
       const targetId = button.dataset.target;
-
       // Ocultar todas las secciones
       document.querySelectorAll(".seccion-slide").forEach((section) => {
         section.classList.add("d-none");
         section.classList.remove("d-block");
       });
-
       // Mostrar la sección deseada
       const targetSection = document.getElementById(targetId);
       if (targetSection) {
         targetSection.classList.remove("d-none");
         targetSection.classList.add("d-block");
       }
-
       // Actualizar clase activa en los botones
       document
         .querySelectorAll(".btn-slide")

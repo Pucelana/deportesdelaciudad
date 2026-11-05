@@ -37,120 +37,178 @@ Sigue las eliminatorias y resultados de la copa de la reina de El Salvador R.C..
 </nav>
 {% endblock %}
 {% block contenido %}
-<section class="container-lg flex-fill copa">
-  <!-- Navegación -->
-  <div class="d-flex justify-content-center my-2 gap-1 flex-wrap">
-    {% for ronda in datos_copa.keys() %}
-    <a
-      href="#"
-      class="btn fw-bold btn-slide btns-ronda"
-      data-target="ronda{{ loop.index0 }}">{{ ronda.replace('_',' ') | capitalize }}</a>
-    {% endfor %}
+<div class="container-lg mt-3">
+
+  <div class="text-center mb-4">
+    <h3 class="text-white equipo-mobile">
+      COPA 26/27
+    </h3>
+
+    <small class="texto-intro-historial">
+      Consulta la participación de El Salvador R.C en la Copa,
+      con los emparejamientos, resultados y eliminatorias de
+      la competición. Se actualizará a medida
+      que avance el torneo.
+    </small>
   </div>
-  <!-- Contenedor de rondas -->
-  <div id="contenedor-rondas">
-    {% for ronda, partidos in datos_copa.items() %}
-    <div
-      class="ronda-item {% if loop.first %}d-block{% else %}d-none{% endif %}"
-      id="ronda{{ loop.index0 }}"
-    >
-      <div class="d-flex justify-content-center">
-        <div class="card tabla_copa mt-2" style="width: 55rem">
-          <div class="card-body">
-            <h3
-              class="text-center text-white text-analisis fs-4 fw-bold text-capitalize"
-            >
-              {{ ronda }}
-            </h3>
-            <div class="table-responsive d-none d-md-block">
-              <table class="table border-secondary">
-                {% for partido in partidos %}
-                <tr class="text-center">
-                  <td class="text-muted text-center fw-bold">
-                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                    }}{% endif %}
-                  </td>
-                  <td
-                    class="equipo-mobile text-center {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int > partido.resultadoB|int %} text-dark {% endif %}"
-                  >
-                    {{ partido.local }}
-                  </td>
-                  <td class="resultado-mobile text-center">
-                    {% if partido.resultadoA is not none and partido.resultadoB
-                    is not none %} {{ partido.resultadoA }} - {{
-                    partido.resultadoB }} {% else %}
-                    <span class="text-muted">-</span>
-                    {% endif %}
-                  </td>
-                  <td
-                    class="equipo-mobile text-center {% if partido.resultadoA is not none and partido.resultadoB is not none and partido.resultadoA|int < partido.resultadoB|int %} text-dark{% endif %}"
-                  >
-                    {{ partido.visitante }}
-                  </td>
-                </tr>
-                {% endfor %}
-              </table>
-            </div>
-            <!-- MÓVIL -->
-            <div class="d-md-none cards-mobile">
-              {% for partido in partidos %}
-              <div class="card partido-mobile mb-2">
-                <div class="card-body text-center">
-                  <small class="text-muted fw-bold">
-                    {{ partido.fecha }} {% if partido.hora %} - {{ partido.hora
-                    }}{% endif %}
-                  </small>
-                  <div
-                    class="equipo-mobile {% if partido.resultadoA|int > partido.resultadoB|int %}ganador{% endif %}"
-                  >
-                    {{ partido.local }}
-                  </div>
-                  <div class="resultado-mobile">
-                    {{ partido.resultadoA }} - {{ partido.resultadoB }}
-                  </div>
-                  <div
-                    class="equipo-mobile {% if partido.resultadoA|int < partido.resultadoB|int %}ganador{% endif %}"
-                  >
-                    {{ partido.visitante }}
-                  </div>
+
+  {% set rondas_con_partidos = datos_copa.values() | select | list %}
+  {% set ns = namespace(ronda_actual=none) %}
+
+  {% for ronda, partidos in datos_copa.items() %}
+    {% if partidos %}
+        {% set ns.ronda_actual = loop.index0 %}
+    {% endif %}
+  {% endfor %}
+
+  {% if rondas_con_partidos %}
+
+    <!-- BOTONES DE RONDAS -->
+    <div class="d-flex justify-content-center my-3 gap-1 flex-wrap">
+      {% for ronda, partidos in datos_copa.items() if partidos %}
+        <a href="#"
+           class="btn btn-slide btns-ronda {% if loop.index0 == ns.ronda_actual %}active{% endif %}"
+           data-target="ronda{{ loop.index0 }}">
+          {{ ronda|capitalize }}
+        </a>
+      {% endfor %}
+    </div>
+
+    <!-- RONDAS -->
+    <div id="contenedor-rondas">
+      {% for ronda, partidos in datos_copa.items() if partidos %}
+        <div class="ronda-item {% if loop.index0 == ns.ronda_actual %}d-block{% else %}d-none{% endif %}"
+             id="ronda{{ loop.index0 }}">
+
+          <div class="d-flex justify-content-center">
+            <div class="card tabla_copa mt-2 w-100"
+                 style="max-width: 55rem">
+
+              <div class="card-body">
+
+                <h3 class="text-center text-white text-capitalize text-analisis fs-4 mb-3">
+                  {{ ronda }}
+                </h3>
+
+                <!-- TABLET / PC -->
+                <div class="table-responsive d-none d-md-block">
+                  <table class="table border-secondary">
+                    <tbody>
+                      {% for partido in partidos %}
+                        <tr>
+                          <td class="text-muted fw-bold fs-5">
+                            {{ partido.fecha }}
+                            {% if partido.hora %} - {{ partido.hora }}{% endif %}
+                          </td>
+
+                          <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA > partido.resultadoB %}text-dark{% endif %}">
+                            {{ partido.local }}
+                          </td>
+
+                          <td class="resultado-mobile fw-bold fs-5">
+                            {{ partido.resultadoA }}
+                          </td>
+
+                          <td class="resultado-mobile fw-bold fs-5">
+                            {{ partido.resultadoB }}
+                          </td>
+
+                          <td class="equipo-mobile fw-bold fs-5 {% if partido.resultadoA < partido.resultadoB %}text-dark{% endif %}">
+                            {{ partido.visitante }}
+                          </td>
+                        </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
                 </div>
+
+                <!-- MÓVIL -->
+                <div class="d-md-none cards-mobile">
+                  {% for partido in partidos %}
+                    <div class="card partido-mobile mb-2">
+                      <div class="card-body text-center">
+
+                        <small class="text-muted fw-bold">
+                          {{ partido.fecha }}
+                          {% if partido.hora %} - {{ partido.hora }}{% endif %}
+                        </small>
+
+                        <div class="equipo-mobile {% if partido.resultadoA > partido.resultadoB %}ganador{% endif %}">
+                          {{ partido.local }}
+                        </div>
+
+                        <div class="resultado-mobile">
+                          {{ partido.resultadoA }} - {{ partido.resultadoB }}
+                        </div>
+
+                        <div class="equipo-mobile {% if partido.resultadoA < partido.resultadoB %}ganador{% endif %}">
+                          {{ partido.visitante }}
+                        </div>
+
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+
               </div>
-              {% endfor %}
             </div>
           </div>
         </div>
+      {% endfor %}
+    </div>
+
+  {% else %}
+
+    <!-- COPA SIN COMENZAR -->
+    <div class="card tabla_copa mx-auto text-center"
+         style="max-width: 55rem">
+      <div class="card-body py-4">🏆
+
+        <h5 class="text-white mb-2">
+          LA COPA NO HA COMENZADO
+        </h5>
+
+        <p class="mb-0">
+          La competición copera todavía no ha comenzado
+          para El Salvador R.C. Próximamente podrás consultar
+          aquí los emparejamientos y resultados de las eliminatorias.
+        </p>
+
       </div>
     </div>
-    {% endfor %}
-  </div>
-</section>
-{% endblock %} {% block scripts %}
+
+  {% endif %}
+
+</div>
+{% endblock %}
+
+{% block scripts %}
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const botones = document.querySelectorAll(".btn-slide");
-    const rondas = document.querySelectorAll(".ronda-item");
+document.addEventListener("DOMContentLoaded", function () {
+  const botones = document.querySelectorAll(".btn-slide");
+  const rondas = document.querySelectorAll(".ronda-item");
 
-    botones.forEach((boton) => {
-      boton.addEventListener("click", function (e) {
-        e.preventDefault();
+  botones.forEach((boton) => {
+    boton.addEventListener("click", function (e) {
+      e.preventDefault();
 
-        // Oculta todas las rondas
-        rondas.forEach((r) => r.classList.add("d-none"));
-        rondas.forEach((r) => r.classList.remove("d-block"));
-
-        // Activa solo la seleccionada
-        const targetId = this.dataset.target;
-        const targetDiv = document.getElementById(targetId);
-        if (targetDiv) {
-          targetDiv.classList.remove("d-none");
-          targetDiv.classList.add("d-block");
-        }
-
-        // Opcional: marcar el botón activo
-        botones.forEach((b) => b.classList.remove("active"));
-        this.classList.add("active");
+      rondas.forEach((r) => {
+        r.classList.add("d-none");
+        r.classList.remove("d-block");
       });
+
+      const targetId = this.dataset.target;
+      const targetDiv = document.getElementById(targetId);
+
+      if (targetDiv) {
+        targetDiv.classList.remove("d-none");
+        targetDiv.classList.add("d-block");
+      }
+
+      botones.forEach((b) => b.classList.remove("active"));
+      this.classList.add("active");
     });
   });
+});
 </script>
 {% endblock %}

@@ -90,6 +90,18 @@ class SupercopaIbericaVrac(db.Model):
     visitante = db.Column(db.String(100), nullable=True)
     orden = db.Column(db.Integer)
 
+class SupercopaVrac(db.Model):
+    __tablename__ = 'supercopa_vrac'
+    id = db.Column(db.Integer, primary_key=True)
+    eliminatoria = db.Column(db.String(20), nullable=False)
+    fecha = db.Column(db.String(20), nullable=True)
+    hora = db.Column(db.String(10), nullable=True)
+    local = db.Column(db.String(100), nullable=True)
+    resultadoA = db.Column(db.String(10), nullable=True)
+    resultadoB = db.Column(db.String(10), nullable=True)
+    visitante = db.Column(db.String(100), nullable=True)
+    orden = db.Column(db.Integer)     
+
 class EuropaVrac(db.Model):
     __tablename__ = 'europa_vrac'
     id = db.Column(db.Integer, primary_key=True)
