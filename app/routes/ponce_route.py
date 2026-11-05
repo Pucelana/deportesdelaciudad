@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -7,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_victorias_baloncesto
 from ..models.historial import Historial, Palmaress
 from ..models.ponce import JornadaPonce, PoncePartido, PonceClub, PlayoffPonce, Clasificacion, TemporadaPonce
 
@@ -123,22 +124,42 @@ def obtener_datos_ponce(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaPonce.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaPonce.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaPonce.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            PoncePartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(PoncePartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        PoncePartido.query
+        .filter(PoncePartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            PoncePartido.jornada_id.asc(),
+            PoncePartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Ponce
 @ponce_route_bp.route('/equipos_basket/calendario_ponce')
 def calendario_ponce():
@@ -684,6 +705,20 @@ def historial_ponce():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaPonce.query.order_by(TemporadaPonce.id).all()
+    todas_jornadas = (
+    JornadaPonce.query
+    .options(selectinload(JornadaPonce.partidos))
+    .order_by(
+        JornadaPonce.temporada_id.asc(),
+        JornadaPonce.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -716,9 +751,8 @@ def historial_ponce():
         if not jornadas:
             continue
         
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "ponce", generar_clasificacion_analisis_baloncesto_ponce,"ganados"
-        )
+        labels, puntos = obtener_evolucion_victorias_baloncesto(
+            jornadas, "ponce")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

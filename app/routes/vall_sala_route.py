@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -7,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_futbol
 from ..models.historial import Historial, Palmaress
 from ..models.vall_sala import (
     JornadaVallSala,
@@ -138,19 +139,42 @@ def obtener_datos_vall_sala(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaVallSala.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaVallSala.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaVallSala.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            VallSalaPartido.query.filter_by(jornada_id=jornada.id)
-            .order_by(VallSalaPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
-    return jornadas_con_partidos
-
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        VallSalaPartido.query
+        .filter(VallSalaPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            VallSalaPartido.jornada_id.asc(),
+            VallSalaPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Valladolid S.S
 @vall_sala_route_bp.route("/equipos_futsal/calendario_vall_sala")
 def calendario_vall_sala():
@@ -682,6 +706,20 @@ def historial_vall_sala():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaVallSala.query.order_by(TemporadaVallSala.id).all()
+    todas_jornadas = (
+    JornadaVallSala.query
+    .options(selectinload(JornadaVallSala.partidos))
+    .order_by(
+        JornadaVallSala.temporada_id.asc(),
+        JornadaVallSala.id.asc()
+    ).all())
+                    
+    jornadas_por_temporada = {}
+                    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -712,12 +750,8 @@ def historial_vall_sala():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas,
-            "vall_sala",
-            generar_clasificacion_analisis_futsal_vall_sala,
-            "puntos",
-        )
+        labels, puntos = obtener_evolucion_puntos_futbol(
+            jornadas, "vall_sala")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

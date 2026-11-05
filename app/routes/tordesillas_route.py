@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -7,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_partidos, schema_sports_competition, schema_sports_team, schema_breadcrumb_equipo
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_futbol
 from ..models.historial import Historial, Palmaress
 from ..models.tordesillas import (
     JornadaTordesillas,
@@ -147,18 +148,44 @@ def obtener_datos_tordesillas(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaTordesillas.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaTordesillas.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaTordesillas.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            TordesillasPartido.query.filter_by(jornada_id=jornada.id)
-            .order_by(TordesillasPartido.orden.asc())
-            .all()
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        TordesillasPartido.query
+        .filter(TordesillasPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            TordesillasPartido.jornada_id.asc(),
+            TordesillasPartido.orden.asc()
         )
-        jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
-    return jornadas_con_partidos
+        .all()
+    )
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Real Valladolid
 @tordesillas_route_bp.route("/equipos_futbol/calendario_tordesillas")
 def calendario_tordesillas():
@@ -704,6 +731,20 @@ def historial_tordesillas():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaTordesillas.query.order_by(TemporadaTordesillas.id).all()
+    todas_jornadas = (
+    JornadaTordesillas.query
+    .options(selectinload(JornadaTordesillas.partidos))
+    .order_by(
+        JornadaTordesillas.temporada_id.asc(),
+        JornadaTordesillas.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -737,9 +778,9 @@ def historial_tordesillas():
         if not jornadas:
             continue
 
-        labels, puntos = obtener_evolucion_puntos(
+        labels, puntos = obtener_evolucion_puntos_futbol(
                 
-            jornadas, "tordesillas", generar_clasificacion_analisis_futbol_tordesillas,"puntos"
+            jornadas, "tordesillas"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

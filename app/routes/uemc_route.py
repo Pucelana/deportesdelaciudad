@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -6,7 +7,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_eventos, schema_partidos, schema_sports_team, schema_sports_competition
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_victorias_baloncesto
 from ..models.historial import Historial, Palmaress
 from ..models.uemc import (
     JornadaUEMC,
@@ -60,8 +61,6 @@ def ingresar_resultado_uemc():
         return redirect(url_for("uemc_route_bp.calendarios_uemc"))
     # Si es un GET, renderizamos el formulario de creación
     return render_template("admin/calendarios/calend_uemc.html")
-
-
 # Ver calendario UEMC en Admin
 @uemc_route_bp.route("/admin/calendario_uemc")
 def calendarios_uemc():
@@ -83,8 +82,6 @@ def calendarios_uemc():
             .all()
         )
     return render_template("admin/calendarios/calend_uemc.html", jornadas=jornadas)
-
-
 # Modificar jornada
 @uemc_route_bp.route("/modificar_jornada_uemc/<int:id>", methods=["GET", "POST"])
 def modificar_jornada_uemc(id):
@@ -124,8 +121,6 @@ def modificar_jornada_uemc(id):
             db.session.commit()
             return redirect(url_for("uemc_route_bp.calendarios_uemc"))
     return render_template("admin/calendarios/calend_uemc.html", jornada=jornada)
-
-
 # Eliminar jornada
 @uemc_route_bp.route("/eliminar_jornada_uemc/<int:id>", methods=["GET", "POST"])
 def eliminar_jornada_uemc(id):
@@ -140,27 +135,47 @@ def eliminar_jornada_uemc(id):
         db.session.commit()
     # Redirigir al calendario después de eliminar la jornada
     return redirect(url_for("uemc_route_bp.calendarios_uemc"))
-
-
 # Obtener datos UEMC
 def obtener_datos_uemc(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaUEMC.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaUEMC.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaUEMC.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            UEMCPartido.query.filter_by(jornada_id=jornada.id)
-            .order_by(UEMCPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
-    return jornadas_con_partidos
-
-
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        UEMCPartido.query
+        .filter(UEMCPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            UEMCPartido.jornada_id.asc(),
+            UEMCPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario UEMC
 @uemc_route_bp.route("/equipos_basket/calendario_uemc")
 def calendario_uemc():
@@ -294,8 +309,6 @@ def calendario_uemc():
         )
                 
     )
-
-
 # Jornadas UEMC
 @uemc_route_bp.route("/equipos_basket/resultados_uemc")
 def resultados_uemc():
@@ -343,8 +356,6 @@ def resultados_uemc():
             )
         )
     )
-
-
 # Jornada 0 UEMC
 @uemc_route_bp.route("/admin/jornada0_uemc", methods=["GET", "POST"])
 def jornada0_uemc():
@@ -358,8 +369,6 @@ def jornada0_uemc():
             return redirect(url_for("uemc_route_bp.jornada0_uemc"))
     clubs = UEMCClub.query.all()  # Obtener todos los clubes de PostgreSQL
     return render_template("admin/clubs/clubs_uemc.html", clubs=clubs)
-
-
 # Eliminar clubs jornada 0
 @uemc_route_bp.route("/eliminar_club_uemc/<int:club_id>", methods=["POST"])
 def eliminar_club_uemc(club_id):
@@ -368,8 +377,6 @@ def eliminar_club_uemc(club_id):
         db.session.delete(club)
         db.session.commit()
     return redirect(url_for("uemc_route_bp.jornada0_uemc"))
-
-
 # Crear la clasificación UEMC
 def generar_clasificacion_analisis_baloncesto_uemc(data):
 
@@ -610,8 +617,6 @@ def generar_clasificacion_analisis_baloncesto_uemc(data):
     # =========================================================
 
     return [{"equipo": equipo, "datos": datos} for equipo, datos in equipos]
-
-
 # Ruta para mostrar la clasificación y análisis del UEMC
 @uemc_route_bp.route("/equipos_basket/clasif_uemc")
 def clasif_analisis_uemc():
@@ -659,7 +664,6 @@ def clasif_analisis_uemc():
                         )
                     )
     )
-
 # TEMPORADAS ATL VALLADOLID
 @uemc_route_bp.route("/admin/temporadas_uemc")
 def temporadas_uemc():
@@ -667,7 +671,6 @@ def temporadas_uemc():
     return render_template(
         "admin/temporadas/temporada_uemc.html", temporadas=temporadas
     )
-
 # ACTIVAR Y DESACTIVAR TEMPORADAS
 @uemc_route_bp.route("/activar_temporada_uemc/<int:id>")
 def activar_temporada_uemc(id):
@@ -748,6 +751,20 @@ def historial_uemc():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaUEMC.query.order_by(TemporadaUEMC.id).all()
+    todas_jornadas = (
+    JornadaUEMC.query
+    .options(selectinload(JornadaUEMC.partidos))
+    .order_by(
+        JornadaUEMC.temporada_id.asc(),
+        JornadaUEMC.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -781,12 +798,8 @@ def historial_uemc():
         if not jornadas:
             continue
 
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas,
-            "CBC Valladolid",
-            generar_clasificacion_analisis_baloncesto_uemc,
-            "ganados",
-        )
+        labels, puntos = obtener_evolucion_victorias_baloncesto(
+            jornadas, "CBC Valladolid")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

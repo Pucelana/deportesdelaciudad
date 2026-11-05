@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -6,7 +7,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_hockey
 from ..models.historial import Historial, Palmaress
 from ..models.caja import JornadaCaja, CajaPartido, CajaClub, PlayoffCaja, CopaCaja, SupercopaCaja, EuropaCaja, Clasificacion, TemporadaCaja
 
@@ -138,22 +139,42 @@ def obtener_datos_caja(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaCaja.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaCaja.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaCaja.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            CajaPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(CajaPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        CajaPartido.query
+        .filter(CajaPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            CajaPartido.jornada_id.asc(),
+            CajaPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario CPLV Caja
 @caja_route_bp.route('/equipos_hockey/calendario_caja')
 def calendario_caja():
@@ -572,6 +593,20 @@ def historial_caja():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaCaja.query.order_by(TemporadaCaja.id).all()
+    todas_jornadas = (
+    JornadaCaja.query
+    .options(selectinload(JornadaCaja.partidos))
+    .order_by(
+        JornadaCaja.temporada_id.asc(),
+        JornadaCaja.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -601,9 +636,8 @@ def historial_caja():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "CPLV Caja Rural", generar_clasificacion_analisis_hockey_caja,"puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_hockey(
+                jornadas, "CPLV Caja Rural")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

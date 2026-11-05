@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -6,7 +7,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_futbol
 from ..models.historial import Historial, Palmaress
 from ..models.parquesol import JornadaParquesol, ParquesolPartido, ParquesolClub, CopaParquesol, PlayoffParquesol, TemporadaParquesol
 
@@ -121,22 +122,42 @@ def obtener_datos_parquesol(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaParquesol.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaParquesol.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaParquesol.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+            
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            ParquesolPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(ParquesolPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+            
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+            
+    if not jornadas:
+        return []
+            
+    ids_jornadas = [jornada.id for jornada in jornadas]
+            
+    partidos = (
+        ParquesolPartido.query
+        .filter(ParquesolPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            ParquesolPartido.jornada_id.asc(),
+            ParquesolPartido.orden.asc()
+        ).all())
+            
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+            
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+            
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Real Valladolid
 @parquesol_route_bp.route('/equipos_futbol/calendario_parquesol')
 def calendario_parquesol():
@@ -617,6 +638,20 @@ def historial_parquesol():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaParquesol.query.order_by(TemporadaParquesol.id).all()
+    todas_jornadas = (
+    JornadaParquesol.query
+    .options(selectinload(JornadaParquesol.partidos))
+    .order_by(
+        JornadaParquesol.temporada_id.asc(),
+        JornadaParquesol.id.asc()
+    ).all())
+            
+    jornadas_por_temporada = {}
+            
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -651,8 +686,8 @@ def historial_parquesol():
         if not jornadas:
             continue
 
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "CD Parquesol", generar_clasificacion_analisis_futbol_parquesol,"puntos"
+        labels, puntos = obtener_evolucion_puntos_futbol(
+            jornadas, "CD Parquesol"
         )
         labels_jornadas = labels
         datasets_jornadas.append(

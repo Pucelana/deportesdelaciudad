@@ -739,7 +739,7 @@ def historial_valladolid():
         JornadaValladolid.id.asc()
     )
     .all()
-)
+    )
 
     jornadas_por_temporada = {}
 

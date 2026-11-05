@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -7,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_hockey
 from ..models.historial import Historial, Palmaress
 from ..models.panteras import JornadaPanteras, PanterasPartido, PanterasClub, PlayoffPanteras, CopaPanteras, SupercopaPanteras, EuropaPanteras, Clasificacion, TemporadaPanteras
 
@@ -139,22 +140,42 @@ def obtener_datos_panteras(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaPanteras.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaPanteras.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaPanteras.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            PanterasPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(PanterasPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        PanterasPartido.query
+        .filter(PanterasPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            PanterasPartido.jornada_id.asc(),
+            PanterasPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Panteras Caja
 @panteras_route_bp.route('/equipos_hockey/calendario_panteras')
 def calendario_panteras():
@@ -571,6 +592,20 @@ def historial_panteras():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaPanteras.query.order_by(TemporadaPanteras.id).all()
+    todas_jornadas = (
+    JornadaPanteras.query
+    .options(selectinload(JornadaPanteras.partidos))
+    .order_by(
+        JornadaPanteras.temporada_id.asc(),
+        JornadaPanteras.id.asc()
+    ).all())
+        
+    jornadas_por_temporada = {}
+        
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -600,9 +635,8 @@ def historial_panteras():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "panteras", generar_clasificacion_analisis_hockey_panteras,"puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_hockey(
+            jornadas, "panteras")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

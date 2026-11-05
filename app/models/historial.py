@@ -94,6 +94,116 @@ def obtener_evolucion_puntos_futbol(jornadas, nombre_equipo):
 
     return labels, valores
 
+def obtener_evolucion_puntos_hockey(jornadas, nombre_equipo):
+    labels = []
+    valores = []
+    puntos_acumulados = 0
+
+    nombres_validos = set(
+        NOMBRES_EQUIPOS.get(nombre_equipo, [nombre_equipo])
+    )
+
+    for jornada in jornadas:
+
+        if hasattr(jornada, "partidos"):
+            nombre_jornada = jornada.nombre
+            partidos = jornada.partidos
+        else:
+            nombre_jornada = jornada["nombre"]
+            partidos = jornada["partidos"]
+
+        for partido in partidos:
+
+            local = partido.local
+            visitante = partido.visitante
+
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
+
+            if r1 in (None, "") or r2 in (None, ""):
+                continue
+
+            try:
+                r1 = int(r1)
+                r2 = int(r2)
+            except (ValueError, TypeError):
+                continue
+
+            # El equipo juega como local
+            if local in nombres_validos:
+                if r1 > r2:
+                    puntos_acumulados += 3
+                elif r1 == r2:
+                    puntos_acumulados += 1
+
+                try:
+                    puntos_acumulados += int(partido.bonusA or 0)
+                except (ValueError, TypeError):
+                    pass
+
+            # El equipo juega como visitante
+            elif visitante in nombres_validos:
+                if r2 > r1:
+                    puntos_acumulados += 3
+                elif r1 == r2:
+                    puntos_acumulados += 1
+
+                try:
+                    puntos_acumulados += int(partido.bonusB or 0)
+                except (ValueError, TypeError):
+                    pass
+
+        labels.append(nombre_jornada)
+        valores.append(puntos_acumulados)
+
+    return labels, valores
+
+def obtener_evolucion_victorias_baloncesto(jornadas, nombre_equipo):
+    labels = []
+    valores = []
+    victorias_acumuladas = 0
+
+    nombres_validos = set(
+        NOMBRES_EQUIPOS.get(nombre_equipo, [nombre_equipo])
+    )
+
+    for jornada in jornadas:
+
+        if hasattr(jornada, "partidos"):
+            nombre_jornada = jornada.nombre
+            partidos = jornada.partidos
+        else:
+            nombre_jornada = jornada["nombre"]
+            partidos = jornada["partidos"]
+
+        for partido in partidos:
+
+            local = partido.local
+            visitante = partido.visitante
+
+            r1 = partido.resultadoA
+            r2 = partido.resultadoB
+
+            if r1 in (None, "") or r2 in (None, ""):
+                continue
+
+            try:
+                r1 = int(r1)
+                r2 = int(r2)
+            except (ValueError, TypeError):
+                continue
+
+            if local in nombres_validos and r1 > r2:
+                victorias_acumuladas += 1
+
+            elif visitante in nombres_validos and r2 > r1:
+                victorias_acumuladas += 1
+
+        labels.append(nombre_jornada)
+        valores.append(victorias_acumuladas)
+
+    return labels, valores
+
 from app.extensions import db
 
 class Historial(db.Model):

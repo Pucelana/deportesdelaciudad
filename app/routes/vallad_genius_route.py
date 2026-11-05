@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -6,7 +7,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_partidos, schema_sports_competition, schema_sports_team, schema_breadcrumb_equipo
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_futbol
 from ..models.historial import Historial, Palmaress
 from ..models.vallad_genius import (
     JornadaValladGenius,
@@ -139,18 +140,42 @@ def obtener_datos_vallad_genius(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaValladGenius.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaValladGenius.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaValladGenius.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+                    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            ValladGeniusPartido.query.filter_by(jornada_id=jornada.id)
-            .order_by(ValladGeniusPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({"nombre": jornada.nombre, "partidos": partidos})
-    return jornadas_con_partidos
+                    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+                    
+    if not jornadas:
+        return []
+                    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+                    
+    partidos = (
+        ValladGeniusPartido.query
+        .filter(ValladGeniusPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            ValladGeniusPartido.jornada_id.asc(),
+            ValladGeniusPartido.orden.asc()
+        ).all())
+                    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+                    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+                    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Real Valladolid
 @vallad_genius_route_bp.route("/equipos_futbol/calendario_vallad_genius")
 def calendario_vallad_genius():
@@ -829,13 +854,22 @@ def historial_vallad_genius():
     labels_temporadas = [h.temporada for h in historial]
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
-    temporadas = (
-        TemporadaValladGenius.query
-        .order_by(TemporadaValladGenius.id)
-        .all()
-    )
+    temporadas = (TemporadaValladGenius.query.order_by(TemporadaValladGenius.id).all())
+    todas_jornadas = (
+    JornadaValladGenius.query
+    .options(selectinload(JornadaValladGenius.partidos))
+    .order_by(
+        JornadaValladGenius.temporada_id.asc(),
+        JornadaValladGenius.id.asc()
+    ).all())
+            
+    jornadas_por_temporada = {}
+            
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
-
     colores = [
         "#672e8d",
         "#FFD700",
@@ -859,12 +893,8 @@ def historial_vallad_genius():
         if not jornadas:
             continue
 
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas,
-            "R.ValladoliDi",
-            generar_clasificacion_analisis_futbol_vallad_genius,
-            "puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_futbol(
+            jornadas, "R.ValladoliDi")
         # Guardamos las etiquetas
         labels_jornadas = labels
 
