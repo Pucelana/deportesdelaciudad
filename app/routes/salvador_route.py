@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -7,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.routes.main import NOMBRES_EQUIPOS
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_rugby
 from ..models.historial import Historial, Palmaress
 from ..models.salvador import JornadaSalvador, SalvadorPartido, SalvadorClub, PlayoffSalvador, CopaSalvador, SupercopaIbericaSalvador, EuropaSalvador, Clasificacion, TemporadaSalvador, SupercopaSalvador
 
@@ -143,22 +144,42 @@ def obtener_datos_salvador(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaSalvador.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaSalvador.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaSalvador.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            SalvadorPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(SalvadorPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        SalvadorPartido.query
+        .filter(SalvadorPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            SalvadorPartido.jornada_id.asc(),
+            SalvadorPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 total_partidos_temporada_salvador = 18
 total_partidos_temporada_grupos_salvador = 0
 # Función para separar fases de la temporada
@@ -718,6 +739,20 @@ def historial_salvador():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaSalvador.query.order_by(TemporadaSalvador.id).all()
+    todas_jornadas = (
+    JornadaSalvador.query
+    .options(selectinload(JornadaSalvador.partidos))
+    .order_by(
+        JornadaSalvador.temporada_id.asc(),
+        JornadaSalvador.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -747,9 +782,8 @@ def historial_salvador():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "salvador", generar_clasificacion_analisis_rugby_salvador,"puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_rugby(
+            jornadas, "salvador")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

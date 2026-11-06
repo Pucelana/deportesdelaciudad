@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -6,7 +7,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_balonmano
 from ..models.historial import Historial, Palmaress
 from ..models.aula import JornadaAula, AulaPartido, AulaClub, PlayoffAula, CopaAula, SupercopaIbericaAula, EuropaAula, PermanenciaAula, JornadaPermanenciaAula, TemporadaAula
 
@@ -121,22 +122,42 @@ def obtener_datos_aula(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaAula.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaAula.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaAula.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            AulaPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(AulaPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        AulaPartido.query
+        .filter(AulaPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            AulaPartido.jornada_id.asc(),
+            AulaPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Aula Valladolid
 @aula_route_bp.route('/equipos_balonmano/calendario_aula')
 def calendario_aula():
@@ -618,6 +639,20 @@ def historial_aula():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaAula.query.order_by(TemporadaAula.id).all()
+    todas_jornadas = (
+    JornadaAula.query
+    .options(selectinload(JornadaAula.partidos))
+    .order_by(
+        JornadaAula.temporada_id.asc(),
+        JornadaAula.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -647,9 +682,8 @@ def historial_aula():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "Aula Valladolid", generar_clasificacion_analisis_balonmano_aula,"puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_balonmano(
+            jornadas, "Aula Valladolid")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -7,7 +8,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_voley
 from ..models.historial import Historial, Palmaress
 from ..models.vcv import JornadaVCV, VCVPartido, VCVClub, PlayoffVCV, CopaVCV, EuropaVCV, Clasificacion, TemporadaVCV
 
@@ -144,22 +145,42 @@ def obtener_datos_vcv(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaVCV.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaVCV.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaVCV.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            VCVPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(VCVPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        VCVPartido.query
+        .filter(VCVPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            VCVPartido.jornada_id.asc(),
+            VCVPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Ruta y creación del calendario individual del Univ. Valladolid VCV
 @vcv_route_bp.route("/equipos_voley/calendario_vcv")
 def calendario_vcv():
@@ -754,6 +775,20 @@ def historial_vcv():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaVCV.query.order_by(TemporadaVCV.id).all()
+    todas_jornadas = (
+    JornadaVCV.query
+    .options(selectinload(JornadaVCV.partidos))
+    .order_by(
+        JornadaVCV.temporada_id.asc(),
+        JornadaVCV.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -783,9 +818,8 @@ def historial_vcv():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "Universidad VCV", generar_clasificacion_analisis_voley_vcv,"puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_voley(
+            jornadas, "Universidad VCV")
         labels_jornadas = labels
         datasets_jornadas.append(
             {

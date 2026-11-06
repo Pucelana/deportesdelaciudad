@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, jsonify, flash
+from sqlalchemy.orm import selectinload
 from datetime import datetime
 from collections import defaultdict
 from collections import OrderedDict
@@ -6,7 +7,7 @@ from functools import cmp_to_key
 from sqlalchemy.orm import sessionmaker
 from app.extensions import db
 from app.seo.schema import jsonld, obtener_partidos_schema, schema_breadcrumb_equipo, schema_partidos, schema_sports_competition, schema_sports_team
-from ..models.historial import obtener_evolucion_puntos
+from ..models.historial import obtener_evolucion_puntos_balonmano
 from ..models.historial import Historial, Palmaress
 from ..models.recoletas import JornadaRecoletas, RecoletasPartido, RecoletasClub, PlayoffRecoletas, CopaRecoletas,SupercopaIbericaRecoletas, EuropaRecoletas, ClasificacionEuropa, CopaReyRecoletas, TemporadaRecoletas
 
@@ -121,22 +122,42 @@ def obtener_datos_recoletas(nombre_temporada=None):
     if nombre_temporada is None:
         temporada = TemporadaRecoletas.query.filter_by(activa=True).first()
     else:
-        temporada = TemporadaRecoletas.query.filter_by(nombre=nombre_temporada).first()
+        temporada = TemporadaRecoletas.query.filter_by(
+            nombre=nombre_temporada
+        ).first()
+    
     if not temporada:
         return []
-    jornadas_con_partidos = []
-    for jornada in temporada.jornadas:
-        partidos = (
-            RecoletasPartido.query
-            .filter_by(jornada_id=jornada.id)
-            .order_by(RecoletasPartido.orden.asc())
-            .all()
-        )
-        jornadas_con_partidos.append({
-            'nombre': jornada.nombre,
-            'partidos': partidos
-        })
-    return jornadas_con_partidos
+    
+    jornadas = sorted(temporada.jornadas, key=lambda j: j.id)
+    
+    if not jornadas:
+        return []
+    
+    ids_jornadas = [jornada.id for jornada in jornadas]
+    
+    partidos = (
+        RecoletasPartido.query
+        .filter(RecoletasPartido.jornada_id.in_(ids_jornadas))
+        .order_by(
+            RecoletasPartido.jornada_id.asc(),
+            RecoletasPartido.orden.asc()
+        ).all())
+    
+    partidos_por_jornada = {
+        jornada.id: [] for jornada in jornadas
+    }
+    
+    for partido in partidos:
+        partidos_por_jornada[partido.jornada_id].append(partido)
+    
+    return [
+        {
+            "nombre": jornada.nombre,
+            "partidos": partidos_por_jornada[jornada.id]
+        }
+        for jornada in jornadas
+    ]
 # Calendario Atl.Valladolid
 @recoletas_route_bp.route('/equipos_balonmano/calendario_recoletas')
 def calendario_recoletas():
@@ -620,6 +641,20 @@ def historial_recoletas():
     puntos_temporadas = [h.puntos for h in historial]
     # GRÁFICO JORNADAS
     temporadas = TemporadaRecoletas.query.order_by(TemporadaRecoletas.id).all()
+    todas_jornadas = (
+    JornadaRecoletas.query
+    .options(selectinload(JornadaRecoletas.partidos))
+    .order_by(
+        JornadaRecoletas.temporada_id.asc(),
+        JornadaRecoletas.id.asc()
+    ).all())
+    
+    jornadas_por_temporada = {}
+    
+    for jornada in todas_jornadas:
+        jornadas_por_temporada.setdefault(
+            jornada.temporada_id, []
+        ).append(jornada)
     datasets_jornadas = []
     colores = [
         "#672e8d",
@@ -649,9 +684,8 @@ def historial_recoletas():
         )
         if not jornadas:
             continue
-        labels, puntos = obtener_evolucion_puntos(
-            jornadas, "Atl. Valladolid", generar_clasificacion_analisis_balonmano_recoletas,"puntos"
-        )
+        labels, puntos = obtener_evolucion_puntos_balonmano(
+            jornadas, "Atl. Valladolid")
         labels_jornadas = labels
         datasets_jornadas.append(
             {
