@@ -82,11 +82,11 @@ def obtener_rutas(tipo=None):
         # Si se especifica categoría,
         # añadimos únicamente las correspondientes.
         cat = categoria(ruta)
+        if cat == tipo:
+            rutas.append(ruta)
 
         if "copa" in ruta.lower():
             print(f"{ruta} ---> {cat}")
-
-        cat = categoria(ruta)
 
         print(ruta, "=>", cat)
 

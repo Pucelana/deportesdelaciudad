@@ -146,7 +146,7 @@ EQUIPOS = {
     },
 
     "salvador": {
-        "nombre": "El Salvador",
+        "nombre": "CR El Salvador",
         "deporte": "Rugby",
         "liga": "División de Honor",
         "logo": "https://deportesdelaciudad.es/static/img/salvador_sf.webp",
