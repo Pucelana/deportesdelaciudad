@@ -635,14 +635,14 @@ def activar_temporada_vall_sala(id):
     db.session.commit()
     return redirect(url_for("vall_sala_route_bp.temporadas_vall_sala"))
 
-# HISTORIAL FS VALLADOLID
+# HISTORIAL VALLADOLID S.S.
 # Creación del historial de temporadas del FS Valladolid
 @vall_sala_route_bp.route("/admin/crear_historial_vall_sala", methods=["GET", "POST"])
 def crear_historial_vall_sala():
     if request.method == "POST":
         historial = Historial(
             deporte="futbol sala",
-            equipo="FS Valladolid",
+            equipo="Valladolid S.S.",
             temporada=request.form.get("temporada"),
             liga=request.form.get("liga"),
             puntos=request.form.get("puntos"),
@@ -657,7 +657,7 @@ def crear_historial_vall_sala():
         db.session.commit()
         return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
     historial = (
-        Historial.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Historial.query.filter_by(deporte="futbol sala", equipo="Valladolid S.S.")
         .order_by(Historial.temporada.desc())
         .all()
     )
@@ -667,7 +667,7 @@ def crear_historial_vall_sala():
         historial=historial,
         temporadas=temporadas,
         deporte="futbol sala",
-        equipo="FS Valladolid",
+        equipo="Valladolid S.S.",
         crear_url="vall_sala_route_bp.crear_historial_vall_sala",
         modificar_url="vall_sala_route_bp.modificar_historial_vall_sala",
         eliminar_url="vall_sala_route_bp.eliminar_historial_vall_sala",
@@ -693,11 +693,11 @@ def modificar_historial_vall_sala(id):
     historial.observaciones = request.form.get("observaciones")
     db.session.commit()
     return redirect(url_for("vall_sala_route_bp.crear_historial_vall_sala"))
-# Ver Historial de temporadas del FS Valladolid en la página principal
+# Ver Historial de temporadas del Valladolid S.S. en la página principal
 @vall_sala_route_bp.route("/vall_sala/historial")
 def historial_vall_sala():
     historial = (
-        Historial.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Historial.query.filter_by(deporte="futbol sala", equipo="Valladolid S.S.")
         .order_by(Historial.temporada.desc())
         .all()
     )
@@ -732,7 +732,7 @@ def historial_vall_sala():
         "#20B2AA",
     ]
     titulos = (
-        Palmaress.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Palmaress.query.filter_by(deporte="futbol sala", equipo="Valladolid S.S.")
         .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
@@ -775,7 +775,7 @@ def historial_vall_sala():
         datasets_jornadas=datasets_jornadas,
         palmares=palmares,
         deporte="Fútbol sala",
-        equipo="FS Valladolid",
+        equipo="Valladolid S.S.",
         breadcrumb=jsonld(schema_breadcrumb_equipo("vall_sala")),
         schema_team=jsonld(
             schema_sports_team(
@@ -790,14 +790,14 @@ def historial_vall_sala():
         )
     )
 
-# PALMARES FS VALLADOLID
-# Crear Palmares del FS Valladolid
+# PALMARES VALLADOLID S.S.
+# Crear Palmares del Valladolid S.S.
 @vall_sala_route_bp.route("/admin/crear_palmares_vall_sala", methods=["GET", "POST"])
 def crear_palmares_vall_sala():
     if request.method == "POST":
         titulo = Palmaress(
             deporte="futbol sala",
-            equipo="FS Valladolid",
+            equipo="Valladolid S.S.",
             temporada=request.form.get("temporada"),
             competicion=request.form.get("competicion"),
             imagen=request.form.get("imagen"),
@@ -807,7 +807,7 @@ def crear_palmares_vall_sala():
         db.session.commit()
         return redirect(url_for("vall_sala_route_bp.crear_palmares_vall_sala"))
     palmares = (
-        Palmaress.query.filter_by(deporte="futbol sala", equipo="FS Valladolid")
+        Palmaress.query.filter_by(deporte="futbol sala", equipo="Valladolid S.S.")
         .order_by(Palmaress.orden.asc(), Palmaress.temporada.desc())
         .all()
     )
@@ -815,12 +815,12 @@ def crear_palmares_vall_sala():
         "admin/historial/palmares.html",
         palmares=palmares,
         deporte="Fútbol sala",
-        equipo="FS Valladolid",
+        equipo="Valladolid S.S.",
         crear_url="vall_sala_route_bp.crear_palmares_vall_sala",
         modificar_url="vall_sala_route_bp.modificar_palmares_vall_sala",
         eliminar_url="vall_sala_route_bp.eliminar_palmares_vall_sala",
     )
-# Modificar Palmares del FS Valladolid
+# Modificar Palmares del Valladolid S.S.
 @vall_sala_route_bp.route("/admin/modificar_palmares_vall_sala/<int:id>", methods=["POST"])
 def modificar_palmares_vall_sala(id):
     titulo = Palmaress.query.get_or_404(id)
@@ -830,7 +830,7 @@ def modificar_palmares_vall_sala(id):
     titulo.orden = request.form.get("orden")
     db.session.commit()
     return redirect(url_for("galvan_route_bp.crear_palmares_galvan"))
-# Eliminar Palmares del FS Valladolid
+# Eliminar Palmares del Valladolid S.S.
 @vall_sala_route_bp.route("/admin/eliminar_palmares_vall_sala/<int:id>", methods=["POST"])
 def eliminar_palmares_vall_sala(id):
     titulo = Palmaress.query.get_or_404(id)
