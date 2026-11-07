@@ -924,10 +924,16 @@ def ver_copa_tordesillas():
         "final",
     ]
     datos_eliminatorias = {
-        e: CopaTordesillas.query.filter_by(eliminatoria=e).all() for e in eliminatorias
-    }
+            e: CopaTordesillas.query
+            .filter_by(eliminatoria=e)
+            .order_by(CopaTordesillas.id.asc())
+            .all()
+            for e in eliminatorias
+        }
+    
     return render_template(
-        "admin/copa/copa_tordesillas.html", datos_eliminatorias=datos_eliminatorias
+        "admin/copa/copa_tordesillas.html",
+        datos_eliminatorias=datos_eliminatorias
     )
 # Modificar las eliminatorias
 @tordesillas_route_bp.route("/modificar_copa_tordesillas_post", methods=["POST"])
@@ -985,9 +991,12 @@ def copas_tordesillas():
     
     for eliminatoria in eliminatorias:
     
-        partidos = CopaTordesillas.query.filter_by(
-            eliminatoria=eliminatoria
-        ).all()
+        partidos = (
+            CopaTordesillas.query
+            .filter_by(eliminatoria=eliminatoria)
+            .order_by(CopaTordesillas.id.asc())
+            .all()
+        )
     
         datos_copa[eliminatoria] = partidos
     

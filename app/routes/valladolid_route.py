@@ -921,11 +921,18 @@ def ver_copa_valladolid():
         "semifinales",
         "final",
     ]
+
     datos_eliminatorias = {
-        e: CopaValladolid.query.filter_by(eliminatoria=e).all() for e in eliminatorias
+        e: CopaValladolid.query
+        .filter_by(eliminatoria=e)
+        .order_by(CopaValladolid.id.asc())
+        .all()
+        for e in eliminatorias
     }
+
     return render_template(
-        "admin/copa/copa_valladolid.html", datos_eliminatorias=datos_eliminatorias
+        "admin/copa/copa_valladolid.html",
+        datos_eliminatorias=datos_eliminatorias
     )
 # Modificar las eliminatorias
 @valladolid_route_bp.route("/modificar_copa_valladolid_post", methods=["POST"])
@@ -985,9 +992,12 @@ def copas_valladolid():
 
     for eliminatoria in eliminatorias:
 
-        partidos = CopaValladolid.query.filter_by(
-            eliminatoria=eliminatoria
-        ).all()
+        partidos = (
+            CopaValladolid.query
+            .filter_by(eliminatoria=eliminatoria)
+            .order_by(CopaValladolid.id.asc())
+            .all()
+        )
 
         datos_copa[eliminatoria] = partidos
 
