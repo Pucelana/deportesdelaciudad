@@ -178,7 +178,7 @@ def obtener_datos_salvador_fem(nombre_temporada=None):
         }
         for jornada in jornadas
     ]
-total_partidos_temporada_salvador_fem = 14
+total_partidos_temporada_salvador_fem = 18
 total_partidos_temporada_grupos_salvador_fem = 5
 # Función para separar fases de la temporada
 def separar_fases(data):

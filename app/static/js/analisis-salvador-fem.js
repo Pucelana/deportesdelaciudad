@@ -1,6 +1,6 @@
 // Segunda función playoff y ordenar automaticamente
 const filas1 = document.querySelectorAll("#tablaPlaySalvFem tbody tr");
-const partidosTotales1 = 14; // Total de partidos en la temporada
+const partidosTotales1 = 18; // Total de partidos en la temporada
 const partidosPorGanar1 = 4; // Cantidad de puntos por partido ganado
 const partidosPlayOff = 50; // Número de partidos para llegar a los playoffs
 const equiposPlay = [];
@@ -62,7 +62,7 @@ equiposPlay.forEach((equipoData) => {
 
 // Tercera función descenso y ordenar automaticamente
 const filas2 = document.querySelectorAll("#tablaDescSalvFem tbody tr");
-const partidosTotales2 = 14; // Total de partidos en la temporada
+const partidosTotales2 = 18; // Total de partidos en la temporada
 const partidosPorGanar2 = 4; // Cantidad de puntos por partido ganado
 const partidosDescenso = 22;
 const equiposDesc = [];
