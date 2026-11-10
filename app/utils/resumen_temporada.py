@@ -121,10 +121,10 @@ def iterar_partidos_competiciones(competiciones):
                 jornada = elemento["nombre"]
             else:
                 partidos = [elemento]
-                jornada = getattr(
-                    elemento,
-                    "eliminatoria",
-                    nombre_competicion
+                jornada = (
+                    getattr(elemento, "encuentros", None)
+                    or getattr(elemento, "eliminatoria", None)
+                    or nombre_competicion
                 )
 
             for partido in partidos:

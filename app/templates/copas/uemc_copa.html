@@ -76,7 +76,7 @@ Sigue las eliminatorias y resultados de la copa de españa del CBC Valladolid.
 
   <!-- Eliminatorias -->
   {% for ronda, partidos in eliminatorias.items() if partidos %}
-  <a href="#" class="btn btn-slide btns-ronda {% if ronda == ns.ronda_actual %}active{% endif %}">
+  <a href="#" class="btn btn-slide btns-ronda {% if ronda == ns.ronda_actual %}active{% endif %}" data-target="{{ ronda }}">
     {{ ronda|capitalize }}
   </a>
   {% endfor %}
