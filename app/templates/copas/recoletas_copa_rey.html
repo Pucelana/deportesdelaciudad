@@ -50,7 +50,7 @@ Sigue las eliminatorias y resultados de la copa del rey del Atl. Valladolid.
   {% set rondas_con_partidos = datos_copa_rey.values() | select | list %}
   {% set ns = namespace(ronda_actual=none) %}
 
-  {% for ronda, partidos in datos_copa.items() %}
+  {% for ronda, partidos in datos_copa_rey.items() %}
     {% if partidos %}
         {% set ns.ronda_actual = loop.index0 %}
     {% endif %}

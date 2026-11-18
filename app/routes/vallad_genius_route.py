@@ -46,8 +46,8 @@ def ingresar_resultado_vallad_genius():
                 resultadoA=request.form.get(f"resultadoA{i}"),
                 resultadoB=request.form.get(f"resultadoB{i}"),
                 visitante=request.form.get(f"visitante{i}"),
-                pfp_local=request.form.get(f"pfp_local{i}") or None,
-                pfp_visitante=request.form.get(f"pfp_visitante{i}") or None,
+                pfp_local=request.form.get(f"pfp_local{i}") or 0,
+                pfp_visitante=request.form.get(f"pfp_visitante{i}") or 0,
                 orden=i,
             )
             db.session.add(partido)
@@ -101,8 +101,8 @@ def modificar_jornada_vallad_genius(id):
                     partido.resultadoB = request.form.get(f"resultadoB{i}")
                     partido.visitante = request.form.get(f"visitante{i}")
                     # FAIR PLAY
-                    partido.pfp_local = (request.form.get(f"pfp_local{i}") or None)
-                    partido.pfp_visitante = (request.form.get(f"pfp_visitante{i}") or None)
+                    partido.pfp_local = (request.form.get(f"pfp_local{i}") or 0)
+                    partido.pfp_visitante = (request.form.get(f"pfp_visitante{i}") or 0)
                     partido.orden = int(request.form.get(f"orden{i}",i))
             db.session.commit()
             return redirect(url_for("vallad_genius_route_bp.calendarios_vallad_genius"))
