@@ -760,7 +760,6 @@ def seccion_aliados():
                     "diferencia_goles": 0,
                 },
             })
-
     # Buscar los datos del BSR Valladolid
     datos_aliados = next(
         (
@@ -1707,7 +1706,7 @@ def seccion_vallad_genius():
 
     # Último resumen publicado
     ultimo_resumen = ResumenJornada.query.filter(
-        ResumenJornada.equipo == "R.ValladoliDi",
+        ResumenJornada.equipo == "Real ValladoliDi",
         ResumenJornada.publicado.is_(True)
     ).order_by(
         db.func.coalesce(
@@ -1933,6 +1932,11 @@ def seccion_caja():
                     "diferencia_goles": 0,
                 },
             })
+     # Ordenar igual que en la clasificación oficial
+    clasificacion.sort(
+        key=lambda x: x["datos"]["puntos"],
+        reverse=True
+    )        
 
     # Buscar los datos del CPLV Caja Rural
     datos_caja = next(
@@ -2099,6 +2103,11 @@ def seccion_panteras():
                     "diferencia_goles": 0,
                 },
             })
+    # Ordenar igual que en la clasificación oficial
+    clasificacion.sort(
+        key=lambda x: x["datos"]["puntos"],
+        reverse=True
+    )
 
     # Buscar los datos del CPLV Panteras
     datos_panteras = next(

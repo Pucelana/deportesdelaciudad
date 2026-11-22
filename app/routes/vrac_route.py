@@ -947,7 +947,6 @@ def modificar_playoff_vrac(eliminatoria):
             partido_obj.orden = i
         # Commit para guardar los cambios
         db.session.commit()
-        flash('Playoff actualizado correctamente', 'success')
         return redirect(url_for('vrac_route_bp.ver_playoff_vrac'))
     # Si el método es GET, retorna el flujo habitual (en este caso no es necesario cambiarlo)
     return redirect(url_for('vrac_route_bp.ver_playoff_vrac'))
@@ -958,7 +957,6 @@ def eliminar_playoff_vrac(eliminatoria):
     for partido in partidos:
         db.session.delete(partido)
     db.session.commit()
-    flash(f'Eliminatoria {eliminatoria} eliminada correctamente', 'success')
     return redirect(url_for('vrac_route_bp.ver_playoff_vrac'))
 # Mostrar los playoffs del CPLV Caja Rural
 @vrac_route_bp.route('/playoffs_vrac/')
@@ -1216,7 +1214,6 @@ def modificar_copa_vrac(encuentros):
         except Exception as e:
             db.session.rollback()
             print(f"Error al modificar partidos: {e}")
-            flash('Hubo un error al modificar los partidos', 'error')
         return redirect(url_for('vrac_route_bp.ver_copa_vrac'))
 # Eliminar partidos Copa DH VRAC
 @vrac_route_bp.route('/eliminar_copa_vrac/<string:identificador>', methods=['POST'])
@@ -1232,7 +1229,6 @@ def eliminar_copa_vrac(identificador):
             flash('Identificador de encuentros no válido', 'error')
     except Exception as e:
         db.session.rollback()
-        flash(f'Error al eliminar partidos: {str(e)}', 'error')
     return redirect(url_for('vrac_route_bp.ver_copa_vrac'))
 # Ruta para mostrar la Copa DH VRAC
 @vrac_route_bp.route('/vrac_copa/')
