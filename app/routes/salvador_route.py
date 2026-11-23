@@ -1064,46 +1064,98 @@ def actualizar_clasificacion(grupo, local, bonus_local ,resultado_local, resulta
 def recalcular_clasificaciones(partidos):
     clasificaciones = {}
     enfrentamientos_directos = {}
+
     for partido in partidos:
         grupo = partido.encuentros
         local = partido.local
         visitante = partido.visitante
-        resultado_local = int(partido.resultadoA) if partido.resultadoA.isdigit() else None
-        resultado_visitante = int(partido.resultadoB) if partido.resultadoB.isdigit() else None
-        bonus_local = int(partido.bonusA) if partido.bonusA.isdigit() else None
-        bonus_visitante = int(partido.bonusB) if partido.bonusB.isdigit() else None
+
+        # Inicializar grupo
         if grupo not in clasificaciones:
             clasificaciones[grupo] = {}
+
+        # Inicializar equipos aunque todavía no hayan jugado
         if local not in clasificaciones[grupo]:
-            clasificaciones[grupo][local] = {'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0, 'bonus': 0}
+            clasificaciones[grupo][local] = {
+                'jugados': 0, 'ganados': 0, 'empatados': 0,
+                'perdidos': 0, 'puntos': 0, 'bonus': 0
+            }
+
         if visitante not in clasificaciones[grupo]:
-            clasificaciones[grupo][visitante] = {'jugados': 0, 'ganados': 0, 'empatados': 0 ,'perdidos': 0, 'puntos': 0, 'bonus':0}
-        if resultado_local is not None and resultado_visitante is not None:
-            clasificaciones[grupo][local]['jugados'] += 1
-            clasificaciones[grupo][visitante]['jugados'] += 1
-            if resultado_local > resultado_visitante:
-                clasificaciones[grupo][local]['ganados'] += 1
-                clasificaciones[grupo][local]['puntos'] += 4 + bonus_local
-                clasificaciones[grupo][visitante]['perdidos'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 0 + bonus_visitante
-            elif resultado_local < resultado_visitante:
-                clasificaciones[grupo][visitante]['ganados'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 4 + bonus_visitante
-                clasificaciones[grupo][local]['perdidos'] += 1
-                clasificaciones[grupo][local]['puntos'] += 0 + bonus_local
-            elif resultado_local == resultado_visitante:
-                clasificaciones[grupo][visitante]['empatados'] += 1
-                clasificaciones[grupo][visitante]['puntos'] += 2 + bonus_visitante
-                clasificaciones[grupo][local]['empatados'] += 1
-                clasificaciones[grupo][local]['puntos'] += 2 + bonus_local     
-                 
+            clasificaciones[grupo][visitante] = {
+                'jugados': 0, 'ganados': 0, 'empatados': 0,
+                'perdidos': 0, 'puntos': 0, 'bonus': 0
+            }
+
+        # Leer resultados: los partidos pendientes quedan como None
+        resultado_local = (
+            int(partido.resultadoA)
+            if partido.resultadoA is not None and str(partido.resultadoA).strip().isdigit()
+            else None
+        )
+
+        resultado_visitante = (
+            int(partido.resultadoB)
+            if partido.resultadoB is not None and str(partido.resultadoB).strip().isdigit()
+            else None
+        )
+
+        bonus_local = (
+            int(partido.bonusA)
+            if partido.bonusA is not None and str(partido.bonusA).strip().isdigit()
+            else 0
+        )
+
+        bonus_visitante = (
+            int(partido.bonusB)
+            if partido.bonusB is not None and str(partido.bonusB).strip().isdigit()
+            else 0
+        )
+
+        # Si el partido no tiene resultado, no sumar estadísticas ni puntos
+        if resultado_local is None or resultado_visitante is None:
+            continue
+
+        clasificaciones[grupo][local]['jugados'] += 1
+        clasificaciones[grupo][visitante]['jugados'] += 1
+
+        if resultado_local > resultado_visitante:
+            clasificaciones[grupo][local]['ganados'] += 1
+            clasificaciones[grupo][local]['puntos'] += 4 + bonus_local
+            clasificaciones[grupo][visitante]['perdidos'] += 1
+            clasificaciones[grupo][visitante]['puntos'] += bonus_visitante
+
+        elif resultado_local < resultado_visitante:
+            clasificaciones[grupo][visitante]['ganados'] += 1
+            clasificaciones[grupo][visitante]['puntos'] += 4 + bonus_visitante
+            clasificaciones[grupo][local]['perdidos'] += 1
+            clasificaciones[grupo][local]['puntos'] += bonus_local
+
+        else:
+            clasificaciones[grupo][visitante]['empatados'] += 1
+            clasificaciones[grupo][visitante]['puntos'] += 2 + bonus_visitante
+            clasificaciones[grupo][local]['empatados'] += 1
+            clasificaciones[grupo][local]['puntos'] += 2 + bonus_local
+
+        # Acumular bonus
+        clasificaciones[grupo][local]['bonus'] += bonus_local
+        clasificaciones[grupo][visitante]['bonus'] += bonus_visitante
+
+        # Enfrentamientos directos
         if local not in enfrentamientos_directos:
             enfrentamientos_directos[local] = {}
+
         if visitante not in enfrentamientos_directos:
             enfrentamientos_directos[visitante] = {}
-        if resultado_local is not None and resultado_visitante is not None:
-            enfrentamientos_directos[local][visitante] = resultado_local - resultado_visitante
-            enfrentamientos_directos[visitante][local] = resultado_visitante - resultado_local        
+
+        enfrentamientos_directos[local][visitante] = (
+            resultado_local - resultado_visitante
+        )
+
+        enfrentamientos_directos[visitante][local] = (
+            resultado_visitante - resultado_local
+        )
+
     return clasificaciones, enfrentamientos_directos
 # Función para obtener equipos desde la base de datos
 def obtener_equipos_desde_bd(partidos):
