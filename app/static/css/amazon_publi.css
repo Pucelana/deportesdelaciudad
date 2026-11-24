@@ -1,6 +1,6 @@
 /* AMAZON */
 .recomendaciones-deportivas {
-    padding: 25px 0;
+    padding: 15px 0;
 }
 /* Titulo */
 .recomendaciones-titulo {
@@ -169,23 +169,42 @@
 }
 /* TABLET */
 @media (min-width: 576px) and (max-width: 991.98px) {
+    .recomendacion-card {
+        max-width: 560px;
+        margin: 0 auto;
+    }
+
     .recomendacion-imagen {
-        flex: 0 0 140px;
-        height: 145px;
+        flex: 0 0 125px;
+        height: auto;
+        padding: 14px 10px 14px 16px;
+        background: transparent !important;
     }
+
     .recomendacion-imagen img {
-        max-height: 115px;
+        max-height: 110px;
     }
+
     .recomendacion-card .card-body {
-        padding: 14px 16px;
+        padding: 16px 18px;
+        text-align: left;
     }
+
     .recomendacion-card h3 {
-        font-size: 1.02rem;
+        font-size: 1.04rem;
+        white-space: normal !important;
+        overflow: visible !important;
+        text-overflow: unset !important;
+    }
+
+    .recomendacion-card p {
+        font-size: 0.85rem;
+        margin-bottom: 12px;
     }
 }
 /* PUBLICIDAD */
 .publicidad-seccion {
-    padding: 15px 0;
+    padding: 10px 0;
 }
 .publicidad-titulo h2 {
     color: white;

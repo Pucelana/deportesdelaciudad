@@ -33,13 +33,13 @@
     </div>
 
 
-    <div class="row g-4 justify-content-center mb-3">
+    <div class="row g-3 justify-content-center mb-3">
 
         {% for producto in amazon_productos %}
 
-        <div class="col-12 col-sm-6 col-lg-4">
+        <div class="col-12 col-md-9 col-lg-7">
 
-            <div class="card recomendacion-card h-100">
+            <div class="card recomendacion-card">
 
                 <div class="recomendacion-imagen">
 
@@ -55,7 +55,7 @@
                 </div>
 
 
-                <div class="card-body text-center d-flex flex-column">
+                <div class="card-body text-center">
 
                     <h3 class="h5 fw-bold">
                         {{ producto.titulo }}
